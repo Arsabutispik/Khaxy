@@ -16,7 +16,7 @@ export default {
             message.channel.send({ embeds: [embed] });
             return;
         }
-        if (!message.member.roles.cache.hasAny("791739150188937236", "885211222461513848", "885211284814053418", "885211232582381588", "885211227599548456", "798556578177220608", "791738537505587201")) {
+        if (!message.member.roles.cache.hasAny("791739150188937236", "885211222461513848", "885211284814053418", "885211232582381588", "885211227599548456", "798556578177220608", "791738537505587201", "781180483437854721", "791738418505187329")) {
             const embed = new MessageEmbed()
                 .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true }) })
                 .setColor("RED")

@@ -1,6 +1,6 @@
 import { TextChannel } from "discord.js";
 import punishmentSchema from "../schemas/punishmentSchema.js";
-import config from "../config.json" assert {type: 'json'};
+import config from "../config.json";
 export default async (_client, member) => {
     const result = await punishmentSchema.findOne({ userId: member.id, type: "mute" });
     if (result) {
