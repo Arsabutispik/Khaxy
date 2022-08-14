@@ -8,6 +8,14 @@ export default {
     usage: "{prefix}ban <@kullanıcı|id> [süre] <sebep>",
     examples: "{prefix}ban <@1007246359696515125> 1h sınavın bitince gel (1 saatlik bir ban atar)\ns!ban <@950752419233542195> 3d troll (3 günlük ban atar)\ns!ban <@950752419233542195> raid (süresiz ban)",
     async execute({ message, args }) {
+        if(!message.member.permissions.has("BAN_MEMBERS")) {
+          const embed = new MessageEmbed()
+                .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true }) })
+                .setColor("RED")
+                .setDescription("Yeterli yetkin yok!");
+            message.channel.send({ embeds: [embed] });
+            return;
+        }
         const user = message.mentions.members?.first() || message.guild.members.cache.get(args[0]);
         if (!user) {
             const embed = new MessageEmbed()
