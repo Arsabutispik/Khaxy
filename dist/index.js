@@ -3,6 +3,7 @@ import config from './config.json' assert { type: 'json' };
 import { registerCommands, registerEvents } from "./utils/registery.js";
 import { log } from "./utils/utils.js";
 import mongoose from "mongoose";
+import checkPunishments from "./utils/checkPunishments.js";
 const client = new Client({ intents: 32767, partials: ['MESSAGE', 'CHANNEL', 'USER', 'REACTION'] });
 (async () => {
     client.commands = new Collection();
@@ -24,6 +25,7 @@ const client = new Client({ intents: 32767, partials: ['MESSAGE', 'CHANNEL', 'US
     catch (e) {
         log("ERROR", "src/index.ts", `Bağlanırken Hata: ${e.message}`);
     }
+    await checkPunishments(client);
 })();
 process.on("uncaughtException", async (error) => {
     const owner = await client.users.fetch("903233069245419560");

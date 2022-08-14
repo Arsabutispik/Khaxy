@@ -1,10 +1,10 @@
 import { TextChannel } from "discord.js";
 import punishmentSchema from "../schemas/punishmentSchema.js";
-import config from "../config.json" assert { type: 'json' };
+import config from "../config.json";
 export default async (_client, member) => {
     const result = await punishmentSchema.findOne({ userId: member.id, type: "mute" });
     if (result) {
-        member.roles.add(config.MUTE_ROLE);
+        await member.roles.add(config.MUTE_ROLE);
     }
     const welcomeChannel = member.guild.channels.cache.get("792712545172979713");
     if (!welcomeChannel || !(welcomeChannel instanceof TextChannel)) {

@@ -7,15 +7,11 @@ export default {
     usage: `{prefix}kayıt <@kullanıcı|id> <cinsiyet>`,
     examples: `{prefix}kayıt <@1007246359696515125> erkek`,
     async execute({ message, args }) {
-        if (message.channel.id !== "792712545172979713") {
+        const targetMember = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
+        if (args.length < 2) {
+            message.channel.send("Lütfen bir kullanıcı ve bir kişinin cinsiyetini yazınız.");
             return;
         }
-        const targetMember = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
-        if (!message.member?.roles.cache.hasAny(...["791739150188937236", "885211222461513848", "885211284814053418", "885211232582381588", "885211227599548456", "791738537505587201", "798556578177220608"]))
-            if (args.length < 2) {
-                message.channel.send("Lütfen bir kullanıcı ve bir kişinin cinsiyetini yazınız.");
-                return;
-            }
         if (!targetMember) {
             message.channel.send("Bir kullanıcı bulunamadı!");
             return;
