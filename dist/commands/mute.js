@@ -9,7 +9,7 @@ export default {
     examples: "s!mute <@1007246359696515125> 3h aklını topla gel",
     category: "Moderasyon",
     async execute({ message, args }) {
-        if(!message.member.permissions.has("BAN_MEMBERS")) {
+        if(!message.member.permissions.has("MANAGE_ROLES")) {
           const embed = new MessageEmbed()
                 .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true }) })
                 .setColor("RED")
