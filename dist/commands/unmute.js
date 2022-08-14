@@ -8,11 +8,11 @@ export default {
     usage: "{prefix}unmute <@kullanıcı|id>",
     examples: "{prefix}unmute <@1007246359696515125>",
     async execute({ message, args }) {
-        if(!message.member.permissions.has("MANAGE_ROLES")) {
-          const embed = new MessageEmbed()
+        if (!message.member.permissions.has("MANAGE_ROLES")) {
+            const embed = new MessageEmbed()
                 .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true }) })
                 .setColor("RED")
-                .setDescription("Yeterli yetkin yok!");
+                .setDescription("Bu komutu kullanabilmek için yetkiniz yok!");
             message.channel.send({ embeds: [embed] });
             return;
         }

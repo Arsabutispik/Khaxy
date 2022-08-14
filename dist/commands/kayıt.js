@@ -1,4 +1,5 @@
 import { sleep } from "../utils/utils.js";
+import { MessageEmbed } from "discord.js";
 const text = "Sunucumuza hoş geldin ey yolcu {user}\n\n- Lütfen her şeyden önce │📝│kurallar kanalından sunucuda ne yapıp/yapmaman gerektiğine bakmanı öneririz.\n- Ardından │🌈│renkler odasına gidip gönlünce istediğin rengi seçebilir, │🎫│roller odasından ise almak istediğin rollere bir göz gezdirebilirsin.\n- Ekstra bilgi almak istersen │📜│rol-bilgilendirme odasını ziyaret etmeyi unutma.\n\nTekrardan hoş geldin, iyi eğlenceler dileriz!";
 export default {
     name: "kayıt",
@@ -7,6 +8,22 @@ export default {
     usage: `{prefix}kayıt <@kullanıcı|id> <cinsiyet>`,
     examples: `{prefix}kayıt <@1007246359696515125> erkek`,
     async execute({ message, args }) {
+        if (message.channel.id !== "792712545172979713") {
+            const embed = new MessageEmbed()
+                .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true }) })
+                .setColor("RED")
+                .setDescription("Bu komut sadece kayıt kanallarında kullanılabilir");
+            message.channel.send({ embeds: [embed] });
+            return;
+        }
+        if (!message.member.roles.cache.hasAny("791739150188937236", "885211222461513848", "885211284814053418", "885211232582381588", "885211227599548456", "798556578177220608", "791738537505587201")) {
+            const embed = new MessageEmbed()
+                .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true }) })
+                .setColor("RED")
+                .setDescription("Bu komutu kullanabilmek kayıt yetkilisi olmalısınız!");
+            message.channel.send({ embeds: [embed] });
+            return;
+        }
         const targetMember = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
         if (args.length < 2) {
             message.channel.send("Lütfen bir kullanıcı ve bir kişinin cinsiyetini yazınız.");
