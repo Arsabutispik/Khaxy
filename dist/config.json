@@ -1,6 +1,6 @@
 {
     "PREFIX": "~",
-    "TOKEN": "MTAwNzI4NjczMTc5MzUxNDU0Ng.GqnquO.G0rHNOXdGt1olH-DgFb4fO69YDapdmj7QiTn_o",
+    "TOKEN": "MTAwNzI0NjM1OTY5NjUxNTEyNQ.Gawrb-.OM_XYjklp1vFEnfPYzxui4EXLVeP5F0lkTRN7g",
     "MONGODB_URI": "mongodb+srv://HolyAngels:5FZDfk66X6uYrnSp@cluster0.zgi0mxn.mongodb.net/databaseTest?retryWrites=true&w=majority",
     "MUTE_ROLE": "EMPTY"
 }
