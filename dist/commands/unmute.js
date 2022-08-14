@@ -8,6 +8,14 @@ export default {
     usage: "{prefix}unmute <@kullanıcı|id>",
     examples: "{prefix}unmute <@1007246359696515125>",
     async execute({ message, args }) {
+        if(!message.member.permissions.has("MANAGE_ROLES")) {
+          const embed = new MessageEmbed()
+                .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true }) })
+                .setColor("RED")
+                .setDescription("Yeterli yetkin yok!");
+            message.channel.send({ embeds: [embed] });
+            return;
+        }
         const user = message.mentions.members?.first() || message.guild.members.cache.get(args[0]);
         if (!user) {
             const embed = new MessageEmbed()
