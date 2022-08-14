@@ -26,12 +26,12 @@ export default {
         }
         const gender = args[1].toLowerCase();
         if (gender === "erkek" || gender === "e") {
-            await targetMember.roles.add("ERKEK");
-            await targetMember.roles.add("HOLYSOULS");
+            await targetMember.roles.add("884217111084433439");
+            await targetMember.roles.add("791735061757689867");
         }
         else if (gender === "kız" || gender === "k") {
-            await targetMember.roles.add("KIZ");
-            await targetMember.roles.add("HOLYSOULS");
+            await targetMember.roles.add("884217460759359578");
+            await targetMember.roles.add("791735061757689867");
         }
         else {
             message.channel.send("Lütfen geçerli bir cinsiyet giriniz!");
@@ -39,7 +39,7 @@ export default {
         }
         message.channel.send(`${targetMember}, başarıyla kayıt edildi!`);
         await sleep(1000);
-        const channel = message.guild.channels.cache.get("1007285631203934261");
+        const channel = message.guild.channels.cache.get("778608932850630668");
         if (!channel) {
             return;
         }

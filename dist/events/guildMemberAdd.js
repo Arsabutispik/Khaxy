@@ -1,9 +1,15 @@
 import { TextChannel } from "discord.js";
+import punishmentSchema from "../schemas/punishmentSchema.js";
+import config from "../config.json" assert { type: 'json' };
 export default async (_client, member) => {
-    const welcomeChannel = member.guild.channels.cache.get("1007594023667630090");
+    const result = await punishmentSchema.findOne({ userId: member.id, type: "mute" });
+    if (result) {
+        member.roles.add(config.MUTE_ROLE);
+    }
+    const welcomeChannel = member.guild.channels.cache.get("792712545172979713");
     if (!welcomeChannel || !(welcomeChannel instanceof TextChannel)) {
         return;
     }
-    await welcomeChannel.send(`${member} Sunucuya katıldı!`);
+    await welcomeChannel.send(`${member.guild.name} sunucusuna hoş geldin ${member}! Biraz bekle ve bir yetkili gelip seni kayıt edecektir.`);
 };
 //# sourceMappingURL=guildMemberAdd.js.map
