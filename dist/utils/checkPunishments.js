@@ -8,7 +8,7 @@ export default async (client) => {
         const results = await punishmentSchema.find(query);
         for (const result of results) {
             const { userId, type } = result;
-            const guild = await client.guilds.fetch("954479782400237619");
+            const guild = await client.guilds.fetch("778608930582036490");
             const member = guild.members.cache.get(userId);
             if (type == "ban") {
                 await guild.members.unban(userId, "Ban süresi doldu");
