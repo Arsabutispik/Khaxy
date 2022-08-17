@@ -56,7 +56,7 @@ export default {
         if (!channel) {
             return;
         }
-        channel.send(text.replace("{user}", targetMember.toString()));
+        await channel.send(text.replace("{user}", targetMember.toString()));
     }
 };
 //# sourceMappingURL=kay%C4%B1t.js.map
