@@ -18,6 +18,18 @@ export default {
         }
         const user = message.mentions.members?.first() || message.guild.members.cache.get(args[0]);
         if (!user) {
+            try {
+                const fetchUser = await message.guild.members.fetch(args[0]);
+                await message.guild.bans.create(fetchUser.id);
+            }
+            catch {
+                const embed = new MessageEmbed()
+                    .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true }) })
+                    .setColor("RED")
+                    .setDescription("Bir kullanıcı bulunamadı!");
+                message.channel.send({ embeds: [embed] });
+                return;
+            }
             const embed = new MessageEmbed()
                 .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true }) })
                 .setColor("RED")
