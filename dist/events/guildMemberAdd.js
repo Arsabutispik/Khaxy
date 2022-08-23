@@ -6,7 +6,7 @@ export default async (_client, member) => {
     if (result) {
         await member.roles.add(config.MUTE_ROLE);
     }
-    const welcomeChannel = member.guild.channels.cache.get("792712545172979713");
+    const welcomeChannel = member.guild.channels.cache.get("1011319738812604456");
     if (!welcomeChannel || !(welcomeChannel instanceof TextChannel)) {
         return;
     }

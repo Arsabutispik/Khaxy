@@ -8,7 +8,7 @@ export default {
     usage: `{prefix}kayıt <@kullanıcı|id> <cinsiyet>`,
     examples: `{prefix}kayıt <@1007246359696515125> erkek`,
     async execute({ message, args }) {
-        if (message.channel.id !== "792712545172979713") {
+        if (message.channel.id !== "1011319738812604456") {
             const embed = new MessageEmbed()
                 .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true }) })
                 .setColor("RED")
@@ -57,6 +57,11 @@ export default {
             return;
         }
         await channel.send(text.replace("{user}", targetMember.toString()));
+        const msgs = await message.channel.messages.fetch();
+        msgs.filter(m => !m.pinned).forEach(async (mmsg) => {
+            await sleep(1000);
+            await mmsg.delete();
+        });
     }
 };
 //# sourceMappingURL=kay%C4%B1t.js.map
