@@ -84,7 +84,7 @@ export default {
         catch {
             message.channel.send(`<:checkmark:962444136366112788> **${targetMember.user.tag}** ${longduration} boyunca susturuldu. Kullanıcıya özel mesaj atılamadı`);
         }
-        await new punishment({ userId: targetMember.id, staffId: message.author.id, reason, previousRoles: [...targetMember.roles.cache.entries()], expires: new Date(Date.now() + duration), type: "mute" }).save();
+        await new punishment({ userId: targetMember.id, staffId: message.author.id, reason, previousRoles: [...targetMember.roles.cache.map(r => r.id)], expires: new Date(Date.now() + duration), type: "mute" }).save();
         await targetMember.roles.set([config.MUTE_ROLE]);
     }
 };
