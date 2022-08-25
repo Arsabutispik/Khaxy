@@ -13,7 +13,8 @@ const schema = new Schema({
         type: String,
         required: true,
         enum: ["ban", "mute"]
-    }
+    },
+    previousRoles: [String]
 }, {
     timestamps: true
 });

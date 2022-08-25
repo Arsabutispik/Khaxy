@@ -1,5 +1,4 @@
 import punishmentSchema from "../schemas/punishmentSchema.js";
-import config from "../config.json" assert { type: 'json' };
 export default async (client) => {
     const check = async () => {
         const query = {
@@ -7,7 +6,7 @@ export default async (client) => {
         };
         const results = await punishmentSchema.find(query);
         for (const result of results) {
-            const { userId, type } = result;
+            const { userId, type, previousRoles } = result;
             const guild = await client.guilds.fetch("778608930582036490");
             const member = guild.members.cache.get(userId);
             if (type == "ban") {
@@ -17,7 +16,7 @@ export default async (client) => {
                 if (!member) {
                     continue;
                 }
-                await member.roles.remove(config.MUTE_ROLE);
+                await member.roles.set([...previousRoles]);
             }
         }
         await punishmentSchema.deleteMany(query);

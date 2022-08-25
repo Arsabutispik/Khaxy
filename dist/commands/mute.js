@@ -75,24 +75,7 @@ export default {
             message.channel.send({ embeds: [embed] });
             return;
         }
-        let reason = args.slice(2).join(" ");
-        if (!reason) {
-            const msg = await message.reply("Bir sebep belirtmedin lütfen bir sebep belirt");
-            const filter = (m) => m.author.id === message.author.id;
-            try {
-                const msg = await message.channel.awaitMessages({ filter, max: 1, time: 1000 * 60 * 5, errors: ['time'] });
-                reason = msg.first().content;
-            }
-            catch {
-                msg.delete();
-                message.channel.send("Bir sebep verilmedi ban komutu geçersiz kılındı").then(m => {
-                    setTimeout(() => {
-                        m.delete();
-                    }, 1000 * 20);
-                });
-                return;
-            }
-        }
+        const reason = args.slice(2).join(" ") || "Sebep belirtilmedi";
         const longduration = ms(duration, { long: true }).replace(/seconds|second/, "saniye").replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün");
         try {
             await targetMember.send(`${message.guild.name} sunucusunda ${longduration} boyunca susturuldunuz. Sebep: ${reason}`);
@@ -101,8 +84,8 @@ export default {
         catch {
             message.channel.send(`<:checkmark:962444136366112788> **${targetMember.user.tag}** ${longduration} boyunca susturuldu. Kullanıcıya özel mesaj atılamadı`);
         }
-        await new punishment({ userId: targetMember.id, staffId: message.author.id, reason, expires: new Date(Date.now() + duration), type: "mute" }).save();
-        await targetMember.roles.add(config.MUTE_ROLE);
+        await new punishment({ userId: targetMember.id, staffId: message.author.id, reason, previousRoles: [...targetMember.roles.cache.entries()], expires: new Date(Date.now() + duration), type: "mute" }).save();
+        await targetMember.roles.set([config.MUTE_ROLE]);
     }
 };
 //# sourceMappingURL=mute.js.map
