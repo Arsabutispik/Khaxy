@@ -58,10 +58,7 @@ export default {
         }
         await channel.send(text.replace("{user}", targetMember.toString()));
         const msgs = await message.channel.messages.fetch();
-        msgs.filter(m => !m.pinned).forEach(async (mmsg) => {
-            await sleep(1000);
-            await mmsg.delete();
-        });
+        await message.channel.bulkDelete(msgs.filter(m => !m.pinned));
     }
 };
 //# sourceMappingURL=kay%C4%B1t.js.map

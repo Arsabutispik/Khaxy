@@ -1,5 +1,6 @@
 import { MessageEmbed } from "discord.js";
 import punishment from "../schemas/punishmentSchema.js";
+import config from "../config.json" assert { type: 'json' };
 export default {
     name: "unmute",
     category: "Moderasyon",
@@ -57,7 +58,8 @@ export default {
             message.channel.send({ embeds: [embed] });
             return;
         }
-        await user.roles.set([...punishmentUser.previousRoles]);
+        await user.roles.add([...punishmentUser.previousRoles]);
+        await user.roles.remove(config.MUTE_ROLE);
         await punishmentUser.delete();
         const succesEmbed = new MessageEmbed()
             .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true }) })

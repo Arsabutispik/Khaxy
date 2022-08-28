@@ -84,8 +84,9 @@ export default {
         catch {
             message.channel.send(`<:checkmark:962444136366112788> **${targetMember.user.tag}** ${longduration} boyunca susturuldu. Kullanıcıya özel mesaj atılamadı`);
         }
-        await new punishment({ userId: targetMember.id, staffId: message.author.id, reason, previousRoles: [...targetMember.roles.cache.map(r => r.id)], expires: new Date(Date.now() + duration), type: "mute" }).save();
-        await targetMember.roles.set([config.MUTE_ROLE]);
+        await new punishment({ userId: targetMember.id, staffId: message.author.id, reason, previousRoles: [...targetMember.roles.cache.map(r => r.id !== message.guild.roles.premiumSubscriberRole?.id)], expires: new Date(Date.now() + duration), type: "mute" }).save();
+        await targetMember.roles.remove(targetMember.roles.cache.filter(roles => message.guild.roles.premiumSubscriberRole?.id != roles.id).map(r => r.id));
+        await targetMember.roles.add(config.MUTE_ROLE);
     }
 };
 //# sourceMappingURL=mute.js.map

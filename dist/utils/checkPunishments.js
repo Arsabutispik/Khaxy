@@ -1,4 +1,5 @@
 import punishmentSchema from "../schemas/punishmentSchema.js";
+import config from "../config.json" assert { type: 'json' };
 export default async (client) => {
     const check = async () => {
         const query = {
@@ -16,7 +17,8 @@ export default async (client) => {
                 if (!member) {
                     continue;
                 }
-                await member.roles.set([...previousRoles]);
+                await member.roles.add([...previousRoles]);
+                await member.roles.remove(config.MUTE_ROLE);
             }
         }
         await punishmentSchema.deleteMany(query);
