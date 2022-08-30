@@ -15,7 +15,7 @@ export default async (_client, member) => {
     if (!welcomeChannel2 || !(welcomeChannel2 instanceof TextChannel)) {
         return;
     }
-    await welcomeChannel2.send(text.replace("{user}", member.user.tag));
+    await welcomeChannel2.send(text.replace("{user}", member.user.toString()));
     await welcomeChannel.send(`${member.guild.name} sunucusuna hoş geldin ${member}! Biraz bekle ve bir yetkili gelip seni kayıt edecektir. <@&791739150188937236>`);
 };
 //# sourceMappingURL=guildMemberAdd.js.map
