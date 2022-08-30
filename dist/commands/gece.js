@@ -1,4 +1,4 @@
-import { MessageEmbed, Permissions } from "discord.js";
+import { MessageEmbed } from "discord.js";
 export default {
     name: "gece",
     category: "Moderasyon",
@@ -23,9 +23,13 @@ export default {
             return;
         }
         const allUsers = message.member.voice.channel.members.filter(member => !member.permissions.has("MUTE_MEMBERS"));
-        const perms = allUsers.map(member => ({ ...message.member?.voice.channel?.permissionOverwrites.cache.map(key => ({ id: key.id, allow: key.allow, deny: key.deny })), id: member.id, deny: [Permissions.FLAGS.SPEAK] }));
-        message.member?.voice.channel?.permissionOverwrites.set(perms);
-        await message.channel.permissionOverwrites.set([{ ...message.member?.voice.channel?.permissionOverwrites.cache.map(key => ({ id: key.id, allow: key.allow, deny: key.deny })), id: message.guild.id, deny: [Permissions.FLAGS.SEND_MESSAGES] }]);
+        allUsers.forEach(member => {
+            member.voice.setMute(true);
+        });
+        message.member?.voice.channel?.permissionOverwrites.edit(message.guild.id, {
+            SEND_MESSAGES: false
+        });
+        message.channel.send("Gece başladı ve tehlikeyi beraberinde getirdi");
     }
 };
 //# sourceMappingURL=gece.js.map
