@@ -6,6 +6,8 @@ export default async (client, message) => {
         if (message.author.bot || message.channel.type === "DM" || message.webhookId) {
             return;
         }
+        if (message.guild.id !== "778608930582036490")
+            return;
         const prefixRegex = new RegExp(`^(<@!?${client.user.id}>|${escapeRegex(config.PREFIX)})\\s*`);
         if (!prefixRegex.test(message.content))
             return;
