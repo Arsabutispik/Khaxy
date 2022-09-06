@@ -80,12 +80,14 @@ export default {
                 }
             }
             else {
+                console.log("Burada çöker");
                 let Searched = await player.search(SearchString, message.author);
                 if (!player) {
                     message.channel.send("|❌| **Bir şey çalmıyor...**");
                     await Searching.delete();
                     return;
                 }
+                console.log(Searched);
                 if (Searched.loadType === "NO_MATCHES") {
                     message.channel.send("|❌| **Bir şarkı bulunamadı.**");
                     await Searching.delete();
