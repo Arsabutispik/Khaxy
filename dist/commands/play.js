@@ -80,7 +80,7 @@ export default {
                 }
             }
             else {
-                console.log("Burada çöker");
+                console.log(SearchString);
                 let Searched = await player.search(SearchString, message.author);
                 if (!player) {
                     message.channel.send("|❌| **Bir şey çalmıyor...**");
