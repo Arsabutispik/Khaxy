@@ -2,7 +2,7 @@ import prettyMilliseconds from "pretty-ms";
 import { MessageEmbed } from "discord.js";
 import ProgressBar from "string-progressbar";
 import _ from "lodash";
-import { paginate } from "../../utils/utils";
+import { paginate } from "../../utils/utils.js";
 export default {
     name: "liste",
     description: "Müzik listesini gösterir.",

@@ -1,4 +1,4 @@
-import { sleep } from "../../utils/utils";
+import { sleep } from "../../utils/utils.js";
 import { MessageEmbed } from "discord.js";
 export default {
     name: "kayıt",
