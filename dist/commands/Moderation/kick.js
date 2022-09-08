@@ -68,27 +68,10 @@ export default {
                 message.channel.send({ embeds: [embed] });
                 return;
             }
-            let reason = args.slice(2).join(" ");
-            if (!reason) {
-                const msg = await message.reply("Bir sebep belirtmedin lütfen bir sebep belirt");
-                const filter = (m) => m.author.id === message.author.id;
-                try {
-                    const msg = await message.channel.awaitMessages({ filter, max: 1, time: 1000 * 60 * 5, errors: ['time'] });
-                    reason = msg.first().content;
-                }
-                catch {
-                    msg.delete();
-                    message.channel.send("Bir sebep verilmedi ban komutu geçersiz kılındı").then(m => {
-                        setTimeout(() => {
-                            m.delete();
-                        }, 1000 * 20);
-                    });
-                    return;
-                }
-            }
+            let reason = args.slice(2).join(" ") || "Sebep Belirtilmemiş.";
             let cases = await caseSchema.findOne({ _id: message.guild.id });
             if (!cases) {
-                cases = await caseSchema.findOneAndUpdate({ _id: message.guild.id }, {}, { setDefaultsOnInsert: true, new: true });
+                cases = await caseSchema.findOneAndUpdate({ _id: message.guild.id }, { case: 1 }, { setDefaultsOnInsert: true, new: true });
             }
             try {
                 await user.send(`${message.guild.name} sunucusundan atıldınız. Sebep: ${reason}`);
@@ -97,7 +80,7 @@ export default {
             catch {
                 message.channel.send(`<:checkmark:962444136366112788> **${user.user.tag}** atıldı (Olay #${cases.case}) Kullanıcıya özel mesaj atılamadı`);
             }
-            modlog(message.guild, user.user, "AT", message.author, args.slice(2).join(" "));
+            modlog(message.guild, user.user, "AT", message.author, reason);
             await user.ban({ days: 7, reason });
             await message.guild?.members.unban(user.id, "softban");
             await new caseResultSchema({ case: cases.case, reason, userId: user.id, staffId: message.author.id }).save();
@@ -152,27 +135,10 @@ export default {
                 message.channel.send({ embeds: [embed] });
                 return;
             }
-            let reason = args.slice(1).join(" ");
-            if (!reason) {
-                const msg = await message.reply("Bir sebep belirtmedin lütfen bir sebep belirt");
-                const filter = (m) => m.author.id === message.author.id;
-                try {
-                    const msg = await message.channel.awaitMessages({ filter, max: 1, idle: 1000 * 60 * 5 });
-                    reason = msg.first().content;
-                }
-                catch {
-                    msg.delete();
-                    message.channel.send("Bir sebep verilmedi ban komutu geçersiz kılındı").then(m => {
-                        setTimeout(() => {
-                            m.delete();
-                        }, 1000 * 20);
-                    });
-                    return;
-                }
-            }
+            let reason = args.slice(1).join(" ") || "Sebep Belirtilmemiş.";
             let cases = await caseSchema.findOne({ _id: message.guild.id });
             if (!cases) {
-                cases = await caseSchema.findOneAndUpdate({ _id: message.guild.id }, {}, { setDefaultsOnInsert: true, new: true });
+                cases = await caseSchema.findOneAndUpdate({ _id: message.guild.id }, { case: 1 }, { setDefaultsOnInsert: true, new: true });
             }
             try {
                 await user.send(`${message.guild.name} sunucusundan atıldınız. Sebep: ${reason}`);

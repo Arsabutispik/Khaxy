@@ -22,7 +22,7 @@ export default {
             message.channel.send(`${user.tag} adlı kullanıcının banı kaldırıldı!`);
             let cases = await caseSchema.findOne({ _id: message.guild.id });
             if (!cases) {
-                cases = await caseSchema.findOneAndUpdate({ _id: message.guild.id }, {}, { setDefaultsOnInsert: true, new: true });
+                cases = await caseSchema.findOneAndUpdate({ _id: message.guild.id }, { case: 1 }, { setDefaultsOnInsert: true, new: true });
             }
             modlog(message.guild, user, "BAN_KALDIR", message.author, reason);
             await new caseResultSchema({ case: cases.case, reason, userId: user.id, staffId: message.author.id }).save();

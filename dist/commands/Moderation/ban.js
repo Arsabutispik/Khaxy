@@ -83,7 +83,7 @@ export default {
         const duration = ms(args[1]);
         let cases = await caseSchema.findOne({ _id: message.guild.id });
         if (!cases) {
-            cases = await caseSchema.findOneAndUpdate({ _id: message.guild.id }, {}, { setDefaultsOnInsert: true, new: true });
+            cases = await caseSchema.findOneAndUpdate({ _id: message.guild.id }, { case: 1 }, { setDefaultsOnInsert: true, new: true });
         }
         if (duration) {
             const longduration = ms(duration, { long: true }).replace(/seconds|second/, "saniye").replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün");
@@ -118,24 +118,7 @@ export default {
             await new caseResultSchema({ case: cases.case, reason, userId: user.id, staffId: message.author.id }).save();
         }
         else {
-            let reason = args.slice(1).join(" ");
-            if (!reason) {
-                const msg = await message.reply("Bir sebep belirtmedin lütfen bir sebep belirt");
-                const filter = (m) => m.author.id === message.author.id;
-                try {
-                    const msg = await message.channel.awaitMessages({ filter, max: 1, time: 1000 * 60 * 5, errors: ['time'] });
-                    reason = msg.first().content;
-                }
-                catch {
-                    msg.delete();
-                    message.channel.send("Bir sebep verilmedi yasaklama komutu geçersiz kılındı").then(m => {
-                        setTimeout(() => {
-                            m.delete();
-                        }, 1000 * 20);
-                    });
-                    return;
-                }
-            }
+            let reason = args.slice(1).join(" ") || "Sebep belirtilmedi";
             try {
                 await user.send(`${message.guild.name} sunucusundan süresiz yasaklandın. Sebep: ${reason}`);
                 message.channel.send(`<:checkmark:962444136366112788> **${user.user.tag}** yasaklandı. Kullanıcı özel bir mesaj ile bildirildi`);
