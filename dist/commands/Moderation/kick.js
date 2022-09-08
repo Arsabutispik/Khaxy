@@ -71,7 +71,7 @@ export default {
             let reason = args.slice(2).join(" ") || "Sebep Belirtilmemiş.";
             let cases = await caseSchema.findOne({ _id: message.guild.id });
             if (!cases) {
-                cases = await caseSchema.findOneAndUpdate({ _id: message.guild.id }, { case: 1 }, { setDefaultsOnInsert: true, new: true });
+                cases = await caseSchema.findOneAndUpdate({ _id: message.guild.id }, {}, { setDefaultsOnInsert: true, new: true, upsert: true });
             }
             try {
                 await user.send(`${message.guild.name} sunucusundan atıldınız. Sebep: ${reason}`);
@@ -138,7 +138,7 @@ export default {
             let reason = args.slice(1).join(" ") || "Sebep Belirtilmemiş.";
             let cases = await caseSchema.findOne({ _id: message.guild.id });
             if (!cases) {
-                cases = await caseSchema.findOneAndUpdate({ _id: message.guild.id }, { case: 1 }, { setDefaultsOnInsert: true, new: true });
+                cases = await caseSchema.findOneAndUpdate({ _id: message.guild.id }, {}, { setDefaultsOnInsert: true, new: true, upsert: true });
             }
             try {
                 await user.send(`${message.guild.name} sunucusundan atıldınız. Sebep: ${reason}`);

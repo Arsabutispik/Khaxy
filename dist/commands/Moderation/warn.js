@@ -66,27 +66,10 @@ export default {
             message.channel.send({ embeds: [embed] });
             return;
         }
-        let reason = args.slice(1).join(" ");
-        if (!reason) {
-            const msg = await message.reply("Bir sebep belirtmedin lütfen bir sebep belirt");
-            const filter = (m) => m.author.id === message.author.id;
-            try {
-                const msg = await message.channel.awaitMessages({ filter, max: 1, time: 1000 * 60 * 5, errors: ['time'] });
-                reason = msg.first().content;
-            }
-            catch {
-                await msg.delete();
-                message.channel.send("Bir sebep verilmedi uyarı komutu geçersiz kılındı").then(m => {
-                    setTimeout(() => {
-                        m.delete();
-                    }, 1000 * 20);
-                });
-                return;
-            }
-        }
+        let reason = args.slice(1).join(" ") || "Sebep belirtilmedi.";
         let cases = await caseSchema.findOne({ _id: message.guild.id });
         if (!cases) {
-            cases = await caseSchema.findOneAndUpdate({ _id: message.guild.id }, { case: 1 }, { setDefaultsOnInsert: true, new: true });
+            cases = await caseSchema.findOneAndUpdate({ _id: message.guild.id }, {}, { setDefaultsOnInsert: true, new: true, upsert: true });
         }
         message.channel.send(`<:checkmark:962444136366112788> **${member.user.tag}** uyarıldı (Olay #${cases.case}) Kullanıcı özel bir mesaj ile bildirildi`);
         modlog(message.guild, member.user, "UYARI", message.author, reason);

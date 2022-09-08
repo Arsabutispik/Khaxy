@@ -83,7 +83,7 @@ export default {
         const duration = ms(args[1]);
         let cases = await caseSchema.findOne({ _id: message.guild.id });
         if (!cases) {
-            cases = await caseSchema.findOneAndUpdate({ _id: message.guild.id }, { case: 1 }, { setDefaultsOnInsert: true, new: true });
+            cases = await caseSchema.findOneAndUpdate({ _id: message.guild.id }, {}, { setDefaultsOnInsert: true, new: true, upsert: true });
         }
         if (duration) {
             const longduration = ms(duration, { long: true }).replace(/seconds|second/, "saniye").replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün");

@@ -81,7 +81,7 @@ export default {
         const reason = args.slice(2).join(" ") || "Sebep belirtilmedi";
         let cases = await caseSchema.findOne({ _id: message.guild.id });
         if (!cases) {
-            cases = await caseSchema.findOneAndUpdate({ _id: message.guild.id }, { case: 1 }, { setDefaultsOnInsert: true, new: true });
+            cases = await caseSchema.findOneAndUpdate({ _id: message.guild.id }, {}, { setDefaultsOnInsert: true, new: true, upsert: true });
         }
         const longduration = ms(duration, { long: true }).replace(/seconds|second/, "saniye").replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün");
         try {
