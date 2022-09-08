@@ -4,7 +4,7 @@ import { MessageButton, MessageEmbed, MessageActionRow } from "discord.js";
 import modlog from "../../utils/modlog.js";
 const rejectButton = new MessageButton()
     .setCustomId("reddet")
-    .setEmoji("🚫")
+    .setEmoji("✖️")
     .setDisabled(false)
     .setStyle("DANGER");
 const acceptButton = new MessageButton()
@@ -13,7 +13,7 @@ const acceptButton = new MessageButton()
     .setDisabled(false)
     .setStyle("SUCCESS");
 const actionRow = new MessageActionRow()
-    .addComponents(rejectButton, acceptButton);
+    .addComponents(acceptButton, rejectButton);
 export default {
     name: "düzenle",
     category: "Moderasyon",
@@ -64,7 +64,7 @@ export default {
         }
         const embed = new MessageEmbed()
             .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({ dynamic: true }) })
-            .setDescription("Değişiklikleri onaylamak için düğmelerden ✔️, iptal etmek için 🚫 tuşuna basınız.")
+            .setDescription("Değişiklikleri onaylamak için düğmelerden ✔️, iptal etmek için ✖️ tuşuna basınız.")
             .addFields({
             name: "Orijinal Moderatör",
             value: message.guild.members.cache.get(result.staffId).user.tag
@@ -103,7 +103,7 @@ export default {
             case "kabul":
                 await caseResultSchema.findOneAndUpdate({ case: caseNumber }, { $push: { changes: { staffId: message.author, reason: reason } } });
                 embed.setColor("GREEN");
-                msg.edit({ embeds: [embed] });
+                msg.edit({ embeds: [embed], components: [] });
                 modlog(message.guild, message.author, "DEĞİŞİKLİK", message.author, reason, 0, result.case);
                 break;
         }
