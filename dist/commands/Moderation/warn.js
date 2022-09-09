@@ -71,7 +71,7 @@ export default {
         if (!cases) {
             cases = await caseSchema.findOneAndUpdate({ _id: message.guild.id }, {}, { setDefaultsOnInsert: true, new: true, upsert: true });
         }
-        message.channel.send(`<:checkmark:962444136366112788> **${member.user.tag}** uyarıldı (Olay #${cases.case}) Kullanıcı özel bir mesaj ile bildirildi`);
+        message.channel.send(`<a:checkmark:1017704018287546388> **${member.user.tag}** uyarıldı (Olay #${cases.case}) Kullanıcı özel bir mesaj ile bildirildi`);
         modlog(message.guild, member.user, "UYARI", message.author, reason);
         await new caseResultSchema({ case: cases.case, reason, userId: member.id, staffId: message.author.id }).save();
     }

@@ -19,7 +19,7 @@ export default {
         const reason = args.slice(1).join(" ") || "Sebep belirtilmedi";
         try {
             const user = await message.guild.members.unban(args[0]);
-            message.channel.send(`${user.tag} adlı kullanıcının banı kaldırıldı!`);
+            message.channel.send(`<a:checkmark:1017704018287546388> **${user.tag}** adlı kullanıcının banı kaldırıldı!`);
             let cases = await caseSchema.findOne({ _id: message.guild.id });
             if (!cases) {
                 cases = await caseSchema.findOneAndUpdate({ _id: message.guild.id }, {}, { setDefaultsOnInsert: true, new: true, upsert: true });

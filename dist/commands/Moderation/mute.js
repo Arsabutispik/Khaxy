@@ -86,10 +86,10 @@ export default {
         const longduration = ms(duration, { long: true }).replace(/seconds|second/, "saniye").replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün");
         try {
             await targetMember.send(`${message.guild.name} sunucusunda ${longduration} boyunca susturuldunuz. Sebep: ${reason}`);
-            message.channel.send(`<:checkmark:962444136366112788> **${targetMember.user.tag}** ${longduration} boyunca susturuldu (Olay #${cases.case}). Kullanıcı özel bir mesaj ile bildirildi`);
+            message.channel.send(`<a:checkmark:1017704018287546388> **${targetMember.user.tag}** ${longduration} boyunca susturuldu (Olay #${cases.case}). Kullanıcı özel bir mesaj ile bildirildi`);
         }
         catch {
-            message.channel.send(`<:checkmark:962444136366112788> **${targetMember.user.tag}** ${longduration} boyunca susturuldu (Olay #${cases.case}). Kullanıcıya özel mesaj atılamadı`);
+            message.channel.send(`<a:checkmark:1017704018287546388> **${targetMember.user.tag}** ${longduration} boyunca susturuldu (Olay #${cases.case}). Kullanıcıya özel mesaj atılamadı`);
         }
         await new punishment({ userId: targetMember.id, staffId: message.author.id, reason, previousRoles: [...targetMember.roles.cache.filter(r => r.id !== message.guild.roles.premiumSubscriberRole?.id || r.id !== message.guild.roles.everyone.id).map(r => r.id)], expires: new Date(Date.now() + duration), type: "mute" }).save();
         await targetMember.roles.remove(targetMember.roles.cache.filter(roles => message.guild.roles.premiumSubscriberRole?.id != roles.id).map(r => r.id));

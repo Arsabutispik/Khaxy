@@ -75,10 +75,10 @@ export default {
             }
             try {
                 await user.send(`${message.guild.name} sunucusundan atıldınız. Sebep: ${reason}`);
-                message.channel.send(`<:checkmark:962444136366112788> **${user.user.tag}** atıldı (Olay #${cases.case}) Kullanıcı özel bir mesaj ile bildirildi`);
+                message.channel.send(`<a:checkmark:1017704018287546388> **${user.user.tag}** atıldı (Olay #${cases.case}) Kullanıcı özel bir mesaj ile bildirildi`);
             }
             catch {
-                message.channel.send(`<:checkmark:962444136366112788> **${user.user.tag}** atıldı (Olay #${cases.case}) Kullanıcıya özel mesaj atılamadı`);
+                message.channel.send(`<a:checkmark:1017704018287546388> **${user.user.tag}** atıldı (Olay #${cases.case}) Kullanıcıya özel mesaj atılamadı`);
             }
             modlog(message.guild, user.user, "AT", message.author, reason);
             await user.ban({ days: 7, reason });
@@ -142,10 +142,10 @@ export default {
             }
             try {
                 await user.send(`${message.guild.name} sunucusundan atıldınız. Sebep: ${reason}`);
-                message.channel.send(`<:checkmark:962444136366112788> **${user.user.tag}** atıldı (Olay #${cases.case}) Kullanıcı özel bir mesaj ile bildirildi`);
+                message.channel.send(`<a:checkmark:1017704018287546388> **${user.user.tag}** atıldı (Olay #${cases.case}) Kullanıcı özel bir mesaj ile bildirildi`);
             }
             catch {
-                message.channel.send(`<:checkmark:962444136366112788> **${user.user.tag}** atıldı (Olay #${cases.case}) Kullanıcıya özel mesaj atılamadı`);
+                message.channel.send(`<a:checkmark:1017704018287546388> **${user.user.tag}** atıldı (Olay #${cases.case}) Kullanıcıya özel mesaj atılamadı`);
             }
             modlog(message.guild, user.user, "AT", message.author, reason);
             user.kick(reason);
