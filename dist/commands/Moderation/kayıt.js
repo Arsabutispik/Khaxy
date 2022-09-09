@@ -7,7 +7,7 @@ export default {
     usage: `{prefix}kayıt <@kullanıcı|id> <cinsiyet>`,
     examples: `{prefix}kayıt <@1007246359696515125> erkek`,
     async execute({ message, args }) {
-        if (message.channel.id !== "1011319738812604456") {
+        if (message.channel.id !== "1017796974780633128") {
             const embed = new MessageEmbed()
                 .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true }) })
                 .setColor("RED")
@@ -53,6 +53,9 @@ export default {
         await sleep(1000);
         const msgs = await message.channel.messages.fetch();
         await message.channel.bulkDelete(msgs.filter(m => !m.pinned));
+        const welcomeChannel = message.guild.channels.cache.get("1011319738812604456");
+        const wmsgs = await welcomeChannel.messages.fetch();
+        welcomeChannel.bulkDelete(wmsgs.filter(m => m.mentions.members.has(targetMember.id)));
     }
 };
 //# sourceMappingURL=kay%C4%B1t.js.map

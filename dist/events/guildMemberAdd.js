@@ -18,6 +18,6 @@ export default async (_client, member) => {
         return;
     }
     await welcomeChannel2.send(text.replace("{user}", member.user.toString()));
-    await welcomeChannel.send(`${member.guild.name} sunucusuna hoş geldin ${member}! Biraz bekle ve bir yetkili gelip seni kayıt edecektir. <@&791739150188937236>`);
+    await welcomeChannel.send(`${member.guild.name} sunucusuna hoş geldin ${member}! Biraz bekle, sabitlenmiş yazıları oku ve bir yetkili gelip seni kayıt edecektir. <@&791739150188937236>`);
 };
 //# sourceMappingURL=guildMemberAdd.js.map
