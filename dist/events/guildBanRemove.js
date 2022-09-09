@@ -5,11 +5,11 @@ export default async (client, ban) => {
     const auditLog = await ban.guild.fetchAuditLogs({ type: "MEMBER_BAN_REMOVE", limit: 1 });
     const banLog = auditLog.entries.first();
     const { executor, target, reason } = banLog;
-    if (target?.id !== ban.user.id) {
-        modlog(ban.guild, ban.user, "BAN_KALDIR", client.user, "Yasağı kaldıran kişiyi bulamadım");
+    if ((reason === "softban") || (executor.id === client.user.id)) {
         return;
     }
-    if ((reason === "softban") && (executor.id === client.user.id)) {
+    if (target?.id !== ban.user.id) {
+        modlog(ban.guild, ban.user, "BAN_KALDIR", client.user, "Yasağı kaldıran kişiyi bulamadım");
         return;
     }
     let cases = await caseSchema.findOne({ _id: ban.guild.id });

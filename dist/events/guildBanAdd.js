@@ -5,6 +5,8 @@ export default async (client, ban) => {
     const auditLog = await ban.guild.fetchAuditLogs({ type: "MEMBER_BAN_ADD", limit: 1 });
     const banLog = auditLog.entries.first();
     const { executor, target, reason } = banLog;
+    if (executor?.id === client.user.id)
+        return;
     if (target?.id !== ban.user.id) {
         modlog(ban.guild, ban.user, "BAN", client.user, "Yasaklayan kişiyi bulamadım");
         return;
