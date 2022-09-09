@@ -18,6 +18,12 @@ export default {
         try {
             const evaled = eval(args.join(" "));
             const cleaned = await clean(evaled);
+            const parts = cleaned.match(/[\s\S]{1,2000}$/gm);
+            if (parts) {
+                for (const part of parts) {
+                    await message.channel.send(`\`\`\`js${part}\`\`\``);
+                }
+            }
             message.channel.send(`\`\`\`js\n${cleaned}\n\`\`\``);
         }
         catch (err) {

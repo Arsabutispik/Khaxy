@@ -13,13 +13,13 @@ export default async (guild, user, action, actionmaker, reason, duration, casenu
         message += ` ⚠️ **${user.tag}** (\`${user.id}\`), **${actionmaker.tag}** (\`${actionmaker.id}\`) tarafından uyarıldı. Sebep:\n\`\`\`${reason}\`\`\``;
     }
     else if (action === "BAN") {
-        message += ` <:banned:958748941661384714>  **${user.tag}** (\`${user.id}\`), **${actionmaker.tag}** (\`${actionmaker.id}\`) tarafından yasaklandı. Sebep:\n\`\`\`${reason}\`\`\``;
+        message += `<:banned:1017703188150894622>  **${user.tag}** (\`${user.id}\`), **${actionmaker.tag}** (\`${actionmaker.id}\`) tarafından yasaklandı. Sebep:\n\`\`\`${reason}\`\`\``;
     }
     else if (action === "AT") {
-        message += ` 👢 **${user.tag}** (\`${user.id}\`), **${actionmaker.tag}** (\`${actionmaker.id}\`) tarafından atıldı. Sebep:\n\`\`\`${reason}\`\`\``;
+        message += `👢 **${user.tag}** (\`${user.id}\`), **${actionmaker.tag}** (\`${actionmaker.id}\`) tarafından atıldı. Sebep:\n\`\`\`${reason}\`\`\``;
     }
     else if (action === "ZORUNLU_BAN") {
-        message += ` <:banbanned:958750684554092594> Kullanıcı (\`${user.id}\`), **${actionmaker.tag}** (\`${actionmaker.id}\`) tarafından zorla banlandı. Sebep:\n\`\`\`${reason}\`\`\``;
+        message += `<:banbanned:1017703176528474152> Kullanıcı (\`${user.id}\`), **${actionmaker.tag}** (\`${actionmaker.id}\`) tarafından zorla banlandı. Sebep:\n\`\`\`${reason}\`\`\``;
     }
     else if (action === "SUSTUR") {
         const amount = ms(duration, { long: true }).replace(/seconds|second/, "saniye").replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün");
@@ -27,17 +27,21 @@ export default async (guild, user, action, actionmaker, reason, duration, casenu
     }
     else if (action === "SÜRELİ_BAN") {
         const amount = ms(duration, { long: true }).replace(/seconds|second/, "saniye").replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün");
-        message += ` <:banned:958748941661384714> **${user.tag}** (\`${user.id}\`), **${actionmaker.tag}** (\`${actionmaker.id}\`) tarafından **${amount}** boyunca yasaklandı. Sebep:\n\`\`\`${reason}\`\`\``;
+        message += `<:banned:1017703188150894622> **${user.tag}** (\`${user.id}\`), **${actionmaker.tag}** (\`${actionmaker.id}\`) tarafından **${amount}** boyunca yasaklandı. Sebep:\n\`\`\`${reason}\`\`\``;
     }
     else if (action === "BAN_KALDIR") {
-        message += ` 🔓 Kullanıcı (\`${user.id}\`), **${actionmaker.tag}** (\`${actionmaker.id}\`) tarafından yasağı kaldırıldı. Sebep:\n\`\`\`${reason}\`\`\``;
+        message += `🔓 Kullanıcı (\`${user.id}\`), **${actionmaker.tag}** (\`${actionmaker.id}\`) tarafından yasağı kaldırıldı. Sebep:\n\`\`\`${reason}\`\`\``;
     }
     else if (action === "BAN_SÜRESİ") {
         const amount = ms(duration, { long: true }).replace(/seconds|second/, "saniye").replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün");
-        message += ` 🔓 Kullanıcı (\`${user.id}\`), **${amount}** sonra **${actionmaker.tag}** (\`${actionmaker.id}\`) tarafından otomatik olarak yasağı kaldırıldı. Sebep:\n\`\`\`${reason}\`\`\``;
+        message += `🔓 Kullanıcı (\`${user.id}\`), **${amount}** sonra **${actionmaker.tag}** (\`${actionmaker.id}\`) tarafından otomatik olarak yasağı kaldırıldı. Sebep:\n\`\`\`${reason}\`\`\``;
     }
     else if (action === "DEĞİŞİKLİK") {
         message = `<t:${Math.floor(Date.now() / 1000)}> \`[${casenumber}]\` ✏️ Olay #${casenumber}, **${actionmaker.tag}** (\`${actionmaker.id}\`) tarafından değiştirildi. Sebep:\n\`\`\`${reason}\`\`\``;
+    }
+    else if (action === "ZORUNLU_SÜRELİ_BAN") {
+        const amount = ms(duration, { long: true }).replace(/seconds|second/, "saniye").replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün");
+        message += `<:banbanned:1017703176528474152> Kullanıcı (\`${user.id}\`), **${amount}** boyunca **${actionmaker.tag}** (\`${actionmaker.id}\`) tarafından zorla banlandı. Sebep:\n\`\`\`${reason}\`\`\``;
     }
     const channel = await guild.channels.fetch(config.MOD_LOG);
     if (channel instanceof TextChannel) {

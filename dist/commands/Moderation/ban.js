@@ -10,7 +10,7 @@ export default {
     description: "Bir kullanıcıyı sınırsız veya belirli bir süreliğine yasaklar",
     usage: "{prefix}ban <@kullanıcı|id> [süre] <sebep>",
     examples: "{prefix}ban <@1007246359696515125> 1h sınavın bitince gel (1 saatlik bir ban atar)\ns!ban <@950752419233542195> 3d troll (3 günlük ban atar)\ns!ban <@950752419233542195> raid (süresiz ban)",
-    async execute({ message, args }) {
+    async execute({ client, message, args }) {
         if (!message.member.permissions.has("BAN_MEMBERS")) {
             const embed = new MessageEmbed()
                 .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true }) })
@@ -21,9 +21,9 @@ export default {
         }
         const user = message.mentions.members?.first() || message.guild.members.cache.get(args[0]);
         if (!user) {
+            let fetchUser;
             try {
-                const fetchUser = await message.guild.members.fetch(args[0]);
-                await message.guild.bans.create(fetchUser.id);
+                fetchUser = await client.users.fetch(args[0]);
             }
             catch {
                 const embed = new MessageEmbed()
@@ -33,11 +33,26 @@ export default {
                 message.channel.send({ embeds: [embed] });
                 return;
             }
-            const embed = new MessageEmbed()
-                .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true }) })
-                .setColor("RED")
-                .setDescription("Bir kullanıcı bulunamadı!");
-            message.channel.send({ embeds: [embed] });
+            const duration = ms(args[1]);
+            let cases = await caseSchema.findOne({ _id: message.guild.id });
+            if (!cases) {
+                cases = await caseSchema.findOneAndUpdate({ _id: message.guild.id }, {}, { setDefaultsOnInsert: true, new: true, upsert: true });
+            }
+            if (duration) {
+                let reason = args.slice(2).join(" ") || "Sebep belirtilmedi";
+                message.channel.send(`<a:checkmark:1017704018287546388> **${fetchUser.tag}** yasaklandı. Kullanıcı özel bir mesaj ile bildirildi`);
+                await message.guild.bans.create(fetchUser.id);
+                modlog(message.guild, fetchUser, "ZORUNLU_BAN", message.author, reason, duration);
+                await new punishment({ userId: fetchUser.id, staffId: message.author.id, reason, expires: new Date(Date.now() + duration), type: "ban" }).save();
+                await new caseResultSchema({ case: cases.case, reason, userId: fetchUser.id, staffId: message.author.id }).save();
+            }
+            else {
+                let reason = args.slice(1).join(" ") || "Sebep belirtilmedi";
+                message.channel.send(`<a:checkmark:1017704018287546388> **${fetchUser.tag}** yasaklandı. Kullanıcı özel bir mesaj ile bildirildi`);
+                await message.guild.bans.create(fetchUser.id);
+                modlog(message.guild, fetchUser, "BAN", message.author, reason);
+                await new caseResultSchema({ case: cases.case, reason, userId: fetchUser.id, staffId: message.author.id }).save();
+            }
             return;
         }
         if (user.id == message.author.id) {
@@ -87,30 +102,13 @@ export default {
         }
         if (duration) {
             const longduration = ms(duration, { long: true }).replace(/seconds|second/, "saniye").replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün");
-            let reason = args.slice(2).join(" ");
-            if (!reason) {
-                const msg = await message.reply("Bir sebep belirtmedin lütfen bir sebep belirt");
-                const filter = (m) => m.author.id === message.author.id;
-                try {
-                    const msg = await message.channel.awaitMessages({ filter, max: 1, time: 1000 * 60 * 5, errors: ['time'] });
-                    reason = msg.first().content;
-                }
-                catch {
-                    msg.delete();
-                    message.channel.send("Bir sebep verilmedi yasaklama komutu geçersiz kılındı").then(m => {
-                        setTimeout(() => {
-                            m.delete();
-                        }, 1000 * 20);
-                    });
-                    return;
-                }
-            }
+            let reason = args.slice(2).join(" ") || "Sebep belirtilmedi";
             try {
                 await user.send(`${message.guild.name} sunucusundan **${longduration}** boyunca yasaklandın. Sebep: ${args.slice(1).join(" ")}`);
-                message.channel.send(`<:checkmark:962444136366112788> **${user.user.tag}** yasaklandı. Kullanıcı özel bir mesaj ile bildirildi`);
+                message.channel.send(`<a:checkmark:1017704018287546388> **${user.user.tag}** yasaklandı. Kullanıcı özel bir mesaj ile bildirildi`);
             }
             catch {
-                message.channel.send(`<:checkmark:962444136366112788> **${user.user.tag}** yasaklandı. Kullanıcıya özel mesaj atılamadı`);
+                message.channel.send(`<a:checkmark:1017704018287546388> **${user.user.tag}** yasaklandı. Kullanıcıya özel mesaj atılamadı`);
             }
             user.ban({ reason, days: 7 });
             modlog(message.guild, user.user, "SÜRELİ_BAN", message.author, reason, duration);
@@ -121,10 +119,10 @@ export default {
             let reason = args.slice(1).join(" ") || "Sebep belirtilmedi";
             try {
                 await user.send(`${message.guild.name} sunucusundan süresiz yasaklandın. Sebep: ${reason}`);
-                message.channel.send(`<:checkmark:962444136366112788> **${user.user.tag}** yasaklandı. Kullanıcı özel bir mesaj ile bildirildi`);
+                message.channel.send(`<a:checkmark:1017704018287546388> **${user.user.tag}** yasaklandı. Kullanıcı özel bir mesaj ile bildirildi`);
             }
             catch {
-                message.channel.send(`<:checkmark:962444136366112788> **${user.user.tag}** yasaklandı. Kullanıcıya özel mesaj atılamadı`);
+                message.channel.send(`<a:checkmark:1017704018287546388> **${user.user.tag}** yasaklandı. Kullanıcıya özel mesaj atılamadı`);
             }
             user.ban({ reason, days: 7 });
             modlog(message.guild, user.user, "BAN", message.author, reason);
