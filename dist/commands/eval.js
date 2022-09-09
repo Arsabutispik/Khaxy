@@ -12,7 +12,7 @@ export default {
     usage: `{prefix}eval <code>`,
     examples: `{prefix}eval message.channel.send("Hello World!")`,
     category: "Bot Sahibi",
-    async execute({ message, args }) {
+    async execute({ message, args, client }) {
         if (message.author.id !== "903233069245419560")
             return;
         try {
