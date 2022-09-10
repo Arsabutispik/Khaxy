@@ -90,7 +90,7 @@ client.once("ready", async () => {
             message: `>yardım Tüm komutlarımı gör.`, type: "PLAYING"
         },
         {
-            message: `👑 Kutsal sunucuyu korumam altında.`, type: "WATCHING"
+            message: `👑 Kutsal sunucu korumam altında.`, type: "WATCHING"
         },
         {
             message: ">play Kutsal müzik dinlemeye ne dersin?", type: "LISTENING"
