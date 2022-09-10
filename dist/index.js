@@ -82,6 +82,26 @@ client.once("ready", async () => {
     await registerCommands(client, "../commands");
     client.manager.init(client.user.id);
     log("SUCCESS", "src/events/ready.ts", "Bot başarıyla aktif edildi.");
+    const messages = [
+        {
+            message: `${client.users.cache.size} Kutsal insanı gözetliyorum 👁‍🗨`, type: "WATCHING"
+        },
+        {
+            message: `>yardım Tüm komutlarımı gör.`, type: "PLAYING"
+        },
+        {
+            message: `👑 Kutsal sunucuyu koruyorum.`, type: "WATCHING"
+        },
+        {
+            message: ">play Müzik dinlemeye ne dersin?", type: "LISTENING"
+        }
+    ];
+    setTimeout(() => {
+        setInterval(() => {
+            const status = messages[Math.floor(Math.random() * messages.length)];
+            client.user.setActivity(status.message, { type: status.type });
+        }, 60000);
+    });
 });
 client.on("raw", d => client.manager.updateVoiceState(d));
 process.on("uncaughtException", async (error) => {
