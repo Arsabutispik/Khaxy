@@ -84,21 +84,22 @@ client.once("ready", async () => {
     log("SUCCESS", "src/events/ready.ts", "Bot başarıyla aktif edildi.");
     const messages = [
         {
-            message: `${client.users.cache.size} Kutsal insanı gözetliyorum 👁‍🗨`, type: "WATCHING"
+            message: `${client.users.cache.size} Kutsal ruhu gözetliyorum 👁‍🗨`, type: "WATCHING"
         },
         {
             message: `>yardım Tüm komutlarımı gör.`, type: "PLAYING"
         },
         {
-            message: `👑 Kutsal sunucuyu koruyorum.`, type: "WATCHING"
+            message: `👑 Kutsal sunucuyu korumam altında.`, type: "WATCHING"
         },
         {
-            message: ">play Müzik dinlemeye ne dersin?", type: "LISTENING"
+            message: ">play Kutsal müzik dinlemeye ne dersin?", type: "LISTENING"
         }
     ];
     const status = messages[Math.floor(Math.random() * messages.length)];
     client.user.setActivity(status.message, { type: status.type });
     setInterval(() => {
+        messages[0] = { message: `${client.users.cache.size} Kutsal ruhu gözetliyorum 👁‍🗨`, type: "WATCHING" };
         const status = messages[Math.floor(Math.random() * messages.length)];
         client.user.setActivity(status.message, { type: status.type });
     }, 60000);
