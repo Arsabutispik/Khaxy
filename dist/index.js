@@ -98,12 +98,10 @@ client.once("ready", async () => {
     ];
     const status = messages[Math.floor(Math.random() * messages.length)];
     client.user.setActivity(status.message, { type: status.type });
-    setTimeout(() => {
-        setInterval(() => {
-            const status = messages[Math.floor(Math.random() * messages.length)];
-            client.user.setActivity(status.message, { type: status.type });
-        }, 60000);
-    });
+    setInterval(() => {
+        const status = messages[Math.floor(Math.random() * messages.length)];
+        client.user.setActivity(status.message, { type: status.type });
+    }, 60000);
 });
 client.on("raw", d => client.manager.updateVoiceState(d));
 process.on("uncaughtException", async (error) => {
