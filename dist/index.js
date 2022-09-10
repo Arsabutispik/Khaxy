@@ -96,6 +96,8 @@ client.once("ready", async () => {
             message: ">play Müzik dinlemeye ne dersin?", type: "LISTENING"
         }
     ];
+    const status = messages[Math.floor(Math.random() * messages.length)];
+    client.user.setActivity(status.message, { type: status.type });
     setTimeout(() => {
         setInterval(() => {
             const status = messages[Math.floor(Math.random() * messages.length)];
