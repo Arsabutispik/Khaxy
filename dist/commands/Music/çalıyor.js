@@ -22,7 +22,7 @@ export default {
             .setAuthor({ name: "Şu Anda Çalıyor", iconURL: client.config.IconURL })
             .setColor("RANDOM")
             .setDescription(`[${song.title}](${song.uri})`)
-            .addField("Requested by", `${song.requester}`, true)
+            .addField("Şarkıyı Talep Eden", `${song.requester}`, true)
             .addField("Süre", `${ProgressBar.splitBar(song.duration, player.position, 15)[0]} ${prettyMilliseconds(player.position, { colonNotation: true })}/${prettyMilliseconds(song.duration, { colonNotation: true })}`, false)
             .setThumbnail(player.queue.current.displayThumbnail());
         return message.channel.send({ embeds: [QueueEmbed] });
