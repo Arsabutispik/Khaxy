@@ -21,7 +21,7 @@ export default {
             }
             else {
                 player.pause(true);
-                message.channel.send("|✅| **Müzik duraklatıldı.**");
+                message.channel.send("|✅| **Müzik karıştırıldı.**");
                 await message.react("✅");
                 return;
             }
