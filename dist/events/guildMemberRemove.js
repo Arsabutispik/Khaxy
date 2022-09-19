@@ -8,7 +8,7 @@ export default async (client, member) => {
     });
     const welcomeChannel = member.guild.channels.cache.get("1011319738812604456");
     const wmsgs = await welcomeChannel.messages.fetch();
-    welcomeChannel.bulkDelete(wmsgs.filter(m => m.mentions.members.has(member.id)));
+    welcomeChannel.bulkDelete(wmsgs.filter(m => m.mentions.members.has(member.user.id)));
     const kickLog = fetchedLogs.entries.first();
     const { executor, target, reason, createdTimestamp } = kickLog;
     if ((Date.now() - createdTimestamp) <= 10000) {
