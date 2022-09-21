@@ -15,7 +15,7 @@ async function registerCommands(client, ...dirs) {
                 if (file.endsWith(".js")) {
                     try {
                         const cmdModule = (await import(pathToFileURL(path.join(__dirname, dir, file)).href)).default;
-                        const { name, aliases, category, execute } = cmdModule;
+                        const { name, aliases, category, execute, slash, description, examples, usage, options, type } = cmdModule;
                         if (!name) {
                             log("WARNING", "src/registry.ts", `The command '${path.join(__dirname, dir, file)}' doesn't have a name`);
                             continue;
@@ -28,7 +28,56 @@ async function registerCommands(client, ...dirs) {
                             log("WARNING", "src/registry.ts", `The command name '${name}' has already been added.`);
                             continue;
                         }
-                        client.commands.set(name, cmdModule);
+                        if (!description) {
+                            log("WARNING", "src/registry.ts", `The command '${name}' doesn't have a description`);
+                            continue;
+                        }
+                        if (!examples) {
+                            log("WARNING", "src/registry.ts", `The command '${name}' doesn't have examples`);
+                            continue;
+                        }
+                        if (!usage) {
+                            log("WARNING", "src/registry.ts", `The command '${name}' doesn't have usage`);
+                            continue;
+                        }
+                        if (slash === "both") {
+                            const verifier = client.application.commands.cache.find(x => x.name == name);
+                            if (verifier)
+                                await client.application.commands.edit(verifier.id, {
+                                    name: name,
+                                    description: description ?? "None.",
+                                    options: options ?? [],
+                                    type: type
+                                });
+                            else
+                                await client.application.commands.create({
+                                    name: name,
+                                    description: description ?? "None.",
+                                    options: options ?? [],
+                                    type: type
+                                });
+                            client.commands.set(name, cmdModule);
+                        }
+                        else if (slash) {
+                            const verifier = client.application.commands.cache.find(x => x.name == name);
+                            if (verifier)
+                                await client.application.commands.edit(verifier.id, {
+                                    name: name,
+                                    description: description ?? "None.",
+                                    options: options ?? [],
+                                    type: type
+                                });
+                            else
+                                await client.application.commands.create({
+                                    name: name,
+                                    description: description ?? "None.",
+                                    options: options ?? [],
+                                    type: type
+                                });
+                        }
+                        else {
+                            client.commands.set(name, cmdModule);
+                        }
                         if (aliases && aliases.length !== 0) {
                             aliases.forEach((alias) => {
                                 if (client.commands.has(alias)) {

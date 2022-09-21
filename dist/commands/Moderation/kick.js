@@ -149,7 +149,7 @@ export default {
             }
             modlog(message.guild, user.user, "AT", message.author, reason);
             user.kick(reason);
-            await new caseResultSchema({ case: cases.case, reason, staffId: message.author.id }).save();
+            await new caseResultSchema({ case: cases.case, userId: user.id, reason, staffId: message.author.id }).save();
         }
         else if (clean !== "-temizle" && (message.mentions.members?.first()?.toString() || message.guild.members.cache.get(args[1])) !== clean) {
             const embed = new MessageEmbed()

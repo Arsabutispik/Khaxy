@@ -26,9 +26,5 @@
     "mongoose": "^6.5.2",
     "pretty-ms": "^8.0.0",
     "string-progressbar": "^1.0.4"
-  },
-  "engines": {
-    "node": "16.14.0",
-    "npm": "8.19.1"
   }
 }

@@ -1,1 +1,0 @@
-worker: node --experimental-json-modules dist/index.js
