@@ -5,6 +5,7 @@ const reqString = {
     required: true
 };
 const schema = new Schema({
+    guildID: reqString,
     userId: reqString,
     staffId: reqString,
     reason: reqString,

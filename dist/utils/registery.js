@@ -10,12 +10,12 @@ async function registerCommands(client, ...dirs) {
         for (let file of files) {
             const stat = await fs.promises.lstat(path.join(__dirname, dir, file));
             if (stat.isDirectory())
-                registerCommands(client, path.join(dir, file));
+                await registerCommands(client, path.join(dir, file));
             else {
                 if (file.endsWith(".js")) {
                     try {
                         const cmdModule = (await import(pathToFileURL(path.join(__dirname, dir, file)).href)).default;
-                        const { name, aliases, category, execute, slash, description, examples, usage, options, type } = cmdModule;
+                        const { name, aliases, category, execute, description, examples, usage } = cmdModule;
                         if (!name) {
                             log("WARNING", "src/registry.ts", `The command '${path.join(__dirname, dir, file)}' doesn't have a name`);
                             continue;
@@ -40,44 +40,7 @@ async function registerCommands(client, ...dirs) {
                             log("WARNING", "src/registry.ts", `The command '${name}' doesn't have usage`);
                             continue;
                         }
-                        if (slash === "both") {
-                            const verifier = client.application.commands.cache.find(x => x.name == name);
-                            if (verifier)
-                                await client.application.commands.edit(verifier.id, {
-                                    name: name,
-                                    description: description ?? "None.",
-                                    options: options ?? [],
-                                    type: type
-                                });
-                            else
-                                await client.application.commands.create({
-                                    name: name,
-                                    description: description ?? "None.",
-                                    options: options ?? [],
-                                    type: type
-                                });
-                            client.commands.set(name, cmdModule);
-                        }
-                        else if (slash) {
-                            const verifier = client.application.commands.cache.find(x => x.name == name);
-                            if (verifier)
-                                await client.application.commands.edit(verifier.id, {
-                                    name: name,
-                                    description: description ?? "None.",
-                                    options: options ?? [],
-                                    type: type
-                                });
-                            else
-                                await client.application.commands.create({
-                                    name: name,
-                                    description: description ?? "None.",
-                                    options: options ?? [],
-                                    type: type
-                                });
-                        }
-                        else {
-                            client.commands.set(name, cmdModule);
-                        }
+                        client.commands.set(name, cmdModule);
                         if (aliases && aliases.length !== 0) {
                             aliases.forEach((alias) => {
                                 if (client.commands.has(alias)) {
@@ -117,7 +80,7 @@ async function registerEvents(client, dir) {
     for (let file of files) {
         const stat = await fs.promises.lstat(path.join(__dirname, dir, file));
         if (stat.isDirectory())
-            registerEvents(client, path.join(dir, file));
+            await registerEvents(client, path.join(dir, file));
         else {
             if (file.endsWith(".js")) {
                 let eventName = file.substring(0, file.indexOf(".js"));
@@ -132,5 +95,51 @@ async function registerEvents(client, dir) {
         }
     }
 }
-export { registerEvents, registerCommands };
+async function registerSlashCommands(client, dir) {
+    const files = await fs.promises.readdir(path.join(__dirname, dir));
+    for (let file of files) {
+        const stat = await fs.promises.lstat(path.join(__dirname, dir, file));
+        if (stat.isDirectory())
+            await registerSlashCommands(client, path.join(dir, file));
+        else {
+            if (file.endsWith(".js")) {
+                try {
+                    const slashcmdModule = (await import(pathToFileURL(path.join(__dirname, dir, file)).href)).default;
+                    const { data, execute, ownerOnly } = slashcmdModule;
+                    if (!data) {
+                        log("WARNING", "src/registry.ts", `The slash command '${path.join(__dirname, dir, file)}' doesn't have a name`);
+                        continue;
+                    }
+                    if (!data.description) {
+                        log("WARNING", "src/registry.ts", `The slash command '${data.name}' doesn't have a description`);
+                        continue;
+                    }
+                    if (!data.options) {
+                        log("WARNING", "src/registry.ts", `The slash command '${data.name}' doesn't have options`);
+                    }
+                    if (!execute) {
+                        log("WARNING", "src/registry.ts", `The slash command '${data.name}' doesn't have an execute function`);
+                        continue;
+                    }
+                    client.slashCommands.set(data.name, slashcmdModule);
+                    if (ownerOnly) {
+                        client.guilds.cache.get("1007285630427996292")?.commands.create(data.toJSON());
+                        continue;
+                    }
+                    try {
+                        client.application?.commands.create(data.toJSON());
+                    }
+                    catch (e) {
+                        log("ERROR", "src/registry.ts", `Error loading slash command ${data.name}: ${e.message}`);
+                        console.error(e);
+                    }
+                }
+                catch (e) {
+                    log("ERROR", "src/registry.ts", `Error loading slash commands: ${e.message}`);
+                }
+            }
+        }
+    }
+}
+export { registerEvents, registerCommands, registerSlashCommands };
 //# sourceMappingURL=registery.js.map

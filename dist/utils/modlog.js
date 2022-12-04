@@ -1,13 +1,15 @@
 import { TextChannel } from 'discord.js';
-import config from '../config.json' assert { type: "json" };
-import caseSchema from '../schemas/caseSchema.js';
 import ms from 'ms';
-export default async (guild, user, action, actionmaker, reason, duration, casenumber) => {
-    let schema = await caseSchema.findOne({ _id: guild.id });
-    if (!schema) {
-        schema = await caseSchema.findOneAndUpdate({ _id: guild.id }, { case: 1 }, { upsert: true, new: true });
+import guildSchema from "../schemas/guildSchema.js";
+export default async (data, client) => {
+    const { guild, user, action, actionmaker, reason, duration, casenumber } = data;
+    let guildData = await guildSchema.findOne({ guildID: guild.id });
+    if (!guildData) {
+        guildData = await guildSchema.findOneAndUpdate({ guildID: guild.id }, {}, { upsert: true, new: true, setDefaultsOnInsert: true });
     }
-    const caseNumber = schema.case;
+    const caseNumber = (casenumber || guildData.case);
+    if (!guildData.config?.modlogChannel)
+        return;
     let message = `<t:${Math.floor(Date.now() / 1000)}> \`[${caseNumber}]\``;
     if (action === "UYARI") {
         message += ` ⚠️ **${user.tag}** (\`${user.id}\`), **${actionmaker.tag}** (\`${actionmaker.id}\`) tarafından uyarıldı. Sebep:\n\`\`\`${reason}\`\`\``;
@@ -43,12 +45,12 @@ export default async (guild, user, action, actionmaker, reason, duration, casenu
         const amount = ms(duration, { long: true }).replace(/seconds|second/, "saniye").replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün");
         message += `<:banbanned:1017703176528474152> Kullanıcı (\`${user.id}\`), **${amount}** boyunca **${actionmaker.tag}** (\`${actionmaker.id}\`) tarafından zorla banlandı. Sebep:\n\`\`\`${reason}\`\`\``;
     }
-    const channel = await guild.channels.fetch(config.MOD_LOG);
-    if (channel instanceof TextChannel) {
-        channel.send(message);
+    const channel = await guild.channels.fetch(guildData.config.modlogChannel);
+    if (channel && channel instanceof TextChannel) {
+        await channel.send(message);
     }
     if (action !== "DEĞİŞİKLİK") {
-        await caseSchema.findOneAndUpdate({ _id: guild.id }, { $inc: { case: 1 } }, { upsert: true });
+        await client.updateGuildConfig({ guildId: guild.id, config: { $inc: { case: 1 } } });
     }
 };
 //# sourceMappingURL=modlog.js.map

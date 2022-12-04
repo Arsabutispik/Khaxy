@@ -1,36 +1,36 @@
-import { MessageButton, MessageActionRow } from "discord.js";
+import { ButtonBuilder, ButtonStyle, ActionRowBuilder, ComponentType } from "discord.js";
 const consoleColors = {
     "SUCCESS": "\u001b[32m",
     "WARNING": "\u001b[33m",
     "ERROR": "\u001b[31m"
 };
-const nextPage = new MessageButton()
+const nextPage = new ButtonBuilder()
     .setCustomId("next")
     .setEmoji("▶️")
-    .setStyle("PRIMARY")
+    .setStyle(ButtonStyle.Primary)
     .setDisabled(false);
-const prevPage = new MessageButton()
+const prevPage = new ButtonBuilder()
     .setCustomId("prev")
     .setEmoji("◀️")
-    .setStyle("PRIMARY")
+    .setStyle(ButtonStyle.Primary)
     .setDisabled(false);
-const lastPage = new MessageButton()
+const lastPage = new ButtonBuilder()
     .setCustomId("last")
     .setEmoji("⏩")
-    .setStyle("PRIMARY")
+    .setStyle(ButtonStyle.Primary)
     .setDisabled(false);
-const firstPage = new MessageButton()
+const firstPage = new ButtonBuilder()
     .setCustomId("first")
     .setEmoji("⏪")
-    .setStyle("PRIMARY")
+    .setStyle(ButtonStyle.Primary)
     .setDisabled(false);
-const closePage = new MessageButton()
+const closePage = new ButtonBuilder()
     .setCustomId("close")
     .setEmoji("✖️")
-    .setStyle("DANGER")
+    .setStyle(ButtonStyle.Danger)
     .setDisabled(false);
-const row = new MessageActionRow()
-    .addComponents(lastPage, nextPage, closePage, prevPage, firstPage);
+const row = new ActionRowBuilder()
+    .addComponents([lastPage, nextPage, closePage, prevPage, firstPage]);
 function log(type, path, text) {
     console.log(`\u001b[36;1m<bot-prefab>\u001b[0m\u001b[34m [${path}]\u001b[0m - ${consoleColors[type]}${text}\u001b[0m`);
 }
@@ -62,7 +62,7 @@ function chunkSubstr(str, size) {
     const numChunks = Math.ceil(str.length / size);
     const chunks = new Array(numChunks);
     for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
-        chunks[i] = str.substr(o, size);
+        chunks[i] = str.substring(o, size);
     }
     return chunks;
 }
@@ -75,22 +75,39 @@ async function paginate(message, pages, timeout = 60000) {
     if (!pages)
         throw new Error("Pages are not given.");
     let page = 0;
-    const currPage = await message.channel.send({ embeds: [pages[page].setFooter({ text: `Sayfa ${page + 1} / ${pages.length}` })], components: [row] });
-    const filter = (button) => (button.user.id === message.author.id) && (button.customId === "next" || button.customId === "prev" || button.customId === "close" || button.customId === "first" || button.customId === "last");
-    const collector = currPage.createMessageComponentCollector({ filter, time: timeout });
+    await message.reply({ embeds: [pages[page].setFooter({ text: `Sayfa ${page + 1} / ${pages.length}` })], components: [row] });
+    const currPage = await message.fetchReply();
+    const filter = (button) => (button.user.id === message.user.id) && (button.customId === "next" || button.customId === "prev" || button.customId === "close" || button.customId === "first" || button.customId === "last");
+    const collector = currPage.createMessageComponentCollector({ filter, time: timeout, componentType: ComponentType.Button });
     collector.on("collect", async (button) => {
         if (button.customId === "close")
             return collector.stop();
         if (button.customId === "prev") {
+            if (pages.length < 2) {
+                await button.reply({ content: "Sayfa yok.", ephemeral: true });
+                return;
+            }
             page = page > 0 ? --page : pages.length - 1;
         }
         else if (button.customId === "next") {
+            if (pages.length < 2) {
+                await button.reply({ content: "Sayfa yok.", ephemeral: true });
+                return;
+            }
             page = page + 1 < pages.length ? ++page : 0;
         }
         else if (button.customId === "first") {
+            if (pages.length < 2) {
+                await button.reply({ content: "Sayfa yok.", ephemeral: true });
+                return;
+            }
             page = 0;
         }
         else if (button.customId === "last") {
+            if (pages.length < 2) {
+                await button.reply({ content: "Sayfa yok.", ephemeral: true });
+                return;
+            }
             page = pages.length - 1;
         }
         await currPage.edit({ embeds: [pages[page].setFooter({ text: `Sayfa ${page + 1} / ${pages.length}` })], components: [row] });
@@ -99,5 +116,14 @@ async function paginate(message, pages, timeout = 60000) {
         await currPage.edit({ components: [] });
     });
 }
-export { log, randomRange, msToTime, chunkSubstr, sleep, paginate };
+function replaceMassString(text, replace) {
+    for (const [key, value] of Object.entries(replace)) {
+        text = text.replace(new RegExp(key, "g"), value);
+    }
+    return text;
+}
+function daysToMilliseconds(days) {
+    return days * 24 * 60 * 60 * 1000;
+}
+export { log, randomRange, msToTime, chunkSubstr, sleep, paginate, replaceMassString, daysToMilliseconds };
 //# sourceMappingURL=utils.js.map

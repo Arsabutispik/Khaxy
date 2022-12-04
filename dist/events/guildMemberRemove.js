@@ -1,29 +1,32 @@
 import modlog from "../utils/modlog.js";
-import caseResultSchema from "../schemas/caseResultSchema.js";
-import caseSchema from "../schemas/caseSchema.js";
+import { AuditLogEvent } from "discord.js";
 export default async (client, member) => {
+    const data = client.guildsConfig.get(member.guild.id);
+    if (!data)
+        return;
+    if (data.config.registerMessageClear) {
+        const welcomeChannel = member.guild.channels.cache.get(data.config.registerChannel);
+        const wmsgs = await welcomeChannel.messages.fetch();
+        await welcomeChannel.bulkDelete(wmsgs.filter(m => m.mentions.members.has(member.user.id)));
+    }
+    if (!await member.guild.channels.fetch(data.config.modlogChannel))
+        return;
     const fetchedLogs = await member.guild.fetchAuditLogs({
         limit: 1,
-        type: 'MEMBER_KICK',
+        type: AuditLogEvent.MemberKick,
     });
-    const welcomeChannel = member.guild.channels.cache.get("1011319738812604456");
-    const wmsgs = await welcomeChannel.messages.fetch();
-    welcomeChannel.bulkDelete(wmsgs.filter(m => m.mentions.members.has(member.user.id)));
     const kickLog = fetchedLogs.entries.first();
+    if (!kickLog)
+        return;
     const { executor, target, reason, createdTimestamp } = kickLog;
-    if ((Date.now() - createdTimestamp) <= 10000) {
+    if ((Date.now() - createdTimestamp) <= 5000) {
         if (executor?.id === client.user.id)
             return;
         if (target?.id !== member.user.id) {
-            modlog(member.guild, member.user, "BAN", client.user, "Sunucudan atan kişiyi bulamadım.");
+            await modlog({ guild: member.guild, user: member.user, action: "AT", actionmaker: client.user, reason: "Sunucudan atan kişiyi bulamadım." }, client);
             return;
         }
-        let cases = await caseSchema.findOne({ _id: member.guild.id });
-        if (!cases) {
-            cases = await caseSchema.findOneAndUpdate({ _id: member.guild.id }, {}, { setDefaultsOnInsert: true, new: true, upsert: true });
-        }
-        modlog(member.guild, member.user, "AT", executor, reason || "Sebep Belirtilmemiş.");
-        await new caseResultSchema({ case: cases.case, reason: reason || "Sebep Belirtilmemiş.", userId: target.id, staffId: executor.id }).save();
+        await modlog({ guild: member.guild, user: member.user, action: "AT", actionmaker: executor, reason: reason || "Sebep Belirtilmemiş." }, client);
     }
 };
 //# sourceMappingURL=guildMemberRemove.js.map

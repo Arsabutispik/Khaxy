@@ -1,13 +1,12 @@
 import { log } from "../utils/utils.js";
 import config from '../config.json' assert { type: 'json' };
+import { ChannelType } from "discord.js";
 const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 export default async (client, message) => {
     try {
-        if (message.author.bot || message.channel.type === "DM" || message.webhookId) {
+        if (message.author.bot || message.channel.type === ChannelType.DM || message.webhookId) {
             return;
         }
-        if (message.guild.id !== "778608930582036490")
-            return;
         const prefixRegex = new RegExp(`^(<@!?${client.user.id}>|${escapeRegex(config.PREFIX)})\\s*`);
         if (!prefixRegex.test(message.content))
             return;

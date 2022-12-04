@@ -1,6 +1,5 @@
 {
   "PREFIX": ">",
   "TOKEN": "MTAwNzI0NjM1OTY5NjUxNTEyNQ.Gawrb-.OM_XYjklp1vFEnfPYzxui4EXLVeP5F0lkTRN7g",
-  "MONGODB_URI": "mongodb+srv://HolyAngels:5FZDfk66X6uYrnSp@cluster0.zgi0mxn.mongodb.net/database?retryWrites=true&w=majority",
-  "MUTE_ROLE": "793458051327459359"
+  "MONGODB_URI": "mongodb+srv://HolyAngels:5FZDfk66X6uYrnSp@cluster0.zgi0mxn.mongodb.net/database?retryWrites=true&w=majority"
 }

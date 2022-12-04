@@ -1,23 +1,58 @@
-import { TextChannel } from "discord.js";
 import punishmentSchema from "../schemas/punishmentSchema.js";
-import config from "../config.json" assert { type: 'json' };
-const text = "Sunucumuza hoş geldin ey yolcu {user}\n\n- Lütfen her şeyden önce <#791742951112966194> kanalından sunucuda ne yapıp/yapmaman gerektiğine bakmanı öneririz.\n- Ardından <#792039312409493504> odasına gidip gönlünce istediğin rengi seçebilir, <#792735663258730526> odasından ise almak istediğin rollere bir göz gezdirebilirsin.\n- Ekstra bilgi almak istersen <#791986667174232075> odasını ziyaret etmeyi unutma.\n\nTekrardan hoş geldin, iyi eğlenceler dileriz!";
-export default async (_client, member) => {
-    if (member.guild.id !== "778608930582036490")
+import { replaceMassString } from "../utils/utils.js";
+export default async (client, member) => {
+    const data = client.guildsConfig.get(member.guild.id);
+    if (!data)
         return;
+    const text = replaceMassString(data.config.welcomeMessage, {
+        "{tag}": member.user.tag,
+        "{server}": member.guild.name,
+        "{memberCount}": member.guild.memberCount.toString(),
+        "{user}": `<@${member.user.id}>`,
+        "{id}": member.user.id,
+        "{name}": member.user.username
+    });
+    const registerText = replaceMassString(data.config.registerMessage, {
+        "{tag}": member.user.tag,
+        "{server}": member.guild.name,
+        "{memberCount}": member.guild.memberCount.toString(),
+        "{user}": `<@${member.user.id}>`,
+        "{id}": member.user.id,
+        "{name}": member.user.username
+    });
     const result = await punishmentSchema.findOne({ userId: member.id, type: "mute" });
-    if (result) {
-        await member.roles.add(config.MUTE_ROLE);
+    if (result && await member.guild.roles.fetch(data.config.muteRole)) {
+        try {
+            await member.roles.add(data.config.muteRole);
+        }
+        catch (e) {
+            console.log(e);
+        }
     }
-    const welcomeChannel = member.guild.channels.cache.get("1011319738812604456");
-    if (!welcomeChannel || !(welcomeChannel instanceof TextChannel)) {
+    const welcomeChannel = await member.guild.channels.fetch(data.config.welcomeChannel);
+    if (!welcomeChannel) {
         return;
     }
-    const welcomeChannel2 = member.guild.channels.cache.get("791742422488580166");
-    if (!welcomeChannel2 || !(welcomeChannel2 instanceof TextChannel)) {
+    const welcomeChannel2 = await member.guild.channels.fetch(data.config.registerChannel);
+    if (!welcomeChannel2) {
         return;
     }
-    await welcomeChannel2.send(text.replace("{user}", member.user.toString()));
-    await welcomeChannel.send(`${member.guild.name} sunucusuna hoş geldin ${member}! Biraz bekle, sabitlenmiş yazıları oku ve bir yetkili gelip seni <#1017796974780633128> kanalında kayıt edecektir. <@&791739150188937236>`);
+    try {
+        await welcomeChannel2.send(registerText);
+        await welcomeChannel.send(text);
+    }
+    catch (e) {
+        console.log(e);
+    }
+    if (data.config.registerChannel) {
+        if (member.guild.roles.cache.get(data.config.welcomeRole)) {
+            try {
+                await member.roles.add(data.config.welcomeRole);
+            }
+            catch (e) {
+                console.log(e);
+            }
+        }
+    }
 };
 //# sourceMappingURL=guildMemberAdd.js.map

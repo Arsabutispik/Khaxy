@@ -1,6 +1,6 @@
-import { Client, Collection, MessageEmbed } from "discord.js";
+import { Client, Collection, EmbedBuilder, Partials } from "discord.js";
 import config from './config.json' assert { type: 'json' };
-import { registerCommands, registerEvents } from "./utils/registery.js";
+import { registerEvents, registerSlashCommands } from "./utils/registery.js";
 import { log } from "./utils/utils.js";
 import mongoose from "mongoose";
 import checkPunishments from "./utils/checkPunishments.js";
@@ -11,11 +11,14 @@ import prettyMilliseconds from "pretty-ms";
 import deezer from "erela.js-deezer";
 import facebook from "erela.js-facebook";
 import apple from "erela.js-apple";
-const client = new Client({ intents: 32767, partials: ['MESSAGE', 'CHANNEL', 'USER', 'REACTION'] });
+import guildSchema from "./schemas/guildSchema.js";
+const client = new Client({ intents: 32767, partials: [Partials.Message, Partials.Channel, Partials.User, Partials.Reaction] });
 client.config = (await import("./botconfig.js")).default;
 (async () => {
     client.commands = new Collection();
     client.categories = new Collection();
+    client.slashCommands = new Collection();
+    client.guildsConfig = new Collection();
     const nodes = [
         {
             identifier: client.config.Lavalink.id,
@@ -79,27 +82,41 @@ client.config = (await import("./botconfig.js")).default;
 })();
 client.once("ready", async () => {
     await registerEvents(client, "../events");
-    await registerCommands(client, "../commands");
+    await registerSlashCommands(client, "../slashCommands");
     client.manager.init(client.user.id);
     log("SUCCESS", "src/events/ready.ts", "Bot başarıyla aktif edildi.");
     const messages = [
         {
-            message: `${client.users.cache.size} Kutsal ruhu gözetliyorum 👁‍🗨`, type: "WATCHING"
+            message: `${client.users.cache.size} Kutsal ruhu gözetliyorum 👁‍🗨`, type: ActivityType.Watching
         },
         {
-            message: `>yardım Tüm komutlarımı gör.`, type: "PLAYING"
+            message: `>yardım Tüm komutlarımı gör.`, type: ActivityType.Playing
         },
         {
-            message: `👑 Kutsal sunucu korumam altında.`, type: "WATCHING"
+            message: `👑 Kutsal sunucu korumam altında.`, type: ActivityType.Watching
         },
         {
-            message: ">play Kutsal müzik dinlemeye ne dersin?", type: "LISTENING"
+            message: ">play Kutsal müzik dinlemeye ne dersin?", type: ActivityType.Listening
         }
     ];
     const status = messages[Math.floor(Math.random() * messages.length)];
+    client.updateGuildConfig = async ({ guildId, config }) => {
+        try {
+            const update = await guildSchema.findOneAndUpdate({
+                guildID: guildId
+            }, config, {
+                new: true,
+                upsert: true
+            });
+            client.guildsConfig.set(guildId, update.toObject());
+        }
+        catch (e) {
+            console.log(e);
+        }
+    };
     client.user.setActivity(status.message, { type: status.type });
     setInterval(() => {
-        messages[0] = { message: `${client.users.cache.size} Kutsal ruhu gözetliyorum 👁‍🗨`, type: "WATCHING" };
+        messages[0] = { message: `${client.users.cache.size} Kutsal ruhu gözetliyorum 👁‍🗨`, type: ActivityType.Watching };
         const status = messages[Math.floor(Math.random() * messages.length)];
         client.user.setActivity(status.message, { type: status.type });
     }, 60000);
@@ -107,10 +124,10 @@ client.once("ready", async () => {
 client.on("raw", d => client.manager.updateVoiceState(d));
 process.on("uncaughtException", async (error) => {
     const owner = await client.users.fetch("903233069245419560");
-    const errorEmbed = new MessageEmbed()
+    const errorEmbed = new EmbedBuilder()
         .setTitle(`HATA! ${error.name}`)
         .setDescription(error.message)
-        .setColor("RED");
+        .setColor("Red");
     owner?.send({ embeds: [errorEmbed] });
     console.log(error);
 });
@@ -119,29 +136,38 @@ client.manager.on("nodeConnect", node => {
 });
 client.manager.on("nodeError", async (node, error) => {
     const owner = await client.users.fetch("903233069245419560");
-    const errorEmbed = new MessageEmbed()
+    const errorEmbed = new EmbedBuilder()
         .setTitle(`HATA -> Node "${node.options.identifier}! ${error.name}`)
         .setDescription(error.message)
-        .setColor("RED");
+        .setColor("Red");
     owner?.send({ embeds: [errorEmbed] });
     console.log(error);
 });
 client.manager.on("trackStart", async (player, track) => {
-    let TrackStartedEmbed = new MessageEmbed()
+    let TrackStartedEmbed = new EmbedBuilder()
         .setAuthor({ name: `Şimdi Çalıyor ♪`, iconURL: client.config.IconURL })
         .setThumbnail(player.queue.current.displayThumbnail())
         .setDescription(`[${track.title}](${track.uri})`)
-        .addField("Şarkıyı Talep Eden", `${track.requester}`, true)
-        .addField("Süre", `\`${prettyMilliseconds(track.duration, { colonNotation: true, })}\``, true)
-        .setColor("RANDOM");
-    await client.channels.cache.get(player.textChannel).send({ embeds: [TrackStartedEmbed] });
+        .addFields({
+        name: "Şarkıyı Talep Eden",
+        value: `${track.requester}`,
+        inline: true
+    }, {
+        name: "Şarkı Süresi",
+        value: `\`${prettyMilliseconds(track.duration, { colonNotation: true, })}\``,
+        inline: true
+    })
+        .setColor("Random");
+    const channel = await client.channels.fetch(player.textChannel);
+    await channel.send({ embeds: [TrackStartedEmbed] });
 });
-client.manager.on("queueEnd", (player) => {
-    let QueueEmbed = new MessageEmbed()
+client.manager.on("queueEnd", async (player) => {
+    let QueueEmbed = new EmbedBuilder()
         .setAuthor({ name: "Şarkı Listesi Bitti", iconURL: client.config.IconURL })
-        .setColor("RANDOM")
+        .setColor("Random")
         .setTimestamp();
-    client.channels.cache.get(player.textChannel).send({ embeds: [QueueEmbed] });
+    const channel = await client.channels.fetch(player.textChannel);
+    await channel.send({ embeds: [QueueEmbed] });
     if (!client.config["24/7"])
         player.destroy();
 });

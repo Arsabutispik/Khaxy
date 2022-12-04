@@ -1,22 +1,21 @@
+import { AuditLogEvent } from "discord.js";
 import modlog from "../utils/modlog.js";
-import caseResultSchema from "../schemas/caseResultSchema.js";
-import caseSchema from "../schemas/caseSchema.js";
 export default async (client, ban) => {
-    const auditLog = await ban.guild.fetchAuditLogs({ type: "MEMBER_BAN_REMOVE", limit: 1 });
+    const data = client.guildsConfig.get(ban.guild.id);
+    if (!data)
+        return;
+    if (!await ban.guild.channels.fetch(data.config.modlogChannel))
+        return;
+    const auditLog = await ban.guild.fetchAuditLogs({ type: AuditLogEvent.MemberBanRemove, limit: 1 });
     const banLog = auditLog.entries.first();
     const { executor, target, reason } = banLog;
     if ((reason === "softban") || (executor.id === client.user.id)) {
         return;
     }
     if (target?.id !== ban.user.id) {
-        modlog(ban.guild, ban.user, "BAN_KALDIR", client.user, "Yasağı kaldıran kişiyi bulamadım");
+        await modlog({ guild: ban.guild, user: ban.user, action: "BAN_KALDIR", actionmaker: client.user, reason: "Yasağı kaldıran kişiyi bulamadım" }, client);
         return;
     }
-    let cases = await caseSchema.findOne({ _id: ban.guild.id });
-    if (!cases) {
-        cases = await caseSchema.findOneAndUpdate({ _id: ban.guild.id }, {}, { setDefaultsOnInsert: true, new: true, upsert: true });
-    }
-    modlog(ban.guild, ban.user, "BAN_KALDIR", executor, reason || "Sebep Belirtilmemiş.");
-    await new caseResultSchema({ case: cases.case, reason: reason || "Sebep Belirtilmemiş.", userId: target.id, staffId: executor.id }).save();
+    await modlog({ guild: ban.guild, user: ban.user, action: "BAN_KALDIR", actionmaker: executor, reason: reason || "Sebep Belirtilmemiş." }, client);
 };
 //# sourceMappingURL=guildBanRemove.js.map
