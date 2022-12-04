@@ -625,6 +625,11 @@ async function welcomeConfig(interaction, client) {
             value: "goodbyeMessage",
             description: "Görüşürüz mesajı ayarlar.",
             emoji: "👋"
+        }, {
+            label: "Kayıt Kanalı",
+            value: "registerChannel",
+            description: "Kayıt kanalı ayarlar.",
+            emoji: "🔒"
         }
     ]);
     const row = new ActionRowBuilder()
@@ -647,6 +652,9 @@ async function welcomeConfig(interaction, client) {
                     break;
                 case "goodbyeMessage":
                     await goodbyeMessage(collector, client);
+                    break;
+                case "registerChannel":
+                    await registerMessageChannel(collector, client);
                     break;
             }
         }
@@ -1265,6 +1273,146 @@ async function goodbyeMessage(interaction, client) {
                     };
                     await client.updateGuildConfig({ guildId: interaction.guild.id, config });
                     await collector.reply({ content: "Görüşürüz mesajı ayarlandı.", ephemeral: true });
+                }
+                catch (e) {
+                    await modalcollector.reply({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
+                    console.log(e);
+                }
+            }
+        }
+        catch (e) {
+            await interaction.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
+            console.log(e);
+        }
+    }
+}
+async function registerMessageChannel(interaction, client) {
+    if (client.guildsConfig.get(interaction.guild.id).config.registerWelcomeChannel) {
+        const reject = new ButtonBuilder()
+            .setCustomId("registerMessageChannelReject")
+            .setLabel("❌| İptal")
+            .setStyle(ButtonStyle.Danger);
+        const accept = new ButtonBuilder()
+            .setCustomId("registerMessageChannelAccept")
+            .setLabel("✅| Değiştir")
+            .setStyle(ButtonStyle.Success);
+        const deleteButton = new ButtonBuilder()
+            .setCustomId("registerMessageChannelDelete")
+            .setLabel("🗑️| Sil")
+            .setStyle(ButtonStyle.Danger);
+        const row = new ActionRowBuilder()
+            .addComponents([reject, accept, deleteButton]);
+        await interaction.reply({ content: "Kayıt mesajı kanalı zaten ayarlanmış. Değiştirmek mi yoksa silmek mi istersiniz?", components: [row], ephemeral: true });
+        const msg = await interaction.fetchReply();
+        const buttonFilter = (i) => (i.customId === "registerMessageChannelReject" || i.customId === "registerMessageChannelAccept" || i.customId === "registerMessageChannelDelete") && (i.user.id === interaction.user.id);
+        try {
+            const collector = await msg.awaitMessageComponent({ filter: buttonFilter, componentType: ComponentType.Button, time: 60000 });
+            if (collector) {
+                if (collector.customId === "registerMessageChannelReject") {
+                    await collector.reply({ content: "İşlem iptal edildi.", ephemeral: true });
+                }
+                else if (collector.customId === "registerMessageChannelAccept") {
+                    const TextInput = new TextInputBuilder()
+                        .setCustomId("registerMessageChannel")
+                        .setPlaceholder("Kanal ID'si")
+                        .setRequired(true)
+                        .setLabel("Kayıt Mesajı Kanalı")
+                        .setStyle(TextInputStyle.Short);
+                    const row = new ActionRowBuilder()
+                        .addComponents([TextInput]);
+                    const modal = new ModalBuilder()
+                        .setCustomId("registerMessageChannel")
+                        .setTitle("Kayıt Mesajı Kanalı Ayarla")
+                        .addComponents([row]);
+                    const button = new ButtonBuilder()
+                        .setCustomId("registerMessageChannel")
+                        .setLabel("Kayıt Mesajı Kanalı Ayarla")
+                        .setStyle(ButtonStyle.Primary);
+                    const row2 = new ActionRowBuilder()
+                        .addComponents([button]);
+                    await interaction.reply({ content: "Kayıt mesajı kanalı ayarlamak için aşağıdaki butona tıklayınız.", components: [row2], ephemeral: true });
+                    const msg = await interaction.fetchReply();
+                    const buttonFilter = (i) => (i.customId === "registerMessageChannel") && (i.user.id === interaction.user.id);
+                    try {
+                        const modalcollector = await msg.awaitMessageComponent({ filter: buttonFilter, componentType: ComponentType.Button, time: 60000 });
+                        if (modalcollector) {
+                            await modalcollector.showModal(modal);
+                            const filter = (i) => i.customId === "registerMessageChannel" && i.user.id === interaction.user.id;
+                            try {
+                                const collector = await modalcollector.awaitModalSubmit({ filter, time: 60000 });
+                                const data = collector.fields.getTextInputValue("registerMessageChannel");
+                                const config = {
+                                    $set: {
+                                        "config.registerWelcomeChannel": data
+                                    }
+                                };
+                                await client.updateGuildConfig({ guildId: interaction.guild.id, config });
+                                await collector.reply({ content: "Kayıt mesajı kanalı ayarlandı.", ephemeral: true });
+                            }
+                            catch (e) {
+                                await modalcollector.reply({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
+                                console.log(e);
+                            }
+                        }
+                    }
+                    catch (e) {
+                        await interaction.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
+                        console.log(e);
+                    }
+                }
+                else if (collector.customId === "registerMessageChannelDelete") {
+                    const config = {
+                        $set: {
+                            "config.registerWelcomeChannel": null
+                        }
+                    };
+                    await client.updateGuildConfig({ guildId: interaction.guild.id, config });
+                    await collector.reply({ content: "Kayıt mesajı kanalı silindi.", ephemeral: true });
+                }
+            }
+        }
+        catch (e) {
+            await interaction.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
+            console.log(e);
+        }
+    }
+    else {
+        const TextInput = new TextInputBuilder()
+            .setCustomId("registerMessageChannel")
+            .setPlaceholder("Kanal ID'si")
+            .setRequired(true)
+            .setLabel("Kayıt Mesajı Kanalı")
+            .setStyle(TextInputStyle.Short);
+        const row = new ActionRowBuilder()
+            .addComponents([TextInput]);
+        const modal = new ModalBuilder()
+            .setCustomId("registerMessageChannel")
+            .setTitle("Kayıt Mesajı Kanalı Ayarla")
+            .addComponents([row]);
+        const button = new ButtonBuilder()
+            .setCustomId("registerMessageChannel")
+            .setLabel("Kayıt Mesajı Kanalı Ayarla")
+            .setStyle(ButtonStyle.Primary);
+        const row2 = new ActionRowBuilder()
+            .addComponents([button]);
+        await interaction.reply({ content: "Kayıt mesajı kanalı ayarlamak için aşağıdaki butona tıklayınız.", components: [row2], ephemeral: true });
+        const msg = await interaction.fetchReply();
+        const buttonFilter = (i) => (i.customId === "registerMessageChannel") && (i.user.id === interaction.user.id);
+        try {
+            const modalcollector = await msg.awaitMessageComponent({ filter: buttonFilter, componentType: ComponentType.Button, time: 60000 });
+            if (modalcollector) {
+                await modalcollector.showModal(modal);
+                const filter = (i) => i.customId === "registerMessageChannel" && i.user.id === interaction.user.id;
+                try {
+                    const collector = await modalcollector.awaitModalSubmit({ filter, time: 60000 });
+                    const data = collector.fields.getTextInputValue("registerMessageChannel");
+                    const config = {
+                        $set: {
+                            "config.registerWelcomeChannel": data
+                        }
+                    };
+                    await client.updateGuildConfig({ guildId: interaction.guild.id, config });
+                    await collector.reply({ content: "Kayıt mesajı kanalı ayarlandı.", ephemeral: true });
                 }
                 catch (e) {
                     await modalcollector.reply({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });

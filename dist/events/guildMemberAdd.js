@@ -33,7 +33,7 @@ export default async (client, member) => {
     if (!welcomeChannel) {
         return;
     }
-    const welcomeChannel2 = await member.guild.channels.fetch(data.config.registerChannel);
+    const welcomeChannel2 = await member.guild.channels.fetch(data.config.registerWelcomeChannel);
     if (!welcomeChannel2) {
         return;
     }
