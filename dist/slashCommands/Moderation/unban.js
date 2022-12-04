@@ -1,0 +1,38 @@
+import { EmbedBuilder, SlashCommandBuilder, PermissionsBitField } from "discord.js";
+import modlog from "../../utils/modlog.js";
+export default {
+    data: new SlashCommandBuilder()
+        .setName("unban")
+        .setDescription("Bir kullanıcının yasağını kaldırır")
+        .setDefaultMemberPermissions(PermissionsBitField.Flags.BanMembers)
+        .setDMPermission(false)
+        .addStringOption(option => option.setName("kullanıcı").setDescription("Yasağını kaldırılacak kullanıcı").setRequired(true))
+        .addStringOption(option => option.setName("sebep").setDescription("Yasağın kaldırılma sebebi")),
+    execute: async ({ interaction, client }) => {
+        const id = interaction.options.getNumber("id", true).toString();
+        const reason = interaction.options.getString("sebep", false) || "Sebep belirtilmedi";
+        const banned = await interaction.guild.bans.fetch();
+        const user = banned.get(id);
+        const data = client.guildsConfig.get(interaction.guild.id);
+        if (!interaction.member.permissions.has(PermissionsBitField.Flags.BanMembers))
+            return interaction.reply({ content: "Bu komutu kullanmak için yeterli yetkin yok.", ephemeral: true });
+        if (!user) {
+            const embed = new EmbedBuilder()
+                .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
+                .setColor("Red")
+                .setDescription("Bu kullanıcı yasaklı değil!");
+            await interaction.reply({ embeds: [embed], ephemeral: true });
+            return;
+        }
+        await interaction.guild.members.unban(user.user, reason);
+        if (interaction.guild.channels.cache.get(data.config.modlogChannel)) {
+            await modlog({ guild: interaction.guild, user: user.user, actionmaker: interaction.user, reason, action: "BAN_KALDIR" }, client);
+        }
+        const embed = new EmbedBuilder()
+            .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
+            .setColor("Green")
+            .setDescription(`${user.user.tag} adlı kullanıcının yasağı kaldırıldı!`);
+        await interaction.reply({ embeds: [embed] });
+    }
+};
+//# sourceMappingURL=unban.js.map

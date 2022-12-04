@@ -1,5 +1,4 @@
 import punishmentSchema from "../schemas/punishmentSchema.js";
-import config from "../config.json" assert { type: 'json' };
 import modlog from "./modlog.js";
 export default async (client) => {
     const check = async () => {
@@ -23,7 +22,7 @@ export default async (client) => {
                     continue;
                 }
                 await member.roles.add([...previousRoles]);
-                await member.roles.remove(config.MUTE_ROLE);
+                await member.roles.remove(client.guildsConfig.get(guildID).config.muteRole);
             }
         }
         await punishmentSchema.deleteMany(query);

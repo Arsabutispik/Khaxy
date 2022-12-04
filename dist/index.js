@@ -1,4 +1,4 @@
-import { Client, Collection, EmbedBuilder, Partials } from "discord.js";
+import { ActivityType, Client, Collection, EmbedBuilder, Partials } from "discord.js";
 import config from './config.json' assert { type: 'json' };
 import { registerEvents, registerSlashCommands } from "./utils/registery.js";
 import { log } from "./utils/utils.js";
