@@ -42,6 +42,10 @@ export default {
                 value: `Üyeleri kayıt etmeyi sağlayan roller (Admin yetkileri olanlar bunu es geçer)\n\n${guildConfig.config.staffRole?.length > 0 ? guildConfig.config.staffRole.map(role => `<@&${role}>`).join(", ") : "Ayarlanmamış"}`,
                 inline: true
             }, {
+                name: "Kayıt Mesajı Kanalı",
+                value: `Kayıt mesajı kanalı ayarlar\n\n${guildConfig.config.registerWelcomeChannel ? `<#${guildConfig.config.registerWelcomeChannel}>` : "Ayarlanmamış"}`,
+                inline: true
+            }, {
                 name: "Kayıt Mesajı",
                 value: `Kayıt kanalına atılacak mesaj (kayıt kanalı olmadan işlevsizdir)\n\n${guildConfig.config.registerMessage ? "Kayıt Mesajı Ayarlanmış." : "Ayarlanmamış"}`,
                 inline: true

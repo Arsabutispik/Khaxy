@@ -1,9 +1,22 @@
 import modlog from "../utils/modlog.js";
 import { AuditLogEvent } from "discord.js";
+import { replaceMassString } from "../utils/utils";
 export default async (client, member) => {
     const data = client.guildsConfig.get(member.guild.id);
     if (!data)
         return;
+    if (member.guild.channels.cache.get(data.config.leaveChannel)) {
+        const text = replaceMassString(data.config.leaveMessage, {
+            "{tag}": member.user.tag,
+            "{server}": member.guild.name,
+            "{memberCount}": member.guild.memberCount.toString(),
+            "{user}": `<@${member.user.id}>`,
+            "{id}": member.user.id,
+            "{name}": member.user.username
+        });
+        const leaveChannel = await member.guild.channels.fetch(data.config.leaveChannel);
+        await leaveChannel.send(text);
+    }
     if (data.config.registerMessageClear) {
         const welcomeChannel = member.guild.channels.cache.get(data.config.registerChannel);
         const wmsgs = await welcomeChannel.messages.fetch();
