@@ -1,6 +1,6 @@
 import modlog from "../utils/modlog.js";
 import { AuditLogEvent } from "discord.js";
-import { replaceMassString } from "../utils/utils";
+import { replaceMassString } from "../utils/utils.js";
 export default async (client, member) => {
     const data = client.guildsConfig.get(member.guild.id);
     if (!data)
