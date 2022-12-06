@@ -77,9 +77,16 @@ export default {
         catch {
             await interaction.reply(`<a:checkmark:1017704018287546388> **${targetMember.user.tag}** ${longduration} boyunca susturuldu (Olay #${data.case}). Kullanıcıya özel mesaj atılamadı`);
         }
-        await new Punishment({ userId: targetMember.id, staffId: interaction.user.id, reason, previousRoles: [...targetMember.roles.cache.filter(r => r.id !== interaction.guild.roles.premiumSubscriberRole?.id || r.id !== interaction.guild.roles.everyone.id).map(r => r.id)], expires: new Date(Date.now() + duration), type: "mute" }).save();
-        await targetMember.roles.remove(targetMember.roles.cache.filter(roles => interaction.guild.roles.premiumSubscriberRole?.id != roles.id).map(r => r.id));
-        await targetMember.roles.add(data.config.muteRole);
+        if (data.config.muteGetAllRoles) {
+            const filterRoles = targetMember.roles.cache.filter(role => (role.id !== interaction.guild.id) || (role.id !== interaction.guild.roles.premiumSubscriberRole?.id) || (role.position < interaction.guild.members.me.roles.highest.position)).map(role => role.id);
+            await new Punishment({ userId: targetMember.id, staffId: interaction.user.id, reason, previousRoles: filterRoles, expires: new Date(Date.now() + duration), type: "mute" }).save();
+            await targetMember.roles.remove(filterRoles);
+            await targetMember.roles.add(data.config.muteRole);
+        }
+        else {
+            await new Punishment({ userId: targetMember.id, staffId: interaction.user.id, reason, expires: new Date(Date.now() + duration), type: "mute" }).save();
+            await targetMember.roles.add(data.config.muteRole);
+        }
         if (interaction.guild.channels.cache.get(data.config.modlogChannel)) {
             await modlog({
                 guild: interaction.guild,

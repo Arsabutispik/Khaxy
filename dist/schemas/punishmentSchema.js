@@ -15,7 +15,10 @@ const schema = new Schema({
         required: true,
         enum: ["ban", "mute"]
     },
-    previousRoles: [String]
+    previousRoles: {
+        type: [String],
+        required: false
+    }
 }, {
     timestamps: true
 });

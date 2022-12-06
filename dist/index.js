@@ -1,4 +1,4 @@
-import { ActivityType, Client, Collection, EmbedBuilder, Partials } from "discord.js";
+import { ActivityType, Client, Collection, EmbedBuilder, Partials, } from "discord.js";
 import config from './config.json' assert { type: 'json' };
 import { registerEvents, registerSlashCommands } from "./utils/registery.js";
 import { log } from "./utils/utils.js";
@@ -12,7 +12,7 @@ import deezer from "erela.js-deezer";
 import facebook from "erela.js-facebook";
 import apple from "erela.js-apple";
 import guildSchema from "./schemas/guildSchema.js";
-const client = new Client({ intents: 32767, partials: [Partials.Message, Partials.Channel, Partials.User, Partials.Reaction] });
+const client = new Client({ intents: 131071, partials: [Partials.Message, Partials.Channel, Partials.User, Partials.Reaction] });
 client.config = (await import("./botconfig.js")).default;
 (async () => {
     client.commands = new Collection();
