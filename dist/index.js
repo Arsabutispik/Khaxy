@@ -90,13 +90,13 @@ client.once("ready", async () => {
             message: `${client.users.cache.size} Kutsal ruhu gözetliyorum 👁‍🗨`, type: ActivityType.Watching
         },
         {
-            message: `>yardım Tüm komutlarımı gör.`, type: ActivityType.Playing
+            message: `Artık eğik çizgi komutlarını destekliyorum!`, type: ActivityType.Playing
         },
         {
-            message: `👑 Kutsal sunucu korumam altında.`, type: ActivityType.Watching
+            message: `${client.guilds.cache.size}👑 Kutsal sunucu korumam altında.`, type: ActivityType.Watching
         },
         {
-            message: ">play Kutsal müzik dinlemeye ne dersin?", type: ActivityType.Listening
+            message: "/play Kutsal müzik dinlemeye ne dersin?", type: ActivityType.Listening
         }
     ];
     const status = messages[Math.floor(Math.random() * messages.length)];
