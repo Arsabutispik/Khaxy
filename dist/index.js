@@ -12,7 +12,7 @@ import deezer from "erela.js-deezer";
 import facebook from "erela.js-facebook";
 import apple from "erela.js-apple";
 import guildSchema from "./schemas/guildSchema.js";
-const client = new Client({ intents: 131071, partials: [Partials.Message, Partials.Channel, Partials.User, Partials.Reaction] });
+const client = new Client({ intents: 131071, partials: [Partials.Message, Partials.Channel, Partials.User, Partials.Reaction, Partials.GuildMember] });
 client.config = (await import("./botconfig.js")).default;
 (async () => {
     client.commands = new Collection();
