@@ -9,7 +9,7 @@ export default {
         .addUserOption(option => option.setName("kullanıcı").setDescription("Uyarılacak kullanıcı").setRequired(true))
         .addStringOption(option => option.setName("sebep").setDescription("Uyarı sebebi").setRequired(true)),
     execute: async ({ interaction, client }) => {
-        const user = interaction.options.getUser("üye");
+        const user = interaction.options.getUser("kullanıcı");
         const member = interaction.guild.members.cache.get(user.id);
         const data = client.guildsConfig.get(interaction.guild.id);
         if (!interaction.member.permissions.has(PermissionsBitField.Flags.ModerateMembers))
