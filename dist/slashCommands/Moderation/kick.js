@@ -11,7 +11,7 @@ export default {
         .addStringOption(option => option.setName("sebep").setDescription("Atılma sebebi").setRequired(false))
         .addStringOption(option => option.setName("temizle").setDescription("Atılan kullanıcının son 7 gündeki mesajlarını siler").addChoices({ name: "Evet", value: "evet" })),
     execute: async ({ interaction, client }) => {
-        const user = interaction.options.getUser("üye");
+        const user = interaction.options.getUser("kullanıcı");
         const targetMember = interaction.guild.members.cache.get(user.id);
         const reason = interaction.options.getString("sebep", false) || "Sebep belirtilmedi";
         const clear = interaction.options.getString("temizle", false);
