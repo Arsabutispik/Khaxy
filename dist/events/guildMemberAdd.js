@@ -1,6 +1,7 @@
 import punishmentSchema from "../schemas/punishmentSchema.js";
 import { replaceMassString } from "../utils/utils.js";
 export default async (client, member) => {
+    console.log(member)
     if(member.partial) await member.fetch()
     const data = client.guildsConfig.get(member.guild.id);
     if (!data)
