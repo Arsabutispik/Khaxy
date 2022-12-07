@@ -7,7 +7,7 @@ export default {
         .setDMPermission(false)
         .addUserOption(option => option.setName("kullanıcı").setDescription("Susturulmasını kaldırılacak kullanıcı").setRequired(true)),
     execute: async ({ interaction }) => {
-        const user = interaction.options.getUser("üye");
+        const user = interaction.options.getUser("kullanıcı");
         const member = interaction.guild.members.cache.get(user.id);
         if (!interaction.member.permissions.has(PermissionsBitField.Flags.ManageRoles))
             return interaction.reply({ content: "Bu komutu kullanmak için yeterli yetkin yok.", ephemeral: true });
