@@ -18,7 +18,7 @@ export default {
         value: "yok"
     })),
     execute: async ({ interaction, client }) => {
-        const user = interaction.options.getUser("kayıt");
+        const user = interaction.options.getUser("kullanıcı");
         const targetMember = interaction.guild.members.cache.get(user.id);
         const gender = interaction.options.getString("cinsiyet", true);
         const guildConfig = client.guildsConfig.get(interaction.guild.id);
