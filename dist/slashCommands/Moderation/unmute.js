@@ -21,6 +21,7 @@ export default {
             await member.roles.add(data.previousRoles);
         }
         await interaction.reply({ content: `${member} adlı kullanıcının susturulması kaldırıldı!`, ephemeral: true });
+        await punishmentSchema.deleteOne({ guildID: interaction.guild.id, userID: member.id, type: "mute" });
     }
 };
 //# sourceMappingURL=unmute.js.map
