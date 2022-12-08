@@ -21,8 +21,8 @@ export default async (client) => {
                 if (!member) {
                     continue;
                 }
-                if(client.guildsConfig.get(guild.id).config.muteGetAllRoles) {
-                   await member.roles.add([...previousRoles]);
+                if (client.guildsConfig.get(guildID).config.muteGetAllRoles) {
+                    await member.roles.add(previousRoles);
                 }
                 await member.roles.remove(client.guildsConfig.get(guildID).config.muteRole);
             }

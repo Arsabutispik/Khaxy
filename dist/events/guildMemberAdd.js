@@ -1,10 +1,9 @@
 import punishmentSchema from "../schemas/punishmentSchema.js";
 import { replaceMassString } from "../utils/utils.js";
 export default async (client, member) => {
-    console.log(member)
-    if(member.partial) await member.fetch()
     const data = client.guildsConfig.get(member.guild.id);
-    if (!data) return;
+    if (!data)
+        return;
     const text = replaceMassString(data.config.welcomeMessage, {
         "{tag}": member.user.tag,
         "{server}": member.guild.name,

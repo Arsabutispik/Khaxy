@@ -9,7 +9,7 @@ export default {
         .setDefaultMemberPermissions(PermissionsBitField.Flags.ManageRoles)
         .setDMPermission(false)
         .addUserOption(option => option.setName("kullanıcı").setDescription("Susturulacak kullanıcı").setRequired(true))
-        .addIntegerOption(option => option.setName("süre").setDescription("Susturulacak kullanıcının susturulma süresi").setRequired(true))
+        .addStringOption(option => option.setName("süre").setDescription("Susturulacak kullanıcının susturulma süresi").setRequired(true))
         .addStringOption(option => option.setName("vakit").setDescription("Susturulacak kullanıcının susturulma süresinin birimi").setRequired(true)
         .setChoices({ name: "Saniye", value: "s" }, { name: "Dakika", value: "m" }, { name: "Saat", value: "h" }, { name: "Gün", value: "d" }, { name: "Hafta", value: "w" }))
         .addStringOption(option => option.setName("sebep").setDescription("Susturulma sebebi").setRequired(true)),
@@ -79,12 +79,12 @@ export default {
         }
         if (data.config.muteGetAllRoles) {
             const filterRoles = targetMember.roles.cache.filter(role => (role.id !== interaction.guild.id) || (role.id !== interaction.guild.roles.premiumSubscriberRole?.id) || (role.position < interaction.guild.members.me.roles.highest.position)).map(role => role.id);
-            await new Punishment({ guildID: interaction.guild.id, userId: targetMember.id, staffId: interaction.user.id, reason, previousRoles: filterRoles, expires: new Date(Date.now() + duration), type: "mute" }).save();
+            await new Punishment({ userId: targetMember.id, staffId: interaction.user.id, reason, previousRoles: filterRoles, expires: new Date(Date.now() + duration), type: "mute" }).save();
             await targetMember.roles.remove(filterRoles);
             await targetMember.roles.add(data.config.muteRole);
         }
         else {
-            await new Punishment({guildID: interaction.guild.id, userId: targetMember.id, staffId: interaction.user.id, reason, expires: new Date(Date.now() + duration), type: "mute" }).save();
+            await new Punishment({ userId: targetMember.id, staffId: interaction.user.id, reason, expires: new Date(Date.now() + duration), type: "mute" }).save();
             await targetMember.roles.add(data.config.muteRole);
         }
         if (interaction.guild.channels.cache.get(data.config.modlogChannel)) {
