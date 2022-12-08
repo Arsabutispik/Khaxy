@@ -78,7 +78,7 @@ client.config = (await import("./botconfig.js")).default;
     catch (e) {
         log("ERROR", "src/index.ts", `Bağlanırken Hata: ${e.message}`);
     }
-    await checkPunishments(client);
+    
 })();
 client.once("ready", async () => {
     await registerEvents(client, "../events");
@@ -104,6 +104,7 @@ client.once("ready", async () => {
     for(const data of guildData){
        client.guildsConfig.set(data.guildID, data)
     }
+    await checkPunishments(client);
     client.updateGuildConfig = async ({ guildId, config }) => {
         try {
             const update = await guildSchema.findOneAndUpdate({
