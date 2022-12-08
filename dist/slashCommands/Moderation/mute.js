@@ -27,7 +27,7 @@ export default {
             await interaction.reply({ embeds: [embed], ephemeral: true });
             return;
         }
-        if (targetMember.id == interaction.user.id) {
+        if (targetMember.id === interaction.user.id) {
             const embed = new EmbedBuilder()
                 .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
                 .setColor("Red")

@@ -9,16 +9,16 @@ export default {
         .setDMPermission(false)
         .addUserOption(option => option.setName("kullanıcı").setDescription("Atılacak kullanıcı").setRequired(true))
         .addStringOption(option => option.setName("sebep").setDescription("Atılma sebebi").setRequired(false))
-        .addStringOption(option => option.setName("temizle").setDescription("Atılan kullanıcının son 7 gündeki mesajlarını siler").addChoices({ name: "Evet", value: "evet" })),
+        .addBooleanOption(option => option.setName("temizle").setDescription("Atılan kullanıcının son 7 gündeki mesajlarını siler")),
     execute: async ({ interaction, client }) => {
         const user = interaction.options.getUser("kullanıcı");
         const targetMember = interaction.guild.members.cache.get(user.id);
         const reason = interaction.options.getString("sebep", false) || "Sebep belirtilmedi";
-        const clear = interaction.options.getString("temizle", false);
+        const clear = interaction.options.getBoolean("temizle", false);
         const data = client.guildsConfig.get(interaction.guildId);
         if (!interaction.member.permissions.has(PermissionsBitField.Flags.KickMembers))
             return interaction.reply({ content: "Bu komutu kullanmak için yeterli yetkin yok.", ephemeral: true });
-        if (targetMember.id == interaction.user.id) {
+        if (targetMember.id === interaction.user.id) {
             await interaction.reply({ content: "Kendini atamazsın!", ephemeral: true });
             return;
         }
@@ -44,7 +44,7 @@ export default {
         if (interaction.guild.channels.cache.get(data.config.modlogChannel)) {
             await modlog({ guild: interaction.guild, user: targetMember.user, action: "AT", actionmaker: interaction.user, reason }, client);
         }
-        if (clear == "evet") {
+        if (clear) {
             await targetMember.ban({ reason: reason, deleteMessageDays: daysToMilliseconds(7) });
             await interaction.guild.bans.remove(targetMember.user, "softban");
             await interaction.reply({ content: "Kullanıcı başarıyla atıldı ve mesajları silindi!", ephemeral: true });

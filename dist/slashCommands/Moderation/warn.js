@@ -14,7 +14,7 @@ export default {
         const data = client.guildsConfig.get(interaction.guild.id);
         if (!interaction.member.permissions.has(PermissionsBitField.Flags.ModerateMembers))
             return interaction.reply({ content: "Bu komutu kullanmak için yeterli yetkin yok.", ephemeral: true });
-        if (member.id == interaction.user.id) {
+        if (member.id === interaction.user.id) {
             const embed = new EmbedBuilder()
                 .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
                 .setColor("Red")

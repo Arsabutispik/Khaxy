@@ -12,7 +12,7 @@ import deezer from "erela.js-deezer";
 import facebook from "erela.js-facebook";
 import apple from "erela.js-apple";
 import guildSchema from "./schemas/guildSchema.js";
-const client = new Client({ intents: 131071, partials: [Partials.Message, Partials.Channel, Partials.User, Partials.Reaction, Partials.GuildMember] });
+const client = new Client({ intents: 131071, partials: [Partials.Message, Partials.Channel, Partials.User, Partials.Reaction] });
 client.config = (await import("./botconfig.js")).default;
 (async () => {
     client.commands = new Collection();
@@ -78,12 +78,16 @@ client.config = (await import("./botconfig.js")).default;
     catch (e) {
         log("ERROR", "src/index.ts", `Bağlanırken Hata: ${e.message}`);
     }
-    
 })();
 client.once("ready", async () => {
     await registerEvents(client, "../events");
     await registerSlashCommands(client, "../slashCommands");
     client.manager.init(client.user.id);
+    const guildData = await guildSchema.find();
+    for (const data of guildData) {
+        client.guildsConfig.set(data.guildID, (await data).toJSON());
+    }
+    await checkPunishments(client);
     log("SUCCESS", "src/events/ready.ts", "Bot başarıyla aktif edildi.");
     const messages = [
         {
@@ -100,11 +104,6 @@ client.once("ready", async () => {
         }
     ];
     const status = messages[Math.floor(Math.random() * messages.length)];
-    const guildData = await guildSchema.find();
-    for(const data of guildData){
-       client.guildsConfig.set(data.guildID, data)
-    }
-    await checkPunishments(client);
     client.updateGuildConfig = async ({ guildId, config }) => {
         try {
             const update = await guildSchema.findOneAndUpdate({

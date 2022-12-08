@@ -6,7 +6,7 @@ export default {
         .setDescription("Bir kullanıcının yasağını kaldırır")
         .setDefaultMemberPermissions(PermissionsBitField.Flags.BanMembers)
         .setDMPermission(false)
-        .addStringOption(option => option.setName("kullanıcı").setDescription("Yasağını kaldırılacak kullanıcı").setRequired(true))
+        .addStringOption(option => option.setName("id").setDescription("Yasağını kaldırılacak kullanıcın ID'si").setRequired(true))
         .addStringOption(option => option.setName("sebep").setDescription("Yasağın kaldırılma sebebi")),
     execute: async ({ interaction, client }) => {
         const id = interaction.options.getNumber("id", true).toString();

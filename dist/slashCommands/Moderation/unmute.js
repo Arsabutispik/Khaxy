@@ -11,7 +11,7 @@ export default {
         const member = interaction.guild.members.cache.get(user.id);
         if (!interaction.member.permissions.has(PermissionsBitField.Flags.ManageRoles))
             return interaction.reply({ content: "Bu komutu kullanmak için yeterli yetkin yok.", ephemeral: true });
-        if (member.id == interaction.user.id) {
+        if (member.id === interaction.user.id) {
             const embed = new EmbedBuilder()
                 .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
                 .setColor("Red")
@@ -41,7 +41,6 @@ export default {
                 .setColor("Red")
                 .setDescription("Bu kullanıcının rolü benden yüksek (veya aynı) o yüzden bu kişiyi susturamam!");
             await interaction.reply({ embeds: [embed], ephemeral: true });
-            return;
         }
     }
 };
