@@ -10,6 +10,8 @@ export default async (client) => {
             const { userId, type, previousRoles, staffId, expires, createdAt, guildID } = result;
             const guild = await client.guilds.fetch(guildID);
             const member = await guild.members.fetch(userId);
+            console.log(guildID)
+            console.log(result)
             if (!member)
                 continue;
             const staff = await guild.members.fetch(staffId);
