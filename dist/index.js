@@ -100,6 +100,10 @@ client.once("ready", async () => {
         }
     ];
     const status = messages[Math.floor(Math.random() * messages.length)];
+    const guildData = await guildSchema.find();
+    for(const data of guildData){
+       client.guildsConfig.set(data.guildID, data)
+    }
     client.updateGuildConfig = async ({ guildId, config }) => {
         try {
             const update = await guildSchema.findOneAndUpdate({
