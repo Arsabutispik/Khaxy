@@ -14,7 +14,7 @@ export default {
         if (!interaction.member.permissions.has(PermissionsBitField.Flags.ManageRoles))
             return interaction.reply({ content: "Bu komutu kullanmak için yeterli yetkin yok.", ephemeral: true });
         const data = await punishmentSchema.findOne({ guildID: interaction.guild.id, userId: member.id, type: "mute" });
-        console.log(data, member.id)
+        console.log(interaction.guild.id)
         if (!data)
             return interaction.reply({ content: "Bu kullanıcı zaten susturulmamış!", ephemeral: true });
         await member.roles.remove(guildConfig.config.muteRole);
