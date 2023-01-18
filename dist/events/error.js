@@ -1,4 +1,4 @@
-import { log } from "../utils/utils";
+import { log } from "../utils/utils.js";
 import { EmbedBuilder } from "discord.js";
 export default async (client, error) => {
     log("ERROR", "events/error.ts", "Error is displayed below:");
