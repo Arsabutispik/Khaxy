@@ -8,16 +8,20 @@ export default async (client) => {
         const results = await punishmentSchema.find(query);
         for (const result of results) {
             const { userId, type, previousRoles, staffId, expires, createdAt, guildID } = result;
-            const guild = await client.guilds.fetch(guildID);
+            const guild = await client.guilds.cache.get(guildID);
+            if (!guild)
+                continue;
             const member = await guild.members.cache.get(userId);
             if (!member)
                 continue;
             const staff = await guild.members.fetch(staffId);
-            if (type == "ban") {
+            if (type === "ban") {
+                if (!guild.bans.cache.get(userId))
+                    continue;
                 await guild.members.unban(userId, "Ban süresi doldu");
                 await modlog({ guild, user: member.user, action: "BAN_SÜRESİ", actionmaker: (staff ? staff : staffId), reason: "Ban süresi doldu", duration: new Date(expires).getTime() - new Date(createdAt).getTime() }, client);
             }
-            else if (type == "mute") {
+            else if (type === "mute") {
                 if (!member) {
                     continue;
                 }

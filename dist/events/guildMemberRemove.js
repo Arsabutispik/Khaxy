@@ -18,9 +18,14 @@ export default async (client, member) => {
         await leaveChannel.send(text);
     }
     if (data.config.registerMessageClear) {
-        const welcomeChannel = member.guild.channels.cache.get(data.config.registerChannel);
-        const wmsgs = await welcomeChannel.messages.fetch();
-        await welcomeChannel.bulkDelete(wmsgs.filter(m => m.mentions.members.has(member.user.id)));
+        try {
+            const welcomeChannel = await member.guild.channels.fetch(data.config.registerChannel);
+            const wmsgs = await welcomeChannel.messages.fetch();
+            await welcomeChannel.bulkDelete(wmsgs.filter(m => m.mentions.members.has(member.user.id)));
+        }
+        catch (e) {
+            console.error(e);
+        }
     }
     if (!await member.guild.channels.fetch(data.config.modlogChannel))
         return;
