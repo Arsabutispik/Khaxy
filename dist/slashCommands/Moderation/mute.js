@@ -9,7 +9,7 @@ export default {
         .setDefaultMemberPermissions(PermissionsBitField.Flags.ManageRoles)
         .setDMPermission(false)
         .addUserOption(option => option.setName("kullanıcı").setDescription("Susturulacak kullanıcı").setRequired(true))
-        .addIntegerOption(option => option.setName("süre").setDescription("Susturulacak kullanıcının susturulma süresi").setRequired(true))
+        .addStringOption(option => option.setName("süre").setDescription("Susturulacak kullanıcının susturulma süresi").setRequired(true))
         .addStringOption(option => option.setName("vakit").setDescription("Susturulacak kullanıcının susturulma süresinin birimi").setRequired(true)
         .setChoices({ name: "Saniye", value: "s" }, { name: "Dakika", value: "m" }, { name: "Saat", value: "h" }, { name: "Gün", value: "d" }, { name: "Hafta", value: "w" }))
         .addStringOption(option => option.setName("sebep").setDescription("Susturulma sebebi").setRequired(true)),

@@ -45,7 +45,7 @@ export default {
             await modlog({ guild: interaction.guild, user: targetMember.user, action: "AT", actionmaker: interaction.user, reason }, client);
         }
         if (clear) {
-            await targetMember.ban({ reason: reason, deleteMessageSeconds: 60 * 60 * 24 * 7});
+            await targetMember.ban({ reason: reason, deleteMessageDays: daysToMilliseconds(7) });
             await interaction.guild.bans.remove(targetMember.user, "softban");
             await interaction.reply({ content: "Kullanıcı başarıyla atıldı ve mesajları silindi!", ephemeral: true });
         }
