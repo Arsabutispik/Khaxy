@@ -174,6 +174,7 @@ client.manager.on("queueEnd", async (player) => {
     setTimeout(async () => {
         if (!player.queue.current && !client.config["24/7"]) {
             await channel.send({ embeds: [QueueEmbed] });
+            await player.destroy();
         }
     }, 1000 * 60 * 5);
 });
