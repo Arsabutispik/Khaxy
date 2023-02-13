@@ -171,8 +171,10 @@ client.manager.on("queueEnd", async (player) => {
         .setColor("Random")
         .setTimestamp();
     const channel = await client.channels.fetch(player.textChannel);
-    await channel.send({ embeds: [QueueEmbed] });
-    if (!client.config["24/7"])
-        player.destroy();
+    setTimeout(async () => {
+        if (!player.queue.current && !client.config["24/7"]) {
+            await channel.send({ embeds: [QueueEmbed] });
+        }
+    }, 1000 * 60 * 5);
 });
 //# sourceMappingURL=index.js.map
