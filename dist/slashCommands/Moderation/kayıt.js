@@ -132,6 +132,7 @@ export default {
             const msgs = await interaction.channel.messages.fetch();
             await interaction.channel.bulkDelete(msgs.filter((m) => !m.pinned));
         }
+        console.log(guildConfig.config.registerMessageClear);
         if (guildConfig.config.registerMessageClear) {
             const welcomeChannel = interaction.guild.channels.cache.get(guildConfig.config.registerChannel);
             const wmsgs = await welcomeChannel.messages.fetch({ cache: true });
