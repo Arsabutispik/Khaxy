@@ -76,7 +76,7 @@ export default {
                         duration
                     }, client);
                 }
-                await new Punishment({ userId: targetMember.id, staffId: interaction.user.id, reason, expires: new Date(Date.now() + duration), type: "ban" }).save();
+                await new Punishment({ guildID: interaction.guild.id, userId: targetMember.id, staffId: interaction.user.id, reason, expires: new Date(Date.now() + duration), type: "ban" }).save();
             }
             else {
                 try {
@@ -134,7 +134,7 @@ export default {
                         duration
                     }, client);
                 }
-                await new Punishment({ userId: fetchUser.id, staffId: interaction.user.id, reason, expires: new Date(Date.now() + duration), type: "ban" }).save();
+                await new Punishment({ guildID: interaction.guild.id, userId: fetchUser.id, staffId: interaction.user.id, reason, expires: new Date(Date.now() + duration), type: "ban" }).save();
             }
             else {
                 const reason = interaction.options.getString("sebep", false) || "Sebep belirtilmedi";

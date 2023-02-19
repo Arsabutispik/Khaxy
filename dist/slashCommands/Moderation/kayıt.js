@@ -88,7 +88,7 @@ export default {
                 const embed = new EmbedBuilder()
                     .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
                     .setColor("Red")
-                    .setDescription("Erkek rolü ayarlanmamış. Lütfen önce erkek rolünü ayarlayın!");
+                    .setDescription("Kadın rolü ayarlanmamış. Lütfen önce kadın rolünü ayarlayın!");
                 await interaction.reply({ embeds: [embed], ephemeral: true });
                 return;
             }
@@ -134,8 +134,8 @@ export default {
         }
         if (guildConfig.config.registerMessageClear) {
             const welcomeChannel = interaction.guild.channels.cache.get(guildConfig.config.registerChannel);
-            const wmsgs = await welcomeChannel.messages.fetch();
-            await welcomeChannel.bulkDelete(wmsgs.filter(m => m.mentions.members.has(targetMember.id)));
+            const wmsgs = await welcomeChannel.messages.fetch({ cache: true });
+            await welcomeChannel.messages.delete(wmsgs.find((m) => m.mentions.members?.first()?.id === targetMember.id));
         }
     }
 };

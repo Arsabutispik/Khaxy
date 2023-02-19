@@ -67,7 +67,7 @@ export default {
             await interaction.reply({ embeds: [embed], ephemeral: true });
             return;
         }
-        const duration = ms(`${interaction.options.getInteger("süre", true)}${interaction.options.getString("vakit", true)}`);
+        const duration = ms(`${interaction.options.getString("süre", true)}${interaction.options.getString("vakit", true)}`);
         const reason = interaction.options.getString("sebep", false) || "Sebep belirtilmedi";
         const longduration = ms(duration, { long: true }).replace(/seconds|second/, "saniye").replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün");
         try {
@@ -79,12 +79,12 @@ export default {
         }
         if (data.config.muteGetAllRoles) {
             const filterRoles = targetMember.roles.cache.filter(role => (role.id !== interaction.guild.id) || (role.id !== interaction.guild.roles.premiumSubscriberRole?.id) || (role.position < interaction.guild.members.me.roles.highest.position)).map(role => role.id);
-            await new Punishment({ userId: targetMember.id, staffId: interaction.user.id, reason, previousRoles: filterRoles, expires: new Date(Date.now() + duration), type: "mute" }).save();
+            await new Punishment({ guildID: interaction.guild.id, userId: targetMember.id, staffId: interaction.user.id, reason, previousRoles: filterRoles, expires: new Date(Date.now() + duration), type: "mute" }).save();
             await targetMember.roles.remove(filterRoles);
             await targetMember.roles.add(data.config.muteRole);
         }
         else {
-            await new Punishment({ userId: targetMember.id, staffId: interaction.user.id, reason, expires: new Date(Date.now() + duration), type: "mute" }).save();
+            await new Punishment({ guildID: interaction.guild.id, userId: targetMember.id, staffId: interaction.user.id, reason, expires: new Date(Date.now() + duration), type: "mute" }).save();
             await targetMember.roles.add(data.config.muteRole);
         }
         if (interaction.guild.channels.cache.get(data.config.modlogChannel)) {
