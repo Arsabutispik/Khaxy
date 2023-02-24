@@ -1,4 +1,4 @@
-export default ntc = {
+export default {
     init: function () {
         var color, rgb, hsl;
         for (var i = 0; i < ntc.names.length; i++) {
@@ -1632,5 +1632,4 @@ export default ntc = {
         ["FFFFFF", "White"]
     ]
 };
-ntc.init();
 //# sourceMappingURL=ntc.js.map
