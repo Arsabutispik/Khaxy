@@ -90,6 +90,9 @@ export default {
                 value: `Üyelerin kayıt olması için kullanılacak rolü ayarlar\n\n${guildConfig.config.memberRole ? `<@&${guildConfig.config.memberRole}>` : "Ayarlanmamış"}`,
                 inline: true
             }, {
+                name: "Günün Rengi Rolü",
+                value: "Günün rengi rolü ayarlar\n\n" + (guildConfig.config.roleOfTheDay ? `<@&${guildConfig.config.roleOfTheDay}>` : "Ayarlanmamış"),
+            }, {
                 name: "Mutelenen kişinin rolleri alınsın mı?",
                 value: `Üyeler susturulduğunda geri vermek üzere alınabilen rollerini alır\n\n${guildConfig.config.muteGetAllRoles ? "Evet" : "Hayır"}`,
                 inline: true

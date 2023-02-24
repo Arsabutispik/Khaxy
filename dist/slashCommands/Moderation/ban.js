@@ -10,7 +10,7 @@ export default {
         .setDefaultMemberPermissions(PermissionsBitField.Flags.BanMembers)
         .setDMPermission(false)
         .addSubcommand(subcommand => subcommand.setName("force").setDescription("Zorla bir üyeyi yasaklar")
-        .addNumberOption(option => option.setName("id").setDescription("Yasaklanacak üyenin ID'si").setRequired(true))
+        .addStringOption(option => option.setName("id").setDescription("Yasaklanacak üyenin ID'si").setRequired(true))
         .addStringOption(option => option.setName("süre").setDescription("Yasaklanacak üyenin yasaklanma süresi").setRequired(false))
         .addStringOption(option => option.setName("vakit").setDescription("Yasaklanacak üyenin yasaklanma süresinin birimi").setRequired(false)
         .setChoices({ name: "Saniye", value: "s" }, { name: "Dakika", value: "m" }, { name: "Saat", value: "h" }, { name: "Gün", value: "d" }, { name: "Hafta", value: "w" }))
@@ -101,7 +101,7 @@ export default {
         else if (subCommand === "force") {
             let fetchUser;
             try {
-                fetchUser = await client.users.fetch(`${interaction.options.getInteger("id", true)}`);
+                fetchUser = await client.users.fetch(`${interaction.options.getString("id", true)}`);
             }
             catch {
                 const embed = new EmbedBuilder()
@@ -144,7 +144,7 @@ export default {
                     await modlog({
                         guild: interaction.guild,
                         user: fetchUser,
-                        action: "BAN",
+                        action: "ZORUNLU_BAN",
                         actionmaker: interaction.user,
                         reason
                     }, client);

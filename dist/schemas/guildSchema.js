@@ -20,7 +20,8 @@ const guildSchema = new Schema({
         staffRole: [String],
         welcomeRole: String,
         djRole: String,
-        registerWelcomeChannel: String
+        registerWelcomeChannel: String,
+        roleOfTheDay: String
     }
 }, {
     toObject: {

@@ -1686,6 +1686,12 @@ async function roleConfig(interaction, client) {
             value: "djRole",
             description: "DJ rolünü ayarlar.",
             emoji: "🎧"
+        },
+        {
+            label: "Günün Rengi Rol Ayarla",
+            value: "dayColorRole",
+            description: "Günün rengi rolünü ayarlar.",
+            emoji: "🌈"
         }
     ]);
     const row = new ActionRowBuilder()
@@ -1711,6 +1717,9 @@ async function roleConfig(interaction, client) {
                     break;
                 case "djRole":
                     await djRole(collector, client);
+                    break;
+                case "dayColorRole":
+                    await dayColorRole(collector, client);
             }
         }
     }
@@ -2497,7 +2506,7 @@ async function djRole(interaction, client) {
                         console.log(e);
                     }
                 }
-                else if (collector.customId === "muteRoleDelete") {
+                else if (collector.customId === "djRoleDelete") {
                     const config = {
                         $set: {
                             "config.djRole": null
@@ -2560,6 +2569,178 @@ async function djRole(interaction, client) {
                     };
                     await client.updateGuildConfig({ guildId: interaction.guild.id, config });
                     await collector.reply({ content: "DJ rolü ayarlandı.", ephemeral: true });
+                }
+                catch (e) {
+                    await interaction.followUp({
+                        content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true
+                    });
+                    console.log(e);
+                }
+            }
+        }
+        catch (e) {
+            await interaction.followUp({
+                content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true
+            });
+            console.log(e);
+        }
+    }
+}
+async function dayColorRole(interaction, client) {
+    if (client.guildsConfig.get(interaction.guild.id).config.roleOfTheDay) {
+        const reject = new ButtonBuilder()
+            .setCustomId("dayColorRoleReject")
+            .setLabel("❌| İptal")
+            .setStyle(ButtonStyle.Danger);
+        const accept = new ButtonBuilder()
+            .setCustomId("dayColorRoleAccept")
+            .setLabel("✅| Değiştir")
+            .setStyle(ButtonStyle.Success);
+        const deleteButton = new ButtonBuilder()
+            .setCustomId("dayColorRoleDelete")
+            .setLabel("🗑️| Sil")
+            .setStyle(ButtonStyle.Danger);
+        const row = new ActionRowBuilder()
+            .addComponents([reject, accept, deleteButton]);
+        await interaction.reply({ content: "Günün rengi rolü zaten ayarlı. Değiştirmek mi silmek mi istersiniz?", components: [row], ephemeral: true });
+        const msg = await interaction.fetchReply();
+        const filter = (i) => (i.customId === "dayColorRoleReject" || i.customId === "dayColorRoleAccept" || i.customId === "dayColorRoleDelete") && (i.user.id === interaction.user.id);
+        try {
+            const collector = await msg.awaitMessageComponent({
+                filter,
+                componentType: ComponentType.Button,
+                time: 60000
+            });
+            if (collector) {
+                if (collector.customId === "dayColorRoleReject") {
+                    await collector.reply({ content: "İşlem iptal edildi.", ephemeral: true });
+                }
+                else if (collector.customId === "dayColorRoleAccept") {
+                    const TextInput = new TextInputBuilder()
+                        .setCustomId("dayColorRole")
+                        .setPlaceholder("Günün rengi rolü")
+                        .setLabel("Günün rengi rolü")
+                        .setStyle(TextInputStyle.Short)
+                        .setRequired(true);
+                    const row = new ActionRowBuilder()
+                        .addComponents([TextInput]);
+                    const modal = new ModalBuilder()
+                        .setCustomId("dayColorRole")
+                        .setTitle("Günün rengi rolü ayarla")
+                        .addComponents([row]);
+                    const button = new ButtonBuilder()
+                        .setCustomId("dayColorRole")
+                        .setLabel("Günün rengi rolü ayarla")
+                        .setStyle(ButtonStyle.Primary);
+                    const row2 = new ActionRowBuilder()
+                        .addComponents([button]);
+                    await collector.reply({
+                        content: "Günün rengi rolünü ayarlamak için aşağıdaki butona tıklayınız.", components: [row2], ephemeral: true
+                    });
+                    const msg = await collector.fetchReply();
+                    const buttonFilter = (i) => (i.customId === "dayColorRole") && (i.user.id === interaction.user.id);
+                    try {
+                        const modalcollector = await msg.awaitMessageComponent({
+                            filter: buttonFilter,
+                            componentType: ComponentType.Button,
+                            time: 60000
+                        });
+                        if (modalcollector) {
+                            await modalcollector.showModal(modal);
+                            const filter = (i) => i.customId === "dayColorRole" && i.user.id === interaction.user.id;
+                            try {
+                                const collector = await modalcollector.awaitModalSubmit({ filter, time: 60000 });
+                                const data = collector.fields.getTextInputValue("dayColorRole");
+                                if (!interaction.guild.roles.cache.get(data)) {
+                                    await collector.reply({ content: "Rol bulunamadı", ephemeral: true });
+                                    return;
+                                }
+                                const config = {
+                                    $set: {
+                                        "config.roleOfTheDay": data
+                                    }
+                                };
+                                await client.updateGuildConfig({ guildId: interaction.guild.id, config });
+                                await collector.reply({ content: "Günün rengi rolü ayarlandı.", ephemeral: true });
+                            }
+                            catch (e) {
+                                await interaction.followUp({
+                                    content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true
+                                });
+                                console.log(e);
+                            }
+                        }
+                    }
+                    catch (e) {
+                        await interaction.followUp({
+                            content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true
+                        });
+                        console.log(e);
+                    }
+                }
+                else if (collector.customId === "dayColorRoleDelete") {
+                    const config = {
+                        $set: {
+                            "config.roleOfTheDay": null
+                        }
+                    };
+                    await client.updateGuildConfig({ guildId: interaction.guild.id, config });
+                    await collector.reply({ content: "Günün rengi rolü silindi.", ephemeral: true });
+                }
+            }
+        }
+        catch (e) {
+            await interaction.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
+            console.log(e);
+        }
+    }
+    else {
+        const TextInput = new TextInputBuilder()
+            .setCustomId("dayColorRole")
+            .setPlaceholder("Günün rengi rolü")
+            .setLabel("Günün rengi rolü")
+            .setStyle(TextInputStyle.Short)
+            .setRequired(true);
+        const row = new ActionRowBuilder()
+            .addComponents([TextInput]);
+        const modal = new ModalBuilder()
+            .setCustomId("dayColorRole")
+            .setTitle("Günün rengi rolü ayarla")
+            .addComponents([row]);
+        const button = new ButtonBuilder()
+            .setCustomId("dayColorRole")
+            .setLabel("Günün rengi rolü ayarla")
+            .setStyle(ButtonStyle.Primary);
+        const row2 = new ActionRowBuilder()
+            .addComponents([button]);
+        await interaction.reply({
+            content: "Günün rengi rolünü ayarlamak için aşağıdaki butona tıklayınız.", components: [row2], ephemeral: true
+        });
+        const msg = await interaction.fetchReply();
+        const buttonFilter = (i) => (i.customId === "dayColorRole") && (i.user.id === interaction.user.id);
+        try {
+            const modalcollector = await msg.awaitMessageComponent({
+                filter: buttonFilter,
+                componentType: ComponentType.Button,
+                time: 60000
+            });
+            if (modalcollector) {
+                await modalcollector.showModal(modal);
+                const filter = (i) => i.customId === "dayColorRole" && i.user.id === interaction.user.id;
+                try {
+                    const collector = await modalcollector.awaitModalSubmit({ filter, time: 60000 });
+                    const data = collector.fields.getTextInputValue("dayColorRole");
+                    if (!interaction.guild.roles.cache.get(data)) {
+                        await collector.reply({ content: "Rol bulunamadı", ephemeral: true });
+                        return;
+                    }
+                    const config = {
+                        $set: {
+                            "config.roleOfTheDay": data
+                        }
+                    };
+                    await client.updateGuildConfig({ guildId: interaction.guild.id, config });
+                    await collector.reply({ content: "Günün rengi rolü ayarlandı.", ephemeral: true });
                 }
                 catch (e) {
                     await interaction.followUp({
