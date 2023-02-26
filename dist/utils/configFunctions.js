@@ -1050,7 +1050,7 @@ async function goodbyeChannel(interaction, client) {
                                 }
                                 const config = {
                                     $set: {
-                                        "config.goodbyeChannel": data
+                                        "config.leaveChannel": data
                                     }
                                 };
                                 await client.updateGuildConfig({ guildId: interaction.guild.id, config });
@@ -1124,7 +1124,7 @@ async function goodbyeChannel(interaction, client) {
                     }
                     const config = {
                         $set: {
-                            "config.goodbyeChannel": data
+                            "config.leaveChannel": data
                         }
                     };
                     await client.updateGuildConfig({ guildId: interaction.guild.id, config });
@@ -1201,7 +1201,7 @@ async function goodbyeMessage(interaction, client) {
                                 const data = collector.fields.getTextInputValue("goodbyeMessage");
                                 const config = {
                                     $set: {
-                                        "config.goodbyeMessage": data
+                                        "config.leaveMessage": data
                                     }
                                 };
                                 await client.updateGuildConfig({ guildId: interaction.guild.id, config });
@@ -1221,7 +1221,7 @@ async function goodbyeMessage(interaction, client) {
                 else if (collector2.customId === "goodByeMessageDelete") {
                     const config = {
                         $set: {
-                            "config.goodbyeMessage": null
+                            "config.leaveMessage": null
                         }
                     };
                     await client.updateGuildConfig({ guildId: interaction.guild.id, config });
@@ -1268,7 +1268,7 @@ async function goodbyeMessage(interaction, client) {
                     const data = collector.fields.getTextInputValue("goodbyeMessage");
                     const config = {
                         $set: {
-                            "config.goodbyeMessage": data
+                            "config.leaveMessage": data
                         }
                     };
                     await client.updateGuildConfig({ guildId: interaction.guild.id, config });
