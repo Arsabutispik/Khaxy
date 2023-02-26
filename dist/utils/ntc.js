@@ -1,7 +1,7 @@
-var ntc = {
+const ntc = {
     init: function () {
-        var color, rgb, hsl;
-        for (var i = 0; i < ntc.names.length; i++) {
+        let color, rgb, hsl;
+        for (let i = 0; i < ntc.names.length; i++) {
             color = "#" + ntc.names[i][0];
             rgb = ntc.rgb(color);
             hsl = ntc.hsl(color);
@@ -16,15 +16,17 @@ var ntc = {
             color = "#" + color;
         if (color.length == 4)
             color = "#" + color.substr(1, 1) + color.substr(1, 1) + color.substr(2, 1) + color.substr(2, 1) + color.substr(3, 1) + color.substr(3, 1);
-        var rgb = ntc.rgb(color);
-        var r = rgb[0], g = rgb[1], b = rgb[2];
-        var hsl = ntc.hsl(color);
-        var h = hsl[0], s = hsl[1], l = hsl[2];
-        var ndf1 = 0;
+        const rgb = ntc.rgb(color);
+        const r = rgb[0], g = rgb[1], b = rgb[2];
+        const hsl = ntc.hsl(color);
+        const h = hsl[0], s = hsl[1], l = hsl[2];
+        let ndf1 = 0;
         ndf2 = 0;
         ndf = 0;
-        var cl = -1, df = -1;
-        for (var i = 0; i < ntc.names.length; i++) {
+        let cl = -1, df = -1;
+        let ndf;
+        let ndf;
+        for (let i = 0, ndf2; i < ntc.names.length; i++) {
             if (color == "#" + ntc.names[i][0])
                 return ["#" + ntc.names[i][0], ntc.names[i][1], true];
             ndf1 = Math.pow(r - ntc.names[i][2], 2) + Math.pow(g - ntc.names[i][3], 2) + Math.pow(b - ntc.names[i][4], 2);
@@ -38,9 +40,9 @@ var ntc = {
         return (cl < 0 ? ["#000000", "Invalid Color: " + color, false] : ["#" + ntc.names[cl][0], ntc.names[cl][1], false]);
     },
     hsl: function (color) {
-        var rgb = [parseInt('0x' + color.substring(1, 3)) / 255, parseInt('0x' + color.substring(3, 5)) / 255, parseInt('0x' + color.substring(5, 7)) / 255];
-        var min, max, delta, h, s, l;
-        var r = rgb[0], g = rgb[1], b = rgb[2];
+        const rgb = [parseInt('0x' + color.substring(1, 3)) / 255, parseInt('0x' + color.substring(3, 5)) / 255, parseInt('0x' + color.substring(5, 7)) / 255];
+        let min, max, delta, h, s, l;
+        const r = rgb[0], g = rgb[1], b = rgb[2];
         min = Math.min(r, Math.min(g, b));
         max = Math.max(r, Math.max(g, b));
         delta = max - min;
