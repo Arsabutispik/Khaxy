@@ -66,6 +66,7 @@ client.config = (await import("./botconfig.js")).default;
     });
     try {
         await mongoose.connect(config.MONGODB_URI);
+        await mongoose.set("strictQuery", true);
         log("SUCCESS", "src/index.ts", "Connected to the database.");
     }
     catch (e) {

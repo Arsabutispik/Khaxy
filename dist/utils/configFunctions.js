@@ -1,6 +1,6 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelType, ComponentType, EmbedBuilder, ModalBuilder, SelectMenuBuilder, TextInputBuilder, TextInputStyle } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelType, ComponentType, EmbedBuilder, ModalBuilder, SelectMenuBuilder, StringSelectMenuBuilder, TextInputBuilder, TextInputStyle } from "discord.js";
 async function registerConfig(interaction, client) {
-    const SelectMenu = new SelectMenuBuilder()
+    const SelectMenu = new StringSelectMenuBuilder()
         .setCustomId("registerConfig")
         .setPlaceholder("Ayarlar")
         .setDisabled(false)
@@ -598,7 +598,7 @@ async function registerChannelClear(interaction, client) {
     }
 }
 async function welcomeConfig(interaction, client) {
-    const select = new SelectMenuBuilder()
+    const select = new StringSelectMenuBuilder()
         .setCustomId("welcomeConfig")
         .setPlaceholder("Hoşgeldin ayarları")
         .addOptions([
@@ -1427,7 +1427,7 @@ async function registerMessageChannel(interaction, client) {
     }
 }
 async function moderationConfig(interaction, client) {
-    const SelectMenu = new SelectMenuBuilder()
+    const SelectMenu = new StringSelectMenuBuilder()
         .setCustomId("moderationConfig")
         .setPlaceholder("Moderasyon ayarları")
         .addOptions([
@@ -1653,7 +1653,7 @@ async function muteGetAllRoles(interaction, client) {
     }
 }
 async function roleConfig(interaction, client) {
-    const SelectMenu = new SelectMenuBuilder()
+    const SelectMenu = new StringSelectMenuBuilder()
         .setCustomId("roleConfig")
         .setPlaceholder("Rol ayarları")
         .addOptions([
