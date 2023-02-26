@@ -21,7 +21,8 @@ const guildSchema = new Schema({
         welcomeRole: String,
         djRole: String,
         registerWelcomeChannel: String,
-        roleOfTheDay: String
+        roleOfTheDay: String,
+        colorName: String
     }
 }, {
     toObject: {
