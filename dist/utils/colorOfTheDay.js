@@ -27,7 +27,7 @@ export default async (client) => {
                     "config.colorName": colorName
                 }
             });
-            await role.edit({ name: `${name} ${colorName}`, color: color, reason: "Role of the day!" });
+            await role.edit({ name: `${name}${colorName}`, color: color, reason: "Role of the day!" });
         }
         catch (e) {
             console.error(e);
