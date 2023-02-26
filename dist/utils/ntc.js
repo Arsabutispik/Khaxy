@@ -21,10 +21,9 @@ const ntc = {
         const hsl = ntc.hsl(color);
         const h = hsl[0], s = hsl[1], l = hsl[2];
         let ndf1 = 0;
-        ndf2 = 0;
-        ndf = 0;
+        let ndf2 = 0;
+        let ndf = 0;
         let cl = -1, df = -1;
-        let ndf;
         let ndf;
         for (let i = 0, ndf2; i < ntc.names.length; i++) {
             if (color == "#" + ntc.names[i][0])
