@@ -132,7 +132,9 @@ function runAtSpecificTimeOfDay(hour, minutes, func) {
     if (eta_ms < 0) {
         eta_ms += twentyFourHours;
     }
-    setInterval(func(), eta_ms);
+    setTimeout(function () {
+        setInterval(func, twentyFourHours);
+    }, eta_ms);
 }
 export { log, randomRange, msToTime, chunkSubstr, sleep, paginate, replaceMassString, daysToMilliseconds, runAtSpecificTimeOfDay };
 //# sourceMappingURL=utils.js.map
