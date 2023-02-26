@@ -24,7 +24,6 @@ const ntc = {
         let ndf2 = 0;
         let ndf = 0;
         let cl = -1, df = -1;
-        let ndf;
         for (let i = 0, ndf2; i < ntc.names.length; i++) {
             if (color == "#" + ntc.names[i][0])
                 return ["#" + ntc.names[i][0], ntc.names[i][1], true];
