@@ -133,7 +133,6 @@ function runAtSpecificTimeOfDay(hour, minutes, func) {
         eta_ms += twentyFourHours;
     }
     setTimeout(function () {
-        func();
         setInterval(func, twentyFourHours);
     }, eta_ms);
 }
