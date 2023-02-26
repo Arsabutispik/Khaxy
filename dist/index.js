@@ -90,7 +90,7 @@ client.once("ready", async () => {
         client.guildsConfig.set(data.guildID, (await data).toJSON());
     }
     await checkPunishments(client);
-    await runAtSpecificTimeOfDay(0, 0, colorOfTheDay(client));
+    await runAtSpecificTimeOfDay(0, 0, function () { colorOfTheDay(client); });
     log("SUCCESS", "src/events/ready.ts", "Bot başarıyla aktif edildi.");
     const messages = [
         {
