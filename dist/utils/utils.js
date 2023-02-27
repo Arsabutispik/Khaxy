@@ -133,7 +133,9 @@ function runAtSpecificTimeOfDay(hour, minutes, func) {
         eta_ms += twentyFourHours;
     }
     setTimeout(function () {
-        setInterval(func, twentyFourHours);
+        setInterval(function () {
+            func();
+        }, twentyFourHours);
     }, eta_ms);
 }
 export { log, randomRange, msToTime, chunkSubstr, sleep, paginate, replaceMassString, daysToMilliseconds, runAtSpecificTimeOfDay };
