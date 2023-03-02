@@ -1,7 +1,7 @@
 import { ActivityType, Client, Collection, EmbedBuilder, Partials, } from "discord.js";
 import config from './config.json' assert { type: 'json' };
 import { registerEvents, registerSlashCommands } from "./utils/registery.js";
-import { log, runAtSpecificTimeOfDay } from "./utils/utils.js";
+import { log } from "./utils/utils.js";
 import mongoose from "mongoose";
 import checkPunishments from "./utils/checkPunishments.js";
 import { Manager } from "erela.js";
@@ -13,6 +13,7 @@ import facebook from "erela.js-facebook";
 import apple from "erela.js-apple";
 import guildSchema from "./schemas/guildSchema.js";
 import colorOfTheDay from "./utils/colorOfTheDay.js";
+import cron from "node-cron";
 const client = new Client({ intents: 131071, partials: [Partials.Message, Partials.Channel, Partials.User, Partials.Reaction] });
 client.config = (await import("./botconfig.js")).default;
 (async () => {
@@ -90,7 +91,11 @@ client.once("ready", async () => {
         client.guildsConfig.set(data.guildID, (await data).toJSON());
     }
     await checkPunishments(client);
-    await runAtSpecificTimeOfDay(0, 0, function () { colorOfTheDay(client); });
+    cron.schedule("0 3 * * *", async () => {
+        await colorOfTheDay(client);
+    }, {
+        timezone: "Europe/Istanbul"
+    });
     log("SUCCESS", "src/events/ready.ts", "Bot başarıyla aktif edildi.");
     const messages = [
         {

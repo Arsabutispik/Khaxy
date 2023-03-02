@@ -125,18 +125,5 @@ function replaceMassString(text, replace) {
 function daysToMilliseconds(days) {
     return days * 24 * 60 * 60 * 1000;
 }
-function runAtSpecificTimeOfDay(hour, minutes, func) {
-    const twentyFourHours = 86400000;
-    const now = new Date();
-    let eta_ms = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hour, minutes, 0, 0).getTime() - now.getTime();
-    if (eta_ms < 0) {
-        eta_ms += twentyFourHours;
-    }
-    setTimeout(function () {
-        setInterval(function () {
-            func();
-        }, twentyFourHours);
-    }, eta_ms);
-}
-export { log, randomRange, msToTime, chunkSubstr, sleep, paginate, replaceMassString, daysToMilliseconds, runAtSpecificTimeOfDay };
+export { log, randomRange, msToTime, chunkSubstr, sleep, paginate, replaceMassString, daysToMilliseconds };
 //# sourceMappingURL=utils.js.map
