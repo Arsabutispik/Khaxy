@@ -91,7 +91,7 @@ client.once("ready", async () => {
         client.guildsConfig.set(data.guildID, (await data).toJSON());
     }
     await checkPunishments(client);
-    cron.schedule("0 3 * * *", async () => {
+    cron.schedule("0 0 * * *", async () => {
         await colorOfTheDay(client);
     }, {
         timezone: "Europe/Istanbul"
@@ -180,7 +180,7 @@ client.manager.on("queueEnd", async (player) => {
         .setTimestamp();
     const channel = await client.channels.fetch(player.textChannel);
     setTimeout(async () => {
-        if (!player.queue.current && !client.config["24/7"]) {
+        if (!player.queue.current && !client.config["24/7"] || !player) {
             await channel.send({ embeds: [QueueEmbed] });
             await player.destroy();
         }

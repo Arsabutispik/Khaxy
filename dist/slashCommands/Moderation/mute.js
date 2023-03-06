@@ -67,6 +67,14 @@ export default {
             await interaction.reply({ embeds: [embed], ephemeral: true });
             return;
         }
+        const alreadyMuted = await Punishment.findOne({ guildID: interaction.guild.id, userID: targetMember.id, type: "mute" });
+        if (alreadyMuted) {
+            const embed = new EmbedBuilder()
+                .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
+                .setColor("Red")
+                .setDescription("Bu kullanıcı zaten susturulmuş!");
+            await interaction.reply({ embeds: [embed], ephemeral: true });
+        }
         const duration = ms(`${interaction.options.getString("süre", true)}${interaction.options.getString("vakit", true)}`);
         const reason = interaction.options.getString("sebep", false) || "Sebep belirtilmedi";
         const longduration = ms(duration, { long: true }).replace(/seconds|second/, "saniye").replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün");
@@ -78,7 +86,7 @@ export default {
             await interaction.reply(`<a:checkmark:1017704018287546388> **${targetMember.user.tag}** ${longduration} boyunca susturuldu (Olay #${data.case}). Kullanıcıya özel mesaj atılamadı`);
         }
         if (data.config.muteGetAllRoles) {
-            const filterRoles = targetMember.roles.cache.filter(role => (role.id !== interaction.guild.id) || (role.id !== interaction.guild.roles.premiumSubscriberRole?.id) || (role.position < interaction.guild.members.me.roles.highest.position)).map(role => role.id);
+            const filterRoles = targetMember.roles.cache.filter(role => (role.id !== interaction.guild.id)).filter((role => role.id !== interaction.guild.roles.premiumSubscriberRole?.id)).filter((role => role.position < interaction.guild.members.me.roles.highest.position)).map(role => role.id);
             await new Punishment({ guildID: interaction.guild.id, userId: targetMember.id, staffId: interaction.user.id, reason, previousRoles: filterRoles, expires: new Date(Date.now() + duration), type: "mute" }).save();
             await targetMember.roles.remove(filterRoles);
             await targetMember.roles.add(data.config.muteRole);
