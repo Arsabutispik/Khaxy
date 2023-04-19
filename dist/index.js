@@ -1,4 +1,4 @@
-import { ActivityType, Client, Collection, EmbedBuilder, Partials, } from "discord.js";
+import { ActivityType, Client, Collection, EmbedBuilder, Partials, IntentsBitField } from "discord.js";
 import config from './config.json' assert { type: 'json' };
 import { registerEvents, registerSlashCommands } from "./utils/registery.js";
 import { log } from "./utils/utils.js";
@@ -14,7 +14,26 @@ import apple from "erela.js-apple";
 import guildSchema from "./schemas/guildSchema.js";
 import colorOfTheDay from "./utils/colorOfTheDay.js";
 import cron from "node-cron";
-const client = new Client({ intents: 131071, partials: [Partials.Message, Partials.Channel, Partials.User, Partials.Reaction] });
+const intents = new IntentsBitField()
+    .add([IntentsBitField.Flags.Guilds,
+    IntentsBitField.Flags.GuildMembers,
+    IntentsBitField.Flags.GuildBans,
+    IntentsBitField.Flags.GuildMessages,
+    IntentsBitField.Flags.GuildMessageReactions,
+    IntentsBitField.Flags.GuildVoiceStates,
+    IntentsBitField.Flags.GuildMessageTyping,
+    IntentsBitField.Flags.DirectMessages,
+    IntentsBitField.Flags.DirectMessageReactions,
+    IntentsBitField.Flags.DirectMessageTyping,
+    IntentsBitField.Flags.GuildPresences,
+    IntentsBitField.Flags.MessageContent,
+    IntentsBitField.Flags.GuildWebhooks,
+    IntentsBitField.Flags.GuildInvites,
+    IntentsBitField.Flags.GuildScheduledEvents,
+    IntentsBitField.Flags.GuildMessageTyping,
+    IntentsBitField.Flags.GuildIntegrations,
+    IntentsBitField.Flags.GuildEmojisAndStickers]);
+const client = new Client({ intents, partials: [Partials.Message, Partials.Channel, Partials.User, Partials.Reaction] });
 client.config = (await import("./botconfig.js")).default;
 (async () => {
     client.commands = new Collection();
@@ -66,8 +85,8 @@ client.config = (await import("./botconfig.js")).default;
         }
     });
     try {
-        await mongoose.connect(config.MONGODB_URI);
         await mongoose.set("strictQuery", true);
+        await mongoose.connect(config.MONGODB_URI);
         log("SUCCESS", "src/index.ts", "Connected to the database.");
     }
     catch (e) {
@@ -129,6 +148,7 @@ client.once("ready", async () => {
     client.user.setActivity(status.message, { type: status.type });
     setInterval(() => {
         messages[0] = { message: `${client.users.cache.size} Kutsal ruhu gözetliyorum 👁‍🗨`, type: ActivityType.Watching };
+        messages[2] = { message: `${client.guilds.cache.size}👑 Kutsal sunucu korumam altında.`, type: ActivityType.Watching };
         const status = messages[Math.floor(Math.random() * messages.length)];
         client.user.setActivity(status.message, { type: status.type });
     }, 60000);
