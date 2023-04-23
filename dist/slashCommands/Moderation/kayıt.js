@@ -22,14 +22,6 @@ export default {
         const targetMember = interaction.guild.members.cache.get(user.id);
         const gender = interaction.options.getString("cinsiyet", true);
         const guildConfig = client.guildsConfig.get(interaction.guild.id);
-        if (!interaction.member.roles.cache.hasAny(...guildConfig.config.staffRole) || !interaction.member.permissions.has(PermissionsBitField.Flags.ManageRoles)) {
-            const embed = new EmbedBuilder()
-                .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
-                .setColor("Red")
-                .setDescription("Bu komutu kullanabilmek kayıt yetkilisi olmalısınız!");
-            await interaction.reply({ embeds: [embed], ephemeral: true });
-            return;
-        }
         if (!guildConfig.config) {
             const embed = new EmbedBuilder()
                 .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
@@ -51,6 +43,14 @@ export default {
                 .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
                 .setColor("Red")
                 .setDescription("Bu komut sadece kayıt kanallarında kullanılabilir.");
+            await interaction.reply({ embeds: [embed], ephemeral: true });
+            return;
+        }
+        else if (!interaction.member.roles.cache.hasAny(...guildConfig.config.staffRole) || !interaction.member.permissions.has(PermissionsBitField.Flags.ManageRoles)) {
+            const embed = new EmbedBuilder()
+                .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
+                .setColor("Red")
+                .setDescription("Bu komutu kullanabilmek kayıt yetkilisi olmalısınız!");
             await interaction.reply({ embeds: [embed], ephemeral: true });
             return;
         }
