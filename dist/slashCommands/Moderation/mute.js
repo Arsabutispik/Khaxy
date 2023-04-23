@@ -67,13 +67,14 @@ export default {
             await interaction.reply({ embeds: [embed], ephemeral: true });
             return;
         }
-        const alreadyMuted = await Punishment.findOne({ guildID: interaction.guild.id, userID: targetMember.id, type: "mute" });
+        const alreadyMuted = await Punishment.findOne({ guildID: interaction.guild.id, userId: targetMember.id, type: "mute" });
         if (alreadyMuted) {
             const embed = new EmbedBuilder()
                 .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
                 .setColor("Red")
                 .setDescription("Bu kullanıcı zaten susturulmuş!");
             await interaction.reply({ embeds: [embed], ephemeral: true });
+            return;
         }
         const duration = ms(`${interaction.options.getString("süre", true)}${interaction.options.getString("vakit", true)}`);
         const reason = interaction.options.getString("sebep", false) || "Sebep belirtilmedi";
