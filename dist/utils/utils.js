@@ -122,8 +122,8 @@ function replaceMassString(text, replace) {
     }
     return text;
 }
-function daysToMilliseconds(days) {
-    return days * 24 * 60 * 60 * 1000;
+function daysToSeconds(days) {
+    return days * 24 * 60 * 60;
 }
-export { log, randomRange, msToTime, chunkSubstr, sleep, paginate, replaceMassString, daysToMilliseconds };
+export { log, randomRange, msToTime, chunkSubstr, sleep, paginate, replaceMassString, daysToSeconds };
 //# sourceMappingURL=utils.js.map

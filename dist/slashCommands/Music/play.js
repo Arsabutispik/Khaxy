@@ -9,12 +9,12 @@ export default {
         .setDMPermission(false),
     execute: async ({ client, interaction }) => {
         if (!interaction.member.voice.channel) {
-            await interaction.reply("|❌| **Bir sesli kanala girmek zorundasınız**");
+            await interaction.reply({ content: "|❌| **Bir sesli kanala girmek zorundasınız**", ephemeral: true });
             return;
         }
         if (interaction.guild.members.me.voice.channel &&
             interaction.member.voice.channel.id !== interaction.guild.members.me.voice.channel.id) {
-            await interaction.reply("|❌| **Bot ile aynı kanalda olmanız gerekiyor**");
+            await interaction.reply({ content: "|❌| **Bot ile aynı kanalda olmanız gerekiyor**", ephemeral: true });
             return;
         }
         let SearchString = interaction.options.getString("song", true);

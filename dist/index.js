@@ -42,7 +42,7 @@ client.config = (await import("./botconfig.js")).default;
     client.guildsConfig = new Collection();
     const nodes = [
         {
-            id: client.config.Lavalink.id,
+            identifier: client.config.Lavalink.id,
             host: client.config.Lavalink.host,
             port: client.config.Lavalink.port,
             password: client.config.Lavalink.pass,

@@ -2,7 +2,7 @@ import { EmbedBuilder, SlashCommandBuilder, PermissionsBitField } from "discord.
 import ms from "ms";
 import modlog from "../../utils/modlog.js";
 import Punishment from "../../schemas/punishmentSchema.js";
-import { daysToMilliseconds } from "../../utils/utils.js";
+import { daysToSeconds } from "../../utils/utils.js";
 export default {
     data: new SlashCommandBuilder()
         .setName("ban")
@@ -60,12 +60,12 @@ export default {
                 await targetMember.ban({ reason: reason });
                 try {
                     await targetMember.send(`${interaction.guild.name} sunucusundan **${longduration}** boyunca yasaklandın. Sebep: ${reason}`);
-                    await interaction.reply(`<a:checkmark:1017704018287546388> **${targetMember.user.tag}** yasaklandı (Olay #${data.case}) Kullanıcı özel bir mesaj ile bildirildi`);
+                    await interaction.channel.send(`<a:checkmark:1017704018287546388> **${targetMember.user.tag}** yasaklandı (Olay #${data.case}) Kullanıcı özel bir mesaj ile bildirildi`);
                 }
                 catch {
-                    await interaction.reply(`<a:checkmark:1017704018287546388> **${targetMember.user.tag}** yasaklandı (Olay #${data.case}) Kullanıcıya özel mesaj atılamadı`);
+                    await interaction.channel.send(`<a:checkmark:1017704018287546388> **${targetMember.user.tag}** yasaklandı (Olay #${data.case}) Kullanıcıya özel mesaj atılamadı`);
                 }
-                await targetMember.ban({ reason, deleteMessageDays: daysToMilliseconds(7) });
+                await targetMember.ban({ reason, deleteMessageSeconds: daysToSeconds(7) });
                 if (interaction.guild.channels.cache.get(data.config.modlogChannel)) {
                     await modlog({
                         guild: interaction.guild,
@@ -81,10 +81,10 @@ export default {
             else {
                 try {
                     await targetMember.send(`${interaction.guild.name} sunucusundan yasaklandın. Sebep: ${reason}`);
-                    await interaction.reply(`<a:checkmark:1017704018287546388> **${targetMember.user.tag}** yasaklandı (Olay #${data.case}) Kullanıcı özel bir mesaj ile bildirildi`);
+                    await interaction.channel.send(`<a:checkmark:1017704018287546388> **${targetMember.user.tag}** yasaklandı (Olay #${data.case}) Kullanıcı özel bir mesaj ile bildirildi`);
                 }
                 catch {
-                    await interaction.reply(`<a:checkmark:1017704018287546388> **${targetMember.user.tag}** yasaklandı (Olay #${data.case}) Kullanıcıya özel mesaj atılamadı`);
+                    await interaction.channel.send(`<a:checkmark:1017704018287546388> **${targetMember.user.tag}** yasaklandı (Olay #${data.case}) Kullanıcıya özel mesaj atılamadı`);
                 }
                 if (interaction.guild.channels.cache.get(data.config.modlogChannel)) {
                     await modlog({
@@ -122,7 +122,7 @@ export default {
             if (interaction.options.getString("süre", false)) {
                 const duration = ms(`${interaction.options.getString("süre", true) || "0"}${interaction.options.getString("vakit", true) || "s"}`);
                 const reason = interaction.options.getString("sebep", false) || "Sebep belirtilmedi";
-                await interaction.reply(`<a:checkmark:1017704018287546388> **${fetchUser.tag}** yasaklandı (Olay #${data.case})`);
+                await interaction.channel.send(`<a:checkmark:1017704018287546388> **${fetchUser.tag}** yasaklandı (Olay #${data.case})`);
                 await interaction.guild.bans.create(fetchUser.id);
                 if (interaction.guild.channels.cache.get(data.config.modlogChannel)) {
                     await modlog({
@@ -138,7 +138,7 @@ export default {
             }
             else {
                 const reason = interaction.options.getString("sebep", false) || "Sebep belirtilmedi";
-                await interaction.reply(`<a:checkmark:1017704018287546388> **${fetchUser.tag}** yasaklandı (Olay #${data.case})`);
+                await interaction.channel.send(`<a:checkmark:1017704018287546388> **${fetchUser.tag}** yasaklandı (Olay #${data.case})`);
                 await interaction.guild.bans.create(fetchUser.id);
                 if (interaction.guild.channels.cache.get(data.config.modlogChannel)) {
                     await modlog({

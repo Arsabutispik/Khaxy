@@ -2,11 +2,11 @@ export default {
     IconURL: "https://cdn.discordapp.com/attachments/933095626844037224/1016257179872923708/music-disc.gif",
     Lavalink: {
         id: "Main",
-        host: "narco.buses.rocks",
-        port: 2269,
-        pass: "glasshost1984",
-        secure: false,
-        retryAmount: 200,
+        host: "lavalink.lexnet.cc",
+        port: 443,
+        pass: "lexn3tl@val!nk",
+        secure: true,
+        retryAmount: 50,
         retryDelay: 40,
     },
     Spotify: {

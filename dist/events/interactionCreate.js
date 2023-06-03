@@ -21,7 +21,7 @@ export default async (client, interaction) => {
         if (!cmd)
             return;
         try {
-            await cmd.execute({ client: client, interaction: interaction });
+            await cmd.execute({ client, interaction });
         }
         catch (e) {
             console.log(e);
