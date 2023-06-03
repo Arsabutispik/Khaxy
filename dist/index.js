@@ -121,7 +121,7 @@ client.once("ready", async () => {
             message: `${client.users.cache.size} Kutsal ruhu gözetliyorum 👁‍🗨`, type: ActivityType.Watching
         },
         {
-            message: `Artık eğik çizgi komutlarını destekliyorum!`, type: ActivityType.Playing
+            message: `/invite beni sunucuna davet et veya destek sunucumuza katıl.`, type: ActivityType.Playing
         },
         {
             message: `${client.guilds.cache.size}👑 Kutsal sunucu korumam altında.`, type: ActivityType.Watching

@@ -125,5 +125,23 @@ function replaceMassString(text, replace) {
 function daysToSeconds(days) {
     return days * 24 * 60 * 60;
 }
-export { log, randomRange, msToTime, chunkSubstr, sleep, paginate, replaceMassString, daysToSeconds };
+const arrayShuffle = function (array) {
+    for (let i = 0, length = array.length, swap = 0, temp = ''; i < length; i++) {
+        swap = Math.floor(Math.random() * (i + 1));
+        temp = array[swap];
+        array[swap] = array[i];
+        array[i] = temp;
+    }
+    return array;
+};
+const percentageChance = function (values, chances) {
+    let pool = [];
+    for (let i = 0; i < chances.length; i++) {
+        for (let i2 = 0; i2 < chances[i]; i2++) {
+            pool.push(i);
+        }
+    }
+    return values[arrayShuffle(pool)['0']];
+};
+export { log, randomRange, msToTime, chunkSubstr, sleep, paginate, replaceMassString, daysToSeconds, percentageChance };
 //# sourceMappingURL=utils.js.map

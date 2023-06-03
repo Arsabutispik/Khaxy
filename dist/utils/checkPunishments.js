@@ -26,6 +26,10 @@ export default async (client) => {
                     continue;
                 }
                 if (client.guildsConfig.get(guildID).config.muteGetAllRoles) {
+                    previousRoles?.forEach(async (role) => {
+                        if (!member.guild.roles.cache.get(role))
+                            previousRoles?.splice(previousRoles?.indexOf(role), 1);
+                    });
                     await member.roles.add(previousRoles);
                 }
                 await member.roles.remove(client.guildsConfig.get(guildID).config.muteRole);

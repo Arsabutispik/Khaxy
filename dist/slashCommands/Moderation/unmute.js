@@ -18,6 +18,10 @@ export default {
             return interaction.reply({ content: "Bu kullanıcı zaten susturulmamış!", ephemeral: true });
         await member.roles.remove(guildConfig.config.muteRole);
         if (client.guildsConfig.get(interaction.guild.id).config.muteGetAllRoles) {
+            data.previousRoles?.forEach(async (role) => {
+                if (!member.guild.roles.cache.get(role))
+                    data.previousRoles?.splice(data.previousRoles?.indexOf(role), 1);
+            });
             await member.roles.add(data.previousRoles);
         }
         await interaction.reply({ content: `${member} adlı kullanıcının susturulması kaldırıldı!`, ephemeral: true });

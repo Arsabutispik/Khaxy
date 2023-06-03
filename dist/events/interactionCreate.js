@@ -1,5 +1,6 @@
-import { ChannelType } from "discord.js";
+import { ChannelType, EmbedBuilder } from "discord.js";
 import guildConfig from "../schemas/guildSchema.js";
+import { percentageChance } from "src/utils/utils";
 export default async (client, interaction) => {
     if (interaction.isChatInputCommand()) {
         if (interaction.channel.type === ChannelType.DM)
@@ -20,6 +21,15 @@ export default async (client, interaction) => {
         const cmd = client.slashCommands.get(interaction.commandName);
         if (!cmd)
             return;
+        const sendMessage = percentageChance(["true", "false"], [10, 90]);
+        if (sendMessage === "true") {
+            const embed = new EmbedBuilder()
+                .setColor("Random")
+                .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
+                .setDescription(`**${interaction.user.tag}** adlı kullanıcı \`${interaction.commandName}\` komutunu kullandı!`)
+                .setTimestamp();
+            interaction.channel.send({ embeds: [embed] });
+        }
         try {
             await cmd.execute({ client, interaction });
         }
