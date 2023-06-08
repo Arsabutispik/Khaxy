@@ -21,12 +21,12 @@ export default async (client, interaction) => {
         const cmd = client.slashCommands.get(interaction.commandName);
         if (!cmd)
             return;
-        const sendMessage = percentageChance(["true", "false"], [10, 90]);
+        const sendMessage = percentageChance(["true", "false"], [1, 99]);
         if (sendMessage === "true") {
             const embed = new EmbedBuilder()
                 .setColor("Random")
                 .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
-                .setDescription(`**${interaction.user.tag}** adlı kullanıcı \`${interaction.commandName}\` komutunu kullandı!`)
+                .setDescription(`Bu botu kullanmaktan memnun musunuz? /invite ile bu botu sunucunuza davet edebilirsiniz!`)
                 .setTimestamp();
             interaction.channel.send({ embeds: [embed] });
         }
