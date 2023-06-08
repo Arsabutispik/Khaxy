@@ -1,6 +1,6 @@
 import { ChannelType, EmbedBuilder } from "discord.js";
 import guildConfig from "../schemas/guildSchema.js";
-import { percentageChance } from "src/utils/utils";
+import { percentageChance } from "../utils/utils.js";
 export default async (client, interaction) => {
     if (interaction.isChatInputCommand()) {
         if (interaction.channel.type === ChannelType.DM)
