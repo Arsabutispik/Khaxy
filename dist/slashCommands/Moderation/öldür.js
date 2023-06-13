@@ -9,18 +9,18 @@ export default {
         .setDescription("Bir kullanıcıyı sunucudan yasaklamanın zevkli yolu")
         .setDefaultMemberPermissions(PermissionsBitField.Flags.BanMembers)
         .setDMPermission(false)
-        .addSubcommand(subcommand => subcommand.setName("force").setDescription("Zorla bir üyeyi yasaklar")
-        .addStringOption(option => option.setName("id").setDescription("Yasaklanacak üyenin ID'si").setRequired(true))
-        .addStringOption(option => option.setName("süre").setDescription("Yasaklanacak üyenin yasaklanma süresi").setRequired(false))
-        .addStringOption(option => option.setName("vakit").setDescription("Yasaklanacak üyenin yasaklanma süresinin birimi").setRequired(false)
+        .addSubcommand(subcommand => subcommand.setName("force").setDescription("Zorla bir üyeyi öldürür")
+        .addStringOption(option => option.setName("id").setDescription("Öldürülecek üyenin ID'si").setRequired(true))
+        .addStringOption(option => option.setName("süre").setDescription("Öldürülecek üyenin yasaklanma süresi").setRequired(false))
+        .addStringOption(option => option.setName("vakit").setDescription("Öldürülecek üyenin yasaklanma süresinin birimi").setRequired(false)
         .setChoices({ name: "Saniye", value: "s" }, { name: "Dakika", value: "m" }, { name: "Saat", value: "h" }, { name: "Gün", value: "d" }, { name: "Hafta", value: "w" }))
-        .addStringOption(option => option.setName("sebep").setDescription("Yasaklanma sebebini girin.").setRequired(false)))
-        .addSubcommand(subcommand => subcommand.setName("üye").setDescription("Bir üyeyi yasaklar")
-        .addUserOption(option => option.setName("üye").setDescription("Yasaklanacak üyenin ID'si").setRequired(true))
-        .addStringOption(option => option.setName("süre").setDescription("Yasaklanacak üyenin yasaklanma süresi").setRequired(false))
-        .addStringOption(option => option.setName("vakit").setDescription("Yasaklanacak üyenin yasaklanma süresinin birimi").setRequired(false)
+        .addStringOption(option => option.setName("sebep").setDescription("Öldürülme sebebini girin.").setRequired(false)))
+        .addSubcommand(subcommand => subcommand.setName("üye").setDescription("Bir üyeyi öldürür")
+        .addUserOption(option => option.setName("üye").setDescription("Öldürülecek üyenin ID'si").setRequired(true))
+        .addStringOption(option => option.setName("süre").setDescription("Öldürülecek üyenin yasaklanma süresi").setRequired(false))
+        .addStringOption(option => option.setName("vakit").setDescription("Öldürülecek üyenin yasaklanma süresinin birimi").setRequired(false)
         .setChoices({ name: "Saniye", value: "s" }, { name: "Dakika", value: "m" }, { name: "Saat", value: "h" }, { name: "Gün", value: "d" }, { name: "Hafta", value: "w" }))
-        .addStringOption(option => option.setName("sebep").setDescription("Yasaklanma sebebini girin.").setRequired(false))),
+        .addStringOption(option => option.setName("sebep").setDescription("Öldürülme sebebini girin.").setRequired(false))),
     execute: async ({ interaction, client }) => {
         const data = client.guildsConfig.get(interaction.guild.id);
         const subCommand = interaction.options.getSubcommand(true);
@@ -30,7 +30,7 @@ export default {
             const user = interaction.options.getUser("üye");
             const targetMember = interaction.guild.members.cache.get(user.id);
             const reason = interaction.options.getString("sebep", false) || "Sebep belirtilmedi";
-            if (targetMember.id == interaction.user.id) {
+            if (targetMember.id === interaction.user.id) {
                 await interaction.reply({ content: "Kendini öldüremezsin!", ephemeral: true });
                 return;
             }
@@ -151,7 +151,6 @@ export default {
                     }, client);
                 }
             }
-            return;
         }
     }
 };
