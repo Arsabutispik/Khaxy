@@ -139,6 +139,7 @@ client.once("ready", async () => {
                 new: true,
                 upsert: true
             });
+            client.guildsConfig.delete(guildId);
             client.guildsConfig.set(guildId, update.toObject());
         }
         catch (e) {
