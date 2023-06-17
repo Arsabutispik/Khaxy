@@ -736,7 +736,7 @@ async function welcomeChannel(interaction, client) {
                             await collector.reply({ content: "Hoşgeldin kanalı ayarlandı.", ephemeral: true });
                         }
                         catch (e) {
-                            await modalcollector.reply({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
+                            await modalcollector.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
                             console.log(e);
                         }
                     }
@@ -809,7 +809,7 @@ async function welcomeChannel(interaction, client) {
                     await collector.reply({ content: "Hoşgeldin kanalı ayarlandı.", ephemeral: true });
                 }
                 catch (e) {
-                    await modalcollector.reply({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
+                    await modalcollector.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
                     console.log(e);
                 }
             }
@@ -897,7 +897,7 @@ async function welcomeMessage(interaction, client) {
                             await collector.reply({ content: "Hoşgeldin mesajı ayarlandı.", ephemeral: true });
                         }
                         catch (e) {
-                            await modalcollector.reply({
+                            await modalcollector.followUp({
                                 content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.",
                                 ephemeral: true
                             });
@@ -969,7 +969,7 @@ async function welcomeMessage(interaction, client) {
                     await collector.reply({ content: "Hoşgeldin mesajı ayarlandı.", ephemeral: true });
                 }
                 catch (e) {
-                    await modalcollector.reply({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
+                    await modalcollector.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
                     console.log(e);
                 }
             }
@@ -1053,7 +1053,7 @@ async function goodbyeChannel(interaction, client) {
                                 await collector.reply({ content: "Görüşürüz kanalı ayarlandı.", ephemeral: true });
                             }
                             catch (e) {
-                                await modalcollector.reply({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
+                                await modalcollector.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
                                 console.log(e);
                             }
                         }
@@ -1127,7 +1127,7 @@ async function goodbyeChannel(interaction, client) {
                     await collector.reply({ content: "Görüşürüz kanalı ayarlandı.", ephemeral: true });
                 }
                 catch (e) {
-                    await modalcollector.reply({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
+                    await modalcollector.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
                     console.log(e);
                 }
             }
@@ -1204,7 +1204,7 @@ async function goodbyeMessage(interaction, client) {
                                 await collector.reply({ content: "Görüşürüz mesajı ayarlandı.", ephemeral: true });
                             }
                             catch (e) {
-                                await modalcollector.reply({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
+                                await modalcollector.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
                                 console.log(e);
                             }
                         }
@@ -1271,7 +1271,7 @@ async function goodbyeMessage(interaction, client) {
                     await collector.reply({ content: "Görüşürüz mesajı ayarlandı.", ephemeral: true });
                 }
                 catch (e) {
-                    await modalcollector.reply({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
+                    await modalcollector.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
                     console.log(e);
                 }
             }
@@ -1355,7 +1355,7 @@ async function registerMessageChannel(interaction, client) {
                                 await collector.reply({ content: "Kayıt mesajı kanalı ayarlandı.", ephemeral: true });
                             }
                             catch (e) {
-                                await modalcollector.reply({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
+                                await modalcollector.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
                                 console.log(e);
                             }
                         }
@@ -1429,7 +1429,7 @@ async function registerMessageChannel(interaction, client) {
                     await collector.reply({ content: "Kayıt mesajı kanalı ayarlandı.", ephemeral: true });
                 }
                 catch (e) {
-                    await modalcollector.reply({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
+                    await modalcollector.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
                     console.log(e);
                 }
             }
@@ -1561,7 +1561,7 @@ async function modLogChannel(interaction, client) {
                             await collector.reply({ content: "Modlog kanalı ayarlandı.", ephemeral: true });
                         }
                         catch (e) {
-                            await modalcollector.reply({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
+                            await modalcollector.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
                         }
                     }
                 }
@@ -1636,7 +1636,7 @@ async function modLogChannel(interaction, client) {
                     await collector.reply({ content: "Modlog kanalı ayarlandı.", ephemeral: true });
                 }
                 catch (e) {
-                    await modalcollector.reply({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
+                    await modalcollector.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
                 }
             }
         }
