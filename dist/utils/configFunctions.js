@@ -718,13 +718,9 @@ async function welcomeChannel(interaction, client) {
                         try {
                             const collector = await modalcollector.awaitModalSubmit({ filter, time: 60000 });
                             const data = collector.fields.getTextInputValue("welcomeChannel");
-                            const channel = interaction.guild.channels.cache.get(data);
+                            const channel = await interaction.guild.channels.fetch(data);
                             if (!channel) {
                                 await collector.reply({ content: "Böyle bir kanal bulunamadı." });
-                                return;
-                            }
-                            if (channel.type !== ChannelType.GuildText) {
-                                await collector.reply({ content: "Lütfen bir metin kanalı giriniz." });
                                 return;
                             }
                             if (channel.type !== ChannelType.GuildText) {
@@ -795,7 +791,7 @@ async function welcomeChannel(interaction, client) {
                 try {
                     const collector = await modalcollector.awaitModalSubmit({ filter, time: 60000 });
                     const data = collector.fields.getTextInputValue("welcomeChannel");
-                    const channel = interaction.guild.channels.cache.get(data);
+                    const channel = await interaction.guild.channels.fetch(data);
                     if (!channel) {
                         await collector.reply({ content: "Böyle bir kanal bulunamadı." });
                         return;
@@ -1341,6 +1337,15 @@ async function registerMessageChannel(interaction, client) {
                             try {
                                 const collector = await modalcollector.awaitModalSubmit({ filter, time: 60000 });
                                 const data = collector.fields.getTextInputValue("registerMessageChannel");
+                                const channel = await interaction.guild.channels.fetch(data);
+                                if (!channel) {
+                                    await collector.reply({ content: "Böyle bir kanal bulunamadı." });
+                                    return;
+                                }
+                                if (channel.type !== ChannelType.GuildText) {
+                                    await collector.reply({ content: "Lütfen bir metin kanalı giriniz." });
+                                    return;
+                                }
                                 const config = {
                                     $set: {
                                         "config.registerWelcomeChannel": data
@@ -1406,6 +1411,15 @@ async function registerMessageChannel(interaction, client) {
                 try {
                     const collector = await modalcollector.awaitModalSubmit({ filter, time: 60000 });
                     const data = collector.fields.getTextInputValue("registerMessageChannel");
+                    const channel = await interaction.guild.channels.fetch(data);
+                    if (!channel) {
+                        await collector.reply({ content: "Böyle bir kanal bulunamadı." });
+                        return;
+                    }
+                    if (channel.type !== ChannelType.GuildText) {
+                        await collector.reply({ content: "Lütfen bir metin kanalı giriniz." });
+                        return;
+                    }
                     const config = {
                         $set: {
                             "config.registerWelcomeChannel": data
