@@ -1,4 +1,4 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelType, ComponentType, EmbedBuilder, ModalBuilder, SelectMenuBuilder, StringSelectMenuBuilder, TextInputBuilder, TextInputStyle } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelType, ComponentType, EmbedBuilder, ModalBuilder, StringSelectMenuBuilder, TextInputBuilder, TextInputStyle, ChannelSelectMenuBuilder, RoleSelectMenuBuilder } from "discord.js";
 async function registerConfig(interaction, client) {
     const SelectMenu = new StringSelectMenuBuilder()
         .setCustomId("registerConfig")
@@ -87,57 +87,36 @@ async function registerChannel(interaction, client) {
                 await collector.reply({ content: "İşlem iptal edildi.", components: [] });
             }
             else if (collector.customId === "registerChannelAccept") {
-                const textInput = new TextInputBuilder()
+                const channelSelect = new ChannelSelectMenuBuilder()
                     .setCustomId("registerChannel")
-                    .setPlaceholder("Kayıt kanalı ID'sini giriniz.")
-                    .setRequired(true)
-                    .setStyle(TextInputStyle.Short)
-                    .setLabel("Kayıt Kanalı");
-                const row = new ActionRowBuilder()
-                    .addComponents([textInput]);
-                const modal = new ModalBuilder()
-                    .addComponents([row])
-                    .setTitle("Kayıt Kanalı")
-                    .setCustomId("registerChannel")
-                    .toJSON();
-                const button = new ButtonBuilder()
-                    .setCustomId("registerChannel")
-                    .setLabel("Kayıt Kanalı")
-                    .setStyle(ButtonStyle.Primary);
+                    .setPlaceholder("Kanal seçiniz.")
+                    .setDisabled(false)
+                    .setChannelTypes(ChannelType.GuildText);
                 const row2 = new ActionRowBuilder()
-                    .addComponents([button]);
-                await collector.reply({ content: "Yeni kayıt kanalı ayarlamak için aşağıdaki butona tıklayınız.", components: [row2], ephemeral: true });
+                    .addComponents(channelSelect);
+                await collector.reply({ content: "Yeni kayıt kanalını aşağıdan ayarlayınız", components: [row2], ephemeral: true });
                 const msg = await collector.fetchReply();
                 const filter = (i) => i.user.id === interaction.user.id;
                 try {
-                    const collectorButton = await msg.awaitMessageComponent({ filter: filter, componentType: ComponentType.Button, time: 60000 });
-                    if (collectorButton) {
-                        await collectorButton.showModal(modal);
-                        const filter = (i) => i.customId === "registerChannel" && i.user.id === interaction.user.id;
-                        try {
-                            const collector = await collectorButton.awaitModalSubmit({ filter, time: 60000 });
-                            const data = collector.fields.getTextInputValue("registerChannel");
-                            const channel = interaction.guild.channels.cache.get(data);
-                            if (!channel) {
-                                await collector.reply({ content: "Böyle bir kanal bulunamadı." });
-                                return;
-                            }
-                            if (channel.type !== ChannelType.GuildText) {
-                                await collector.reply({ content: "Lütfen bir metin kanalı giriniz." });
-                                return;
-                            }
-                            const config = {
-                                $set: {
-                                    "config.registerChannel": channel.id
-                                }
-                            };
-                            await client.updateGuildConfig({ guildId: interaction.guild.id, config });
-                            await collector.reply({ content: "Kayıt kanalı ayarlandı.", ephemeral: true });
+                    const collector = await msg.awaitMessageComponent({ filter: filter, componentType: ComponentType.ChannelSelect, time: 60000 });
+                    if (collector) {
+                        const data = collector.values[0];
+                        const channel = interaction.guild.channels.cache.get(data);
+                        if (!channel) {
+                            await collector.reply({ content: "Böyle bir kanal bulunamadı." });
+                            return;
                         }
-                        catch (e) {
-                            await collectorButton.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
-                            console.log(e);
+                        if (channel.type !== ChannelType.GuildText) {
+                            await collector.reply({ content: "Lütfen bir metin kanalı giriniz." });
+                            return;
                         }
+                        const config = {
+                            $set: {
+                                "config.registerChannel": channel.id
+                            }
+                        };
+                        await client.updateGuildConfig({ guildId: interaction.guild.id, config });
+                        await collector.reply({ content: "Kayıt kanalı ayarlandı.", ephemeral: true });
                     }
                 }
                 catch (error) {
@@ -161,62 +140,43 @@ async function registerChannel(interaction, client) {
         }
     }
     else {
-        const TextInput = new TextInputBuilder()
+        const channelSelect = new ChannelSelectMenuBuilder()
             .setCustomId("registerChannel")
-            .setPlaceholder("Kayıt kanalı ID'sini giriniz.")
-            .setRequired(true)
-            .setStyle(TextInputStyle.Short)
-            .setLabel("Kayıt Kanalı");
-        const row = new ActionRowBuilder()
-            .addComponents([TextInput]);
-        const modal = new ModalBuilder()
-            .addComponents([row])
-            .setTitle("Kayıt Kanalı")
-            .setCustomId("registerChannel")
-            .toJSON();
-        const button = new ButtonBuilder()
-            .setCustomId("registerChannel")
-            .setLabel("Kayıt Kanalı")
-            .setStyle(ButtonStyle.Primary);
+            .setPlaceholder("Kanal seçiniz.")
+            .setDisabled(false)
+            .setChannelTypes(ChannelType.GuildText);
         const row2 = new ActionRowBuilder()
-            .addComponents([button]);
-        await interaction.reply({ content: "Kayıt kanalı ayarlamak için aşağıdaki butona tıklayınız.", components: [row2], ephemeral: true });
+            .addComponents(channelSelect);
+        await interaction.reply({ content: "Yeni kayıt kanalını aşağıdan ayarlayınız", components: [row2], ephemeral: true });
         const msg = await interaction.fetchReply();
-        const buttonFilter = (i) => (i.customId === "registerChannel") && (i.user.id === interaction.user.id);
+        const filter = (i) => i.user.id === interaction.user.id;
         try {
-            const collectorButton = await msg.awaitMessageComponent({ filter: buttonFilter, componentType: ComponentType.Button, time: 60000 });
-            if (collectorButton) {
-                await collectorButton.showModal(modal);
-                const filter = (i) => i.customId === "registerChannel" && i.user.id === interaction.user.id;
-                try {
-                    const collector = await collectorButton.awaitModalSubmit({ filter, time: 60000 });
-                    const data = collector.fields.getTextInputValue("registerChannel");
-                    const channel = await interaction.guild.channels.cache.get(data);
-                    if (!channel) {
-                        await collector.reply({ content: "Böyle bir kanal bulunamadı." });
-                        return;
-                    }
-                    if (channel.type !== ChannelType.GuildText) {
-                        await collector.reply({ content: "Lütfen bir metin kanalı giriniz." });
-                        return;
-                    }
-                    const config = {
-                        $set: {
-                            "config.registerChannel": channel.id
-                        }
-                    };
-                    await client.updateGuildConfig({ guildId: interaction.guild.id, config });
-                    await collector.reply({ content: "Kayıt kanalı ayarlandı.", ephemeral: true });
+            const collector = await msg.awaitMessageComponent({ filter: filter, componentType: ComponentType.ChannelSelect, time: 60000 });
+            if (collector) {
+                const data = collector.values[0];
+                const channel = interaction.guild.channels.cache.get(data);
+                if (!channel) {
+                    await collector.reply({ content: "Böyle bir kanal bulunamadı." });
+                    return;
                 }
-                catch (e) {
-                    await collectorButton.reply({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
-                    console.log(e);
+                if (channel.type !== ChannelType.GuildText) {
+                    await collector.reply({ content: "Lütfen bir metin kanalı giriniz." });
+                    return;
                 }
+                const config = {
+                    $set: {
+                        "config.registerChannel": channel.id
+                    }
+                };
+                await client.updateGuildConfig({ guildId: interaction.guild.id, config });
+                await collector.reply({ content: "Kayıt kanalı ayarlandı.", ephemeral: true });
+                channelSelect.setDisabled(true);
+                await msg.edit({ content: "Kayıt kanalı ayarlandı.", components: [row2] });
             }
         }
-        catch (e) {
-            await interaction.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
-            console.log(e);
+        catch (error) {
+            console.log(error);
+            await interaction.followUp({ content: "İşlem iptal edildi çünkü bir hata ile karşılaşıldı", ephemeral: true });
         }
     }
 }
@@ -246,57 +206,37 @@ async function staffRole(interaction, client) {
                     await collector.reply({ content: "İşlem iptal edildi.", components: [], ephemeral: true });
                 }
                 else if (collector.customId === "staffRoleAccept") {
-                    const TextInput = new TextInputBuilder()
+                    const roleSelect = new RoleSelectMenuBuilder()
                         .setCustomId("staffRole")
-                        .setPlaceholder("Kayıt sorumlusu rolü ID'si giriniz.")
-                        .setRequired(true)
-                        .setStyle(TextInputStyle.Short)
-                        .setLabel("Kayıt Sorumlusu Rolü");
-                    const row = new ActionRowBuilder()
-                        .addComponents([TextInput]);
-                    const modal = new ModalBuilder()
-                        .addComponents([row])
-                        .setTitle("Kayıt Sorumlusu Rolü")
-                        .setCustomId("staffRole")
-                        .toJSON();
-                    const button = new ButtonBuilder()
-                        .setCustomId("staffRole")
-                        .setLabel("Kayıt Sorumlusu Rolü")
-                        .setStyle(ButtonStyle.Primary);
+                        .setPlaceholder("Kayıt sorumlusu rolü seçiniz.")
+                        .setMinValues(1)
+                        .setMaxValues(25);
                     const row2 = new ActionRowBuilder()
-                        .addComponents([button]);
-                    await collector.reply({ content: "Kayıt sorumlusu rolü ayarlamak için aşağıdaki butona tıklayınız.", components: [row2], ephemeral: true });
+                        .addComponents([roleSelect]);
+                    await collector.reply({ content: "Kayıt sorumlusu rolü ayarlamak için aşağıdan uygun rollere tıklayınız.", components: [row2], ephemeral: true });
                     const msg = await collector.fetchReply();
                     const buttonFilter = (i) => (i.customId === "staffRole") && (i.user.id === interaction.user.id);
                     try {
-                        const modalcollector = await msg.awaitMessageComponent({ filter: buttonFilter, componentType: ComponentType.Button, time: 60000 });
-                        if (modalcollector) {
-                            await modalcollector.showModal(modal);
-                            const filter = (i) => i.customId === "staffRole" && i.user.id === interaction.user.id;
-                            try {
-                                const collector = await modalcollector.awaitModalSubmit({ filter, time: 60000 });
-                                const data = collector.fields.getTextInputValue("staffRole");
+                        const collector = await msg.awaitMessageComponent({ filter: buttonFilter, componentType: ComponentType.RoleSelect, time: 60000 });
+                        if (collector) {
+                            const datas = collector.values;
+                            let alreadySelected = [];
+                            let roles = [];
+                            for (const data of datas) {
                                 const role = await interaction.guild.roles.cache.get(data);
-                                if (!role) {
-                                    await collector.reply({ content: "Böyle bir rol bulunamadı." });
-                                    return;
-                                }
                                 if (client.guildsConfig.get(interaction.guild.id)?.config.staffRole.includes(role.id)) {
-                                    await collector.reply({ content: "Bu rol zaten kayıt sorumlusu rolü olarak ayarlanmış." });
-                                    return;
+                                    alreadySelected.push(role.name.replace(/(^\w|\s\w)/g, c => c.toUpperCase()));
+                                    continue;
                                 }
-                                const config = {
-                                    $push: {
-                                        "config.staffRole": role.id
-                                    }
-                                };
-                                await client.updateGuildConfig({ guildId: interaction.guild.id, config });
-                                await collector.reply({ content: "Kayıt sorumlusu rolü ayarlandı.", ephemeral: true });
+                                roles.push(role.id);
                             }
-                            catch (e) {
-                                await modalcollector.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
-                                console.log(e);
-                            }
+                            const config = {
+                                $push: {
+                                    "config.staffRole": roles
+                                }
+                            };
+                            await client.updateGuildConfig({ guildId: interaction.guild.id, config });
+                            await collector.reply({ content: `Kayıt sorumlusu rolleri ayarlandı. ${alreadySelected.length ? `\`${alreadySelected.join(", ")}\` rolleri daha önceden ayarlanmış` : ""}`, ephemeral: true });
                         }
                     }
                     catch (e) {
@@ -306,34 +246,34 @@ async function staffRole(interaction, client) {
                 }
                 else if (collector.customId === "staffRoleDelete") {
                     const embed = new EmbedBuilder()
-                        .setDescription(`Silmek için aşağıdaki rol idlerini kullanabilirsiniz. Silmek için aşağıdan seçmeniz yeterlidir`)
+                        .setDescription(`Silmek için aşağıdaki rol isimlerini kullanabilirsiniz. Silmek için aşağıdan seçmeniz yeterlidir`)
                         .setColor("Random")
                         .setTimestamp()
                         .setFooter({ text: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() });
                     const roles = client.guildsConfig.get(interaction.guild.id)?.config.staffRole;
-                    const selectMenu = new SelectMenuBuilder()
+                    const selectMenu = new StringSelectMenuBuilder()
                         .setCustomId("staffRoleDelete")
-                        .setPlaceholder("Silmek istediğiniz rolü seçiniz.")
+                        .setPlaceholder("Silmek istediğiniz rolleri seçiniz.")
                         .setMinValues(1)
-                        .setMaxValues(1);
+                        .setMaxValues(roles.length);
                     for (const role of roles) {
                         const roleData = (await interaction.guild.roles.cache.get(role));
                         selectMenu.addOptions({
-                            label: roleData.name,
+                            label: roleData.name.replace(/(^\w|\s\w)/g, c => c.toUpperCase()),
                             value: roleData.id
                         });
                     }
                     const row = new ActionRowBuilder()
                         .addComponents([selectMenu]);
-                    await collector.reply({ content: "Silmek istediğiniz rolü seçiniz.", embeds: [embed], components: [row], ephemeral: true });
+                    await collector.reply({ content: "Silmek istediğiniz rolleri seçiniz.", embeds: [embed], components: [row], ephemeral: true });
                     const msg = await collector.fetchReply();
                     const filter = (i) => (i.customId === "staffRoleDelete") && (i.user.id === interaction.user.id);
                     try {
                         const collector = await msg.awaitMessageComponent({ filter, componentType: ComponentType.SelectMenu, time: 60000 });
                         if (collector) {
-                            const data = collector.values[0];
+                            const data = collector.values;
                             const config = {
-                                $pull: {
+                                $pullAll: {
                                     "config.staffRole": data
                                 }
                             };
@@ -349,62 +289,42 @@ async function staffRole(interaction, client) {
             }
         }
         catch (e) {
-            await interaction.reply({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
+            await interaction.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
             console.log(e);
         }
     }
     else {
-        const TextInput = new TextInputBuilder()
+        const roleSelect = new RoleSelectMenuBuilder()
             .setCustomId("staffRole")
-            .setPlaceholder("Kayıt sorumlusu rolü ID'si giriniz.")
-            .setRequired(true)
-            .setStyle(TextInputStyle.Short)
-            .setLabel("Kayıt Sorumlusu Rolü");
-        const row = new ActionRowBuilder()
-            .addComponents([TextInput]);
-        const modal = new ModalBuilder()
-            .addComponents([row])
-            .setTitle("Kayıt Sorumlusu Rolü")
-            .setCustomId("staffRole")
-            .toJSON();
-        const button = new ButtonBuilder()
-            .setCustomId("staffRole")
-            .setLabel("Kayıt Sorumlusu Rolü")
-            .setStyle(ButtonStyle.Primary);
+            .setPlaceholder("Kayıt sorumlusu rolü seçiniz.")
+            .setMinValues(1)
+            .setMaxValues(25);
         const row2 = new ActionRowBuilder()
-            .addComponents([button]);
-        await interaction.reply({ content: "Kayıt sorumlusu rolü ayarlamak için aşağıdaki butona tıklayınız.", components: [row2], ephemeral: true });
+            .addComponents([roleSelect]);
+        await interaction.reply({ content: "Kayıt sorumlusu rolü ayarlamak için aşağıdan uygun rollere tıklayınız.", components: [row2], ephemeral: true });
         const msg = await interaction.fetchReply();
         const buttonFilter = (i) => (i.customId === "staffRole") && (i.user.id === interaction.user.id);
         try {
-            const modalcollector = await msg.awaitMessageComponent({ filter: buttonFilter, componentType: ComponentType.Button, time: 60000 });
-            if (modalcollector) {
-                await modalcollector.showModal(modal);
-                const filter = (i) => i.customId === "staffRole" && i.user.id === interaction.user.id;
-                try {
-                    const collector = await modalcollector.awaitModalSubmit({ filter, time: 60000 });
-                    const data = collector.fields.getTextInputValue("staffRole");
+            const collector = await msg.awaitMessageComponent({ filter: buttonFilter, componentType: ComponentType.RoleSelect, time: 60000 });
+            if (collector) {
+                const datas = collector.values;
+                let alreadySelected = [];
+                let roles = [];
+                for (const data of datas) {
                     const role = await interaction.guild.roles.cache.get(data);
-                    if (!role) {
-                        await collector.reply({ content: "Böyle bir rol bulunamadı." });
-                        return;
-                    }
                     if (client.guildsConfig.get(interaction.guild.id)?.config.staffRole.includes(role.id)) {
-                        await collector.reply({ content: "Bu rol zaten kayıt sorumlusu rolü olarak ayarlanmış." });
-                        return;
+                        alreadySelected.push(role.name.replace(/(^\w|\s\w)/g, c => c.toUpperCase()));
+                        continue;
                     }
-                    const config = {
-                        $push: {
-                            "config.staffRole": role.id
-                        }
-                    };
-                    await client.updateGuildConfig({ guildId: interaction.guild.id, config });
-                    await collector.reply({ content: "Kayıt sorumlusu rolü ayarlandı.", ephemeral: true });
+                    roles.push(role.id);
                 }
-                catch (e) {
-                    await modalcollector.reply({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
-                    console.log(e);
-                }
+                const config = {
+                    $push: {
+                        "config.staffRole": roles
+                    }
+                };
+                await client.updateGuildConfig({ guildId: interaction.guild.id, config });
+                await collector.reply({ content: `Kayıt sorumlusu rolleri ayarlandı. ${alreadySelected.length ? `\`${alreadySelected.join(", ")}\` rolleri daha önceden ayarlanmış` : ""}`, ephemeral: true });
             }
         }
         catch (e) {
@@ -689,61 +609,41 @@ async function welcomeChannel(interaction, client) {
                 await collector.reply({ content: "İşlem iptal edildi.", ephemeral: true });
             }
             else if (collector.customId === "welcomeChannelAccept") {
-                const TextInput = new TextInputBuilder()
+                const channelSelect = new ChannelSelectMenuBuilder()
                     .setCustomId("welcomeChannel")
-                    .setPlaceholder("Hoşgeldin kanalı")
-                    .setRequired(true)
-                    .setLabel("Hoşgeldin kanalı")
-                    .setStyle(TextInputStyle.Short);
-                const row = new ActionRowBuilder()
-                    .addComponents([TextInput]);
-                const modal = new ModalBuilder()
-                    .setCustomId("welcomeChannel")
-                    .setTitle("Hoşgeldin kanalı ayarla")
-                    .addComponents([row]);
-                const button = new ButtonBuilder()
-                    .setCustomId("welcomeChannel")
-                    .setLabel("Hoşgeldin kanalı ayarla")
-                    .setStyle(ButtonStyle.Primary);
+                    .setPlaceholder("Kanal seçiniz.")
+                    .setDisabled(false)
+                    .setChannelTypes(ChannelType.GuildText);
                 const row2 = new ActionRowBuilder()
-                    .addComponents([button]);
-                await collector.reply({ content: "Hoşgeldin kanalı ayarlamak için aşağıdaki butona tıklayınız.", components: [row2], ephemeral: true });
+                    .addComponents(channelSelect);
+                await collector.reply({ content: "Yeni hoşgeldin kanalını aşağıdan ayarlayınız", components: [row2], ephemeral: true });
                 const msg = await collector.fetchReply();
-                const buttonFilter = (i) => (i.customId === "welcomeChannel") && (i.user.id === interaction.user.id);
+                const filter = (i) => i.user.id === interaction.user.id;
                 try {
-                    const modalcollector = await msg.awaitMessageComponent({ filter: buttonFilter, componentType: ComponentType.Button, time: 60000 });
-                    if (modalcollector) {
-                        await modalcollector.showModal(modal);
-                        const filter = (i) => i.customId === "welcomeChannel" && i.user.id === interaction.user.id;
-                        try {
-                            const collector = await modalcollector.awaitModalSubmit({ filter, time: 60000 });
-                            const data = collector.fields.getTextInputValue("welcomeChannel");
-                            const channel = await interaction.guild.channels.fetch(data);
-                            if (!channel) {
-                                await collector.reply({ content: "Böyle bir kanal bulunamadı." });
-                                return;
-                            }
-                            if (channel.type !== ChannelType.GuildText) {
-                                await collector.reply({ content: "Lütfen bir metin kanalı giriniz." });
-                                return;
-                            }
-                            const config = {
-                                $set: {
-                                    "config.welcomeChannel": data
-                                }
-                            };
-                            await client.updateGuildConfig({ guildId: interaction.guild.id, config });
-                            await collector.reply({ content: "Hoşgeldin kanalı ayarlandı.", ephemeral: true });
+                    const collector = await msg.awaitMessageComponent({ filter: filter, componentType: ComponentType.ChannelSelect, time: 60000 });
+                    if (collector) {
+                        const data = collector.values[0];
+                        const channel = interaction.guild.channels.cache.get(data);
+                        if (!channel) {
+                            await collector.reply({ content: "Böyle bir kanal bulunamadı." });
+                            return;
                         }
-                        catch (e) {
-                            await modalcollector.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
-                            console.log(e);
+                        if (channel.type !== ChannelType.GuildText) {
+                            await collector.reply({ content: "Lütfen bir metin kanalı giriniz." });
+                            return;
                         }
+                        const config = {
+                            $set: {
+                                "config.welcomeChannel": channel.id
+                            }
+                        };
+                        await client.updateGuildConfig({ guildId: interaction.guild.id, config });
+                        await collector.reply({ content: "Hoşgeldin kanalı ayarlandı.", ephemeral: true });
                     }
                 }
-                catch (e) {
-                    await interaction.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
-                    console.log(e);
+                catch (error) {
+                    console.log(error);
+                    await interaction.followUp({ content: "İşlem iptal edildi çünkü bir hata ile karşılaşıldı", ephemeral: true });
                 }
             }
             else if (collector.customId === "welcomeChannelDelete") {
@@ -762,61 +662,41 @@ async function welcomeChannel(interaction, client) {
         }
     }
     else {
-        const TextInput = new TextInputBuilder()
+        const channelSelect = new ChannelSelectMenuBuilder()
             .setCustomId("welcomeChannel")
-            .setPlaceholder("Hoşgeldin kanalı")
-            .setRequired(true)
-            .setLabel("Hoşgeldin kanalı")
-            .setStyle(TextInputStyle.Short);
-        const row = new ActionRowBuilder()
-            .addComponents([TextInput]);
-        const modal = new ModalBuilder()
-            .setCustomId("welcomeChannel")
-            .setTitle("Hoşgeldin kanalı ayarla")
-            .addComponents([row]);
-        const button = new ButtonBuilder()
-            .setCustomId("welcomeChannel")
-            .setLabel("Hoşgeldin kanalı ayarla")
-            .setStyle(ButtonStyle.Primary);
+            .setPlaceholder("Kanal seçiniz.")
+            .setDisabled(false)
+            .setChannelTypes(ChannelType.GuildText);
         const row2 = new ActionRowBuilder()
-            .addComponents([button]);
-        await interaction.reply({ content: "Hoşgeldin kanalı ayarlamak için aşağıdaki butona tıklayınız.", components: [row2], ephemeral: true });
+            .addComponents(channelSelect);
+        await interaction.reply({ content: "Yeni hoşgeldin kanalını aşağıdan ayarlayınız", components: [row2], ephemeral: true });
         const msg = await interaction.fetchReply();
-        const buttonFilter = (i) => (i.customId === "welcomeChannel") && (i.user.id === interaction.user.id);
+        const filter = (i) => i.user.id === interaction.user.id;
         try {
-            const modalcollector = await msg.awaitMessageComponent({ filter: buttonFilter, componentType: ComponentType.Button, time: 60000 });
-            if (modalcollector) {
-                await modalcollector.showModal(modal);
-                const filter = (i) => i.customId === "welcomeChannel" && i.user.id === interaction.user.id;
-                try {
-                    const collector = await modalcollector.awaitModalSubmit({ filter, time: 60000 });
-                    const data = collector.fields.getTextInputValue("welcomeChannel");
-                    const channel = await interaction.guild.channels.fetch(data);
-                    if (!channel) {
-                        await collector.reply({ content: "Böyle bir kanal bulunamadı." });
-                        return;
-                    }
-                    if (channel.type !== ChannelType.GuildText) {
-                        await collector.reply({ content: "Lütfen bir metin kanalı giriniz." });
-                        return;
-                    }
-                    const config = {
-                        $set: {
-                            "config.welcomeChannel": data
-                        }
-                    };
-                    await client.updateGuildConfig({ guildId: interaction.guild.id, config });
-                    await collector.reply({ content: "Hoşgeldin kanalı ayarlandı.", ephemeral: true });
+            const collector = await msg.awaitMessageComponent({ filter: filter, componentType: ComponentType.ChannelSelect, time: 60000 });
+            if (collector) {
+                const data = collector.values[0];
+                const channel = interaction.guild.channels.cache.get(data);
+                if (!channel) {
+                    await collector.reply({ content: "Böyle bir kanal bulunamadı." });
+                    return;
                 }
-                catch (e) {
-                    await modalcollector.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
-                    console.log(e);
+                if (channel.type !== ChannelType.GuildText) {
+                    await collector.reply({ content: "Lütfen bir metin kanalı giriniz." });
+                    return;
                 }
+                const config = {
+                    $set: {
+                        "config.welcomeChannel": channel.id
+                    }
+                };
+                await client.updateGuildConfig({ guildId: interaction.guild.id, config });
+                await collector.reply({ content: "Hoşgeldin kanalı ayarlandı.", ephemeral: true });
             }
         }
-        catch (e) {
-            await interaction.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
-            console.log(e);
+        catch (error) {
+            console.log(error);
+            await interaction.followUp({ content: "İşlem iptal edildi çünkü bir hata ile karşılaşıldı", ephemeral: true });
         }
     }
 }
@@ -1006,61 +886,41 @@ async function goodbyeChannel(interaction, client) {
                     await collector.reply({ content: "İşlem iptal edildi.", ephemeral: true });
                 }
                 else if (collector.customId === "goodByeChannelAccept") {
-                    const TextInput = new TextInputBuilder()
-                        .setCustomId("goodbyeChannel")
-                        .setPlaceholder("Görüşürüz kanalı")
-                        .setRequired(true)
-                        .setLabel("Görüşürüz kanalı")
-                        .setStyle(TextInputStyle.Short);
-                    const row = new ActionRowBuilder()
-                        .addComponents([TextInput]);
-                    const modal = new ModalBuilder()
-                        .setCustomId("goodbyeChannel")
-                        .setTitle("Görüşürüz kanalı ayarla")
-                        .addComponents([row]);
-                    const button = new ButtonBuilder()
-                        .setCustomId("goodbyeChannel")
-                        .setLabel("Görüşürüz kanalı ayarla")
-                        .setStyle(ButtonStyle.Primary);
+                    const channelSelect = new ChannelSelectMenuBuilder()
+                        .setCustomId("goodByeChannel")
+                        .setPlaceholder("Kanal seçiniz.")
+                        .setDisabled(false)
+                        .setChannelTypes(ChannelType.GuildText);
                     const row2 = new ActionRowBuilder()
-                        .addComponents([button]);
-                    await collector.reply({ content: "Görüşürüz kanalı ayarlamak için aşağıdaki butona tıklayınız.", components: [row2], ephemeral: true });
+                        .addComponents(channelSelect);
+                    await collector.reply({ content: "Yeni görüşürüz kanalını aşağıdan ayarlayınız", components: [row2], ephemeral: true });
                     const msg = await collector.fetchReply();
-                    const buttonFilter = (i) => (i.customId === "goodbyeChannel") && (i.user.id === interaction.user.id);
+                    const filter = (i) => i.user.id === interaction.user.id;
                     try {
-                        const modalcollector = await msg.awaitMessageComponent({ filter: buttonFilter, componentType: ComponentType.Button, time: 60000 });
-                        if (modalcollector) {
-                            await modalcollector.showModal(modal);
-                            const filter = (i) => i.customId === "goodbyeChannel" && i.user.id === interaction.user.id;
-                            try {
-                                const collector = await modalcollector.awaitModalSubmit({ filter, time: 60000 });
-                                const data = collector.fields.getTextInputValue("goodbyeChannel");
-                                const channel = interaction.guild.channels.cache.get(data);
-                                if (!channel) {
-                                    await collector.reply({ content: "Böyle bir kanal bulunamadı." });
-                                    return;
-                                }
-                                if (channel.type !== ChannelType.GuildText) {
-                                    await collector.reply({ content: "Lütfen bir metin kanalı giriniz." });
-                                    return;
-                                }
-                                const config = {
-                                    $set: {
-                                        "config.leaveChannel": data
-                                    }
-                                };
-                                await client.updateGuildConfig({ guildId: interaction.guild.id, config });
-                                await collector.reply({ content: "Görüşürüz kanalı ayarlandı.", ephemeral: true });
+                        const collector = await msg.awaitMessageComponent({ filter: filter, componentType: ComponentType.ChannelSelect, time: 60000 });
+                        if (collector) {
+                            const data = collector.values[0];
+                            const channel = interaction.guild.channels.cache.get(data);
+                            if (!channel) {
+                                await collector.reply({ content: "Böyle bir kanal bulunamadı." });
+                                return;
                             }
-                            catch (e) {
-                                await modalcollector.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
-                                console.log(e);
+                            if (channel.type !== ChannelType.GuildText) {
+                                await collector.reply({ content: "Lütfen bir metin kanalı giriniz." });
+                                return;
                             }
+                            const config = {
+                                $set: {
+                                    "config.goodByeChannel": channel.id
+                                }
+                            };
+                            await client.updateGuildConfig({ guildId: interaction.guild.id, config });
+                            await collector.reply({ content: "Görüşürüz kanalı ayarlandı.", ephemeral: true });
                         }
                     }
-                    catch (e) {
-                        await interaction.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
-                        console.log(e);
+                    catch (error) {
+                        console.log(error);
+                        await interaction.followUp({ content: "İşlem iptal edildi çünkü bir hata ile karşılaşıldı", ephemeral: true });
                     }
                 }
                 else if (collector.customId === "goodByeChannelDelete") {
@@ -1080,61 +940,41 @@ async function goodbyeChannel(interaction, client) {
         }
     }
     else {
-        const TextInput = new TextInputBuilder()
-            .setCustomId("goodbyeChannel")
-            .setPlaceholder("Görüşürüz kanalı")
-            .setRequired(true)
-            .setLabel("Görüşürüz kanalı")
-            .setStyle(TextInputStyle.Short);
-        const row = new ActionRowBuilder()
-            .addComponents([TextInput]);
-        const modal = new ModalBuilder()
-            .setCustomId("goodbyeChannel")
-            .setTitle("Görüşürüz kanalı ayarla")
-            .addComponents([row]);
-        const button = new ButtonBuilder()
-            .setCustomId("goodbyeChannel")
-            .setLabel("Görüşürüz kanalı ayarla")
-            .setStyle(ButtonStyle.Primary);
+        const channelSelect = new ChannelSelectMenuBuilder()
+            .setCustomId("goodByeChannel")
+            .setPlaceholder("Kanal seçiniz.")
+            .setDisabled(false)
+            .setChannelTypes(ChannelType.GuildText);
         const row2 = new ActionRowBuilder()
-            .addComponents([button]);
-        await interaction.reply({ content: "Görüşürüz kanalı ayarlamak için aşağıdaki butona tıklayınız.", components: [row2], ephemeral: true });
+            .addComponents(channelSelect);
+        await interaction.reply({ content: "Yeni görüşürüz kanalını aşağıdan ayarlayınız", components: [row2], ephemeral: true });
         const msg = await interaction.fetchReply();
-        const buttonFilter = (i) => (i.customId === "goodbyeChannel") && (i.user.id === interaction.user.id);
+        const filter = (i) => i.user.id === interaction.user.id;
         try {
-            const modalcollector = await msg.awaitMessageComponent({ filter: buttonFilter, componentType: ComponentType.Button, time: 60000 });
-            if (modalcollector) {
-                await modalcollector.showModal(modal);
-                const filter = (i) => i.customId === "goodbyeChannel" && i.user.id === interaction.user.id;
-                try {
-                    const collector = await modalcollector.awaitModalSubmit({ filter, time: 60000 });
-                    const data = collector.fields.getTextInputValue("goodbyeChannel");
-                    const channel = interaction.guild.channels.cache.get(data);
-                    if (!channel) {
-                        await collector.reply({ content: "Böyle bir kanal bulunamadı." });
-                        return;
-                    }
-                    if (channel.type !== ChannelType.GuildText) {
-                        await collector.reply({ content: "Lütfen bir metin kanalı giriniz." });
-                        return;
-                    }
-                    const config = {
-                        $set: {
-                            "config.leaveChannel": data
-                        }
-                    };
-                    await client.updateGuildConfig({ guildId: interaction.guild.id, config });
-                    await collector.reply({ content: "Görüşürüz kanalı ayarlandı.", ephemeral: true });
+            const collector = await msg.awaitMessageComponent({ filter: filter, componentType: ComponentType.ChannelSelect, time: 60000 });
+            if (collector) {
+                const data = collector.values[0];
+                const channel = interaction.guild.channels.cache.get(data);
+                if (!channel) {
+                    await collector.reply({ content: "Böyle bir kanal bulunamadı." });
+                    return;
                 }
-                catch (e) {
-                    await modalcollector.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
-                    console.log(e);
+                if (channel.type !== ChannelType.GuildText) {
+                    await collector.reply({ content: "Lütfen bir metin kanalı giriniz." });
+                    return;
                 }
+                const config = {
+                    $set: {
+                        "config.goodByeChannel": channel.id
+                    }
+                };
+                await client.updateGuildConfig({ guildId: interaction.guild.id, config });
+                await collector.reply({ content: "Görüşürüz kanalı ayarlandı.", ephemeral: true });
             }
         }
-        catch (e) {
-            await interaction.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
-            console.log(e);
+        catch (error) {
+            console.log(error);
+            await interaction.followUp({ content: "İşlem iptal edildi çünkü bir hata ile karşılaşıldı", ephemeral: true });
         }
     }
 }
@@ -1308,61 +1148,41 @@ async function registerMessageChannel(interaction, client) {
                     await collector.reply({ content: "İşlem iptal edildi.", ephemeral: true });
                 }
                 else if (collector.customId === "registerMessageChannelAccept") {
-                    const TextInput = new TextInputBuilder()
-                        .setCustomId("registerMessageChannel")
-                        .setPlaceholder("Kanal ID'si")
-                        .setRequired(true)
-                        .setLabel("Kayıt Mesajı Kanalı")
-                        .setStyle(TextInputStyle.Short);
-                    const row = new ActionRowBuilder()
-                        .addComponents([TextInput]);
-                    const modal = new ModalBuilder()
-                        .setCustomId("registerMessageChannel")
-                        .setTitle("Kayıt Mesajı Kanalı Ayarla")
-                        .addComponents([row]);
-                    const button = new ButtonBuilder()
-                        .setCustomId("registerMessageChannel")
-                        .setLabel("Kayıt Mesajı Kanalı Ayarla")
-                        .setStyle(ButtonStyle.Primary);
+                    const channelSelect = new ChannelSelectMenuBuilder()
+                        .setCustomId("registerWelcomeChannelAccept")
+                        .setPlaceholder("Kanal seçiniz.")
+                        .setDisabled(false)
+                        .setChannelTypes(ChannelType.GuildText);
                     const row2 = new ActionRowBuilder()
-                        .addComponents([button]);
-                    await interaction.reply({ content: "Kayıt mesajı kanalı ayarlamak için aşağıdaki butona tıklayınız.", components: [row2], ephemeral: true });
-                    const msg = await interaction.fetchReply();
-                    const buttonFilter = (i) => (i.customId === "registerMessageChannel") && (i.user.id === interaction.user.id);
+                        .addComponents(channelSelect);
+                    await collector.reply({ content: "Yeni kayıt kanalını aşağıdan ayarlayınız", components: [row2], ephemeral: true });
+                    const msg = await collector.fetchReply();
+                    const filter = (i) => i.user.id === interaction.user.id;
                     try {
-                        const modalcollector = await msg.awaitMessageComponent({ filter: buttonFilter, componentType: ComponentType.Button, time: 60000 });
-                        if (modalcollector) {
-                            await modalcollector.showModal(modal);
-                            const filter = (i) => i.customId === "registerMessageChannel" && i.user.id === interaction.user.id;
-                            try {
-                                const collector = await modalcollector.awaitModalSubmit({ filter, time: 60000 });
-                                const data = collector.fields.getTextInputValue("registerMessageChannel");
-                                const channel = await interaction.guild.channels.fetch(data);
-                                if (!channel) {
-                                    await collector.reply({ content: "Böyle bir kanal bulunamadı." });
-                                    return;
-                                }
-                                if (channel.type !== ChannelType.GuildText) {
-                                    await collector.reply({ content: "Lütfen bir metin kanalı giriniz." });
-                                    return;
-                                }
-                                const config = {
-                                    $set: {
-                                        "config.registerWelcomeChannel": data
-                                    }
-                                };
-                                await client.updateGuildConfig({ guildId: interaction.guild.id, config });
-                                await collector.reply({ content: "Kayıt mesajı kanalı ayarlandı.", ephemeral: true });
+                        const collector = await msg.awaitMessageComponent({ filter: filter, componentType: ComponentType.ChannelSelect, time: 60000 });
+                        if (collector) {
+                            const data = collector.values[0];
+                            const channel = interaction.guild.channels.cache.get(data);
+                            if (!channel) {
+                                await collector.reply({ content: "Böyle bir kanal bulunamadı." });
+                                return;
                             }
-                            catch (e) {
-                                await modalcollector.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
-                                console.log(e);
+                            if (channel.type !== ChannelType.GuildText) {
+                                await collector.reply({ content: "Lütfen bir metin kanalı giriniz." });
+                                return;
                             }
+                            const config = {
+                                $set: {
+                                    "config.registerWelcomeChannel": channel.id
+                                }
+                            };
+                            await client.updateGuildConfig({ guildId: interaction.guild.id, config });
+                            await collector.reply({ content: "Kayıt kanalı ayarlandı.", ephemeral: true });
                         }
                     }
-                    catch (e) {
-                        await interaction.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
-                        console.log(e);
+                    catch (error) {
+                        console.log(error);
+                        await interaction.followUp({ content: "İşlem iptal edildi çünkü bir hata ile karşılaşıldı", ephemeral: true });
                     }
                 }
                 else if (collector.customId === "registerMessageChannelDelete") {
@@ -1382,61 +1202,41 @@ async function registerMessageChannel(interaction, client) {
         }
     }
     else {
-        const TextInput = new TextInputBuilder()
-            .setCustomId("registerMessageChannel")
-            .setPlaceholder("Kanal ID'si")
-            .setRequired(true)
-            .setLabel("Kayıt Mesajı Kanalı")
-            .setStyle(TextInputStyle.Short);
-        const row = new ActionRowBuilder()
-            .addComponents([TextInput]);
-        const modal = new ModalBuilder()
-            .setCustomId("registerMessageChannel")
-            .setTitle("Kayıt Mesajı Kanalı Ayarla")
-            .addComponents([row]);
-        const button = new ButtonBuilder()
-            .setCustomId("registerMessageChannel")
-            .setLabel("Kayıt Mesajı Kanalı Ayarla")
-            .setStyle(ButtonStyle.Primary);
+        const channelSelect = new ChannelSelectMenuBuilder()
+            .setCustomId("registerWelcomeChannelAccept")
+            .setPlaceholder("Kanal seçiniz.")
+            .setDisabled(false)
+            .setChannelTypes(ChannelType.GuildText);
         const row2 = new ActionRowBuilder()
-            .addComponents([button]);
-        await interaction.reply({ content: "Kayıt mesajı kanalı ayarlamak için aşağıdaki butona tıklayınız.", components: [row2], ephemeral: true });
+            .addComponents(channelSelect);
+        await interaction.reply({ content: "Yeni kayıt kanalını aşağıdan ayarlayınız", components: [row2], ephemeral: true });
         const msg = await interaction.fetchReply();
-        const buttonFilter = (i) => (i.customId === "registerMessageChannel") && (i.user.id === interaction.user.id);
+        const filter = (i) => i.user.id === interaction.user.id;
         try {
-            const modalcollector = await msg.awaitMessageComponent({ filter: buttonFilter, componentType: ComponentType.Button, time: 60000 });
-            if (modalcollector) {
-                await modalcollector.showModal(modal);
-                const filter = (i) => i.customId === "registerMessageChannel" && i.user.id === interaction.user.id;
-                try {
-                    const collector = await modalcollector.awaitModalSubmit({ filter, time: 60000 });
-                    const data = collector.fields.getTextInputValue("registerMessageChannel");
-                    const channel = await interaction.guild.channels.fetch(data);
-                    if (!channel) {
-                        await collector.reply({ content: "Böyle bir kanal bulunamadı." });
-                        return;
-                    }
-                    if (channel.type !== ChannelType.GuildText) {
-                        await collector.reply({ content: "Lütfen bir metin kanalı giriniz." });
-                        return;
-                    }
-                    const config = {
-                        $set: {
-                            "config.registerWelcomeChannel": data
-                        }
-                    };
-                    await client.updateGuildConfig({ guildId: interaction.guild.id, config });
-                    await collector.reply({ content: "Kayıt mesajı kanalı ayarlandı.", ephemeral: true });
+            const collector = await msg.awaitMessageComponent({ filter: filter, componentType: ComponentType.ChannelSelect, time: 60000 });
+            if (collector) {
+                const data = collector.values[0];
+                const channel = interaction.guild.channels.cache.get(data);
+                if (!channel) {
+                    await collector.reply({ content: "Böyle bir kanal bulunamadı." });
+                    return;
                 }
-                catch (e) {
-                    await modalcollector.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
-                    console.log(e);
+                if (channel.type !== ChannelType.GuildText) {
+                    await collector.reply({ content: "Lütfen bir metin kanalı giriniz." });
+                    return;
                 }
+                const config = {
+                    $set: {
+                        "config.registerWelcomeChannel": channel.id
+                    }
+                };
+                await client.updateGuildConfig({ guildId: interaction.guild.id, config });
+                await collector.reply({ content: "Kayıt kanalı ayarlandı.", ephemeral: true });
             }
         }
-        catch (e) {
-            await interaction.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
-            console.log(e);
+        catch (error) {
+            console.log(error);
+            await interaction.followUp({ content: "İşlem iptal edildi çünkü bir hata ile karşılaşıldı", ephemeral: true });
         }
     }
 }
@@ -1506,68 +1306,41 @@ async function modLogChannel(interaction, client) {
                 await collector.reply({ content: "İptal edildi.", ephemeral: true });
             }
             else if (collector.customId === "modLogChannelAccept") {
-                const TextInput = new TextInputBuilder()
-                    .setCustomId("modLogChannel")
-                    .setPlaceholder("ModLog kanalı")
-                    .setRequired(true)
-                    .setLabel("ModLog kanalı")
-                    .setStyle(TextInputStyle.Short);
-                const row = new ActionRowBuilder()
-                    .addComponents([TextInput]);
-                const modal = new ModalBuilder()
-                    .setCustomId("modLogChannel")
-                    .setTitle("ModLog kanalı ayarla")
-                    .addComponents([row]);
-                const button = new ButtonBuilder()
-                    .setCustomId("modLogChannel")
-                    .setLabel("ModLog kanalı ayarla")
-                    .setStyle(ButtonStyle.Primary);
+                const channelSelect = new ChannelSelectMenuBuilder()
+                    .setCustomId("modlogChannel")
+                    .setPlaceholder("Kanal seçiniz.")
+                    .setDisabled(false)
+                    .setChannelTypes(ChannelType.GuildText);
                 const row2 = new ActionRowBuilder()
-                    .addComponents([button]);
-                await collector.reply({
-                    content: "Modlog kanalı ayarlamak için aşağıdaki butona tıklayınız.",
-                    components: [row2],
-                    ephemeral: true
-                });
+                    .addComponents(channelSelect);
+                await collector.reply({ content: "Yeni modlog kanalını aşağıdan ayarlayınız", components: [row2], ephemeral: true });
                 const msg = await collector.fetchReply();
-                const buttonFilter = (i) => (i.customId === "modLogChannel") && (i.user.id === interaction.user.id);
+                const filter = (i) => i.user.id === interaction.user.id;
                 try {
-                    const modalcollector = await msg.awaitMessageComponent({
-                        filter: buttonFilter,
-                        componentType: ComponentType.Button,
-                        time: 60000
-                    });
-                    if (modalcollector) {
-                        await modalcollector.showModal(modal);
-                        const filter = (i) => i.customId === "modLogChannel" && i.user.id === interaction.user.id;
-                        try {
-                            const collector = await modalcollector.awaitModalSubmit({ filter, time: 60000 });
-                            const data = collector.fields.getTextInputValue("modLogChannel");
-                            const channel = interaction.guild.channels.cache.get(data);
-                            if (!channel) {
-                                await collector.reply({ content: "Böyle bir kanal bulunamadı." });
-                                return;
-                            }
-                            if (channel.type !== ChannelType.GuildText) {
-                                await collector.reply({ content: "Lütfen bir metin kanalı giriniz." });
-                                return;
-                            }
-                            const config = {
-                                $set: {
-                                    "config.modlogChannel": data
-                                }
-                            };
-                            await client.updateGuildConfig({ guildId: interaction.guild.id, config });
-                            await collector.reply({ content: "Modlog kanalı ayarlandı.", ephemeral: true });
+                    const collector = await msg.awaitMessageComponent({ filter: filter, componentType: ComponentType.ChannelSelect, time: 60000 });
+                    if (collector) {
+                        const data = collector.values[0];
+                        const channel = interaction.guild.channels.cache.get(data);
+                        if (!channel) {
+                            await collector.reply({ content: "Böyle bir kanal bulunamadı." });
+                            return;
                         }
-                        catch (e) {
-                            await modalcollector.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
+                        if (channel.type !== ChannelType.GuildText) {
+                            await collector.reply({ content: "Lütfen bir metin kanalı giriniz." });
+                            return;
                         }
+                        const config = {
+                            $set: {
+                                "config.modlogChannel": channel.id
+                            }
+                        };
+                        await client.updateGuildConfig({ guildId: interaction.guild.id, config });
+                        await collector.reply({ content: "Modlog kanalı ayarlandı.", ephemeral: true });
                     }
                 }
-                catch (e) {
-                    await interaction.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
-                    console.log(e);
+                catch (error) {
+                    console.log(error);
+                    await interaction.followUp({ content: "İşlem iptal edildi çünkü bir hata ile karşılaşıldı", ephemeral: true });
                 }
             }
             else if (collector.customId === "modLogChannelDelete") {
@@ -1586,63 +1359,41 @@ async function modLogChannel(interaction, client) {
         }
     }
     else {
-        const TextInput = new TextInputBuilder()
-            .setCustomId("modLogChannel")
-            .setPlaceholder("ModLog kanalı")
-            .setRequired(true)
-            .setLabel("ModLog kanalı")
-            .setStyle(TextInputStyle.Short);
-        const row = new ActionRowBuilder()
-            .addComponents([TextInput]);
-        const modal = new ModalBuilder()
-            .setCustomId("modLogChannel")
-            .setTitle("ModLog kanalı ayarla")
-            .addComponents([row]);
-        const button = new ButtonBuilder()
-            .setCustomId("modLogChannel")
-            .setLabel("ModLog kanalı ayarla")
-            .setStyle(ButtonStyle.Primary);
+        const channelSelect = new ChannelSelectMenuBuilder()
+            .setCustomId("modlogChannel")
+            .setPlaceholder("Kanal seçiniz.")
+            .setDisabled(false)
+            .setChannelTypes(ChannelType.GuildText);
         const row2 = new ActionRowBuilder()
-            .addComponents([button]);
-        await interaction.reply({
-            content: "Modlog kanalı ayarlamak için aşağıdaki butona tıklayınız.",
-            components: [row2],
-            ephemeral: true
-        });
+            .addComponents(channelSelect);
+        await interaction.reply({ content: "Yeni modlog kanalını aşağıdan ayarlayınız", components: [row2], ephemeral: true });
         const msg = await interaction.fetchReply();
-        const buttonFilter = (i) => (i.customId === "modLogChannel") && (i.user.id === interaction.user.id);
+        const filter = (i) => i.user.id === interaction.user.id;
         try {
-            const modalcollector = await msg.awaitMessageComponent({
-                filter: buttonFilter,
-                componentType: ComponentType.Button,
-                time: 60000
-            });
-            if (modalcollector) {
-                await modalcollector.showModal(modal);
-                const filter = (i) => i.customId === "modLogChannel" && i.user.id === interaction.user.id;
-                try {
-                    const collector = await modalcollector.awaitModalSubmit({ filter, time: 60000 });
-                    const data = collector.fields.getTextInputValue("modLogChannel");
-                    if (!interaction.guild.channels.cache.get(data)) {
-                        await collector.reply({ content: "Kanal bulunamadı", ephemeral: true });
-                        return;
+            const collector = await msg.awaitMessageComponent({ filter: filter, componentType: ComponentType.ChannelSelect, time: 60000 });
+            if (collector) {
+                const data = collector.values[0];
+                const channel = interaction.guild.channels.cache.get(data);
+                if (!channel) {
+                    await collector.reply({ content: "Böyle bir kanal bulunamadı." });
+                    return;
+                }
+                if (channel.type !== ChannelType.GuildText) {
+                    await collector.reply({ content: "Lütfen bir metin kanalı giriniz." });
+                    return;
+                }
+                const config = {
+                    $set: {
+                        "config.modlogChannel": channel.id
                     }
-                    const config = {
-                        $set: {
-                            "config.modlogChannel": data
-                        }
-                    };
-                    await client.updateGuildConfig({ guildId: interaction.guild.id, config });
-                    await collector.reply({ content: "Modlog kanalı ayarlandı.", ephemeral: true });
-                }
-                catch (e) {
-                    await modalcollector.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
-                }
+                };
+                await client.updateGuildConfig({ guildId: interaction.guild.id, config });
+                await collector.reply({ content: "Modlog kanalı ayarlandı.", ephemeral: true });
             }
         }
-        catch (e) {
-            await interaction.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
-            console.log(e);
+        catch (error) {
+            console.log(error);
+            await interaction.followUp({ content: "İşlem iptal edildi çünkü bir hata ile karşılaşıldı", ephemeral: true });
         }
     }
 }
@@ -1767,67 +1518,31 @@ async function memberRole(interaction, client) {
                 await collector.reply({ content: "İşlem iptal edildi.", ephemeral: true });
             }
             else if (collector.customId === "memberRoleAccept") {
-                const TextInput = new TextInputBuilder()
+                const roleSelect = new RoleSelectMenuBuilder()
                     .setCustomId("memberRole")
-                    .setPlaceholder("Üye rolü")
-                    .setLabel("Üye rolü")
-                    .setStyle(TextInputStyle.Short)
-                    .setRequired(true);
-                const row = new ActionRowBuilder()
-                    .addComponents([TextInput]);
-                const modal = new ModalBuilder()
-                    .setCustomId("memberRole")
-                    .setTitle("Üye rolü ayarla")
-                    .addComponents([row]);
-                const button = new ButtonBuilder()
-                    .setCustomId("memberRole")
-                    .setLabel("Üye rolü ayarla")
-                    .setStyle(ButtonStyle.Primary);
+                    .setPlaceholder("Üye rolü seçiniz.")
+                    .setMinValues(1)
+                    .setMaxValues(1);
                 const row2 = new ActionRowBuilder()
-                    .addComponents([button]);
-                await collector.reply({
-                    content: "Üye rolünü ayarlamak için aşağıdaki butona tıklayınız.",
-                    components: [row2],
-                    ephemeral: true
-                });
+                    .addComponents([roleSelect]);
+                await collector.reply({ content: "Üye rolü ayarlamak için aşağıdan uygun role tıklayınız.", components: [row2], ephemeral: true });
                 const msg = await collector.fetchReply();
                 const buttonFilter = (i) => (i.customId === "memberRole") && (i.user.id === interaction.user.id);
                 try {
-                    const modalcollector = await msg.awaitMessageComponent({
-                        filter: buttonFilter,
-                        componentType: ComponentType.Button,
-                        time: 60000
-                    });
-                    if (modalcollector) {
-                        await modalcollector.showModal(modal);
-                        const filter = (i) => i.customId === "memberRole" && i.user.id === interaction.user.id;
-                        try {
-                            const collector = await modalcollector.awaitModalSubmit({ filter, time: 60000 });
-                            const data = collector.fields.getTextInputValue("memberRole");
-                            if (!interaction.guild.roles.cache.get(data)) {
-                                await collector.reply({ content: "Rol bulunamadı", ephemeral: true });
-                                return;
+                    const collector = await msg.awaitMessageComponent({ filter: buttonFilter, componentType: ComponentType.RoleSelect, time: 60000 });
+                    if (collector) {
+                        const data = collector.values[0];
+                        const config = {
+                            $set: {
+                                "config.memberRole": data
                             }
-                            const config = {
-                                $set: {
-                                    "config.memberRole": data
-                                }
-                            };
-                            await client.updateGuildConfig({ guildId: interaction.guild.id, config });
-                            await collector.reply({ content: "Üye rolü ayarlandı.", ephemeral: true });
-                        }
-                        catch (e) {
-                            await interaction.followUp({
-                                content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true
-                            });
-                            console.log(e);
-                        }
+                        };
+                        await client.updateGuildConfig({ guildId: interaction.guild.id, config });
+                        await collector.reply({ content: `Üye rolü başarıyla ayarlandı`, ephemeral: true });
                     }
                 }
                 catch (e) {
-                    await interaction.followUp({
-                        content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true
-                    });
+                    await interaction.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
                     console.log(e);
                 }
             }
@@ -1847,67 +1562,31 @@ async function memberRole(interaction, client) {
         }
     }
     else {
-        const TextInput = new TextInputBuilder()
+        const roleSelect = new RoleSelectMenuBuilder()
             .setCustomId("memberRole")
-            .setPlaceholder("Üye rolü")
-            .setLabel("Üye rolü")
-            .setStyle(TextInputStyle.Short)
-            .setRequired(true);
-        const row = new ActionRowBuilder()
-            .addComponents([TextInput]);
-        const modal = new ModalBuilder()
-            .setCustomId("memberRole")
-            .setTitle("Üye rolü ayarla")
-            .addComponents([row]);
-        const button = new ButtonBuilder()
-            .setCustomId("memberRole")
-            .setLabel("Üye rolü ayarla")
-            .setStyle(ButtonStyle.Primary);
+            .setPlaceholder("Üye rolü seçiniz.")
+            .setMinValues(1)
+            .setMaxValues(1);
         const row2 = new ActionRowBuilder()
-            .addComponents([button]);
-        await interaction.reply({
-            content: "Üye rolünü ayarlamak için aşağıdaki butona tıklayınız.",
-            components: [row2],
-            ephemeral: true
-        });
+            .addComponents([roleSelect]);
+        await interaction.reply({ content: "Üye rolü ayarlamak için aşağıdan uygun role tıklayınız.", components: [row2], ephemeral: true });
         const msg = await interaction.fetchReply();
         const buttonFilter = (i) => (i.customId === "memberRole") && (i.user.id === interaction.user.id);
         try {
-            const modalcollector = await msg.awaitMessageComponent({
-                filter: buttonFilter,
-                componentType: ComponentType.Button,
-                time: 60000
-            });
-            if (modalcollector) {
-                await modalcollector.showModal(modal);
-                const filter = (i) => i.customId === "memberRole" && i.user.id === interaction.user.id;
-                try {
-                    const collector = await modalcollector.awaitModalSubmit({ filter, time: 60000 });
-                    const data = collector.fields.getTextInputValue("memberRole");
-                    if (!interaction.guild.roles.cache.get(data)) {
-                        await collector.reply({ content: "Rol bulunamadı", ephemeral: true });
-                        return;
+            const collector = await msg.awaitMessageComponent({ filter: buttonFilter, componentType: ComponentType.RoleSelect, time: 60000 });
+            if (collector) {
+                const data = collector.values[0];
+                const config = {
+                    $set: {
+                        "config.memberRole": data
                     }
-                    const config = {
-                        $set: {
-                            "config.memberRole": data
-                        }
-                    };
-                    await client.updateGuildConfig({ guildId: interaction.guild.id, config });
-                    await collector.reply({ content: "Üye rolü ayarlandı.", ephemeral: true });
-                }
-                catch (e) {
-                    await interaction.followUp({
-                        content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true
-                    });
-                    console.log(e);
-                }
+                };
+                await client.updateGuildConfig({ guildId: interaction.guild.id, config });
+                await collector.reply({ content: `Üye rolü başarıyla ayarlandı`, ephemeral: true });
             }
         }
         catch (e) {
-            await interaction.followUp({
-                content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true
-            });
+            await interaction.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
             console.log(e);
         }
     }
@@ -1941,67 +1620,31 @@ async function maleRole(interaction, client) {
                 await collector.reply({ content: "İptal edildi.", ephemeral: true });
             }
             else if (collector.customId === "maleRoleAccept") {
-                const TextInput = new TextInputBuilder()
+                const roleSelect = new RoleSelectMenuBuilder()
                     .setCustomId("maleRole")
-                    .setPlaceholder("Erkek rolü")
-                    .setLabel("Erkek rolü")
-                    .setStyle(TextInputStyle.Short)
-                    .setRequired(true);
-                const row = new ActionRowBuilder()
-                    .addComponents([TextInput]);
-                const modal = new ModalBuilder()
-                    .setCustomId("maleRole")
-                    .setTitle("Erkek rolü ayarla")
-                    .addComponents([row]);
-                const button = new ButtonBuilder()
-                    .setCustomId("maleRole")
-                    .setLabel("Erkek rolü ayarla")
-                    .setStyle(ButtonStyle.Primary);
+                    .setPlaceholder("Erkek rolünü seçiniz.")
+                    .setMinValues(1)
+                    .setMaxValues(1);
                 const row2 = new ActionRowBuilder()
-                    .addComponents([button]);
-                await collector.reply({
-                    content: "Erkek rolünü ayarlamak için aşağıdaki butona tıklayınız.",
-                    components: [row2],
-                    ephemeral: true
-                });
+                    .addComponents([roleSelect]);
+                await collector.reply({ content: "Erkek rolünü ayarlamak için aşağıdan uygun role tıklayınız.", components: [row2], ephemeral: true });
                 const msg = await collector.fetchReply();
                 const buttonFilter = (i) => (i.customId === "maleRole") && (i.user.id === interaction.user.id);
                 try {
-                    const modalcollector = await msg.awaitMessageComponent({
-                        filter: buttonFilter,
-                        componentType: ComponentType.Button,
-                        time: 60000
-                    });
-                    if (modalcollector) {
-                        await modalcollector.showModal(modal);
-                        const filter = (i) => i.customId === "maleRole" && i.user.id === interaction.user.id;
-                        try {
-                            const collector = await modalcollector.awaitModalSubmit({ filter, time: 60000 });
-                            const data = collector.fields.getTextInputValue("maleRole");
-                            if (!interaction.guild.roles.cache.get(data)) {
-                                await collector.reply({ content: "Rol bulunamadı", ephemeral: true });
-                                return;
+                    const collector = await msg.awaitMessageComponent({ filter: buttonFilter, componentType: ComponentType.RoleSelect, time: 60000 });
+                    if (collector) {
+                        const data = collector.values[0];
+                        const config = {
+                            $set: {
+                                "config.maleRole": data
                             }
-                            const config = {
-                                $set: {
-                                    "config.maleRole": data
-                                }
-                            };
-                            await client.updateGuildConfig({ guildId: interaction.guild.id, config });
-                            await collector.reply({ content: "Erkek rolü ayarlandı.", ephemeral: true });
-                        }
-                        catch (e) {
-                            await interaction.followUp({
-                                content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true
-                            });
-                            console.log(e);
-                        }
+                        };
+                        await client.updateGuildConfig({ guildId: interaction.guild.id, config });
+                        await collector.reply({ content: `Erkek rolü başarıyla ayarlandı`, ephemeral: true });
                     }
                 }
                 catch (e) {
-                    await interaction.followUp({
-                        content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true
-                    });
+                    await interaction.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
                     console.log(e);
                 }
             }
@@ -2021,67 +1664,31 @@ async function maleRole(interaction, client) {
         }
     }
     else {
-        const TextInput = new TextInputBuilder()
+        const roleSelect = new RoleSelectMenuBuilder()
             .setCustomId("maleRole")
-            .setPlaceholder("Erkek rolü")
-            .setLabel("Erkek rolü")
-            .setStyle(TextInputStyle.Short)
-            .setRequired(true);
-        const row = new ActionRowBuilder()
-            .addComponents([TextInput]);
-        const modal = new ModalBuilder()
-            .setCustomId("maleRole")
-            .setTitle("Erkek rolü ayarla")
-            .addComponents([row]);
-        const button = new ButtonBuilder()
-            .setCustomId("maleRole")
-            .setLabel("Erkek rolü ayarla")
-            .setStyle(ButtonStyle.Primary);
+            .setPlaceholder("Erkek rolünü seçiniz.")
+            .setMinValues(1)
+            .setMaxValues(1);
         const row2 = new ActionRowBuilder()
-            .addComponents([button]);
-        await interaction.reply({
-            content: "Erkek rolünü ayarlamak için aşağıdaki butona tıklayınız.",
-            components: [row2],
-            ephemeral: true
-        });
+            .addComponents([roleSelect]);
+        await interaction.reply({ content: "Erkek rolünü ayarlamak için aşağıdan uygun role tıklayınız.", components: [row2], ephemeral: true });
         const msg = await interaction.fetchReply();
         const buttonFilter = (i) => (i.customId === "maleRole") && (i.user.id === interaction.user.id);
         try {
-            const modalcollector = await msg.awaitMessageComponent({
-                filter: buttonFilter,
-                componentType: ComponentType.Button,
-                time: 60000
-            });
-            if (modalcollector) {
-                await modalcollector.showModal(modal);
-                const filter = (i) => i.customId === "maleRole" && i.user.id === interaction.user.id;
-                try {
-                    const collector = await modalcollector.awaitModalSubmit({ filter, time: 60000 });
-                    const data = collector.fields.getTextInputValue("maleRole");
-                    if (!interaction.guild.roles.cache.get(data)) {
-                        await collector.reply({ content: "Rol bulunamadı", ephemeral: true });
-                        return;
+            const collector = await msg.awaitMessageComponent({ filter: buttonFilter, componentType: ComponentType.RoleSelect, time: 60000 });
+            if (collector) {
+                const data = collector.values[0];
+                const config = {
+                    $set: {
+                        "config.maleRole": data
                     }
-                    const config = {
-                        $set: {
-                            "config.maleRole": data
-                        }
-                    };
-                    await client.updateGuildConfig({ guildId: interaction.guild.id, config });
-                    await collector.reply({ content: "Erkek rolü ayarlandı.", ephemeral: true });
-                }
-                catch (e) {
-                    await interaction.followUp({
-                        content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true
-                    });
-                    console.log(e);
-                }
+                };
+                await client.updateGuildConfig({ guildId: interaction.guild.id, config });
+                await collector.reply({ content: `Erkek rolü başarıyla ayarlandı`, ephemeral: true });
             }
         }
         catch (e) {
-            await interaction.followUp({
-                content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true
-            });
+            await interaction.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
             console.log(e);
         }
     }
@@ -2115,65 +1722,31 @@ async function femaleRole(interaction, client) {
                 await collector.reply({ content: "İşlem iptal edildi.", ephemeral: true });
             }
             else if (collector.customId === "femaleRoleAccept") {
-                const TextInput = new TextInputBuilder()
+                const roleSelect = new RoleSelectMenuBuilder()
                     .setCustomId("femaleRole")
-                    .setPlaceholder("Kadın rolü")
-                    .setLabel("Kadın rolü")
-                    .setStyle(TextInputStyle.Short)
-                    .setRequired(true);
-                const row = new ActionRowBuilder()
-                    .addComponents([TextInput]);
-                const modal = new ModalBuilder()
-                    .setCustomId("femaleRole")
-                    .setTitle("Kadın rolü ayarla")
-                    .addComponents([row]);
-                const button = new ButtonBuilder()
-                    .setCustomId("femaleRole")
-                    .setLabel("Kadın rolü ayarla")
-                    .setStyle(ButtonStyle.Primary);
+                    .setPlaceholder("Kadın rolünü seçiniz.")
+                    .setMinValues(1)
+                    .setMaxValues(1);
                 const row2 = new ActionRowBuilder()
-                    .addComponents([button]);
-                await collector.reply({
-                    content: "Kadın rolünü ayarlamak için aşağıdaki butona tıklayınız.", components: [row2], ephemeral: true
-                });
+                    .addComponents([roleSelect]);
+                await collector.reply({ content: "Kadın rolünü ayarlamak için aşağıdan uygun role tıklayınız.", components: [row2], ephemeral: true });
                 const msg = await collector.fetchReply();
                 const buttonFilter = (i) => (i.customId === "femaleRole") && (i.user.id === interaction.user.id);
                 try {
-                    const modalcollector = await msg.awaitMessageComponent({
-                        filter: buttonFilter,
-                        componentType: ComponentType.Button,
-                        time: 60000
-                    });
-                    if (modalcollector) {
-                        await modalcollector.showModal(modal);
-                        const filter = (i) => i.customId === "femaleRole" && i.user.id === interaction.user.id;
-                        try {
-                            const collector = await modalcollector.awaitModalSubmit({ filter, time: 60000 });
-                            const data = collector.fields.getTextInputValue("femaleRole");
-                            if (!interaction.guild.roles.cache.get(data)) {
-                                await collector.reply({ content: "Rol bulunamadı", ephemeral: true });
-                                return;
+                    const collector = await msg.awaitMessageComponent({ filter: buttonFilter, componentType: ComponentType.RoleSelect, time: 60000 });
+                    if (collector) {
+                        const data = collector.values[0];
+                        const config = {
+                            $set: {
+                                "config.femaleRole": data
                             }
-                            const config = {
-                                $set: {
-                                    "config.femaleRole": data
-                                }
-                            };
-                            await client.updateGuildConfig({ guildId: interaction.guild.id, config });
-                            await collector.reply({ content: "Kız rolü ayarlandı.", ephemeral: true });
-                        }
-                        catch (e) {
-                            await interaction.followUp({
-                                content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true
-                            });
-                            console.log(e);
-                        }
+                        };
+                        await client.updateGuildConfig({ guildId: interaction.guild.id, config });
+                        await collector.reply({ content: `Kadın rolü başarıyla ayarlandı`, ephemeral: true });
                     }
                 }
                 catch (e) {
-                    await interaction.followUp({
-                        content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true
-                    });
+                    await interaction.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
                     console.log(e);
                 }
             }
@@ -2193,65 +1766,31 @@ async function femaleRole(interaction, client) {
         }
     }
     else {
-        const TextInput = new TextInputBuilder()
+        const roleSelect = new RoleSelectMenuBuilder()
             .setCustomId("femaleRole")
-            .setPlaceholder("Kadın rolü")
-            .setLabel("Kadın rolü")
-            .setStyle(TextInputStyle.Short)
-            .setRequired(true);
-        const row = new ActionRowBuilder()
-            .addComponents([TextInput]);
-        const modal = new ModalBuilder()
-            .setCustomId("femaleRole")
-            .setTitle("Kadın rolü ayarla")
-            .addComponents([row]);
-        const button = new ButtonBuilder()
-            .setCustomId("femaleRole")
-            .setLabel("Kadın rolü ayarla")
-            .setStyle(ButtonStyle.Primary);
+            .setPlaceholder("Kadın rolünü seçiniz.")
+            .setMinValues(1)
+            .setMaxValues(1);
         const row2 = new ActionRowBuilder()
-            .addComponents([button]);
-        await interaction.reply({
-            content: "Kadın rolünü ayarlamak için aşağıdaki butona tıklayınız.", components: [row2], ephemeral: true
-        });
+            .addComponents([roleSelect]);
+        await interaction.reply({ content: "Kadın rolünü ayarlamak için aşağıdan uygun role tıklayınız.", components: [row2], ephemeral: true });
         const msg = await interaction.fetchReply();
         const buttonFilter = (i) => (i.customId === "femaleRole") && (i.user.id === interaction.user.id);
         try {
-            const modalcollector = await msg.awaitMessageComponent({
-                filter: buttonFilter,
-                componentType: ComponentType.Button,
-                time: 60000
-            });
-            if (modalcollector) {
-                await modalcollector.showModal(modal);
-                const filter = (i) => i.customId === "femaleRole" && i.user.id === interaction.user.id;
-                try {
-                    const collector = await modalcollector.awaitModalSubmit({ filter, time: 60000 });
-                    const data = collector.fields.getTextInputValue("femaleRole");
-                    if (!interaction.guild.roles.cache.get(data)) {
-                        await collector.reply({ content: "Rol bulunamadı", ephemeral: true });
-                        return;
+            const collector = await msg.awaitMessageComponent({ filter: buttonFilter, componentType: ComponentType.RoleSelect, time: 60000 });
+            if (collector) {
+                const data = collector.values[0];
+                const config = {
+                    $set: {
+                        "config.femaleRole": data
                     }
-                    const config = {
-                        $set: {
-                            "config.femaleRole": data
-                        }
-                    };
-                    await client.updateGuildConfig({ guildId: interaction.guild.id, config });
-                    await collector.reply({ content: "Kız rolü ayarlandı.", ephemeral: true });
-                }
-                catch (e) {
-                    await interaction.followUp({
-                        content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true
-                    });
-                    console.log(e);
-                }
+                };
+                await client.updateGuildConfig({ guildId: interaction.guild.id, config });
+                await collector.reply({ content: `Kadın rolü başarıyla ayarlandı`, ephemeral: true });
             }
         }
         catch (e) {
-            await interaction.followUp({
-                content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true
-            });
+            await interaction.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
             console.log(e);
         }
     }
@@ -2286,65 +1825,31 @@ async function muteRole(interaction, client) {
                     await collector.reply({ content: "İşlem iptal edildi.", ephemeral: true });
                 }
                 else if (collector.customId === "muteRoleAccept") {
-                    const TextInput = new TextInputBuilder()
+                    const roleSelect = new RoleSelectMenuBuilder()
                         .setCustomId("muteRole")
-                        .setPlaceholder("Mute rolü")
-                        .setLabel("Mute rolü")
-                        .setStyle(TextInputStyle.Short)
-                        .setRequired(true);
-                    const row = new ActionRowBuilder()
-                        .addComponents([TextInput]);
-                    const modal = new ModalBuilder()
-                        .setCustomId("muteRole")
-                        .setTitle("Mute rolü ayarla")
-                        .addComponents([row]);
-                    const button = new ButtonBuilder()
-                        .setCustomId("muteRole")
-                        .setLabel("Mute rolü ayarla")
-                        .setStyle(ButtonStyle.Primary);
+                        .setPlaceholder("Mute rolünü seçiniz.")
+                        .setMinValues(1)
+                        .setMaxValues(1);
                     const row2 = new ActionRowBuilder()
-                        .addComponents([button]);
-                    await collector.reply({
-                        content: "Mute rolünü ayarlamak için aşağıdaki butona tıklayınız.", components: [row2], ephemeral: true
-                    });
+                        .addComponents([roleSelect]);
+                    await collector.reply({ content: "Mute rolünü ayarlamak için aşağıdan uygun role tıklayınız.", components: [row2], ephemeral: true });
                     const msg = await collector.fetchReply();
                     const buttonFilter = (i) => (i.customId === "muteRole") && (i.user.id === interaction.user.id);
                     try {
-                        const modalcollector = await msg.awaitMessageComponent({
-                            filter: buttonFilter,
-                            componentType: ComponentType.Button,
-                            time: 60000
-                        });
-                        if (modalcollector) {
-                            await modalcollector.showModal(modal);
-                            const filter = (i) => i.customId === "muteRole" && i.user.id === interaction.user.id;
-                            try {
-                                const collector = await modalcollector.awaitModalSubmit({ filter, time: 60000 });
-                                const data = collector.fields.getTextInputValue("muteRole");
-                                if (!interaction.guild.roles.cache.get(data)) {
-                                    await collector.reply({ content: "Rol bulunamadı", ephemeral: true });
-                                    return;
+                        const collector = await msg.awaitMessageComponent({ filter: buttonFilter, componentType: ComponentType.RoleSelect, time: 60000 });
+                        if (collector) {
+                            const data = collector.values[0];
+                            const config = {
+                                $set: {
+                                    "config.muteRole": data
                                 }
-                                const config = {
-                                    $set: {
-                                        "config.muteRole": data
-                                    }
-                                };
-                                await client.updateGuildConfig({ guildId: interaction.guild.id, config });
-                                await collector.reply({ content: "Mute rolü ayarlandı.", ephemeral: true });
-                            }
-                            catch (e) {
-                                await interaction.followUp({
-                                    content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true
-                                });
-                                console.log(e);
-                            }
+                            };
+                            await client.updateGuildConfig({ guildId: interaction.guild.id, config });
+                            await collector.reply({ content: `Mute rolü başarıyla ayarlandı`, ephemeral: true });
                         }
                     }
                     catch (e) {
-                        await interaction.followUp({
-                            content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true
-                        });
+                        await interaction.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
                         console.log(e);
                     }
                 }
@@ -2365,65 +1870,31 @@ async function muteRole(interaction, client) {
         }
     }
     else {
-        const TextInput = new TextInputBuilder()
+        const roleSelect = new RoleSelectMenuBuilder()
             .setCustomId("muteRole")
-            .setPlaceholder("Mute rolü")
-            .setLabel("Mute rolü")
-            .setStyle(TextInputStyle.Short)
-            .setRequired(true);
-        const row = new ActionRowBuilder()
-            .addComponents([TextInput]);
-        const modal = new ModalBuilder()
-            .setCustomId("muteRole")
-            .setTitle("Mute rolü ayarla")
-            .addComponents([row]);
-        const button = new ButtonBuilder()
-            .setCustomId("muteRole")
-            .setLabel("Mute rolü ayarla")
-            .setStyle(ButtonStyle.Primary);
+            .setPlaceholder("Mute rolünü seçiniz.")
+            .setMinValues(1)
+            .setMaxValues(1);
         const row2 = new ActionRowBuilder()
-            .addComponents([button]);
-        await interaction.reply({
-            content: "Mute rolünü ayarlamak için aşağıdaki butona tıklayınız.", components: [row2], ephemeral: true
-        });
+            .addComponents([roleSelect]);
+        await interaction.reply({ content: "Mute rolünü ayarlamak için aşağıdan uygun role tıklayınız.", components: [row2], ephemeral: true });
         const msg = await interaction.fetchReply();
         const buttonFilter = (i) => (i.customId === "muteRole") && (i.user.id === interaction.user.id);
         try {
-            const modalcollector = await msg.awaitMessageComponent({
-                filter: buttonFilter,
-                componentType: ComponentType.Button,
-                time: 60000
-            });
-            if (modalcollector) {
-                await modalcollector.showModal(modal);
-                const filter = (i) => i.customId === "muteRole" && i.user.id === interaction.user.id;
-                try {
-                    const collector = await modalcollector.awaitModalSubmit({ filter, time: 60000 });
-                    const data = collector.fields.getTextInputValue("muteRole");
-                    if (!interaction.guild.roles.cache.get(data)) {
-                        await collector.reply({ content: "Rol bulunamadı", ephemeral: true });
-                        return;
+            const collector = await msg.awaitMessageComponent({ filter: buttonFilter, componentType: ComponentType.RoleSelect, time: 60000 });
+            if (collector) {
+                const data = collector.values[0];
+                const config = {
+                    $set: {
+                        "config.muteRole": data
                     }
-                    const config = {
-                        $set: {
-                            "config.muteRole": data
-                        }
-                    };
-                    await client.updateGuildConfig({ guildId: interaction.guild.id, config });
-                    await collector.reply({ content: "Mute rolü ayarlandı.", ephemeral: true });
-                }
-                catch (e) {
-                    await interaction.followUp({
-                        content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true
-                    });
-                    console.log(e);
-                }
+                };
+                await client.updateGuildConfig({ guildId: interaction.guild.id, config });
+                await collector.reply({ content: `Mute rolü başarıyla ayarlandı`, ephemeral: true });
             }
         }
         catch (e) {
-            await interaction.followUp({
-                content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true
-            });
+            await interaction.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
             console.log(e);
         }
     }
@@ -2458,65 +1929,31 @@ async function djRole(interaction, client) {
                     await collector.reply({ content: "İşlem iptal edildi.", ephemeral: true });
                 }
                 else if (collector.customId === "djRoleAccept") {
-                    const TextInput = new TextInputBuilder()
+                    const roleSelect = new RoleSelectMenuBuilder()
                         .setCustomId("djRole")
-                        .setPlaceholder("DJ rolü")
-                        .setLabel("DJ rolü")
-                        .setStyle(TextInputStyle.Short)
-                        .setRequired(true);
-                    const row = new ActionRowBuilder()
-                        .addComponents([TextInput]);
-                    const modal = new ModalBuilder()
-                        .setCustomId("djRole")
-                        .setTitle("DJ rolü ayarla")
-                        .addComponents([row]);
-                    const button = new ButtonBuilder()
-                        .setCustomId("djRole")
-                        .setLabel("DJ rolü ayarla")
-                        .setStyle(ButtonStyle.Primary);
+                        .setPlaceholder("DJ rolünü seçiniz.")
+                        .setMinValues(1)
+                        .setMaxValues(1);
                     const row2 = new ActionRowBuilder()
-                        .addComponents([button]);
-                    await collector.reply({
-                        content: "DJ rolünü ayarlamak için aşağıdaki butona tıklayınız.", components: [row2], ephemeral: true
-                    });
+                        .addComponents([roleSelect]);
+                    await collector.reply({ content: "DJ rolünü ayarlamak için aşağıdan uygun role tıklayınız.", components: [row2], ephemeral: true });
                     const msg = await collector.fetchReply();
                     const buttonFilter = (i) => (i.customId === "djRole") && (i.user.id === interaction.user.id);
                     try {
-                        const modalcollector = await msg.awaitMessageComponent({
-                            filter: buttonFilter,
-                            componentType: ComponentType.Button,
-                            time: 60000
-                        });
-                        if (modalcollector) {
-                            await modalcollector.showModal(modal);
-                            const filter = (i) => i.customId === "djRole" && i.user.id === interaction.user.id;
-                            try {
-                                const collector = await modalcollector.awaitModalSubmit({ filter, time: 60000 });
-                                const data = collector.fields.getTextInputValue("djRole");
-                                if (!interaction.guild.roles.cache.get(data)) {
-                                    await collector.reply({ content: "Rol bulunamadı", ephemeral: true });
-                                    return;
+                        const collector = await msg.awaitMessageComponent({ filter: buttonFilter, componentType: ComponentType.RoleSelect, time: 60000 });
+                        if (collector) {
+                            const data = collector.values[0];
+                            const config = {
+                                $set: {
+                                    "config.djRole": data
                                 }
-                                const config = {
-                                    $set: {
-                                        "config.djRole": data
-                                    }
-                                };
-                                await client.updateGuildConfig({ guildId: interaction.guild.id, config });
-                                await collector.reply({ content: "DJ rolü ayarlandı.", ephemeral: true });
-                            }
-                            catch (e) {
-                                await interaction.followUp({
-                                    content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true
-                                });
-                                console.log(e);
-                            }
+                            };
+                            await client.updateGuildConfig({ guildId: interaction.guild.id, config });
+                            await collector.reply({ content: `DJ rolü başarıyla ayarlandı`, ephemeral: true });
                         }
                     }
                     catch (e) {
-                        await interaction.followUp({
-                            content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true
-                        });
+                        await interaction.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
                         console.log(e);
                     }
                 }
@@ -2537,65 +1974,31 @@ async function djRole(interaction, client) {
         }
     }
     else {
-        const TextInput = new TextInputBuilder()
+        const roleSelect = new RoleSelectMenuBuilder()
             .setCustomId("djRole")
-            .setPlaceholder("DJ rolü")
-            .setLabel("DJ rolü")
-            .setStyle(TextInputStyle.Short)
-            .setRequired(true);
-        const row = new ActionRowBuilder()
-            .addComponents([TextInput]);
-        const modal = new ModalBuilder()
-            .setCustomId("djRole")
-            .setTitle("DJ rolü ayarla")
-            .addComponents([row]);
-        const button = new ButtonBuilder()
-            .setCustomId("djRole")
-            .setLabel("DJ rolü ayarla")
-            .setStyle(ButtonStyle.Primary);
+            .setPlaceholder("DJ rolünü seçiniz.")
+            .setMinValues(1)
+            .setMaxValues(1);
         const row2 = new ActionRowBuilder()
-            .addComponents([button]);
-        await interaction.reply({
-            content: "DJ rolünü ayarlamak için aşağıdaki butona tıklayınız.", components: [row2], ephemeral: true
-        });
+            .addComponents([roleSelect]);
+        await interaction.reply({ content: "DJ rolünü ayarlamak için aşağıdan uygun role tıklayınız.", components: [row2], ephemeral: true });
         const msg = await interaction.fetchReply();
         const buttonFilter = (i) => (i.customId === "djRole") && (i.user.id === interaction.user.id);
         try {
-            const modalcollector = await msg.awaitMessageComponent({
-                filter: buttonFilter,
-                componentType: ComponentType.Button,
-                time: 60000
-            });
-            if (modalcollector) {
-                await modalcollector.showModal(modal);
-                const filter = (i) => i.customId === "djRole" && i.user.id === interaction.user.id;
-                try {
-                    const collector = await modalcollector.awaitModalSubmit({ filter, time: 60000 });
-                    const data = collector.fields.getTextInputValue("djRole");
-                    if (!interaction.guild.roles.cache.get(data)) {
-                        await collector.reply({ content: "Rol bulunamadı", ephemeral: true });
-                        return;
+            const collector = await msg.awaitMessageComponent({ filter: buttonFilter, componentType: ComponentType.RoleSelect, time: 60000 });
+            if (collector) {
+                const data = collector.values[0];
+                const config = {
+                    $set: {
+                        "config.djRole": data
                     }
-                    const config = {
-                        $set: {
-                            "config.djRole": data
-                        }
-                    };
-                    await client.updateGuildConfig({ guildId: interaction.guild.id, config });
-                    await collector.reply({ content: "DJ rolü ayarlandı.", ephemeral: true });
-                }
-                catch (e) {
-                    await interaction.followUp({
-                        content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true
-                    });
-                    console.log(e);
-                }
+                };
+                await client.updateGuildConfig({ guildId: interaction.guild.id, config });
+                await collector.reply({ content: `DJ rolü başarıyla ayarlandı`, ephemeral: true });
             }
         }
         catch (e) {
-            await interaction.followUp({
-                content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true
-            });
+            await interaction.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
             console.log(e);
         }
     }
@@ -2630,65 +2033,31 @@ async function dayColorRole(interaction, client) {
                     await collector.reply({ content: "İşlem iptal edildi.", ephemeral: true });
                 }
                 else if (collector.customId === "dayColorRoleAccept") {
-                    const TextInput = new TextInputBuilder()
-                        .setCustomId("dayColorRole")
-                        .setPlaceholder("Günün rengi rolü")
-                        .setLabel("Günün rengi rolü")
-                        .setStyle(TextInputStyle.Short)
-                        .setRequired(true);
-                    const row = new ActionRowBuilder()
-                        .addComponents([TextInput]);
-                    const modal = new ModalBuilder()
-                        .setCustomId("dayColorRole")
-                        .setTitle("Günün rengi rolü ayarla")
-                        .addComponents([row]);
-                    const button = new ButtonBuilder()
-                        .setCustomId("dayColorRole")
-                        .setLabel("Günün rengi rolü ayarla")
-                        .setStyle(ButtonStyle.Primary);
+                    const roleSelect = new RoleSelectMenuBuilder()
+                        .setCustomId("roleOfTheDay")
+                        .setPlaceholder("Günün Rengi rolünü seçiniz.")
+                        .setMinValues(1)
+                        .setMaxValues(1);
                     const row2 = new ActionRowBuilder()
-                        .addComponents([button]);
-                    await collector.reply({
-                        content: "Günün rengi rolünü ayarlamak için aşağıdaki butona tıklayınız.", components: [row2], ephemeral: true
-                    });
+                        .addComponents([roleSelect]);
+                    await collector.reply({ content: "Günün Rengi rolünü ayarlamak için aşağıdan uygun role tıklayınız.", components: [row2], ephemeral: true });
                     const msg = await collector.fetchReply();
-                    const buttonFilter = (i) => (i.customId === "dayColorRole") && (i.user.id === interaction.user.id);
+                    const buttonFilter = (i) => (i.customId === "roleOfTheDay") && (i.user.id === interaction.user.id);
                     try {
-                        const modalcollector = await msg.awaitMessageComponent({
-                            filter: buttonFilter,
-                            componentType: ComponentType.Button,
-                            time: 60000
-                        });
-                        if (modalcollector) {
-                            await modalcollector.showModal(modal);
-                            const filter = (i) => i.customId === "dayColorRole" && i.user.id === interaction.user.id;
-                            try {
-                                const collector = await modalcollector.awaitModalSubmit({ filter, time: 60000 });
-                                const data = collector.fields.getTextInputValue("dayColorRole");
-                                if (!interaction.guild.roles.cache.get(data)) {
-                                    await collector.reply({ content: "Rol bulunamadı", ephemeral: true });
-                                    return;
+                        const collector = await msg.awaitMessageComponent({ filter: buttonFilter, componentType: ComponentType.RoleSelect, time: 60000 });
+                        if (collector) {
+                            const data = collector.values[0];
+                            const config = {
+                                $set: {
+                                    "config.roleOfTheDay": data
                                 }
-                                const config = {
-                                    $set: {
-                                        "config.roleOfTheDay": data
-                                    }
-                                };
-                                await client.updateGuildConfig({ guildId: interaction.guild.id, config });
-                                await collector.reply({ content: "Günün rengi rolü ayarlandı.", ephemeral: true });
-                            }
-                            catch (e) {
-                                await interaction.followUp({
-                                    content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true
-                                });
-                                console.log(e);
-                            }
+                            };
+                            await client.updateGuildConfig({ guildId: interaction.guild.id, config });
+                            await collector.reply({ content: `Günün Rengi rolü başarıyla ayarlandı`, ephemeral: true });
                         }
                     }
                     catch (e) {
-                        await interaction.followUp({
-                            content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true
-                        });
+                        await interaction.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
                         console.log(e);
                     }
                 }
@@ -2709,65 +2078,31 @@ async function dayColorRole(interaction, client) {
         }
     }
     else {
-        const TextInput = new TextInputBuilder()
-            .setCustomId("dayColorRole")
-            .setPlaceholder("Günün rengi rolü")
-            .setLabel("Günün rengi rolü")
-            .setStyle(TextInputStyle.Short)
-            .setRequired(true);
-        const row = new ActionRowBuilder()
-            .addComponents([TextInput]);
-        const modal = new ModalBuilder()
-            .setCustomId("dayColorRole")
-            .setTitle("Günün rengi rolü ayarla")
-            .addComponents([row]);
-        const button = new ButtonBuilder()
-            .setCustomId("dayColorRole")
-            .setLabel("Günün rengi rolü ayarla")
-            .setStyle(ButtonStyle.Primary);
+        const roleSelect = new RoleSelectMenuBuilder()
+            .setCustomId("roleOfTheDay")
+            .setPlaceholder("Günün Rengi rolünü seçiniz.")
+            .setMinValues(1)
+            .setMaxValues(1);
         const row2 = new ActionRowBuilder()
-            .addComponents([button]);
-        await interaction.reply({
-            content: "Günün rengi rolünü ayarlamak için aşağıdaki butona tıklayınız.", components: [row2], ephemeral: true
-        });
+            .addComponents([roleSelect]);
+        await interaction.reply({ content: "Günün Rengi rolünü ayarlamak için aşağıdan uygun role tıklayınız.", components: [row2], ephemeral: true });
         const msg = await interaction.fetchReply();
-        const buttonFilter = (i) => (i.customId === "dayColorRole") && (i.user.id === interaction.user.id);
+        const buttonFilter = (i) => (i.customId === "roleOfTheDay") && (i.user.id === interaction.user.id);
         try {
-            const modalcollector = await msg.awaitMessageComponent({
-                filter: buttonFilter,
-                componentType: ComponentType.Button,
-                time: 60000
-            });
-            if (modalcollector) {
-                await modalcollector.showModal(modal);
-                const filter = (i) => i.customId === "dayColorRole" && i.user.id === interaction.user.id;
-                try {
-                    const collector = await modalcollector.awaitModalSubmit({ filter, time: 60000 });
-                    const data = collector.fields.getTextInputValue("dayColorRole");
-                    if (!interaction.guild.roles.cache.get(data)) {
-                        await collector.reply({ content: "Rol bulunamadı", ephemeral: true });
-                        return;
+            const collector = await msg.awaitMessageComponent({ filter: buttonFilter, componentType: ComponentType.RoleSelect, time: 60000 });
+            if (collector) {
+                const data = collector.values[0];
+                const config = {
+                    $set: {
+                        "config.roleOfTheDay": data
                     }
-                    const config = {
-                        $set: {
-                            "config.roleOfTheDay": data
-                        }
-                    };
-                    await client.updateGuildConfig({ guildId: interaction.guild.id, config });
-                    await collector.reply({ content: "Günün rengi rolü ayarlandı.", ephemeral: true });
-                }
-                catch (e) {
-                    await interaction.followUp({
-                        content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true
-                    });
-                    console.log(e);
-                }
+                };
+                await client.updateGuildConfig({ guildId: interaction.guild.id, config });
+                await collector.reply({ content: `Günün Rengi rolü başarıyla ayarlandı`, ephemeral: true });
             }
         }
         catch (e) {
-            await interaction.followUp({
-                content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true
-            });
+            await interaction.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
             console.log(e);
         }
     }
