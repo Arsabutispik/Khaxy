@@ -195,13 +195,14 @@ client.manager.on("trackStart", async (player, track) => {
     await channel.send({ embeds: [TrackStartedEmbed] });
 });
 client.manager.on("queueEnd", async (player) => {
+    const guild = await client.guilds.fetch(player.guild);
     let QueueEmbed = new EmbedBuilder()
         .setAuthor({ name: "Şarkı Listesi Bitti", iconURL: client.config.IconURL })
         .setColor("Random")
         .setTimestamp();
     const channel = await client.channels.fetch(player.textChannel);
     setTimeout(async () => {
-        if (!player.queue.current && !client.config["24/7"] || !player) {
+        if (guild.members.me.voice.channel && !client.config["24/7"] || !player) {
             await channel.send({ embeds: [QueueEmbed] });
             await player.destroy();
         }
