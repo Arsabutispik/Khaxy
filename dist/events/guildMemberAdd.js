@@ -30,20 +30,22 @@ export default async (client, member) => {
         }
     }
     const welcomeChannel = await member.guild.channels.fetch(data.config.welcomeChannel);
-    if (!welcomeChannel) {
-        return;
+    if (welcomeChannel) {
+        try {
+        await welcomeChannel.send(text);
+        } catch (e) {
+            console.error(e)
+        }
     }
     const welcomeChannel2 = await member.guild.channels.fetch(data.config.registerWelcomeChannel);
-    if (!welcomeChannel2) {
-        return;
-    }
-    try {
+    if (welcomeChannel2) {
+        try {
         await welcomeChannel2.send(registerText);
-        await welcomeChannel.send(text);
+        } catch (e) {
+            console.error(e)
+        }
     }
-    catch (e) {
-        console.log(e);
-    }
+    
     if (!data.config.registerChannel) {
         if (member.guild.roles.cache.get(data.config.welcomeRole)) {
             try {
