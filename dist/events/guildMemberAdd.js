@@ -30,6 +30,7 @@ export default async (client, member) => {
         }
     }
     const welcomeChannel = await member.guild.channels.fetch(data.config.welcomeChannel);
+    console.log(welcomeChannel)
     if (welcomeChannel) {
         try {
         await welcomeChannel.send(text);
