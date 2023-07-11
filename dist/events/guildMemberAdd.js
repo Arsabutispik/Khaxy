@@ -21,7 +21,7 @@ export default async (client, member) => {
         "{name}": member.user.username
     });
     const result = await punishmentSchema.findOne({ userId: member.id, type: "mute" });
-    if (result && await member.guild.roles.fetch(data.config.muteRole)) {
+    if (result && await member.guild.roles.cache.get(data.config.muteRole)) {
         try {
             await member.roles.add(data.config.muteRole);
         }
@@ -29,8 +29,7 @@ export default async (client, member) => {
             console.log(e);
         }
     }
-    const welcomeChannel = await member.guild.channels.fetch(data.config.welcomeChannel);
-    console.log(welcomeChannel)
+    const welcomeChannel = await member.guild.channels.cache.get(data.config.welcomeChannel);
     if (welcomeChannel) {
         try {
         await welcomeChannel.send(text);
@@ -38,7 +37,7 @@ export default async (client, member) => {
             console.error(e)
         }
     }
-    const welcomeChannel2 = await member.guild.channels.fetch(data.config.registerWelcomeChannel);
+    const welcomeChannel2 = await member.guild.channels.cache.get(data.config.registerWelcomeChannel);
     if (welcomeChannel2) {
         try {
         await welcomeChannel2.send(registerText);
