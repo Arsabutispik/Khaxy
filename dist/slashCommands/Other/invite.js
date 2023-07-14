@@ -10,7 +10,7 @@ export default { data: new SlashCommandBuilder()
         const inviteEmbed = new EmbedBuilder()
             .setTitle("Davet Linki")
             .setURL(link)
-            .setDescription(`Khaxy Bot'u kullandığınız için minnetarız :heart:\n\nEğer botu kendi sunucunuzda kullanmak istiyorsanız [buradan](${link}) davet edebilirsiniz\n\nDestek sunucumuz için [buraya tıkla](https://discord.gg/8Bb7cA2a82)`)
+            .setDescription(`Khaxy Bot'u kullandığınız için minnetarız :heart:\n\nEğer botu kendi sunucunuzda kullanmak istiyorsanız [buradan](${link}) davet edebilirsiniz\n\nDestek sunucumuz için [buraya tıkla](https://discord.gg/U7gAPuBP8F)`)
             .setColor("Random");
         await interaction.reply({ embeds: [inviteEmbed] });
     } };
