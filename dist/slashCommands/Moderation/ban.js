@@ -152,7 +152,6 @@ export default {
                     }, client);
                 }
             }
-            return;
         }
     }
 };
