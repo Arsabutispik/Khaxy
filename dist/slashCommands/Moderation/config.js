@@ -1,6 +1,13 @@
 import { EmbedBuilder, PermissionsBitField, SlashCommandBuilder, } from "discord.js";
 import { registerConfig, welcomeConfig, moderationConfig, roleConfig } from "../../utils/configFunctions.js";
 export default {
+    help: {
+        name: "config",
+        description: "Sunucu için gerekli ayarları değiştirmeye yarar.",
+        usage: "config [ayar]",
+        examples: ["config", "config register", "config moderation"],
+        category: "Moderasyon"
+    },
     data: new SlashCommandBuilder()
         .setName("config")
         .setDescription("Sunucu için gerekli ayarları değiştirmeye yarar.")

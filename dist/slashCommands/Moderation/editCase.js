@@ -13,6 +13,13 @@ const acceptButton = new ButtonBuilder()
 const actionRow = new ActionRowBuilder()
     .addComponents(acceptButton, rejectButton);
 export default {
+    help: {
+        name: "editcase",
+        description: "Bir cezanın sebebini değiştirir",
+        usage: "editcase <id> <sebep>",
+        examples: ["editcase 1 Küfür"],
+        category: "Moderasyon"
+    },
     data: new SlashCommandBuilder()
         .setName("editcase")
         .setDescription("Bir cezanın sebebini değiştirir")

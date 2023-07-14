@@ -1,6 +1,13 @@
 import { SlashCommandBuilder, PermissionsBitField } from "discord.js";
 import punishmentSchema from "../../schemas/punishmentSchema.js";
 export default {
+    help: {
+        name: "unmute",
+        description: "Bir kullanıcının susturulmasını kaldırır",
+        usage: "unmute <kullanıcı>",
+        examples: ["unmute @Khaxy"],
+        category: "Moderasyon"
+    },
     data: new SlashCommandBuilder()
         .setName("unmute")
         .setDescription("Bir kullanıcının susturulmasını kaldırır")

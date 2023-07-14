@@ -1,6 +1,13 @@
 import { EmbedBuilder, SlashCommandBuilder, PermissionsBitField } from "discord.js";
 import modlog from "../../utils/modlog.js";
 export default {
+    help: {
+        name: "unban",
+        description: "Bir kullanıcının yasağını kaldırır",
+        usage: "unban <id> [sebep]",
+        examples: ["unban 1007246359696515125", "unban 1007246359696515125 sebep"],
+        category: "Moderasyon"
+    },
     data: new SlashCommandBuilder()
         .setName("unban")
         .setDescription("Bir kullanıcının yasağını kaldırır")

@@ -1,5 +1,12 @@
 import { SlashCommandBuilder } from "discord.js";
 export default {
+    help: {
+        name: "loopqueue",
+        description: "Kuyruğu tekrarlar.",
+        usage: "loopqueue",
+        examples: ["loopqueue"],
+        category: "Müzik"
+    },
     data: new SlashCommandBuilder()
         .setName("loopqueue")
         .setDescription("Kuyruğu tekrarlar.")

@@ -1,5 +1,12 @@
 import { SlashCommandBuilder } from "discord.js";
 export default {
+    help: {
+        name: "disconnect",
+        description: "Botu ses kanalından atar.",
+        usage: "disconnect",
+        examples: ["disconnect"],
+        category: "Müzik"
+    },
     data: new SlashCommandBuilder()
         .setName("disconnect")
         .setDescription("Botu ses kanalından atar.")

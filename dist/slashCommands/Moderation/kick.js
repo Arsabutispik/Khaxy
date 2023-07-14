@@ -2,6 +2,13 @@ import { PermissionsBitField, SlashCommandBuilder } from "discord.js";
 import modlog from "../../utils/modlog.js";
 import { daysToSeconds } from "../../utils/utils.js";
 export default {
+    help: {
+        name: "kick",
+        description: "Bir kullanıcıyı sunucudan atar",
+        usage: "kick <kullanıcı> [sebep] [temizle]",
+        examples: ["kick @Khaxy", "kick @Khaxy reklam", "kick @Khaxy reklam true"],
+        category: "Moderasyon"
+    },
     data: new SlashCommandBuilder()
         .setName("kick")
         .setDescription("Bir kullanıcıyı sunucudan atar")

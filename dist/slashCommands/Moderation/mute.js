@@ -3,6 +3,13 @@ import ms from "ms";
 import Punishment from "../../schemas/punishmentSchema.js";
 import modlog from "../../utils/modlog.js";
 export default {
+    help: {
+        name: "mute",
+        description: "Bir kullanıcıyı susturur",
+        usage: "mute <kullanıcı> <süre> <vakit> [sebep]",
+        examples: ["mute @Khaxy 1h sebep", "mute @Khaxy 1d sebep", "mute @Khaxy 1w sebep"],
+        category: "Moderasyon"
+    },
     data: new SlashCommandBuilder()
         .setName("mute")
         .setDescription("Bir kullanıcıyı susturur")

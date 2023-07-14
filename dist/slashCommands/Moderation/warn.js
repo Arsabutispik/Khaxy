@@ -1,6 +1,13 @@
 import { EmbedBuilder, SlashCommandBuilder, PermissionsBitField } from "discord.js";
 import modlog from "../../utils/modlog.js";
 export default {
+    help: {
+        name: "warn",
+        description: "Bir kullanıcıyı uyarır",
+        usage: "warn <kullanıcı> <sebep>",
+        examples: ["warn @Khaxy reklam"],
+        category: "Moderasyon"
+    },
     data: new SlashCommandBuilder()
         .setName("warn")
         .setDescription("Bir kullanıcıyı uyarır")

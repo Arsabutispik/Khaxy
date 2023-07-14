@@ -1,6 +1,13 @@
 import { EmbedBuilder, SlashCommandBuilder, PermissionsBitField } from "discord.js";
 import { sleep } from "../../utils/utils.js";
 export default {
+    help: {
+        name: "kayıt",
+        description: "Kayıt işlemini yapar.",
+        usage: "kayıt <kullanıcı> <cinsiyet>",
+        examples: ["kayıt @Khaxy üye", "kayıt @Khaxy erkek", "kayıt @Khaxy kadın"],
+        category: "Moderasyon"
+    },
     data: new SlashCommandBuilder()
         .setName("kayıt")
         .setDescription("Kayıt işlemini yapar.")

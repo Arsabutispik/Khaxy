@@ -4,6 +4,13 @@ import ProgressBar from "string-progressbar";
 import _ from "lodash";
 import { paginate } from "../../utils/utils.js";
 export default {
+    help: {
+        name: "liste",
+        description: "Şarkı listesini gösterir.",
+        usage: "liste",
+        examples: ["liste"],
+        category: "Müzik"
+    },
     data: new SlashCommandBuilder()
         .setName("liste")
         .setDescription("Şarkı listesini gösterir.")

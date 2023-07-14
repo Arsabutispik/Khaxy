@@ -4,6 +4,13 @@ import modlog from "../../utils/modlog.js";
 import Punishment from "../../schemas/punishmentSchema.js";
 import { daysToSeconds } from "../../utils/utils.js";
 export default {
+    help: {
+        name: "ban",
+        description: "Bir kullanıcıyı sunucudan yasaklar",
+        usage: "ban <üye> [süre] [sebep]",
+        examples: ["ban 674565119161794560 1d Küfür", "ban @Khaxy Küfür"],
+        category: "Moderasyon"
+    },
     data: new SlashCommandBuilder()
         .setName("ban")
         .setDescription("Bir kullanıcıyı sunucudan yasaklar")
@@ -11,7 +18,7 @@ export default {
         .setDMPermission(false)
         .addSubcommand(subcommand => subcommand.setName("force").setDescription("Zorla bir üyeyi yasaklar")
         .addStringOption(option => option.setName("id").setDescription("Yasaklanacak üyenin ID'si").setRequired(true))
-        .addStringOption(option => option.setName("süre").setDescription("Yasaklanacak üyenin yasaklanma süresi").setRequired(false))
+        .addStringOption(option => option.setName("süre").setDescription("Yasaklanacak üyenin yasaklanma süresi (sadece sayılar)").setRequired(false))
         .addStringOption(option => option.setName("vakit").setDescription("Yasaklanacak üyenin yasaklanma süresinin birimi").setRequired(false)
         .setChoices({ name: "Saniye", value: "s" }, { name: "Dakika", value: "m" }, { name: "Saat", value: "h" }, { name: "Gün", value: "d" }, { name: "Hafta", value: "w" }))
         .addStringOption(option => option.setName("sebep").setDescription("Yasaklanma sebebini girin.").setRequired(false)))
@@ -57,6 +64,10 @@ export default {
                 return;
             }
             if (interaction.options.getString("süre", false)) {
+                if (interaction.options.getString("süre", false).length < 0) {
+                    await interaction.reply({ content: "Lütfen geçerli bir süre belirtin!", ephemeral: true });
+                    return;
+                }
                 const duration = ms(`${interaction.options.getString("süre", true) || "0"}${interaction.options.getString("vakit", true) || "s"}`);
                 const longduration = ms(duration, { long: true }).replace(/seconds|second/, "saniye").replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün");
                 await targetMember.ban({ reason: reason });

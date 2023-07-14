@@ -2,6 +2,13 @@ import { EmbedBuilder, PermissionsBitField, SlashCommandBuilder } from "discord.
 import { TrackUtils } from "erela.js";
 import prettyMilliseconds from "pretty-ms";
 export default {
+    help: {
+        name: "play",
+        description: "Müzik çalar.",
+        usage: "play <şarkı adı>",
+        examples: ["play https://www.youtube.com/watch?v=dQw4w9WgXcQ", "play https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT?si=0b88f1a840684c49"],
+        category: "Müzik"
+    },
     data: new SlashCommandBuilder()
         .setName("play")
         .setDescription("Müzik çalar.")

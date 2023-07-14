@@ -1,6 +1,13 @@
 import { EmbedBuilder, PermissionsBitField, SlashCommandBuilder } from "discord.js";
 import { OAuth2Scopes } from "discord-api-types/v10";
 export default {
+    help: {
+        name: "invite",
+        description: "Botun davet linkini gönderir",
+        usage: "invite",
+        examples: ["invite"],
+        category: "Diğer"
+    },
     data: new SlashCommandBuilder()
         .setName("invite")
         .setDescription("Botun davet linkini gönderir"), execute: async ({ interaction, client }) => {

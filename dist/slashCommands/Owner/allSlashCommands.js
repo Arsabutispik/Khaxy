@@ -1,5 +1,8 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 export default {
+    help: {
+        hidden: true,
+    },
     data: new SlashCommandBuilder()
         .setName("allslashcommands")
         .setDescription("Tüm slash komutlarını gösterir, bot sahibine özeldir")

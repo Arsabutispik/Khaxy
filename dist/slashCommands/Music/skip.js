@@ -1,5 +1,12 @@
 import { ButtonBuilder, ActionRowBuilder, EmbedBuilder, SlashCommandBuilder, ButtonStyle, ComponentType } from "discord.js";
 export default {
+    help: {
+        name: "skip",
+        description: "Bir veya birden fazla müziği atlar.",
+        usage: "skip [amount]",
+        examples: ["skip", "skip 2"],
+        category: "Müzik"
+    },
     data: new SlashCommandBuilder()
         .setName("skip")
         .setDescription("Bir veya birden fazla müziği atlar.")

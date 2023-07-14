@@ -2,6 +2,13 @@ import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
 import prettyMilliseconds from "pretty-ms";
 import ProgressBar from "string-progressbar";
 export default {
+    help: {
+        name: "çalıyor",
+        description: "Şu anda çalınan şarkıyı gösterir.",
+        usage: "çalıyor",
+        examples: ["çalıyor"],
+        category: "Müzik"
+    },
     data: new SlashCommandBuilder()
         .setName("çalıyor")
         .setDescription("Şu anda çalınan şarkıyı gösterir.")

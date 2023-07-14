@@ -4,6 +4,13 @@ import modlog from "../../utils/modlog.js";
 import Punishment from "../../schemas/punishmentSchema.js";
 import { daysToSeconds } from "../../utils/utils.js";
 export default {
+    help: {
+        name: "öldür",
+        description: "Bir kullanıcıyı sunucudan yasaklamanın zevkli yolu",
+        usage: "öldür <kullanıcı> [sebep]",
+        examples: ["öldür @Khaxy reklam"],
+        category: "Moderasyon"
+    },
     data: new SlashCommandBuilder()
         .setName("öldür")
         .setDescription("Bir kullanıcıyı sunucudan yasaklamanın zevkli yolu")

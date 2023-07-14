@@ -1,5 +1,12 @@
 import { SlashCommandBuilder } from "discord.js";
 export default {
+    help: {
+        name: "pause",
+        description: "Müziği duraklatır.",
+        usage: "pause",
+        examples: ["pause"],
+        category: "Müzik"
+    },
     data: new SlashCommandBuilder()
         .setName("pause")
         .setDescription("Müziği duraklatır.")
