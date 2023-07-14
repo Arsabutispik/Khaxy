@@ -22,15 +22,17 @@ export default {
         .setChoices({ name: "Saniye", value: "s" }, { name: "Dakika", value: "m" }, { name: "Saat", value: "h" }, { name: "Gün", value: "d" }, { name: "Hafta", value: "w" }))
         .addStringOption(option => option.setName("sebep").setDescription("Yasaklanma sebebini girin.").setRequired(false))),
     execute: async ({ interaction, client }) => {
+        if (!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.BanMembers))
+            return interaction.reply({ content: "Bu komut için `Üyeleri Yasakla` yetkim yok.", ephemeral: true });
         const data = client.guildsConfig.get(interaction.guild.id);
         const subCommand = interaction.options.getSubcommand(true);
         if (!interaction.member.permissions.has(PermissionsBitField.Flags.BanMembers))
-            return interaction.reply({ content: "Bu komutu kullanmak için yeterli yetkin yok.", ephemeral: true });
+            return interaction.reply({ content: "Bu komutu kullanmak için `Üyeleri Yasakla` yetkin yok.", ephemeral: true });
         if (subCommand === "üye") {
             const user = interaction.options.getUser("üye");
             const targetMember = interaction.guild.members.cache.get(user.id);
             const reason = interaction.options.getString("sebep", false) || "Sebep belirtilmedi";
-            if (targetMember.id == interaction.user.id) {
+            if (targetMember.id === interaction.user.id) {
                 await interaction.reply({ content: "Kendini yasaklayamazsın!", ephemeral: true });
                 return;
             }

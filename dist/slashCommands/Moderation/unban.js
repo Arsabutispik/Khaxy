@@ -9,6 +9,10 @@ export default {
         .addStringOption(option => option.setName("id").setDescription("Yasağını kaldırılacak kullanıcın ID'si").setRequired(true))
         .addStringOption(option => option.setName("sebep").setDescription("Yasağın kaldırılma sebebi")),
     execute: async ({ interaction, client }) => {
+        if (!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.BanMembers)) {
+            await interaction.reply({ content: "Bu komutu kullanabilmek için `Üyeleri Yasakla` yetkim yok!", ephemeral: true });
+            return;
+        }
         const id = interaction.options.getNumber("id", true).toString();
         const reason = interaction.options.getString("sebep", false) || "Sebep belirtilmedi";
         const banned = await interaction.guild.bans.fetch();

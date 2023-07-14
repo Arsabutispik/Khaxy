@@ -5,7 +5,7 @@ export default async (client, member) => {
     const data = client.guildsConfig.get(member.guild.id);
     if (!data)
         return;
-    if (member.guild.channels.cache.get(data.config.leaveChannel)) {
+    if (member.guild.channels.cache.get(data.config.leaveChannel) && data.config.leaveMessage) {
         const text = replaceMassString(data.config.leaveMessage, {
             "{tag}": member.user.tag,
             "{server}": member.guild.name,
@@ -29,6 +29,9 @@ export default async (client, member) => {
     }
     if (!await member.guild.channels.fetch(data.config.modlogChannel))
         return;
+    if (!member.guild.members.me.permissions.has("ViewAuditLog")) {
+        return;
+    }
     const fetchedLogs = await member.guild.fetchAuditLogs({
         limit: 1,
         type: AuditLogEvent.MemberKick,

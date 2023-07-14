@@ -9,12 +9,12 @@ export default {
         .setDescription("Bir kullanıcıyı sunucudan yasaklamanın zevkli yolu")
         .setDefaultMemberPermissions(PermissionsBitField.Flags.BanMembers)
         .setDMPermission(false)
-        .addSubcommand(subcommand => subcommand.setName("force").setDescription("Zorla bir üyeyi öldürür")
+        .addSubcommand(subcommand => subcommand.setName("force").setDescription("Zorla bir üyeyi öldürür (ban komudunun zevkli hali)")
         .addStringOption(option => option.setName("id").setDescription("Öldürülecek üyenin ID'si").setRequired(true))
         .addStringOption(option => option.setName("süre").setDescription("Öldürülecek üyenin yasaklanma süresi").setRequired(false))
         .addStringOption(option => option.setName("vakit").setDescription("Öldürülecek üyenin yasaklanma süresinin birimi").setRequired(false)
         .setChoices({ name: "Saniye", value: "s" }, { name: "Dakika", value: "m" }, { name: "Saat", value: "h" }, { name: "Gün", value: "d" }, { name: "Hafta", value: "w" }))
-        .addStringOption(option => option.setName("sebep").setDescription("Öldürülme sebebini girin.").setRequired(false)))
+        .addStringOption(option => option.setName("sebep").setDescription("Öldürülme sebebini girin (ban komudunun zevkli hali).").setRequired(false)))
         .addSubcommand(subcommand => subcommand.setName("üye").setDescription("Bir üyeyi öldürür")
         .addUserOption(option => option.setName("üye").setDescription("Öldürülecek üyenin ID'si").setRequired(true))
         .addStringOption(option => option.setName("süre").setDescription("Öldürülecek üyenin yasaklanma süresi").setRequired(false))
@@ -22,6 +22,10 @@ export default {
         .setChoices({ name: "Saniye", value: "s" }, { name: "Dakika", value: "m" }, { name: "Saat", value: "h" }, { name: "Gün", value: "d" }, { name: "Hafta", value: "w" }))
         .addStringOption(option => option.setName("sebep").setDescription("Öldürülme sebebini girin.").setRequired(false))),
     execute: async ({ interaction, client }) => {
+        if (!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.BanMembers)) {
+            await interaction.reply({ content: "Bu komutu kullanabilmek için `Üyeleri Yasakla` yetkim yok!", ephemeral: true });
+            return;
+        }
         const data = client.guildsConfig.get(interaction.guild.id);
         const subCommand = interaction.options.getSubcommand(true);
         if (!interaction.member.permissions.has(PermissionsBitField.Flags.BanMembers))

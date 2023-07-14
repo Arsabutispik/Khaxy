@@ -18,6 +18,10 @@ export default {
         value: "yok"
     })),
     execute: async ({ interaction, client }) => {
+        if (!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageRoles)) {
+            await interaction.reply({ content: "Bu komutu kullanabilmek için `Rolleri Yönet` yetkim yok!", ephemeral: true });
+            return;
+        }
         const user = interaction.options.getUser("kullanıcı");
         const targetMember = interaction.guild.members.cache.get(user.id);
         const gender = interaction.options.getString("cinsiyet", true);

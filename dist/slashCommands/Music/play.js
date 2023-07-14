@@ -1,4 +1,4 @@
-import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import { EmbedBuilder, PermissionsBitField, SlashCommandBuilder } from "discord.js";
 import { TrackUtils } from "erela.js";
 import prettyMilliseconds from "pretty-ms";
 export default {
@@ -10,6 +10,14 @@ export default {
     execute: async ({ client, interaction }) => {
         if (!interaction.member.voice.channel) {
             await interaction.reply({ content: "|❌| **Bir sesli kanala girmek zorundasınız**", ephemeral: true });
+            return;
+        }
+        if (!interaction.member.voice.channel.permissionsFor(interaction.guild.members.me).has(PermissionsBitField.Flags.Connect)) {
+            await interaction.reply({ content: "Bulunduğun kanala katılamıyorum!", ephemeral: true });
+            return;
+        }
+        if (!interaction.member.voice.channel.permissionsFor(interaction.guild.members.me).has(PermissionsBitField.Flags.Speak)) {
+            await interaction.reply({ content: "Mhm! Mhhmhhmhm! MHHHPMHP! (Konuşma yetkim yok)", ephemeral: true });
             return;
         }
         if (interaction.guild.members.me.voice.channel &&
@@ -39,7 +47,7 @@ export default {
             await message.delete();
             return;
         }
-        if (player.state != "CONNECTED")
+        if (player.state !== "CONNECTED")
             await player.connect();
         try {
             if (SearchString.match(client.Lavasfy.spotifyPattern)) {
@@ -89,7 +97,6 @@ export default {
                 else {
                     message.channel.send("|❌| **Bir şarkı bulunamadı.**");
                     await message.delete();
-                    return;
                 }
             }
             else {
@@ -102,9 +109,8 @@ export default {
                 if (Searched.loadType === "NO_MATCHES") {
                     message.channel.send("|❌| **Bir şarkı bulunamadı.**");
                     await message.delete();
-                    return;
                 }
-                else if (Searched.loadType == "PLAYLIST_LOADED") {
+                else if (Searched.loadType === "PLAYLIST_LOADED") {
                     player.queue.add(Searched.tracks);
                     if (!player.playing &&
                         !player.paused &&

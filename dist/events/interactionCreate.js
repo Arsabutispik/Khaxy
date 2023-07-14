@@ -5,8 +5,8 @@ export default async (client, interaction) => {
     if (interaction.isChatInputCommand()) {
         if (interaction.channel.type === ChannelType.DM)
             return interaction.reply({ content: "DM'de komutlar kullanılamaz!", ephemeral: true });
-        if (!interaction.guild.members.me.permissions.has("Administrator")) {
-            return interaction.reply("Botun kullanılabilir olması için yönetici olması gerekiyor!");
+        if (!interaction.channel.permissionsFor(interaction.guild.members.me).has("SendMessages")) {
+            return interaction.reply("Botun düzgün çalışması için `Mesaj Gönder` yetkisine ihtiyacı var!");
         }
         if (client.guildsConfig.get(interaction.guild.id) === undefined) {
             const data = await guildConfig.findOne({ guildID: interaction.guild.id });

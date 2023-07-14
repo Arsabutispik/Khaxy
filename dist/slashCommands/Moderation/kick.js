@@ -11,6 +11,10 @@ export default {
         .addStringOption(option => option.setName("sebep").setDescription("Atılma sebebi").setRequired(false))
         .addBooleanOption(option => option.setName("temizle").setDescription("Atılan kullanıcının son 7 gündeki mesajlarını siler")),
     execute: async ({ interaction, client }) => {
+        if (!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.KickMembers)) {
+            await interaction.reply({ content: "Bu komutu kullanabilmek için `Üyeleri At` yetkim yok!", ephemeral: true });
+            return;
+        }
         const user = interaction.options.getUser("kullanıcı");
         const targetMember = interaction.guild.members.cache.get(user.id);
         const reason = interaction.options.getString("sebep", false) || "Sebep belirtilmedi";

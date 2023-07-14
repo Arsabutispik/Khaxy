@@ -117,9 +117,9 @@ async function paginate(message, pages, timeout = 60000) {
     });
 }
 function replaceMassString(text, replace) {
+    if (!text)
+        return null;
     for (const [key, value] of Object.entries(replace)) {
-        if (!text)
-            return;
         text = text.replace(new RegExp(key, "g"), value);
     }
     return text;

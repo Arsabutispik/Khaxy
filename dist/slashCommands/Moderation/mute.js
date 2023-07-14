@@ -14,6 +14,10 @@ export default {
         .setChoices({ name: "Saniye", value: "s" }, { name: "Dakika", value: "m" }, { name: "Saat", value: "h" }, { name: "Gün", value: "d" }, { name: "Hafta", value: "w" }))
         .addStringOption(option => option.setName("sebep").setDescription("Susturulma sebebi").setRequired(true)),
     execute: async ({ interaction, client }) => {
+        if (!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageRoles)) {
+            await interaction.reply({ content: "Bu komutu kullanabilmek için `Rolleri Yönet` yetkim yok!", ephemeral: true });
+            return;
+        }
         const user = interaction.options.getUser("kullanıcı");
         const targetMember = interaction.guild.members.cache.get(user.id);
         const data = client.guildsConfig.get(interaction.guild.id);

@@ -6,6 +6,10 @@ export default async (client, ban) => {
         return;
     if (!await ban.guild.channels.fetch(data.config.modlogChannel))
         return;
+    if (!ban.guild.members.me.permissions.has("ViewAuditLog")) {
+        await modlog({ guild: ban.guild, user: ban.user, action: "BAN_KALDIR", actionmaker: client.user, reason: "Kimin olduğunu öğrenmek için yeterliye yetkiye sahip değilim." }, client);
+        return;
+    }
     const auditLog = await ban.guild.fetchAuditLogs({ type: AuditLogEvent.MemberBanRemove, limit: 1 });
     const banLog = auditLog.entries.first();
     const { executor, target, reason } = banLog;

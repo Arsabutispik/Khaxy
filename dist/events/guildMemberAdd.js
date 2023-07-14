@@ -30,7 +30,7 @@ export default async (client, member) => {
         }
     }
     const welcomeChannel = await member.guild.channels.fetch(data.config.welcomeChannel);
-    if (welcomeChannel && text) {
+    if (welcomeChannel && text && welcomeChannel.permissionsFor(client.user)?.has("SendMessages")) {
         try {
             await welcomeChannel.send(text);
         }
@@ -39,7 +39,7 @@ export default async (client, member) => {
         }
     }
     const welcomeChannel2 = await member.guild.channels.cache.get(data.config.registerWelcomeChannel);
-    if (welcomeChannel2 && registerText) {
+    if (welcomeChannel2 && registerText && welcomeChannel2.permissionsFor(client.user)?.has("SendMessages")) {
         try {
             await welcomeChannel2.send(registerText);
         }
