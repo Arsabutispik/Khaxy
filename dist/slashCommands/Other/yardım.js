@@ -41,7 +41,7 @@ export default {
                 .setDescription(`**${category.replace(/\b(\w)/g, (char) => char.toUpperCase())}** Kategorisini görüntülüyorsunuz`);
             commands.forEach((command) => {
                 if (!command.help.hidden) {
-                    embed.addFields({ name: command.help.name, value: `Tanım: **${command.help.description}**\n\nKullanım: **${command.help.usage}**\n\nÖrnekler: ${command.help.examples.join("\n")}`, inline: true });
+                    embed.addFields({ name: `/${command.help.name}`, value: `Tanım: **${command.help.description}**\n\nKullanım: **${command.help.usage}**\n\nÖrnekler: ${command.help.examples.join("\n")}`, inline: true });
                 }
             });
             await i.update({ embeds: [embed] });
