@@ -31,17 +31,19 @@ export default {
         });
         const message = await interaction.fetchReply();
         const filter = (i) => i.user.id === interaction.user.id;
-        const collector = message.createMessageComponentCollector({ filter, time: 60000, componentType: ComponentType.SelectMenu });
+        const collector = message.createMessageComponentCollector({ filter, time: 300000, componentType: ComponentType.SelectMenu });
         collector.on("collect", async (i) => {
             const category = i.values[0];
             const commands = client.slashCommands.filter((command) => command.help.category).filter((command) => command.help.category.toLowerCase() === category.toLowerCase());
             const embed = new EmbedBuilder()
                 .setColor("Random")
                 .setAuthor({ name: interaction.user.username, iconURL: interaction.user.displayAvatarURL() })
-                .setDescription(`**${category}** Kategorisini görüntülüyorsunuz`);
+                .setDescription(`**${category.replace(/([^a-z]|^)([a-z])(?=[a-z]{2})/g, function (_, g1, g2) {
+                return g1 + g2.toUpperCase();
+            })}** Kategorisini görüntülüyorsunuz`);
             commands.forEach((command) => {
                 if (!command.help.hidden) {
-                    embed.addFields({ name: command.help.name, value: `Tanım: ${command.help.description}\n\nKullanım: ${command.help.usage}\n\nÖrnekler: ${command.help.examples}`, inline: true });
+                    embed.addFields({ name: command.help.name, value: `Tanım: **${command.help.description}**\n\nKullanım: **${command.help.usage}**\n\nÖrnekler: ${command.help.examples.join("\n")}`, inline: true });
                 }
             });
             await i.update({ embeds: [embed] });
