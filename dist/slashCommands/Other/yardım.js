@@ -34,7 +34,7 @@ export default {
         const collector = message.createMessageComponentCollector({ filter, time: 60000, componentType: ComponentType.SelectMenu });
         collector.on("collect", async (i) => {
             const category = i.values[0];
-            const commands = client.slashCommands.filter((command) => command.help.category.toLowerCase() === category);
+            const commands = client.slashCommands.filter((command) => command.help.category).filter((command) => command.help.category.toLowerCase() === category.toLowerCase());
             const embed = new EmbedBuilder()
                 .setColor("Random")
                 .setAuthor({ name: interaction.user.username, iconURL: interaction.user.displayAvatarURL() })
