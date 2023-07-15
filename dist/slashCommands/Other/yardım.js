@@ -38,7 +38,7 @@ export default {
             const embed = new EmbedBuilder()
                 .setColor("Random")
                 .setAuthor({ name: interaction.user.username, iconURL: interaction.user.displayAvatarURL() })
-                .setDescription(`**${category.replace(/\b(\w)/g, (char) => char.toUpperCase())}** Kategorisini görüntülüyorsunuz`);
+                .setDescription(`**${category.replace(/\b(\w)/gu, (char) => char.toUpperCase())}** Kategorisini görüntülüyorsunuz`);
             commands.forEach((command) => {
                 if (!command.help.hidden) {
                     embed.addFields({ name: `/${command.help.name}`, value: `Tanım: **${command.help.description}**\n\nKullanım: **${command.help.usage}**\n\nÖrnekler: ${command.help.examples.join("\n")}`, inline: true });
