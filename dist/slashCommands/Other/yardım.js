@@ -11,7 +11,7 @@ export default {
         .setName("yardım")
         .setDescription("Tüm komutları gösterir"),
     execute: async ({ interaction, client }) => {
-        const category = client.slashCommands.map((command) => command.help.category).filter((value, index, self) => self.indexOf(value) === index).filter((value) => !value);
+        const category = client.slashCommands.map((command) => command.help.category).filter((value, index, self) => self.indexOf(value) === index).filter((value) => value);
         console.log(category);
         await interaction.reply({ content: "Yardım menüsü yakında eklenecek", ephemeral: true });
     }
