@@ -11,14 +11,16 @@ export default {
         .setName("yardım")
         .setDescription("Tüm komutları gösterir"),
     execute: async ({ interaction, client }) => {
-        const category = client.slashCommands.map((command) => {
-            if (!command.help.hidden) {
-                return {
-                    label: command.help.category,
-                    description: command.help.description,
-                    value: command.help.category.toLowerCase()
-                };
+        const category = client.slashCommands.filter(key => {
+            if (!key.help.hidden) {
+                return key;
             }
+        }).map((command) => {
+            return {
+                label: command.help.category,
+                description: command.help.description,
+                value: command.help.category.toLowerCase()
+            };
         });
         const selectMenu = new SelectMenuBuilder()
             .setCustomId("help")
