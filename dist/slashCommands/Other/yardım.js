@@ -12,11 +12,13 @@ export default {
         .setDescription("Tüm komutları gösterir"),
     execute: async ({ interaction, client }) => {
         const category = client.slashCommands.map((command) => {
-            return {
-                label: command.help.category,
-                description: command.help.description,
-                value: command.help.category.toLowerCase()
-            };
+            if (!command.help.hidden) {
+                return {
+                    label: command.help.category,
+                    description: command.help.description,
+                    value: command.help.category.toLowerCase()
+                };
+            }
         });
         const selectMenu = new SelectMenuBuilder()
             .setCustomId("help")
