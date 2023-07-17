@@ -53,7 +53,18 @@ export default {
             await interaction.reply(`<a:checkmark:1017704018287546388> **${targetMember.user.tag}** atıldı (Olay #${data.case}) Kullanıcıya özel mesaj atılamadı`);
         }
         if (interaction.guild.channels.cache.get(data.config.modlogChannel)) {
-            await modlog({ guild: interaction.guild, user: targetMember.user, action: "AT", actionmaker: interaction.user, reason }, client);
+            try {
+                await modlog({
+                    guild: interaction.guild,
+                    user: targetMember.user,
+                    action: "AT",
+                    actionmaker: interaction.user,
+                    reason
+                }, client);
+            }
+            catch {
+                await interaction.followUp({ content: "Modlog kanalına mesaj göndermek için yetkim yok!", ephemeral: true });
+            }
         }
         if (clear) {
             await targetMember.ban({ reason: reason, deleteMessageSeconds: daysToSeconds(7) });

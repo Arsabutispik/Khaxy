@@ -64,13 +64,18 @@ export default {
         let reason = interaction.options.getString("sebep", true);
         await interaction.reply(`<a:checkmark:1017704018287546388> **${member.user.tag}** uyarıldı (Olay #${data.case}) Kullanıcı özel bir mesaj ile bildirildi`);
         if (interaction.guild.channels.cache.get(data.config.modlogChannel)) {
-            await modlog({
-                guild: interaction.guild,
-                user: member.user,
-                action: "UYARI",
-                actionmaker: interaction.user,
-                reason
-            }, client);
+            try {
+                await modlog({
+                    guild: interaction.guild,
+                    user: member.user,
+                    action: "UYARI",
+                    actionmaker: interaction.user,
+                    reason
+                }, client);
+            }
+            catch {
+                await interaction.followUp({ content: "Modlog kanalına mesaj göndermek için yetkim yok!", ephemeral: true });
+            }
         }
     }
 };

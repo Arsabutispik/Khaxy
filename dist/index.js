@@ -195,14 +195,14 @@ client.manager.on("trackStart", async (player, track) => {
     await channel.send({ embeds: [TrackStartedEmbed] });
 });
 client.manager.on("queueEnd", async (player) => {
-    let QueueEmbed = new EmbedBuilder()
-        .setAuthor({ name: "Şarkı Listesi Bitti", iconURL: client.config.IconURL })
-        .setColor("Random")
-        .setTimestamp();
-    const channel = await client.channels.fetch(player.textChannel);
     setTimeout(async () => {
-        const guild = await client.guilds.fetch(player.guild);
-        if (guild.members.me.voice.channel && !client.config["24/7"] || !player) {
+        const currentPlayer = client.manager.players.get(player.guild);
+        const channel = await client.channels.fetch(player.textChannel);
+        let QueueEmbed = new EmbedBuilder()
+            .setAuthor({ name: "Şarkı Listesi Bitti", iconURL: client.config.IconURL })
+            .setColor("Random")
+            .setTimestamp();
+        if ((!currentPlayer || !currentPlayer.queue.totalSize) && !client.config["24/7"] || !player) {
             await channel.send({ embeds: [QueueEmbed] });
             await player.destroy();
         }

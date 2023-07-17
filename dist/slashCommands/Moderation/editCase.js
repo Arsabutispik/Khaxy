@@ -49,6 +49,14 @@ export default {
             await interaction.reply({ embeds: [embed], ephemeral: true });
             return;
         }
+        else if (!interaction.guild.channels.cache.get(data.config.modlogChannel).permissionsFor(interaction.guild.members.me).has(PermissionsBitField.Flags.SendMessages)) {
+            const embed = new EmbedBuilder()
+                .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
+                .setColor("Red")
+                .setDescription("Bu komutu kullanabilmek için önce modlog kanalına mesaj gönderme yetkisine sahip olmalıyım!");
+            await interaction.reply({ embeds: [embed], ephemeral: true });
+            return;
+        }
         if ((data.case < id) || (id < 1)) {
             const embed = new EmbedBuilder()
                 .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })

@@ -108,14 +108,19 @@ export default {
             await targetMember.roles.add(data.config.muteRole);
         }
         if (interaction.guild.channels.cache.get(data.config.modlogChannel)) {
-            await modlog({
-                guild: interaction.guild,
-                user: targetMember.user,
-                action: "SUSTUR",
-                actionmaker: interaction.user,
-                reason,
-                duration
-            }, client);
+            try {
+                await modlog({
+                    guild: interaction.guild,
+                    user: targetMember.user,
+                    action: "SUSTUR",
+                    actionmaker: interaction.user,
+                    reason,
+                    duration
+                }, client);
+            }
+            catch {
+                await interaction.followUp({ content: "Modlog kanalına mesaj göndermek için yetkim yok!", ephemeral: true });
+            }
         }
     }
 };

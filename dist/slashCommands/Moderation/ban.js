@@ -80,14 +80,19 @@ export default {
                 }
                 await targetMember.ban({ reason, deleteMessageSeconds: daysToSeconds(7) });
                 if (interaction.guild.channels.cache.get(data.config.modlogChannel)) {
-                    await modlog({
-                        guild: interaction.guild,
-                        user: targetMember.user,
-                        action: "SÜRELİ_BAN",
-                        actionmaker: interaction.user,
-                        reason,
-                        duration
-                    }, client);
+                    try {
+                        await modlog({
+                            guild: interaction.guild,
+                            user: targetMember.user,
+                            action: "SÜRELİ_BAN",
+                            actionmaker: interaction.user,
+                            reason,
+                            duration
+                        }, client);
+                    }
+                    catch {
+                        await interaction.followUp({ content: "Modlog kanalına mesaj göndermek için yetkim yok!", ephemeral: true });
+                    }
                 }
                 await new Punishment({ guildID: interaction.guild.id, userId: targetMember.id, staffId: interaction.user.id, reason, expires: new Date(Date.now() + duration), type: "ban" }).save();
             }
@@ -100,13 +105,18 @@ export default {
                     await interaction.channel.send(`<a:checkmark:1017704018287546388> **${targetMember.user.tag}** yasaklandı (Olay #${data.case}) Kullanıcıya özel mesaj atılamadı`);
                 }
                 if (interaction.guild.channels.cache.get(data.config.modlogChannel)) {
-                    await modlog({
-                        guild: interaction.guild,
-                        user: targetMember.user,
-                        action: "BAN",
-                        actionmaker: interaction.user,
-                        reason
-                    }, client);
+                    try {
+                        await modlog({
+                            guild: interaction.guild,
+                            user: targetMember.user,
+                            action: "BAN",
+                            actionmaker: interaction.user,
+                            reason
+                        }, client);
+                    }
+                    catch {
+                        await interaction.followUp({ content: "Modlog kanalına mesaj göndermek için yetkim yok!", ephemeral: true });
+                    }
                 }
                 await targetMember.ban({ reason });
             }
@@ -138,14 +148,19 @@ export default {
                 await interaction.channel.send(`<a:checkmark:1017704018287546388> **${fetchUser.tag}** yasaklandı (Olay #${data.case})`);
                 await interaction.guild.bans.create(fetchUser.id);
                 if (interaction.guild.channels.cache.get(data.config.modlogChannel)) {
-                    await modlog({
-                        guild: interaction.guild,
-                        user: fetchUser,
-                        action: "ZORUNLU_BAN",
-                        actionmaker: interaction.user,
-                        reason,
-                        duration
-                    }, client);
+                    try {
+                        await modlog({
+                            guild: interaction.guild,
+                            user: fetchUser,
+                            action: "ZORUNLU_BAN",
+                            actionmaker: interaction.user,
+                            reason,
+                            duration
+                        }, client);
+                    }
+                    catch {
+                        await interaction.followUp({ content: "Modlog kanalına mesaj göndermek için yetkim yok!", ephemeral: true });
+                    }
                 }
                 await new Punishment({ guildID: interaction.guild.id, userId: fetchUser.id, staffId: interaction.user.id, reason, expires: new Date(Date.now() + duration), type: "ban" }).save();
             }
@@ -154,13 +169,18 @@ export default {
                 await interaction.channel.send(`<a:checkmark:1017704018287546388> **${fetchUser.tag}** yasaklandı (Olay #${data.case})`);
                 await interaction.guild.bans.create(fetchUser.id);
                 if (interaction.guild.channels.cache.get(data.config.modlogChannel)) {
-                    await modlog({
-                        guild: interaction.guild,
-                        user: fetchUser,
-                        action: "ZORUNLU_BAN",
-                        actionmaker: interaction.user,
-                        reason
-                    }, client);
+                    try {
+                        await modlog({
+                            guild: interaction.guild,
+                            user: fetchUser,
+                            action: "ZORUNLU_BAN",
+                            actionmaker: interaction.user,
+                            reason
+                        }, client);
+                    }
+                    catch {
+                        await interaction.followUp({ content: "Modlog kanalına mesaj göndermek için yetkim yok!", ephemeral: true });
+                    }
                 }
             }
         }

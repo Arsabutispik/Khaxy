@@ -37,7 +37,18 @@ export default {
         }
         await interaction.guild.members.unban(user.user, reason);
         if (interaction.guild.channels.cache.get(data.config.modlogChannel)) {
-            await modlog({ guild: interaction.guild, user: user.user, actionmaker: interaction.user, reason, action: "BAN_KALDIR" }, client);
+            try {
+                await modlog({
+                    guild: interaction.guild,
+                    user: user.user,
+                    actionmaker: interaction.user,
+                    reason,
+                    action: "BAN_KALDIR"
+                }, client);
+            }
+            catch {
+                await interaction.followUp({ content: "Modlog kanalına mesaj göndermek için yetkim yok!", ephemeral: true });
+            }
         }
         const embed = new EmbedBuilder()
             .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
