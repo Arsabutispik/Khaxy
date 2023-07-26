@@ -2,9 +2,9 @@ export default {
     IconURL: "https://cdn.discordapp.com/attachments/933095626844037224/1016257179872923708/music-disc.gif",
     Lavalink: {
         id: "Main",
-        host: "lavalink.devamop.in",
+        host: "eu-lavalink.lexnet.cc",
         port: 443,
-        pass: "DevamOP",
+        pass: "lexn3tl@val!nk",
         secure: true,
         retryAmount: 50,
         retryDelay: 40,
