@@ -20,7 +20,7 @@ export default {
             await interaction.reply({ content: "Bu komutu kullanabilmek için `Üyeleri Yasakla` yetkim yok!", ephemeral: true });
             return;
         }
-        const id = interaction.options.getNumber("id", true).toString();
+        const id = interaction.options.getString("id", true);
         const reason = interaction.options.getString("sebep", false) || "Sebep belirtilmedi";
         const banned = await interaction.guild.bans.fetch();
         const user = banned.get(id);
