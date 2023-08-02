@@ -1,4 +1,5 @@
 import { SlashCommandBuilder } from "discord.js";
+import { useQueue } from "discord-player";
 export default {
     help: {
         name: "disconnect",
@@ -12,7 +13,7 @@ export default {
         .setDescription("Botu ses kanalından atar.")
         .setDMPermission(false),
     execute: async ({ client, interaction }) => {
-        let player = await client.manager.get(interaction.guild.id);
+        let player = useQueue(interaction.guild.id);
         if (!interaction.member.voice.channel) {
             await interaction.reply("|❌| **Bir sesli kanala girmek zorundasınız**");
             return;
@@ -37,7 +38,7 @@ export default {
                     await interaction.reply("|✅| **Müzik durduruldu.**");
                     const message = await interaction.fetchReply();
                     await message.react("✅");
-                    player.destroy();
+                    player.delete();
                     return;
                 }
             }
@@ -45,14 +46,14 @@ export default {
                 await interaction.reply("|✅| **Müzik durduruldu.**");
                 const message = await interaction.fetchReply();
                 await message.react("✅");
-                player.destroy();
+                player.delete();
                 return;
             }
         }
         await interaction.reply("|✅| **Müzik durduruldu.**");
         const message = await interaction.fetchReply();
         await message.react("✅");
-        player.destroy();
+        player.delete();
     }
 };
 //# sourceMappingURL=disconnect.js.map

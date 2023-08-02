@@ -1,4 +1,5 @@
 import { SlashCommandBuilder } from "discord.js";
+import { useQueue } from "discord-player";
 export default {
     help: {
         name: "pause",
@@ -12,7 +13,7 @@ export default {
         .setDescription("Müziği duraklatır.")
         .setDMPermission(false),
     execute: async ({ client, interaction }) => {
-        let player = await client.manager.get(interaction.guild.id);
+        let player = useQueue(interaction.guild.id);
         if (!interaction.member.voice.channel) {
             await interaction.reply("|❌| **Bir sesli kanala girmek zorundasınız**");
             return;
@@ -21,7 +22,7 @@ export default {
             await interaction.reply("|❌| **Bot şu anda müzik çalmıyor.**");
             return;
         }
-        if (player.paused) {
+        if (player.node.isPaused()) {
             await interaction.reply("|❌| **Müzik zaten duraklatılmış.**");
             return;
         }
@@ -38,7 +39,7 @@ export default {
                     return;
                 }
                 else {
-                    player.pause(true);
+                    player.node.pause();
                     await interaction.reply("|✅| **Müzik duraklatıldı.**");
                     const message = await interaction.fetchReply();
                     await message.react("✅");
@@ -46,14 +47,14 @@ export default {
                 }
             }
             else {
-                player.pause(true);
+                player.node.pause();
                 await interaction.reply("|✅| **Müzik duraklatıldı.**");
                 const message = await interaction.fetchReply();
                 await message.react("✅");
                 return;
             }
         }
-        player.pause(true);
+        player.node.pause();
         await interaction.reply("|✅| **Müzik duraklatıldı.**");
         const message = await interaction.fetchReply();
         await message.react("✅");

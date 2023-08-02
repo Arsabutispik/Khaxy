@@ -1,4 +1,5 @@
 import { ButtonBuilder, ActionRowBuilder, EmbedBuilder, SlashCommandBuilder, ButtonStyle, ComponentType } from "discord.js";
+import { useQueue } from "discord-player";
 export default {
     help: {
         name: "skip",
@@ -10,7 +11,7 @@ export default {
     data: new SlashCommandBuilder()
         .setName("skip")
         .setDescription("Bir veya birden fazla müziği atlar.")
-        .addIntegerOption(option => option.setName("amount").setDescription("Kaç müzik atılacağını belirtir.").setRequired(false))
+        .addNumberOption(option => option.setName("amount").setDescription("Kaç müzik atılacağını belirtir.").setRequired(false).setMinValue(1))
         .setDMPermission(false),
     async execute({ client, interaction }) {
         const acceptButton = new ButtonBuilder()
@@ -25,20 +26,20 @@ export default {
             .setDisabled(false);
         const row = new ActionRowBuilder()
             .addComponents(acceptButton, rejectButton);
-        const amount = interaction.options.getInteger("amount");
+        const amount = interaction.options.getNumber("amount");
         async function skipVote(interaction, userStates, player) {
             if (!amount) {
                 if (userStates.size === 1) {
                     const otherUser = userStates.first();
                     if (otherUser) {
-                        await interaction.reply({ content: `${otherUser} **${interaction.user.tag}** Şu anda çalan *\`${player.queue.current?.title}\`* şarkısını değiştirmek istiyor lütfen aşağıdan seçimini yap.`, components: [row] });
+                        await interaction.reply({ content: `${otherUser} **${interaction.user.tag}** Şu anda çalan *\`${player.currentTrack.title}\`* şarkısını değiştirmek istiyor lütfen aşağıdan seçimini yap.`, components: [row] });
                         const msg = await interaction.fetchReply();
                         const filter = (interaction) => interaction.user.id === otherUser.id && (interaction.customId === 'accept' || interaction.customId === 'reject');
                         try {
                             let response = await msg.awaitMessageComponent({ filter, componentType: ComponentType.Button, time: 1000 * 60 * 2 });
                             switch (response.customId) {
                                 case 'accept':
-                                    player.stop();
+                                    player.node.skip();
                                     await msg.edit({ content: `Şarkı başarıyla atlandı.`, components: [] });
                                     break;
                                 case 'reject':
@@ -57,7 +58,7 @@ export default {
                     let accepted = 0;
                     const embed = new EmbedBuilder()
                         .setTitle("Oylama Başladı")
-                        .setDescription(`${interaction.user.tag} Şu anda çalan *\`${player.queue.current?.title}\`* şarkısını değiştirmek istiyor lütfen aşağıdan seçimini yap.`)
+                        .setDescription(`${interaction.user.tag} Şu anda çalan *\`${player.currentTrack.title}\`* şarkısını değiştirmek istiyor lütfen aşağıdan seçimini yap.`)
                         .setColor("Random")
                         .setFooter({ text: "Oylama 2 dakika içinde sona erecek." });
                     userStates.forEach(user => {
@@ -104,14 +105,14 @@ export default {
                     });
                     collector.on('end', async () => {
                         if (userStates.size === 2 && accepted === 1) {
-                            player.stop();
+                            player.node.skip();
                             await msg.edit({ content: "Şarkı başarıyla atlandı.", components: [] });
                         }
                         else {
                             await msg.edit({ content: "Oylama başarısız oldu.", components: [] });
                         }
                         if (Math.floor((accepted / userStates.size) * 100) >= 60) {
-                            player.stop();
+                            player.node.skip();
                             await msg.edit({ content: "Şarkı başarıyla atlandı.", components: [] });
                         }
                         else {
@@ -121,7 +122,7 @@ export default {
                 }
             }
             else {
-                if (amount > player.queue.length)
+                if (amount > player.size)
                     return await interaction.reply({ content: "Kuyrukta o kadar şarkı yok." });
                 if (userStates.size === 1) {
                     const otherUser = userStates.filter(member => member.id !== interaction.user.id).first();
@@ -133,8 +134,7 @@ export default {
                             let response = await msg.awaitMessageComponent({ filter, componentType: ComponentType.Button, time: 1000 * 60 * 2 });
                             switch (response.customId) {
                                 case 'accept':
-                                    player.queue.remove(0, amount);
-                                    player.stop();
+                                    player.node.skipTo(amount - 1);
                                     await msg.edit({ content: `${amount} şarkı başarıyla atlandı.`, components: [] });
                                     break;
                                 case 'reject':
@@ -200,16 +200,14 @@ export default {
                     });
                     collector.on('end', async () => {
                         if (userStates.size === 2 && accepted === 1) {
-                            player.queue.remove(0, amount);
-                            player.stop();
+                            player.node.skipTo(amount - 1);
                             await msg.edit({ content: `${amount} şarkı başarıyla atlandı.`, components: [] });
                         }
                         else {
                             await msg.edit({ content: "Oylama başarısız oldu.", components: [] });
                         }
                         if (Math.floor((accepted / userStates.size) * 100) >= 60) {
-                            player.queue.remove(0, amount);
-                            player.stop();
+                            player.node.skipTo(amount - 1);
                             await msg.edit({ content: `${amount} şarkı başarıyla atlandı.`, components: [] });
                         }
                         else {
@@ -219,14 +217,14 @@ export default {
                 }
             }
         }
-        const player = client.manager.players.get(interaction.guild.id);
+        const player = useQueue(interaction.guild.id);
         if (!player)
             return await interaction.reply({ content: "Şu anda hiçbir şey çalmıyor." });
         if (!interaction.member.voice.channel)
             return await interaction.reply({ content: "Bir ses kanalında olmanız gerekir." });
         if (interaction.guild.members.me.voice.channel && interaction.member.voice.channel.id !== interaction.guild.members.me.voice.channel.id)
             return await interaction.reply({ content: "Botla aynı ses kanalında olmanız gerekir." });
-        if (!player.queue.current)
+        if (!player.currentTrack)
             return await interaction.reply({ content: "Şu anda hiçbir şey çalmıyor." });
         const voiceStateUsers = interaction.member.voice.channel.members
             .filter(member => !member.user.bot)
@@ -237,24 +235,22 @@ export default {
         if (voiceStateUsers.size >= 1) {
             if (interaction.member.roles.cache.has(client.guildsConfig.get(interaction.guild.id).config.djRole)) {
                 if (!amount) {
-                    player.stop();
+                    player.node.skip();
                     return await interaction.reply({ content: "Şarkı başarıyla atlandı." });
                 }
-                if (amount > player.queue.length)
+                if (amount > player.size)
                     return await interaction.reply({ content: "Kuyrukta o kadar şarkı yok." });
-                player.queue.remove(0, amount);
-                player.stop();
+                player.node.skipTo(amount - 1);
                 await interaction.reply({ content: `${amount} şarkı başarıyla atlandı.` });
             }
             else if (interaction.member.permissions.has("Administrator")) {
                 if (!amount) {
-                    player.stop();
+                    player.node.skip();
                     return await interaction.reply({ content: "Şarkı başarıyla atlandı." });
                 }
-                if (amount > player.queue.length)
+                if (amount > player.size)
                     return await interaction.reply({ content: "Kuyrukta o kadar şarkı yok." });
-                player.queue.remove(0, amount);
-                player.stop();
+                player.node.skipTo(amount - 1);
                 await interaction.reply({ content: `${amount} şarkı başarıyla atlandı.` });
             }
             else {
@@ -263,13 +259,12 @@ export default {
             return;
         }
         if (!amount) {
-            player.stop();
+            player.node.skip();
             return await interaction.reply({ content: "Şarkı başarıyla atlandı." });
         }
-        if (amount > player.queue.length)
+        if (amount > player.size)
             return await interaction.reply({ content: "Kuyrukta o kadar şarkı yok." });
-        player.queue.remove(0, amount);
-        player.stop();
+        player.node.skipTo(amount - 1);
         await interaction.reply({ content: `${amount} şarkı başarıyla atlandı.` });
     }
 };

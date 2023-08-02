@@ -1,16 +1,11 @@
-import { ActivityType, Client, Collection, EmbedBuilder, Partials, IntentsBitField } from "discord.js";
+import { ActivityType, Client, EmbedBuilder, Partials, IntentsBitField, Collection } from "discord.js";
 import config from './config.json' assert { type: 'json' };
 import { registerEvents, registerSlashCommands } from "./utils/registery.js";
 import { log } from "./utils/utils.js";
 import mongoose from "mongoose";
 import checkPunishments from "./utils/checkPunishments.js";
-import { Manager } from "erela.js";
-import { LavasfyClient } from "lavasfy";
-import Spotify from "erela.js-spotify";
+import { Player } from "discord-player";
 import prettyMilliseconds from "pretty-ms";
-import deezer from "erela.js-deezer";
-import facebook from "erela.js-facebook";
-import apple from "erela.js-apple";
 import guildSchema from "./schemas/guildSchema.js";
 import colorOfTheDay from "./utils/colorOfTheDay.js";
 import cron from "node-cron";
@@ -35,55 +30,12 @@ const intents = new IntentsBitField()
     IntentsBitField.Flags.GuildEmojisAndStickers]);
 const client = new Client({ intents, partials: [Partials.Message, Partials.Channel, Partials.User, Partials.Reaction] });
 client.config = (await import("./botconfig.js")).default;
+const player = new Player(client);
 (async () => {
     client.commands = new Collection();
     client.categories = new Collection();
     client.slashCommands = new Collection();
     client.guildsConfig = new Collection();
-    const nodes = [
-        {
-            identifier: client.config.Lavalink.id,
-            host: client.config.Lavalink.host,
-            port: client.config.Lavalink.port,
-            password: client.config.Lavalink.pass,
-            secure: client.config.Lavalink.secure,
-            retryAmount: client.config.Lavalink.retryAmount,
-            retryDelay: client.config.Lavalink.retryDelay,
-        }
-    ];
-    client.Lavasfy = new LavasfyClient({
-        clientID: "73955b6660ef46798fc0881b036f0623",
-        clientSecret: "8443f5c681aa43b39cb30881a2cd6275",
-        audioOnlyResults: true,
-        playlistLoadLimit: 3,
-        autoResolve: true,
-        useSpotifyMetadata: true,
-    }, [
-        {
-            id: client.config.Lavalink.id,
-            host: client.config.Lavalink.host,
-            port: client.config.Lavalink.port,
-            password: client.config.Lavalink.pass,
-            secure: client.config.Lavalink.secure,
-        },
-    ]);
-    client.manager = new Manager({
-        nodes,
-        plugins: [
-            new Spotify({
-                clientID: client.config.Spotify.clientID,
-                clientSecret: client.config.Spotify.clientSecret
-            }),
-            new deezer({}),
-            new facebook(),
-            new apple()
-        ],
-        send: (id, payload) => {
-            const guild = client.guilds.cache.get(id);
-            if (guild)
-                guild.shard.send(payload);
-        }
-    });
     try {
         await mongoose.set("strictQuery", true);
         await mongoose.connect(config.MONGODB_URI);
@@ -102,9 +54,9 @@ client.config = (await import("./botconfig.js")).default;
     }
 })();
 client.once("ready", async () => {
+    await player.extractors.loadDefault();
     await registerEvents(client, "../events");
     await registerSlashCommands(client, "../slashCommands");
-    client.manager.init(client.user.id);
     const guildData = await guildSchema.find();
     for (const data of guildData) {
         client.guildsConfig.set(data.guildID, (await data).toJSON());
@@ -154,7 +106,6 @@ client.once("ready", async () => {
         client.user.setActivity(status.message, { type: status.type });
     }, 60000);
 });
-client.on("raw", d => client.manager.updateVoiceState(d));
 process.on("uncaughtException", async (error) => {
     const owner = await client.users.fetch("903233069245419560");
     const errorEmbed = new EmbedBuilder()
@@ -164,48 +115,28 @@ process.on("uncaughtException", async (error) => {
     owner?.send({ embeds: [errorEmbed] });
     console.log(error);
 });
-client.manager.on("nodeConnect", node => {
-    log("SUCCESS", "src/index.ts", `Node ${node.options.identifier} bağlandı.`);
-});
-client.manager.on("nodeError", async (node, error) => {
-    const owner = await client.users.fetch("903233069245419560");
-    const errorEmbed = new EmbedBuilder()
-        .setTitle(`HATA -> Node "${node.options.identifier}! ${error.name}`)
-        .setDescription(error.message)
-        .setColor("Red");
-    owner?.send({ embeds: [errorEmbed] });
-    console.log(error);
-});
-client.manager.on("trackStart", async (player, track) => {
+player.events.on("playerStart", async (queue, track) => {
     let TrackStartedEmbed = new EmbedBuilder()
         .setAuthor({ name: `Şimdi Çalıyor ♪`, iconURL: client.config.IconURL })
-        .setThumbnail(player.queue.current.displayThumbnail())
-        .setDescription(`[${track.title}](${track.uri})`)
+        .setThumbnail(queue.currentTrack.thumbnail)
+        .setDescription(`[${track.title}](${track.url})`)
         .addFields({
         name: "Şarkıyı Talep Eden",
-        value: `${track.requester}`,
+        value: `${queue.metadata.requestedBy}`,
         inline: true
     }, {
         name: "Şarkı Süresi",
-        value: `\`${prettyMilliseconds(track.duration, { colonNotation: true, })}\``,
+        value: `\`${prettyMilliseconds(track.durationMS, { colonNotation: true, })}\``,
         inline: true
     })
         .setColor("Random");
-    const channel = await client.channels.fetch(player.textChannel);
-    await channel.send({ embeds: [TrackStartedEmbed] });
+    await queue.metadata.channel.send({ embeds: [TrackStartedEmbed] });
 });
-client.manager.on("queueEnd", async (player) => {
-    setTimeout(async () => {
-        const currentPlayer = client.manager.players.get(player.guild);
-        const channel = await client.channels.fetch(player.textChannel);
-        let QueueEmbed = new EmbedBuilder()
-            .setAuthor({ name: "Şarkı Listesi Bitti", iconURL: client.config.IconURL })
-            .setColor("Random")
-            .setTimestamp();
-        if ((!currentPlayer || !currentPlayer.queue.totalSize) && !client.config["24/7"] || !player) {
-            await channel.send({ embeds: [QueueEmbed] });
-            await player.destroy();
-        }
-    }, 1000 * 60 * 5);
+player.events.on("emptyQueue", async (player) => {
+    let QueueEmbed = new EmbedBuilder()
+        .setAuthor({ name: "Şarkı Listesi Bitti", iconURL: client.config.IconURL })
+        .setColor("Random")
+        .setTimestamp();
+    await player.metadata.channel.send({ embeds: [QueueEmbed] });
 });
 //# sourceMappingURL=index.js.map

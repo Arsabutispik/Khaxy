@@ -1,12 +1,13 @@
 import { EmbedBuilder } from "discord.js";
+import { useQueue } from "discord-player";
 export default async (client, oldState, newState) => {
     if (oldState.channelId === newState.channelId)
         return;
     if (oldState.channelId !== null) {
         if (oldState.channel?.members.find(user => user.id === client.user.id) && oldState.channel?.members.size === 1) {
-            const player = client.manager.get(oldState.guild.id);
+            const player = useQueue(oldState.guild.id);
             if (player) {
-                const textChannel = await oldState.guild.channels.fetch(player.textChannel);
+                const textChannel = player.channel;
                 if (textChannel) {
                     const noMember = new EmbedBuilder()
                         .setTitle("Sesli kanalda kimse kalmadı!")
@@ -15,13 +16,13 @@ export default async (client, oldState, newState) => {
                         .setTimestamp();
                     await textChannel.send({ embeds: [noMember] });
                 }
-                await player.destroy();
+                player.node.stop();
             }
         }
         if (newState.channelId === null && oldState.member?.id === client.user.id) {
-            const player = client.manager.get(oldState.guild.id);
+            const player = useQueue(oldState.guild.id);
             if (player) {
-                const textChannel = await oldState.guild.channels.fetch(player.textChannel);
+                const textChannel = player.channel;
                 if (textChannel) {
                     const leaveEmbed = new EmbedBuilder()
                         .setAuthor({ name: `Kanaldan Atıldım!`, iconURL: "https://cdn.discordapp.com/attachments/972754239447261264/1074662659737276466/a26bb800-b7ee-11eb-8909-43ff37955c81.png" })
@@ -31,7 +32,7 @@ export default async (client, oldState, newState) => {
                         .setTimestamp();
                     await textChannel.send({ embeds: [leaveEmbed] });
                 }
-                await player.destroy();
+                player.node.stop();
             }
         }
     }

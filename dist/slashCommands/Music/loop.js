@@ -1,4 +1,5 @@
 import { SlashCommandBuilder } from "discord.js";
+import { useQueue } from "discord-player";
 export default {
     help: {
         name: "loop",
@@ -12,7 +13,7 @@ export default {
         .setDescription("Şarkıyı tekrarlar.")
         .setDMPermission(false),
     async execute({ client, interaction }) {
-        const player = await client.manager.get(interaction.guild.id);
+        const player = useQueue(interaction.guild.id);
         if (!player) {
             return await interaction.reply("|❌| **Şu anda hiçbir şey çalmıyor.**");
         }
@@ -21,6 +22,12 @@ export default {
         }
         if (interaction.guild.members.me.voice.channel && interaction.member.voice.channel.id !== interaction.guild.members.me.voice.channel.id) {
             return await interaction.reply("|❌| **Bu komutu kullanmak için aynı ses kanalında olmanız gerekir.**");
+        }
+        if (!player.currentTrack) {
+            return await interaction.reply("|❌| **Şu anda hiçbir şey çalmıyor.**");
+        }
+        if (player.repeatMode !== 1 && player.repeatMode !== 0) {
+            await interaction.reply("|❌| **Başka bir tekrar modu açılmış.**");
         }
         const voiceStateUsers = interaction.member.voice.channel.members
             .filter(member => !member.user.bot)
@@ -35,22 +42,19 @@ export default {
                     return;
                 }
                 else {
-                    const success = player.setTrackRepeat(!player.trackRepeat);
-                    await interaction.reply(`|${success.trackRepeat ? "✅" : "❌"}| **Şarkı tekrarı ${success.trackRepeat ? "açıldı" : "kapatıldı"}.**`);
+                    player.setRepeatMode((player.repeatMode === 0 ? 1 : 0));
+                    await interaction.reply(`|${(player.repeatMode === 1) ? "✅" : "❌"}| **Şarkı tekrarı ${(player.repeatMode === 1) ? "açıldı" : "kapatıldı"}.**`);
                     return;
                 }
             }
             else {
-                const success = player.setTrackRepeat(!player.trackRepeat);
-                await interaction.reply(`|${success.trackRepeat ? "✅" : "❌"}| **Şarkı tekrarı ${success.trackRepeat ? "açıldı" : "kapatıldı"}.**`);
+                player.setRepeatMode((player.repeatMode === 0 ? 1 : 0));
+                await interaction.reply(`|${(player.repeatMode === 1) ? "✅" : "❌"}| **Şarkı tekrarı ${(player.repeatMode === 1) ? "açıldı" : "kapatıldı"}.**`);
                 return;
             }
         }
-        if (!player.queue.current) {
-            return await interaction.reply("|❌| **Şu anda hiçbir şey çalmıyor.**");
-        }
-        const success = player.setTrackRepeat(!player.trackRepeat);
-        return await interaction.reply(`|${success.trackRepeat ? "✅" : "❌"}| **Şarkı tekrarı ${success.trackRepeat ? "açıldı" : "kapatıldı"}.**`);
+        player.setRepeatMode((player.repeatMode === 0 ? 1 : 0));
+        return await interaction.reply(`|${(player.repeatMode === 1) ? "✅" : "❌"}| **Şarkı tekrarı ${(player.repeatMode === 1) ? "açıldı" : "kapatıldı"}.**`);
     }
 };
 //# sourceMappingURL=loop.js.map

@@ -1,4 +1,5 @@
 import { SlashCommandBuilder } from "discord.js";
+import { useQueue } from "discord-player";
 export default {
     help: {
         name: "loopqueue",
@@ -12,7 +13,7 @@ export default {
         .setDescription("Kuyruğu tekrarlar.")
         .setDMPermission(false),
     async execute({ client, interaction }) {
-        const player = await client.manager.get(interaction.guild.id);
+        const player = useQueue(interaction.guild.id);
         if (!player) {
             return await interaction.reply("|❌| **Şu anda hiçbir şey çalmıyor.**");
         }
@@ -22,8 +23,8 @@ export default {
         if (interaction.guild.members.me.voice.channel && interaction.member.voice.channel.id !== interaction.guild.members.me.voice.channel.id) {
             return await interaction.reply("|❌| **Bu komutu kullanmak için aynı ses kanalında olmanız gerekir.**");
         }
-        if (player.queue.size === 0) {
-            return await interaction.reply("|❌| **Kuyruk boş.**");
+        if (player.repeatMode !== 2 && player.repeatMode !== 0) {
+            await interaction.reply("|❌| **Başka bir tekrar modu açılmış.**");
         }
         const voiceStateUsers = interaction.member.voice.channel.members
             .filter(member => !member.user.bot)
@@ -38,18 +39,18 @@ export default {
                     return;
                 }
                 else {
-                    const success = player.setQueueRepeat(!player.queueRepeat);
-                    await interaction.reply(`|${success.queueRepeat ? "✅" : "❌"}| **Kuyruk tekrarı ${success.queueRepeat ? "açıldı" : "kapatıldı"}.**`);
+                    player.setRepeatMode((player.repeatMode === 0 ? 2 : 0));
+                    await interaction.reply(`|${(player.repeatMode === 2) ? "✅" : "❌"}| **Kuyruk tekrarı ${(player.repeatMode === 2) ? "açıldı" : "kapatıldı"}.**`);
                     return;
                 }
             }
             else {
-                const success = player.setQueueRepeat(!player.queueRepeat);
-                return await interaction.reply(`|${success.queueRepeat ? "✅" : "❌"}| **Kuyruk tekrarı ${success.queueRepeat ? "açıldı" : "kapatıldı"}.**`);
+                player.setRepeatMode((player.repeatMode === 0 ? 2 : 0));
+                return await interaction.reply(`|${(player.repeatMode === 2) ? "✅" : "❌"}| **Kuyruk tekrarı ${(player.repeatMode === 2) ? "açıldı" : "kapatıldı"}.**`);
             }
         }
-        const success = player.setQueueRepeat(!player.queueRepeat);
-        return await interaction.reply(`|${success.queueRepeat ? "✅" : "❌"}| **Kuyruk tekrarı ${success.queueRepeat ? "açıldı" : "kapatıldı"}.**`);
+        player.setRepeatMode((player.repeatMode === 0 ? 2 : 0));
+        return await interaction.reply(`|${(player.repeatMode === 2) ? "✅" : "❌"}| **Kuyruk tekrarı ${(player.repeatMode === 2) ? "açıldı" : "kapatıldı"}.**`);
     }
 };
 //# sourceMappingURL=loopqueque.js.map
