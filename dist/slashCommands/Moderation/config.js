@@ -174,6 +174,7 @@ export default {
                         "\n\n**Üye Rolü:** Kayıt sırasında verilecek üye rolü. (Eğer kayıt ayarlanmadan bu rol ayarlandıysa bot sunucuya gelen kişiye bu rolü verir.)" +
                         "\n\n**Susturulmuş Rolü:** Kullanıcıya mute atıldığında verilecek rol." +
                         "\n\n**Günün Rengi Rolü:** Her gün UTC+3 00:00'da bot ayarlanmış rolün rengini ve ismini değiştirir. (Eğer ayarlanmazsa bu özellik çalışmaz.)" +
+                        "\n\n**DJ Rolü:** Bu role sahip kullanıcılar müzik dinlerken bazı kısıtlamaları bypass edebilirler." +
                         "\n\n**»»----------------------------¤----------------------------««**")
                         .addFields([
                         {
@@ -191,6 +192,10 @@ export default {
                         {
                             name: "Günün Rengi Rolü",
                             value: guildConfig.config.roleOfTheDay ? `<@&${guildConfig.config.roleOfTheDay}>` : "Ayarlanmamış"
+                        },
+                        {
+                            name: "DJ Rolü",
+                            value: guildConfig.config.djRole ? `<@&${guildConfig.config.djRole}>` : "Ayarlanmamış"
                         }
                     ])
                         .setTimestamp();
