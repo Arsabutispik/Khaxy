@@ -48,9 +48,9 @@ export default async (client, member) => {
         }
     }
     if (!data.config.registerChannel) {
-        if (member.guild.roles.cache.get(data.config.welcomeRole)) {
+        if (member.guild.roles.cache.get(data.config.memberRole)) {
             try {
-                await member.roles.add(data.config.welcomeRole);
+                await member.roles.add(data.config.memberRole);
             }
             catch (e) {
                 console.log(e);
