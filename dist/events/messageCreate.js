@@ -62,7 +62,7 @@ export default async (client, message) => {
                             let d = new Date();
                             let padding = (v) => `0${v}`.slice(-2);
                             let datestring = `${d.getFullYear()}/${padding(d.getMonth() + 1)}/${padding(d.getDate())} ${padding(d.getHours())}:${padding(d.getMinutes())}`;
-                            client.ticketMessages.set(message.author.id, `[${datestring}] - ${message.author.username}(${message.author.id}) - ${message.content}`);
+                            client.ticketMessages.set(message.author.id, `[${datestring}] - [Mailer] ${message.author.username}(${message.author.id}) - ${message.content}`);
                             const MailEmbed = new EmbedBuilder()
                                 .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL() })
                                 .setDescription("Yeni bir mail geldi, yanıtlamak için sohbete yazın reddetmek için aşağıdaki butona basabilirsiniz\n**Mesaj:**\n" + message.content)
@@ -155,7 +155,7 @@ export default async (client, message) => {
                                 mailMessage.edit({ components: [] });
                                 let padding = (v) => `0${v}`.slice(-2);
                                 let datestring = `${d.getFullYear()}/${padding(d.getMonth() + 1)}/${padding(d.getDate())} ${padding(d.getHours())}:${padding(d.getMinutes())}`;
-                                client.ticketMessages.set(message.author.id, client.ticketMessages.get(message.author.id) + `\n[${datestring}] - ${staffResponse.author.username}(${staffResponse.author.id}) - ${staffResponse.content}`);
+                                client.ticketMessages.set(message.author.id, client.ticketMessages.get(message.author.id) + `\n[${datestring}] - [Responder] ${staffResponse.author.username}(${staffResponse.author.id}) - ${staffResponse.content}`);
                                 await staffResponse.react("✅");
                                 collector.stop();
                             });
@@ -205,7 +205,7 @@ export default async (client, message) => {
                         let d = new Date();
                         let padding = (v) => `0${v}`.slice(-2);
                         let datestring = `${d.getFullYear()}/${padding(d.getMonth() + 1)}/${padding(d.getDate())} ${padding(d.getHours())}:${padding(d.getMinutes())}`;
-                        client.ticketMessages.set(message.author.id, client.ticketMessages.get(message.author.id) + `\n[${datestring}] - ${message.author.username}(${message.author.id}) - ${message.content}`);
+                        client.ticketMessages.set(message.author.id, client.ticketMessages.get(message.author.id) + `\n[${datestring}] - [Mailer] ${message.author.username}(${message.author.id}) - ${message.content}`);
                         const myHeaders = new Headers();
                         myHeaders.append("Accept", "application/json");
                         const formdata = new FormData();
@@ -268,7 +268,7 @@ export default async (client, message) => {
                     let d = new Date();
                     let padding = (v) => `0${v}`.slice(-2);
                     let datestring = `${d.getFullYear()}/${padding(d.getMonth() + 1)}/${padding(d.getDate())} ${padding(d.getHours())}:${padding(d.getMinutes())}`;
-                    client.ticketMessages.set(message.author.id, client.ticketMessages.get(message.author.id) + `\n[${datestring}] - ${staffResponse.author.username}(${staffResponse.author.id}) - ${staffResponse.content}`);
+                    client.ticketMessages.set(message.author.id, client.ticketMessages.get(message.author.id) + `\n[${datestring}] - [Responder] ${staffResponse.author.username}(${staffResponse.author.id}) - ${staffResponse.content}`);
                     await staffResponse.react("✅");
                     collector.stop();
                 });
