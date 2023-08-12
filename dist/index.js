@@ -32,10 +32,11 @@ const client = new Client({ intents, partials: [Partials.Message, Partials.Chann
 client.config = (await import("./botconfig.js")).default;
 const player = new Player(client);
 (async () => {
-    client.commands = new Collection();
     client.categories = new Collection();
     client.slashCommands = new Collection();
     client.guildsConfig = new Collection();
+    client.userTickets = new Collection();
+    client.ticketMessages = new Collection();
     try {
         await mongoose.set("strictQuery", true);
         await mongoose.connect(config.MONGODB_URI);

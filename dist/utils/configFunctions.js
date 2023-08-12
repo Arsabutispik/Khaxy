@@ -1,4 +1,4 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelType, ComponentType, EmbedBuilder, ModalBuilder, StringSelectMenuBuilder, TextInputBuilder, TextInputStyle, ChannelSelectMenuBuilder, RoleSelectMenuBuilder } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelType, ComponentType, EmbedBuilder, ModalBuilder, StringSelectMenuBuilder, TextInputBuilder, TextInputStyle, ChannelSelectMenuBuilder, RoleSelectMenuBuilder, PermissionsBitField } from "discord.js";
 async function registerConfig(interaction, client) {
     const SelectMenu = new StringSelectMenuBuilder()
         .setCustomId("registerConfig")
@@ -1252,10 +1252,16 @@ async function moderationConfig(interaction, client) {
             emoji: "📝"
         },
         {
-            label: "Sustutmada Tüm Rolleri Al",
+            label: "Susturmada Tüm Rolleri Al",
             value: "muteGetAllRoles",
             description: "Susturmada tüm rolleri alır.",
             emoji: "🔇"
+        },
+        {
+            label: "ModMail'i Ayarla",
+            value: "modMail",
+            description: "ModMail'i ayarlar.",
+            emoji: "📧"
         }
     ]);
     const row = new ActionRowBuilder()
@@ -1272,6 +1278,9 @@ async function moderationConfig(interaction, client) {
                     break;
                 case "muteGetAllRoles":
                     await muteGetAllRoles(collector, client);
+                    break;
+                case "modMail":
+                    await modMail(collector, client);
                     break;
             }
         }
@@ -1415,6 +1424,78 @@ async function muteGetAllRoles(interaction, client) {
         };
         await client.updateGuildConfig({ guildId: interaction.guild.id, config });
         await interaction.reply({ content: "Susturmada tüm rolleri alma ayarı kapatıldı.", ephemeral: true });
+    }
+}
+async function modMail(interaction, client) {
+    if (client.guildsConfig.get(interaction.guild.id)?.config.modmail) {
+        const reject = new ButtonBuilder()
+            .setCustomId("modMailReject")
+            .setLabel("❌| İptal")
+            .setStyle(ButtonStyle.Danger);
+        const deleteButton = new ButtonBuilder()
+            .setCustomId("modMailDelete")
+            .setLabel("🗑️| Sil")
+            .setStyle(ButtonStyle.Danger);
+        const row = new ActionRowBuilder()
+            .addComponents([reject, deleteButton]);
+        await interaction.reply({ content: "Modmail daha önceden ayarlanmış. Eğer kanalları sildiyseniz sil seçeneğini kullanınız.", components: [row], ephemeral: true });
+        const msg = await interaction.fetchReply();
+        const filter = (i) => i.user.id === interaction.user.id;
+        try {
+            const collector = await msg.awaitMessageComponent({ filter: filter, componentType: ComponentType.Button, time: 60000 });
+            if (collector) {
+                if (collector.customId === "modMailDelete") {
+                    const config = {
+                        $set: {
+                            "config.modmail": null
+                        }
+                    };
+                    await client.updateGuildConfig({ guildId: interaction.guild.id, config });
+                    await collector.reply({ content: "Modmail ayarı silindi.", ephemeral: true });
+                }
+                else if (collector.customId === "modMailReject") {
+                    await collector.reply({ content: "İşlem iptal edildi.", ephemeral: true });
+                }
+            }
+        }
+        catch (e) {
+            await interaction.followUp({ content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true });
+            console.error(e);
+        }
+    }
+    else {
+        try {
+            const parent = await interaction.guild.channels.create({
+                name: "ModMail", type: ChannelType.GuildCategory, permissionOverwrites: [
+                    {
+                        id: interaction.guild.id,
+                        deny: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel]
+                    }
+                ]
+            });
+            const child = await parent.children.create({
+                name: "ModMail Log", type: ChannelType.GuildText, permissionOverwrites: [
+                    {
+                        id: interaction.guild.id,
+                        deny: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel]
+                    }
+                ]
+            });
+            const config = {
+                $set: {
+                    "config.modmail": {
+                        category: parent.id,
+                        logChannel: child.id
+                    }
+                }
+            };
+            await client.updateGuildConfig({ guildId: interaction.guild.id, config });
+            await interaction.reply({ content: "Modmail kanalları başarıyla ayarlandı.", ephemeral: true });
+        }
+        catch (e) {
+            await interaction.reply({ content: "Bir hata ile karşılaşıldı. Kanal açmak için yetiklerim var mı?", ephemeral: true });
+            console.error(e);
+        }
     }
 }
 async function roleConfig(interaction, client) {

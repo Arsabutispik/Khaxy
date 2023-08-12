@@ -147,6 +147,7 @@ export default {
                         "\n\n**Modlog Kanalı:** Sunucuda yetkililer tarafından yapılan tüm işlemlerin loglandığı kanal." +
                         "\n\n**Mute Sırasında Roller Alınsın mı?:** Kullanıcıya mute atıldığında rollerinin alınıp alınmayacağı ayarlanır." +
                         "\n\n**Yetkili Rolleri:** Kayıt içindir ayarlanmazsa admin permi olmadığı sürece kimse kayıt alamaz." +
+                        "\n\n**ModMail Kanalı**: Modmail üyelerin bota DM yazarak sunucuda modlarla özel bir kanalda konuşabileceği yerler açar." +
                         "\n\n**»»----------------------------¤----------------------------««**")
                         .addFields([
                         {
@@ -160,6 +161,10 @@ export default {
                         {
                             name: "Yetikili Rolleri",
                             value: guildConfig.config.staffRole.length > 0 ? guildConfig.config.staffRole.map(x => `<@&${x}>`).join(", ") : "Ayarlanmamış"
+                        },
+                        {
+                            name: "ModMail Kanalı",
+                            value: guildConfig.config.modmail.logChannel ? `<#${guildConfig.config.modmail.logChannel}>` : "Ayarlanmamış"
                         }
                     ])
                         .setTimestamp();

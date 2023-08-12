@@ -18,11 +18,18 @@ const guildSchema = new Schema({
         femaleRole: String,
         memberRole: String,
         staffRole: [String],
-        welcomeRole: String,
         djRole: String,
         registerWelcomeChannel: String,
         roleOfTheDay: String,
-        colorName: String
+        colorName: String,
+        modmail: {
+            category: String,
+            logChannel: String,
+            tickets: {
+                type: Number,
+                default: 1
+            }
+        }
     }
 }, {
     toObject: {
