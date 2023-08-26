@@ -30,7 +30,18 @@ const intents = new IntentsBitField()
     IntentsBitField.Flags.GuildEmojisAndStickers]);
 const client = new Client({ intents, partials: [Partials.Message, Partials.Channel, Partials.User, Partials.Reaction] });
 client.config = (await import("./botconfig.js")).default;
-const player = new Player(client);
+const player = new Player(client, {
+    useLegacyFFmpeg: false,
+    ytdlOptions: {
+        quality: 'highestaudio',
+        highWaterMark: 1 << 25,
+        requestOptions: {
+            headers: {
+                cookie: "YSC=IW8mJXvPDGM; VISITOR_INFO1_LIVE=oQ9vxRNiVkw; LOGIN_INFO=AFmmF2swRQIhAKpnZDnH4ASzHG3O1Fy0nN73-xY6hsuHNeVC076RWs9jAiBioNpOnPkgSRC2Mcv7b4LpNjaOEiCuLJIalLhr0uI6Gg:QUQ3MjNmd2ZCTVBJMjVyWWhnNFdaY2VtUTFlNUwtNm92bmd0NzRTYndmaWNXZ3lHWEhkWXhEQS10THFBczRxbndJRl9hU1hyUWxDcmZtR05RSkVVeHNaOFhnVXZSeHZXaUx4UUo5VGUtVGdkY090cGpaWnE3LTNmd1BqM1c1QUM0aU9aMUpFSlJfMkM2YW9IT3YtYS1PMzhtR1Utb3ZoaGZR; HSID=A9fgXIFQxAimyo8pv; SSID=AnWnvav93Kj8dM5LW; APISID=hRbT9gZ7sFyWbWgA/AEerA-3V2ew9racbS; SAPISID=9l6PEQBMEUunPKbr/Ain3yw0xPZwHMYnaB; __Secure-1PAPISID=9l6PEQBMEUunPKbr/Ain3yw0xPZwHMYnaB; __Secure-3PAPISID=9l6PEQBMEUunPKbr/Ain3yw0xPZwHMYnaB; SID=ZwicfZ5piA2oXcImU2z5aIE8aFrJrA_4sieEj-LF-NwGkatIlIpt5UhavlhkKpL-rpnv3Q.; __Secure-1PSID=ZwicfZ5piA2oXcImU2z5aIE8aFrJrA_4sieEj-LF-NwGkatImf_UljX9geVx0bo6MFY5DQ.; __Secure-3PSID=ZwicfZ5piA2oXcImU2z5aIE8aFrJrA_4sieEj-LF-NwGkatIt3PfVxYeHUgXkooBtWaQZA.; VISITOR_PRIVACY_METADATA=CgJUUhICGgA%3D; wide=1; PREF=f6=40000080&tz=Europe.Istanbul&f7=100&f5=30000; __Secure-1PSIDTS=sidts-CjEBSAxbGZ86t2X6qPwiUBkU-hnghgcGNLzxmDmsv5jw3KG2R-0wht5VKEj5QOF3_pyzEAA; __Secure-3PSIDTS=sidts-CjEBSAxbGZ86t2X6qPwiUBkU-hnghgcGNLzxmDmsv5jw3KG2R-0wht5VKEj5QOF3_pyzEAA; SIDCC=APoG2W846Ih-OG-IGaV9-_I7larZa8Cwwl88oy-6jkYdE7ZYw1PVv_Oe9yZT0XZ3GnK0RnycZy0; __Secure-1PSIDCC=APoG2W_QW7mE-MBikssSKK07nyE6hEPlhX5MkD4U_8D6osPosA25PouLsYCS7r6_hLwJFj92Sw; __Secure-3PSIDCC=APoG2W-sV4oEst7K-p9iTHi8JPSpatjhBIP4o3YoXxSFp1HFrfxD9fU9EyUZUyNiMlNoBU6LXeE" || ''
+            }
+        }
+    }
+});
 (async () => {
     client.categories = new Collection();
     client.slashCommands = new Collection();

@@ -35,8 +35,11 @@ export default async (client, interaction) => {
         }
         catch (e) {
             console.log(e);
-            if (interaction.isRepliable()) {
+            if (!interaction.replied) {
                 await interaction.reply({ content: "Bir hata oluştu!", ephemeral: true });
+            }
+            else {
+                await interaction.followUp({ content: "Bir hata oluştu!", ephemeral: true });
             }
         }
     }

@@ -1427,7 +1427,7 @@ async function muteGetAllRoles(interaction, client) {
     }
 }
 async function modMail(interaction, client) {
-    if (client.guildsConfig.get(interaction.guild.id)?.config.modmail) {
+    if (client.guildsConfig.get(interaction.guild.id)?.config.modmail.logChannel) {
         const reject = new ButtonBuilder()
             .setCustomId("modMailReject")
             .setLabel("❌| İptal")
