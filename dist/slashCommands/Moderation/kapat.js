@@ -1,5 +1,6 @@
 import { SlashCommandBuilder, PermissionsBitField, EmbedBuilder } from "discord.js";
-import fetch, { FormData, Headers } from "node-fetch";
+import fetch, { Headers } from "node-fetch";
+import FormData from "form-data";
 export default {
     help: {
         name: "kapat",

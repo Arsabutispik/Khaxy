@@ -1,5 +1,6 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelType, ComponentType, EmbedBuilder, ModalBuilder, PermissionsBitField, StringSelectMenuBuilder, TextInputBuilder, TextInputStyle } from "discord.js";
-import fetch, { Headers, FormData } from "node-fetch";
+import fetch, { Headers } from "node-fetch";
+import FormData from "form-data";
 export default async (client, message) => {
     if (message.author.bot)
         return;
