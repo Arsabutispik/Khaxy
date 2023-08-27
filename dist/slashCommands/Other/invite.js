@@ -23,7 +23,9 @@ export default {
             PermissionsBitField.Flags.ManageGuild,
             PermissionsBitField.Flags.ViewAuditLog,
             PermissionsBitField.Flags.ViewChannel,
-            PermissionsBitField.Flags.KickMembers
+            PermissionsBitField.Flags.KickMembers,
+            PermissionsBitField.Flags.ManageChannels,
+            PermissionsBitField.Flags.AddReactions
         ];
         const link = client.generateInvite({
             permissions: permFlags,

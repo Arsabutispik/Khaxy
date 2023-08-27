@@ -8,7 +8,7 @@ export default async (client, message) => {
             try {
                 if (message.content.length > 4096)
                     return await message.reply("Mesajınız 4096 karakterden uzun olamaz");
-                const commonGuilds = client.guilds.cache.filter(guild => guild.members.cache.has(message.author.id) && guild.channels.cache.get(client.guildsConfig.get(guild.id).config.modmail.logChannel));
+                const commonGuilds = client.guilds.cache.filter(guild => guild.members.cache.has(message.author.id) && guild.channels.cache.get(client.guildsConfig.get(guild.id).config.modmail.logChannel) && guild.members.me.permissionsIn(guild.channels.cache.get(client.guildsConfig.get(guild.id).config.modmail.category)).has(PermissionsBitField.Flags.ManageChannels));
                 if (commonGuilds.size > 0) {
                     const SelectMenu = new StringSelectMenuBuilder()
                         .setCustomId("modmail")
@@ -116,7 +116,12 @@ export default async (client, message) => {
                                     };
                                     const collector = await button.awaitModalSubmit({ filter: modalFilter, time: 60000 });
                                     collector.reply({ content: "Mail reddedildi", ephemeral: true });
-                                    await mailChannel.delete();
+                                    if (guild.members.me?.permissionsIn(mailChannel).has(PermissionsBitField.Flags.ManageChannels)) {
+                                        await mailChannel.delete();
+                                    }
+                                    else {
+                                        await mailChannel.send({ content: "Bu kanalı silmek için yeterli yetkim yok." });
+                                    }
                                     const rejectEmbed = new EmbedBuilder()
                                         .setAuthor({
                                         name: collector.user.username,
@@ -250,7 +255,12 @@ export default async (client, message) => {
                         if (logChannel) {
                             await logChannel.send({ embeds: [lastEmbed] });
                         }
-                        await mailChannel.delete();
+                        if (button.guild.members.me?.permissionsIn(mailChannel).has(PermissionsBitField.Flags.ManageChannels)) {
+                            await mailChannel.delete();
+                        }
+                        else {
+                            await mailChannel.send({ content: "Bu kanalı silmek için yeterli yetkim yok." });
+                        }
                         client.ticketMessages.delete(message.author.id);
                     }
                 });

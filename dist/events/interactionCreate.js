@@ -1,6 +1,6 @@
 import { ChannelType, EmbedBuilder } from "discord.js";
 import guildConfig from "../schemas/guildSchema.js";
-import { percentageChance } from "../utils/utils.js";
+import { log, percentageChance } from "../utils/utils.js";
 export default async (client, interaction) => {
     if (interaction.isChatInputCommand()) {
         if (interaction.channel.type === ChannelType.DM)
@@ -32,9 +32,10 @@ export default async (client, interaction) => {
         }
         try {
             await cmd.execute({ client, interaction });
+            log("SUCCESS", "Slash Command", `${interaction.user.tag} (${interaction.user.id}) executed ${interaction.commandName} in ${interaction.guild.name} (${interaction.guild.id})`);
         }
         catch (e) {
-            console.log(e);
+            log("ERROR", "Slash Command", `${interaction.commandName} returned an error: ${e}`);
             if (!interaction.replied) {
                 await interaction.reply({ content: "Bir hata oluştu!", ephemeral: true });
             }

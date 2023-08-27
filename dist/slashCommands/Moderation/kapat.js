@@ -58,7 +58,12 @@ export default {
         }
         client.userTickets.delete(user);
         client.ticketMessages.delete(ticket);
-        interaction.channel.delete();
+        if (interaction.guild.members.me?.permissionsIn(interaction.channel).has(PermissionsBitField.Flags.ManageChannels)) {
+            interaction.channel.delete();
+        }
+        else {
+            interaction.channel.send({ content: "Bu kanalı silmek için yeterli yetkim yok." });
+        }
         const userDM = await client.users.fetch(user);
         const closeEmbed = new EmbedBuilder()
             .setAuthor({ name: interaction.user.username, iconURL: interaction.user.displayAvatarURL() })

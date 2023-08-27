@@ -38,8 +38,8 @@ export default {
         if (!interaction.member.permissions.has(PermissionsBitField.Flags.BanMembers))
             return interaction.reply({ content: "Bu komutu kullanmak için yeterli yetkin yok.", ephemeral: true });
         if (subCommand === "üye") {
-            const user = interaction.options.getUser("üye");
-            const targetMember = interaction.guild.members.cache.get(user.id);
+            const user = interaction.options.getUser("üye", true);
+            const targetMember = await interaction.guild.members.fetch(user.id);
             const reason = interaction.options.getString("sebep", false) || "Sebep belirtilmedi";
             if (targetMember.id === interaction.user.id) {
                 await interaction.reply({ content: "Kendini öldüremezsin!", ephemeral: true });
