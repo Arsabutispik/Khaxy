@@ -913,6 +913,58 @@
           }
         ]
       }
+    },
+    "KICK_APP_NOT_ENOUGH_PERMISSIONS": {
+      "turkish": "Bu komutu kullanabilmek için `Üyeleri At` yetkim yok!",
+        "english": "I don't have the `Kick Members` permission to kick members!"
+    },
+    "KICK_USER_NOT_ENOUGH_PERMISSIONS": {
+      "turkish": "Bu kullanıcıyı atabilmek için `Üyeleri At` yetkin yok!",
+        "english": "You don't have the `Kick Members` permission to kick this user!"
+    },
+    "KICK_CANT_KICK_YOURSELF": {
+      "turkish": "Kendini atamazsın!",
+        "english": "You can't kick yourself!"
+    },
+    "KICK_CANT_KICK_BOT": {
+      "turkish": "Bir botu atamazsın!",
+        "english": "You can't kick a bot!"
+    },
+    "KICK_TARGET_HIGH_ROLE": {
+      "turkish": "Bu kullanıcının rolü senden yüksek (veya aynı) bu kişiyi atamazsın!",
+        "english": "This user has a higher (or same) role than you, you can't kick this user!"
+    },
+    "KICK_TARGET_PERMISSIONS": {
+      "turkish": "Bu kullanıcıyı atamazsın çünkü bu kullanıcının `Üyeleri At` yetkisi var!",
+        "english": "You can't kick this user because this user has the `Kick Members` permission!"
+    },
+    "KICK_MESSAGE_DM": {
+      "turkish": "{guild_name} sunucusundan atıldınız. Sebep: {reason}",
+        "english": "You have been kicked from {guild_name}. Reason: {reason}"
+    },
+    "KICK_MESSAGE": {
+        "turkish": "<a:checkmark:1017704018287546388> **{targetMember_username}** atıldı (Olay #{case}) Kullanıcı özel bir mesaj ile bildirildi.",
+            "english": "<a:checkmark:1017704018287546388> **{targetMember_username}** has been kicked (Case #{case}) User has been notified with a DM."
+        },
+    "KICK_MESSAGE_FAIL": {
+        "turkish": "<a:checkmark:1017704018287546388> **{targetMember_username}** atıldı (Olay #{case}) Kullanıcıya özel bir mesaj gönderilemedi.",
+            "english": "<a:checkmark:1017704018287546388> **{targetMember_username}** has been kicked (Case #{case}) Couldn't send a DM to the user."
+    },
+    "KICK_MODLOG_FAIL": {
+      "turkish": "Modlog kanalına mesaj göndermek için yetkim yok!",
+        "english": "I don't have the permission to send messages to the modlog channel!"
+    },
+    "KICK_CLEAR_SUCCESS": {
+      "turkish": "Kullanıcı başarıyla atıldı ve mesajları silindi!",
+        "english": "User has been successfully kicked and messages have been cleared!"
+    },
+    "KICK_SUCCES": {
+      "turkish": "Kullanıcı başarıyla atıldı!",
+        "english": "User has been successfully kicked!"
+    },
+    "KICK_FAIL": {
+      "turkish": "Bir hata çıktı ve kullanıcı atılamadı!",
+        "english": "An error occurred and the user couldn't be kicked!"
     }
   }
 }

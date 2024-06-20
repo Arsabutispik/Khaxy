@@ -138,7 +138,7 @@ async function paginate(message: ChatInputCommandInteraction, pages: EmbedBuilde
 }
 
 function replaceMassString(text: string, replace: customObject) {
-    if(!text) return null;
+    if(!text) throw new Error("Text is not given.");
     for(const [key, value] of Object.entries(replace)) {
         text = text.replace(new RegExp(key, "g"), value);
     }
