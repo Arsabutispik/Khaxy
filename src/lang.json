@@ -831,6 +831,88 @@
     "KICK_EVENT_NO_REASON": {
       "turkish": "Atma sebebi belirtilmedi.",
         "english": "No reason specified for the kick."
+    },
+    "PLAYER_START": {
+      "turkish": {
+        "embeds": [
+          {
+            "author": {
+              "name": "Şimdi Çalıyor ♪",
+              "icon_url": "{icon_url}"
+            },
+            "thumbnail": {
+              "url": "{thumbnail_url}"
+            },
+            "description": "🎶 [{track_title}]({track_url})",
+            "fields": [
+              {
+                "name": "Şarkıyı Talep Eden",
+                "value": "{requester}",
+                "inline": true
+              },
+              {
+                "name": "Şarkı Süresi",
+                "value": "{duration}",
+                "inline": true
+              }
+            ],
+            "color": "random"
+          }
+        ]
+      },
+        "english": {
+            "embeds": [
+            {
+                "author": {
+                "name": "Now Playing ♪",
+                "icon_url": "{icon_url}"
+                },
+                "thumbnail": {
+                "url": "{thumbnail_url}"
+                },
+                "description": "🎶 [{track_title}]({track_url})",
+                "fields": [
+                {
+                    "name": "Requested By",
+                    "value": "{requester}",
+                    "inline": true
+                },
+                {
+                    "name": "Song Duration",
+                    "value": "{duration}",
+                    "inline": true
+                }
+                ],
+                "color": "random"
+            }
+            ]
+        }
+    },
+    "PLAYER_END": {
+      "turkish": {
+        "embeds": [
+          {
+            "author": {
+              "name": "Şarkı Bitti",
+              "icon_url": "{icon_url}"
+            },
+            "color": "random",
+            "timestamp": "{now}"
+          }
+        ]
+      },
+      "english": {
+        "embeds": [
+          {
+            "author": {
+              "name": "Song Ended",
+              "icon_url": "{icon_url}"
+            },
+            "color": "random",
+            "timestamp": "{now}"
+          }
+        ]
+      }
     }
   }
 }

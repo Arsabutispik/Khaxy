@@ -1,7 +1,7 @@
 import {ActivityType, Client, EmbedBuilder, Partials, IntentsBitField, Collection } from "discord.js";
 import {HolyClient} from "./types";
 import {registerEvents, registerSlashCommands} from "./utils/registery.js";
-import {log} from "./utils/utils.js";
+import {log, replaceMassString} from "./utils/utils.js";
 import mongoose from "mongoose";
 import checkPunishments from "./utils/checkPunishments.js";
 import { Player } from "discord-player";
@@ -135,27 +135,40 @@ process.on("uncaughtException", async(error) => {
     console.log(error)
 });
 player.events.on("playerStart", async (queue, track) => {
-    let TrackStartedEmbed = new EmbedBuilder()
-        .setAuthor({name:`Şimdi Çalıyor ♪`, iconURL: client.config.IconURL})
-        // @ts-ignore
-        .setThumbnail(queue.currentTrack!.thumbnail)
-        .setDescription(`[${track.title}](${track.url})`)
-        .addFields({
-            name: "Şarkıyı Talep Eden",
-            value: `${queue.metadata.requestedBy}`,
-            inline: true
-        }, {
-            name: "Şarkı Süresi",
-            value: `\`${prettyMilliseconds(track.durationMS, {colonNotation: true,})}\``,
-            inline: true
-        })
-        .setColor("Random");
-    await queue.metadata.channel.send({embeds: [TrackStartedEmbed]});
+    const playerStartEmbed = client.handleLanguages("PLAYER_START", client, queue.metadata.channel.guildId)
+    for (const embeds of playerStartEmbed.embeds as [{fields: [{name: string, value: string}], author: {name: string, icon_url: string}, color: number, thumbnail: {url: string}, description: string}]) {
+        let x=Math.round(0xffffff * Math.random()).toString(16);
+        let y=(6-x.length);
+        let z="000000";
+        let z1 = z.substring(0,y);
+        embeds.color = Number(`0x${z1 + x}`)
+        embeds.description = replaceMassString(embeds.description, {
+            "{track_title}": track.title,
+            "{track_url}": track.url,
+        })!
+        embeds.thumbnail.url = queue.currentTrack!.thumbnail
+        embeds.author.icon_url = client.config.IconURL
+        for (const fields of embeds.fields) {
+            fields.value = replaceMassString(fields.value, {
+                "{requester}": queue.metadata.requestedBy,
+                "{duration}": prettyMilliseconds(track.durationMS, {colonNotation: true}),
+            })!
+            Object.assign(embeds.fields, fields)
+        }
+    }
+    await queue.metadata.channel.send(playerStartEmbed);
 });
 player.events.on("emptyQueue", async(player) => {
-    let QueueEmbed = new EmbedBuilder()
-        .setAuthor({name: "Şarkı Listesi Bitti", iconURL: client.config.IconURL})
-        .setColor("Random")
-        .setTimestamp();
-    await player.metadata.channel.send({embeds: [QueueEmbed]});
+    const emptyQueue = client.handleLanguages("PLAYER_END", client, player.guild.id)
+    for (const embeds of emptyQueue.embeds as [{author: {name: string, icon_url: string}, color: number, timestamp: number}]) {
+        let x=Math.round(0xffffff * Math.random()).toString(16);
+        let y=(6-x.length);
+        let z="000000";
+        let z1 = z.substring(0,y);
+        embeds.color = Number(`0x${z1 + x}`)
+        embeds.author.icon_url = client.config.IconURL
+        embeds.timestamp = Date.now()
+        Object.assign(emptyQueue.embeds, embeds)
+    }
+    await player.metadata.channel.send(emptyQueue);
 });
