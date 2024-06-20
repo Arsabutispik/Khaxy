@@ -1,0 +1,836 @@
+{
+  "languages": ["turkish", "english"],
+  "translations": {
+    "HAPPY_TO_USE": {
+      "turkish": "Bu botu kullanmaktan memnun musunuz? /invite ile bu botu sunucunuza davet edebilirsiniz!",
+      "english": "Enjoying the bot? Use /invite to invite me to your server!"
+    },
+    "ERROR_ON_INTERACTION": {
+      "turkish": "Bu komutu çalıştırırken bir hata oluştu. Lütfen daha sonra tekrar deneyin.",
+      "english": "An error occurred while executing this command. Please try again later."
+    },
+    "MODMAIL_TOPIC": {
+      "turkish": "Modmail kanalı **{user_name}** tarafından oluşturuldu /kapat yazarak kapatılabilir.",
+      "english": "Modmail has been created by **{user_name}** with /close you can close this modmail."
+    },
+    "MODMAIL_CREATED": {
+      "turkish": "Modmail kanalı oluşturuldu.",
+      "english": "Modmail channel has been created."
+    },
+    "MODMAIL_CREATE_MESSAGE": {
+      "turkish": {
+        "content": "Yeni bir modmail geldi, yanıtlamak için sohbete yazın reddetmek için aşağıdaki butona basabilirsiniz.",
+        "embeds": [
+          {
+            "author": {
+              "name": "{user_name}",
+              "icon_url": "{user_avatar}"
+            },
+            "description": "{message_content}",
+            "color": "0x152652",
+            "timestamp": "{timestamp}"
+          }
+        ],
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 2,
+                "label": "❌| Reddet",
+                "style": 4,
+                "custom_id": "reject"
+              }
+            ]
+          }
+        ]
+      },
+      "english": {
+        "content": "There is a new modmail! To reply type in this channel. To reject this modmail use the button below",
+        "embeds": [
+          {
+            "author": {
+              "name": "{user_name}",
+              "icon_url": "{user_avatar}"
+            },
+            "description": "{message_content}",
+            "color": "0x152652",
+            "timestamp": "{timestamp}"
+          }
+        ],
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 2,
+                "label": "❌| Reject",
+                "style": 4,
+                "custom_id": "reject"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "MODMAIL_REJECT_REASON": {
+      "turkish": "Reddetme sebebinizi yazın.",
+      "english": "Write the reason for rejection."
+    },
+    "MODMAIL_REJECTED": {
+      "turkish": {
+        "content": "Modmail aşağıdaki sebepten dolayı reddedildi.",
+        "embeds": [
+          {
+            "author": {
+              "name": "{user_name}",
+              "icon_url": "{user_avatar}"
+            },
+            "description": "{reason}",
+            "color": "0xa80d05"
+          }
+        ]
+      },
+      "english": {
+        "content": "Modmail has been rejected with the following reason.",
+        "embeds": [
+          {
+            "author": {
+              "name": "{user_name}",
+              "icon_url": "{user_avatar}"
+            },
+            "description": "{reason}",
+            "color": "0xa80d05"
+          }
+        ]
+      }
+    },
+    "MODMAIL_REJECTED_MESSAGE": {
+      "turkish": "Mail reddedildi\n**Reddeden:** {author_username}\n**Reddetme sebebi:** {reject_reason}",
+      "english": "Mail has been rejected\n**Rejected by:** {author_username}\n**Reason for rejection:** {reject_reason}"
+    },
+    "MODMAIL_CHANNEL_DELETE_MISSING_PERMS": {
+      "turkish": "Modmail kanalını silerken bir hata oluştu. Lütfen yetkilerimi kontrol edin.",
+      "english": "An error occurred while deleting the modmail channel. Please check my permissions."
+    },
+    "GENERAL_ERROR": {
+      "turkish": "Bir hata oluştu. Lütfen daha sonra tekrar deneyin.",
+      "english": "An error occurred. Please try again later."
+    },
+    "MODMAIL_CLOSE_BUTTON": {
+      "turkish": "❌| Kapat",
+      "english": "❌| Close"
+    },
+    "MODMAIL_CLOSED": {
+      "turkish": {
+        "content": "Modmail kapatıldı.",
+        "embeds": [
+          {
+            "author": {
+              "name": "{user_name}",
+              "icon_url": "{user_avatar}"
+            },
+            "description": "{reason}",
+            "color": "0x036318"
+          }
+        ]
+      },
+      "english": {
+        "content": "Modmail has been closed.",
+        "embeds": [
+          {
+            "author": {
+              "name": "{user_name}",
+              "icon_url": "{user_avatar}"
+            },
+            "description": "{reason}",
+            "color": "0x036318"
+          }
+        ]
+      }
+    },
+    "MODMAIL_LOG_TITLE": {
+      "turkish": "{mailChannel_name} - {author_username} tarafından yanıtlanan modmail",
+        "english": "{mailChannel_name} - Modmail answered by {author_username}"
+    },
+    "MODMAIL_LOG_MESSAGE": {
+      "turkish": {
+        "embeds": [
+          {
+            "title": "{mailChannel_name} - {author_username} tarafından yanıtlanan modmail",
+            "description": "{author_username} tarafından {mailChannel_name} modmaili kapatıldı. Konuşma logları [BURADA](https://pastes.io/raw/{paste_id}) bulunabilir",
+            "color": "0x036318"
+          }
+        ]
+      },
+      "english": {
+        "embeds": [
+          {
+            "title": "{mailChannel_name} - Modmail answered by {author_username}",
+            "description": "{author_username} has closed the modmail {mailChannel_name}. Conversation logs can be found [HERE](https://pastes.io/raw/{paste_id})",
+            "color": "0x036318"
+          }
+        ]
+      }
+    },
+    "NO_SEND_MESSAGE_PERMS": {
+      "turkish": "Botun düzgün çalışması için `Mesaj Gönder` yetkisine ihtiyacı var!",
+      "english": "For this bot to work properly it needs `Send Messages` perm!"
+    },
+    "NO_ONE_IN_VOICE": {
+      "turkish": {
+        "embeds": [
+          {
+            "title": "Sesli Kanalda Kimse Kalmadı",
+            "description": "Sesli kanalda kimse kalmadığı için müzik kapatıldı.",
+            "color": "0xb00404"
+          }
+        ]
+      },
+      "english": {
+        "embeds": [
+          {
+            "title": "No One Left in Voice Channel",
+            "description": "Music has been stopped because no one is left in the voice channel.",
+            "color": "0xb00404"
+          }
+        ]
+      }
+    },
+    "KICKED_FROM_VOICE": {
+      "turkish": {
+        "embeds": [
+          {
+            "author": {
+                "name": "Sesli Kanaldan Atıldım",
+                "icon_url": "https://cdn.discordapp.com/attachments/972754239447261264/1074662659737276466/a26bb800-b7ee-11eb-8909-43ff37955c81.png"
+            },
+            "description": "Bot sesli kanaldan atıldığı için müzik durduruldu.",
+            "color": "0xb00404"
+          }
+        ]
+      },
+      "english": {
+        "embeds": [
+          {
+            "title": "Kicked From Voice Channel",
+            "description": "Music has been stopped because the bot has been kicked from the voice channel.",
+            "color": "0xb00404"
+          }
+        ]
+      }
+    },
+    "MODLOG_WARNING": {
+      "turkish": "⚠\uFE0F **{user_username}**, **{actionmaker_username}** tarafından uyarıldı. Sebep:\n```{reason}```",
+      "english": "⚠\uFE0F **{user_username}** has been warned by **{actionmaker_username}**. Reason:\n```{reason}```"
+    },
+    "MODLOG_BAN": {
+      "turkish": "<:banned:1017703188150894622>  **{user_username}**, **{actionmaker__username}** tarafından yasaklandı. Sebep:\n```{reason}```",
+      "english": "<:banned:1017703188150894622>  **{user_username}** has been banned by **{actionmaker__username}**. Reason:\n```{reason}```"
+    },
+    "MODLOG_KICK": {
+      "turkish": "\uD83D\uDC62 **{user_username}**, **{actionmaker__username}** tarafından atıldı. Sebep:\n```{reason}```",
+      "english": "\uD83D\uDC62 **{user_username}** has been kicked by **{actionmaker__username}**. Reason:\n```{reason}```"
+    },
+    "MODLOG_FORCED_BAN": {
+      "turkish": "<:banbanned:1017703176528474152> Kullanıcı (`{user_id}`), **{actionmaker__username}** tarafından zorla banlandı. Sebep:\n```{reason}```",
+      "english": "<:banbanned:1017703176528474152> User (`{user_id}`) has been force banned by **{actionmaker__username}**. Reason:\n```{reason}```"
+    },
+    "MODLOG_MUTE": {
+      "turkish": "\uD83D\uDD07 **{user_username}**, **{actionmaker_username}** tarafından **{amount}** boyunca susturuldu. Sebep:\n```{reason}```",
+      "english": "\uD83D\uDD07 **{user_username}** has been muted by **{actionmaker_username}** for **{amount}**. Reason:\n```{reason}```"
+    },
+    "MODLOG_TIMED_BAN": {
+      "turkish": "<:banned:1017703188150894622> **{user_username}**, **{actionmaker_username}** tarafından **{amount}** boyunca yasaklandı. Sebep:\n```{reason}```",
+      "english": "<:banned:1017703188150894622> **{user_username}** has been banned by **{actionmaker_username}** for **{amount}**. Reason:\n```{reason}```"
+    },
+    "MODLOG_UNBAN": {
+      "turkish": "\uD83D\uDD13 Kullanıcı (`{user_id}`), **{actionmaker_username}** tarafından yasağı kaldırıldı. Sebep:\n```{reason}```",
+      "english": "\uD83D\uDD13 User (`{user_id}`) has been unbanned by **{actionmaker_username}**. Reason:\n```{reason}```"
+    },
+    "MODLOG_BAN_TIMEOUT": {
+      "turkish": "\uD83D\uDD13 Kullanıcı (`{user_id}`), **{amount}** sonra **{actionmaker_username}** tarafından otomatik olarak yasağı kaldırıldı. Sebep:\n```{reason}```",
+      "english": "\uD83D\uDD13 User (`{user_id}`) has been automatically unbanned by **{actionmaker_username}** after **{amount}**. Reason:\n```{reason}```"
+    },
+    "MODLOG_CHANGES": {
+      "turkish": "<t:{time}> `[{case}]` ✏\uFE0F Olay #{case}, **{actionmaker_username}** tarafından değiştirildi. Sebep:\n```{reason}```",
+      "english": "<t:{time}> `[{case}]` ✏\uFE0F Case #{case}, has been modified by **{actionmaker_username}**. Reason:\n```{reason}```"
+    },
+    "MODLOG_FORCED_TIME_BAN": {
+      "turkish": "<:banbanned:1017703176528474152> Kullanıcı (`{user_id}`), **{amount}** boyunca **{actionmaker_username}** tarafından zorla banlandı. Sebep:\n```{reason}```",
+      "english": "<:banbanned:1017703176528474152> User (`{user_id}`) has been force banned by **{actionmaker_username}** for **{amount}**. Reason:\n```{reason}```"
+    },
+    "BAN_BOT_MISSING_PERMS": {
+      "turkish": "Üyeleri yasaklayabilmek için `Üyeleri Yasakla` yetkim yok.",
+      "english": "I don't have the `Ban Members` permission to ban members."
+    },
+    "BAN_USER_MISSING_PERMS": {
+      "turkish": "Bu kullanıcıyı yasaklayabilmek için `Üyeleri Yasakla` yetkiniz yok.",
+      "english": "You don't have the `Ban Members` permission to ban this user."
+    },
+    "BAN_USER_NOT_FOUND": {
+      "turkish": "Bu kullanıcıyı bulamadım.",
+      "english": "I couldn't find this user."
+    },
+    "BAN_NO_REASON": {
+      "turkish": "Yasaklama sebebi belirtilmedi.",
+      "english": "No reason specified for the ban."
+    },
+    "BAN_CANT_BAN_YOURSELF": {
+      "turkish": "Kendini yasaklayamazsın.",
+      "english": "You can't ban yourself."
+    },
+    "BAN_CANT_BAN_BOT": {
+      "turkish": "Bot yasaklayamazsınız.",
+      "english": "You can't ban a bot."
+    },
+    "BAN_USER_HIGHER_ROLE": {
+      "turkish": "Bu kullanıcı sizden daha yüksek (veya aynı) bir role sahip.",
+      "english": "This user has a higher (or same) role than you."
+    },
+    "BAN_USER_HAS_PERMS": {
+      "turkish": "Bu kullanıcıyı yasaklayamazsın çünkü bu kullanıcının `Üyeleri Yasaklama` Yetkisi var.",
+      "english": "You can't ban this user because this user has the `Ban Members` permission."
+    },
+    "BAN_SPECIFY_TIME": {
+      "turkish": "Bir zaman belirtmelisiniz.",
+      "english": "You must specify a time."
+    },
+    "BAN_SPECIFY_UNIT": {
+      "turkish": "Bir zaman birimi belirtmelisiniz.",
+      "english": "You must specify a time unit."
+    },
+    "BAN_INVALID_TIME": {
+      "turkish": "Geçersiz bir zaman belirttiniz.",
+      "english": "You specified an invalid time."
+    },
+    "BAN_USER_DURATION_DM": {
+      "turkish": "{guild_name} sunucusundan **{duration}** boyunca yasaklandın. Sebep: {reason}",
+      "english": "You have been banned from {guild_name} for **{duration}**. Reason: {reason}"
+    },
+    "BAN_USER_DURATION_MESSAGE": {
+      "turkish": "<a:checkmark:1017704018287546388> **{targetMember_username}** **{duration}** boyunca yasaklandı (Olay #{case}) Kullanıcı özel bir mesaj ile bildirildi.",
+      "english": "<a:checkmark:1017704018287546388> **{targetMember_username}** has been banned for **{duration}** (Case #{case}) User has been notified with a DM."
+    },
+    "BAN_USER_DURATION_MESSAGE_FAIL": {
+      "turkish": "<a:checkmark:1017704018287546388> **{targetMember_username}** **{duration}** boyunca yasaklandı (Olay #{case}) Kullanıcıya özel bir mesaj gönderilemedi.",
+      "english": "<a:checkmark:1017704018287546388> **{targetMember_username}** has been banned for **{duration}** (Case #{case}) Couldn't send a DM to the user."
+    },
+    "NO_PERMISSION_MODLOG": {
+      "turkish": "Modlog kanalına mesaj gönderemedim. Lütfen `Mesaj Gönder` yetkimin olduğundan emin olun",
+      "english": "I couldn't send a message to the modlog channel. Please make sure I have the `Send Messages` permission."
+    },
+    "BAN_USER_DM": {
+      "turkish": "{guild_name} sunucusundan yasaklandın. Sebep: {reason}",
+      "english": "You have been banned from {guild_name}. Reason: {reason}"
+    },
+    "BAN_USER_MESSAGE": {
+      "turkish": "<a:checkmark:1017704018287546388> **{targetMember_username}** yasaklandı (Olay #{case}) Kullanıcı özel bir mesaj ile bildirildi.",
+      "english": "<a:checkmark:1017704018287546388> **{targetMember_username}** has been banned (Case #{case}) User has been notified with a DM."
+    },
+    "BAN_USER_MESSAGE_FAIL": {
+      "turkish": "<a:checkmark:1017704018287546388> **{targetMember_username}** yasaklandı (Olay #{case}) Kullanıcıya özel bir mesaj gönderilemedi.",
+      "english": "<a:checkmark:1017704018287546388> **{targetMember_username}** has been banned (Case #{case}) Couldn't send a DM to the user."
+    },
+    "BAN_FORCE_USER_NOT_FOUND": {
+      "turkish": "Bu kullanıcıyı bulamadım.",
+      "english": "I couldn't find this user."
+    },
+    "BAN_FORCE_MESSAGE": {
+      "turkish": "<a:checkmark:1017704018287546388> **{targetMember_username}** yasaklandı (Olay #{case})",
+      "english": "<a:checkmark:1017704018287546388> **{targetMember_username}** has been banned (Case #{case})"
+    },
+    "CONFIG_NO_PERMS": {
+      "turkish": "Bu sunucuda ayarları değiştirebilmek için `Yönetici` yetkisine ihtiyacın var.",
+      "english": "You need the `Administrator` permission to change settings in this server."
+    },
+    "CONFIG_MESSAGE": {
+      "turkish": {
+        "embeds": [
+          {
+            "title": "Ayarlar Menüsü",
+            "description": "Ayarları görmek için aşağıdaki menüden seçim yapabilirsin.",
+            "color": "469748"
+          }
+        ],
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 3,
+                "custom_id": "config",
+                "options": [
+                  {
+                    "label": "Kayıt Ayarları",
+                    "value": "register"
+                  },
+                  {
+                    "label": "Giriş Çıkış Ayarları",
+                    "value": "welcome-leave"
+                  },
+                  {
+                    "label": "Moderasyon Ayarları",
+                    "value": "moderation"
+                  },
+                  {
+                    "label": "Rol Ayarları",
+                    "value": "role"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "english": {
+        "embeds": [
+          {
+            "title": "Settings Menu",
+            "description": "You can choose from the menu below to see the settings.",
+            "color": "469748"
+          }
+        ],
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 3,
+                "custom_id": "config",
+                "options": [
+                  {
+                    "label": "Register Settings",
+                    "value": "register"
+                  },
+                  {
+                    "label": "Welcome Leave Settings",
+                    "value": "welcome-leave"
+                  },
+                  {
+                    "label": "Moderation Settings",
+                    "value": "moderation"
+                  },
+                  {
+                    "label": "Role Settings",
+                    "value": "role"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "CONFIG_REGISTER_MESSAGE": {
+      "turkish": {
+        "embeds": [
+          {
+            "title": "Kayıt Ayarları",
+            "description": "Ayarlar ve kısaca açıklamaları;\n\n**Kayıt Kanalı:** Kayıt işlemlerinin yapıldığı kanal. `/kayıt` sadece bu kanalda yapılır.\n\n**Kayıt Mesajı:** Sunucuya birisi geldiğinde kayıt kanalına atılan mesajdır. Yetkili kadroyu etiketlemenizi de sağlar. Değişkenler: **{user}** - Kullanıcı, **{server}** - Sunucu İsmi, **{memberCount}** - Sunucu Üye Sayısı, **{id}** - Kullanıcı ID'si, **{name}** - Kullanıcının ismi.\n\n**Kayıt Mesajının Atıldığı Kanal:** Kayıt mesajının atıldığı kanal.\n\n**Kayıt Kanalındaki Mesajlar Silinsin mi?:** Kayıt işlemlerinden sonra kanaldaki silinebilecek tüm mesajları silmeye çalışır.\n\n**Kayıt Mesajı Silinsin mi?:** Kullanıcı çıktığı zaman kayıt mesajını silmeye çalışır. (Genellikle çalışmaz.)\n\n**»»----------------------------¤----------------------------««**",
+            "color": "167666",
+            "fields": [
+              {
+                "name": "Kayıt Kanalı",
+                "value": "{registerChannel}",
+                "inline": true
+              },
+              {
+                "name": "Kayıt Mesajı",
+                "value": "{registerMessage}",
+                "inline": true
+              },
+              {
+                "name": "Kayıt Mesajının Atıldığı Kanal",
+                "value": "{registerWelcomeChannel}",
+                "inline": true
+              },
+              {
+                "name": "Kayıt Kanalındaki Mesajlar Silinsin mi?",
+                "value": "{registerChannelClear}",
+                "inline": true
+              },
+              {
+                "name": "Kayıt Mesajı Silinsin mi?",
+                "value": "{registerMessageClear}",
+                "inline": true
+              }
+            ]
+          }
+        ]
+      },
+      "english": {
+        "embeds": [
+          {
+            "title": "Register Settings",
+            "description": "Settings and brief explanations;\n\n**Register Channel:** The channel where registration processes are done. `/register` can only be done in this channel.\n\n**Register Message:** The message sent to the registration channel when someone joins the server. It also allows you to tag the authorized team. Variables: **{user}** - User, **{server}** - Server Name, **{memberCount}** - Server Member Count, **{id}** - User ID, **{name}** - User's name.\n\n**Channel to Send the Register Message:** The channel where the registration message is sent.\n\n**Should Messages in the Register Channel be Deleted?:** Tries to delete all messages that can be deleted in the channel after the registration process.\n\n**Should the Register Message be Deleted?:** Tries to delete the registration message when the user leaves. (Usually doesn't work.)\n\n**»»----------------------------¤----------------------------««**",
+            "color": "167666",
+            "fields": [
+              {
+                "name": "Register Channel",
+                "value": "{registerChannel}",
+                "inline": true
+              },
+              {
+                "name": "Register Message",
+                "value": "{registerMessage}",
+                "inline": true
+              },
+              {
+                "name": "Channel to Send the Register Message",
+                "value": "{registerWelcomeChannel}",
+                "inline": true
+              },
+              {
+                "name": "Should Messages in the Register Channel be Deleted?",
+                "value": "{registerChannelClear}",
+                "inline": true
+              },
+              {
+                "name": "Should the Register Message be Deleted?",
+                "value": "{registerMessageClear}",
+                "inline": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "CONFIG_WELCOME_LEAVE_MESSAGE": {
+      "turkish": {
+        "embeds": [
+          {
+            "title": "Giriş Çıkış Ayarları",
+            "description": "Ayarlar ve kısaca açıklamaları;\n\n**Giriş Çıkış Kanalı:** Sunucuya birisi girdiğinde veya çıktığında mesajın atılacağı kanal.\n\n**Giriş Mesajı:** Sunucuya birisi girdiğinde atılacak mesaj. Değişkenler: **{user}** - Kullanıcı, **{server}** - Sunucu İsmi, **{memberCount}** - Sunucu Üye Sayısı, **{id}** - Kullanıcı ID'si, **{name}** - Kullanıcının ismi.\n\n**Çıkış Mesajı:** Sunucudan birisi çıktığında atılacak mesaj. Değişkenler: **{user}** - Kullanıcı, **{server}** - Sunucu İsmi, **{memberCount}** - Sunucu Üye Sayısı, **{id}** - Kullanıcı ID'si, **{name}** - Kullanıcının ismi.\n\n**»»----------------------------¤----------------------------««**",
+            "color": "0x615f5f",
+            "fields": [
+              {
+                "name": "Giriş Çıkış Kanalı",
+                "value": "{welcomeLeaveChannel}",
+                "inline": true
+              },
+              {
+                "name": "Giriş Mesajı",
+                "value": "{welcomeMessage}",
+                "inline": true
+              },
+              {
+                "name": "Çıkış Mesajı",
+                "value": "{leaveMessage}",
+                "inline": true
+              }
+            ]
+          }
+        ]
+      },
+      "english": {
+        "embeds": [
+          {
+            "title": "Welcome Leave Settings",
+            "description": "Settings and brief explanations;\n\n**Welcome Leave Channel:** The channel where the message will be sent when someone enters or leaves the server.\n\n**Welcome Message:** The message to be sent when someone enters the server. Variables: **{user}** - User, **{server}** - Server Name, **{memberCount}** - Server Member Count, **{id}** - User ID, **{name}** - User's name.\n\n**Leave Message:** The message to be sent when someone leaves the server. Variables: **{user}** - User, **{server}** - Server Name, **{memberCount}** - Server Member Count, **{id}** - User ID, **{name}** - User's name.\n\n**»»----------------------------¤----------------------------««**",
+            "color": "0x615f5f",
+            "fields": [
+              {
+                "name": "Welcome Leave Channel",
+                "value": "{welcomeLeaveChannel}",
+                "inline": true
+              },
+              {
+                "name": "Welcome Message",
+                "value": "{welcomeMessage}",
+                "inline": true
+              },
+              {
+                "name": "Leave Message",
+                "value": "{leaveMessage}",
+                "inline": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "CONFIG_MODERATION_MESSAGE": {
+      "turkish": {
+        "embeds": [
+          {
+            "title": "Moderasyon Ayarları",
+            "description": "Ayarlar ve kısaca açıklamaları;\n\n**Modlog Kanalı:** Moderasyon işlemlerinin atıldığı kanal.\n\n**Mute Sırasında Roller Alınsın mı?:** Kullanıcı susturulduğunda rollerini alıp bittiğinde geri verilir.\n\n**Yetkili Rolleri:** Spesifik admin komutları içindir. (Örneğin: `/kayıt` komutu)\n\n**ModMail Kanalı**: Modmail üyelerin bota DM yazarak sunucuda modlarla özel bir kanalda konuşabileceği yerler açar.\n\n**»»----------------------------¤----------------------------««**",
+            "color": "0x615f5f",
+            "fields": [
+              {
+                "name": "Modlog Kanalı",
+                "value": "{modlogChannel}",
+                "inline": true
+              },
+              {
+                "name": "Mute Sırasında Roller Alınsın mı?",
+                "value": "{muteGetAllRoles}",
+                "inline": true
+              },
+              {
+                "name": "Yetkili Rolleri",
+                "value": "{staffRole}",
+                "inline": true
+              },
+              {
+                "name": "ModMail Kanalı",
+                "value": "{modmailChannel}",
+                "inline": true
+              }
+            ]
+          }
+        ]
+      },
+      "english": {
+        "embeds": [
+          {
+            "title": "Moderation Settings",
+            "description": "Settings and brief explanations;\n\n**Modlog Channel:** The channel where moderation actions are sent.\n\n**Should Roles be Removed During Mute?:** When a user is muted, their roles are removed and given back when the mute is over.\n\n**Staff Roles:** For specific admin commands. (For example: `/register` command)\n\n**ModMail Channel**: Modmail opens places where members can talk to mods in a private channel in the server by DMing the bot.\n\n**»»----------------------------¤----------------------------««**",
+            "color": "0x615f5f",
+            "fields": [
+              {
+                "name": "Modlog Channel",
+                "value": "{modlogChannel}",
+                "inline": true
+              },
+              {
+                "name": "Should Roles be Removed During Mute?",
+                "value": "{muteGetAllRoles}",
+                "inline": true
+              },
+              {
+                "name": "Staff Roles",
+                "value": "{staffRole}",
+                "inline": true
+              },
+              {
+                "name": "ModMail Channel",
+                "value": "{modmailChannel}",
+                "inline": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "CONFIG_ROLE_MESSAGE": {
+      "turkish": {
+        "embeds": [
+          {
+            "title": "Rol Ayarları",
+            "description": "Ayarlar ve kısaca açıklamaları;\n\n**Kayıt Rolleri:** Kayıt sırasında verilecek cinsiyet rolleri.\n\n**Üye Rolü:** Kayıt sırasında verilecek üye rolü. (Eğer kayıt ayarlanmadan bu rol ayarlandıysa bot sunucuya gelen kişiye bu rolü verir.)\n\n**Susturulmuş Rolü:** Kullanıcıya mute atıldığında verilecek rol.\n\n**Günün Rengi Rolü:** Her gün UTC+3 00:00'da bot ayarlanmış rolün rengini ve ismini değiştirir.\n\n**DJ Rolü:** Bu role sahip kullanıcılar müzik dinlerken bazı kısıtlamaları bypass edebilirler.\n\n**»»----------------------------¤----------------------------««**",
+            "color": "0x615f5f",
+            "fields": [
+              {
+                "name": "Kayıt Rolleri",
+                "value": "{registerRoles}",
+                "inline": true
+              },
+              {
+                "name": "Üye Rolü",
+                "value": "{memberRole}",
+                "inline": true
+              },
+              {
+                "name": "Susturulmuş Rolü",
+                "value": "{muteRole}",
+                "inline": true
+              },
+              {
+                "name": "Günün Rengi Rolü",
+                "value": "{colorOfTheDay}",
+                "inline": true
+              },
+              {
+                "name": "DJ Rolü",
+                "value": "{djRole}",
+                "inline": true
+              }
+            ]
+          }
+        ]
+      },
+      "english": {
+        "embeds": [
+          {
+            "title": "Role Settings",
+            "description": "Settings and brief explanations;\n\n**Register Roles:** Gender roles given out during registration.\n\n**Member Role:** The member role that's given during registration. (If the registration isn't set properly this role is given when the member joins.)\n\n**Mute Role:** This role is given when a member gets muted.\n\n**Color of the Day:** Everyday at UTC+3 00:00 bot changes the color and the name of the role\n\n**DJ Role:** This role allows to bypass some limitations on music commands.\n\n**»»----------------------------¤----------------------------««**",
+            "color": "0x615f5f",
+            "fields": [
+              {
+                "name": "Register Roles",
+                "value": "{registerRoles}",
+                "inline": true
+              },
+              {
+                "name": "Member Role",
+                "value": "{memberRole}",
+                "inline": true
+              },
+              {
+                "name": "Mute Role",
+                "value": "{muteRole}",
+                "inline": true
+              },
+              {
+                "name": "Color of the Day",
+                "value": "{colorOfTheDay}",
+                "inline": true
+              },
+              {
+                "name": "DJ Role",
+                "value": "{djRole}",
+                "inline": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "EDITCASE_NO_PERMS": {
+      "turkish": "Bu sunucuda olayları düzenleyebilmek için `Sunucuyu Yönet` yetkisine ihtiyacın var.",
+      "english": "You need the `Manage Server` permission to edit cases in this server."
+    },
+    "EDITCASE_NO_MODLOG": {
+      "turkish": "Bu sunucuda modlog kanalı ayarlanmamış.",
+      "english": "There is no modlog channel set in this server."
+    },
+    "EDITCASE_NO_MODLOG_CHANNEL": {
+      "turkish": "Görünüşe göre bir modlog kanalı bulunamadı. Lütfen modlog kanalını düzgün ayarladığınızdan emin olun.",
+      "english": "It seems like I couldn't find a modlog channel. Please make sure you set the modlog channel properly."
+    },
+    "EDITCASE_NO_MODLOG_PERMS": {
+      "turkish": "Modlog kanalına mesaj gönderemiyorum. Lütfen `Mesaj Gönder` yetkisine sahip olduğumdan emin olun.",
+      "english": "I can't send messages to the modlog channel. Please make sure I have the `Send Messages` permission."
+    },
+    "EDITCASE_NO_CASE": {
+      "turkish": "Bu ID ile bir olay bulunamadı.",
+      "english": "No case found with this ID."
+    },
+    "EDITCASE_MESSAGE": {
+      "turkish": {
+        "embeds": [
+          {
+            "title": "Olay Düzenleme Menüsü",
+            "description": "Değişiklikleri onaylamak için düğmelerden <a:checkmark:1017704018287546388>, iptal etmek için <a:wrong:1197091816282001468> tuşuna basınız.",
+            "color": "0x6381407",
+            "fields": [
+              {
+                "name": "Yeni Yetkili",
+                "value": "{newStaff}",
+                "inline": true
+              },
+              {
+                "name": "Yeni Sebep",
+                "value": "{newReason}",
+                "inline": true
+              }
+            ]
+          }
+        ]
+      },
+      "english": {
+        "embeds": [
+          {
+            "title": "Edit Case Menu",
+            "description": "Press <a:checkmark:1017704018287546388> to confirm the changes, <a:wrong:1197091816282001468> to cancel.",
+            "color": "0x615f5f",
+            "fields": [
+              {
+                "name": "New Staff",
+                "value": "{newStaff}",
+                "inline": true
+              },
+              {
+                "name": "New Reason",
+                "value": "{newReason}",
+                "inline": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "EDITCASE_CONFIRMATION_TIMEOVER": {
+      "turkish": "Onaylama süresi doldu.",
+      "english": "Confirmation time is over."
+    },
+    "EDITCASE_CONFIRMATION_CANCEL": {
+      "turkish": "Düzenleme işlemi iptal edildi.",
+      "english": "Editing process has been cancelled."
+    },
+    "EDITCASE_CONFIRMATION_SUCCESS": {
+      "turkish": "Olay başarıyla düzenlendi.",
+      "english": "Case has been successfully edited."
+    },
+    "CLOSEMAIL_NO_PERMS": {
+        "turkish": "Bu sunucuda modmail kanalını kapatabilmek için `Sunucuyu Yönet` yetkisine ihtiyacın var.",
+        "english": "You need the `Manage Server` permission to close the modmail channel in this server."
+    },
+    "CLOSEMAIL_NOT_MODMAIL": {
+        "turkish": "Bu kanal bir modmail kanalı değil.",
+        "english": "This channel is not a modmail channel."
+    },
+    "CLOSEMAIL_CLOSE": {
+      "turkish": "Modmail kapatılıyor...",
+        "english": "Closing the modmail..."
+    },
+    "CLOSEMAIL_LOG_CHANNEL_ERROR": {
+      "turkish": "Modmail logları bulunamadığı için bir kanal oluşturulmaya çalışıldı. Ancak kanal oluşturulamadı. Lütfen modmail log kanalını düzgün ayarladığınızdan emin olun.",
+        "english": "Since modmail logs couldn't be found, a channel was tried to be created. However, the channel couldn't be created. Please make sure you set the modmail log channel properly."
+    },
+    "CLOSEMAIL_LOG_MESSAGE": {
+      "turkish": "{userName} tarafından {mailChannelName} maili kapatıldı. Konuşma logları [BURADA](https://pastes.io/raw/{url}) bulunabilir.",
+        "english": "{userName} has closed the {mailChannelName} modmail. Conversation logs can be found [HERE](https://pastes.io/raw/{url})."
+    },
+    "CLOSEMAIL_NO_PERM_TO_DELETE": {
+      "turkish": "Modmail kapatıldı ancak konuşma logları silinemedi. Lütfen konuşma loglarını manuel olarak silin.",
+        "english": "Modmail has been closed but the conversation logs couldn't be deleted. Please delete the conversation logs manually."
+    },
+    "CLOSEMAIL_NOTIFY": {
+      "turkish": "Modmail kapatıldı.",
+        "english": "Modmail has been closed."
+    },
+    "REGISTER_NOT_ENOUGH_PERMS": {
+      "turkish": "Bu komutu kullanabilmek kayıt yetkilisi olmalısınız!",
+        "english": "You must be a register staff to use this command!"
+    },
+    "REGISTER_NOT_ENOUGH_BOT_PERMS": {
+      "turkish": "Bu komutu kullanabilmek botun `Üyeleri Yönet` yetkisine ihtiyacı var!",
+        "english": "The bot needs the `Manage Members` permission to use this command!"
+    },
+    "BAN_EVENT_ADD_NO_AUDIT_PERMISSION": {
+      "turkish": "Bu sunucuda yasaklanan kullanıcıları görebilmek için `Denetim Kaydını Görüntüle` yetkisine ihtiyacım var.",
+        "english": "I need the `View Audit Log` permission to see the banned users in this server."
+    },
+    "BAN_EVENT_ADD_COULDNT_FIND_EXECUTOR": {
+      "turkish": "Bu kullanıcıyı yasaklayan kişiyi bulamadım.",
+        "english": "I couldn't find the user who banned this user."
+    },
+    "BAN_EVENT_ADD_NO_REASON_SPECIFIED": {
+      "turkish": "Yasaklama sebebi belirtilmedi.",
+        "english": "No reason specified for the ban."
+    },
+    "BAN_EVENT_REMOVE_NO_AUDIT_PERMISSION": {
+      "turkish": "Bu sunucuda yasağı kaldırılan kullanıcıları görebilmek için `Denetim Kaydını Görüntüle` yetkisine ihtiyacım var.",
+        "english": "I need the `View Audit Log` permission to see the unbanned users in this server."
+    },
+    "BAN_EVENT_REMOVE_COULDNT_FIND_EXECUTOR": {
+      "turkish": "Bu kullanıcının yasağını kaldıran kişiyi bulamadım.",
+        "english": "I couldn't find the user who unbanned this user."
+    },
+    "BAN_EVENT_REMOVE_NO_REASON_SPECIFIED": {
+      "turkish": "Yasak kaldırma için bir sebep belirtilmedi.",
+        "english": "No reason specified for the unban."
+    },
+    "KICK_EVENT_NO_EXECUTOR": {
+      "turkish": "Bu kullanıcıyı atan kişiyi bulamadım.",
+        "english": "I couldn't find the user who kicked this user."
+    },
+    "KICK_EVENT_NO_REASON": {
+      "turkish": "Atma sebebi belirtilmedi.",
+        "english": "No reason specified for the kick."
+    },
+  }
+}
