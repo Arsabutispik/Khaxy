@@ -831,6 +831,6 @@
     "KICK_EVENT_NO_REASON": {
       "turkish": "Atma sebebi belirtilmedi.",
         "english": "No reason specified for the kick."
-    },
+    }
   }
 }

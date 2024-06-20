@@ -23,6 +23,11 @@
     "resolveJsonModule": true,
     "baseUrl": "."
   },
+  "ts-node": {
+    "esm": true,
+    "transpileOnly": true,
+    "files": true
+  },
   "exclude": ["node_modules"],
   "include": ["./src/**/*.ts"]
 }

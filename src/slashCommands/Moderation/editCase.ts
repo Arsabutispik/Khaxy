@@ -6,7 +6,7 @@ import {
     SlashCommandBuilder, ComponentType, PermissionsBitField, GuildMember
 } from "discord.js";
 import modlog from "../../utils/modlog.js";
-import {replaceMassString} from "../../utils/utils";
+import {replaceMassString} from "../../utils/utils.js";
 
 export default {
     help: {
