@@ -11,7 +11,6 @@ import colorOfTheDay from "./utils/colorOfTheDay.js";
 import cron from "node-cron";
 import handleLanguages from "./utils/languageHandler.js";
 import "dotenv/config.js";
-import * as process from "node:process";
 const intents = new IntentsBitField()
     .add([IntentsBitField.Flags.Guilds,
         IntentsBitField.Flags.GuildMembers,
