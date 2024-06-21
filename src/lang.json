@@ -1055,8 +1055,32 @@
       "english": "There is no woman role set in this server!"
     },
     "REGISTER_SUCCESS": {
-        "turkish": "{targetMember}, başarıyla kayıt edildi!",
-        "english": "{targetMember}, has been successfully registered!"
+      "turkish": "{targetMember}, başarıyla kayıt edildi!",
+      "english": "{targetMember}, has been successfully registered!"
+    },
+    "UNBAN_NO_APP_PERMISSON": {
+      "turkish": "Bu komutu kullanabilmek için `Üyeleri Yasakla` yetkim yok!",
+      "english": "I don't have the `Ban Members` permission to unban members!"
+    },
+    "UNBAN_USER_NOT_ENOUGH_PERMISSIONS": {
+      "turkish": "Bu kullanıcıyı yasak kaldırabilmek için `Üyeleri Yasakla` yetkin yok!",
+      "english": "You don't have the `Ban Members` permission to unban this user!"
+    },
+    "UNBAN_NO_REASON": {
+      "turkish": "Yasak kaldırma sebebi belirtilmedi!",
+      "english": "No reason specified for the unban!"
+    },
+    "UNBAN_USER_NOT_BANNED": {
+        "turkish": "Bu kullanıcı yasaklanmamış!",
+        "english": "This user is not banned!"
+    },
+    "UNBAN_MODLOG_FAIL": {
+      "turkish": "Modlog kanalına mesaj göndermek için yetkim yok!",
+      "english": "I don't have the permission to send messages to the modlog channel!"
+    },
+    "UNBAN_SUCCESS": {
+      "turkish": "{user_username} adlı kullanıcının yasağı kaldırıldı!",
+      "english": "The ban of {user_username} has been lifted!"
     }
   }
 }
