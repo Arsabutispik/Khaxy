@@ -792,14 +792,6 @@
       "turkish": "Modmail kapatıldı.",
         "english": "Modmail has been closed."
     },
-    "REGISTER_NOT_ENOUGH_PERMS": {
-      "turkish": "Bu komutu kullanabilmek kayıt yetkilisi olmalısınız!",
-        "english": "You must be a register staff to use this command!"
-    },
-    "REGISTER_NOT_ENOUGH_BOT_PERMS": {
-      "turkish": "Bu komutu kullanabilmek botun `Üyeleri Yönet` yetkisine ihtiyacı var!",
-        "english": "The bot needs the `Manage Members` permission to use this command!"
-    },
     "BAN_EVENT_ADD_NO_AUDIT_PERMISSION": {
       "turkish": "Bu sunucuda yasaklanan kullanıcıları görebilmek için `Denetim Kaydını Görüntüle` yetkisine ihtiyacım var.",
         "english": "I need the `View Audit Log` permission to see the banned users in this server."
@@ -860,7 +852,7 @@
           }
         ]
       },
-        "english": {
+      "english": {
             "embeds": [
             {
                 "author": {
@@ -916,55 +908,55 @@
     },
     "KICK_APP_NOT_ENOUGH_PERMISSIONS": {
       "turkish": "Bu komutu kullanabilmek için `Üyeleri At` yetkim yok!",
-        "english": "I don't have the `Kick Members` permission to kick members!"
+      "english": "I don't have the `Kick Members` permission to kick members!"
     },
     "KICK_USER_NOT_ENOUGH_PERMISSIONS": {
       "turkish": "Bu kullanıcıyı atabilmek için `Üyeleri At` yetkin yok!",
-        "english": "You don't have the `Kick Members` permission to kick this user!"
+      "english": "You don't have the `Kick Members` permission to kick this user!"
     },
     "KICK_CANT_KICK_YOURSELF": {
       "turkish": "Kendini atamazsın!",
-        "english": "You can't kick yourself!"
+      "english": "You can't kick yourself!"
     },
     "KICK_CANT_KICK_BOT": {
       "turkish": "Bir botu atamazsın!",
-        "english": "You can't kick a bot!"
+      "english": "You can't kick a bot!"
     },
     "KICK_TARGET_HIGH_ROLE": {
       "turkish": "Bu kullanıcının rolü senden yüksek (veya aynı) bu kişiyi atamazsın!",
-        "english": "This user has a higher (or same) role than you, you can't kick this user!"
+      "english": "This user has a higher (or same) role than you, you can't kick this user!"
     },
     "KICK_TARGET_PERMISSIONS": {
       "turkish": "Bu kullanıcıyı atamazsın çünkü bu kullanıcının `Üyeleri At` yetkisi var!",
-        "english": "You can't kick this user because this user has the `Kick Members` permission!"
+      "english": "You can't kick this user because this user has the `Kick Members` permission!"
     },
     "KICK_MESSAGE_DM": {
       "turkish": "{guild_name} sunucusundan atıldınız. Sebep: {reason}",
-        "english": "You have been kicked from {guild_name}. Reason: {reason}"
+      "english": "You have been kicked from {guild_name}. Reason: {reason}"
     },
     "KICK_MESSAGE": {
-        "turkish": "<a:checkmark:1017704018287546388> **{targetMember_username}** atıldı (Olay #{case}) Kullanıcı özel bir mesaj ile bildirildi.",
-            "english": "<a:checkmark:1017704018287546388> **{targetMember_username}** has been kicked (Case #{case}) User has been notified with a DM."
-        },
+      "turkish": "<a:checkmark:1017704018287546388> **{targetMember_username}** atıldı (Olay #{case}) Kullanıcı özel bir mesaj ile bildirildi.",
+      "english": "<a:checkmark:1017704018287546388> **{targetMember_username}** has been kicked (Case #{case}) User has been notified with a DM."
+    },
     "KICK_MESSAGE_FAIL": {
-        "turkish": "<a:checkmark:1017704018287546388> **{targetMember_username}** atıldı (Olay #{case}) Kullanıcıya özel bir mesaj gönderilemedi.",
-            "english": "<a:checkmark:1017704018287546388> **{targetMember_username}** has been kicked (Case #{case}) Couldn't send a DM to the user."
+      "turkish": "<a:checkmark:1017704018287546388> **{targetMember_username}** atıldı (Olay #{case}) Kullanıcıya özel bir mesaj gönderilemedi.",
+      "english": "<a:checkmark:1017704018287546388> **{targetMember_username}** has been kicked (Case #{case}) Couldn't send a DM to the user."
     },
     "KICK_MODLOG_FAIL": {
       "turkish": "Modlog kanalına mesaj göndermek için yetkim yok!",
-        "english": "I don't have the permission to send messages to the modlog channel!"
+      "english": "I don't have the permission to send messages to the modlog channel!"
     },
     "KICK_CLEAR_SUCCESS": {
       "turkish": "Kullanıcı başarıyla atıldı ve mesajları silindi!",
-        "english": "User has been successfully kicked and messages have been cleared!"
+      "english": "User has been successfully kicked and messages have been cleared!"
     },
     "KICK_SUCCES": {
       "turkish": "Kullanıcı başarıyla atıldı!",
-        "english": "User has been successfully kicked!"
+      "english": "User has been successfully kicked!"
     },
     "KICK_FAIL": {
       "turkish": "Bir hata çıktı ve kullanıcı atılamadı!",
-        "english": "An error occurred and the user couldn't be kicked!"
+      "english": "An error occurred and the user couldn't be kicked!"
     },
     "MUTE_APP_NOT_ENOUGH_PERMISSIONS": {
       "turkish": "Bu komutu kullanabilmek için `Rolleri Yönet` yetkim yok!",
@@ -991,8 +983,8 @@
       "english": "This user has a higher (or same) role than you, you can't mute this user!"
     },
     "MUTE_TARGET_HIGHER_APP_ROLE": {
-        "turkish": "Bu kullanıcının rolü bottan yüksek (veya aynı) bu kişiyi susturamazsın!",
-        "english": "This user has a higher (or same) role than the bot, you can't mute this user!"
+      "turkish": "Bu kullanıcının rolü bottan yüksek (veya aynı) bu kişiyi susturamazsın!",
+      "english": "This user has a higher (or same) role than the bot, you can't mute this user!"
     },
     "MUTE_TARGET_HAS_PERMISSIONS": {
       "turkish": "Bu kullanıcıyı susturamazsın çünkü bu kullanıcının `Üyeleri Sustur` yetkisi var!",
@@ -1021,6 +1013,50 @@
     "MUTE_MODLOG_FAIL": {
       "turkish": "Modlog kanalına mesaj göndermek için yetkim yok!",
       "english": "I don't have the permission to send messages to the modlog channel!"
+    },
+    "REGISTER_NOT_ENOUGH_PERMS": {
+      "turkish": "Bu komutu kullanabilmek kayıt yetkilisi olmalısınız!",
+      "english": "You must be a register staff to use this command!"
+    },
+    "REGISTER_NOT_ENOUGH_BOT_PERMS": {
+      "turkish": "Bu komutu kullanabilmek için `Rolleri Yönet` yetkim yok!",
+      "english": "I don't have the `Manage Roles` permission to register members!"
+    },
+    "REGISTER_NO_CONFIG": {
+      "turkish": "Bu komut sadece kayıt kanallarında kullanılabilir. Lütfen önce kayıt kanallarını, kayıt sorumlularını ve rolleri ayarlayın ayarlayın!",
+      "english": "This command can only be used in registration channels. Please set up registration channels, registrars, and roles first!"
+    },
+    "REGISTER_NO_REGISTER_CHANNEL": {
+      "turkish": "Bu komut sadece kayıt kanallarında kullanılabilir. Lütfen önce kayıt kanallarını ayarlayın!",
+      "english": "This command can only be used in registration channels. Please set up registration channels first!"
+    },
+    "REGISTER_NOT_THE_REGISTER_CHANNEL": {
+      "turkish": "Bu komut sadece kayıt kanallarında kullanılabilir.",
+      "english": "This command can only be used in registration channels."
+    },
+    "REGISTER_CANT_REGISTER_YOURSELF": {
+      "turkish": "Kendini kayıt edemezsin!",
+      "english": "You can't register yourself!"
+    },
+    "REGISTER_NO_MALE_ROLE": {
+      "turkish": "Bu sunucuda erkek rolü ayarlanmamış!",
+      "english": "There is no male role set in this server!"
+    },
+    "REGISTER_NO_MEMBER_ROLE": {
+      "turkish": "Bu sunucuda üye rolü ayarlanmamış!",
+      "english": "There is no member role set in this server!"
+    },
+    "REGISTER_ERROR": {
+      "turkish": "Bir hata oluştu, lütfen daha sonra tekrar deneyin. Hatanın muhtemel sebebi üye rolleri botun rolünün üzerinde",
+      "english": "An error occurred, please try again later. The probable reason for the error is that the member roles are above the bot's role."
+    },
+    "REGISTER_NO_WOMAN_ROLE": {
+      "turkish": "Bu sunucuda kadın rolü ayarlanmamış!",
+      "english": "There is no woman role set in this server!"
+    },
+    "REGISTER_SUCCESS": {
+        "turkish": "{targetMember}, başarıyla kayıt edildi!",
+        "english": "{targetMember}, has been successfully registered!"
     }
   }
 }

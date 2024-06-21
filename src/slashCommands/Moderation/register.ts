@@ -1,6 +1,6 @@
 import {slashCommandBase} from "../../types";
 import {EmbedBuilder, TextChannel, SlashCommandBuilder, Message, PermissionsBitField} from "discord.js";
-import {sleep} from "../../utils/utils.js";
+import {replaceMassString, sleep} from "../../utils/utils.js";
 
 export default {
     help: {
@@ -56,7 +56,7 @@ export default {
             return
         }
         if(!interaction.guild!.members.me!.permissions.has(PermissionsBitField.Flags.ManageRoles)) {
-            await interaction.reply({content: "Bu komutu kullanabilmek için `Rolleri Yönet` yetkim yok!", ephemeral: true})
+            await interaction.reply({content: client.handleLanguages("REGISTER_NOT_ENOUGH_BOT_PERMS", client, interaction.guildId!), ephemeral: true})
             return
         }
         const user = interaction.options.getUser("user");
@@ -68,27 +68,27 @@ export default {
             const embed = new EmbedBuilder()
                 .setAuthor({name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL()})
                 .setColor("Red")
-                .setDescription("Bu komut sadece kayıt kanallarında kullanılabilir. Lütfen önce kayıt kanallarını, kayıt sorumlularını ve rolleri ayarlayın ayarlayın!")
+                .setDescription(client.handleLanguages("REGISTER_NO_CONFIG", client, interaction.guildId!))
             await interaction.reply({embeds: [embed], ephemeral: true})
             return
         } else if(!guildConfig.config.registerChannel) {
             const embed = new EmbedBuilder()
                 .setAuthor({name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL()})
                 .setColor("Red")
-                .setDescription("Bu komut sadece kayıt kanallarında kullanılabilir. Lütfen önce kayıt kanallarını ayarlayın!")
+                .setDescription(client.handleLanguages("REGISTER_NO_REGISTER_CHANNEL", client, interaction.guildId!))
             await interaction.reply({embeds: [embed], ephemeral: true})
             return
         } else if(guildConfig.config.registerChannel !== interaction.channel!.id) {
             const embed = new EmbedBuilder()
                 .setAuthor({name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL()})
                 .setColor("Red")
-                .setDescription("Bu komut sadece kayıt kanallarında kullanılabilir.")
+                .setDescription(client.handleLanguages("REGISTER_NOT_THE_REGISTER_CHANNEL", client, interaction.guildId!))
             await interaction.reply({embeds: [embed], ephemeral: true})
             return
         } else
 
         if(targetMember.user.id === interaction.user.id) {
-            await interaction.reply({content: "Kendini kayıt edemezsin! 💀", ephemeral: true});
+            await interaction.reply({content: client.handleLanguages("REGISTER_CANT_REGISTER_YOURSELF", client, interaction.guildId!), ephemeral: true});
             return;
         }
         if(gender === "male") {
@@ -96,14 +96,14 @@ export default {
                 const embed = new EmbedBuilder()
                     .setAuthor({name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL()})
                     .setColor("Red")
-                    .setDescription("Erkek rolü ayarlanmamış. Lütfen önce erkek rolünü ayarlayın!")
+                    .setDescription(client.handleLanguages("REGISTER_NO_MALE_ROLE", client, interaction.guildId!))
                 await interaction.reply({embeds: [embed], ephemeral: true})
                 return
             } else if(!interaction.guild!.roles.cache.get(guildConfig.config.memberRole)) {
                 const embed = new EmbedBuilder()
                     .setAuthor({name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL()})
                     .setColor("Red")
-                    .setDescription("Üye rolü ayarlanmamış. Lütfen önce üye rolünü ayarlayın!")
+                    .setDescription(client.handleLanguages("REGISTER_NO_MEMBER_ROLE", client, interaction.guildId!))
                 await interaction.reply({embeds: [embed], ephemeral: true})
                 return
             }
@@ -111,21 +111,21 @@ export default {
                 await targetMember.roles.add(guildConfig.config.maleRole);
                 await targetMember.roles.add(guildConfig.config.memberRole);
             } catch (e) {
-                await interaction.reply({content: "Bir hata oluştu! Lütfen daha sonra tekrar deneyin! Hatanın muhtemel sebebi üye rolleri botun rolünün üzerinde", ephemeral: true})
+                await interaction.reply({content: client.handleLanguages("REGISTER_ERROR", client, interaction.guildId!), ephemeral: true})
             }
         } else if(gender === "woman") {
             if(!interaction.guild!.roles.cache.get(guildConfig.config.femaleRole)) {
                 const embed = new EmbedBuilder()
                     .setAuthor({name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL()})
                     .setColor("Red")
-                    .setDescription("Kadın rolü ayarlanmamış. Lütfen önce kadın rolünü ayarlayın!")
+                    .setDescription(client.handleLanguages("REGISTER_NO_WOMAN_ROLE", client, interaction.guildId!))
                 await interaction.reply({embeds: [embed], ephemeral: true})
                 return
             } else if(!interaction.guild!.roles.cache.get(guildConfig.config.memberRole)) {
                 const embed = new EmbedBuilder()
                     .setAuthor({name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL()})
                     .setColor("Red")
-                    .setDescription("Üye rolü ayarlanmamış. Lütfen önce üye rolünü ayarlayın!")
+                    .setDescription(client.handleLanguages("REGISTER_NO_MEMBER_ROLE", client, interaction.guildId!))
                 await interaction.reply({embeds: [embed], ephemeral: true})
                 return
             }
@@ -133,24 +133,26 @@ export default {
                 await targetMember.roles.add(guildConfig.config.femaleRole);
                 await targetMember.roles.add(guildConfig.config.memberRole);
             } catch (e) {
-                await interaction.reply({content: "Bir hata oluştu! Lütfen daha sonra tekrar deneyin! Hatanın muhtemel sebebi üye rolleri botun rolünün üzerinde", ephemeral: true})
+                await interaction.reply({content: client.handleLanguages("REGISTER_ERROR", client, interaction.guildId!), ephemeral: true})
             }
         } else if(gender === "none") {
             if(!interaction.guild!.roles.cache.get(guildConfig.config.memberRole)) {
                 const embed = new EmbedBuilder()
                     .setAuthor({name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL()})
                     .setColor("Red")
-                    .setDescription("Üye rolü ayarlanmamış. Lütfen önce üye rolünü ayarlayın!")
+                    .setDescription(client.handleLanguages("REGISTER_NO_MEMBER_ROLE", client, interaction.guildId!))
                 await interaction.reply({embeds: [embed], ephemeral: true})
                 return
             }
             try {
                 await targetMember.roles.add(guildConfig.config.memberRole);
             } catch (e) {
-                await interaction.reply({content: "Bir hata oluştu! Lütfen daha sonra tekrar deneyin! Hatanın muhtemel sebebi üye rolleri botun rolünün üzerinde", ephemeral: true})
+                await interaction.reply({content: client.handleLanguages("REGISTER_ERROR", client, interaction.guildId!), ephemeral: true})
             }
         }
-        await interaction.reply(`${targetMember}, başarıyla kayıt edildi!`);
+        await interaction.reply({content: replaceMassString(client.handleLanguages("REGISTER_SUCCESS", client, interaction.guildId!), {
+                "{targetMember}": targetMember.toString(),
+            }), ephemeral: true})
         await sleep(1000);
 
         if(guildConfig.config.registerChannelClear) {
@@ -159,7 +161,7 @@ export default {
             await (interaction.channel as TextChannel).bulkDelete(msgs.filter((m: Message) => !m.pinned))
         }
         if(guildConfig.config.registerMessageClear) {
-            const welcomeChannel = interaction.guild!.channels.cache.get(guildConfig.config.registerChannel) as TextChannel;
+            const welcomeChannel = interaction.guild!.channels.cache.get(guildConfig.config.registerWelcomeChannel) as TextChannel;
             const wmsgs = await welcomeChannel.messages.fetch({cache: true})
             await welcomeChannel.messages.delete(wmsgs.find((m: Message) => m.mentions.members?.first()?.id === targetMember.id)!)
         }
