@@ -3,6 +3,7 @@ import ms from "ms";
 import Punishment from "../../schemas/punishmentSchema.js";
 import modlog from "../../utils/modlog.js";
 import {slashCommandBase} from "../../types";
+import {replaceMassString} from "../../utils/utils";
 
 export default {
     help: {
@@ -14,34 +15,71 @@ export default {
     },
     data: new SlashCommandBuilder()
         .setName("mute")
-        .setDescription("Bir kullanıcıyı susturur")
+        .setNameLocalizations({
+            "tr": "sustur"
+        })
+        .setDescription("Mutes a member")
+        .setDescriptionLocalizations({
+            "tr": "Bir üyeyi susturur"
+        })
         .setDefaultMemberPermissions(PermissionsBitField.Flags.ManageRoles)
         .setDMPermission(false)
-        .addUserOption(option => option.setName("kullanıcı").setDescription("Susturulacak kullanıcı").setRequired(true))
-        .addStringOption(option => option.setName("süre").setDescription("Susturulacak kullanıcının susturulma süresi").setRequired(true))
-        .addStringOption(option => option.setName("vakit").setDescription("Susturulacak kullanıcının susturulma süresinin birimi").setRequired(true)
+        .addUserOption(option => option
+            .setName("member")
+            .setNameLocalizations({
+                "tr": "kullanıcı"
+            })
+            .setDescription("The member to mute")
+            .setDescriptionLocalizations({
+                "tr": "Susturulacak kullanıcı"
+            })
+            .setRequired(true))
+        .addStringOption(option => option
+            .setName("duration")
+            .setDescription("The duration of the mute")
+            .setDescriptionLocalizations({
+                "tr": "Susturulacak kullanıcının susturulma süresi"
+            })
+            .setRequired(true))
+        .addStringOption(option => option
+            .setName("time")
+            .setDescription("The time unit of the mute")
+            .setDescriptionLocalizations({
+                "tr": "Susturulma süresinin zaman birimi"
+            })
+            .setRequired(true)
             .setChoices(
-                {name: "Saniye", value: "s"},
-                {name: "Dakika", value: "m"},
-                {name: "Saat", value: "h"},
-                {name: "Gün", value: "d"},
-                {name: "Hafta", value: "w"}
+                {name: "Second(s)", value: "s"},
+                {name: "Minute(s)", value: "m"},
+                {name: "Hour(s)", value: "h"},
+                {name: "Day(s)", value: "d"},
+                {name: "Week(s)", value: "w"}
             ))
-        .addStringOption(option => option.setName("sebep").setDescription("Susturulma sebebi").setRequired(true)),
+        .addStringOption(option => option
+            .setName("reason")
+            .setNameLocalizations({
+                "tr": "sebep"
+            })
+            .setDescription("The reason of the mute")
+            .setDescriptionLocalizations({
+                "tr": "Susturma sebebi"
+            })
+            .setRequired(true)),
     execute: async ({interaction, client}) => {
         if(!interaction.guild!.members.me!.permissions.has(PermissionsBitField.Flags.ManageRoles)) {
-            await interaction.reply({content: "Bu komutu kullanabilmek için `Rolleri Yönet` yetkim yok!", ephemeral: true})
+            await interaction.reply({content: client.handleLanguages("MUTE_APP_NOT_ENOUGH_PERMISSIONS", client, interaction.guildId!), ephemeral: true})
             return
         }
-        const user = interaction.options.getUser("kullanıcı");
+        const user = interaction.options.getUser("member");
         const targetMember = interaction.guild!.members.cache.get(user!.id)!;
         const data = client.guildsConfig.get(interaction.guild!.id)!
-        if(!(interaction.member as GuildMember).permissions.has(PermissionsBitField.Flags.ManageRoles)) return interaction.reply({content: "Bu komutu kullanmak için yeterli yetkin yok.", ephemeral: true});
+        const lang = data.config.language || "english"
+        if(!(interaction.member as GuildMember).permissions.has(PermissionsBitField.Flags.ManageRoles)) return interaction.reply({content: client.handleLanguages("MUTE_USER_NOT_ENOUGH_PERMISSIONS", client, interaction.guildId!), ephemeral: true});
         if(!interaction.guild!.roles.cache.get(data.config.muteRole)) {
             const embed = new EmbedBuilder()
                 .setAuthor({name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL()})
                 .setColor("Red")
-                .setDescription("Bu komutu kullanabilmek için önce susturma rolünü ayarlayın!")
+                .setDescription(client.handleLanguages("MUTE_NO_ROLE", client, interaction.guildId!))
             await interaction.reply({embeds: [embed], ephemeral: true})
             return
         }
@@ -49,7 +87,7 @@ export default {
             const embed = new EmbedBuilder()
                 .setAuthor({name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL()})
                 .setColor("Red")
-                .setDescription("Kendini susturamazsın!")
+                .setDescription(client.handleLanguages("MUTE_CANT_MUTE_YOURSELF", client, interaction.guildId!))
             await interaction.reply({embeds: [embed], ephemeral: true})
             return
         }
@@ -57,7 +95,7 @@ export default {
             const embed = new EmbedBuilder()
                 .setAuthor({name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL()})
                 .setColor("Red")
-                .setDescription("Bir botu susturamazsın!")
+                .setDescription(client.handleLanguages("MUTE_CANT_MUTE_APP", client, interaction.guildId!))
             await interaction.reply({embeds: [embed], ephemeral: true})
             return
         }
@@ -65,7 +103,7 @@ export default {
             const embed = new EmbedBuilder()
                 .setAuthor({name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL()})
                 .setColor("Red")
-                .setDescription("Bu kullanıcının rolü senden yüksek (veya aynı) bu kişiyi susturamazsın!")
+                .setDescription(client.handleLanguages("MUTE_TARGET_HIGH_ROLE", client, interaction.guildId!))
             await interaction.reply({embeds: [embed], ephemeral: true})
             return
         }
@@ -73,7 +111,7 @@ export default {
             const embed = new EmbedBuilder()
                 .setAuthor({name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL()})
                 .setColor("Red")
-                .setDescription("Bu kullanıcının rolü benden yüksek (veya aynı) o yüzden bu kişiyi susturamam!")
+                .setDescription(client.handleLanguages("MUTE_TARGET_HIGHER_APP_ROLE", client, interaction.guildId!))
             await interaction.reply({embeds: [embed], ephemeral: true})
             return
         }
@@ -81,7 +119,7 @@ export default {
             const embed = new EmbedBuilder()
                 .setAuthor({name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL()})
                 .setColor("Red")
-                .setDescription("Bu kullanıcının yetkileri var!")
+                .setDescription(client.handleLanguages("MUTE_TARGET_HAS_PERMISSIONS", client, interaction.guildId!))
             await interaction.reply({embeds: [embed], ephemeral: true})
             return
         }
@@ -90,18 +128,31 @@ export default {
             const embed = new EmbedBuilder()
                 .setAuthor({name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL()})
                 .setColor("Red")
-                .setDescription("Bu kullanıcı zaten susturulmuş!")
+                .setDescription(client.handleLanguages("MUTE_ALREADY_MUTED", client, interaction.guildId!))
             await interaction.reply({embeds: [embed], ephemeral: true})
             return
         }
-        const duration = ms(`${interaction.options.getString("süre", true)}${interaction.options.getString("vakit", true)}`)
-        const reason = interaction.options.getString("sebep", false) || "Sebep belirtilmedi"
-        const longduration = ms(duration, {long: true}).replace(/seconds|second/, "saniye").replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün")
+        const duration = ms(`${interaction.options.getString("duration", true)}${interaction.options.getString("time", true)}`)
+        const reason = interaction.options.getString("reason", false) || client.handleLanguages("MUTE_NO_REASON", client, interaction.guildId!)
+        let longduration = ms(duration!, {long: true})
+        if(lang === "turkish") {
+            longduration = longduration.replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün")
+        }
         try {
-            await targetMember.send(`${interaction.guild!.name} sunucusunda ${longduration} boyunca susturuldunuz. Sebep: ${reason}`)
-            await interaction.reply(`<a:checkmark:1017704018287546388> **${targetMember.user.tag}** ${longduration} boyunca susturuldu (Olay #${data.case}). Kullanıcı özel bir mesaj ile bildirildi`)
+            await targetMember.send(replaceMassString(client.handleLanguages("MUTE_MESSAGE_DM", client, interaction.guildId!), {
+                "{guild_name}": interaction.guild!.name,
+                "{duration}": longduration,
+                "{reason}": reason
+            }))
+            await interaction.reply(replaceMassString(client.handleLanguages("MUTE_MESSAGE", client, interaction.guildId!), {
+                "{targetMember_username}": targetMember.user.username,
+                "{case}": data.case.toString()
+            }))
         } catch {
-            await interaction.reply(`<a:checkmark:1017704018287546388> **${targetMember.user.tag}** ${longduration} boyunca susturuldu (Olay #${data.case}). Kullanıcıya özel mesaj atılamadı`)
+            await interaction.reply(replaceMassString(client.handleLanguages("MUTE_MESSAGE_FAIL", client, interaction.guildId!), {
+                "{targetMember_username}": targetMember.user.username,
+                "{case}": data.case.toString()
+            }))
         }
         if(data.config.muteGetAllRoles) {
             const filterRoles = targetMember.roles.cache.filter(role => (role.id !== interaction.guild!.id)).filter((role => role.id !== interaction.guild!.roles.premiumSubscriberRole?.id)).filter((role => role.position < interaction.guild!.members.me!.roles.highest.position)).map(role => role.id)
@@ -123,7 +174,7 @@ export default {
                     duration
                 }, client)
             } catch {
-                await interaction.followUp({content: "Modlog kanalına mesaj göndermek için yetkim yok!", ephemeral: true})
+                await interaction.followUp({content: client.handleLanguages("MUTE_MODLOG_FAIL", client, interaction.guildId!), ephemeral: true})
             }
         }
     }

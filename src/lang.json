@@ -965,6 +965,62 @@
     "KICK_FAIL": {
       "turkish": "Bir hata çıktı ve kullanıcı atılamadı!",
         "english": "An error occurred and the user couldn't be kicked!"
+    },
+    "MUTE_APP_NOT_ENOUGH_PERMISSIONS": {
+      "turkish": "Bu komutu kullanabilmek için `Rolleri Yönet` yetkim yok!",
+      "english": "I don't have the `Manage Roles` permission to mute members!"
+    },
+    "MUTE_USER_NOT_ENOUGH_PERMISSIONS": {
+      "turkish": "Bu kullanıcıyı susturabilmek için `Rolleri Yönet` yetkin yok!",
+      "english": "You don't have the `Manage Roles` permission to mute this user!"
+    },
+    "MUTE_NO_ROLE": {
+      "turkish": "Bu sunucuda bir susturulmuş rolü ayarlanmamış!",
+      "english": "There is no muted role set in this server!"
+    },
+    "MUTE_CANT_MUTE_YOURSELF": {
+      "turkish": "Kendini susturamazsın!",
+      "english": "You can't mute yourself!"
+    },
+    "MUTE_CANT_MUTE_APP": {
+      "turkish": "Bir botu susturamazsın!",
+      "english": "You can't mute a bot!"
+    },
+    "MUTE_TARGET_HIGH_ROLE": {
+      "turkish": "Bu kullanıcının rolü senden yüksek (veya aynı) bu kişiyi susturamazsın!",
+      "english": "This user has a higher (or same) role than you, you can't mute this user!"
+    },
+    "MUTE_TARGET_HIGHER_APP_ROLE": {
+        "turkish": "Bu kullanıcının rolü bottan yüksek (veya aynı) bu kişiyi susturamazsın!",
+        "english": "This user has a higher (or same) role than the bot, you can't mute this user!"
+    },
+    "MUTE_TARGET_HAS_PERMISSIONS": {
+      "turkish": "Bu kullanıcıyı susturamazsın çünkü bu kullanıcının `Üyeleri Sustur` yetkisi var!",
+      "english": "You can't mute this user because this user has the `Mute Members` permission!"
+    },
+    "MUTE_ALREADY_MUTED": {
+      "turkish": "Bu kullanıcı zaten susturulmuş!",
+      "english": "This user is already muted!"
+    },
+    "MUTE_NO_REASON": {
+      "turkish": "Susturma sebebi belirtilmedi!",
+      "english": "No reason specified for the mute!"
+    },
+    "MUTE_MESSAGE_DM": {
+      "turkish": "{guild_name} sunucusunda {duration} boyunca susturuldunuz. Sebep: ${reason}",
+      "english": "You have been muted in {guild_name} for {duration}. Reason: {reason}"
+    },
+    "MUTE_MESSAGE": {
+      "turkish": "<a:checkmark:1017704018287546388> **{targetMember_username}** susturuldu (Olay #{case}) Kullanıcı özel bir mesaj ile bildirildi.",
+      "english": "<a:checkmark:1017704018287546388> **{targetMember_username}** has been muted (Case #{case}) User has been notified with a DM."
+    },
+    "MUTE_MESSAGE_FAIL": {
+      "turkish": "<a:checkmark:1017704018287546388> **{targetMember_username}** susturuldu (Olay #{case}) Kullanıcıya özel bir mesaj gönderilemedi.",
+      "english": "<a:checkmark:1017704018287546388> **{targetMember_username}** has been muted (Case #{case}) Couldn't send a DM to the user."
+    },
+    "MUTE_MODLOG_FAIL": {
+      "turkish": "Modlog kanalına mesaj göndermek için yetkim yok!",
+      "english": "I don't have the permission to send messages to the modlog channel!"
     }
   }
 }
