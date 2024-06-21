@@ -26,9 +26,10 @@ export default async(client: HolyClient) => {
                     continue
                 }
                 if(client.guildsConfig.get(guildID!)!.config.muteGetAllRoles) {
-                    previousRoles?.forEach(async role => {
+                    if (!previousRoles) continue
+                    for (const role of previousRoles) {
                         if(!member.guild.roles.cache.get(role)) previousRoles?.splice(previousRoles?.indexOf(role), 1)
-                    })
+                    }
                     await member.roles.add(previousRoles!)
                 }
                 await member.roles.remove(client.guildsConfig.get(guildID!)!.config.muteRole!)

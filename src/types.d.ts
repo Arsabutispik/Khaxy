@@ -1,5 +1,4 @@
 import {
-    ApplicationCommandType,
     ChatInputCommandInteraction,
     Client,
     Collection,
@@ -7,8 +6,6 @@ import {
     SlashCommandBuilder, Snowflake
 } from "discord.js";
 import { UpdateQuery } from "mongoose";
-import tr from "../languages/tr.json";
-import en from "../languages/en.json";
 export type ExecuteParameters = {
     client: HolyClient;
     message: Message;

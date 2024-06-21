@@ -73,7 +73,7 @@ export default {
             QueueEmbed.setDescription(text);
             return QueueEmbed;
         })
-        paginate(interaction, pages, 600000);
+        await paginate(interaction, pages, 600000);
     }
 
 } as slashCommandBase
