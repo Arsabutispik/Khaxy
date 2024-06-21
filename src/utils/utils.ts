@@ -45,6 +45,7 @@ const row = new ActionRowBuilder<ButtonBuilder>()
  * @param type - The type of the log
  * @param path - The path of the log
  * @param text - The error message
+ * @returns void - Logs the message to the console
  */
 function log(type: "SUCCESS"|"ERROR"|"WARNING", path: string, text: string) {
     console.log(`\u001b[36;1m<bot-prefab>\u001b[0m\u001b[34m [${path}]\u001b[0m - ${consoleColors[type]}${text}\u001b[0m`);
@@ -60,6 +61,11 @@ function randomRange(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+/**
+ *
+ * @param ms - Milliseconds
+ * @returns  A string that shows the time in days, hours, minutes and seconds
+ */
 function msToTime(ms: number) {
     let day, hour, minute, seconds;
     seconds = Math.floor(ms / 1000);
@@ -71,16 +77,23 @@ function msToTime(ms: number) {
     hour = hour % 24;
     return day ?
         (hour ?
-            (`${day} gün ${hour} saat ${minute} dakika ${seconds}saniye`) :
+            (`${day} day ${hour} hour ${minute} minute ${seconds} second`) :
             (minute ?
-                (`${day} gün ${minute} dakika ${seconds} saniye`) :
-                (`${day} gün ${seconds} saniye`))) :
+                (`${day} day ${minute} minute ${seconds} second`) :
+                (`${day} day ${seconds} second`))) :
         (hour ?
-            (`${hour} saat ${minute} dakika ${seconds} saniye`) :
+            (`${hour} hour ${minute} minute ${seconds} second`) :
             (minute ?
-                (`${minute} dakika ${seconds} saniye`) :
-                (`${seconds} saniye`)))
+                (`${minute} minute ${seconds} second`) :
+                (`${seconds} second`)))
 }
+
+/**
+ *
+ * @param str - The string to be chunked
+ * @param size - The size of the chunks
+ * @returns  An array of strings that are chunked
+ */
 function chunkSubstr(str: string, size: number): string[] {
     const numChunks = Math.ceil(str.length / size)
     const chunks = new Array(numChunks)
@@ -91,10 +104,23 @@ function chunkSubstr(str: string, size: number): string[] {
 
     return chunks
 }
+
+/**
+ *
+ * @param ms - Milliseconds
+ * @returns  A promise that resolves after ms milliseconds
+ */
 function sleep(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+/**
+ *
+ * @param message - The message to be paginated
+ * @param pages - The pages to be paginated
+ * @param timeout - The timeout for the pagination
+ * @returns  A paginated message
+ */
 async function paginate(message: ChatInputCommandInteraction, pages: EmbedBuilder[], timeout: number = 60000) {
     if (!message) throw new Error("Channel is inaccessible.");
     if (!pages) throw new Error("Pages are not given.");
@@ -137,6 +163,12 @@ async function paginate(message: ChatInputCommandInteraction, pages: EmbedBuilde
     })
 }
 
+/**
+ *
+ * @param text - The text to be replaced
+ * @param replace - The object to be replaced
+ * @returns  A string that is replaced
+ */
 function replaceMassString(text: string, replace: customObject) {
     if(!text) throw new Error("Text is not given.");
     for(const [key, value] of Object.entries(replace)) {
@@ -144,10 +176,22 @@ function replaceMassString(text: string, replace: customObject) {
     }
     return text;
 }
+
+/**
+ *
+ * @param days - The days to be converted to seconds
+ * @returns  A number that is converted from days to seconds
+ */
 function daysToSeconds(days: number): number {
     // 👇️        hour  min  sec  ms
     return days * 24 * 60 * 60
 }
+
+/**
+ *
+ * @param array - The array to be shuffled
+ * @returns  A shuffled array
+ */
 const arrayShuffle = function(array: Array<any>) {
     for ( let i = 0, length = array.length, swap = 0, temp = ''; i < length; i++ ) {
        swap        = Math.floor(Math.random() * (i + 1));
@@ -157,7 +201,13 @@ const arrayShuffle = function(array: Array<any>) {
     }
     return array;
  };
- 
+
+    /**
+    *
+    * @param values - The values to be chosen
+    * @param chances - The chances of the values
+    * @returns  A value that is chosen by the chances
+    */
  const percentageChance = function(values: Array<any>, chances: number[]) {
     let pool: Array<any> = [];
     for ( let i = 0; i < chances.length; i++ ) {
