@@ -1081,6 +1081,26 @@
     "UNBAN_SUCCESS": {
       "turkish": "{user_username} adlı kullanıcının yasağı kaldırıldı!",
       "english": "The ban of {user_username} has been lifted!"
+    },
+    "UNMUTE_APP_NOT_ENOUGH_PERMISSIONS": {
+      "turkish": "Bu komutu kullanabilmek için `Rolleri Yönet` yetkim yok!",
+      "english": "I don't have the `Manage Roles` permission to unmute members!"
+    },
+    "UNMUTE_USER_NOT_ENOUGH_PERMISSIONS": {
+      "turkish": "Bu kullanıcıyı susturmayı kaldırabilmek için `Rolleri Yönet` yetkin yok!",
+      "english": "You don't have the `Manage Roles` permission to unmute this user!"
+    },
+    "UNMUTE_NOT_MUTED": {
+      "turkish": "Bu kullanıcı zaten susturulmamış!",
+      "english": "This user is not muted!"
+    },
+    "UNMUTE_NO_PREVIOUS_ROLES": {
+      "turkish": "Bu kullanıcının önceki rolleri bulunamadı!",
+      "english": "Couldn't find the previous roles of this user!"
+    },
+    "UNMUTE_SUCESS": {
+        "turkish": "**{user_username}** adlı kullanıcının susturulması kaldırıldı!",
+        "english": "The mute of **{user_username}** has been lifted!"
     }
   }
 }
