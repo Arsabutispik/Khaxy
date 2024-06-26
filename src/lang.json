@@ -1099,8 +1099,12 @@
       "english": "Couldn't find the previous roles of this user!"
     },
     "UNMUTE_SUCESS": {
-        "turkish": "**{user_username}** adlı kullanıcının susturulması kaldırıldı!",
-        "english": "The mute of **{user_username}** has been lifted!"
+      "turkish": "**{user_username}** adlı kullanıcının susturulması kaldırıldı!",
+      "english": "The mute of **{user_username}** has been lifted!"
+    },
+    "WARN_USER_NOT_ENOUGH_PERMISSIONS": {
+      "turkish": "Bu komutu kullanmak için yeterli yetkin yok.",
+      "english": "You don't have enough permissions to use this command."
     }
   }
 }

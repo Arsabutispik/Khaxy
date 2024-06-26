@@ -53,14 +53,22 @@ const player = new Player(client, {
     client.handleLanguages = handleLanguages;
     try {
         mongoose.set("strictQuery", true);
-        await mongoose.connect(process.env.MONGODB_URI as string);
+        if(process.env.npm_lifecycle_event === "test") {
+            await mongoose.connect(process.env.TEST_MONGODB_URI as string);
+        } else {
+            await mongoose.connect(process.env.MONGODB_URI as string);
+        }
         log("SUCCESS", "src/index.ts", "Connected to the database.");
     } catch (e) {
         log("ERROR", "src/index.ts", `Error connecting to the database: ${e.message}`);
         process.exit(1);
     }
     try {
-        await client.login(process.env.TOKEN as string);
+        if(process.env.npm_lifecycle_event === "test") {
+            await client.login(process.env.TEST_TOKEN as string);
+        } else {
+            await client.login(process.env.TOKEN as string);
+        }
         log("SUCCESS", "src/index.ts", `Logged in as ${client.user!.tag}`);
     }
     catch (e) {

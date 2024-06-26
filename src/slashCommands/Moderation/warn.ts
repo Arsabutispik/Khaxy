@@ -12,13 +12,37 @@ export default {
     },
     data: new SlashCommandBuilder()
         .setName("warn")
-        .setDescription("Bir kullanıcıyı uyarır")
+        .setNameLocalizations({
+            "tr": "uyar"
+        })
+        .setDescription("Warns a member")
+        .setDescriptionLocalizations({
+            "tr": "Bir kullanıcıyı uyarır"
+        })
         .setDefaultMemberPermissions(PermissionsBitField.Flags.ManageRoles)
         .setDMPermission(false)
-        .addUserOption(option => option.setName("kullanıcı").setDescription("Uyarılacak kullanıcı").setRequired(true))
-        .addStringOption(option => option.setName("sebep").setDescription("Uyarı sebebi").setRequired(true)),
+        .addUserOption(option => option
+            .setName("member")
+            .setNameLocalizations({
+                "tr": "kullanıcı"
+            })
+            .setDescription("Member to warn")
+            .setDescriptionLocalizations({
+                "tr": "Uyarılacak kullanıcı"
+            })
+            .setRequired(true))
+        .addStringOption(option => option
+            .setName("reason")
+            .setNameLocalizations({
+                "tr": "sebep"
+            })
+            .setDescription("Reason for warn")
+            .setDescriptionLocalizations({
+                "tr": "Uyarı sebebi"
+            })
+            .setRequired(true)),
     execute: async ({interaction, client}) => {
-        const user = interaction.options.getUser("kullanıcı");
+        const user = interaction.options.getUser("member");
         const member = interaction.guild!.members.cache.get(user!.id)!;
         const data = client.guildsConfig.get(interaction.guild!.id)!
         if(!(interaction.member as GuildMember).permissions.has(PermissionsBitField.Flags.ModerateMembers)) return interaction.reply({content: "Bu komutu kullanmak için yeterli yetkin yok.", ephemeral: true});
@@ -62,7 +86,7 @@ export default {
             await interaction.reply({embeds: [embed], ephemeral: true})
             return
         }
-        let reason = interaction.options.getString("sebep", true);
+        let reason = interaction.options.getString("reason", true);
         await interaction.reply(`<a:checkmark:1017704018287546388> **${member.user.tag}** uyarıldı (Olay #${data.case}) Kullanıcı özel bir mesaj ile bildirildi`)
         if(interaction.guild!.channels.cache.get(data.config.modlogChannel)) {
             try {
