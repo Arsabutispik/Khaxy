@@ -3,7 +3,7 @@ import ms from "ms";
 import Punishment from "../../schemas/punishmentSchema.js";
 import modlog from "../../utils/modlog.js";
 import {slashCommandBase} from "../../types";
-import {replaceMassString} from "../../utils/utils";
+import {replaceMassString} from "../../utils/utils.js";
 
 export default {
     help: {

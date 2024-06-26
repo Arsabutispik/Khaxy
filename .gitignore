@@ -2,5 +2,4 @@ node_modules/
 package-lock.json
 .idea/
 .env
-src/indextest.ts
-dist/indextest.js
+dist/
