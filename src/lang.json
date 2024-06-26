@@ -1105,6 +1105,42 @@
     "WARN_USER_NOT_ENOUGH_PERMISSIONS": {
       "turkish": "Bu komutu kullanmak için yeterli yetkin yok.",
       "english": "You don't have enough permissions to use this command."
+    },
+    "WARN_CANNOT_WARN_YOURSELF": {
+      "turkish": "Kendini uyaramazsın!",
+      "english": "You can't warn yourself!"
+    },
+    "WARN_CANNOT_WARN_BOT": {
+      "turkish": "Bir botu uyaramazsın!",
+      "english": "You can't warn a bot!"
+    },
+    "WARN_USER_HAS_HIGHER_ROLE": {
+      "turkish": "Bu kullanıcının rolü senden yüksek (veya aynı) bu kişiyi uyaramazsın!",
+      "english": "This user has a higher (or same) role than you, you can't warn this user!"
+    },
+    "WARN_USER_HAS_HIGHER_BOT_ROLE": {
+      "turkish": "Bu kullanıcının rolü bottan yüksek (veya aynı) bu kişiyi uyaramazsın!",
+      "english": "This user has a higher (or same) role than the bot, you can't warn this user!"
+    },
+    "WARN_USER_HAS_PERMISSIONS": {
+      "turkish": "Bu kullanıcıyı uyaramazsın, bu kullanıcının yeterli yetkisi var!",
+      "english": "You can't warn this user, this user has enough permissions!"
+    },
+    "WARN_USER_DM": {
+        "turkish": "**{guild_name}** sunucusunda uyarıldınız. Sebep: {reason}",
+        "english": "You have been warned in **{guild_name}**. Reason: {reason}"
+    },
+    "WARN_SUCCESS": {
+      "turkish": "<a:checkmark:1017704018287546388> **{user}** uyarıldı (Olay #{case})",
+      "english": "<a:checkmark:1017704018287546388> **{user}** has been warned (Case #{case})"
+    },
+    "WARN_USER_CANNOT_DM": {
+        "turkish": "<a:checkmark:1017704018287546388> **{user}** uyarıldı (Olay #{case}) Kullanıcıya özel bir mesaj gönderilemedi.",
+        "english": "<a:checkmark:1017704018287546388> **{user}** has been warned (Case #{case}) Couldn't send a DM to the user."
+    },
+    "WARN_MODLOG_FAIL": {
+      "turkish": "Modlog kanalına mesaj göndermek için yetkim yok!",
+      "english": "I don't have the permission to send messages to the modlog channel!"
     }
   }
 }

@@ -1,6 +1,7 @@
 import {GuildMember, EmbedBuilder, SlashCommandBuilder, PermissionsBitField} from "discord.js";
 import modlog from "../../utils/modlog.js";
 import {slashCommandBase} from "../../types";
+import {replaceMassString} from "../../utils/utils";
 
 export default {
     help: {
@@ -45,12 +46,12 @@ export default {
         const user = interaction.options.getUser("member");
         const member = interaction.guild!.members.cache.get(user!.id)!;
         const data = client.guildsConfig.get(interaction.guild!.id)!
-        if(!(interaction.member as GuildMember).permissions.has(PermissionsBitField.Flags.ModerateMembers)) return interaction.reply({content: "Bu komutu kullanmak için yeterli yetkin yok.", ephemeral: true});
+        if(!(interaction.member as GuildMember).permissions.has(PermissionsBitField.Flags.ModerateMembers)) return interaction.reply({content: client.handleLanguages("WARN_USER_NOT_ENOUGH_PERMISSIONS", client, interaction.guildId!), ephemeral: true});
         if(member.id === interaction.user.id){
             const embed = new EmbedBuilder()
                 .setAuthor({name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL()})
                 .setColor("Red")
-                .setDescription("Kendini uyaramazsın!")
+                .setDescription(client.handleLanguages("WARN_CANNOT_WARN_YOURSELF", client, interaction.guildId!))
             await interaction.reply({embeds: [embed], ephemeral: true})
             return
         }
@@ -58,7 +59,7 @@ export default {
             const embed = new EmbedBuilder()
                 .setAuthor({name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL()})
                 .setColor("Red")
-                .setDescription("Bir botu atamazsın!")
+                .setDescription(client.handleLanguages("WARN_CANNOT_WARN_BOT", client, interaction.guildId!))
             await interaction.reply({embeds: [embed], ephemeral: true})
             return
         }
@@ -66,7 +67,7 @@ export default {
             const embed = new EmbedBuilder()
                 .setAuthor({name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL()})
                 .setColor("Red")
-                .setDescription("Bu kullanıcının rolü senden yüksek (veya aynı) bu kişiyi atamazsın!")
+                .setDescription(client.handleLanguages("WARN_USER_HAS_HIGHER_ROLE", client, interaction.guildId!))
             await interaction.reply({embeds: [embed], ephemeral: true})
             return
         }
@@ -74,7 +75,7 @@ export default {
             const embed = new EmbedBuilder()
                 .setAuthor({name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL()})
                 .setColor("Red")
-                .setDescription("Bu kullanıcının rolü benden yüksek (veya aynı) o yüzden bu kişiyi atamam!")
+                .setDescription(client.handleLanguages("WARN_USER_HAS_HIGHER_BOT_ROLE", client, interaction.guildId!))
             await interaction.reply({embeds: [embed], ephemeral: true})
             return
         }
@@ -82,12 +83,26 @@ export default {
             const embed = new EmbedBuilder()
                 .setAuthor({name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL()})
                 .setColor("Red")
-                .setDescription("Bu kullanıcının yetkileri var!")
+                .setDescription(client.handleLanguages("WARN_USER_HAS_PERMISSIONS", client, interaction.guildId!))
             await interaction.reply({embeds: [embed], ephemeral: true})
             return
         }
         let reason = interaction.options.getString("reason", true);
-        await interaction.reply(`<a:checkmark:1017704018287546388> **${member.user.tag}** uyarıldı (Olay #${data.case}) Kullanıcı özel bir mesaj ile bildirildi`)
+        try{
+            await member.send(replaceMassString(client.handleLanguages("WARN_USER_DM", client, interaction.guildId!), {
+                "{guild_name}": interaction.guild!.name,
+                "{reason}": reason
+            }))
+            await interaction.reply(replaceMassString(client.handleLanguages("WARN_SUCCESS", client, interaction.guildId!), {
+                "{user}": member.user.username,
+                "{case}": data.case.toString()
+            }))
+        }catch{
+            await interaction.reply(replaceMassString(client.handleLanguages("WARN_USER_CANNOT_DM", client, interaction.guildId!), {
+                "{user}": member.user.username,
+                "{case}": data.case.toString()
+            }))
+        }
         if(interaction.guild!.channels.cache.get(data.config.modlogChannel)) {
             try {
                 await modlog({
@@ -98,7 +113,7 @@ export default {
                     reason
                 }, client)
             } catch {
-                await interaction.followUp({content: "Modlog kanalına mesaj göndermek için yetkim yok!", ephemeral: true})
+                await interaction.followUp({content: client.handleLanguages("WARN_MODLOG_FAIL", client, interaction.guildId!), ephemeral: true})
             }
         }
     }
