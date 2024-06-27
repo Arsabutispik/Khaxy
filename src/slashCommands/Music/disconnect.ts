@@ -11,16 +11,19 @@ export default {
     },
     data: new SlashCommandBuilder()
         .setName("disconnect")
-        .setDescription("Botu ses kanalından atar.")
+        .setDescription("Makes the bot leave the voice channel")
+        .setDescriptionLocalizations({
+            tr: "Botu ses kanalından atar."
+        })
         .setDMPermission(false),
     execute: async ({ client, interaction }) => {
         let player = useQueue(interaction.guild!.id);
         if (!(interaction.member as GuildMember).voice.channel) {
-            await interaction.reply("|❌| **Bir sesli kanala girmek zorundasınız**");
+            await interaction.reply(client.handleLanguages("DISCONNECT_USER_NOT_IN_VOICE", client, interaction.guildId!));
             return
         }
         if (!player) {
-            await interaction.reply("|❌| **Bot şu anda müzik çalmıyor.**");
+            await interaction.reply(client.handleLanguages("BOT_NOT_PLAYING", client, interaction.guildId!));
             return
         }
         const voiceStateUsers = (interaction.member as GuildMember).voice.channel!.members
@@ -32,24 +35,24 @@ export default {
         if (voiceStateUsers.size > 0) {
             if(!(interaction.member as GuildMember).permissions.has("Administrator")) {
                 if(!(interaction.member as GuildMember).roles.cache.has(client.guildsConfig.get(interaction.guild!.id)!.config.djRole)) {
-                    await interaction.reply("|❌| **Bu komutu kullanmak için yeterli yetkiniz yok.**");
+                    await interaction.reply(client.handleLanguages("DISCONNECT_NOT_ENOUGH_PERMS", client, interaction.guildId!));
                     return
                 } else {
-                    await interaction.reply("|✅| **Müzik durduruldu.**");
+                    await interaction.reply(client.handleLanguages("DISCONNECT_SUCCESS", client, interaction.guildId!));
                     const message = await interaction.fetchReply();
                     await message.react("✅");
                     player.delete();
                     return
                 }
             } else {
-                await interaction.reply("|✅| **Müzik durduruldu.**");
+                await interaction.reply(client.handleLanguages("DISCONNECT_SUCCESS", client, interaction.guildId!));
                 const message = await interaction.fetchReply();
                 await message.react("✅");
                 player.delete();
                 return
             }
         }
-        await interaction.reply("|✅| **Müzik durduruldu.**");
+        await interaction.reply(client.handleLanguages("DISCONNECT_SUCCESS", client, interaction.guildId!));
         const message = await interaction.fetchReply();
         await message.react("✅");
         player.delete();

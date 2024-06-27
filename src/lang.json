@@ -1071,8 +1071,8 @@
       "english": "No reason specified for the unban!"
     },
     "UNBAN_USER_NOT_BANNED": {
-        "turkish": "Bu kullanıcı yasaklanmamış!",
-        "english": "This user is not banned!"
+      "turkish": "Bu kullanıcı yasaklanmamış!",
+      "english": "This user is not banned!"
     },
     "UNBAN_MODLOG_FAIL": {
       "turkish": "Modlog kanalına mesaj göndermek için yetkim yok!",
@@ -1127,20 +1127,122 @@
       "english": "You can't warn this user, this user has enough permissions!"
     },
     "WARN_USER_DM": {
-        "turkish": "**{guild_name}** sunucusunda uyarıldınız. Sebep: {reason}",
-        "english": "You have been warned in **{guild_name}**. Reason: {reason}"
+      "turkish": "**{guild_name}** sunucusunda uyarıldınız. Sebep: {reason}",
+      "english": "You have been warned in **{guild_name}**. Reason: {reason}"
     },
     "WARN_SUCCESS": {
       "turkish": "<a:checkmark:1017704018287546388> **{user}** uyarıldı (Olay #{case})",
       "english": "<a:checkmark:1017704018287546388> **{user}** has been warned (Case #{case})"
     },
     "WARN_USER_CANNOT_DM": {
-        "turkish": "<a:checkmark:1017704018287546388> **{user}** uyarıldı (Olay #{case}) Kullanıcıya özel bir mesaj gönderilemedi.",
-        "english": "<a:checkmark:1017704018287546388> **{user}** has been warned (Case #{case}) Couldn't send a DM to the user."
+      "turkish": "<a:checkmark:1017704018287546388> **{user}** uyarıldı (Olay #{case}) Kullanıcıya özel bir mesaj gönderilemedi.",
+      "english": "<a:checkmark:1017704018287546388> **{user}** has been warned (Case #{case}) Couldn't send a DM to the user."
     },
     "WARN_MODLOG_FAIL": {
       "turkish": "Modlog kanalına mesaj göndermek için yetkim yok!",
       "english": "I don't have the permission to send messages to the modlog channel!"
+    },
+    "DISCONNECT_USER_NOT_IN_VOICE": {
+      "turkish": "|❌| **Bir sesli kanala girmek zorundasınız**",
+      "english": "|❌| **You must be in a voice channel**"
+    },
+    "BOT_NOT_PLAYING": {
+      "turkish": "|❌| **Bot şu anda müzik çalmıyor.**",
+      "english": "|❌| **The bot is not playing music right now.**"
+    },
+    "DISCONNECT_NOT_ENOUGH_PERMS": {
+      "turkish": "|❌| **Bu komutu kullanmak için yeterli yetkiniz yok.**",
+      "english": "|❌| **You don't have enough permissions to use this command.**"
+    },
+    "DISCONNECT_SUCCESS": {
+      "turkish": "|✅| **Başarıyla sesli kanaldan ayrıldım.**",
+      "english": "|✅| **I have successfully left the voice channel.**"
+    },
+    "LIST_EMBED": {
+      "turkish": {
+        "embeds": [
+          {
+            "author": {
+              "name": "Şu anda çalıyor",
+              "icon_url": "{icon_url}"
+            },
+            "color": "random",
+            "description":"`[{track_title}]({track_url})`",
+            "fields": [
+              {
+                "name": "Şarkıyı Talep Eden",
+                "value": "{requestedBy}",
+                "inline": true
+              },
+              {
+                "name": "Süre",
+                "value": "{duration}",
+                "inline": true
+              }
+            ],
+            "thumbnail": {
+              "url": "{thumbnail_url}"
+            }
+          }
+        ]
+      },
+        "english": {
+            "embeds": [
+            {
+                "author": {
+                "name": "Now Playing",
+                "icon_url": "{icon_url}"
+                },
+                "color": "random",
+                "description":"`[{track_title}]({track_url})`",
+                "fields": [
+                {
+                    "name": "Requested By",
+                    "value": "{requestedBy}",
+                    "inline": true
+                },
+                {
+                    "name": "Duration",
+                    "value": "{duration}",
+                    "inline": true
+                }
+                ],
+                "thumbnail": {
+                "url": "{thumbnail_url}"
+                }
+           }
+        ]
+      }
+    },
+    "LIST_UNKNOWN_USER": {
+      "turkish": "Bilinmeyen Kullanıcı",
+        "english": "Unknown User"
+    },
+    "LIST_PAGINATE": {
+      "turkish": {
+        "embeds": [{
+          "author": {
+            "name": "Şarkı Listesi",
+            "icon_url": "{icon_url}"
+          },
+          "color": "random",
+          "description": "**Şu anda Çalıyor**:\n`[{track_title}]({track_url})`\n`{track_duration}` **|** Şarkıyı Talep Eden: {requestedBy}\n\n**Sıradaki Şarkılar**:\n\n"
+        }]
+      },
+        "english": {
+            "embeds": [{
+            "author": {
+                "name": "Song List",
+                "icon_url": "{icon_url}"
+            },
+            "color": "random",
+            "description": "**Now Playing**:\n`[{track_title}]({track_url})`\n`{track_duration}`\n\n**Upcoming Songs**:\n\n"
+            }]
+        }
+    },
+    "LIST_PAGINATE_TRACKS": {
+      "turkish": "`{index}`. [{track_title}]({track_url})\n`{track_duration}` **|** Şarkıyı Talep Eden: {requestedBy}\n\n",
+      "english": "`{index}`. [{track_title}]({track_url})\n`{track_duration}` **|** Requested By: {requestedBy}\n\n"
     }
   }
 }
