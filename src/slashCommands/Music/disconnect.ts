@@ -19,7 +19,7 @@ export default {
     execute: async ({ client, interaction }) => {
         let player = useQueue(interaction.guild!.id);
         if (!(interaction.member as GuildMember).voice.channel) {
-            await interaction.reply(client.handleLanguages("DISCONNECT_USER_NOT_IN_VOICE", client, interaction.guildId!));
+            await interaction.reply(client.handleLanguages("USER_NOT_IN_VOICE", client, interaction.guildId!));
             return
         }
         if (!player) {
@@ -35,7 +35,7 @@ export default {
         if (voiceStateUsers.size > 0) {
             if(!(interaction.member as GuildMember).permissions.has("Administrator")) {
                 if(!(interaction.member as GuildMember).roles.cache.has(client.guildsConfig.get(interaction.guild!.id)!.config.djRole)) {
-                    await interaction.reply(client.handleLanguages("DISCONNECT_NOT_ENOUGH_PERMS", client, interaction.guildId!));
+                    await interaction.reply(client.handleLanguages("VOICE_NOT_ENOUGH_PERMS", client, interaction.guildId!));
                     return
                 } else {
                     await interaction.reply(client.handleLanguages("DISCONNECT_SUCCESS", client, interaction.guildId!));

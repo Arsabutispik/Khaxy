@@ -1142,15 +1142,19 @@
       "turkish": "Modlog kanalına mesaj göndermek için yetkim yok!",
       "english": "I don't have the permission to send messages to the modlog channel!"
     },
-    "DISCONNECT_USER_NOT_IN_VOICE": {
+    "USER_NOT_IN_VOICE": {
       "turkish": "|❌| **Bir sesli kanala girmek zorundasınız**",
       "english": "|❌| **You must be in a voice channel**"
+    },
+    "USER_NOT_IN_THE_SAME_VOICE": {
+      "turkish": "|❌| **Bot ile aynı sesli kanalda olmalısınız**",
+      "english": "|❌| **You must be in the same voice channel with the bot**"
     },
     "BOT_NOT_PLAYING": {
       "turkish": "|❌| **Bot şu anda müzik çalmıyor.**",
       "english": "|❌| **The bot is not playing music right now.**"
     },
-    "DISCONNECT_NOT_ENOUGH_PERMS": {
+    "VOICE_NOT_ENOUGH_PERMS": {
       "turkish": "|❌| **Bu komutu kullanmak için yeterli yetkiniz yok.**",
       "english": "|❌| **You don't have enough permissions to use this command.**"
     },
@@ -1243,6 +1247,18 @@
     "LIST_PAGINATE_TRACKS": {
       "turkish": "`{index}`. [{track_title}]({track_url})\n`{track_duration}` **|** Şarkıyı Talep Eden: {requestedBy}\n\n",
       "english": "`{index}`. [{track_title}]({track_url})\n`{track_duration}` **|** Requested By: {requestedBy}\n\n"
+    },
+    "LOOP_ANOTHER_MODE_ENABLED": {
+      "turkish": "|❌| **Başka bir tekrar modu açılmış.**",
+        "english": "|❌| **Another loop mode is already enabled.**"
+    },
+    "LOOP_MODE_ON": {
+      "turkish": "✅ | **Şarkı tekrarı açıldı.**",
+      "english": "✅ | **Song loop mode has been enabled.**"
+    },
+    "LOOP_MODE_OFF": {
+        "turkish": "❌ | **Şarkı tekrarı kapatıldı.**",
+        "english": "❌ | **Song loop mode has been disabled.**"
     }
   }
 }
