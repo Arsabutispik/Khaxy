@@ -1,7 +1,7 @@
-import {HolyClient} from "../types";
+import {KhaxyClient} from "../types";
 import {log} from "../utils/utils.js";
 import {EmbedBuilder} from "discord.js";
-export default async(client: HolyClient, error: Error) => {
+export default async(client: KhaxyClient, error: Error) => {
     log("ERROR", "events/error.ts", "Error is displayed below:");
     console.error(error);
     const owner = await client.users.fetch("903233069245419560")

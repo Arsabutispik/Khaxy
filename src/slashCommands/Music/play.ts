@@ -13,16 +13,31 @@ export default {
     },
     data: new SlashCommandBuilder()
         .setName("play")
-        .setDescription("Müzik çalar.")
-        .addStringOption(option => option.setName("song").setDescription("Çalmak istediğiniz şarkıyı girin.").setRequired(true))
+        .setNameLocalizations({
+            "tr": "çal"
+        })
+        .setDescription("Plays a song")
+        .setDescriptionLocalizations({
+            "tr": "Bir şarkı çalar."
+        })
+        .addStringOption(option => option
+            .setName("song")
+            .setNameLocalizations({
+                "tr": "şarkı"
+            })
+            .setDescription("Enter the song name or URL")
+            .setDescriptionLocalizations({
+                "tr": "Şarkı adını veya URL'sini girin"
+            })
+            .setRequired(true))
         .setDMPermission(false),
     execute: async ({ client, interaction }) => {
         if (!(interaction.member as GuildMember).voice.channel){
-            await interaction.reply({content: "|❌| **Bir sesli kanala girmek zorundasınız**", ephemeral: true})
+            await interaction.reply({content: client.handleLanguages("USER_NOT_IN_VOICE", client, interaction.guildId!), ephemeral: true})
             return
         }
         if(!(interaction.member as GuildMember).voice.channel!.permissionsFor(interaction.guild!.members.me!).has(PermissionsBitField.Flags.Connect)) {
-            await interaction.reply({content: "Bulunduğun kanala katılamıyorum!", ephemeral: true})
+            await interaction.reply({content: client.handleLanguages("USER_NOT_IN_THE_SAME_VOICE", client, interaction.guildId!), ephemeral: true})
             return
         }
         if(!(interaction.member as GuildMember).voice.channel!.permissionsFor(interaction.guild!.members.me!).has(PermissionsBitField.Flags.Speak)) {

@@ -1,9 +1,9 @@
-import {HolyClient} from "../types";
+import {KhaxyClient} from "../types";
 import {ChannelType, Interaction, EmbedBuilder, TextChannel} from "discord.js";
 import guildConfig from "../schemas/guildSchema.js";
 import {log, percentageChance} from "../utils/utils.js";
 
-export default async (client: HolyClient, interaction: Interaction) => {
+export default async (client: KhaxyClient, interaction: Interaction) => {
     if(interaction.isChatInputCommand()) {
         if(interaction.channel!.type ===  ChannelType.DM) return interaction.reply({content: "Slash command unavailable in DMs!", ephemeral: true});
         if(!(interaction.channel as TextChannel)!.permissionsFor(interaction.guild!.members.me!)!.has("SendMessages")){

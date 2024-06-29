@@ -1,8 +1,8 @@
-import { HolyClient } from "../types"
+import { KhaxyClient } from "../types"
 import guildSchema from "../schemas/guildSchema.js";
 import {ColorResolvable} from "discord.js"
 import ntc from "../utils/ntc.js"
-export default async (client: HolyClient) => {
+export default async (client: KhaxyClient) => {
     const guilds = await guildSchema.find()
     for(const guildConfig of guilds) {
         const guild = client.guilds.cache.get(guildConfig.guildID);

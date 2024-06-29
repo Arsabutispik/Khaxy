@@ -1,8 +1,8 @@
-import {HolyClient} from "../types";
+import {KhaxyClient} from "../types";
 import {GuildBan, AuditLogEvent} from "discord.js";
 import modlog from "../utils/modlog.js";
 import {sleep} from "../utils/utils.js";
-export default async(client: HolyClient, ban: GuildBan) => {
+export default async(client: KhaxyClient, ban: GuildBan) => {
     const data = client.guildsConfig.get(ban.guild.id)
     if(!data) return
     if(!await ban.guild.channels.fetch(data.config.modlogChannel)) return

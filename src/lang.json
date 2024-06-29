@@ -1259,6 +1259,22 @@
     "LOOP_MODE_OFF": {
         "turkish": "❌ | **Şarkı tekrarı kapatıldı.**",
         "english": "❌ | **Song loop mode has been disabled.**"
-    }
+    },
+    "LOOP_QUEUE_MODE_ON": {
+      "turkish": "✅ | **Kuyruk tekrarı açıldı.**",
+      "english": "✅ | **Queue loop mode has been enabled.**"
+    },
+    "LOOP_QUEUE_MODE_OFF": {
+      "turkish": "❌ | **Kuyruk tekrarı kapatıldı.**",
+      "english": "❌ | **Queue loop mode has been disabled.**"
+    },
+    "PAUSE_ALREADY_PAUSED": {
+      "turkish": "|❌| **Şarkı zaten duraklatılmış.**",
+      "english": "|❌| **The song is already paused.**"
+    },
+    "PAUSE_SUCCESS": {
+      "turkish": "|✅| **Şarkı duraklatıldı.**",
+      "english": "|✅| **The song has been paused.**"
+    },
   }
 }

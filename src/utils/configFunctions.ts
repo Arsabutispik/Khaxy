@@ -20,9 +20,9 @@ import {
     ChannelSelectMenuBuilder,
     RoleSelectMenuBuilder, RoleSelectMenuInteraction, PermissionsBitField
 } from "discord.js";
-import {HolyClient} from "../types";
+import {KhaxyClient} from "../types";
 
-async function registerConfig(interaction: ChatInputCommandInteraction, client: HolyClient) {
+async function registerConfig(interaction: ChatInputCommandInteraction, client: KhaxyClient) {
     const SelectMenu = new StringSelectMenuBuilder()
         .setCustomId("registerConfig")
         .setPlaceholder("Ayarlar")
@@ -85,7 +85,7 @@ async function registerConfig(interaction: ChatInputCommandInteraction, client: 
     }
 }
 
-async function registerChannel(interaction: SelectMenuInteraction, client: HolyClient) {
+async function registerChannel(interaction: SelectMenuInteraction, client: KhaxyClient) {
     if(client.guildsConfig.get(interaction.guild!.id)?.config.registerChannel) {
         const reject = new ButtonBuilder()
             .setCustomId("registerChannelReject")
@@ -200,7 +200,7 @@ async function registerChannel(interaction: SelectMenuInteraction, client: HolyC
     }
 }
 
-async function staffRole(interaction: SelectMenuInteraction, client: HolyClient) {
+async function staffRole(interaction: SelectMenuInteraction, client: KhaxyClient) {
     if(client.guildsConfig.get(interaction.guild!.id)!.config.staffRole?.length > 0) {
         const reject = new ButtonBuilder()
             .setCustomId("staffRoleReject")
@@ -347,7 +347,7 @@ async function staffRole(interaction: SelectMenuInteraction, client: HolyClient)
     }
 }
 
-async function registerMessage(interaction: SelectMenuInteraction, client: HolyClient) {
+async function registerMessage(interaction: SelectMenuInteraction, client: KhaxyClient) {
     if(client.guildsConfig.get(interaction.guild!.id)?.config.registerMessage) {
         const reject = new ButtonBuilder()
             .setCustomId("registerMessageReject")
@@ -484,7 +484,7 @@ async function registerMessage(interaction: SelectMenuInteraction, client: HolyC
     }
 }
 
-async function registerMessageClear(interaction: SelectMenuInteraction, client: HolyClient) {
+async function registerMessageClear(interaction: SelectMenuInteraction, client: KhaxyClient) {
     if(!client.guildsConfig.get(interaction.guild!.id)?.config.registerMessageClear) {
         const config = {
             $set: {
@@ -504,7 +504,7 @@ async function registerMessageClear(interaction: SelectMenuInteraction, client: 
     }
 }
 
-async function registerChannelClear(interaction: SelectMenuInteraction, client: HolyClient) {
+async function registerChannelClear(interaction: SelectMenuInteraction, client: KhaxyClient) {
     if(!client.guildsConfig.get(interaction.guild!.id)?.config.registerChannelClear) {
         const config = {
             $set: {
@@ -524,7 +524,7 @@ async function registerChannelClear(interaction: SelectMenuInteraction, client: 
     }
 }
 
-async function welcomeConfig(interaction: ChatInputCommandInteraction, client: HolyClient) {
+async function welcomeConfig(interaction: ChatInputCommandInteraction, client: KhaxyClient) {
     const select = new StringSelectMenuBuilder()
         .setCustomId("welcomeConfig")
         .setPlaceholder("Hoşgeldin ayarları")
@@ -591,7 +591,7 @@ async function welcomeConfig(interaction: ChatInputCommandInteraction, client: H
     }
 }
 
-async function welcomeChannel(interaction: SelectMenuInteraction, client: HolyClient) {
+async function welcomeChannel(interaction: SelectMenuInteraction, client: KhaxyClient) {
     if(client.guildsConfig.get(interaction.guild!.id)?.config.welcomeChannel) {
         const reject = new ButtonBuilder()
             .setCustomId("welcomeChannelReject")
@@ -704,7 +704,7 @@ async function welcomeChannel(interaction: SelectMenuInteraction, client: HolyCl
     }
 }
 
-async function welcomeMessage(interaction: SelectMenuInteraction, client: HolyClient) {
+async function welcomeMessage(interaction: SelectMenuInteraction, client: KhaxyClient) {
     if(client.guildsConfig.get(interaction.guild!.id)?.config.welcomeMessage) {
         const reject = new ButtonBuilder()
             .setCustomId("welcomeMessageReject")
@@ -857,7 +857,7 @@ async function welcomeMessage(interaction: SelectMenuInteraction, client: HolyCl
     }
 }
 
-async function goodbyeChannel(interaction: SelectMenuInteraction, client: HolyClient) {
+async function goodbyeChannel(interaction: SelectMenuInteraction, client: KhaxyClient) {
     if (client.guildsConfig.get(interaction.guild!.id)?.config.leaveChannel) {
         const reject = new ButtonBuilder()
             .setCustomId("goodByeChannelReject")
@@ -973,7 +973,7 @@ async function goodbyeChannel(interaction: SelectMenuInteraction, client: HolyCl
 
 }
 
-async function goodbyeMessage(interaction: SelectMenuInteraction, client: HolyClient) {
+async function goodbyeMessage(interaction: SelectMenuInteraction, client: KhaxyClient) {
     if(client.guildsConfig.get(interaction.guild!.id)?.config.leaveMessage) {
         const reject = new ButtonBuilder()
             .setCustomId("goodByeMessageReject")
@@ -1110,7 +1110,7 @@ async function goodbyeMessage(interaction: SelectMenuInteraction, client: HolyCl
     }
 }
 
-async function registerMessageChannel(interaction: SelectMenuInteraction, client: HolyClient) {
+async function registerMessageChannel(interaction: SelectMenuInteraction, client: KhaxyClient) {
     if(client.guildsConfig.get(interaction.guild!.id)!.config.registerWelcomeChannel) {
         const reject = new ButtonBuilder()
             .setCustomId("registerMessageChannelReject")
@@ -1225,7 +1225,7 @@ async function registerMessageChannel(interaction: SelectMenuInteraction, client
     }
 }
 
-async function moderationConfig(interaction: ChatInputCommandInteraction, client: HolyClient) {
+async function moderationConfig(interaction: ChatInputCommandInteraction, client: KhaxyClient) {
     const SelectMenu = new StringSelectMenuBuilder()
         .setCustomId("moderationConfig")
         .setPlaceholder("Moderasyon ayarları")
@@ -1275,7 +1275,7 @@ async function moderationConfig(interaction: ChatInputCommandInteraction, client
     }
 }
 
-async function modLogChannel(interaction: SelectMenuInteraction, client: HolyClient) {
+async function modLogChannel(interaction: SelectMenuInteraction, client: KhaxyClient) {
     if(client.guildsConfig.get(interaction.guild!.id)?.config.modlogChannel) {
         const reject = new ButtonBuilder()
             .setCustomId("modLogChannelReject")
@@ -1388,7 +1388,7 @@ async function modLogChannel(interaction: SelectMenuInteraction, client: HolyCli
     }
 }
 
-async function muteGetAllRoles(interaction: SelectMenuInteraction, client: HolyClient) {
+async function muteGetAllRoles(interaction: SelectMenuInteraction, client: KhaxyClient) {
     if(!client.guildsConfig.get(interaction.guild!.id)?.config.muteGetAllRoles) {
         const config = {
             $set: {
@@ -1408,7 +1408,7 @@ async function muteGetAllRoles(interaction: SelectMenuInteraction, client: HolyC
     }
 }
 
-async function modMail(interaction: SelectMenuInteraction, client: HolyClient) {
+async function modMail(interaction: SelectMenuInteraction, client: KhaxyClient) {
     if(client.guildsConfig.get(interaction.guild!.id)?.config.modmail.logChannel) {
         const reject = new ButtonBuilder()
             .setCustomId("modMailReject")
@@ -1477,7 +1477,7 @@ async function modMail(interaction: SelectMenuInteraction, client: HolyClient) {
     }
 }
 
-async function roleConfig(interaction: ChatInputCommandInteraction, client: HolyClient) {
+async function roleConfig(interaction: ChatInputCommandInteraction, client: KhaxyClient) {
     const SelectMenu = new StringSelectMenuBuilder()
         .setCustomId("roleConfig")
         .setPlaceholder("Rol ayarları")
@@ -1553,7 +1553,7 @@ async function roleConfig(interaction: ChatInputCommandInteraction, client: Holy
     }
 }
 
-async function memberRole(interaction: SelectMenuInteraction, client: HolyClient) {
+async function memberRole(interaction: SelectMenuInteraction, client: KhaxyClient) {
     if (client.guildsConfig.get(interaction.guild!.id)!.config.memberRole) {
         const reject = new ButtonBuilder()
             .setCustomId("memberRoleReject")
@@ -1646,7 +1646,7 @@ async function memberRole(interaction: SelectMenuInteraction, client: HolyClient
     }
 }
 
-async function maleRole(interaction: SelectMenuInteraction, client: HolyClient) {
+async function maleRole(interaction: SelectMenuInteraction, client: KhaxyClient) {
     if (client.guildsConfig.get(interaction.guild!.id)!.config.maleRole) {
         const reject = new ButtonBuilder()
             .setCustomId("maleRoleReject")
@@ -1743,7 +1743,7 @@ async function maleRole(interaction: SelectMenuInteraction, client: HolyClient) 
     }
 }
 
-async function femaleRole(interaction: SelectMenuInteraction, client: HolyClient) {
+async function femaleRole(interaction: SelectMenuInteraction, client: KhaxyClient) {
     if (client.guildsConfig.get(interaction.guild!.id)!.config.femaleRole) {
         const reject = new ButtonBuilder()
             .setCustomId("femaleRoleReject")
@@ -1840,7 +1840,7 @@ async function femaleRole(interaction: SelectMenuInteraction, client: HolyClient
     }
 }
 
-async function muteRole(interaction: SelectMenuInteraction, client: HolyClient) {
+async function muteRole(interaction: SelectMenuInteraction, client: KhaxyClient) {
     if(client.guildsConfig.get(interaction.guild!.id)!.config.muteRole) {
         const reject = new ButtonBuilder()
             .setCustomId("muteRoleReject")
@@ -1939,7 +1939,7 @@ async function muteRole(interaction: SelectMenuInteraction, client: HolyClient) 
     }
 }
 
-async function djRole(interaction: SelectMenuInteraction, client: HolyClient) {
+async function djRole(interaction: SelectMenuInteraction, client: KhaxyClient) {
     if(client.guildsConfig.get(interaction.guild!.id)!.config.djRole) {
         const reject = new ButtonBuilder()
             .setCustomId("djRoleReject")
@@ -2038,7 +2038,7 @@ async function djRole(interaction: SelectMenuInteraction, client: HolyClient) {
     }
 }
 
-async function dayColorRole(interaction: SelectMenuInteraction, client: HolyClient) {
+async function dayColorRole(interaction: SelectMenuInteraction, client: KhaxyClient) {
     if(client.guildsConfig.get(interaction.guild!.id)!.config.roleOfTheDay) {
         const reject = new ButtonBuilder()
             .setCustomId("dayColorRoleReject")

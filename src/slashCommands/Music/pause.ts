@@ -11,20 +11,26 @@ export default {
     },
     data: new SlashCommandBuilder()
         .setName("pause")
-        .setDescription("Müziği duraklatır.")
+        .setNameLocalizations({
+            "tr": "duraklat"
+        })
+        .setDescription("Pauses the music")
+        .setDescriptionLocalizations({
+            "tr": "Müziği duraklatır."
+        })
         .setDMPermission(false),
     execute: async ({ client, interaction }) => {
         let player = useQueue(interaction.guild!.id);
         if (!(interaction.member as GuildMember).voice.channel) {
-            await interaction.reply("|❌| **Bir sesli kanala girmek zorundasınız**");
+            await interaction.reply(client.handleLanguages("USER_NOT_IN_VOICE", client, interaction.guild!.id));
             return
         }
         if (!player) {
-            await interaction.reply("|❌| **Bot şu anda müzik çalmıyor.**");
+            await interaction.reply(client.handleLanguages("BOT_NOT_PLAYING", client, interaction.guild!.id));
             return
         }
         if (player.node.isPaused()) {
-            await interaction.reply("|❌| **Müzik zaten duraklatılmış.**");
+            await interaction.reply(client.handleLanguages("PAUSE_ALREADY_PAUSED", client, interaction.guild!.id));
             return
         }
         const voiceStateUsers = (interaction.member as GuildMember).voice.channel!.members
@@ -36,25 +42,25 @@ export default {
         if (voiceStateUsers.size > 0) {
             if(!(interaction.member as GuildMember).permissions.has("Administrator")) {
                 if(!(interaction.member as GuildMember).roles.cache.has(client.guildsConfig.get(interaction.guild!.id)!.config.djRole)) {
-                    await interaction.reply("|❌| **Bu komutu kullanmak için yeterli yetkiniz yok.**");
+                    await interaction.reply(client.handleLanguages("VOICE_NOT_ENOUGH_PERMS", client, interaction.guild!.id));
                     return
                 } else {
                     player.node.pause();
-                    await interaction.reply("|✅| **Müzik duraklatıldı.**");
+                    await interaction.reply(client.handleLanguages("PAUSE_SUCCESS", client, interaction.guild!.id));
                     const message = await interaction.fetchReply()
                     await message.react("✅");
                     return
                 }
             } else {
                 player.node.pause();
-                await interaction.reply("|✅| **Müzik duraklatıldı.**");
+                await interaction.reply(client.handleLanguages("PAUSE_SUCCESS", client, interaction.guild!.id));
                 const message = await interaction.fetchReply()
                 await message.react("✅");
                 return
             }
         }
         player.node.pause();
-        await interaction.reply("|✅| **Müzik duraklatıldı.**");
+        await interaction.reply(client.handleLanguages("PAUSE_SUCCESS", client, interaction.guild!.id));
         const message = await interaction.fetchReply()
         await message.react("✅");
     }

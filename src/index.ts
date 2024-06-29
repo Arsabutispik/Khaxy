@@ -1,5 +1,5 @@
 import {ActivityType, Client, EmbedBuilder, Partials, IntentsBitField, Collection } from "discord.js";
-import {HolyClient} from "./types";
+import {KhaxyClient} from "./types";
 import {registerEvents, registerSlashCommands} from "./utils/registery.js";
 import {log, replaceMassString} from "./utils/utils.js";
 import mongoose from "mongoose";
@@ -30,7 +30,7 @@ const intents = new IntentsBitField()
         IntentsBitField.Flags.GuildMessageTyping,
         IntentsBitField.Flags.GuildIntegrations,
         IntentsBitField.Flags.GuildEmojisAndStickers])
-const client = new Client({intents, partials: [Partials.Message, Partials.Channel, Partials.User, Partials.Reaction]}) as HolyClient;
+const client = new Client({intents, partials: [Partials.Message, Partials.Channel, Partials.User, Partials.Reaction]}) as KhaxyClient;
 client.config = (await import("./botconfig.js")).default;
 const player = new Player(client, {
     useLegacyFFmpeg: false,

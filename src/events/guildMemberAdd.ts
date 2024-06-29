@@ -1,9 +1,9 @@
-import {HolyClient} from "../types";
+import {KhaxyClient} from "../types";
 import {GuildMember, TextChannel} from "discord.js";
 import punishmentSchema from "../schemas/punishmentSchema.js";
 import {replaceMassString} from "../utils/utils.js";
 
-export default async (client: HolyClient, member: GuildMember) => {
+export default async (client: KhaxyClient, member: GuildMember) => {
     const data = client.guildsConfig.get(member.guild.id)
     if(!data) return
     const text = replaceMassString(data.config.welcomeMessage,

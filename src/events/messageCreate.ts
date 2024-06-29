@@ -1,4 +1,4 @@
-import {HolyClient} from "../types";
+import {KhaxyClient} from "../types";
 import {
     ActionRowBuilder, ButtonBuilder, ButtonStyle,
     ChannelType,
@@ -9,7 +9,7 @@ import {
 } from "discord.js";
 import fetch, {Headers} from "node-fetch";
 import FormData from "form-data";
-export default async (client: HolyClient, message: Message) => {
+export default async (client: KhaxyClient, message: Message) => {
     if (message.author.bot) return;
     if(message.channel.type === ChannelType.DM) {
         if(!client.userTickets.has(message.author.id)) {

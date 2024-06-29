@@ -6,6 +6,7 @@ import {
     SlashCommandBuilder, Snowflake
 } from "discord.js";
 import { UpdateQuery } from "mongoose";
+import languageHandler from "./utils/languageHandler.js";
 export type ExecuteParameters = {
     client: HolyClient;
     message: Message;
@@ -36,7 +37,7 @@ export interface slashCommandBase {
     help: helpBase
 }
 export interface slashExecuteParameters {
-    client: HolyClient;
+    client: KhaxyClient;
     interaction: ChatInputCommandInteraction
 }
 export interface guildConfig {
@@ -69,7 +70,7 @@ export interface guildConfig {
         language: "turkish" | "english"
     }
 }
-export declare class HolyClient extends Client {
+export declare class KhaxyClient extends Client {
 
     public commands: Collection<string, commandBase>;
 
@@ -87,7 +88,7 @@ export declare class HolyClient extends Client {
 
     public ticketMessages : Collection<string, string>
 
-    public handleLanguages(textId: keyof typeof import("./lang.json").translations, client: HolyClient, guildId: Snowflake): string | any
+    public handleLanguages(textId: keyof typeof import("./lang.json").translations, client: KhaxyClient, guildId: Snowflake)
 }
 
 export interface customObject {

@@ -1,9 +1,9 @@
-import {HolyClient} from "../types";
+import {KhaxyClient} from "../types";
 import modlog from "../utils/modlog.js";
 import {GuildMember, TextChannel, AuditLogEvent} from "discord.js";
 import {replaceMassString, sleep} from "../utils/utils.js";
 
-export default async(client: HolyClient, member: GuildMember) => {
+export default async(client: KhaxyClient, member: GuildMember) => {
     const data = client.guildsConfig.get(member.guild.id)
     if(!data) return
     if(member.guild.channels.cache.get(data.config.leaveChannel) && data.config.leaveMessage) {

@@ -60,7 +60,7 @@ export default {
                 if(setting === "register") {
                     const registerMessage = client.handleLanguages("CONFIG_REGISTER_MESSAGE", client, interaction.guild!.id)
 
-                    for (const embeds of registerMessage.embeds as [{ "fields": [{ "name": string, "value": string }], "color": number }] ) {
+                    for (const embeds of registerMessage.embeds ) {
                         let x=Math.round(0xffffff * Math.random()).toString(16);
                         let y=(6-x.length);
                         let z="000000";

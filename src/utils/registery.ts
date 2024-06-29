@@ -1,13 +1,13 @@
 import fs from "fs";
 import path from "path";
-import {HolyClient, commandBase, slashCommandBase} from "../types";
+import {KhaxyClient, commandBase, slashCommandBase} from "../types";
 import { log } from "./utils.js";
 import { fileURLToPath, pathToFileURL } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = (path.dirname(__filename))
 
-async function registerCommands(client: HolyClient, ...dirs: string[]) {
+async function registerCommands(client: KhaxyClient, ...dirs: string[]) {
     for (const dir of dirs) {
         const files = await fs.promises.readdir(path.join(__dirname, dir));
         for (let file of files) {
@@ -78,7 +78,7 @@ async function registerCommands(client: HolyClient, ...dirs: string[]) {
     }
 }
 
-async function registerEvents(client: HolyClient, dir: string) {
+async function registerEvents(client: KhaxyClient, dir: string) {
     const files = await fs.promises.readdir(path.join(__dirname, dir));
     for (let file of files) {
         const stat = await fs.promises.lstat(path.join(__dirname, dir, file));
@@ -101,7 +101,7 @@ async function registerEvents(client: HolyClient, dir: string) {
     }
 }
 
-async function registerSlashCommands(client: HolyClient, dir: string){
+async function registerSlashCommands(client: KhaxyClient, dir: string){
     const files = await fs.promises.readdir(path.join(__dirname, dir));
     for (let file of files) {
         const stat = await fs.promises.lstat(path.join(__dirname, dir, file));
