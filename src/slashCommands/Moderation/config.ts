@@ -66,7 +66,7 @@ export default {
                         let z="000000";
                         let z1 = z.substring(0,y);
                         embeds.color = Number(`0x${z1 + x}`)
-                        for (const values of embeds.fields as [{ "name": string, "value": string }]) {
+                        for (const values of embeds.fields ) {
                             values.value = replaceMassString(values.value, {
                                 "{registerChannel}": guildConfig.config.registerChannel ? `<#${guildConfig.config.registerChannel}>` : "N/A",
                                 "{registerMessage}": guildConfig.config.registerMessage ? "<a:checkmark:1017704018287546388>" : "<a:wrong:1197091816282001468>",
@@ -80,13 +80,13 @@ export default {
                     await i.update(registerMessage)
                 } else if(setting === "welcome-leave") {
                     const welcomeLeaveMessage = client.handleLanguages("CONFIG_WELCOME_LEAVE_MESSAGE", client, interaction.guild!.id)
-                    for (const embeds of welcomeLeaveMessage.embeds as [{ "fields": [{ "name": string, "value": string }], "color": number }] ) {
+                    for (const embeds of welcomeLeaveMessage.embeds) {
                         let x = Math.round(0xffffff * Math.random()).toString(16);
                         let y = (6 - x.length);
                         let z = "000000";
                         let z1 = z.substring(0, y);
                         embeds.color = Number(`0x${z1 + x}`)
-                        for (const values of embeds.fields as [{ "name": string, "value": string }]) {
+                        for (const values of embeds.fields) {
                             values.value = replaceMassString(values.value, {
                                 "{welcomeMessage}": guildConfig.config.welcomeMessage ? "<a:checkmark:1017704018287546388>" : "<a:wrong:1197091816282001468>",
                                 "{welcomeChannel}": guildConfig.config.welcomeChannel ? `<#${guildConfig.config.welcomeChannel}>` : "N/A",
@@ -99,13 +99,13 @@ export default {
                     await i.update(welcomeLeaveMessage)
                 } else if(setting === "moderation") {
                     const moderationMessage = client.handleLanguages("CONFIG_MODERATION_MESSAGE", client, interaction.guild!.id)
-                    for (const embeds of moderationMessage.embeds as [{ "fields": [{ "name": string, "value": string }], "color": number }] ) {
+                    for (const embeds of moderationMessage.embeds) {
                         let x = Math.round(0xffffff * Math.random()).toString(16);
                         let y = (6 - x.length);
                         let z = "000000";
                         let z1 = z.substring(0, y);
                         embeds.color = Number(`0x${z1 + x}`)
-                        for (const values of embeds.fields as [{ "name": string, "value": string }]) {
+                        for (const values of embeds.fields) {
                             values.value = replaceMassString(values.value, {
                                 "{modlogChannel}": guildConfig.config.modlogChannel ? `<#${guildConfig.config.modlogChannel}>` : "N/A",
                                 "{muteGetAllRoles}": guildConfig.config.muteGetAllRoles ? "<a:checkmark:1017704018287546388>" : "<a:wrong:1197091816282001468>",
@@ -118,13 +118,13 @@ export default {
                     await i.update(moderationMessage)
                 } else if(setting === "role") {
                     const roleMessage = client.handleLanguages("CONFIG_ROLE_MESSAGE", client, interaction.guild!.id)
-                    for (const embeds of roleMessage.embeds as [{ "fields": [{ "name": string, "value": string }], "color": number }] ) {
+                    for (const embeds of roleMessage.embeds) {
                         let x = Math.round(0xffffff * Math.random()).toString(16);
                         let y = (6 - x.length);
                         let z = "000000";
                         let z1 = z.substring(0, y);
                         embeds.color = Number(`0x${z1 + x}`)
-                        for (const values of embeds.fields as [{ "name": string, "value": string }]) {
+                        for (const values of embeds.fields) {
                             values.value = replaceMassString(values.value, {
                                 "{registerRole}": `👩: ${guildConfig.config.femaleRole ? `<@&${guildConfig.config.femaleRole}>` : "N/A"}\n👨: ${guildConfig.config.maleRole ? `<@&${guildConfig.config.maleRole}>` : "N/A"}`,
                                 "{memberRole}": guildConfig.config.memberRole ? `<@&${guildConfig.config.memberRole}>` : "N/A",

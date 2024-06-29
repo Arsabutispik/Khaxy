@@ -27,7 +27,7 @@
               "icon_url": "{user_avatar}"
             },
             "description": "{message_content}",
-            "color": "0x152652",
+            "color": 0,
             "timestamp": "{timestamp}"
           }
         ],
@@ -54,7 +54,7 @@
               "icon_url": "{user_avatar}"
             },
             "description": "{message_content}",
-            "color": "0x152652",
+            "color": 0,
             "timestamp": "{timestamp}"
           }
         ],
@@ -87,7 +87,7 @@
               "icon_url": "{user_avatar}"
             },
             "description": "{reason}",
-            "color": "0xa80d05"
+            "color": 0
           }
         ]
       },
@@ -100,7 +100,7 @@
               "icon_url": "{user_avatar}"
             },
             "description": "{reason}",
-            "color": "0xa80d05"
+            "color": 0
           }
         ]
       }
@@ -131,7 +131,7 @@
               "icon_url": "{user_avatar}"
             },
             "description": "{reason}",
-            "color": "0x036318"
+            "color": 0
           }
         ]
       },
@@ -144,7 +144,7 @@
               "icon_url": "{user_avatar}"
             },
             "description": "{reason}",
-            "color": "0x036318"
+            "color": 0
           }
         ]
       }
@@ -159,7 +159,7 @@
           {
             "title": "{mailChannel_name} - {author_username} tarafından yanıtlanan modmail",
             "description": "{author_username} tarafından {mailChannel_name} modmaili kapatıldı. Konuşma logları [BURADA](https://pastes.io/raw/{paste_id}) bulunabilir",
-            "color": "0x036318"
+            "color": 0
           }
         ]
       },
@@ -168,7 +168,7 @@
           {
             "title": "{mailChannel_name} - Modmail answered by {author_username}",
             "description": "{author_username} has closed the modmail {mailChannel_name}. Conversation logs can be found [HERE](https://pastes.io/raw/{paste_id})",
-            "color": "0x036318"
+            "color": 0
           }
         ]
       }
@@ -183,7 +183,7 @@
           {
             "title": "Sesli Kanalda Kimse Kalmadı",
             "description": "Sesli kanalda kimse kalmadığı için müzik kapatıldı.",
-            "color": "0xb00404"
+            "color": 0
           }
         ]
       },
@@ -192,7 +192,7 @@
           {
             "title": "No One Left in Voice Channel",
             "description": "Music has been stopped because no one is left in the voice channel.",
-            "color": "0xb00404"
+            "color": 0
           }
         ]
       }
@@ -206,7 +206,7 @@
                 "icon_url": "https://cdn.discordapp.com/attachments/972754239447261264/1074662659737276466/a26bb800-b7ee-11eb-8909-43ff37955c81.png"
             },
             "description": "Bot sesli kanaldan atıldığı için müzik durduruldu.",
-            "color": "0xb00404"
+            "color": 0
           }
         ]
       },
@@ -215,7 +215,7 @@
           {
             "title": "Kicked From Voice Channel",
             "description": "Music has been stopped because the bot has been kicked from the voice channel.",
-            "color": "0xb00404"
+            "color": 0
           }
         ]
       }
@@ -350,7 +350,7 @@
           {
             "title": "Ayarlar Menüsü",
             "description": "Ayarları görmek için aşağıdaki menüden seçim yapabilirsin.",
-            "color": "469748"
+            "color": 0
           }
         ],
         "components": [
@@ -388,7 +388,7 @@
           {
             "title": "Settings Menu",
             "description": "You can choose from the menu below to see the settings.",
-            "color": "469748"
+            "color": 0
           }
         ],
         "components": [
@@ -428,7 +428,7 @@
           {
             "title": "Kayıt Ayarları",
             "description": "Ayarlar ve kısaca açıklamaları;\n\n**Kayıt Kanalı:** Kayıt işlemlerinin yapıldığı kanal. `/kayıt` sadece bu kanalda yapılır.\n\n**Kayıt Mesajı:** Sunucuya birisi geldiğinde kayıt kanalına atılan mesajdır. Yetkili kadroyu etiketlemenizi de sağlar. Değişkenler: **{user}** - Kullanıcı, **{server}** - Sunucu İsmi, **{memberCount}** - Sunucu Üye Sayısı, **{id}** - Kullanıcı ID'si, **{name}** - Kullanıcının ismi.\n\n**Kayıt Mesajının Atıldığı Kanal:** Kayıt mesajının atıldığı kanal.\n\n**Kayıt Kanalındaki Mesajlar Silinsin mi?:** Kayıt işlemlerinden sonra kanaldaki silinebilecek tüm mesajları silmeye çalışır.\n\n**Kayıt Mesajı Silinsin mi?:** Kullanıcı çıktığı zaman kayıt mesajını silmeye çalışır. (Genellikle çalışmaz.)\n\n**»»----------------------------¤----------------------------««**",
-            "color": "167666",
+            "color": 0,
             "fields": [
               {
                 "name": "Kayıt Kanalı",
@@ -464,7 +464,7 @@
           {
             "title": "Register Settings",
             "description": "Settings and brief explanations;\n\n**Register Channel:** The channel where registration processes are done. `/register` can only be done in this channel.\n\n**Register Message:** The message sent to the registration channel when someone joins the server. It also allows you to tag the authorized team. Variables: **{user}** - User, **{server}** - Server Name, **{memberCount}** - Server Member Count, **{id}** - User ID, **{name}** - User's name.\n\n**Channel to Send the Register Message:** The channel where the registration message is sent.\n\n**Should Messages in the Register Channel be Deleted?:** Tries to delete all messages that can be deleted in the channel after the registration process.\n\n**Should the Register Message be Deleted?:** Tries to delete the registration message when the user leaves. (Usually doesn't work.)\n\n**»»----------------------------¤----------------------------««**",
-            "color": "167666",
+            "color": 0,
             "fields": [
               {
                 "name": "Register Channel",
@@ -502,7 +502,7 @@
           {
             "title": "Giriş Çıkış Ayarları",
             "description": "Ayarlar ve kısaca açıklamaları;\n\n**Giriş Çıkış Kanalı:** Sunucuya birisi girdiğinde veya çıktığında mesajın atılacağı kanal.\n\n**Giriş Mesajı:** Sunucuya birisi girdiğinde atılacak mesaj. Değişkenler: **{user}** - Kullanıcı, **{server}** - Sunucu İsmi, **{memberCount}** - Sunucu Üye Sayısı, **{id}** - Kullanıcı ID'si, **{name}** - Kullanıcının ismi.\n\n**Çıkış Mesajı:** Sunucudan birisi çıktığında atılacak mesaj. Değişkenler: **{user}** - Kullanıcı, **{server}** - Sunucu İsmi, **{memberCount}** - Sunucu Üye Sayısı, **{id}** - Kullanıcı ID'si, **{name}** - Kullanıcının ismi.\n\n**»»----------------------------¤----------------------------««**",
-            "color": "0x615f5f",
+            "color": 0,
             "fields": [
               {
                 "name": "Giriş Çıkış Kanalı",
@@ -528,7 +528,7 @@
           {
             "title": "Welcome Leave Settings",
             "description": "Settings and brief explanations;\n\n**Welcome Leave Channel:** The channel where the message will be sent when someone enters or leaves the server.\n\n**Welcome Message:** The message to be sent when someone enters the server. Variables: **{user}** - User, **{server}** - Server Name, **{memberCount}** - Server Member Count, **{id}** - User ID, **{name}** - User's name.\n\n**Leave Message:** The message to be sent when someone leaves the server. Variables: **{user}** - User, **{server}** - Server Name, **{memberCount}** - Server Member Count, **{id}** - User ID, **{name}** - User's name.\n\n**»»----------------------------¤----------------------------««**",
-            "color": "0x615f5f",
+            "color": 0,
             "fields": [
               {
                 "name": "Welcome Leave Channel",
@@ -556,7 +556,7 @@
           {
             "title": "Moderasyon Ayarları",
             "description": "Ayarlar ve kısaca açıklamaları;\n\n**Modlog Kanalı:** Moderasyon işlemlerinin atıldığı kanal.\n\n**Mute Sırasında Roller Alınsın mı?:** Kullanıcı susturulduğunda rollerini alıp bittiğinde geri verilir.\n\n**Yetkili Rolleri:** Spesifik admin komutları içindir. (Örneğin: `/kayıt` komutu)\n\n**ModMail Kanalı**: Modmail üyelerin bota DM yazarak sunucuda modlarla özel bir kanalda konuşabileceği yerler açar.\n\n**»»----------------------------¤----------------------------««**",
-            "color": "0x615f5f",
+            "color": 0,
             "fields": [
               {
                 "name": "Modlog Kanalı",
@@ -587,7 +587,7 @@
           {
             "title": "Moderation Settings",
             "description": "Settings and brief explanations;\n\n**Modlog Channel:** The channel where moderation actions are sent.\n\n**Should Roles be Removed During Mute?:** When a user is muted, their roles are removed and given back when the mute is over.\n\n**Staff Roles:** For specific admin commands. (For example: `/register` command)\n\n**ModMail Channel**: Modmail opens places where members can talk to mods in a private channel in the server by DMing the bot.\n\n**»»----------------------------¤----------------------------««**",
-            "color": "0x615f5f",
+            "color": 0,
             "fields": [
               {
                 "name": "Modlog Channel",
@@ -620,7 +620,7 @@
           {
             "title": "Rol Ayarları",
             "description": "Ayarlar ve kısaca açıklamaları;\n\n**Kayıt Rolleri:** Kayıt sırasında verilecek cinsiyet rolleri.\n\n**Üye Rolü:** Kayıt sırasında verilecek üye rolü. (Eğer kayıt ayarlanmadan bu rol ayarlandıysa bot sunucuya gelen kişiye bu rolü verir.)\n\n**Susturulmuş Rolü:** Kullanıcıya mute atıldığında verilecek rol.\n\n**Günün Rengi Rolü:** Her gün UTC+3 00:00'da bot ayarlanmış rolün rengini ve ismini değiştirir.\n\n**DJ Rolü:** Bu role sahip kullanıcılar müzik dinlerken bazı kısıtlamaları bypass edebilirler.\n\n**»»----------------------------¤----------------------------««**",
-            "color": "0x615f5f",
+            "color": 0,
             "fields": [
               {
                 "name": "Kayıt Rolleri",
@@ -656,7 +656,7 @@
           {
             "title": "Role Settings",
             "description": "Settings and brief explanations;\n\n**Register Roles:** Gender roles given out during registration.\n\n**Member Role:** The member role that's given during registration. (If the registration isn't set properly this role is given when the member joins.)\n\n**Mute Role:** This role is given when a member gets muted.\n\n**Color of the Day:** Everyday at UTC+3 00:00 bot changes the color and the name of the role\n\n**DJ Role:** This role allows to bypass some limitations on music commands.\n\n**»»----------------------------¤----------------------------««**",
-            "color": "0x615f5f",
+            "color": 0,
             "fields": [
               {
                 "name": "Register Roles",
@@ -714,7 +714,7 @@
           {
             "title": "Olay Düzenleme Menüsü",
             "description": "Değişiklikleri onaylamak için düğmelerden <a:checkmark:1017704018287546388>, iptal etmek için <a:wrong:1197091816282001468> tuşuna basınız.",
-            "color": "0x6381407",
+            "color": 0,
             "fields": [
               {
                 "name": "Yeni Yetkili",
@@ -735,7 +735,7 @@
           {
             "title": "Edit Case Menu",
             "description": "Press <a:checkmark:1017704018287546388> to confirm the changes, <a:wrong:1197091816282001468> to cancel.",
-            "color": "0x615f5f",
+            "color": 0,
             "fields": [
               {
                 "name": "New Staff",
@@ -848,7 +848,7 @@
                 "inline": true
               }
             ],
-            "color": "random"
+            "color": 0
           }
         ]
       },
@@ -875,7 +875,7 @@
                     "inline": true
                 }
                 ],
-                "color": "random"
+                "color": 0
             }
             ]
         }
@@ -888,8 +888,8 @@
               "name": "Şarkı Bitti",
               "icon_url": "{icon_url}"
             },
-            "color": "random",
-            "timestamp": "{now}"
+            "color": 0,
+            "timestamp": 0
           }
         ]
       },
@@ -900,7 +900,7 @@
               "name": "Song Ended",
               "icon_url": "{icon_url}"
             },
-            "color": "random",
+            "color": 0,
             "timestamp": "{now}"
           }
         ]
@@ -1170,7 +1170,8 @@
               "name": "Şu anda çalıyor",
               "icon_url": "{icon_url}"
             },
-            "color": "random",
+            "color": 0,
+            "timestamp": "0",
             "description":"`[{track_title}]({track_url})`",
             "fields": [
               {
@@ -1197,7 +1198,8 @@
                 "name": "Now Playing",
                 "icon_url": "{icon_url}"
                 },
-                "color": "random",
+                "color": 0,
+                "timestamp": "0",
                 "description":"`[{track_title}]({track_url})`",
                 "fields": [
                 {
@@ -1229,7 +1231,7 @@
             "name": "Şarkı Listesi",
             "icon_url": "{icon_url}"
           },
-          "color": "random",
+          "color": 0,
           "description": "**Şu anda Çalıyor**:\n`[{track_title}]({track_url})`\n`{track_duration}` **|** Şarkıyı Talep Eden: {requestedBy}\n\n**Sıradaki Şarkılar**:\n\n"
         }]
       },
@@ -1239,7 +1241,7 @@
                 "name": "Song List",
                 "icon_url": "{icon_url}"
             },
-            "color": "random",
+            "color": 0,
             "description": "**Now Playing**:\n`[{track_title}]({track_url})`\n`{track_duration}`\n\n**Upcoming Songs**:\n\n"
             }]
         }

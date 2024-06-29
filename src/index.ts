@@ -143,7 +143,7 @@ process.on("uncaughtException", async(error) => {
 });
 player.events.on("playerStart", async (queue, track) => {
     const playerStartEmbed = client.handleLanguages("PLAYER_START", client, queue.metadata.channel.guildId)
-    for (const embeds of playerStartEmbed.embeds as [{fields: [{name: string, value: string}], author: {name: string, icon_url: string}, color: number, thumbnail: {url: string}, description: string}]) {
+    for (const embeds of playerStartEmbed.embeds) {
         let x=Math.round(0xffffff * Math.random()).toString(16);
         let y=(6-x.length);
         let z="000000";
@@ -167,7 +167,7 @@ player.events.on("playerStart", async (queue, track) => {
 });
 player.events.on("emptyQueue", async(player) => {
     const emptyQueue = client.handleLanguages("PLAYER_END", client, player.guild.id)
-    for (const embeds of emptyQueue.embeds as [{author: {name: string, icon_url: string}, color: number, timestamp: number}]) {
+    for (const embeds of emptyQueue.embeds) {
         let x=Math.round(0xffffff * Math.random()).toString(16);
         let y=(6-x.length);
         let z="000000";

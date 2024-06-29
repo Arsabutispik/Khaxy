@@ -68,13 +68,13 @@ export default {
             return
         }
         const editCaseMessage = client.handleLanguages("EDITCASE_MESSAGE", client, interaction.guild!.id)
-        for (const embeds of editCaseMessage.embeds as [{ "fields": [{ "name": string, "value": string }], "color": number }] ) {
+        for (const embeds of editCaseMessage.embeds) {
             let x=Math.round(0xffffff * Math.random()).toString(16);
             let y=(6-x.length);
             let z="000000";
             let z1 = z.substring(0,y);
             embeds.color = Number(`0x${z1 + x}`)
-            for (const values of embeds.fields as [{ "name": string, "value": string }]) {
+            for (const values of embeds.fields) {
                 values.value = replaceMassString(values.value,
                     {
                         "{newStaff}": interaction.user.toString(),
@@ -84,7 +84,7 @@ export default {
             }
         }
         await interaction.reply(editCaseMessage)
-        const embed = new EmbedBuilder(editCaseMessage);
+        const embed = new EmbedBuilder(editCaseMessage.embeds[0]);
         const msg = await interaction.fetchReply() as Message;
         const filter = (m: MessageComponentInteraction) => (m.customId === "reject" || m.customId === "accept") && (m.user.id === interaction.user.id)
         let response: MessageComponentInteraction;

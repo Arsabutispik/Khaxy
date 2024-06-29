@@ -1,6 +1,6 @@
 import { slashCommandBase } from "../../types";
 import prettyMilliseconds from "pretty-ms";
-import { SlashCommandBuilder } from "discord.js";
+import {EmbedBuilder, SlashCommandBuilder} from "discord.js";
 import ProgressBar from "string-progressbar";
 import _ from "lodash";
 import {paginate, replaceMassString} from "../../utils/utils.js";
@@ -45,16 +45,16 @@ export default {
                     "{track_title}": player.currentTrack!.title,
                     "{track_url}": player.currentTrack!.url,
                 })
-                embed.timestamp = timestamp;
+                embed.timestamp = timestamp.current.value.toString();
                 for (const field of embed.fields) {
                     field.value = replaceMassString(field.value, {
                         "{duration}": `${ProgressBar.splitBar(timestamp.total.value, timestamp.current.value, 15)[0]} ${prettyMilliseconds(timestamp.current.value, {colonNotation: true})}/${prettyMilliseconds(timestamp.total.value, {colonNotation: true})}`,
-                        "{requestedBy}": player.currentTrack!.requestedBy || client.handleLanguages("LIST_UNKNOWN_USER", client, interaction.guildId!),
+                        "{requestedBy}": player.currentTrack!.requestedBy?.toString() || client.handleLanguages("LIST_UNKNOWN_USER", client, interaction.guildId!),
                     })
                     Object.assign(embed.fields, field);
                 }
             }
-            return await interaction.reply({embeds: [QueueEmbed]});
+            return await interaction.reply(QueueEmbed);
         }
 
         const allSongs = player.tracks.map((t) => {
@@ -77,7 +77,7 @@ export default {
                     "{track_title}": player.currentTrack!.title,
                     "{track_url}": player.currentTrack!.url,
                     "{track_duration}": prettyMilliseconds(player.currentTrack!.durationMS, {colonNotation: true}),
-                    "{requestedBy}": player.currentTrack!.requestedBy || client.handleLanguages("LIST_UNKNOWN_USER", client, interaction.guildId!),
+                    "{requestedBy}": player.currentTrack!.requestedBy?.toString() || client.handleLanguages("LIST_UNKNOWN_USER", client, interaction.guildId!),
                 })
                 for(const song of t) {
                     embed.description += replaceMassString(client.handleLanguages("LIST_PAGINATE_TRACKS", client, interaction.guildId!), {
@@ -85,12 +85,12 @@ export default {
                         "{track_title}": song.title,
                         "{track_url}": song.url,
                         "{track_duration}": prettyMilliseconds(song.durationMS, {colonNotation: true}),
-                        "{requestedBy}": song.requestedBy || client.handleLanguages("LIST_UNKNOWN_USER", client, interaction.guildId!),
+                        "{requestedBy}": song.requestedBy?.toString() || client.handleLanguages("LIST_UNKNOWN_USER", client, interaction.guildId!),
                     })
                 }
                 Object.assign(embed, embed)
             }
-            return QueueEmbed;
+            return new EmbedBuilder(QueueEmbed.embeds[0]);
         })
         await paginate(interaction, pages, 600000);
     }

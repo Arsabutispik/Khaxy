@@ -235,12 +235,8 @@ export default async (client: KhaxyClient, message: Message) => {
                             redirect: "follow",
                         });
                         const response = await pasteio.json();
-                        const closeEmbed = new EmbedBuilder()
-                            .setAuthor({name: button.user.username, iconURL: button.user.displayAvatarURL()})
-                            .setDescription(client.handleLanguages("MODMAIL_CLOSED", client, button.guild.id))
-                            .setColor("Red")
-                            .setTimestamp();
-                        await message.reply({embeds: [closeEmbed]});
+                        const closeEmbed = client.handleLanguages("MODMAIL_CLOSED", client, button.guild.id)
+                        await message.reply(closeEmbed);
                         client.userTickets.delete(message.author.id);
                         const lastEmbed = new EmbedBuilder()
                             .setAuthor({name: button.user.username, iconURL: button.user.displayAvatarURL()})

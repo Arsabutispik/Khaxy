@@ -87,7 +87,7 @@ export declare class KhaxyClient extends Client {
 
     public ticketMessages : Collection<string, string>
 
-    public handleLanguages(textId: keyof typeof import("./lang.json").translations, client: KhaxyClient, guildId: Snowflake)
+    public handleLanguages<K extends keyof typeof import("./lang.json").translations>(textId: K, client: KhaxyClient, guildId: Snowflake): typeof import("./lang.json").translations[K]["turkish"] | typeof import("./lang.json").translations[K]["english"]
 }
 
 export interface customObject {
