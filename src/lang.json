@@ -1275,6 +1275,6 @@
     "PAUSE_SUCCESS": {
       "turkish": "|✅| **Şarkı duraklatıldı.**",
       "english": "|✅| **The song has been paused.**"
-    },
+    }
   }
 }

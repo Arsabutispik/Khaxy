@@ -6,7 +6,6 @@ import {
     SlashCommandBuilder, Snowflake
 } from "discord.js";
 import { UpdateQuery } from "mongoose";
-import languageHandler from "./utils/languageHandler.js";
 export type ExecuteParameters = {
     client: HolyClient;
     message: Message;
