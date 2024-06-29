@@ -1277,6 +1277,66 @@
     "PAUSE_SUCCESS": {
       "turkish": "|✅| **Şarkı duraklatıldı.**",
       "english": "|✅| **The song has been paused.**"
+    },
+    "PLAY_UNABLE_TO_SPEAK": {
+      "turkish": "Mhm! Mhhmhhmhm! MHHHPMHP! (Konuşma yetkim yok)",
+      "english": "Mhm! Mhhmhhmhm! MHHHPMHP! (I don't have the permission to speak)"
+    },
+    "PLAY_SEARCHING": {
+      "turkish": "<a:mag_search:1015974107097083934> | **Aranıyor...**",
+      "english": "<a:mag_search:1015974107097083934> | **Searching...**"
+    },
+    "PLAY_EMBED": {
+      "turkish": {
+        "embeds": [{
+            "author": {
+                "name": "Şarkı Eklendi",
+                "icon_url": "{icon_url}"
+            },
+            "color": 0,
+            "description": "🎶 [{track_title}]({track_url})",
+            "fields": [
+                {
+                "name": "Şarkıyı Talep Eden",
+                "value": "{requestedBy}",
+                "inline": true
+                },
+                {
+                "name": "Süre",
+                "value": "{duration}",
+                "inline": true
+                }
+            ],
+            "thumbnail": {
+                "url": "{thumbnail_url}"
+            }
+        }]
+      },
+        "english": {
+            "embeds": [{
+                "author": {
+                    "name": "Song Added",
+                    "icon_url": "{icon_url}"
+                },
+                "color": 0,
+                "description": "🎶 [{track_title}]({track_url})",
+                "fields": [
+                    {
+                    "name": "Requested By",
+                    "value": "{requestedBy}",
+                    "inline": true
+                    },
+                    {
+                    "name": "Duration",
+                    "value": "{duration}",
+                    "inline": true
+                    }
+                ],
+                "thumbnail": {
+                    "url": "{thumbnail_url}"
+                }
+            }]
+        }
     }
   }
 }

@@ -1,7 +1,8 @@
 import {slashCommandBase} from "../../types";
-import {EmbedBuilder, GuildMember, PermissionsBitField, SlashCommandBuilder} from "discord.js";
+import {GuildMember, PermissionsBitField, SlashCommandBuilder} from "discord.js";
 import prettyMilliseconds from "pretty-ms";
 import { useMainPlayer } from "discord-player";
+import {replaceMassString} from "../../utils/utils";
 
 export default {
     help: {
@@ -41,18 +42,18 @@ export default {
             return
         }
         if(!(interaction.member as GuildMember).voice.channel!.permissionsFor(interaction.guild!.members.me!).has(PermissionsBitField.Flags.Speak)) {
-            await interaction.reply({content: "Mhm! Mhhmhhmhm! MHHHPMHP! (Konuşma yetkim yok)", ephemeral: true})
+            await interaction.reply({content: client.handleLanguages("PLAY_UNABLE_TO_SPEAK", client, interaction.guildId!), ephemeral: true})
             return
         }
         if (
             interaction.guild!.members.me!.voice.channel &&
             (interaction.member as GuildMember).voice.channel!.id !== interaction.guild!.members.me!.voice.channel.id
         ) {
-            await interaction.reply({content: "|❌| **Bot ile aynı kanalda olmanız gerekiyor**", ephemeral: true})
+            await interaction.reply({content: client.handleLanguages("USER_NOT_IN_THE_SAME_VOICE", client, interaction.guildId!), ephemeral: true})
             return
         }
         let SearchString = interaction.options.getString("song", true);
-        await interaction.reply("<a:mag_search:1015974107097083934> Aranıyor...");
+        await interaction.reply(client.handleLanguages("PLAY_SEARCHING", client, interaction.guildId!));
         const message = await interaction.fetchReply()
         const player = await useMainPlayer()!.play((interaction.member as GuildMember).voice.channel!, SearchString, {
             nodeOptions: {
@@ -68,22 +69,21 @@ export default {
             }, fallbackSearchEngine: "youtube"
         })
 
-        let SongAddedEmbed = new EmbedBuilder()
-            .setColor("Random")
-            .setAuthor({name:`Şarkı Sıraya Eklendi`, iconURL: client.config.IconURL})
-            .setThumbnail(player.track.thumbnail)
-            .setDescription(`[${player.track.title}](${player.track.url})`)
-            .addFields([
-                {
-                    name: "Şarkıyı Talep Eden",
-                    value: `${interaction.user}`,
-                    inline: true
-                },
-                {
-                name: "Süre",
-                value: prettyMilliseconds(player.queue.currentTrack!.durationMS, {colonNotation: true}),
-                inline: true
-                }])
-        message.channel.send({embeds: [SongAddedEmbed]})
+        let SongAddedEmbed = client.handleLanguages("PLAY_EMBED", client, interaction.guildId!)
+        for(const embed of SongAddedEmbed.embeds) {
+            embed.author.icon_url = client.config.IconURL
+            embed.description = replaceMassString(embed.description, {
+                "{track_title}": player.track.title,
+                "{track_url}": player.track.url,
+            })
+            embed.thumbnail.url = player.track.thumbnail
+            for(const field of embed.fields) {
+                field.value = replaceMassString(field.value, {
+                    "{requestedBy}": interaction.user.toString(),
+                    "{duration}": prettyMilliseconds(player.queue.currentTrack!.durationMS, {colonNotation: true})
+                })
+            }
+        }
+        await message.edit(SongAddedEmbed)
     }
 } as slashCommandBase
