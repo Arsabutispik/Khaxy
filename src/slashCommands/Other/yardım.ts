@@ -1,9 +1,5 @@
 import {slashCommandBase} from "../../types";
-import {
-    ActionRowBuilder, ComponentType,
-    EmbedBuilder, MessageComponentInteraction,
-    SlashCommandBuilder, StringSelectMenuBuilder,
-} from "discord.js";
+import {SlashCommandBuilder} from "discord.js";
 export default {
     help: {
         name: "yardım",
@@ -13,10 +9,17 @@ export default {
         category: "Diğer"
     },
     data: new SlashCommandBuilder()
-        .setName("yardım")
-        .setDescription("Tüm komutları gösterir"),
-    execute: async ({interaction, client}) => {
-        const category = client.slashCommands.map((command) => command.help.category)
+        .setName("help")
+        .setNameLocalizations({
+            "tr": "yardım",
+        })
+        .setDescription("Displays all commands.")
+    .setDescriptionLocalizations({
+        "tr": "Tüm komutları gösterir."
+    }),
+    execute: async ({interaction}) => {
+        await interaction.reply("Untill further notice, this command is disabled.")
+        /*const category = client.slashCommands.map((command) => command.help.category)
             .filter((value, index, self) => self.indexOf(value) === index)
             .filter((value) => value)
             .map((value) => ({label: value, value: value.toLowerCase()}))
@@ -43,7 +46,7 @@ export default {
             const embed = new EmbedBuilder()
                 .setColor("Random")
                 .setAuthor({name: interaction.user.username, iconURL: interaction.user.displayAvatarURL()})
-                .setDescription(`**${category.replace(/(?<!\p{L}\p{M}*)\p{L}\p{M}*/gu, (char) => char.toUpperCase())}** Kategorisini görüntülüyorsunuz`)
+                .setDescription(`**${category.replace(/(?<!\p{L}\p{M}*)\p{L}\p{M}"*"/gu, (char) => char.toUpperCase())}** Kategorisini görüntülüyorsunuz`)
             commands.forEach((command) => {
                 if(!command.help.hidden) {
                     embed.addFields({name: `/${command.help.name}`, value: `Tanım: **${command.help.description}**\n\nKullanım: **${command.help.usage}**\n\nÖrnekler: ${command.help.examples.join("\n")}`, inline: true})
@@ -58,6 +61,6 @@ export default {
                 .setDescription("Süre dolduğu için menü kapatıldı")
             await message.edit({embeds: [embed], components: []})
         })
-
+        */
     }
 } as slashCommandBase

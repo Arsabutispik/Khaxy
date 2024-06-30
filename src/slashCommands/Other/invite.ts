@@ -1,6 +1,7 @@
 import {slashCommandBase} from "../../types";
-import {EmbedBuilder, PermissionsBitField, SlashCommandBuilder} from "discord.js";
+import {PermissionsBitField, SlashCommandBuilder} from "discord.js";
 import {OAuth2Scopes} from "discord-api-types/v10";
+import {replaceMassString} from "../../utils/utils.js";
 export default {
     help: {
         name: "invite",
@@ -11,7 +12,14 @@ export default {
     },
     data: new SlashCommandBuilder()
         .setName("invite")
-        .setDescription("Botun davet linkini gönderir"), execute: async ({interaction, client}) => {
+        .setNameLocalizations({
+            "tr": "davet",
+        })
+        .setDescription("Sends a link to invite the bot")
+        .setDescriptionLocalizations({
+            "tr": "Botun davet linkini gönderir"
+            }),
+    execute: async ({interaction, client}) => {
         const permFlags = [
             PermissionsBitField.Flags.SendMessages,
             PermissionsBitField.Flags.BanMembers,
@@ -32,10 +40,12 @@ export default {
             permissions: permFlags,
             scopes: [OAuth2Scopes.Bot, OAuth2Scopes.ApplicationsCommands]
         })
-        const inviteEmbed = new EmbedBuilder()
-            .setTitle("Davet Linki")
-            .setURL(link)
-            .setDescription(`Khaxy Bot'u kullandığınız için minnetarız :heart:\n\nEğer botu kendi sunucunuzda kullanmak istiyorsanız [buradan](${link}) davet edebilirsiniz\n\nDestek sunucumuz için [buraya tıkla](https://discord.gg/U7gAPuBP8F)`)
-            .setColor("Random");
-        await interaction.reply({embeds: [inviteEmbed]});
+        const discordLink = await (await client.guilds.fetch("1033954657569099878")).invites.create("1038758642620567552", {temporary: true, maxAge: 12*10000, maxUses: 1})
+        const {embeds} = client.handleLanguages("INVITE_EMBED", client, interaction.guildId!)
+        embeds[0].url = link
+        embeds[0].description = replaceMassString(embeds[0].description, {
+            "{inviteLink}": link,
+            "{discordLink}": discordLink.url
+        })
+        await interaction.reply({embeds});
     }} as slashCommandBase

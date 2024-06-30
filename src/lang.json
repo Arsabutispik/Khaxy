@@ -1337,6 +1337,198 @@
                 }
             }]
         }
+    },
+    "RESUME_ALREADY_RESUMED": {
+      "turkish": "|❌| **Şarkı zaten devam ediyor.**",
+      "english": "|❌| **The song is already resumed.**"
+    },
+    "RESUME_SUCCESS": {
+      "turkish": "|✅| **Şarkı devam ettirildi.**",
+      "english": "|✅| **The song has been resumed.**"
+    },
+    "SHUFFLE_SUCCESS": {
+      "turkish": "|✅| **Kuyruk karıştırıldı.**",
+      "english": "|✅| **The queue has been shuffled.**"
+    },
+    "SKIP_ONLY_ONE_USER": {
+      "turkish": "{otherUser} **{interactionUser}** Şu anda çalan *`{currentTrack_title}`* şarkısını değiştirmek istiyor lütfen aşağıdan seçimini yap.",
+      "english": "{otherUser} **{interactionUser}** wants to change the currently playing *`{currentTrack_title}`* song, please make your choice below."
+    },
+    "SKIP_SUCCESS": {
+      "turkish": "|✅| **Şarkı başarıyla geçildi.**",
+      "english": "|✅| **The song has been successfully skipped.**"
+    },
+    "SKIP_REJECT": {
+      "turkish": "|❌| **Şarkıı atlaması reddedildi.**",
+      "english": "|❌| **The song skip has been denied.**"
+    },
+    "SKIP_USER_DIDNT_RESPOND_IN_TIME": {
+      "turkish": "|❌| **Kullanıcı zamanında yanıt vermedi.**",
+      "english": "|❌| **The user didn't respond in time.**"
+    },
+    "SKIP_VOTING_EMBED": {
+      "turkish": {
+        "embeds": [{
+          "title": "Şarkı Değiştirme Oylaması",
+          "description": "{interactionUser} Şu anda çalan *`${currentTrack_title}`* şarkısını değiştirmek istiyor lütfen aşağıdan seçimini yap.",
+          "color": 0,
+          "footer": {
+            "text": "Oylama 2 dakika içinde sona erecek."
+          },
+          "fields": [{
+            "name": "👍",
+            "value": "Şarkıyı Geç"
+          }]
+        }]
+      },
+        "english": {
+            "embeds": [{
+                "title": "Song Change Voting",
+                "description": "{interactionUser} wants to change the currently playing *`${currentTrack_title}`* song, please make your choice below.",
+                "color": 0,
+                "footer": {
+                    "text": "The voting will end in 2 minutes."
+                },
+                "fields": [{
+                    "name": "👍",
+                    "value": "Şarkıyı Geç",
+                    "inline": true
+                }]
+            }]
+        }
+    },
+    "SKIP_WAITING_VOTE": {
+        "turkish": "Oylama Bekleniyor şu anki oylama durumu |⭕|",
+        "english": "Waiting for the vote current voting status |⭕|"
+    },
+    "SKIP_ALREADY_VOTED": {
+        "turkish": "|❌| **Zaten oy verdiniz.**",
+        "english": "|❌| **You have already voted.**"
+    },
+    "SKIP_ACCEPTED_VOTE": {
+        "turkish": "Oylama Kabul Edildi şu anki oylama durumu |✅|",
+        "english": "Voting Accepted current voting status |✅|"
+    },
+    "SKIP_REJECTED_VOTE": {
+        "turkish": "Oylama Reddedildi şu anki oylama durumu |❌|",
+        "english": "Voting Rejected current voting status |❌|"
+    },
+    "SKIP_EXCEEDED_QUEUE_LENGTH": {
+        "turkish": "|❌| **Kuyrukta o kadar şarkı yok.**",
+        "english": "|❌| **There are not that many songs in the queue.**"
+    },
+    "SKIP_ONLY_ONE_USER_AMOUNT": {
+        "turkish": "{otherUser} **{interactionUser}** Listeden {amount} şarkıyı geçmek istiyor. Lütfen aşağıdan seçimini yap.",
+        "english": "{otherUser} **{interactionUser}** wants to skip {amount} songs from the list. Please make your choice below."
+    },
+    "SKIP_AMOUNT_SUCCESS": {
+        "turkish": "|✅| **{amount} şarkı başarıyla geçildi.**",
+        "english": "|✅| **{amount} songs have been successfully skipped.**"
+    },
+    "SKIP_AMOUNT_REJECT": {
+        "turkish": "|❌| **Şarkı geçme reddedildi.**",
+        "english": "|❌| **The song skip has been denied.**"
+    },
+    "SKIP_VOTING_EMBED_AMOUNT": {
+        "turkish": {
+            "embeds": [{
+                "title": "Şarkı Değiştirme Oylaması",
+                "description": "{interactionUser} Listeden {amount} şarkıyı geçmek istiyor. Lütfen aşağıdan seçimini yap.",
+                "color": 0,
+                "footer": {
+                    "text": "Oylama 2 dakika içinde sona erecek."
+                },
+                "fields": [{
+                    "name": "👍",
+                    "value": "Şarkıyı Geç"
+                }]
+            }]
+        },
+        "english": {
+            "embeds": [{
+                "title": "Song Change Voting",
+                "description": "{interactionUser} wants to skip {amount} songs from the list. Please make your choice below.",
+                "color": 0,
+                "footer": {
+                    "text": "The voting will end in 2 minutes."
+                },
+                "fields": [{
+                    "name": "👍",
+                    "value": "Şarkıyı Geç",
+                    "inline": true
+                }]
+            }]
+        }
+    },
+    "PLAYING_EMBED": {
+        "turkish": {
+            "embeds": [{
+                "author": {
+                    "name": "Şu anda Çalıyor",
+                    "icon_url": "{icon_url}"
+                },
+                "color": 0,
+                "description": "🎶 [{track_title}]({track_url})",
+                "fields": [
+                    {
+                        "name": "Şarkıyı Talep Eden",
+                        "value": "{requestedBy}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Süre",
+                        "value": "{duration}",
+                        "inline": true
+                    }
+                ],
+                "thumbnail": {
+                    "url": "{thumbnail_url}"
+                }
+            }]
+        },
+        "english": {
+            "embeds": [{
+                "author": {
+                    "name": "Now Playing",
+                    "icon_url": "{icon_url}"
+                },
+                "color": 0,
+                "description": "🎶 [{track_title}]({track_url})",
+                "fields": [
+                    {
+                        "name": "Requested By",
+                        "value": "{requestedBy}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Duration",
+                        "value": "{duration}",
+                        "inline": true
+                    }
+                ],
+                "thumbnail": {
+                    "url": "{thumbnail_url}"
+                }
+            }]
+        }
+    },
+    "INVITE_EMBED": {
+      "turkish": {
+        "embeds": [{
+          "title": "Davet Linki",
+          "description": "Khaxy kullandığınız için minnetarız :heart:\n\nEğer botu kendi sunucunuzda kullanmak istiyorsanız [buradan]({inviteLink}) davet edebilirsiniz\n\nDestek sunucumuz için [buraya tıkla]({discordLink})",
+          "url": "{link}",
+          "color": 0
+        }]
+      },
+        "english": {
+            "embeds": [{
+                "title": "Invite Link",
+                "description": "Thank you for using Khaxy :heart:\n\nIf you want to use the bot in your own server, you can invite it [here]({inviteLink})\n\nFor our support server, click [here]({discordLink})",
+                "url": "{link}",
+                "color": 0
+            }]
+        }
     }
   }
 }
