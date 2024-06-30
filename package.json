@@ -23,6 +23,7 @@
     "@discordjs/opus": "github:discordjs/opus",
     "@distube/ytdl-core": "^4.11.17",
     "@mapbox/node-pre-gyp": "^1.0.11",
+    "@swc/core": "^1.6.6",
     "discord-player": "^6.6.2",
     "discord.js": "^14.11.0",
     "dotenv": "^16.4.5",

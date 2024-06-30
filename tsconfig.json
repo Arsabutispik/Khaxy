@@ -26,8 +26,8 @@
   },
   "ts-node": {
     "esm": true,
-    "transpileOnly": true,
-    "files": true
+    "files": true,
+    "swc": true,
   },
   "exclude": ["node_modules"],
   "include": ["./src/**/*.ts"]
