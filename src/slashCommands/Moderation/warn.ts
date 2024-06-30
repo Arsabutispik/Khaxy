@@ -1,7 +1,7 @@
 import {GuildMember, EmbedBuilder, SlashCommandBuilder, PermissionsBitField} from "discord.js";
-import modlog from "../../utils/modlog.js";
+import modlog from "../../utils/modlog.ts";
 import {slashCommandBase} from "../../types";
-import {replaceMassString} from "../../utils/utils";
+import {replaceMassString} from "../../utils/utils.ts";
 
 export default {
     help: {

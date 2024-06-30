@@ -1,7 +1,7 @@
 import {KhaxyClient} from "../types";
 import {GuildBan, AuditLogEvent} from "discord.js";
-import modlog from "../utils/modlog.js";
-import {sleep} from "../utils/utils.js";
+import modlog from "../utils/modlog.ts";
+import {sleep} from "../utils/utils.ts";
 export default async(client: KhaxyClient, ban: GuildBan) => {
     const data = client.guildsConfig.get(ban.guild.id)
     if(!data) return

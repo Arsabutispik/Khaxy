@@ -1,7 +1,7 @@
 import { KhaxyClient } from "../types";
-import punishmentSchema from "../schemas/punishmentSchema.js";
-import modlog from "./modlog.js";
-import {User} from "discord.js";
+import punishmentSchema from "../schemas/punishmentSchema.ts";
+import modlog from "./modlog.ts";
+import {User} from "discord.ts";
 export default async(client: KhaxyClient) => {
     const check = async() => {
         const query = {

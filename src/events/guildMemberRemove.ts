@@ -1,7 +1,7 @@
 import {KhaxyClient} from "../types";
-import modlog from "../utils/modlog.js";
+import modlog from "../utils/modlog.ts";
 import {GuildMember, TextChannel, AuditLogEvent} from "discord.js";
-import {replaceMassString, sleep} from "../utils/utils.js";
+import {replaceMassString, sleep} from "../utils/utils.ts";
 
 export default async(client: KhaxyClient, member: GuildMember) => {
     const data = client.guildsConfig.get(member.guild.id)

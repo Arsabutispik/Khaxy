@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import {KhaxyClient, commandBase, slashCommandBase} from "../types";
-import { log } from "./utils.js";
+import { log } from "./utils.ts";
 import { fileURLToPath, pathToFileURL } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 
@@ -14,7 +14,7 @@ async function registerCommands(client: KhaxyClient, ...dirs: string[]) {
             const stat = await fs.promises.lstat(path.join(__dirname, dir, file));
             if (stat.isDirectory()) await registerCommands(client, path.join(dir, file));
             else {
-                if (file.endsWith(".js")) {
+                if (file.endsWith(".ts")) {
                     try {
                         const cmdModule: commandBase = (await import(pathToFileURL(path.join(__dirname, dir, file)).href)).default;
                         const { name, aliases, category, execute, description, examples, usage} = cmdModule;
@@ -84,8 +84,8 @@ async function registerEvents(client: KhaxyClient, dir: string) {
         const stat = await fs.promises.lstat(path.join(__dirname, dir, file));
         if (stat.isDirectory()) await registerEvents(client, path.join(dir, file));
         else {
-            if (file.endsWith(".js")) {
-                let eventName = file.substring(0, file.indexOf(".js"));
+            if (file.endsWith(".ts")) {
+                let eventName = file.substring(0, file.indexOf(".ts"));
                 try {
                     let eventModule = (await import(path.join(pathToFileURL(path.join(__dirname, dir, file)).href))).default;
                     client.on(eventName, eventModule.bind(null, client));
@@ -107,7 +107,7 @@ async function registerSlashCommands(client: KhaxyClient, dir: string){
         const stat = await fs.promises.lstat(path.join(__dirname, dir, file));
         if (stat.isDirectory()) await registerSlashCommands(client, path.join(dir, file));
         else {
-            if (file.endsWith(".js")) {
+            if (file.endsWith(".ts")) {
                 try {
                     const slashcmdModule: slashCommandBase = (await import(pathToFileURL(path.join(__dirname, dir, file)).href)).default;
                     const {data, execute, ownerOnly} = slashcmdModule;

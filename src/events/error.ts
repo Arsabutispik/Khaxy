@@ -1,5 +1,5 @@
 import {KhaxyClient} from "../types";
-import {log} from "../utils/utils.js";
+import {log} from "../utils/utils.ts";
 import {EmbedBuilder} from "discord.js";
 export default async(client: KhaxyClient, error: Error) => {
     log("ERROR", "events/error.ts", "Error is displayed below:");

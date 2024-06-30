@@ -1,15 +1,15 @@
 import {ActivityType, Client, EmbedBuilder, Partials, IntentsBitField, Collection } from "discord.js";
 import {KhaxyClient} from "./types";
-import {registerEvents, registerSlashCommands} from "./utils/registery.js";
-import {log, replaceMassString} from "./utils/utils.js";
+import {registerEvents, registerSlashCommands} from "./utils/registery.ts";
+import {log, replaceMassString} from "./utils/utils.ts";
 import mongoose from "mongoose";
-import checkPunishments from "./utils/checkPunishments.js";
+import checkPunishments from "./utils/checkPunishments.ts";
 import { Player } from "discord-player";
 import prettyMilliseconds from "pretty-ms";
-import guildSchema from "./schemas/guildSchema.js";
-import colorOfTheDay from "./utils/colorOfTheDay.js";
+import guildSchema from "./schemas/guildSchema.ts";
+import colorOfTheDay from "./utils/colorOfTheDay.ts";
 import cron from "node-cron";
-import handleLanguages from "./utils/languageHandler.js";
+import handleLanguages from "./utils/languageHandler.ts";
 import "dotenv/config.js";
 const intents = new IntentsBitField()
     .add([IntentsBitField.Flags.Guilds,

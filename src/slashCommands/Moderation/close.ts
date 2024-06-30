@@ -9,7 +9,7 @@ import {
 } from "discord.js";
 import fetch, {Headers} from "node-fetch";
 import FormData from "form-data"
-import {replaceMassString} from "../../utils/utils.js";
+import {replaceMassString} from "../../utils/utils.ts";
 export default {
     help: {
         name: "kapat",

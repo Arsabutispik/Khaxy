@@ -3,7 +3,7 @@ import {slashCommandBase} from "../../types";
 import prettyMilliseconds from "pretty-ms";
 import ProgressBar from "string-progressbar";
 import {GuildQueue, useQueue} from "discord-player";
-import {replaceMassString} from "../../utils/utils";
+import {replaceMassString} from "../../utils/utils.ts";
 
 export default {
     help: {

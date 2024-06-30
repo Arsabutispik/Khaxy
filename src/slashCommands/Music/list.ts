@@ -3,7 +3,7 @@ import prettyMilliseconds from "pretty-ms";
 import {EmbedBuilder, SlashCommandBuilder} from "discord.js";
 import ProgressBar from "string-progressbar";
 import _ from "lodash";
-import {paginate, replaceMassString} from "../../utils/utils.js";
+import {paginate, replaceMassString} from "../../utils/utils.ts";
 import {GuildQueue, useQueue} from "discord-player";
 
 export default {

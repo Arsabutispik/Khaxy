@@ -1,7 +1,7 @@
 import {KhaxyClient} from "../types";
 import {ChannelType, Interaction, EmbedBuilder, TextChannel} from "discord.js";
-import guildConfig from "../schemas/guildSchema.js";
-import {log, percentageChance} from "../utils/utils.js";
+import guildConfig from "../schemas/guildSchema.ts";
+import {log, percentageChance} from "../utils/utils.ts";
 
 export default async (client: KhaxyClient, interaction: Interaction) => {
     if(interaction.isChatInputCommand()) {

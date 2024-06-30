@@ -9,7 +9,7 @@ import {
     ButtonStyle, ComponentType, ChatInputCommandInteraction
 } from "discord.js";
 import {useQueue, GuildQueue} from "discord-player";
-import {replaceMassString} from "../../utils/utils.js";
+import {replaceMassString} from "../../utils/utils.ts";
 
 export default {
     help: {

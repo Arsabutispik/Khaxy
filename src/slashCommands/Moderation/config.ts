@@ -3,8 +3,8 @@ import {
     GuildMember, MessageComponentInteraction, PermissionsBitField,
     SlashCommandBuilder, ComponentType
 } from "discord.js";
-import {replaceMassString} from "../../utils/utils.js";
-import {registerConfig, welcomeConfig, moderationConfig, roleConfig} from "../../utils/configFunctions.js";
+import {replaceMassString} from "../../utils/utils.ts";
+import {registerConfig, welcomeConfig, moderationConfig, roleConfig} from "../../utils/configFunctions.ts";
 export default {
     help: {
         name: "config",

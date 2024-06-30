@@ -1,10 +1,10 @@
 import { Guild, TextChannel, User } from 'discord.js';
 import ms from 'ms';
-import guildSchema from "../schemas/guildSchema.js";
+import guildSchema from "../schemas/guildSchema.ts";
 import {KhaxyClient} from "../types";
-import {log} from "./utils.js";
+import {log, replaceMassString} from "./utils.ts";
 type actions = "WARNING" | "BAN" | "KICK" | "MUTE" | "FORCED_BAN" | "TIMED_BAN" | "CHANGES" | "BAN_REMOVE" | "BAN_END" | "FORCED_TIMED_BAN"
-import {replaceMassString} from "./utils.js";
+
 export default async(data: {guild: Guild, user: User, action: actions, actionmaker: User, reason: string, duration?: number, casenumber?: number}, client: KhaxyClient) => {
     const {guild, user, action, actionmaker, reason, duration, casenumber} = data;
     let guildData = await guildSchema.findOne({guildID: guild.id});

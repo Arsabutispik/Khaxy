@@ -1,7 +1,7 @@
 import { KhaxyClient } from "../types"
-import guildSchema from "../schemas/guildSchema.js";
+import guildSchema from "../schemas/guildSchema.ts";
 import {ColorResolvable} from "discord.js"
-import ntc from "../utils/ntc.js"
+import ntc from "../utils/ntc.ts"
 export default async (client: KhaxyClient) => {
     const guilds = await guildSchema.find()
     for(const guildConfig of guilds) {

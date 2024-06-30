@@ -1,7 +1,7 @@
 import {KhaxyClient} from "../types";
 import {GuildMember, TextChannel} from "discord.js";
-import punishmentSchema from "../schemas/punishmentSchema.js";
-import {replaceMassString} from "../utils/utils.js";
+import punishmentSchema from "../schemas/punishmentSchema.ts";
+import {replaceMassString} from "../utils/utils.ts";
 
 export default async (client: KhaxyClient, member: GuildMember) => {
     const data = client.guildsConfig.get(member.guild.id)

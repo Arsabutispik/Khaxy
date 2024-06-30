@@ -1,7 +1,7 @@
 import {slashCommandBase} from "../../types";
 import {PermissionsBitField, SlashCommandBuilder} from "discord.js";
 import {OAuth2Scopes} from "discord-api-types/v10";
-import {replaceMassString} from "../../utils/utils.js";
+import {replaceMassString} from "../../utils/utils.ts";
 export default {
     help: {
         name: "invite",

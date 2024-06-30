@@ -1,10 +1,9 @@
 import {slashCommandBase} from "../../types";
 import {GuildMember, EmbedBuilder, SlashCommandBuilder, PermissionsBitField} from "discord.js";
 import ms from "ms";
-import modlog from "../../utils/modlog.js";
-import Punishment from "../../schemas/punishmentSchema.js";
-import {daysToSeconds} from "../../utils/utils.js";
-import {replaceMassString} from "../../utils/utils.js";
+import modlog from "../../utils/modlog.ts";
+import Punishment from "../../schemas/punishmentSchema.ts";
+import {daysToSeconds, replaceMassString} from "../../utils/utils.ts";
 
 export default {
     help: {

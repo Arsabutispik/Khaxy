@@ -2,7 +2,7 @@ import {slashCommandBase} from "../../types";
 import {GuildMember, PermissionsBitField, SlashCommandBuilder} from "discord.js";
 import prettyMilliseconds from "pretty-ms";
 import { useMainPlayer } from "discord-player";
-import {replaceMassString} from "../../utils/utils";
+import {replaceMassString} from "../../utils/utils.ts";
 
 export default {
     help: {

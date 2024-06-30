@@ -39,7 +39,7 @@ const guildSchema = new Schema({
     }
 }, {
     toObject: {
-        transform: function (_doc, ret) {
+        transform: function (_doc: any, ret: { _id: any; guildID: any; }) {
             delete ret._id;
             delete ret.guildID;
         }

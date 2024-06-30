@@ -1,7 +1,7 @@
 import {slashCommandBase} from "../../types";
 import {GuildMember, PermissionsBitField, SlashCommandBuilder} from "discord.js";
-import modlog from "../../utils/modlog.js";
-import {daysToSeconds, log, replaceMassString} from "../../utils/utils.js";
+import modlog from "../../utils/modlog.ts";
+import {daysToSeconds, log, replaceMassString} from "../../utils/utils.ts";
 
 export default {
     help: {
