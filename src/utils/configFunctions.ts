@@ -18,44 +18,13 @@ import {
     TextInputBuilder,
     TextInputStyle,
     ChannelSelectMenuBuilder,
-    RoleSelectMenuBuilder, RoleSelectMenuInteraction, PermissionsBitField
+    RoleSelectMenuBuilder, RoleSelectMenuInteraction, PermissionsBitField, TextChannel
 } from "discord.js";
 import {KhaxyClient} from "../types";
 
 async function registerConfig(interaction: ChatInputCommandInteraction, client: KhaxyClient) {
-    const SelectMenu = new StringSelectMenuBuilder()
-        .setCustomId("registerConfig")
-        .setPlaceholder("Ayarlar")
-        .setDisabled(false)
-        .addOptions({
-            label: "Kayıt Kanalı",
-            value: "registerChannel",
-            description: "Kayıt kanalı ayarlar.",
-            emoji: "📝"
-        }, {
-            label: "Kayıt Sorumlusu Rolü",
-            value: "staffRole",
-            description: "Kayıt sorumlusu rolü ayarlar.",
-            emoji: "👮‍♂️"
-        }, {
-            label: "Kayıt Mesajı",
-            value: "registerMessage",
-            description: "Kayıt mesajı ayarlar.",
-            emoji: "📜"
-        }, {
-            label: "Kayıt Mesajı Silinsin mi?",
-            value: "registerMessageClear",
-            description: "Kayıt mesajı silinsin mi ayarlar.",
-            emoji: "🗑️"
-        }, {
-            label: "Kayıt Kanalı mesajları Silinsin mi?",
-            value: "registerChannelClear",
-            description: "Kayıt kanalı mesajları silinsin mi ayarlar.",
-            emoji: "🗑️"
-        })
-    const selectMenuRow = new ActionRowBuilder<SelectMenuBuilder>()
-        .addComponents(SelectMenu)
-    await interaction.reply({content: "Ayarlamak istediğiniz ayarı seçiniz.", components: [selectMenuRow], ephemeral: true})
+    const SelectMenu = client.handleLanguages("REGISTER_CONFIG_PROMPT", client, interaction.guildId!)
+    await interaction.reply(SelectMenu)
     const selectMsg = await interaction.fetchReply() as Message
     const selectFilter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id
     try {
@@ -80,43 +49,24 @@ async function registerConfig(interaction: ChatInputCommandInteraction, client: 
             }
         }
     } catch (error) {
-        await interaction.followUp({content: "İşlem iptal edildi.", ephemeral: true})
+        await interaction.followUp({content: client.handleLanguages("REGISTER_CONFIG_EXPIRED", client, interaction.guildId!), ephemeral: true})
         console.log(error)
     }
 }
 
 async function registerChannel(interaction: SelectMenuInteraction, client: KhaxyClient) {
     if(client.guildsConfig.get(interaction.guild!.id)?.config.registerChannel) {
-        const reject = new ButtonBuilder()
-            .setCustomId("registerChannelReject")
-            .setLabel("❌| İptal")
-            .setStyle(ButtonStyle.Danger)
-        const accept = new ButtonBuilder()
-            .setCustomId("registerChannelAccept")
-            .setLabel("✅| Değiştir")
-            .setStyle(ButtonStyle.Success)
-        const deleteButton = new ButtonBuilder()
-            .setCustomId("registerChannelDelete")
-            .setLabel("🗑️| Sil")
-            .setStyle(ButtonStyle.Danger)
-        const row = new ActionRowBuilder<ButtonBuilder>()
-            .addComponents([reject, accept, deleteButton])
-        await interaction.reply({content: "Kayıt kanalı zaten ayarlanmış. Değiştirmek mi yoksa silmek mi istersiniz?", components: [row], ephemeral: true})
+        const raw = client.handleLanguages("REGISTER_CHANNEL_ALREADY_SETUP", client, interaction.guildId!)
+        await interaction.reply(raw)
         const msg = await interaction.fetchReply() as Message
         const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id
         try {
             const collector = await msg.awaitMessageComponent({filter: filter, componentType: ComponentType.Button, time: 60000})
             if(collector.customId === "registerChannelReject") {
-                await collector.reply({content: "İşlem iptal edildi.", components: []})
+                await collector.reply({content: client.handleLanguages("REGISTER_CHANNEL_CANCEL", client, interaction.guildId!), ephemeral: true})
             } else if(collector.customId === "registerChannelAccept") {
-                const channelSelect = new ChannelSelectMenuBuilder()
-                    .setCustomId("registerChannel")
-                    .setPlaceholder("Kanal seçiniz.")
-                    .setDisabled(false)
-                    .setChannelTypes(ChannelType.GuildText)
-                const row2 = new ActionRowBuilder<ChannelSelectMenuBuilder>()
-                    .addComponents(channelSelect)
-                await collector.reply({content: "Yeni kayıt kanalını aşağıdan ayarlayınız", components: [row2], ephemeral: true})
+                const channelSelect = client.handleLanguages("REGISTER_CHANNEL_ACCEPT", client, interaction.guildId!)
+                await collector.reply(channelSelect)
                 const msg = await collector.fetchReply() as Message
                 const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id
                 try {
@@ -124,26 +74,19 @@ async function registerChannel(interaction: SelectMenuInteraction, client: Khaxy
                     if(collector) {
 
                             const data = collector.values[0]
-                            const channel = interaction.guild!.channels.cache.get(data)
-                            if (!channel) {
-                                await collector.reply({content: "Böyle bir kanal bulunamadı."})
-                                return
-                            }
-                            if(channel.type !== ChannelType.GuildText) {
-                                await collector.reply({content: "Lütfen bir metin kanalı giriniz."})
-                                return
-                            }
+                            const channel = interaction.guild!.channels.cache.get(data) as TextChannel
+
                             const config = {
                                 $set: {
                                     "config.registerChannel": channel.id
                                 }
                             }
                             await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                            await collector.reply({content: "Kayıt kanalı ayarlandı.", ephemeral: true})
+                            await collector.reply({content: client.handleLanguages("REGISTER_CHANNEL_ACCEPT_SUCCESS", client, interaction.guildId!), ephemeral: true})
                     }
                 } catch (error) {
                     console.log(error)
-                    await interaction.followUp({content: "İşlem iptal edildi çünkü bir hata ile karşılaşıldı", ephemeral: true})
+                    await interaction.followUp({content: client.handleLanguages("REGISTER_CHANNEL_ERROR_OR_EXPIRED", client, interaction.guildId!), ephemeral: true})
                 }
             } else if(collector.customId === "registerChannelDelete") {
                 const config = {
@@ -152,21 +95,15 @@ async function registerChannel(interaction: SelectMenuInteraction, client: Khaxy
                     }
                 }
                 await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                await collector.reply({content: "Kayıt kanalı silindi.", components: [], ephemeral: true})
+                await collector.reply({content: client.handleLanguages("REGISTER_CHANNEL_DELETED", client, interaction.guildId!), components: [], ephemeral: true})
             }
         } catch (error) {
             console.log(error)
-            await interaction.followUp({content: "İşlem iptal edildi çünkü bir hata ile karşılaşıldı", ephemeral: true})
+            await interaction.followUp({content: client.handleLanguages("REGISTER_CHANNEL_ERROR_OR_EXPIRED", client, interaction.guildId!), ephemeral: true})
         }
     } else {
-        const channelSelect = new ChannelSelectMenuBuilder()
-            .setCustomId("registerChannel")
-            .setPlaceholder("Kanal seçiniz.")
-            .setDisabled(false)
-            .setChannelTypes(ChannelType.GuildText)
-        const row2 = new ActionRowBuilder<ChannelSelectMenuBuilder>()
-            .addComponents(channelSelect)
-        await interaction.reply({content: "Yeni kayıt kanalını aşağıdan ayarlayınız", components: [row2], ephemeral: true})
+        const channelSelect = client.handleLanguages("REGISTER_CHANNEL_ACCEPT", client, interaction.guildId!)
+        await interaction.reply(channelSelect)
         const msg = await interaction.fetchReply() as Message
         const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id
         try {
@@ -174,28 +111,19 @@ async function registerChannel(interaction: SelectMenuInteraction, client: Khaxy
             if(collector) {
 
                 const data = collector.values[0]
-                const channel = interaction.guild!.channels.cache.get(data)
-                if (!channel) {
-                    await collector.reply({content: "Böyle bir kanal bulunamadı."})
-                    return
-                }
-                if(channel.type !== ChannelType.GuildText) {
-                    await collector.reply({content: "Lütfen bir metin kanalı giriniz."})
-                    return
-                }
+                const channel = interaction.guild!.channels.cache.get(data) as TextChannel
+
                 const config = {
                     $set: {
                         "config.registerChannel": channel.id
                     }
                 }
                 await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                await collector.reply({content: "Kayıt kanalı ayarlandı.", ephemeral: true})
-                channelSelect.setDisabled(true)
-                await msg.edit({content: "Kayıt kanalı ayarlandı.", components: [row2]})
+                await collector.reply({content: client.handleLanguages("REGISTER_CHANNEL_ACCEPT_SUCCESS", client, interaction.guildId!), ephemeral: true})
             }
         } catch (error) {
             console.log(error)
-            await interaction.followUp({content: "İşlem iptal edildi çünkü bir hata ile karşılaşıldı", ephemeral: true})
+            await interaction.followUp({content: client.handleLanguages("REGISTER_CHANNEL_ERROR_OR_EXPIRED", client, interaction.guildId!), ephemeral: true})
         }
     }
 }

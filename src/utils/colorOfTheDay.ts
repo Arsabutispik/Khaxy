@@ -13,7 +13,7 @@ export default async (client: KhaxyClient) => {
         const role = guild.roles.cache.get(guildConfig.config.roleOfTheDay);
         if(!role) continue;
         if(role.position >= guild.members.me!.roles.highest.position) continue;
-        const name = role.name.replace((await guildConfig).config!.colorName!, "");
+        const name = role.name.replace(guildConfig.config!.colorName!, "");
         let x=Math.round(0xffffff * Math.random()).toString(16);
         let y=(6-x.length);
         let z="000000";
