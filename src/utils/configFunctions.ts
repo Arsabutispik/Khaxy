@@ -137,7 +137,8 @@ async function staffRole(interaction: SelectMenuInteraction, client: KhaxyClient
             "type": "role"
         })
     }
-    // @ts-ignore
+    //Discord typing doesn't match with the API so it complains about the type
+    //@ts-ignore
     await interaction.reply(raw)
     const msg = await interaction.fetchReply()
     const filter = (i: RoleSelectMenuInteraction) => i.user.id === interaction.user.id
@@ -161,50 +162,19 @@ async function staffRole(interaction: SelectMenuInteraction, client: KhaxyClient
 
 async function registerMessage(interaction: SelectMenuInteraction, client: KhaxyClient) {
     if(client.guildsConfig.get(interaction.guild!.id)?.config.registerMessage) {
-        const reject = new ButtonBuilder()
-            .setCustomId("registerMessageReject")
-            .setLabel("❌| İptal")
-            .setStyle(ButtonStyle.Danger)
-        const accept = new ButtonBuilder()
-            .setCustomId("registerMessageAccept")
-            .setLabel("✅| Değiştir")
-            .setStyle(ButtonStyle.Success)
-        const deleteButton = new ButtonBuilder()
-            .setCustomId("registerMessageDelete")
-            .setLabel("🗑️| Sil")
-            .setStyle(ButtonStyle.Danger)
-        const row = new ActionRowBuilder<ButtonBuilder>()
-            .addComponents([reject, accept, deleteButton])
-        await interaction.reply({content: "Kayıt kanalına atılacak mesaj zaten ayarlanmış. Değiştirmek mi yoksa silmek mi istersiniz?", components: [row], ephemeral: true})
+        const raw = client.handleLanguages("REGISTER_MESSAGE_ALREADY_SETUP", client, interaction.guildId!)
+        await interaction.reply(raw)
         const msg = await interaction.fetchReply() as Message
         const buttonFilter = (i: MessageComponentInteraction) => (i.customId === "staffRoleReject" || i.customId === "staffRoleAccept" || i.customId === "staffRoleDelete") && (i.user.id === interaction.user.id);
         try {
             const collector = await msg.awaitMessageComponent({filter: buttonFilter, componentType: ComponentType.Button, time: 60000})
             if (collector) {
                 if(collector.customId === "registerMessageReject") {
-                    await collector.reply({content: "İşlem iptal edildi.", components: [], ephemeral: true})
+                    await collector.reply({content: client.handleLanguages("REGISTER_MESSAGE_CANCEL", client, interaction.guildId!), components: [], ephemeral: true})
                 } else if(collector.customId === "registerMessageRoleAccept") {
-                    const TextInput = new TextInputBuilder()
-                        .setCustomId("registerMessage")
-                        .setPlaceholder("Kullanılabilir değişkenler: {user}, {tag}, {name}, {id}, {server}, {memberCount}")
-                        .setMinLength(1)
-                        .setRequired(true)
-                        .setStyle(TextInputStyle.Paragraph)
-                        .setLabel("Kayıt Mesajı")
-                    const row = new ActionRowBuilder<TextInputBuilder>()
-                        .addComponents([TextInput])
-                    const modal = new ModalBuilder()
-                        .addComponents([row])
-                        .setTitle("Kayıt Mesajı")
-                        .setCustomId("registerMessage")
-                        .toJSON()
-                    const button = new ButtonBuilder()
-                        .setCustomId("registerMessage")
-                        .setLabel("Kayıt Mesajı")
-                        .setStyle(ButtonStyle.Primary)
-                    const row2 = new ActionRowBuilder<ButtonBuilder>()
-                        .addComponents([button])
-                    await collector.reply({content: "Kayıt mesajı ayarlamak için aşağıdaki butona tıklayınız.", components: [row2], ephemeral: true})
+                    const modal = client.handleLanguages("REGISTER_MESSAGE_MODAL", client, interaction.guildId!)
+
+                    await collector.reply(client.handleLanguages("REGISTER_MESSAGE_SETUP", client, interaction.guildId!))
                     const msg = await collector.fetchReply() as Message
                     const buttonFilter = (i: MessageComponentInteraction) => (i.customId === "registerMessage") && (i.user.id === interaction.user.id);
                     try {
@@ -221,14 +191,14 @@ async function registerMessage(interaction: SelectMenuInteraction, client: Khaxy
                                     }
                                 }
                                 await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                                await collector.reply({content: "Kayıt mesajı ayarlandı.", ephemeral: true})
+                                await collector.reply({content: client.handleLanguages("REGISTER_MESSAGE_SUCCESS", client, interaction.guildId!), ephemeral: true})
                             } catch (e) {
-                                await collector.reply({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
+                                await collector.reply({content: client.handleLanguages("REGISTER_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!), ephemeral: true})
                                 console.log(e)
                             }
                         }
                     } catch (e) {
-                        await interaction.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
+                        await interaction.followUp({content: client.handleLanguages("REGISTER_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!), ephemeral: true})
                         console.log(e)
                     }
                 } else if(collector.customId === "registerMessageDelete") {
@@ -238,35 +208,17 @@ async function registerMessage(interaction: SelectMenuInteraction, client: Khaxy
                         }
                     }
                     await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                    await collector.reply({content: "Yetkili rolü başarıyla silindi.", ephemeral: true})
+                    await collector.reply({content: client.handleLanguages("REGISTER_MESSAGE_DELETED", client, interaction.guildId!), ephemeral: true})
                 }
             }
         } catch (e) {
-            await interaction.reply({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
+            await interaction.reply({content: client.handleLanguages("REGISTER_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!), ephemeral: true})
             console.log(e)
         }
     } else {
-        const TextInput = new TextInputBuilder()
-            .setCustomId("registerMessage")
-            .setPlaceholder("Kullanılabilir değişkenler: {user}, {tag}, {name}, {id}, {server}, {memberCount}")
-            .setMinLength(1)
-            .setRequired(true)
-            .setStyle(TextInputStyle.Paragraph)
-            .setLabel("Kayıt Mesajı")
-        const row = new ActionRowBuilder<TextInputBuilder>()
-            .addComponents([TextInput])
-        const modal = new ModalBuilder()
-            .addComponents([row])
-            .setTitle("Kayıt Mesajı")
-            .setCustomId("registerMessage")
-            .toJSON()
-        const button = new ButtonBuilder()
-            .setCustomId("registerMessage")
-            .setLabel("Kayıt Mesajı")
-            .setStyle(ButtonStyle.Primary)
-        const row2 = new ActionRowBuilder<ButtonBuilder>()
-            .addComponents([button])
-        await interaction.reply({content: "Kayıt mesajı ayarlamak için aşağıdaki butona tıklayınız.", components: [row2], ephemeral: true})
+        const modal = client.handleLanguages("REGISTER_MESSAGE_MODAL", client, interaction.guildId!)
+
+        await interaction.reply(client.handleLanguages("REGISTER_MESSAGE_SETUP", client, interaction.guildId!))
         const msg = await interaction.fetchReply() as Message
         const buttonFilter = (i: MessageComponentInteraction) => (i.customId === "registerMessage") && (i.user.id === interaction.user.id);
         try {
@@ -283,14 +235,14 @@ async function registerMessage(interaction: SelectMenuInteraction, client: Khaxy
                         }
                     }
                     await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                    await collector.reply({content: "Kayıt mesajı ayarlandı.", ephemeral: true})
+                    await collector.reply({content: client.handleLanguages("REGISTER_MESSAGE_SUCCESS", client, interaction.guildId!), ephemeral: true})
                 } catch (e) {
-                    await collector.reply({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
+                    await collector.reply({content: client.handleLanguages("REGISTER_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!), ephemeral: true})
                     console.log(e)
                 }
             }
         } catch (e) {
-            await interaction.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
+            await interaction.followUp({content: client.handleLanguages("REGISTER_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!), ephemeral: true})
             console.log(e)
         }
     }
@@ -304,7 +256,7 @@ async function registerMessageClear(interaction: SelectMenuInteraction, client: 
             }
         }
         await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-        await interaction.reply({content: "Kayıt mesajı silme ayarı aktif edildi.", ephemeral: true})
+        await interaction.reply({content: client.handleLanguages("REGISTER_MESSAGE_DELETE_TRUE", client, interaction.guildId!), ephemeral: true})
     } else {
         const config = {
             $set: {
@@ -312,7 +264,7 @@ async function registerMessageClear(interaction: SelectMenuInteraction, client: 
             }
         }
         await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-        await interaction.reply({content: "Kayıt mesajı silme ayarı kapatıldı.", ephemeral: true})
+        await interaction.reply({content: client.handleLanguages("REGISTER_MESSAGE_DELETE_FALSE", client, interaction.guildId!), ephemeral: true})
     }
 }
 
@@ -324,7 +276,7 @@ async function registerChannelClear(interaction: SelectMenuInteraction, client: 
             }
         }
         await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-        await interaction.reply({content: "Kayıt kanalı mesajları silme ayarı aktif edildi.", ephemeral: true})
+        await interaction.reply({content: client.handleLanguages("REGISTER_CHANNEL_DELETE_TRUE", client, interaction.guildId!), ephemeral: true})
     } else {
         const config = {
             $set: {
@@ -332,7 +284,7 @@ async function registerChannelClear(interaction: SelectMenuInteraction, client: 
             }
         }
         await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-        await interaction.reply({content: "Kayıt kanalı mesajları silme ayarı kapatıldı.", ephemeral: true})
+        await interaction.reply({content: client.handleLanguages("REGISTER_CHANNEL_DELETE_TRUE", client, interaction.guildId!), ephemeral: true})
     }
 }
 

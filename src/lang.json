@@ -1,5 +1,8 @@
 {
-  "languages": ["turkish", "english"],
+  "languages": [
+    "turkish",
+    "english"
+  ],
   "translations": {
     "HAPPY_TO_USE": {
       "turkish": "Bu botu kullanmaktan memnun musunuz? /invite ile bu botu sunucunuza davet edebilirsiniz!",
@@ -1839,6 +1842,178 @@
     "STAFF_ROLES_ERROR_OR_EXPIRED": {
       "turkish": "Bir hata oluştu veya zaman aşımına uğradı.",
       "english": "An error occurred or the process has expired."
+    },
+    "REGISTER_MESSAGE_ALREADY_SETUP": {
+      "turkish": {
+        "content": "Kayıt kanalına atılacak mesaj zaten ayarlanmış. Değiştirmek mi yoksa silmek mi istersiniz?",
+        "ephemeral": true,
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 2,
+                "label": "✅| Değiştir",
+                "style": 3,
+                "custom_id": "registerMessageAccept"
+              },
+              {
+                "type": 2,
+                "label": "❌| İptal",
+                "style": 4,
+                "custom_id": "registerMessageReject"
+              },
+              {
+                "type": 2,
+                "label": "🗑️| Sil",
+                "style": 1,
+                "custom_id": "registerMessageDelete"
+              }
+            ]
+          }
+        ]
+      },
+      "english": {
+        "content": "The message to be sent to the registration channel is already set up. Would you like to change it or delete it?",
+        "ephemeral": true,
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 2,
+                "label": "✅| Change",
+                "style": 3,
+                "custom_id": "registerMessageAccept"
+              },
+              {
+                "type": 2,
+                "label": "❌| Cancel",
+                "style": 4,
+                "custom_id": "registerMessageReject"
+              },
+              {
+                "type": 2,
+                "label": "🗑️| Delete",
+                "style": 1,
+                "custom_id": "registerMessageDelete"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "REGISTER_MESSAGE_CANCEL": {
+      "turkish": "Kayıt mesajı ayarlama işlemi iptal edildi.",
+      "english": "The registration message setup process has been canceled."
+    },
+    "REGISTER_MESSAGE_MODAL": {
+      "turkish": {
+        "title": "Kayıt Mesajı",
+        "custom_id": "registerMessage",
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 4,
+                "custom_id": "registerMessage",
+                "label": "Kayıt Mesajı",
+                "style": 2,
+                "min_length": 1,
+                "max_length": 4000,
+                "placeholder": "Kullanılabilir değişkenler: {user}, {tag}, {name}, {id}, {server}, {memberCount}",
+                "required": true
+              }
+            ]
+          }
+        ]
+      },
+      "english": {
+        "title": "Registration Message",
+        "custom_id": "registerMessage",
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 4,
+                "custom_id": "registerMessage",
+                "label": "Registration Message",
+                "style": 2,
+                "min_length": 1,
+                "max_length": 4000,
+                "placeholder": "Available variables: {user}, {tag}, {name}, {id}, {server}, {memberCount}",
+                "required": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "REGISTER_MESSAGE_SETUP": {
+      "turkish": {
+        "content": "Kayıt mesajı ayarlamak için aşağıdaki butona tıklayınız.",
+        "ephemeral": true,
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 2,
+                "label": "Kayıt Mesajını Ayarla",
+                "style": 1,
+                "custom_id": "registerMessage"
+              }
+            ]
+          }
+        ]
+      },
+      "english": {
+        "content": "Click the button below to set the registration message.",
+        "ephemeral": true,
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 2,
+                "label": "Set Registration Message",
+                "style": 1,
+                "custom_id": "registerMessage"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "REGISTER_MESSAGE_SUCCESS": {
+      "turkish": "Kayıt mesajı başarıyla ayarlandı.",
+      "english": "The registration message has been successfully set."
+    },
+    "REGISTER_MESSAGE_ERROR_OR_EXPIRED": {
+      "turkish": "Bir hata oluştu veya zaman aşımına uğradı.",
+      "english": "An error occurred or the process has expired."
+    },
+    "REGISTER_MESSAGE_DELETED": {
+      "turkish": "Kayıt mesajı başarıyla silindi.",
+      "english": "The registration message has been successfully deleted."
+    },
+    "REGISTER_MESSAGE_DELETE_TRUE": {
+      "turkish": "Kayıt mesajı silme ayarı aktif edildi.",
+      "english": "The registration message deletion setting has been activated."
+    },
+    "REGISTER_MESSAGE_DELETE_FALSE": {
+      "turkish": "Kayıt mesajı silme ayarı deaktif edildi.",
+      "english": "The registration message deletion setting has been deactivated."
+    },
+    "REGISTER_CHANNEL_DELETE_TRUE": {
+      "turkish": "Kayıt kanalı mesajları silme ayarı aktif edildi.",
+      "english": "The registration channel message deletion setting has been activated."
+    },
+    "REGISTER_CHANNEL_DELETE_FALSE": {
+      "turkish": "Kayıt kanalı mesajları silme ayarı deaktif edildi.",
+      "english": "The registration channel message deletion setting has been deactivated."
     }
   }
 }
