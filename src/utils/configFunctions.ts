@@ -1,17 +1,13 @@
 // noinspection DuplicatedCode
 
 import {
-    ActionRowBuilder,
-    ButtonBuilder,
-    ButtonStyle,
-    ChannelType,
     ChatInputCommandInteraction,
     ComponentType,
     Message,
     MessageComponentInteraction,
     ModalSubmitInteraction,
     SelectMenuInteraction,
-    RoleSelectMenuBuilder, RoleSelectMenuInteraction, PermissionsBitField, TextChannel, Role
+    RoleSelectMenuInteraction, PermissionsBitField, TextChannel, Role, ChannelType
 } from "discord.js";
 import {KhaxyClient} from "../types";
 
@@ -611,7 +607,7 @@ async function goodbyeChannel(interaction: SelectMenuInteraction, client: KhaxyC
             const channel = interaction.guild!.channels.cache.get(data) as TextChannel
             const config = {
                 $set: {
-                    "config.goodbyeChannel": channel.id
+                    "config.leaveChannel": channel.id
                 }
             }
             await client.updateGuildConfig({guildId: interaction.guild!.id, config})
@@ -1070,396 +1066,170 @@ async function maleRole(interaction: SelectMenuInteraction, client: KhaxyClient)
 }
 
 async function femaleRole(interaction: SelectMenuInteraction, client: KhaxyClient) {
-    if (client.guildsConfig.get(interaction.guild!.id)!.config.femaleRole) {
-        const reject = new ButtonBuilder()
-            .setCustomId("femaleRoleReject")
-            .setLabel("❌| İptal")
-            .setStyle(ButtonStyle.Danger)
-        const accept = new ButtonBuilder()
-            .setCustomId("femaleRoleAccept")
-            .setLabel("✅| Değiştir")
-            .setStyle(ButtonStyle.Success)
-        const deleteButton = new ButtonBuilder()
-            .setCustomId("femaleRoleDelete")
-            .setLabel("🗑️| Sil")
-            .setStyle(ButtonStyle.Danger)
-        const row = new ActionRowBuilder<ButtonBuilder>()
-            .addComponents([reject, accept, deleteButton])
-        await interaction.reply({content: "Kız rolü ayarlı. Değiştirmek mi yoksa silmek mi istersiniz?", components: [row], ephemeral: true})
-        const msg = await interaction.fetchReply() as Message
-        const filter = (i: MessageComponentInteraction) => (i.customId === "femaleRoleReject" || i.customId === "femaleRoleAccept" || i.customId === "femaleRoleDelete") && (i.user.id === interaction.user.id);
-        try {
-            const collector = await msg.awaitMessageComponent({
-                filter,
-                componentType: ComponentType.Button,
-                time: 60000
+    const raw = client.handleLanguages("FEMALE_ROLE_PROMPT", client, interaction.guildId!)
+    raw.components[0].components[0].default_values.shift()
+    const femaleRole = client.guildsConfig.get(interaction.guild!.id)?.config.femaleRole
+    if(femaleRole){
+        raw.components[0].components[0].default_values.push({
+            "id": femaleRole,
+            "type": "role"
+        })
+    }
+    //@ts-ignore
+    await interaction.reply(raw)
+    const msg = await interaction.fetchReply() as Message
+    const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id
+    try {
+        const collector = await msg.awaitMessageComponent({
+            filter: filter,
+            componentType: ComponentType.RoleSelect,
+            time: 60000
+        })
+        if (collector) {
+            const data = collector.values[0]
+            const role = interaction.guild!.roles.cache.get(data) as Role
+            const config = {
+                $set: {
+                    "config.femaleRole": role.id
+                }
+            }
+            await client.updateGuildConfig({guildId: interaction.guild!.id, config})
+            await collector.reply({
+                content: client.handleLanguages("FEMALE_ROLE_SUCCESS", client, interaction.guildId!),
+                ephemeral: true
             })
-            if (collector.customId === "femaleRoleReject") {
-                await collector.reply({content: "İşlem iptal edildi.", ephemeral: true})
-            } else if (collector.customId === "femaleRoleAccept") {
-                const roleSelect = new RoleSelectMenuBuilder()
-                    .setCustomId("femaleRole")
-                    .setPlaceholder("Kadın rolünü seçiniz.")
-                    .setMinValues(1)
-                    .setMaxValues(1)
-                const row2 = new ActionRowBuilder<RoleSelectMenuBuilder>()
-                    .addComponents([roleSelect])
-                await collector.reply({content: "Kadın rolünü ayarlamak için aşağıdan uygun role tıklayınız.", components: [row2], ephemeral: true})
-                const msg = await collector.fetchReply() as Message
-                const buttonFilter = (i: RoleSelectMenuInteraction) => (i.customId === "femaleRole") && (i.user.id === interaction.user.id);
-                try {
-                    const collector = await msg.awaitMessageComponent({filter: buttonFilter, componentType: ComponentType.RoleSelect, time: 60000})
-                    if (collector) {
-                        const data = collector.values[0]
-                        const config = {
-                            $set: {
-                                "config.femaleRole": data
-                            }
-                        }
-                        await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                        await collector.reply({content: `Kadın rolü başarıyla ayarlandı`, ephemeral: true})
-                    }
-                } catch (e) {
-                    await interaction.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
-                    console.log(e)
-                }
-            } else if (collector.customId === "femaleRoleDelete") {
-                const config = {
-                    $set: {
-                        "config.femaleRole": null
-                    }
-                }
-                await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                await collector.reply({content: "Kız rolü silindi.", ephemeral: true})
-            }
-        } catch (e) {
-            await interaction.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
-            console.log(e)
         }
-    } else {
-        const roleSelect = new RoleSelectMenuBuilder()
-            .setCustomId("femaleRole")
-            .setPlaceholder("Kadın rolünü seçiniz.")
-            .setMinValues(1)
-            .setMaxValues(1)
-        const row2 = new ActionRowBuilder<RoleSelectMenuBuilder>()
-            .addComponents([roleSelect])
-        await interaction.reply({content: "Kadın rolünü ayarlamak için aşağıdan uygun role tıklayınız.", components: [row2], ephemeral: true})
-        const msg = await interaction.fetchReply() as Message
-        const buttonFilter = (i: RoleSelectMenuInteraction) => (i.customId === "femaleRole") && (i.user.id === interaction.user.id);
-        try {
-            const collector = await msg.awaitMessageComponent({filter: buttonFilter, componentType: ComponentType.RoleSelect, time: 60000})
-            if (collector) {
-                const data = collector.values[0]
-                const config = {
-                    $set: {
-                        "config.femaleRole": data
-                    }
-                }
-                await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                await collector.reply({content: `Kadın rolü başarıyla ayarlandı`, ephemeral: true})
-            }
-        } catch (e) {
-            await interaction.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
-            console.log(e)
-        }
+    } catch (error) {
+        await interaction.followUp({
+            content: client.handleLanguages("FEMALE_ROLE_ERROR_OR_EXPIRED", client, interaction.guildId!),
+            ephemeral: true
+        })
     }
 }
 
 async function muteRole(interaction: SelectMenuInteraction, client: KhaxyClient) {
-    if(client.guildsConfig.get(interaction.guild!.id)!.config.muteRole) {
-        const reject = new ButtonBuilder()
-            .setCustomId("muteRoleReject")
-            .setLabel("❌| İptal")
-            .setStyle(ButtonStyle.Danger)
-        const accept = new ButtonBuilder()
-            .setCustomId("muteRoleAccept")
-            .setLabel("✅| Değiştir")
-            .setStyle(ButtonStyle.Success)
-        const deleteButton = new ButtonBuilder()
-            .setCustomId("muteRoleDelete")
-            .setLabel("🗑️| Sil")
-            .setStyle(ButtonStyle.Danger)
-        const row = new ActionRowBuilder<ButtonBuilder>()
-            .addComponents([reject, accept, deleteButton])
-        await interaction.reply({content: "Susturma rolü zaten ayarlı. Değiştirmek mi silmek mi istersiniz?", components: [row], ephemeral: true})
-        const msg = await interaction.fetchReply() as Message
-        const filter = (i: MessageComponentInteraction) => (i.customId === "muteRoleReject" || i.customId === "muteRoleAccept" || i.customId === "muteRoleDelete") && (i.user.id === interaction.user.id);
-        try {
-            const collector = await msg.awaitMessageComponent({
-                filter,
-                componentType: ComponentType.Button,
-                time: 60000
+    const raw = client.handleLanguages("MUTE_ROLE_PROMPT", client, interaction.guildId!)
+    raw.components[0].components[0].default_values.shift()
+    const muteRole = client.guildsConfig.get(interaction.guild!.id)?.config.muteRole
+    if(muteRole){
+        raw.components[0].components[0].default_values.push({
+            "id": muteRole,
+            "type": "role"
+        })
+    }
+    //@ts-ignore
+    await interaction.reply(raw)
+    const msg = await interaction.fetchReply() as Message
+    const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id
+    try {
+        const collector = await msg.awaitMessageComponent({
+            filter: filter,
+            componentType: ComponentType.RoleSelect,
+            time: 60000
+        })
+        if (collector) {
+            const data = collector.values[0]
+            const role = interaction.guild!.roles.cache.get(data) as Role
+            const config = {
+                $set: {
+                    "config.muteRole": role.id
+                }
+            }
+            await client.updateGuildConfig({guildId: interaction.guild!.id, config})
+            await collector.reply({
+                content: client.handleLanguages("MUTE_ROLE_SUCCESS", client, interaction.guildId!),
+                ephemeral: true
             })
-            if (collector) {
-                if (collector.customId === "muteRoleReject") {
-                    await collector.reply({content: "İşlem iptal edildi.", ephemeral: true})
-                } else if (collector.customId === "muteRoleAccept") {
-                    const roleSelect = new RoleSelectMenuBuilder()
-                        .setCustomId("muteRole")
-                        .setPlaceholder("Mute rolünü seçiniz.")
-                        .setMinValues(1)
-                        .setMaxValues(1)
-                    const row2 = new ActionRowBuilder<RoleSelectMenuBuilder>()
-                        .addComponents([roleSelect])
-                    await collector.reply({content: "Mute rolünü ayarlamak için aşağıdan uygun role tıklayınız.", components: [row2], ephemeral: true})
-                    const msg = await collector.fetchReply() as Message
-                    const buttonFilter = (i: RoleSelectMenuInteraction) => (i.customId === "muteRole") && (i.user.id === interaction.user.id);
-                    try {
-                        const collector = await msg.awaitMessageComponent({filter: buttonFilter, componentType: ComponentType.RoleSelect, time: 60000})
-                        if (collector) {
-                            const data = collector.values[0]
-                            const config = {
-                                $set: {
-                                    "config.muteRole": data
-                                }
-                            }
-                            await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                            await collector.reply({content: `Mute rolü başarıyla ayarlandı`, ephemeral: true})
-                        }
-                    } catch (e) {
-                        await interaction.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
-                        console.log(e)
-                    }
-                } else if (collector.customId === "muteRoleDelete") {
-                    const config = {
-                        $set: {
-                            "config.muteRole": null
-                        }
-                    }
-                    await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                    await collector.reply({content: "Mute rolü silindi.", ephemeral: true})
-                }
-            }
-        } catch (e) {
-            await interaction.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
-            console.log(e)
         }
-    } else {
-        const roleSelect = new RoleSelectMenuBuilder()
-            .setCustomId("muteRole")
-            .setPlaceholder("Mute rolünü seçiniz.")
-            .setMinValues(1)
-            .setMaxValues(1)
-        const row2 = new ActionRowBuilder<RoleSelectMenuBuilder>()
-            .addComponents([roleSelect])
-        await interaction.reply({content: "Mute rolünü ayarlamak için aşağıdan uygun role tıklayınız.", components: [row2], ephemeral: true})
-        const msg = await interaction.fetchReply() as Message
-        const buttonFilter = (i: RoleSelectMenuInteraction) => (i.customId === "muteRole") && (i.user.id === interaction.user.id);
-        try {
-            const collector = await msg.awaitMessageComponent({filter: buttonFilter, componentType: ComponentType.RoleSelect, time: 60000})
-            if (collector) {
-                const data = collector.values[0]
-                const config = {
-                    $set: {
-                        "config.muteRole": data
-                    }
-                }
-                await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                await collector.reply({content: `Mute rolü başarıyla ayarlandı`, ephemeral: true})
-            }
-        } catch (e) {
-            await interaction.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
-            console.log(e)
-        }
+    } catch (error) {
+        await interaction.followUp({
+            content: client.handleLanguages("MUTE_ROLE_ERROR_OR_EXPIRED", client, interaction.guildId!),
+            ephemeral: true
+        })
     }
 }
 
 async function djRole(interaction: SelectMenuInteraction, client: KhaxyClient) {
-    if(client.guildsConfig.get(interaction.guild!.id)!.config.djRole) {
-        const reject = new ButtonBuilder()
-            .setCustomId("djRoleReject")
-            .setLabel("❌| İptal")
-            .setStyle(ButtonStyle.Danger)
-        const accept = new ButtonBuilder()
-            .setCustomId("djRoleAccept")
-            .setLabel("✅| Değiştir")
-            .setStyle(ButtonStyle.Success)
-        const deleteButton = new ButtonBuilder()
-            .setCustomId("djRoleDelete")
-            .setLabel("🗑️| Sil")
-            .setStyle(ButtonStyle.Danger)
-        const row = new ActionRowBuilder<ButtonBuilder>()
-            .addComponents([reject, accept, deleteButton])
-        await interaction.reply({content: "DJ rolü zaten ayarlı. Değiştirmek mi silmek mi istersiniz?", components: [row], ephemeral: true})
-        const msg = await interaction.fetchReply() as Message
-        const filter = (i: MessageComponentInteraction) => (i.customId === "djRoleReject" || i.customId === "djRoleAccept" || i.customId === "djRoleDelete") && (i.user.id === interaction.user.id);
-        try {
-            const collector = await msg.awaitMessageComponent({
-                filter,
-                componentType: ComponentType.Button,
-                time: 60000
+    const raw = client.handleLanguages("DJ_ROLE_PROMPT", client, interaction.guildId!)
+    raw.components[0].components[0].default_values.shift()
+    const djRole = client.guildsConfig.get(interaction.guild!.id)?.config.djRole
+    if(djRole){
+        raw.components[0].components[0].default_values.push({
+            "id": djRole,
+            "type": "role"
+        })
+    }
+    //@ts-ignore
+    await interaction.reply(raw)
+    const msg = await interaction.fetchReply() as Message
+    const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id
+    try {
+        const collector = await msg.awaitMessageComponent({
+            filter: filter,
+            componentType: ComponentType.RoleSelect,
+            time: 60000
+        })
+        if (collector) {
+            const data = collector.values[0]
+            const role = interaction.guild!.roles.cache.get(data) as Role
+            const config = {
+                $set: {
+                    "config.djRole": role.id
+                }
+            }
+            await client.updateGuildConfig({guildId: interaction.guild!.id, config})
+            await collector.reply({
+                content: client.handleLanguages("DJ_ROLE_SUCCESS", client, interaction.guildId!),
+                ephemeral: true
             })
-            if (collector) {
-                if (collector.customId === "djRoleReject") {
-                    await collector.reply({content: "İşlem iptal edildi.", ephemeral: true})
-                } else if (collector.customId === "djRoleAccept") {
-                    const roleSelect = new RoleSelectMenuBuilder()
-                        .setCustomId("djRole")
-                        .setPlaceholder("DJ rolünü seçiniz.")
-                        .setMinValues(1)
-                        .setMaxValues(1)
-                    const row2 = new ActionRowBuilder<RoleSelectMenuBuilder>()
-                        .addComponents([roleSelect])
-                    await collector.reply({content: "DJ rolünü ayarlamak için aşağıdan uygun role tıklayınız.", components: [row2], ephemeral: true})
-                    const msg = await collector.fetchReply() as Message
-                    const buttonFilter = (i: RoleSelectMenuInteraction) => (i.customId === "djRole") && (i.user.id === interaction.user.id);
-                    try {
-                        const collector = await msg.awaitMessageComponent({filter: buttonFilter, componentType: ComponentType.RoleSelect, time: 60000})
-                        if (collector) {
-                            const data = collector.values[0]
-                            const config = {
-                                $set: {
-                                    "config.djRole": data
-                                }
-                            }
-                            await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                            await collector.reply({content: `DJ rolü başarıyla ayarlandı`, ephemeral: true})
-                        }
-                    } catch (e) {
-                        await interaction.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
-                        console.log(e)
-                    }
-                } else if (collector.customId === "djRoleDelete") {
-                    const config = {
-                        $set: {
-                            "config.djRole": null
-                        }
-                    }
-                    await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                    await collector.reply({content: "DJ rolü silindi.", ephemeral: true})
-                }
-            }
-        } catch (e) {
-            await interaction.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
-            console.log(e)
         }
-    } else {
-        const roleSelect = new RoleSelectMenuBuilder()
-            .setCustomId("djRole")
-            .setPlaceholder("DJ rolünü seçiniz.")
-            .setMinValues(1)
-            .setMaxValues(1)
-        const row2 = new ActionRowBuilder<RoleSelectMenuBuilder>()
-            .addComponents([roleSelect])
-        await interaction.reply({content: "DJ rolünü ayarlamak için aşağıdan uygun role tıklayınız.", components: [row2], ephemeral: true})
-        const msg = await interaction.fetchReply() as Message
-        const buttonFilter = (i: RoleSelectMenuInteraction) => (i.customId === "djRole") && (i.user.id === interaction.user.id);
-        try {
-            const collector = await msg.awaitMessageComponent({filter: buttonFilter, componentType: ComponentType.RoleSelect, time: 60000})
-            if (collector) {
-                const data = collector.values[0]
-                const config = {
-                    $set: {
-                        "config.djRole": data
-                    }
-                }
-                await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                await collector.reply({content: `DJ rolü başarıyla ayarlandı`, ephemeral: true})
-            }
-        } catch (e) {
-            await interaction.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
-            console.log(e)
-        }
+    } catch (error) {
+        await interaction.followUp({
+            content: client.handleLanguages("DJ_ROLE_ERROR_OR_EXPIRED", client, interaction.guildId!),
+            ephemeral: true
+        })
     }
 }
 
 async function dayColorRole(interaction: SelectMenuInteraction, client: KhaxyClient) {
-    if(client.guildsConfig.get(interaction.guild!.id)!.config.roleOfTheDay) {
-        const reject = new ButtonBuilder()
-            .setCustomId("dayColorRoleReject")
-            .setLabel("❌| İptal")
-            .setStyle(ButtonStyle.Danger)
-        const accept = new ButtonBuilder()
-            .setCustomId("dayColorRoleAccept")
-            .setLabel("✅| Değiştir")
-            .setStyle(ButtonStyle.Success)
-        const deleteButton = new ButtonBuilder()
-            .setCustomId("dayColorRoleDelete")
-            .setLabel("🗑️| Sil")
-            .setStyle(ButtonStyle.Danger)
-        const row = new ActionRowBuilder<ButtonBuilder>()
-            .addComponents([reject, accept, deleteButton])
-        await interaction.reply({content: "Günün rengi rolü zaten ayarlı. Değiştirmek mi silmek mi istersiniz?", components: [row], ephemeral: true})
-        const msg = await interaction.fetchReply() as Message
-        const filter = (i: MessageComponentInteraction) => (i.customId === "dayColorRoleReject" || i.customId === "dayColorRoleAccept" || i.customId === "dayColorRoleDelete") && (i.user.id === interaction.user.id);
-        try {
-            const collector = await msg.awaitMessageComponent({
-                filter,
-                componentType: ComponentType.Button,
-                time: 60000
+    const raw = client.handleLanguages("COLOUR_OF_THE_DAY_ROLE_PROMPT", client, interaction.guildId!)
+    raw.components[0].components[0].default_values.shift()
+    const dayColorRole = client.guildsConfig.get(interaction.guild!.id)?.config.roleOfTheDay
+    if(dayColorRole){
+        raw.components[0].components[0].default_values.push({
+            "id": dayColorRole,
+            "type": "role"
+        })
+    }
+    //@ts-ignore
+    await interaction.reply(raw)
+    const msg = await interaction.fetchReply() as Message
+    const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id
+    try {
+        const collector = await msg.awaitMessageComponent({
+            filter: filter,
+            componentType: ComponentType.RoleSelect,
+            time: 60000
+        })
+        if (collector) {
+            const data = collector.values[0]
+            const role = interaction.guild!.roles.cache.get(data) as Role
+            const config = {
+                $set: {
+                    "config.roleOfTheDay": role.id
+                }
+            }
+            await client.updateGuildConfig({guildId: interaction.guild!.id, config})
+            await collector.reply({
+                content: client.handleLanguages("COLOUR_OF_THE_DAY_ROLE_SUCCESS", client, interaction.guildId!),
+                ephemeral: true
             })
-            if (collector) {
-                if (collector.customId === "dayColorRoleReject") {
-                    await collector.reply({content: "İşlem iptal edildi.", ephemeral: true})
-                } else if (collector.customId === "dayColorRoleAccept") {
-                    const roleSelect = new RoleSelectMenuBuilder()
-                        .setCustomId("roleOfTheDay")
-                        .setPlaceholder("Günün Rengi rolünü seçiniz.")
-                        .setMinValues(1)
-                        .setMaxValues(1)
-                    const row2 = new ActionRowBuilder<RoleSelectMenuBuilder>()
-                        .addComponents([roleSelect])
-                    await collector.reply({content: "Günün Rengi rolünü ayarlamak için aşağıdan uygun role tıklayınız.", components: [row2], ephemeral: true})
-                    const msg = await collector.fetchReply() as Message
-                    const buttonFilter = (i: RoleSelectMenuInteraction) => (i.customId === "roleOfTheDay") && (i.user.id === interaction.user.id);
-                    try {
-                        const collector = await msg.awaitMessageComponent({filter: buttonFilter, componentType: ComponentType.RoleSelect, time: 60000})
-                        if (collector) {
-                            const data = collector.values[0]
-                            const config = {
-                                $set: {
-                                    "config.roleOfTheDay": data
-                                }
-                            }
-                            await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                            await collector.reply({content: `Günün Rengi rolü başarıyla ayarlandı`, ephemeral: true})
-                        }
-                    } catch (e) {
-                        await interaction.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
-                        console.log(e)
-                    }
-                } else if (collector.customId === "dayColorRoleDelete") {
-                    const config = {
-                        $set: {
-                            "config.roleOfTheDay": null
-                        }
-                    }
-                    await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                    await collector.reply({content: "Günün rengi rolü silindi.", ephemeral: true})
-                }
-            }
-        } catch (e) {
-            await interaction.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
-            console.log(e)
         }
-    } else {
-        const roleSelect = new RoleSelectMenuBuilder()
-            .setCustomId("roleOfTheDay")
-            .setPlaceholder("Günün Rengi rolünü seçiniz.")
-            .setMinValues(1)
-            .setMaxValues(1)
-        const row2 = new ActionRowBuilder<RoleSelectMenuBuilder>()
-            .addComponents([roleSelect])
-        await interaction.reply({content: "Günün Rengi rolünü ayarlamak için aşağıdan uygun role tıklayınız.", components: [row2], ephemeral: true})
-        const msg = await interaction.fetchReply() as Message
-        const buttonFilter = (i: RoleSelectMenuInteraction) => (i.customId === "roleOfTheDay") && (i.user.id === interaction.user.id);
-        try {
-            const collector = await msg.awaitMessageComponent({filter: buttonFilter, componentType: ComponentType.RoleSelect, time: 60000})
-            if (collector) {
-                const data = collector.values[0]
-                const config = {
-                    $set: {
-                        "config.roleOfTheDay": data
-                    }
-                }
-                await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                await collector.reply({content: `Günün Rengi rolü başarıyla ayarlandı`, ephemeral: true})
-            }
-        } catch (e) {
-            await interaction.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
-            console.log(e)
-        }
+    } catch (error) {
+        await interaction.followUp({
+            content: client.handleLanguages("COLOUR_OF_THE_DAY_ROLE_ERROR_OR_EXPIRED", client, interaction.guildId!),
+            ephemeral: true
+        })
     }
 }
 export {registerConfig, welcomeConfig, moderationConfig, roleConfig}
