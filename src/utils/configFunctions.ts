@@ -9,15 +9,9 @@ import {
     ComponentType,
     Message,
     MessageComponentInteraction,
-    ModalBuilder,
     ModalSubmitInteraction,
-    SelectMenuBuilder,
     SelectMenuInteraction,
-    StringSelectMenuBuilder,
-    TextInputBuilder,
-    TextInputStyle,
-    ChannelSelectMenuBuilder,
-    RoleSelectMenuBuilder, RoleSelectMenuInteraction, PermissionsBitField, TextChannel
+    RoleSelectMenuBuilder, RoleSelectMenuInteraction, PermissionsBitField, TextChannel, Role
 } from "discord.js";
 import {KhaxyClient} from "../types";
 
@@ -27,8 +21,12 @@ async function registerConfig(interaction: ChatInputCommandInteraction, client: 
     const selectMsg = await interaction.fetchReply() as Message
     const selectFilter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id
     try {
-        const selectCollector = await selectMsg.awaitMessageComponent({filter: selectFilter, componentType: ComponentType.SelectMenu,time: 60000})
-        if(selectCollector.customId === "registerConfig") {
+        const selectCollector = await selectMsg.awaitMessageComponent({
+            filter: selectFilter,
+            componentType: ComponentType.SelectMenu,
+            time: 60000
+        })
+        if (selectCollector.customId === "registerConfig") {
             switch (selectCollector.values[0]) {
                 case "registerChannel":
                     await registerChannel(selectCollector, client)
@@ -48,57 +46,84 @@ async function registerConfig(interaction: ChatInputCommandInteraction, client: 
             }
         }
     } catch (error) {
-        await interaction.followUp({content: client.handleLanguages("REGISTER_CONFIG_EXPIRED", client, interaction.guildId!), ephemeral: true})
+        await interaction.followUp({
+            content: client.handleLanguages("REGISTER_CONFIG_EXPIRED", client, interaction.guildId!),
+            ephemeral: true
+        })
         console.log(error)
     }
 }
 
 async function registerChannel(interaction: SelectMenuInteraction, client: KhaxyClient) {
-    if(client.guildsConfig.get(interaction.guild!.id)?.config.registerChannel) {
+    if (client.guildsConfig.get(interaction.guild!.id)?.config.registerChannel) {
         const raw = client.handleLanguages("REGISTER_CHANNEL_ALREADY_SETUP", client, interaction.guildId!)
         await interaction.reply(raw)
         const msg = await interaction.fetchReply() as Message
         const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id
         try {
-            const collector = await msg.awaitMessageComponent({filter: filter, componentType: ComponentType.Button, time: 60000})
-            if(collector.customId === "registerChannelReject") {
-                await collector.reply({content: client.handleLanguages("REGISTER_CHANNEL_CANCEL", client, interaction.guildId!), ephemeral: true})
-            } else if(collector.customId === "registerChannelAccept") {
+            const collector = await msg.awaitMessageComponent({
+                filter: filter,
+                componentType: ComponentType.Button,
+                time: 60000
+            })
+            if (collector.customId === "registerChannelReject") {
+                await collector.reply({
+                    content: client.handleLanguages("REGISTER_CHANNEL_CANCEL", client, interaction.guildId!),
+                    ephemeral: true
+                })
+            } else if (collector.customId === "registerChannelAccept") {
                 const channelSelect = client.handleLanguages("REGISTER_CHANNEL_ACCEPT", client, interaction.guildId!)
                 await collector.reply(channelSelect)
                 const msg = await collector.fetchReply() as Message
                 const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id
                 try {
-                    const collector = await msg.awaitMessageComponent({filter: filter, componentType: ComponentType.ChannelSelect, time: 60000})
-                    if(collector) {
+                    const collector = await msg.awaitMessageComponent({
+                        filter: filter,
+                        componentType: ComponentType.ChannelSelect,
+                        time: 60000
+                    })
+                    if (collector) {
 
-                            const data = collector.values[0]
-                            const channel = interaction.guild!.channels.cache.get(data) as TextChannel
+                        const data = collector.values[0]
+                        const channel = interaction.guild!.channels.cache.get(data) as TextChannel
 
-                            const config = {
-                                $set: {
-                                    "config.registerChannel": channel.id
-                                }
+                        const config = {
+                            $set: {
+                                "config.registerChannel": channel.id
                             }
-                            await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                            await collector.reply({content: client.handleLanguages("REGISTER_CHANNEL_ACCEPT_SUCCESS", client, interaction.guildId!), ephemeral: true})
+                        }
+                        await client.updateGuildConfig({guildId: interaction.guild!.id, config})
+                        await collector.reply({
+                            content: client.handleLanguages("REGISTER_CHANNEL_ACCEPT_SUCCESS", client, interaction.guildId!),
+                            ephemeral: true
+                        })
                     }
                 } catch (error) {
                     console.log(error)
-                    await interaction.followUp({content: client.handleLanguages("REGISTER_CHANNEL_ERROR_OR_EXPIRED", client, interaction.guildId!), ephemeral: true})
+                    await interaction.followUp({
+                        content: client.handleLanguages("REGISTER_CHANNEL_ERROR_OR_EXPIRED", client, interaction.guildId!),
+                        ephemeral: true
+                    })
                 }
-            } else if(collector.customId === "registerChannelDelete") {
+            } else if (collector.customId === "registerChannelDelete") {
                 const config = {
                     $set: {
                         "config.registerChannel": null
                     }
                 }
                 await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                await collector.reply({content: client.handleLanguages("REGISTER_CHANNEL_DELETED", client, interaction.guildId!), components: [], ephemeral: true})
+                await collector.reply({
+                    content: client.handleLanguages("REGISTER_CHANNEL_DELETED", client, interaction.guildId!),
+                    components: [],
+                    ephemeral: true
+                })
             }
         } catch (error) {
             console.log(error)
-            await interaction.followUp({content: client.handleLanguages("REGISTER_CHANNEL_ERROR_OR_EXPIRED", client, interaction.guildId!), ephemeral: true})
+            await interaction.followUp({
+                content: client.handleLanguages("REGISTER_CHANNEL_ERROR_OR_EXPIRED", client, interaction.guildId!),
+                ephemeral: true
+            })
         }
     } else {
         const channelSelect = client.handleLanguages("REGISTER_CHANNEL_ACCEPT", client, interaction.guildId!)
@@ -106,8 +131,12 @@ async function registerChannel(interaction: SelectMenuInteraction, client: Khaxy
         const msg = await interaction.fetchReply() as Message
         const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id
         try {
-            const collector = await msg.awaitMessageComponent({filter: filter, componentType: ComponentType.ChannelSelect, time: 60000})
-            if(collector) {
+            const collector = await msg.awaitMessageComponent({
+                filter: filter,
+                componentType: ComponentType.ChannelSelect,
+                time: 60000
+            })
+            if (collector) {
 
                 const data = collector.values[0]
                 const channel = interaction.guild!.channels.cache.get(data) as TextChannel
@@ -118,11 +147,17 @@ async function registerChannel(interaction: SelectMenuInteraction, client: Khaxy
                     }
                 }
                 await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                await collector.reply({content: client.handleLanguages("REGISTER_CHANNEL_ACCEPT_SUCCESS", client, interaction.guildId!), ephemeral: true})
+                await collector.reply({
+                    content: client.handleLanguages("REGISTER_CHANNEL_ACCEPT_SUCCESS", client, interaction.guildId!),
+                    ephemeral: true
+                })
             }
         } catch (error) {
             console.log(error)
-            await interaction.followUp({content: client.handleLanguages("REGISTER_CHANNEL_ERROR_OR_EXPIRED", client, interaction.guildId!), ephemeral: true})
+            await interaction.followUp({
+                content: client.handleLanguages("REGISTER_CHANNEL_ERROR_OR_EXPIRED", client, interaction.guildId!),
+                ephemeral: true
+            })
         }
     }
 }
@@ -143,7 +178,11 @@ async function staffRole(interaction: SelectMenuInteraction, client: KhaxyClient
     const msg = await interaction.fetchReply()
     const filter = (i: RoleSelectMenuInteraction) => i.user.id === interaction.user.id
     try {
-        const collector = await msg.awaitMessageComponent({filter: filter, componentType: ComponentType.RoleSelect, time: 60000})
+        const collector = await msg.awaitMessageComponent({
+            filter: filter,
+            componentType: ComponentType.RoleSelect,
+            time: 60000
+        })
         if (collector) {
             const roles = collector.values
             const config = {
@@ -152,33 +191,51 @@ async function staffRole(interaction: SelectMenuInteraction, client: KhaxyClient
                 }
             }
             await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-            await collector.reply({content: client.handleLanguages("STAFF_ROLES_SUCCESS", client, interaction.guildId!), ephemeral: true})
+            await collector.reply({
+                content: client.handleLanguages("STAFF_ROLES_SUCCESS", client, interaction.guildId!),
+                ephemeral: true
+            })
         }
     } catch (error) {
-        await interaction.followUp({content: client.handleLanguages("STAFF_ROLES_ERROR_OR_EXPIRED", client, interaction.guildId!), ephemeral: true})
-        console.log(error)
+        await interaction.followUp({
+            content: client.handleLanguages("STAFF_ROLES_ERROR_OR_EXPIRED", client, interaction.guildId!),
+            ephemeral: true
+        })
+        console.error(error)
     }
 }
 
 async function registerMessage(interaction: SelectMenuInteraction, client: KhaxyClient) {
-    if(client.guildsConfig.get(interaction.guild!.id)?.config.registerMessage) {
+    if (client.guildsConfig.get(interaction.guild!.id)?.config.registerMessage) {
         const raw = client.handleLanguages("REGISTER_MESSAGE_ALREADY_SETUP", client, interaction.guildId!)
         await interaction.reply(raw)
         const msg = await interaction.fetchReply() as Message
         const buttonFilter = (i: MessageComponentInteraction) => (i.customId === "staffRoleReject" || i.customId === "staffRoleAccept" || i.customId === "staffRoleDelete") && (i.user.id === interaction.user.id);
         try {
-            const collector = await msg.awaitMessageComponent({filter: buttonFilter, componentType: ComponentType.Button, time: 60000})
+            const collector = await msg.awaitMessageComponent({
+                filter: buttonFilter,
+                componentType: ComponentType.Button,
+                time: 60000
+            })
             if (collector) {
-                if(collector.customId === "registerMessageReject") {
-                    await collector.reply({content: client.handleLanguages("REGISTER_MESSAGE_CANCEL", client, interaction.guildId!), components: [], ephemeral: true})
-                } else if(collector.customId === "registerMessageRoleAccept") {
+                if (collector.customId === "registerMessageReject") {
+                    await collector.reply({
+                        content: client.handleLanguages("REGISTER_MESSAGE_CANCEL", client, interaction.guildId!),
+                        components: [],
+                        ephemeral: true
+                    })
+                } else if (collector.customId === "registerMessageRoleAccept") {
                     const modal = client.handleLanguages("REGISTER_MESSAGE_MODAL", client, interaction.guildId!)
 
                     await collector.reply(client.handleLanguages("REGISTER_MESSAGE_SETUP", client, interaction.guildId!))
                     const msg = await collector.fetchReply() as Message
                     const buttonFilter = (i: MessageComponentInteraction) => (i.customId === "registerMessage") && (i.user.id === interaction.user.id);
                     try {
-                        const collector = await msg.awaitMessageComponent({filter: buttonFilter, componentType: ComponentType.Button, time: 60000})
+                        const collector = await msg.awaitMessageComponent({
+                            filter: buttonFilter,
+                            componentType: ComponentType.Button,
+                            time: 60000
+                        })
                         if (collector) {
                             await collector.showModal(modal)
                             const filter = (i: ModalSubmitInteraction) => i.customId === "registerMessage" && i.user.id === interaction.user.id
@@ -191,28 +248,43 @@ async function registerMessage(interaction: SelectMenuInteraction, client: Khaxy
                                     }
                                 }
                                 await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                                await collector.reply({content: client.handleLanguages("REGISTER_MESSAGE_SUCCESS", client, interaction.guildId!), ephemeral: true})
+                                await collector.reply({
+                                    content: client.handleLanguages("REGISTER_MESSAGE_SUCCESS", client, interaction.guildId!),
+                                    ephemeral: true
+                                })
                             } catch (e) {
-                                await collector.reply({content: client.handleLanguages("REGISTER_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!), ephemeral: true})
+                                await collector.reply({
+                                    content: client.handleLanguages("REGISTER_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!),
+                                    ephemeral: true
+                                })
                                 console.log(e)
                             }
                         }
                     } catch (e) {
-                        await interaction.followUp({content: client.handleLanguages("REGISTER_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!), ephemeral: true})
+                        await interaction.followUp({
+                            content: client.handleLanguages("REGISTER_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!),
+                            ephemeral: true
+                        })
                         console.log(e)
                     }
-                } else if(collector.customId === "registerMessageDelete") {
+                } else if (collector.customId === "registerMessageDelete") {
                     const config = {
                         $set: {
                             "config.registerMessage": null
                         }
                     }
                     await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                    await collector.reply({content: client.handleLanguages("REGISTER_MESSAGE_DELETED", client, interaction.guildId!), ephemeral: true})
+                    await collector.reply({
+                        content: client.handleLanguages("REGISTER_MESSAGE_DELETED", client, interaction.guildId!),
+                        ephemeral: true
+                    })
                 }
             }
         } catch (e) {
-            await interaction.reply({content: client.handleLanguages("REGISTER_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!), ephemeral: true})
+            await interaction.reply({
+                content: client.handleLanguages("REGISTER_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!),
+                ephemeral: true
+            })
             console.log(e)
         }
     } else {
@@ -222,7 +294,11 @@ async function registerMessage(interaction: SelectMenuInteraction, client: Khaxy
         const msg = await interaction.fetchReply() as Message
         const buttonFilter = (i: MessageComponentInteraction) => (i.customId === "registerMessage") && (i.user.id === interaction.user.id);
         try {
-            const collector = await msg.awaitMessageComponent({filter: buttonFilter, componentType: ComponentType.Button, time: 60000})
+            const collector = await msg.awaitMessageComponent({
+                filter: buttonFilter,
+                componentType: ComponentType.Button,
+                time: 60000
+            })
             if (collector) {
                 await collector.showModal(modal)
                 const filter = (i: ModalSubmitInteraction) => i.customId === "registerMessage" && i.user.id === interaction.user.id
@@ -235,28 +311,40 @@ async function registerMessage(interaction: SelectMenuInteraction, client: Khaxy
                         }
                     }
                     await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                    await collector.reply({content: client.handleLanguages("REGISTER_MESSAGE_SUCCESS", client, interaction.guildId!), ephemeral: true})
+                    await collector.reply({
+                        content: client.handleLanguages("REGISTER_MESSAGE_SUCCESS", client, interaction.guildId!),
+                        ephemeral: true
+                    })
                 } catch (e) {
-                    await collector.reply({content: client.handleLanguages("REGISTER_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!), ephemeral: true})
+                    await collector.reply({
+                        content: client.handleLanguages("REGISTER_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!),
+                        ephemeral: true
+                    })
                     console.log(e)
                 }
             }
         } catch (e) {
-            await interaction.followUp({content: client.handleLanguages("REGISTER_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!), ephemeral: true})
+            await interaction.followUp({
+                content: client.handleLanguages("REGISTER_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!),
+                ephemeral: true
+            })
             console.log(e)
         }
     }
 }
 
 async function registerMessageClear(interaction: SelectMenuInteraction, client: KhaxyClient) {
-    if(!client.guildsConfig.get(interaction.guild!.id)?.config.registerMessageClear) {
+    if (!client.guildsConfig.get(interaction.guild!.id)?.config.registerMessageClear) {
         const config = {
             $set: {
                 "config.registerMessageClear": true
             }
         }
         await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-        await interaction.reply({content: client.handleLanguages("REGISTER_MESSAGE_DELETE_TRUE", client, interaction.guildId!), ephemeral: true})
+        await interaction.reply({
+            content: client.handleLanguages("REGISTER_MESSAGE_DELETE_TRUE", client, interaction.guildId!),
+            ephemeral: true
+        })
     } else {
         const config = {
             $set: {
@@ -264,19 +352,25 @@ async function registerMessageClear(interaction: SelectMenuInteraction, client: 
             }
         }
         await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-        await interaction.reply({content: client.handleLanguages("REGISTER_MESSAGE_DELETE_FALSE", client, interaction.guildId!), ephemeral: true})
+        await interaction.reply({
+            content: client.handleLanguages("REGISTER_MESSAGE_DELETE_FALSE", client, interaction.guildId!),
+            ephemeral: true
+        })
     }
 }
 
 async function registerChannelClear(interaction: SelectMenuInteraction, client: KhaxyClient) {
-    if(!client.guildsConfig.get(interaction.guild!.id)?.config.registerChannelClear) {
+    if (!client.guildsConfig.get(interaction.guild!.id)?.config.registerChannelClear) {
         const config = {
             $set: {
                 "config.registerChannelClear": true
             }
         }
         await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-        await interaction.reply({content: client.handleLanguages("REGISTER_CHANNEL_DELETE_TRUE", client, interaction.guildId!), ephemeral: true})
+        await interaction.reply({
+            content: client.handleLanguages("REGISTER_CHANNEL_DELETE_TRUE", client, interaction.guildId!),
+            ephemeral: true
+        })
     } else {
         const config = {
             $set: {
@@ -284,52 +378,23 @@ async function registerChannelClear(interaction: SelectMenuInteraction, client: 
             }
         }
         await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-        await interaction.reply({content: client.handleLanguages("REGISTER_CHANNEL_DELETE_TRUE", client, interaction.guildId!), ephemeral: true})
+        await interaction.reply({
+            content: client.handleLanguages("REGISTER_CHANNEL_DELETE_TRUE", client, interaction.guildId!),
+            ephemeral: true
+        })
     }
 }
 
 async function welcomeConfig(interaction: ChatInputCommandInteraction, client: KhaxyClient) {
-    const select = new StringSelectMenuBuilder()
-        .setCustomId("welcomeConfig")
-        .setPlaceholder("Hoşgeldin ayarları")
-        .addOptions([
-            {
-                label: "Hoşgeldin kanalı",
-                value: "welcomeChannel",
-                description: "Hoşgeldin kanalı ayarlar.",
-                emoji: "👋"
-            },
-            {
-                label: "Hoşgeldin mesajı",
-                value: "welcomeMessage",
-                description: "Hoşgeldin mesajı ayarlar.",
-                emoji: "👋"
-            },
-            {
-                label: "Görüşürüz kanalı",
-                value: "goodbyeChannel",
-                description: "Görüşürüz kanalı ayarlar.",
-                emoji: "👋"
-            },
-            {
-                label: "Görüşürüz mesajı",
-                value: "goodbyeMessage",
-                description: "Görüşürüz mesajı ayarlar.",
-                emoji: "👋"
-            }, {
-                label: "Kayıt Kanalı",
-                value: "registerChannel",
-                description: "Kayıt kanalı ayarlar.",
-                emoji: "🔒"
-            }
-        ])
-    const row = new ActionRowBuilder<SelectMenuBuilder>()
-        .addComponents([select])
-    await interaction.reply({content: "Ayarlamak istediğiniz ayarı seçiniz.", components: [row], ephemeral: true})
+    await interaction.reply(client.handleLanguages("WELCOME_CONFIG_PROMPT", client, interaction.guildId!))
     const msg = await interaction.fetchReply() as Message
     const filter = (i: SelectMenuInteraction) => i.customId === "welcomeConfig" && i.user.id === interaction.user.id
     try {
-        const collector = await msg.awaitMessageComponent({filter, componentType: ComponentType.SelectMenu, time: 60000})
+        const collector = await msg.awaitMessageComponent({
+            filter,
+            componentType: ComponentType.SelectMenu,
+            time: 60000
+        })
         if (collector) {
             switch (collector.values[0]) {
                 case "welcomeChannel":
@@ -350,141 +415,60 @@ async function welcomeConfig(interaction: ChatInputCommandInteraction, client: K
             }
         }
     } catch (e) {
-        await interaction.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
+        await interaction.followUp({
+            content: client.handleLanguages("WELCOME_CONFIG_ERROR_OR_EXPIRED", client, interaction.guildId!),
+            ephemeral: true
+        })
         console.log(e)
     }
 }
 
 async function welcomeChannel(interaction: SelectMenuInteraction, client: KhaxyClient) {
-    if(client.guildsConfig.get(interaction.guild!.id)?.config.welcomeChannel) {
-        const reject = new ButtonBuilder()
-            .setCustomId("welcomeChannelReject")
-            .setLabel("❌| İptal")
-            .setStyle(ButtonStyle.Danger)
-        const accept = new ButtonBuilder()
-            .setCustomId("welcomeChannelAccept")
-            .setLabel("✅| Değiştir")
-            .setStyle(ButtonStyle.Success)
-        const deleteButton = new ButtonBuilder()
-            .setCustomId("welcomeChannelDelete")
-            .setLabel("🗑️| Sil")
-            .setStyle(ButtonStyle.Danger)
-        const row = new ActionRowBuilder<ButtonBuilder>()
-            .addComponents([reject, accept, deleteButton])
-        await interaction.reply({content: "Hoşgeldin kanalı zaten ayarlanmış. Değiştirmek mi yoksa silmek mi istersiniz?", components: [row], ephemeral: true})
-        const msg = await interaction.fetchReply() as Message
-        const filter = (i: MessageComponentInteraction) => (i.customId === "welcomeChannelReject" || i.customId === "welcomeChannelAccept" || i.customId === "welcomeChannelDelete") && i.user.id === interaction.user.id
-        try {
-            const collector = await msg.awaitMessageComponent({filter, componentType: ComponentType.Button, time: 60000})
-            if(collector.customId === "welcomeChannelReject") {
-                await collector.reply({content: "İşlem iptal edildi.", ephemeral: true})
-            } else if(collector.customId === "welcomeChannelAccept") {
-                const channelSelect = new ChannelSelectMenuBuilder()
-                    .setCustomId("welcomeChannel")
-                    .setPlaceholder("Kanal seçiniz.")
-                    .setDisabled(false)
-                    .setChannelTypes(ChannelType.GuildText)
-                const row2 = new ActionRowBuilder<ChannelSelectMenuBuilder>()
-                    .addComponents(channelSelect)
-                await collector.reply({content: "Yeni hoşgeldin kanalını aşağıdan ayarlayınız", components: [row2], ephemeral: true})
-                const msg = await collector.fetchReply() as Message
-                const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id
-                try {
-                    const collector = await msg.awaitMessageComponent({filter: filter, componentType: ComponentType.ChannelSelect, time: 60000})
-                    if(collector) {
-
-                        const data = collector.values[0]
-                        const channel = interaction.guild!.channels.cache.get(data)
-                        if (!channel) {
-                            await collector.reply({content: "Böyle bir kanal bulunamadı."})
-                            return
-                        }
-                        if(channel.type !== ChannelType.GuildText) {
-                            await collector.reply({content: "Lütfen bir metin kanalı giriniz."})
-                            return
-                        }
-                        const config = {
-                            $set: {
-                                "config.welcomeChannel": channel.id
-                            }
-                        }
-                        await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                        await collector.reply({content: "Hoşgeldin kanalı ayarlandı.", ephemeral: true})
-                    }
-                } catch (error) {
-                    console.log(error)
-                    await interaction.followUp({content: "İşlem iptal edildi çünkü bir hata ile karşılaşıldı", ephemeral: true})
+    const raw = client.handleLanguages("WELCOME_CHANNEL_PROMPT", client, interaction.guildId!)
+    raw.components[0].components[0].default_values.shift()
+    const welcomeChannel = client.guildsConfig.get(interaction.guild!.id)?.config.welcomeChannel
+    if (welcomeChannel) {
+        raw.components[0].components[0].default_values.push({
+            "id": welcomeChannel,
+            "type": "channel"
+        })
+    }
+    //@ts-ignore
+    await interaction.reply(raw)
+    const msg = await interaction.fetchReply() as Message
+    const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id
+    try {
+        const collector = await msg.awaitMessageComponent({
+            filter: filter,
+            componentType: ComponentType.ChannelSelect,
+            time: 60000
+        })
+        if (collector) {
+            const data = collector.values[0]
+            const channel = interaction.guild!.channels.cache.get(data) as TextChannel
+            const config = {
+                $set: {
+                    "config.welcomeChannel": channel.id
                 }
-            } else if(collector.customId === "welcomeChannelDelete") {
-                const config = {
-                    $unset: {
-                        "config.welcomeChannel": ""
-                    }
-                }
-                await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                await collector.reply({content: "Hoşgeldin kanalı silindi.", ephemeral: true})
             }
-        } catch (e) {
-            await interaction.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
-            console.log(e)
+            await client.updateGuildConfig({guildId: interaction.guild!.id, config})
+            await collector.reply({
+                content: client.handleLanguages("WELCOME_CHANNEL_SUCCESS", client, interaction.guildId!),
+                ephemeral: true
+            })
         }
-    } else {
-        const channelSelect = new ChannelSelectMenuBuilder()
-            .setCustomId("welcomeChannel")
-            .setPlaceholder("Kanal seçiniz.")
-            .setDisabled(false)
-            .setChannelTypes(ChannelType.GuildText)
-        const row2 = new ActionRowBuilder<ChannelSelectMenuBuilder>()
-            .addComponents(channelSelect)
-        await interaction.reply({content: "Yeni hoşgeldin kanalını aşağıdan ayarlayınız", components: [row2], ephemeral: true})
-        const msg = await interaction.fetchReply() as Message
-        const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id
-        try {
-            const collector = await msg.awaitMessageComponent({filter: filter, componentType: ComponentType.ChannelSelect, time: 60000})
-            if(collector) {
-
-                const data = collector.values[0]
-                const channel = interaction.guild!.channels.cache.get(data)
-                if (!channel) {
-                    await collector.reply({content: "Böyle bir kanal bulunamadı."})
-                    return
-                }
-                if(channel.type !== ChannelType.GuildText) {
-                    await collector.reply({content: "Lütfen bir metin kanalı giriniz."})
-                    return
-                }
-                const config = {
-                    $set: {
-                        "config.welcomeChannel": channel.id
-                    }
-                }
-                await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                await collector.reply({content: "Hoşgeldin kanalı ayarlandı.", ephemeral: true})
-            }
-        } catch (error) {
-            console.log(error)
-            await interaction.followUp({content: "İşlem iptal edildi çünkü bir hata ile karşılaşıldı", ephemeral: true})
-        }
+    } catch (error) {
+        await interaction.followUp({
+            content: client.handleLanguages("WELCOME_CHANNEL_ERROR_OR_EXPIRED", client, interaction.guildId!),
+            ephemeral: true
+        })
+        console.error(error)
     }
 }
 
 async function welcomeMessage(interaction: SelectMenuInteraction, client: KhaxyClient) {
-    if(client.guildsConfig.get(interaction.guild!.id)?.config.welcomeMessage) {
-        const reject = new ButtonBuilder()
-            .setCustomId("welcomeMessageReject")
-            .setLabel("❌| İptal")
-            .setStyle(ButtonStyle.Danger)
-        const accept = new ButtonBuilder()
-            .setCustomId("welcomeMessageAccept")
-            .setLabel("✅| Değiştir")
-            .setStyle(ButtonStyle.Success)
-        const deleteButton = new ButtonBuilder()
-            .setCustomId("welcomeMessageDelete")
-            .setLabel("🗑️| Sil")
-            .setStyle(ButtonStyle.Danger)
-        const row = new ActionRowBuilder<ButtonBuilder>()
-            .addComponents([reject, accept, deleteButton])
-        await interaction.reply({content: "Hoşgeldin mesajı zaten ayarlanmış. Değiştirmek mi yoksa silmek mi istersiniz?", components: [row], ephemeral: true})
+    if (client.guildsConfig.get(interaction.guild!.id)?.config.welcomeMessage) {
+        await interaction.reply(client.handleLanguages("WELCOME_MESSAGE_ALREADY_SETUP", client, interaction.guildId!))
         const msg = await interaction.fetchReply() as Message
         const buttonFilter = (i: MessageComponentInteraction) => (i.customId === "welcomeMessageReject" || i.customId === "welcomeMessageAccept" || i.customId === "welcomeMessageDelete") && (i.user.id === interaction.user.id);
         try {
@@ -494,33 +478,12 @@ async function welcomeMessage(interaction: SelectMenuInteraction, client: KhaxyC
                 time: 60000
             })
             if (collector.customId === "welcomeMessageReject") {
-                await collector.reply({content: "İşlem iptal edildi.", ephemeral: true})
-            } else if (collector.customId === "welcomeMessageAccept") {
-                const TextInput = new TextInputBuilder()
-                    .setCustomId("welcomeMessage")
-                    .setPlaceholder("Kullanılabilir değişkenler: {user}, {tag}, {name}, {id}, {server}, {memberCount}")
-                    .setMinLength(1)
-                    .setMaxLength(2000)
-                    .setRequired(true)
-                    .setLabel("Hoşgeldin mesajı")
-                    .setStyle(TextInputStyle.Paragraph)
-                const row = new ActionRowBuilder<TextInputBuilder>()
-                    .addComponents([TextInput])
-                const modal = new ModalBuilder()
-                    .setCustomId("welcomeMessage")
-                    .setTitle("Hoşgeldin mesajı ayarla")
-                    .addComponents([row])
-                const button = new ButtonBuilder()
-                    .setCustomId("welcomeMessage")
-                    .setLabel("Hoşgeldin mesajı ayarla")
-                    .setStyle(ButtonStyle.Primary)
-                const row2 = new ActionRowBuilder<ButtonBuilder>()
-                    .addComponents([button])
                 await collector.reply({
-                    content: "Hoşgeldin mesajı ayarlamak için aşağıdaki butona tıklayınız.",
-                    components: [row2],
+                    content: client.handleLanguages("WELCOME_MESSAGE_CANCEL", client, interaction.guildId!),
                     ephemeral: true
                 })
+            } else if (collector.customId === "welcomeMessageAccept") {
+                await collector.reply(client.handleLanguages("WELCOME_MESSAGE_SETUP", client, interaction.guildId!))
                 const msg = await collector.fetchReply() as Message
                 const buttonFilter = (i: MessageComponentInteraction) => (i.customId === "welcomeMessage") && (i.user.id === interaction.user.id);
                 try {
@@ -530,7 +493,7 @@ async function welcomeMessage(interaction: SelectMenuInteraction, client: KhaxyC
                         time: 60000
                     })
                     if (modalcollector) {
-                        await modalcollector.showModal(modal)
+                        await modalcollector.showModal(client.handleLanguages("WELCOME_MESSAGE_MODAL", client, interaction.guildId!))
                         const filter = (i: ModalSubmitInteraction) => i.customId === "welcomeMessage" && i.user.id === interaction.user.id
                         try {
                             const collector = await modalcollector.awaitModalSubmit({filter, time: 60000})
@@ -541,10 +504,13 @@ async function welcomeMessage(interaction: SelectMenuInteraction, client: KhaxyC
                                 }
                             }
                             await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                            await collector.reply({content: "Hoşgeldin mesajı ayarlandı.", ephemeral: true})
+                            await collector.reply({
+                                content: client.handleLanguages("WELCOME_MESSAGE_SUCCESS", client, interaction.guildId!),
+                                ephemeral: true
+                            })
                         } catch (e) {
                             await modalcollector.followUp({
-                                content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.",
+                                content: client.handleLanguages("WELCOME_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!),
                                 ephemeral: true
                             })
                             console.log(e)
@@ -552,7 +518,7 @@ async function welcomeMessage(interaction: SelectMenuInteraction, client: KhaxyC
                     }
                 } catch (e) {
                     await interaction.followUp({
-                        content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.",
+                        content: client.handleLanguages("WELCOME_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!),
                         ephemeral: true
                     })
                     console.log(e)
@@ -564,43 +530,33 @@ async function welcomeMessage(interaction: SelectMenuInteraction, client: KhaxyC
                     }
                 }
                 await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                await collector.reply({content: "Hoşgeldin mesajı silindi.", ephemeral: true})
+                await collector.reply({
+                    content: client.handleLanguages("WELCOME_MESSAGE_DELETED", client, interaction.guildId!),
+                    ephemeral: true
+                })
             }
         } catch (e) {
-            await interaction.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
+            await interaction.followUp({
+                content: client.handleLanguages("WELCOME_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!),
+                ephemeral: true
+            })
             console.log(e)
         }
     } else {
-        const TextInput = new TextInputBuilder()
-            .setCustomId("welcomeMessage")
-            .setPlaceholder("Kullanılabilir değişkenler: {user}, {tag}, {name}, {id}, {server}, {memberCount}")
-            .setMinLength(1)
-            .setMaxLength(2000)
-            .setRequired(true)
-            .setLabel("Hoşgeldin mesajı")
-            .setStyle(TextInputStyle.Paragraph)
-        const row = new ActionRowBuilder<TextInputBuilder>()
-            .addComponents([TextInput])
-        const modal = new ModalBuilder()
-            .setCustomId("welcomeMessage")
-            .setTitle("Hoşgeldin mesajı ayarla")
-            .addComponents([row])
-        const button = new ButtonBuilder()
-            .setCustomId("welcomeMessage")
-            .setLabel("Hoşgeldin mesajı ayarla")
-            .setStyle(ButtonStyle.Primary)
-        const row2 = new ActionRowBuilder<ButtonBuilder>()
-            .addComponents([button])
-        await interaction.reply({content: "Hoşgeldin mesajı ayarlamak için aşağıdaki butona tıklayınız.", components: [row2], ephemeral: true})
+        await interaction.reply(client.handleLanguages("WELCOME_MESSAGE_SETUP", client, interaction.guildId!))
         const msg = await interaction.fetchReply() as Message
         const buttonFilter = (i: MessageComponentInteraction) => (i.customId === "welcomeMessage") && (i.user.id === interaction.user.id);
         try {
-            const modalcollector = await msg.awaitMessageComponent({filter: buttonFilter, componentType: ComponentType.Button, time: 60000})
-            if (modalcollector) {
-                await modalcollector.showModal(modal)
+            const collector = await msg.awaitMessageComponent({
+                filter: buttonFilter,
+                componentType: ComponentType.Button,
+                time: 60000
+            })
+            if (collector) {
+                await collector.showModal(client.handleLanguages("WELCOME_MESSAGE_MODAL", client, interaction.guildId!))
                 const filter = (i: ModalSubmitInteraction) => i.customId === "welcomeMessage" && i.user.id === interaction.user.id
                 try {
-                    const collector = await modalcollector.awaitModalSubmit({filter, time: 60000})
+                    const collector = await interaction.awaitModalSubmit({filter, time: 60000})
                     const data = collector.fields.getTextInputValue("welcomeMessage")
                     const config = {
                         $set: {
@@ -608,187 +564,100 @@ async function welcomeMessage(interaction: SelectMenuInteraction, client: KhaxyC
                         }
                     }
                     await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                    await collector.reply({content: "Hoşgeldin mesajı ayarlandı.", ephemeral: true})
+                    await collector.reply({
+                        content: client.handleLanguages("WELCOME_MESSAGE_SUCCESS", client, interaction.guildId!),
+                        ephemeral: true
+                    })
                 } catch (e) {
-                    await modalcollector.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
+                    await collector.reply({
+                        content: client.handleLanguages("WELCOME_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!),
+                        ephemeral: true
+                    })
                     console.log(e)
                 }
             }
         } catch (e) {
-            await interaction.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
+            await interaction.followUp({
+                content: client.handleLanguages("WELCOME_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!),
+                ephemeral: true
+            })
             console.log(e)
         }
     }
 }
 
 async function goodbyeChannel(interaction: SelectMenuInteraction, client: KhaxyClient) {
-    if (client.guildsConfig.get(interaction.guild!.id)?.config.leaveChannel) {
-        const reject = new ButtonBuilder()
-            .setCustomId("goodByeChannelReject")
-            .setLabel("❌| İptal")
-            .setStyle(ButtonStyle.Danger)
-        const accept = new ButtonBuilder()
-            .setCustomId("goodByeChannelAccept")
-            .setLabel("✅| Değiştir")
-            .setStyle(ButtonStyle.Success)
-        const deleteButton = new ButtonBuilder()
-            .setCustomId("goodByeChannelDelete")
-            .setLabel("🗑️| Sil")
-            .setStyle(ButtonStyle.Danger)
-        const row = new ActionRowBuilder<ButtonBuilder>()
-            .addComponents([reject, accept, deleteButton])
-        await interaction.reply({content: "Hoşçakal kanalı ayarlanmış. Değiştirmek mi yoksa silmek mi istersiniz?", components: [row], ephemeral: true })
-        const msg = await interaction.fetchReply() as Message
-        const buttonFilter = (i: MessageComponentInteraction) => (i.customId === "goodByeChannelReject" || i.customId === "goodByeChannelAccept" || i.customId === "goodByeChannelDelete") && (i.user.id === interaction.user.id);
-        try {
-            const collector = await msg.awaitMessageComponent({filter: buttonFilter, componentType: ComponentType.Button, time: 60000})
-            if (collector) {
-                if (collector.customId === "goodByeChannelReject") {
-                    await collector.reply({content: "İşlem iptal edildi.", ephemeral: true})
-                } else if (collector.customId === "goodByeChannelAccept") {
-                    const channelSelect = new ChannelSelectMenuBuilder()
-                        .setCustomId("goodByeChannel")
-                        .setPlaceholder("Kanal seçiniz.")
-                        .setDisabled(false)
-                        .setChannelTypes(ChannelType.GuildText)
-                    const row2 = new ActionRowBuilder<ChannelSelectMenuBuilder>()
-                        .addComponents(channelSelect)
-                    await collector.reply({content: "Yeni görüşürüz kanalını aşağıdan ayarlayınız", components: [row2], ephemeral: true})
-                    const msg = await collector.fetchReply() as Message
-                    const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id
-                    try {
-                        const collector = await msg.awaitMessageComponent({filter: filter, componentType: ComponentType.ChannelSelect, time: 60000})
-                        if(collector) {
-
-                            const data = collector.values[0]
-                            const channel = interaction.guild!.channels.cache.get(data)
-                            if (!channel) {
-                                await collector.reply({content: "Böyle bir kanal bulunamadı."})
-                                return
-                            }
-                            if(channel.type !== ChannelType.GuildText) {
-                                await collector.reply({content: "Lütfen bir metin kanalı giriniz."})
-                                return
-                            }
-                            const config = {
-                                $set: {
-                                    "config.goodByeChannel": channel.id
-                                }
-                            }
-                            await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                            await collector.reply({content: "Görüşürüz kanalı ayarlandı.", ephemeral: true})
-                        }
-                    } catch (error) {
-                        console.log(error)
-                        await interaction.followUp({content: "İşlem iptal edildi çünkü bir hata ile karşılaşıldı", ephemeral: true})
-                    }
-                } else if (collector.customId === "goodByeChannelDelete") {
-                    const config = {
-                        $unset: {
-                            "config.leaveChannel": ""
-                        }
-                    }
-                    await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                    await collector.reply({content: "Hoşçakal kanalı silindi.", ephemeral: true})
-                }
-            }
-        } catch (e) {
-            await interaction.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
-            console.log(e)
-        }
-    } else {
-        const channelSelect = new ChannelSelectMenuBuilder()
-            .setCustomId("goodByeChannel")
-            .setPlaceholder("Kanal seçiniz.")
-            .setDisabled(false)
-            .setChannelTypes(ChannelType.GuildText)
-        const row2 = new ActionRowBuilder<ChannelSelectMenuBuilder>()
-            .addComponents(channelSelect)
-        await interaction.reply({content: "Yeni görüşürüz kanalını aşağıdan ayarlayınız", components: [row2], ephemeral: true})
-        const msg = await interaction.fetchReply() as Message
-        const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id
-        try {
-            const collector = await msg.awaitMessageComponent({filter: filter, componentType: ComponentType.ChannelSelect, time: 60000})
-            if(collector) {
-
-                const data = collector.values[0]
-                const channel = interaction.guild!.channels.cache.get(data)
-                if (!channel) {
-                    await collector.reply({content: "Böyle bir kanal bulunamadı."})
-                    return
-                }
-                if(channel.type !== ChannelType.GuildText) {
-                    await collector.reply({content: "Lütfen bir metin kanalı giriniz."})
-                    return
-                }
-                const config = {
-                    $set: {
-                        "config.goodByeChannel": channel.id
-                    }
-                }
-                await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                await collector.reply({content: "Görüşürüz kanalı ayarlandı.", ephemeral: true})
-            }
-        } catch (error) {
-            console.log(error)
-            await interaction.followUp({content: "İşlem iptal edildi çünkü bir hata ile karşılaşıldı", ephemeral: true})
-        }
+    const raw = client.handleLanguages("GOODBYE_CHANNEL_PROMPT", client, interaction.guildId!)
+    raw.components[0].components[0].default_values.shift()
+    const goodbyeChannel = client.guildsConfig.get(interaction.guild!.id)?.config.leaveChannel
+    if (goodbyeChannel) {
+        raw.components[0].components[0].default_values.push({
+            "id": goodbyeChannel,
+            "type": "channel"
+        })
     }
-
+    //@ts-ignore
+    await interaction.reply(raw)
+    const msg = await interaction.fetchReply() as Message
+    const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id
+    try {
+        const collector = await msg.awaitMessageComponent({
+            filter: filter,
+            componentType: ComponentType.ChannelSelect,
+            time: 60000
+        })
+        if (collector) {
+            const data = collector.values[0]
+            const channel = interaction.guild!.channels.cache.get(data) as TextChannel
+            const config = {
+                $set: {
+                    "config.goodbyeChannel": channel.id
+                }
+            }
+            await client.updateGuildConfig({guildId: interaction.guild!.id, config})
+            await collector.reply({
+                content: client.handleLanguages("GOODBYE_CHANNEL_SUCCESS", client, interaction.guildId!),
+                ephemeral: true
+            })
+        }
+    } catch (error) {
+        await interaction.followUp({
+            content: client.handleLanguages("GOODBYE_CHANNEL_ERROR_OR_EXPIRED", client, interaction.guildId!),
+            ephemeral: true
+        })
+        console.error(error)
+    }
 }
 
 async function goodbyeMessage(interaction: SelectMenuInteraction, client: KhaxyClient) {
-    if(client.guildsConfig.get(interaction.guild!.id)?.config.leaveMessage) {
-        const reject = new ButtonBuilder()
-            .setCustomId("goodByeMessageReject")
-            .setLabel("❌| İptal")
-            .setStyle(ButtonStyle.Danger)
-        const accept = new ButtonBuilder()
-            .setCustomId("goodByeMessageAccept")
-            .setLabel("✅| Değiştir")
-            .setStyle(ButtonStyle.Success)
-        const deleteButton = new ButtonBuilder()
-            .setCustomId("goodByeMessageDelete")
-            .setLabel("🗑️| Sil")
-            .setStyle(ButtonStyle.Danger)
-        const row = new ActionRowBuilder<ButtonBuilder>()
-            .addComponents([reject, accept, deleteButton])
-        await interaction.reply({content: "Görüşürüz mesajı zaten ayarlı. Değiştirmek mi yoksa silmek mi istersiniz?", components: [row], ephemeral: true})
+    if (client.guildsConfig.get(interaction.guild!.id)?.config.leaveMessage) {
+        await interaction.reply(client.handleLanguages("GOODBYE_MESSAGE_ALREADY_SETUP", client, interaction.guildId!))
         const filter = (i: MessageComponentInteraction) => (i.customId === "goodByeMessageReject" || i.customId === "goodByeMessageAccept" || i.customId === "registerChannelDelete") && (i.user.id === interaction.user.id);
         try {
             const collector = await interaction.fetchReply() as Message
-            const collector2 = await collector.awaitMessageComponent({filter, componentType: ComponentType.Button, time: 60000})
+            const collector2 = await collector.awaitMessageComponent({
+                filter,
+                componentType: ComponentType.Button,
+                time: 60000
+            })
             if (collector2) {
                 if (collector2.customId === "goodByeMessageReject") {
-                    await collector2.reply({content: "İptal edildi.", ephemeral: true})
+                    await collector2.reply({
+                        content: client.handleLanguages("GOODBYE_MESSAGE_CANCEL", client, interaction.guildId!),
+                        ephemeral: true
+                    })
                 } else if (collector2.customId === "goodByeMessageAccept") {
-                    const TextInput = new TextInputBuilder()
-                        .setCustomId("goodbyeMessage")
-                        .setPlaceholder("Kullanılabilir değişkenler: {user}, {tag}, {name}, {id}, {server}, {memberCount}")
-                        .setMinLength(1)
-                        .setMaxLength(2000)
-                        .setRequired(true)
-                        .setLabel("Görüşürüz mesajı")
-                        .setStyle(TextInputStyle.Paragraph)
-                    const row = new ActionRowBuilder<TextInputBuilder>()
-                        .addComponents([TextInput])
-                    const modal = new ModalBuilder()
-                        .setCustomId("goodbyeMessage")
-                        .setTitle("Görüşürüz mesajı ayarla")
-                        .addComponents([row])
-                    const button = new ButtonBuilder()
-                        .setCustomId("goodbyeMessage")
-                        .setLabel("Görüşürüz mesajı ayarla")
-                        .setStyle(ButtonStyle.Primary)
-                    const row2 = new ActionRowBuilder<ButtonBuilder>()
-                        .addComponents([button])
-                    await collector2.reply({content: "Görüşürüz mesajı ayarlamak için aşağıdaki butona tıklayınız.", components: [row2], ephemeral: true})
+                    await collector2.reply(client.handleLanguages("GOODBYE_MESSAGE_SETUP", client, interaction.guildId!))
                     const msg = await collector2.fetchReply() as Message
                     const buttonFilter = (i: MessageComponentInteraction) => (i.customId === "goodbyeMessage") && (i.user.id === interaction.user.id);
                     try {
-                        const modalcollector = await msg.awaitMessageComponent({filter: buttonFilter, componentType: ComponentType.Button, time: 60000})
+                        const modalcollector = await msg.awaitMessageComponent({
+                            filter: buttonFilter,
+                            componentType: ComponentType.Button,
+                            time: 60000
+                        })
                         if (modalcollector) {
-                            await modalcollector.showModal(modal)
+                            await modalcollector.showModal(client.handleLanguages("GOODBYE_MESSAGE_MODAL", client, interaction.guildId!))
                             const filter = (i: ModalSubmitInteraction) => i.customId === "goodbyeMessage" && i.user.id === interaction.user.id
                             try {
                                 const collector = await modalcollector.awaitModalSubmit({filter, time: 60000})
@@ -799,61 +668,60 @@ async function goodbyeMessage(interaction: SelectMenuInteraction, client: KhaxyC
                                     }
                                 }
                                 await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                                await collector.reply({content: "Görüşürüz mesajı ayarlandı.", ephemeral: true})
+                                await collector.reply({
+                                    content: client.handleLanguages("GOODBYE_MESSAGE_SUCCESS", client, interaction.guildId!),
+                                    ephemeral: true
+                                })
                             } catch (e) {
-                                await modalcollector.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
+                                await modalcollector.followUp({
+                                    content: client.handleLanguages("GOODBYE_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!),
+                                    ephemeral: true
+                                })
                                 console.log(e)
                             }
                         }
                     } catch (e) {
-                        await interaction.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
+                        await interaction.followUp({
+                            content: client.handleLanguages("GOODBYE_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!),
+                            ephemeral: true
+                        })
                         console.log(e)
                     }
-                } else if(collector2.customId === "goodByeMessageDelete") {
+                } else if (collector2.customId === "goodByeMessageDelete") {
                     const config = {
                         $set: {
                             "config.leaveMessage": null
                         }
                     }
                     await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                    await collector2.reply({content: "Görüşürüz mesajı silindi.", ephemeral: true})
+                    await collector2.reply({
+                        content: client.handleLanguages("GOODBYE_MESSAGE_DELETED", client, interaction.guildId!),
+                        ephemeral: true
+                    })
                 }
             }
         } catch (e) {
-            await interaction.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
+            await interaction.followUp({
+                content: client.handleLanguages("GOODBYE_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!),
+                ephemeral: true
+            })
             console.log(e)
         }
     } else {
-        const TextInput = new TextInputBuilder()
-            .setCustomId("goodbyeMessage")
-            .setPlaceholder("Kullanılabilir değişkenler: {user}, {tag}, {name}, {id}, {server}, {memberCount}")
-            .setMinLength(1)
-            .setMaxLength(2000)
-            .setRequired(true)
-            .setLabel("Görüşürüz mesajı")
-            .setStyle(TextInputStyle.Paragraph)
-        const row = new ActionRowBuilder<TextInputBuilder>()
-            .addComponents([TextInput])
-        const modal = new ModalBuilder()
-            .setCustomId("goodbyeMessage")
-            .setTitle("Görüşürüz mesajı ayarla")
-            .addComponents([row])
-        const button = new ButtonBuilder()
-            .setCustomId("goodbyeMessage")
-            .setLabel("Görüşürüz mesajı ayarla")
-            .setStyle(ButtonStyle.Primary)
-        const row2 = new ActionRowBuilder<ButtonBuilder>()
-            .addComponents([button])
-        await interaction.reply({content: "Görüşürüz mesajı ayarlamak için aşağıdaki butona tıklayınız.", components: [row2], ephemeral: true})
+        await interaction.reply(client.handleLanguages("GOODBYE_MESSAGE_SETUP", client, interaction.guildId!))
         const msg = await interaction.fetchReply() as Message
         const buttonFilter = (i: MessageComponentInteraction) => (i.customId === "goodbyeMessage") && (i.user.id === interaction.user.id);
         try {
-            const modalcollector = await msg.awaitMessageComponent({filter: buttonFilter, componentType: ComponentType.Button, time: 60000})
-            if (modalcollector) {
-                await modalcollector.showModal(modal)
+            const collector = await msg.awaitMessageComponent({
+                filter: buttonFilter,
+                componentType: ComponentType.Button,
+                time: 60000
+            })
+            if (collector) {
+                await collector.showModal(client.handleLanguages("GOODBYE_MESSAGE_MODAL", client, interaction.guildId!))
                 const filter = (i: ModalSubmitInteraction) => i.customId === "goodbyeMessage" && i.user.id === interaction.user.id
                 try {
-                    const collector = await modalcollector.awaitModalSubmit({filter, time: 60000})
+                    const collector = await interaction.awaitModalSubmit({filter, time: 60000})
                     const data = collector.fields.getTextInputValue("goodbyeMessage")
                     const config = {
                         $set: {
@@ -861,165 +729,82 @@ async function goodbyeMessage(interaction: SelectMenuInteraction, client: KhaxyC
                         }
                     }
                     await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                    await collector.reply({content: "Görüşürüz mesajı ayarlandı.", ephemeral: true})
+                    await collector.reply({
+                        content: client.handleLanguages("GOODBYE_MESSAGE_SUCCESS", client, interaction.guildId!),
+                        ephemeral: true
+                    })
                 } catch (e) {
-                    await modalcollector.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
+                    await collector.reply({
+                        content: client.handleLanguages("GOODBYE_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!),
+                        ephemeral: true
+                    })
                     console.log(e)
                 }
             }
         } catch (e) {
-            await interaction.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
+            await interaction.followUp({
+                content: client.handleLanguages("GOODBYE_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!),
+                ephemeral: true
+            })
             console.log(e)
         }
     }
 }
 
 async function registerMessageChannel(interaction: SelectMenuInteraction, client: KhaxyClient) {
-    if(client.guildsConfig.get(interaction.guild!.id)!.config.registerWelcomeChannel) {
-        const reject = new ButtonBuilder()
-            .setCustomId("registerMessageChannelReject")
-            .setLabel("❌| İptal")
-            .setStyle(ButtonStyle.Danger)
-        const accept = new ButtonBuilder()
-            .setCustomId("registerMessageChannelAccept")
-            .setLabel("✅| Değiştir")
-            .setStyle(ButtonStyle.Success)
-        const deleteButton = new ButtonBuilder()
-            .setCustomId("registerMessageChannelDelete")
-            .setLabel("🗑️| Sil")
-            .setStyle(ButtonStyle.Danger)
-        const row = new ActionRowBuilder<ButtonBuilder>()
-            .addComponents([reject, accept, deleteButton])
-        await interaction.reply({content: "Kayıt mesajı kanalı zaten ayarlanmış. Değiştirmek mi yoksa silmek mi istersiniz?", components: [row], ephemeral: true})
-        const msg = await interaction.fetchReply() as Message
-        const buttonFilter = (i: MessageComponentInteraction) => (i.customId === "registerMessageChannelReject" || i.customId === "registerMessageChannelAccept" || i.customId === "registerMessageChannelDelete") && (i.user.id === interaction.user.id);
-        try {
-            const collector = await msg.awaitMessageComponent({filter: buttonFilter, componentType: ComponentType.Button, time: 60000})
-            if (collector) {
-                if (collector.customId === "registerMessageChannelReject") {
-                    await collector.reply({content: "İşlem iptal edildi.", ephemeral: true})
-                } else if (collector.customId === "registerMessageChannelAccept") {
-                    const channelSelect = new ChannelSelectMenuBuilder()
-                        .setCustomId("registerWelcomeChannelAccept")
-                        .setPlaceholder("Kanal seçiniz.")
-                        .setDisabled(false)
-                        .setChannelTypes(ChannelType.GuildText)
-                    const row2 = new ActionRowBuilder<ChannelSelectMenuBuilder>()
-                        .addComponents(channelSelect)
-                    await collector.reply({content: "Yeni kayıt kanalını aşağıdan ayarlayınız", components: [row2], ephemeral: true})
-                    const msg = await collector.fetchReply() as Message
-                    const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id
-                    try {
-                        const collector = await msg.awaitMessageComponent({filter: filter, componentType: ComponentType.ChannelSelect, time: 60000})
-                        if(collector) {
-
-                            const data = collector.values[0]
-                            const channel = interaction.guild!.channels.cache.get(data)
-                            if (!channel) {
-                                await collector.reply({content: "Böyle bir kanal bulunamadı."})
-                                return
-                            }
-                            if(channel.type !== ChannelType.GuildText) {
-                                await collector.reply({content: "Lütfen bir metin kanalı giriniz."})
-                                return
-                            }
-                            const config = {
-                                $set: {
-                                    "config.registerWelcomeChannel": channel.id
-                                }
-                            }
-                            await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                            await collector.reply({content: "Kayıt kanalı ayarlandı.", ephemeral: true})
-                        }
-                    } catch (error) {
-                        console.log(error)
-                        await interaction.followUp({content: "İşlem iptal edildi çünkü bir hata ile karşılaşıldı", ephemeral: true})
-                    }
-                } else if (collector.customId === "registerMessageChannelDelete") {
-                    const config = {
-                        $set: {
-                            "config.registerWelcomeChannel": null
-                        }
-                    }
-                    await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                    await collector.reply({content: "Kayıt mesajı kanalı silindi.", ephemeral: true})
+    const raw = client.handleLanguages("REGISTER_MESSAGE_CHANNEL_PROMPT", client, interaction.guildId!)
+    raw.components[0].components[0].default_values.shift()
+    const registerChannel = client.guildsConfig.get(interaction.guild!.id)?.config.registerChannel
+    if (registerChannel) {
+        raw.components[0].components[0].default_values.push({
+            "id": registerChannel,
+            "type": "channel"
+        })
+    }
+    //@ts-ignore
+    await interaction.reply(raw)
+    const msg = await interaction.fetchReply() as Message
+    const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id
+    try {
+        const collector = await msg.awaitMessageComponent({
+            filter: filter,
+            componentType: ComponentType.ChannelSelect,
+            time: 60000
+        })
+        if (collector) {
+            const data = collector.values[0]
+            const channel = interaction.guild!.channels.cache.get(data) as TextChannel
+            const config = {
+                $set: {
+                    "config.registerChannel": channel.id
                 }
             }
-        } catch (e) {
-            await interaction.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
-            console.log(e)
+            await client.updateGuildConfig({guildId: interaction.guild!.id, config})
+            await collector.reply({
+                content: client.handleLanguages("REGISTER_MESSAGE_CHANNEL_SUCCESS", client, interaction.guildId!),
+                ephemeral: true
+            })
         }
-    } else {
-        const channelSelect = new ChannelSelectMenuBuilder()
-            .setCustomId("registerWelcomeChannelAccept")
-            .setPlaceholder("Kanal seçiniz.")
-            .setDisabled(false)
-            .setChannelTypes(ChannelType.GuildText)
-        const row2 = new ActionRowBuilder<ChannelSelectMenuBuilder>()
-            .addComponents(channelSelect)
-        await interaction.reply({content: "Yeni kayıt kanalını aşağıdan ayarlayınız", components: [row2], ephemeral: true})
-        const msg = await interaction.fetchReply() as Message
-        const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id
-        try {
-            const collector = await msg.awaitMessageComponent({filter: filter, componentType: ComponentType.ChannelSelect, time: 60000})
-            if(collector) {
-
-                const data = collector.values[0]
-                const channel = interaction.guild!.channels.cache.get(data)
-                if (!channel) {
-                    await collector.reply({content: "Böyle bir kanal bulunamadı."})
-                    return
-                }
-                if(channel.type !== ChannelType.GuildText) {
-                    await collector.reply({content: "Lütfen bir metin kanalı giriniz."})
-                    return
-                }
-                const config = {
-                    $set: {
-                        "config.registerWelcomeChannel": channel.id
-                    }
-                }
-                await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                await collector.reply({content: "Kayıt kanalı ayarlandı.", ephemeral: true})
-            }
-        } catch (error) {
-            console.log(error)
-            await interaction.followUp({content: "İşlem iptal edildi çünkü bir hata ile karşılaşıldı", ephemeral: true})
-        }
+    } catch (error) {
+        await interaction.followUp({
+            content: client.handleLanguages("REGISTER_MESSAGE_CHANNEL_ERROR_OR_EXPIRED", client, interaction.guildId!),
+            ephemeral: true
+        })
+        console.error(error)
     }
 }
 
 async function moderationConfig(interaction: ChatInputCommandInteraction, client: KhaxyClient) {
-    const SelectMenu = new StringSelectMenuBuilder()
-        .setCustomId("moderationConfig")
-        .setPlaceholder("Moderasyon ayarları")
-        .addOptions([
-            {
-                label: "ModLog Kanalını Ayarla",
-                value: "modLogChannel",
-                description: "ModLog kanalını ayarlar.",
-                emoji: "📝"
-            },
-            {
-                label: "Susturmada Tüm Rolleri Al",
-                value: "muteGetAllRoles",
-                description: "Susturmada tüm rolleri alır.",
-                emoji: "🔇"
-            },
-            {
-                label: "ModMail'i Ayarla",
-                value: "modMail",
-                description: "ModMail'i ayarlar.",
-                emoji: "📧"
-            }
-            ])
-    const row = new ActionRowBuilder<SelectMenuBuilder>()
-        .addComponents([SelectMenu])
-    await interaction.reply({content: "Moderasyon ayarları için aşağıdaki menüden birini seçiniz.", components: [row], ephemeral: true})
+
+    await interaction.reply(client.handleLanguages("MODERATION_CONFIG_PROMPT", client, interaction.guildId!))
     const msg = await interaction.fetchReply() as Message
     const filter = (i: SelectMenuInteraction) => (i.customId === "moderationConfig" || i.customId === "muteGetAllRoles") && i.user.id === interaction.user.id
     try {
-        const collector = await msg.awaitMessageComponent({filter, componentType: ComponentType.SelectMenu, time: 60000})
+        const collector = await msg.awaitMessageComponent({
+            filter,
+            componentType: ComponentType.SelectMenu,
+            time: 60000
+        })
         if (collector.customId === "moderationConfig") {
             switch (collector.values[0]) {
                 case "modLogChannel":
@@ -1034,121 +819,54 @@ async function moderationConfig(interaction: ChatInputCommandInteraction, client
             }
         }
     } catch (e) {
-        await interaction.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
+        await interaction.followUp({
+            content: client.handleLanguages("MODERATION_CONFIG_ERROR_OR_EXPIRED", client, interaction.guildId!),
+            ephemeral: true
+        })
         console.log(e)
     }
 }
 
 async function modLogChannel(interaction: SelectMenuInteraction, client: KhaxyClient) {
-    if(client.guildsConfig.get(interaction.guild!.id)?.config.modlogChannel) {
-        const reject = new ButtonBuilder()
-            .setCustomId("modLogChannelReject")
-            .setLabel("❌| İptal")
-            .setStyle(ButtonStyle.Danger)
-        const accept = new ButtonBuilder()
-            .setCustomId("modLogChannelAccept")
-            .setLabel("✅| Değiştir")
-            .setStyle(ButtonStyle.Success)
-        const deleteButton = new ButtonBuilder()
-            .setCustomId("modLogChannelDelete")
-            .setLabel("🗑️| Sil")
-            .setStyle(ButtonStyle.Danger)
-        const row = new ActionRowBuilder<ButtonBuilder>()
-            .addComponents([reject, accept, deleteButton])
-        await interaction.reply({content: "ModLog kanalı ayarlı. Değiştirmek mi yoksa silmek mi istersiniz?", components: [row], ephemeral: true})
-        const msg = await interaction.fetchReply() as Message
-        const filter = (i: MessageComponentInteraction) => (i.customId === "modLogChannelReject" || i.customId === "modLogChannelAccept" || i.customId === "modLogChannelDelete") && (i.user.id === interaction.user.id);
-        try {
-            const collector = await msg.awaitMessageComponent({filter, componentType: ComponentType.Button, time: 60000})
-            if (collector.customId === "modLogChannelReject") {
-                await collector.reply({content: "İptal edildi.", ephemeral: true})
-            } else if (collector.customId === "modLogChannelAccept") {
-                const channelSelect = new ChannelSelectMenuBuilder()
-                    .setCustomId("modlogChannel")
-                    .setPlaceholder("Kanal seçiniz.")
-                    .setDisabled(false)
-                    .setChannelTypes(ChannelType.GuildText)
-                const row2 = new ActionRowBuilder<ChannelSelectMenuBuilder>()
-                    .addComponents(channelSelect)
-                await collector.reply({content: "Yeni modlog kanalını aşağıdan ayarlayınız", components: [row2], ephemeral: true})
-                const msg = await collector.fetchReply() as Message
-                const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id
-                try {
-                    const collector = await msg.awaitMessageComponent({filter: filter, componentType: ComponentType.ChannelSelect, time: 60000})
-                    if(collector) {
-
-                        const data = collector.values[0]
-                        const channel = interaction.guild!.channels.cache.get(data)
-                        if (!channel) {
-                            await collector.reply({content: "Böyle bir kanal bulunamadı."})
-                            return
-                        }
-                        if(channel.type !== ChannelType.GuildText) {
-                            await collector.reply({content: "Lütfen bir metin kanalı giriniz."})
-                            return
-                        }
-                        const config = {
-                            $set: {
-                                "config.modlogChannel": channel.id
-                            }
-                        }
-                        await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                        await collector.reply({content: "Modlog kanalı ayarlandı.", ephemeral: true})
-                    }
-                } catch (error) {
-                    console.log(error)
-                    await interaction.followUp({content: "İşlem iptal edildi çünkü bir hata ile karşılaşıldı", ephemeral: true})
+    const raw = client.handleLanguages("MODLOG_CHANNEL_PROMPT", client, interaction.guildId!)
+    raw.components[0].components[0].default_values.shift()
+    const modLogChannel = client.guildsConfig.get(interaction.guild!.id)?.config.modlogChannel
+    if (modLogChannel) {
+        raw.components[0].components[0].default_values.push({
+            "id": modLogChannel,
+            "type": "channel"
+        })
+    }
+    //@ts-ignore
+    await interaction.reply(raw)
+    const msg = await interaction.fetchReply() as Message
+    const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id
+    try {
+        const collector = await msg.awaitMessageComponent({
+            filter: filter,
+            componentType: ComponentType.ChannelSelect,
+            time: 60000
+        })
+        if (collector) {
+            const data = collector.values[0]
+            const channel = interaction.guild!.channels.cache.get(data) as TextChannel
+            const config = {
+                $set: {
+                    "config.modLogChannel": channel.id
                 }
-            } else if (collector.customId === "modLogChannelDelete") {
-                const config = {
-                    $set: {
-                        "config.modlogChannel": null
-                    }
-                }
-                await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                await collector.reply({content: "Modlog kanalı silindi.", ephemeral: true})
             }
-        } catch (e) {
-            await interaction.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
-            console.log(e)
+            await client.updateGuildConfig({guildId: interaction.guild!.id, config})
+            await collector.reply({
+                content: client.handleLanguages("MODLOG_CHANNEL_SUCCESS", client, interaction.guildId!),
+                ephemeral: true
+            })
         }
-    } else {
-        const channelSelect = new ChannelSelectMenuBuilder()
-            .setCustomId("modlogChannel")
-            .setPlaceholder("Kanal seçiniz.")
-            .setDisabled(false)
-            .setChannelTypes(ChannelType.GuildText)
-        const row2 = new ActionRowBuilder<ChannelSelectMenuBuilder>()
-            .addComponents(channelSelect)
-        await interaction.reply({content: "Yeni modlog kanalını aşağıdan ayarlayınız", components: [row2], ephemeral: true})
-        const msg = await interaction.fetchReply() as Message
-        const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id
-        try {
-            const collector = await msg.awaitMessageComponent({filter: filter, componentType: ComponentType.ChannelSelect, time: 60000})
-            if(collector) {
-
-                const data = collector.values[0]
-                const channel = interaction.guild!.channels.cache.get(data)
-                if (!channel) {
-                    await collector.reply({content: "Böyle bir kanal bulunamadı."})
-                    return
-                }
-                if(channel.type !== ChannelType.GuildText) {
-                    await collector.reply({content: "Lütfen bir metin kanalı giriniz."})
-                    return
-                }
-                const config = {
-                    $set: {
-                        "config.modlogChannel": channel.id
-                    }
-                }
-                await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                await collector.reply({content: "Modlog kanalı ayarlandı.", ephemeral: true})
-            }
-        } catch (error) {
-            console.log(error)
-            await interaction.followUp({content: "İşlem iptal edildi çünkü bir hata ile karşılaşıldı", ephemeral: true})
-        }
+    } catch (error) {
+        await interaction.followUp({
+            content: client.handleLanguages("MODLOG_CHANNEL_ERROR_OR_EXPIRED", client, interaction.guildId!),
+            ephemeral: true
+        })
+        console.error(error)
     }
 }
 
@@ -1160,7 +878,7 @@ async function muteGetAllRoles(interaction: SelectMenuInteraction, client: Khaxy
             }
         }
         await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-        await interaction.reply({content: "Susturmada tüm rolleri alma ayarı aktif edildi.", ephemeral: true})
+        await interaction.reply({content: client.handleLanguages("MUTE_GET_ALL_ROLES_TRUE", client, interaction.guildId!), ephemeral: true})
     } else {
         const config = {
             $set: {
@@ -1168,23 +886,14 @@ async function muteGetAllRoles(interaction: SelectMenuInteraction, client: Khaxy
             }
         }
         await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-        await interaction.reply({content: "Susturmada tüm rolleri alma ayarı kapatıldı.", ephemeral: true})
+        await interaction.reply({content: client.handleLanguages("MUTE_GET_ALL_ROLES_FALSE", client, interaction.guildId!), ephemeral: true})
     }
 }
 
 async function modMail(interaction: SelectMenuInteraction, client: KhaxyClient) {
     if(client.guildsConfig.get(interaction.guild!.id)?.config.modmail.logChannel) {
-        const reject = new ButtonBuilder()
-            .setCustomId("modMailReject")
-            .setLabel("❌| İptal")
-            .setStyle(ButtonStyle.Danger)
-        const deleteButton = new ButtonBuilder()
-            .setCustomId("modMailDelete")
-            .setLabel("🗑️| Sil")
-            .setStyle(ButtonStyle.Danger)
-        const row = new ActionRowBuilder<ButtonBuilder>()
-            .addComponents([reject, deleteButton])
-        await interaction.reply({content: "Modmail daha önceden ayarlanmış. Eğer kanalları sildiyseniz sil seçeneğini kullanınız.", components: [row], ephemeral: true})
+
+        await interaction.reply(client.handleLanguages("MODMAIL_PROMPT", client, interaction.guildId!))
         const msg = await interaction.fetchReply() as Message
         const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id
         try {
@@ -1197,13 +906,13 @@ async function modMail(interaction: SelectMenuInteraction, client: KhaxyClient) 
                         }
                     }
                     await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                    await collector.reply({content: "Modmail ayarı silindi.", ephemeral: true})
+                    await collector.reply({content: client.handleLanguages("MODMAIL_DELETE", client, interaction.guildId!), ephemeral: true})
                 } else if(collector.customId === "modMailReject") {
-                    await collector.reply({content: "İşlem iptal edildi.", ephemeral: true})
+                    await collector.reply({content: client.handleLanguages("MODMAIL_REJECT", client, interaction.guildId!), ephemeral: true})
                 }
             }
         } catch (e){
-            await interaction.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
+            await interaction.followUp({content: client.handleLanguages("MODMAIL_ERROR_OR_EXPIRED", client, interaction.guildId!), ephemeral: true})
             console.error(e)
         }
     } else {
@@ -1233,59 +942,16 @@ async function modMail(interaction: SelectMenuInteraction, client: KhaxyClient) 
                 }
             }
             await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-            await interaction.reply({content: "Modmail kanalları başarıyla ayarlandı.", ephemeral: true})
+            await interaction.reply({content: client.handleLanguages("MODMAIL_SUCCESS", client, interaction.guildId!), ephemeral: true})
         } catch (e) {
-            await interaction.reply({content: "Bir hata ile karşılaşıldı. Kanal açmak için yetiklerim var mı?", ephemeral: true})
+            await interaction.reply({content: client.handleLanguages("MODMAIL_ERROR_ON_CREATION", client, interaction.guildId!), ephemeral: true})
             console.error(e)
         }
     }
 }
 
 async function roleConfig(interaction: ChatInputCommandInteraction, client: KhaxyClient) {
-    const SelectMenu = new StringSelectMenuBuilder()
-        .setCustomId("roleConfig")
-        .setPlaceholder("Rol ayarları")
-        .addOptions([
-            {
-                label: "Üye Rolü Ayarla",
-                value: "memberRole",
-                description: "Üye rolünü ayarlar.",
-                emoji: "👤"
-            },
-            {
-                label: "Erkek Rolü Ayarla",
-                value: "maleRole",
-                description: "Erkek rolünü ayarlar.",
-                emoji: "👨"
-            },
-            {
-                label: "Kadın Rolü Ayarla",
-                value: "femaleRole",
-                description: "Kadın rolünü ayarlar.",
-                emoji: "👩"
-            },
-            {
-                label: "Mute Rolü Ayarla",
-                value: "muteRole",
-                description: "Mute rolünü ayarlar.",
-                emoji: "🔇"
-            },
-            {
-                label: "DJ Rolü Ayarla",
-                value: "djRole",
-                description: "DJ rolünü ayarlar.",
-                emoji: "🎧"
-            },
-            {
-                label: "Günün Rengi Rol Ayarla",
-                value: "dayColorRole",
-                description: "Günün rengi rolünü ayarlar.",
-                emoji: "🌈"
-            }
-            ])
-    const row = new ActionRowBuilder<SelectMenuBuilder>()
-        .addComponents([SelectMenu])
-    await interaction.reply({content: "Rol ayarlamak için aşağıdaki menüden birini seçiniz.", components: [row], ephemeral: true})
+    await interaction.reply(client.handleLanguages("ROLE_CONFIG_PROMPT", client, interaction.guildId!))
     const msg = await interaction.fetchReply() as Message
     const filter = (i: MessageComponentInteraction) => (i.customId === "roleConfig") && (i.user.id === interaction.user.id);
     try {
@@ -1312,198 +978,94 @@ async function roleConfig(interaction: ChatInputCommandInteraction, client: Khax
             }
         }
     } catch (e) {
-        await interaction.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
+        await interaction.followUp({content: client.handleLanguages("ROLE_CONFIG_ERROR_OR_EXPIRED", client, interaction.guildId!), ephemeral: true})
         console.log(e)
     }
 }
 
 async function memberRole(interaction: SelectMenuInteraction, client: KhaxyClient) {
-    if (client.guildsConfig.get(interaction.guild!.id)!.config.memberRole) {
-        const reject = new ButtonBuilder()
-            .setCustomId("memberRoleReject")
-            .setLabel("❌| İptal")
-            .setStyle(ButtonStyle.Danger)
-        const accept = new ButtonBuilder()
-            .setCustomId("memberRoleAccept")
-            .setLabel("✅| Değiştir")
-            .setStyle(ButtonStyle.Success)
-        const deleteButton = new ButtonBuilder()
-            .setCustomId("memberRoleDelete")
-            .setLabel("🗑️| Sil")
-            .setStyle(ButtonStyle.Danger)
-        const row = new ActionRowBuilder<ButtonBuilder>()
-            .addComponents([reject, accept, deleteButton])
-        await interaction.reply({content: "Üye rolü ayarlı. Değiştirmek mi yoksa silmek mi istersiniz?", components: [row], ephemeral: true})
-        const msg = await interaction.fetchReply() as Message
-        const filter = (i: MessageComponentInteraction) => (i.customId === "memberRoleReject" || i.customId === "memberRoleAccept" || i.customId === "memberRoleDelete") && (i.user.id === interaction.user.id);
-        try {
-            const collector = await msg.awaitMessageComponent({filter, componentType: ComponentType.Button, time: 60000})
-            if (collector.customId === "memberRoleReject") {
-                await collector.reply({content: "İşlem iptal edildi.", ephemeral: true})
-            } else if (collector.customId === "memberRoleAccept") {
-                const roleSelect = new RoleSelectMenuBuilder()
-                    .setCustomId("memberRole")
-                    .setPlaceholder("Üye rolü seçiniz.")
-                    .setMinValues(1)
-                    .setMaxValues(1)
-                const row2 = new ActionRowBuilder<RoleSelectMenuBuilder>()
-                    .addComponents([roleSelect])
-                await collector.reply({content: "Üye rolü ayarlamak için aşağıdan uygun role tıklayınız.", components: [row2], ephemeral: true})
-                const msg = await collector.fetchReply() as Message
-                const buttonFilter = (i: RoleSelectMenuInteraction) => (i.customId === "memberRole") && (i.user.id === interaction.user.id);
-                try {
-                    const collector = await msg.awaitMessageComponent({filter: buttonFilter, componentType: ComponentType.RoleSelect, time: 60000})
-                    if (collector) {
-                        const data = collector.values[0]
-                        const config = {
-                            $set: {
-                                "config.memberRole": data
-                            }
-                        }
-                        await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                        await collector.reply({content: `Üye rolü başarıyla ayarlandı`, ephemeral: true})
-                    }
-                } catch (e) {
-                    await interaction.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
-                    console.log(e)
+    const raw = client.handleLanguages("MEMBER_ROLE_PROMPT", client, interaction.guildId!)
+    raw.components[0].components[0].default_values.shift()
+    const memberRole = client.guildsConfig.get(interaction.guild!.id)?.config.memberRole
+    if (memberRole) {
+        raw.components[0].components[0].default_values.push({
+            "id": memberRole,
+            "type": "role"
+        })
+    }
+    //@ts-ignore
+    await interaction.reply(raw)
+    const msg = await interaction.fetchReply() as Message
+    const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id
+    try {
+        const collector = await msg.awaitMessageComponent({
+            filter: filter,
+            componentType: ComponentType.RoleSelect,
+            time: 60000
+        })
+        if (collector) {
+            const data = collector.values[0]
+            const role = interaction.guild!.roles.cache.get(data) as Role
+            const config = {
+                $set: {
+                    "config.memberRole": role.id
                 }
-            } else if (collector.customId === "memberRoleDelete") {
-                const config = {
-                    $set: {
-                        "config.memberRole": null
-                    }
-                }
-                await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                await collector.reply({content: "Modlog kanalı silindi.", ephemeral: true})
             }
-        } catch (e) {
-            await interaction.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
-            console.log(e)
+            await client.updateGuildConfig({guildId: interaction.guild!.id, config})
+            await collector.reply({
+                content: client.handleLanguages("MEMBER_ROLE_SUCCESS", client, interaction.guildId!),
+                ephemeral: true
+            })
         }
-    } else {
-        const roleSelect = new RoleSelectMenuBuilder()
-            .setCustomId("memberRole")
-            .setPlaceholder("Üye rolü seçiniz.")
-            .setMinValues(1)
-            .setMaxValues(1)
-        const row2 = new ActionRowBuilder<RoleSelectMenuBuilder>()
-            .addComponents([roleSelect])
-        await interaction.reply({content: "Üye rolü ayarlamak için aşağıdan uygun role tıklayınız.", components: [row2], ephemeral: true})
-        const msg = await interaction.fetchReply() as Message
-        const buttonFilter = (i: RoleSelectMenuInteraction) => (i.customId === "memberRole") && (i.user.id === interaction.user.id);
-        try {
-            const collector = await msg.awaitMessageComponent({filter: buttonFilter, componentType: ComponentType.RoleSelect, time: 60000})
-            if (collector) {
-                const data = collector.values[0]
-                const config = {
-                    $set: {
-                        "config.memberRole": data
-                    }
-                }
-                await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                await collector.reply({content: `Üye rolü başarıyla ayarlandı`, ephemeral: true})
-            }
-        } catch (e) {
-            await interaction.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
-            console.log(e)
-        }
+    } catch (error) {
+        await interaction.followUp({
+            content: client.handleLanguages("MEMBER_ROLE_ERROR_OR_EXPIRED", client, interaction.guildId!),
+            ephemeral: true
+        })
+        console.error(error)
     }
 }
 
 async function maleRole(interaction: SelectMenuInteraction, client: KhaxyClient) {
-    if (client.guildsConfig.get(interaction.guild!.id)!.config.maleRole) {
-        const reject = new ButtonBuilder()
-            .setCustomId("maleRoleReject")
-            .setLabel("❌| İptal")
-            .setStyle(ButtonStyle.Danger)
-        const accept = new ButtonBuilder()
-            .setCustomId("maleRoleAccept")
-            .setLabel("✅| Değiştir")
-            .setStyle(ButtonStyle.Success)
-        const deleteButton = new ButtonBuilder()
-            .setCustomId("maleRoleDelete")
-            .setLabel("🗑️| Sil")
-            .setStyle(ButtonStyle.Danger)
-        const row = new ActionRowBuilder<ButtonBuilder>()
-            .addComponents([reject, accept, deleteButton])
-        await interaction.reply({content: "Erkek rolü ayarlı. Değiştirmek mi yoksa silmek mi istersiniz?", components: [row], ephemeral: true})
-        const msg = await interaction.fetchReply() as Message
-        const filter = (i: MessageComponentInteraction) => (i.customId === "maleRoleReject" || i.customId === "maleRoleAccept" || i.customId === "maleRoleDelete") && (i.user.id === interaction.user.id);
-        try {
-            const collector = await msg.awaitMessageComponent({
-                filter,
-                componentType: ComponentType.Button,
-                time: 60000
+    const raw = client.handleLanguages("MALE_ROLE_PROMPT", client, interaction.guildId!)
+    raw.components[0].components[0].default_values.shift()
+    const maleRole = client.guildsConfig.get(interaction.guild!.id)?.config.maleRole
+    if (maleRole) {
+        raw.components[0].components[0].default_values.push({
+            "id": maleRole,
+            "type": "role"
+        })
+    }
+    //@ts-ignore
+    await interaction.reply(raw)
+    const msg = await interaction.fetchReply() as Message
+    const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id
+    try {
+        const collector = await msg.awaitMessageComponent({
+            filter: filter,
+            componentType: ComponentType.RoleSelect,
+            time: 60000
+        })
+        if (collector) {
+            const data = collector.values[0]
+            const role = interaction.guild!.roles.cache.get(data) as Role
+            const config = {
+                $set: {
+                    "config.maleRole": role.id
+                }
+            }
+            await client.updateGuildConfig({guildId: interaction.guild!.id, config})
+            await collector.reply({
+                content: client.handleLanguages("MALE_ROLE_SUCCESS", client, interaction.guildId!),
+                ephemeral: true
             })
-            if (collector.customId === "maleRoleReject") {
-                await collector.reply({content: "İptal edildi.", ephemeral: true})
-            } else if (collector.customId === "maleRoleAccept") {
-                const roleSelect = new RoleSelectMenuBuilder()
-                    .setCustomId("maleRole")
-                    .setPlaceholder("Erkek rolünü seçiniz.")
-                    .setMinValues(1)
-                    .setMaxValues(1)
-                const row2 = new ActionRowBuilder<RoleSelectMenuBuilder>()
-                    .addComponents([roleSelect])
-                await collector.reply({content: "Erkek rolünü ayarlamak için aşağıdan uygun role tıklayınız.", components: [row2], ephemeral: true})
-                const msg = await collector.fetchReply() as Message
-                const buttonFilter = (i: RoleSelectMenuInteraction) => (i.customId === "maleRole") && (i.user.id === interaction.user.id);
-                try {
-                    const collector = await msg.awaitMessageComponent({filter: buttonFilter, componentType: ComponentType.RoleSelect, time: 60000})
-                    if (collector) {
-                        const data = collector.values[0]
-                        const config = {
-                            $set: {
-                                "config.maleRole": data
-                            }
-                        }
-                        await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                        await collector.reply({content: `Erkek rolü başarıyla ayarlandı`, ephemeral: true})
-                    }
-                } catch (e) {
-                    await interaction.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
-                    console.log(e)
-                }
-            } else if (collector.customId === "maleRoleDelete") {
-                const config = {
-                    $set: {
-                        "config.maleRole": null
-                    }
-                }
-                await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                await collector.reply({content: "Erkek rolü silindi.", ephemeral: true})
-            }
-        } catch (e) {
-            await interaction.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
-            console.log(e)
         }
-    } else {
-        const roleSelect = new RoleSelectMenuBuilder()
-            .setCustomId("maleRole")
-            .setPlaceholder("Erkek rolünü seçiniz.")
-            .setMinValues(1)
-            .setMaxValues(1)
-        const row2 = new ActionRowBuilder<RoleSelectMenuBuilder>()
-            .addComponents([roleSelect])
-        await interaction.reply({content: "Erkek rolünü ayarlamak için aşağıdan uygun role tıklayınız.", components: [row2], ephemeral: true})
-        const msg = await interaction.fetchReply() as Message
-        const buttonFilter = (i: RoleSelectMenuInteraction) => (i.customId === "maleRole") && (i.user.id === interaction.user.id);
-        try {
-            const collector = await msg.awaitMessageComponent({filter: buttonFilter, componentType: ComponentType.RoleSelect, time: 60000})
-            if (collector) {
-                const data = collector.values[0]
-                const config = {
-                    $set: {
-                        "config.maleRole": data
-                    }
-                }
-                await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-                await collector.reply({content: `Erkek rolü başarıyla ayarlandı`, ephemeral: true})
-            }
-        } catch (e) {
-            await interaction.followUp({content: "Zaman aşımına uğradı veya bir hatayla karşılaştık.", ephemeral: true})
-            console.log(e)
-        }
+    } catch (error) {
+        await interaction.followUp({
+            content: client.handleLanguages("MALE_ROLE_ERROR_OR_EXPIRED", client, interaction.guildId!),
+            ephemeral: true
+        })
+        console.error(error)
     }
 }
 

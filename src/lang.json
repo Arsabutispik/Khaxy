@@ -1745,6 +1745,8 @@
                 "type": 8,
                 "custom_id": "registerChannel",
                 "placeholder": "Kanal seçiniz.",
+                "min_values": 0,
+                "max_values": 1,
                 "channel_types": [
                   0
                 ]
@@ -1764,6 +1766,8 @@
                 "type": 8,
                 "custom_id": "registerChannel",
                 "placeholder": "Select a channel.",
+                "min_values": 0,
+                "max_values": 1,
                 "channel_types": [
                   0
                 ]
@@ -2014,6 +2018,1052 @@
     "REGISTER_CHANNEL_DELETE_FALSE": {
       "turkish": "Kayıt kanalı mesajları silme ayarı deaktif edildi.",
       "english": "The registration channel message deletion setting has been deactivated."
+    },
+    "WELCOME_CONFIG_PROMPT": {
+      "turkish": {
+        "content": "Ayarlamak istediğiniz ayarı seçiniz.",
+        "ephemeral": true,
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 3,
+                "custom_id": "welcomeConfig",
+                "options": [
+                  {
+                    "label": "Hoşgeldin Kanalı",
+                    "value": "welcomeChannel",
+                    "description": "Hoşgeldin mesajlarının gönderileceği kanalı ayarlar.",
+                    "emoji": "📝"
+                  },
+                  {
+                    "label": "Hoşgeldin Mesajı",
+                    "value": "welcomeMessage",
+                    "description": "Kullanıcı sunucuya girdiğinde hoşgeldin kanalına gönderilecek mesajı ayarlar.",
+                    "emoji": "📜"
+                  },
+                  {
+                    "label": "Görüşürüz kanalı",
+                    "value": "goodbyeChannel",
+                    "description": "Görüşürüz kanalı ayarlar.",
+                    "emoji": "👋"
+                  },
+                  {
+                    "label": "Görüşürüz mesajı",
+                    "value": "goodbyeMessage",
+                    "description": "Görüşürüz mesajı ayarlar.",
+                    "emoji": "👋"
+                  },
+                  {
+                    "label": "Kayıt Kanalı",
+                    "value": "registerChannel",
+                    "description": "Kayıt kanalı ayarlar.",
+                    "emoji": "🔒"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "english": {
+        "content": "Select the setting you want to adjust.",
+        "ephemeral": true,
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 3,
+                "custom_id": "welcomeConfig",
+                "options": [
+                  {
+                    "label": "Welcome Channel",
+                    "value": "welcomeChannel",
+                    "description": "Sets the channel where welcome messages will be sent.",
+                    "emoji": "📝"
+                  },
+                  {
+                    "label": "Welcome Message",
+                    "value": "welcomeMessage",
+                    "description": "Sets the message to be sent to the welcome channel when the user enters the server.",
+                    "emoji": "📜"
+                  },
+                  {
+                    "label": "Goodbye Channel",
+                    "value": "goodbyeChannel",
+                    "description": "Sets the goodbye channel.",
+                    "emoji": "👋"
+                  },
+                  {
+                    "label": "Goodbye Message",
+                    "value": "goodbyeMessage",
+                    "description": "Sets the goodbye message.",
+                    "emoji": "👋"
+                  },
+                  {
+                    "label": "Register Channel",
+                    "value": "registerChannel",
+                    "description": "Sets the register channel.",
+                    "emoji": "🔒"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "WELCOME_CONFIG_ERROR_OR_EXPIRED": {
+      "turkish": "Bir hata oluştu veya zaman aşımına uğradı.",
+      "english": "An error occurred or the process has expired."
+    },
+    "WELCOME_CHANNEL_PROMPT": {
+      "turkish": {
+        "content": "Yeni hoşgeldin kanalını aşağıdan ayarlayınız",
+        "ephemeral": true,
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 8,
+                "custom_id": "welcomeChannel",
+                "placeholder": "Kanal seçiniz.",
+                "min_values": 0,
+                "max_values": 1,
+                "default_values": [
+                  {
+                    "id": "0",
+                    "type": "channel"
+                  }
+                ],
+                "channel_types": [
+                  0
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "english": {
+        "content": "Set the new welcome channel below",
+        "ephemeral": true,
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 8,
+                "custom_id": "welcomeChannel",
+                "placeholder": "Select a channel.",
+                "min_values": 0,
+                "max_values": 1,
+                "default_values": [
+                  {
+                    "id": "0",
+                    "type": "channel"
+                  }
+                ],
+                "channel_types": [
+                  0
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "WELCOME_CHANNEL_SUCCESS": {
+      "turkish": "Hoşgeldin kanalı başarıyla ayarlandı.",
+      "english": "The welcome channel has been successfully set."
+    },
+    "WELCOME_CHANNEL_ERROR_OR_EXPIRED": {
+      "turkish": "Bir hata oluştu veya zaman aşımına uğradı.",
+      "english": "An error occurred or the process has expired."
+    },
+    "WELCOME_MESSAGE_ALREADY_SETUP": {
+      "turkish": {
+        "content": "Hoşgeldin mesajı zaten ayarlanmış. Değiştirmek mi yoksa silmek mi istersiniz?",
+        "ephemeral": true,
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 2,
+                "label": "✅| Değiştir",
+                "style": 3,
+                "custom_id": "welcomeMessageAccept"
+              },
+              {
+                "type": 2,
+                "label": "❌| İptal",
+                "style": 4,
+                "custom_id": "welcomeMessageReject"
+              },
+              {
+                "type": 2,
+                "label": "🗑️| Sil",
+                "style": 1,
+                "custom_id": "welcomeMessageDelete"
+              }
+            ]
+          }
+        ]
+      },
+      "english": {
+        "content": "The welcome message is already set up. Would you like to change it or delete it?",
+        "ephemeral": true,
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 2,
+                "label": "✅| Change",
+                "style": 3,
+                "custom_id": "welcomeMessageAccept"
+              },
+              {
+                "type": 2,
+                "label": "❌| Cancel",
+                "style": 4,
+                "custom_id": "welcomeMessageReject"
+              },
+              {
+                "type": 2,
+                "label": "🗑️| Delete",
+                "style": 1,
+                "custom_id": "welcomeMessageDelete"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "WELCOME_MESSAGE_CANCEL": {
+      "turkish": "Hoşgeldin mesajı ayarlama işlemi iptal edildi.",
+      "english": "The welcome message setup process has been canceled."
+    },
+    "WELCOME_MESSAGE_MODAL": {
+      "turkish": {
+        "title": "Hoşgeldin Mesajı",
+        "custom_id": "welcomeMessage",
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 4,
+                "custom_id": "welcomeMessage",
+                "label": "Hoşgeldin Mesajı",
+                "style": 2,
+                "min_length": 1,
+                "max_length": 4000,
+                "placeholder": "Kullanılabilir değişkenler: {user}, {tag}, {name}, {id}, {server}, {memberCount}",
+                "required": true
+              }
+            ]
+          }
+        ]
+      },
+      "english": {
+        "title": "Welcome Message",
+        "custom_id": "welcomeMessage",
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 4,
+                "custom_id": "welcomeMessage",
+                "label": "Welcome Message",
+                "style": 2,
+                "min_length": 1,
+                "max_length": 4000,
+                "placeholder": "Available variables: {user}, {tag}, {name}, {id}, {server}, {memberCount}",
+                "required": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "WELCOME_MESSAGE_SETUP": {
+      "turkish": {
+        "content": "Hoşgeldin mesajı ayarlamak için aşağıdaki butona tıklayınız.",
+        "ephemeral": true,
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 2,
+                "label": "Hoşgeldin Mesajını Ayarla",
+                "style": 1,
+                "custom_id": "welcomeMessage"
+              }
+            ]
+          }
+        ]
+      },
+      "english": {
+        "content": "Click the button below to set the welcome message.",
+        "ephemeral": true,
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 2,
+                "label": "Set Welcome Message",
+                "style": 1,
+                "custom_id": "welcomeMessage"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "WELCOME_MESSAGE_SUCCESS": {
+      "turkish": "Hoşgeldin mesajı başarıyla ayarlandı.",
+      "english": "The welcome message has been successfully set."
+    },
+    "WELCOME_MESSAGE_ERROR_OR_EXPIRED": {
+      "turkish": "Bir hata oluştu veya zaman aşımına uğradı.",
+      "english": "An error occurred or the process has expired."
+    },
+    "WELCOME_MESSAGE_DELETED": {
+      "turkish": "Hoşgeldin mesajı başarıyla silindi.",
+      "english": "The welcome message has been successfully deleted."
+    },
+    "GOODBYE_CHANNEL_PROMPT": {
+      "turkish": {
+        "content": "Yeni görüşürüz kanalını aşağıdan ayarlayınız",
+        "ephemeral": true,
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 8,
+                "custom_id": "goodbyeChannel",
+                "placeholder": "Kanal seçiniz.",
+                "min_values": 0,
+                "max_values": 1,
+                "default_values": [
+                  {
+                    "id": "0",
+                    "type": "channel"
+                  }
+                ],
+                "channel_types": [
+                  0
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "english": {
+        "content": "Set the new goodbye channel below",
+        "ephemeral": true,
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 8,
+                "custom_id": "goodbyeChannel",
+                "placeholder": "Select a channel.",
+                "min_values": 0,
+                "max_values": 1,
+                "default_values": [
+                  {
+                    "id": "0",
+                    "type": "channel"
+                  }
+                ],
+                "channel_types": [
+                  0
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "GOODBYE_CHANNEL_SUCCESS": {
+      "turkish": "Görüşürüz kanalı başarıyla ayarlandı.",
+      "english": "The goodbye channel has been successfully set."
+    },
+    "GOODBYE_CHANNEL_ERROR_OR_EXPIRED": {
+      "turkish": "Bir hata oluştu veya zaman aşımına uğradı.",
+      "english": "An error occurred or the process has expired."
+    },
+    "GOODBYE_MESSAGE_ALREADY_SETUP": {
+      "turkish": {
+        "content": "Görüşürüz mesajı zaten ayarlanmış. Değiştirmek mi yoksa silmek mi istersiniz?",
+        "ephemeral": true,
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 2,
+                "label": "✅| Değiştir",
+                "style": 3,
+                "custom_id": "goodbyeMessageAccept"
+              },
+              {
+                "type": 2,
+                "label": "❌| İptal",
+                "style": 4,
+                "custom_id": "goodbyeMessageReject"
+              },
+              {
+                "type": 2,
+                "label": "🗑️| Sil",
+                "style": 1,
+                "custom_id": "goodbyeMessageDelete"
+              }
+            ]
+          }
+        ]
+      },
+      "english": {
+        "content": "The goodbye message is already set up. Would you like to change it or delete it?",
+        "ephemeral": true,
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 2,
+                "label": "✅| Change",
+                "style": 3,
+                "custom_id": "goodbyeMessageAccept"
+              },
+              {
+                "type": 2,
+                "label": "❌| Cancel",
+                "style": 4,
+                "custom_id": "goodbyeMessageReject"
+              },
+              {
+                "type": 2,
+                "label": "🗑️| Delete",
+                "style": 1,
+                "custom_id": "goodbyeMessageDelete"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "GOODBYE_MESSAGE_CANCEL": {
+      "turkish": "Görüşürüz mesajı ayarlama işlemi iptal edildi.",
+      "english": "The goodbye message setup process has been canceled."
+    },
+    "GOODBYE_MESSAGE_MODAL": {
+      "turkish": {
+        "title": "Görüşürüz Mesajı",
+        "custom_id": "goodbyeMessage",
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 4,
+                "custom_id": "goodbyeMessage",
+                "label": "Görüşürüz Mesajı",
+                "style": 2,
+                "min_length": 1,
+                "max_length": 4000,
+                "placeholder": "Kullanılabilir değişkenler: {user}, {tag}, {name}, {id}, {server}, {memberCount}",
+                "required": true
+              }
+            ]
+          }
+        ]
+      },
+      "english": {
+        "title": "Goodbye Message",
+        "custom_id": "goodbyeMessage",
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 4,
+                "custom_id": "goodbyeMessage",
+                "label": "Goodbye Message",
+                "style": 2,
+                "min_length": 1,
+                "max_length": 4000,
+                "placeholder": "Available variables: {user}, {tag}, {name}, {id}, {server}, {memberCount}",
+                "required": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "GOODBYE_MESSAGE_SETUP": {
+      "turkish": {
+        "content": "Görüşürüz mesajı ayarlamak için aşağıdaki butona tıklayınız.",
+        "ephemeral": true,
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 2,
+                "label": "Görüşürüz Mesajını Ayarla",
+                "style": 1,
+                "custom_id": "goodbyeMessage"
+              }
+            ]
+          }
+        ]
+      },
+      "english": {
+        "content": "Click the button below to set the goodbye message.",
+        "ephemeral": true,
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 2,
+                "label": "Set Goodbye Message",
+                "style": 1,
+                "custom_id": "goodbyeMessage"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "GOODBYE_MESSAGE_SUCCESS": {
+      "turkish": "Görüşürüz mesajı başarıyla ayarlandı.",
+      "english": "The goodbye message has been successfully set."
+    },
+    "GOODBYE_MESSAGE_ERROR_OR_EXPIRED": {
+      "turkish": "Bir hata oluştu veya zaman aşımına uğradı.",
+      "english": "An error occurred or the process has expired."
+    },
+    "GOODBYE_MESSAGE_DELETED": {
+      "turkish": "Görüşürüz mesajı başarıyla silindi.",
+      "english": "The goodbye message has been successfully deleted."
+    },
+    "REGISTER_MESSAGE_CHANNEL_PROMPT": {
+      "turkish": {
+        "content": "Kayıt kanalını aşağıdan ayarlayınız",
+        "ephemeral": true,
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 8,
+                "custom_id": "registerChannel",
+                "placeholder": "Kanal seçiniz.",
+                "min_values": 0,
+                "max_values": 1,
+                "default_values": [
+                  {
+                    "id": "0",
+                    "type": "channel"
+                  }
+                ],
+                "channel_types": [
+                  0
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "english": {
+        "content": "Set the register channel below",
+        "ephemeral": true,
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 8,
+                "custom_id": "registerChannel",
+                "placeholder": "Select a channel.",
+                "min_values": 0,
+                "max_values": 1,
+                "default_values": [
+                  {
+                    "id": "0",
+                    "type": "channel"
+                  }
+                ],
+                "channel_types": [
+                  0
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "REGISTER_MESSAGE_CHANNEL_SUCCESS": {
+      "turkish": "Kayıt kanalı başarıyla ayarlandı.",
+      "english": "The register channel has been successfully set."
+    },
+    "REGISTER_MESSAGE_CHANNEL_ERROR_OR_EXPIRED": {
+      "turkish": "Bir hata oluştu veya zaman aşımına uğradı.",
+      "english": "An error occurred or the process has expired."
+    },
+    "MODERATION_CONFIG_PROMPT": {
+      "turkish": {
+        "content": "Ayarlamak istediğiniz ayarı seçiniz.",
+        "ephemeral": true,
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 3,
+                "custom_id": "moderationConfig",
+                "options": [
+                  {
+                    "label": "ModLog Kanalını Ayarla",
+                    "value": "modLogChannel",
+                    "description": "ModLog kanalını ayarlar.",
+                    "emoji": "📝"
+                  },
+                  {
+                    "label": "Susturmada Tüm Rolleri Al",
+                    "value": "muteGetAllRoles",
+                    "description": "Susturmada tüm rolleri alır.",
+                    "emoji": "🔇"
+                  },
+                  {
+                    "label": "ModMail'i Ayarla",
+                    "value": "modMail",
+                    "description": "ModMail'i ayarlar.",
+                    "emoji": "📧"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "english": {
+        "content": "Select the setting you want to adjust.",
+        "ephemeral": true,
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 3,
+                "custom_id": "moderationConfig",
+                "options": [
+                  {
+                    "label": "Set ModLog Channel",
+                    "value": "modLogChannel",
+                    "description": "Sets the ModLog channel.",
+                    "emoji": "📝"
+                  },
+                  {
+                    "label": "Take All Roles in Mute",
+                    "value": "muteGetAllRoles",
+                    "description": "Takes all roles in mute.",
+                    "emoji": "🔇"
+                  },
+                  {
+                    "label": "Set ModMail",
+                    "value": "modMail",
+                    "description": "Sets the ModMail.",
+                    "emoji": "📧"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "MODERATION_CONFIG_ERROR_OR_EXPIRED": {
+      "turkish": "Bir hata oluştu veya zaman aşımına uğradı.",
+      "english": "An error occurred or the process has expired."
+    },
+    "MODLOG_CHANNEL_PROMPT": {
+      "turkish": {
+        "content": "ModLog kanalını aşağıdan ayarlayınız",
+        "ephemeral": true,
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 8,
+                "custom_id": "modLogChannel",
+                "placeholder": "Kanal seçiniz.",
+                "default_values": [
+                  {
+                    "id": "0",
+                    "type": "channel"
+                  }
+                ],
+                "channel_types": [
+                  0
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "english": {
+        "content": "Set the ModLog channel below",
+        "ephemeral": true,
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 8,
+                "custom_id": "modLogChannel",
+                "placeholder": "Select a channel.",
+                "min_values": 0,
+                "max_values": 1,
+                "default_values": [
+                  {
+                    "id": "0",
+                    "type": "channel"
+                  }
+                ],
+                "channel_types": [
+                  0
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "MODLOG_CHANNEL_SUCCESS": {
+      "turkish": "ModLog kanalı başarıyla ayarlandı.",
+      "english": "The ModLog channel has been successfully set."
+    },
+    "MODLOG_CHANNEL_ERROR_OR_EXPIRED": {
+      "turkish": "Bir hata oluştu veya zaman aşımına uğradı.",
+      "english": "An error occurred or the process has expired."
+    },
+    "MUTE_GET_ALL_ROLES_TRUE": {
+      "turkish": "Susturmada tüm rolleri al ayarı aktif edildi.",
+      "english": "The setting to take all roles in mute has been activated."
+    },
+    "MUTE_GET_ALL_ROLES_FALSE": {
+      "turkish": "Susturmada tüm rolleri al ayarı deaktif edildi.",
+      "english": "The setting to take all roles in mute has been deactivated."
+    },
+    "MODMAIL_PROMPT": {
+      "turkish": {
+        "content": "Modmail daha önceden ayarlanmış. Eğer kanalları sildiyseniz sil seçeneğini kullanınız.",
+        "ephemeral": true,
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 2,
+                "label": "🗑️ | Sil",
+                "style": 4,
+                "custom_id": "modMailDelete"
+              },
+              {
+                "type": 2,
+                "label": "❌ | İptal",
+                "style": 3,
+                "custom_id": "modMailReject"
+              }
+            ]
+          }
+        ]
+      },
+      "english": {
+        "content": "Modmail has been set up before. If you have deleted the channels, use the delete option.",
+        "ephemeral": true,
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 2,
+                "label": "🗑️ | Delete",
+                "style": 4,
+                "custom_id": "modMailDelete"
+              },
+              {
+                "type": 2,
+                "label": "❌ | Cancel",
+                "style": 3,
+                "custom_id": "modMailReject"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "MODMAIL_DELETE": {
+      "turkish": "Modmail başarıyla silindi.",
+      "english": "Modmail has been successfully deleted."
+    },
+    "MODMAIL_REJECT": {
+      "turkish": "Modmail ayarlama işlemi iptal edildi.",
+      "english": "The Modmail setup process has been canceled."
+    },
+    "MODMAIL_ERROR_OR_EXPIRED": {
+      "turkish": "Bir hata oluştu veya zaman aşımına uğradı.",
+      "english": "An error occurred or the process has expired."
+    },
+    "MODMAIL_ERROR_ON_CREATION": {
+      "turkish": "Modmail kanalları oluşturulurken bir hata oluştu. Kanal açma yetkimin olduğundan emin olun.",
+      "english": "An error occurred while creating Modmail channels. Make sure I have permission to open channels."
+    },
+    "MODMAIL_SUCCESS": {
+      "turkish": "Modmail başarıyla ayarlandı.",
+      "english": "Modmail has been successfully set."
+    },
+    "ROLE_CONFIG_PROMPT": {
+      "turkish": {
+        "content": "Ayarlamak istediğiniz ayarı seçiniz.",
+        "ephemeral": true,
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 3,
+                "custom_id": "roleConfig",
+                "options": [
+                  {
+                    "label": "Üye Rolü Ayarla",
+                    "value": "memberRole",
+                    "description": "Üye rolünü ayarlar.",
+                    "emoji": "👤"
+                  },
+                  {
+                    "label": "Erkek Rolü Ayarla",
+                    "value": "maleRole",
+                    "description": "Erkek rolünü ayarlar.",
+                    "emoji": "👨"
+                  },
+                  {
+                    "label": "Kadın Rolü Ayarla",
+                    "value": "femaleRole",
+                    "description": "Kadın rolünü ayarlar.",
+                    "emoji": "👩"
+                  },
+                  {
+                    "label": "Mute Rolü Ayarla",
+                    "value": "muteRole",
+                    "description": "Mute rolünü ayarlar.",
+                    "emoji": "🔇"
+                  },
+                  {
+                    "label": "DJ Rolü Ayarla",
+                    "value": "djRole",
+                    "description": "DJ rolünü ayarlar.",
+                    "emoji": "🎧"
+                  },
+                  {
+                    "label": "Günün Rengi Rol Ayarla",
+                    "value": "dayColorRole",
+                    "description": "Günün rengi rolünü ayarlar.",
+                    "emoji": "🌈"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "english": {
+        "content": "Select the setting you want to adjust.",
+        "ephemeral": true,
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 3,
+                "custom_id": "roleConfig",
+                "options": [
+                  {
+                    "label": "Set Member Role",
+                    "value": "memberRole",
+                    "description": "Sets the member role.",
+                    "emoji": "👤"
+                  },
+                  {
+                    "label": "Set Male Role",
+                    "value": "maleRole",
+                    "description": "Sets a male role",
+                    "emoji": "👨"
+                  },
+                  {
+                    "label": "Set Woman Role",
+                    "value": "femaleRole",
+                    "description": "Sets a female role",
+                    "emoji": "👩"
+                  },
+                  {
+                    "label": "Set Mute Role",
+                    "value": "muteRole",
+                    "description": "Sets the mute role.",
+                    "emoji": "🔇"
+                  },
+                  {
+                    "label": "Set DJ Role",
+                    "value": "djRole",
+                    "description": "Sets the DJ role.",
+                    "emoji": "🎧"
+                  },
+                  {
+                    "label": "Set Colour of the Day Role",
+                    "value": "dayColorRole",
+                    "description": "Sets the colour of the day role.",
+                    "emoji": "🌈"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "ROLE_CONFIG_ERROR_OR_EXPIRED": {
+      "turkish": "Bir hata oluştu veya zaman aşımına uğradı.",
+      "english": "An error occurred or the process has expired."
+    },
+    "MEMBER_ROLE_PROMPT": {
+      "turkish": {
+        "content": "Üye rolünü aşağıdan ayarlayınız",
+        "ephemeral": true,
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 8,
+                "custom_id": "memberRole",
+                "placeholder": "Rol seçiniz.",
+                "min_values": 0,
+                "max_values": 1,
+                "default_values": [
+                  {
+                    "id": "0",
+                    "type": "role"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "english": {
+        "content": "Set the member role below",
+        "ephemeral": true,
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 8,
+                "custom_id": "memberRole",
+                "placeholder": "Select a role.",
+                "min_values": 0,
+                "max_values": 1,
+                "default_values": [
+                  {
+                    "id": "0",
+                    "type": "role"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "MEMBER_ROLE_SUCCESS": {
+      "turkish": "Üye rolü başarıyla ayarlandı.",
+      "english": "The member role has been successfully set."
+    },
+    "MEMBER_ROLE_ERROR_OR_EXPIRED": {
+      "turkish": "Bir hata oluştu veya zaman aşımına uğradı.",
+      "english": "An error occurred or the process has expired"
+    },
+    "MALE_ROLE_PROMPT": {
+      "turkish": {
+        "content": "Erkek rolünü aşağıdan ayarlayınız",
+        "ephemeral": true,
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 8,
+                "custom_id": "maleRole",
+                "placeholder": "Rol seçiniz.",
+                "min_values": 0,
+                "max_values": 1,
+                "default_values": [
+                  {
+                    "id": "0",
+                    "type": "role"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "english": {
+        "content": "Set the male role below",
+        "ephemeral": true,
+        "components": [
+          {
+            "type": 1,
+            "components": [
+              {
+                "type": 8,
+                "custom_id": "maleRole",
+                "placeholder": "Select a role.",
+                "min_values": 0,
+                "max_values": 1,
+                "default_values": [
+                  {
+                    "id": "0",
+                    "type": "role"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "MALE_ROLE_SUCCESS": {
+      "turkish": "Erkek rolü başarıyla ayarlandı.",
+      "english": "Male role has been successfully set."
+    },
+    "MALE_ROLE_ERROR_OR_EXPIRED": {
+      "turkish": "Bir hata oluştu veya zaman aşımına uğradı.",
+      "english": "An error occurred or the process has expired."
     }
   }
 }
