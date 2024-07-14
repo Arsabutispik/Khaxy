@@ -22,7 +22,6 @@ const intents = new IntentsBitField()
         IntentsBitField.Flags.DirectMessages,
         IntentsBitField.Flags.DirectMessageReactions,
         IntentsBitField.Flags.DirectMessageTyping,
-        IntentsBitField.Flags.GuildPresences,
         IntentsBitField.Flags.MessageContent,
         IntentsBitField.Flags.GuildWebhooks,
         IntentsBitField.Flags.GuildInvites,
