@@ -2,7 +2,6 @@ import { AuditLogEvent } from "discord.js";
 import { sleep } from "../utils/utils.js";
 import modlog from "../utils/modlog.js";
 export default async (client, oldMember, newMember) => {
-    console.log(oldMember.isCommunicationDisabled(), newMember.isCommunicationDisabled());
     if (!oldMember.isCommunicationDisabled() && newMember.isCommunicationDisabled()) {
         await sleep(1000);
         const fetchedLogs = await oldMember.guild.fetchAuditLogs({
