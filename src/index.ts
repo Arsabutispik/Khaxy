@@ -85,9 +85,6 @@ client.once("ready", async () => {
     const messages: {message: string, type: ActivityType.Custom | undefined}[] =
         [
             {
-                message: `Watching ${client.users.cache.size} holy souls 👁‍🗨`, type: ActivityType.Custom
-            },
-            {
                message: `Use /invite to add me!`, type: ActivityType.Custom
             },
             {
@@ -115,7 +112,6 @@ client.once("ready", async () => {
     }
     client.user!.setActivity(status.message, {type: status.type});
         setInterval(() => {
-            messages[0] = {message: `Watching ${client.users.cache.size} holy souls 👁‍🗨`, type: ActivityType.Custom};
             messages[2] = {message: `${client.guilds.cache.size} Guilds are under my protection.`, type: ActivityType.Custom};
             const status = messages[Math.floor(Math.random() * messages.length)];
             client.user!.setActivity(status.message, {type: status.type});

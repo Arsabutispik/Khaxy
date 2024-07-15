@@ -2678,6 +2678,12 @@
                                         "emoji": "🔇"
                                     },
                                     {
+                                        "label": "Yetkili Rolleri",
+                                        "value": "staffRoles",
+                                        "description": "Kayıt sorumlusu rollerini ayarlar.",
+                                        "emoji": "👮"
+                                    },
+                                    {
                                         "label": "ModMail'i Ayarla",
                                         "value": "modMail",
                                         "description": "ModMail'i ayarlar.",
@@ -2717,6 +2723,12 @@
                                         "value": "muteGetAllRoles",
                                         "description": "Takes all roles in mute.",
                                         "emoji": "🔇"
+                                    },
+                                    {
+                                        "label": "Staff Roles",
+                                        "value": "staffRoles",
+                                        "description": "Sets the registrar roles.",
+                                        "emoji": "👮"
                                     },
                                     {
                                         "label": "Set ModMail",

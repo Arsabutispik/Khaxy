@@ -27,11 +27,11 @@ async function registerConfig(interaction: ChatInputCommandInteraction, client: 
                 case "registerChannel":
                     await registerChannel(selectCollector, client)
                     break
-                case "staffRole":
-                    await staffRole(selectCollector, client)
-                    break
                 case "registerMessage":
                     await registerMessage(selectCollector, client)
+                    break
+                case "registerWelcomeChannel":
+                    await registerMessageChannel(selectCollector, client)
                     break
                 case "registerMessageClear":
                     await registerMessageClear(selectCollector, client)
@@ -155,49 +155,6 @@ async function registerChannel(interaction: SelectMenuInteraction, client: Khaxy
                 ephemeral: true
             })
         }
-    }
-}
-
-async function staffRole(interaction: SelectMenuInteraction, client: KhaxyClient) {
-    const raw = client.handleLanguages("STAFF_ROLES_PROMPT", client, interaction.guildId!)
-    raw.components[0].components[0].default_values.shift()
-    const staffRoles = client.guildsConfig.get(interaction.guild!.id)?.config.staffRole || []
-    for (const role of staffRoles) {
-        raw.components[0].components[0].default_values.push({
-            "id": role,
-            "type": "role"
-        })
-    }
-    //Discord typing doesn't match with the API so it complains about the type
-    //@ts-ignore
-    await interaction.reply(raw)
-    const msg = await interaction.fetchReply()
-    const filter = (i: RoleSelectMenuInteraction) => i.user.id === interaction.user.id
-    try {
-        const collector = await msg.awaitMessageComponent({
-            filter: filter,
-            componentType: ComponentType.RoleSelect,
-            time: 60000
-        })
-        if (collector) {
-            const roles = collector.values
-            const config = {
-                $set: {
-                    "config.staffRole": roles
-                }
-            }
-            await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-            await collector.reply({
-                content: client.handleLanguages("STAFF_ROLES_SUCCESS", client, interaction.guildId!),
-                ephemeral: true
-            })
-        }
-    } catch (error) {
-        await interaction.followUp({
-            content: client.handleLanguages("STAFF_ROLES_ERROR_OR_EXPIRED", client, interaction.guildId!),
-            ephemeral: true
-        })
-        console.error(error)
     }
 }
 
@@ -328,6 +285,48 @@ async function registerMessage(interaction: SelectMenuInteraction, client: Khaxy
         }
     }
 }
+async function registerMessageChannel(interaction: SelectMenuInteraction, client: KhaxyClient) {
+    const raw = client.handleLanguages("REGISTER_MESSAGE_CHANNEL_PROMPT", client, interaction.guildId!)
+    raw.components[0].components[0].default_values.shift()
+    const registerChannel = client.guildsConfig.get(interaction.guild!.id)?.config.registerWelcomeChannel
+    if (registerChannel) {
+        raw.components[0].components[0].default_values.push({
+            "id": registerChannel,
+            "type": "channel"
+        })
+    }
+    //@ts-ignore
+    await interaction.reply(raw)
+    const msg = await interaction.fetchReply() as Message
+    const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id
+    try {
+        const collector = await msg.awaitMessageComponent({
+            filter: filter,
+            componentType: ComponentType.ChannelSelect,
+            time: 60000
+        })
+        if (collector) {
+            const data = collector.values[0]
+            const channel = interaction.guild!.channels.cache.get(data) as TextChannel
+            const config = {
+                $set: {
+                    "config.registerWelcomeChannel": channel.id
+                }
+            }
+            await client.updateGuildConfig({guildId: interaction.guild!.id, config})
+            await collector.reply({
+                content: client.handleLanguages("REGISTER_MESSAGE_CHANNEL_SUCCESS", client, interaction.guildId!),
+                ephemeral: true
+            })
+        }
+    } catch (error) {
+        await interaction.followUp({
+            content: client.handleLanguages("REGISTER_MESSAGE_CHANNEL_ERROR_OR_EXPIRED", client, interaction.guildId!),
+            ephemeral: true
+        })
+        console.error(error)
+    }
+}
 
 async function registerMessageClear(interaction: SelectMenuInteraction, client: KhaxyClient) {
     if (!client.guildsConfig.get(interaction.guild!.id)?.config.registerMessageClear) {
@@ -404,9 +403,6 @@ async function welcomeConfig(interaction: ChatInputCommandInteraction, client: K
                     break
                 case "goodbyeMessage":
                     await goodbyeMessage(collector, client)
-                    break
-                case "registerChannel":
-                    await registerMessageChannel(collector, client)
                     break
             }
         }
@@ -747,49 +743,6 @@ async function goodbyeMessage(interaction: SelectMenuInteraction, client: KhaxyC
     }
 }
 
-async function registerMessageChannel(interaction: SelectMenuInteraction, client: KhaxyClient) {
-    const raw = client.handleLanguages("REGISTER_MESSAGE_CHANNEL_PROMPT", client, interaction.guildId!)
-    raw.components[0].components[0].default_values.shift()
-    const registerChannel = client.guildsConfig.get(interaction.guild!.id)?.config.registerChannel
-    if (registerChannel) {
-        raw.components[0].components[0].default_values.push({
-            "id": registerChannel,
-            "type": "channel"
-        })
-    }
-    //@ts-ignore
-    await interaction.reply(raw)
-    const msg = await interaction.fetchReply() as Message
-    const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id
-    try {
-        const collector = await msg.awaitMessageComponent({
-            filter: filter,
-            componentType: ComponentType.ChannelSelect,
-            time: 60000
-        })
-        if (collector) {
-            const data = collector.values[0]
-            const channel = interaction.guild!.channels.cache.get(data) as TextChannel
-            const config = {
-                $set: {
-                    "config.registerChannel": channel.id
-                }
-            }
-            await client.updateGuildConfig({guildId: interaction.guild!.id, config})
-            await collector.reply({
-                content: client.handleLanguages("REGISTER_MESSAGE_CHANNEL_SUCCESS", client, interaction.guildId!),
-                ephemeral: true
-            })
-        }
-    } catch (error) {
-        await interaction.followUp({
-            content: client.handleLanguages("REGISTER_MESSAGE_CHANNEL_ERROR_OR_EXPIRED", client, interaction.guildId!),
-            ephemeral: true
-        })
-        console.error(error)
-    }
-}
-
 async function moderationConfig(interaction: ChatInputCommandInteraction, client: KhaxyClient) {
 
     await interaction.reply(client.handleLanguages("MODERATION_CONFIG_PROMPT", client, interaction.guildId!))
@@ -808,6 +761,9 @@ async function moderationConfig(interaction: ChatInputCommandInteraction, client
                     break;
                 case "muteGetAllRoles":
                     await muteGetAllRoles(collector, client)
+                    break;
+                case "staffRoles":
+                    await staffRole(collector, client)
                     break;
                 case "modMail":
                     await modMail(collector, client)
@@ -885,6 +841,49 @@ async function muteGetAllRoles(interaction: SelectMenuInteraction, client: Khaxy
         }
         await client.updateGuildConfig({guildId: interaction.guild!.id, config})
         await interaction.reply({content: client.handleLanguages("MUTE_GET_ALL_ROLES_FALSE", client, interaction.guildId!), ephemeral: true})
+    }
+}
+
+async function staffRole(interaction: SelectMenuInteraction, client: KhaxyClient) {
+    const raw = client.handleLanguages("STAFF_ROLES_PROMPT", client, interaction.guildId!)
+    raw.components[0].components[0].default_values.shift()
+    const staffRoles = client.guildsConfig.get(interaction.guild!.id)?.config.staffRole || []
+    for (const role of staffRoles) {
+        raw.components[0].components[0].default_values.push({
+            "id": role,
+            "type": "role"
+        })
+    }
+    //Discord typing doesn't match with the API so it complains about the type
+    //@ts-ignore
+    await interaction.reply(raw)
+    const msg = await interaction.fetchReply()
+    const filter = (i: RoleSelectMenuInteraction) => i.user.id === interaction.user.id
+    try {
+        const collector = await msg.awaitMessageComponent({
+            filter: filter,
+            componentType: ComponentType.RoleSelect,
+            time: 60000
+        })
+        if (collector) {
+            const roles = collector.values
+            const config = {
+                $set: {
+                    "config.staffRole": roles
+                }
+            }
+            await client.updateGuildConfig({guildId: interaction.guild!.id, config})
+            await collector.reply({
+                content: client.handleLanguages("STAFF_ROLES_SUCCESS", client, interaction.guildId!),
+                ephemeral: true
+            })
+        }
+    } catch (error) {
+        await interaction.followUp({
+            content: client.handleLanguages("STAFF_ROLES_ERROR_OR_EXPIRED", client, interaction.guildId!),
+            ephemeral: true
+        })
+        console.error(error)
     }
 }
 
