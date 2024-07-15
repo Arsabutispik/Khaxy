@@ -6,29 +6,27 @@ import checkPunishments from "./utils/checkPunishments.js";
 import { Player } from "discord-player";
 import prettyMilliseconds from "pretty-ms";
 import guildSchema from "./schemas/guildSchema.js";
+import openMails from "./schemas/openMailsSchema.js";
 import colorOfTheDay from "./utils/colorOfTheDay.js";
 import cron from "node-cron";
 import handleLanguages from "./utils/languageHandler.js";
 import "dotenv/config.js";
-const intents = new IntentsBitField()
-    .add([IntentsBitField.Flags.Guilds,
-    IntentsBitField.Flags.GuildMembers,
-    IntentsBitField.Flags.GuildBans,
-    IntentsBitField.Flags.GuildMessages,
-    IntentsBitField.Flags.GuildMessageReactions,
-    IntentsBitField.Flags.GuildVoiceStates,
-    IntentsBitField.Flags.GuildMessageTyping,
-    IntentsBitField.Flags.DirectMessages,
-    IntentsBitField.Flags.DirectMessageReactions,
-    IntentsBitField.Flags.DirectMessageTyping,
-    IntentsBitField.Flags.MessageContent,
-    IntentsBitField.Flags.GuildWebhooks,
-    IntentsBitField.Flags.GuildInvites,
-    IntentsBitField.Flags.GuildScheduledEvents,
-    IntentsBitField.Flags.GuildMessageTyping,
-    IntentsBitField.Flags.GuildIntegrations,
-    IntentsBitField.Flags.GuildEmojisAndStickers]);
-const client = new Client({ intents, partials: [Partials.Message, Partials.Channel, Partials.User, Partials.Reaction] });
+const client = new Client({
+    intents: [
+        IntentsBitField.Flags.Guilds,
+        IntentsBitField.Flags.GuildMembers,
+        IntentsBitField.Flags.GuildMessageReactions,
+        IntentsBitField.Flags.GuildVoiceStates,
+        IntentsBitField.Flags.DirectMessages,
+        IntentsBitField.Flags.DirectMessageReactions,
+        IntentsBitField.Flags.GuildModeration,
+        IntentsBitField.Flags.GuildWebhooks,
+        IntentsBitField.Flags.GuildInvites,
+        IntentsBitField.Flags.GuildIntegrations,
+        IntentsBitField.Flags.GuildEmojisAndStickers
+    ],
+    partials: [Partials.Channel, Partials.User, Partials.Reaction, Partials.GuildMember]
+});
 client.config = (await import("./botconfig.js")).default;
 const player = new Player(client);
 await player.extractors.loadDefault((ext) => ext !== "YouTubeExtractor");
@@ -74,6 +72,21 @@ client.once("ready", async () => {
     const guildData = await guildSchema.find();
     for (const data of guildData) {
         client.guildsConfig.set(data.guildID, data.toJSON());
+    }
+    const openMailData = await openMails.find();
+    for (const data of openMailData) {
+        const guild = client.guilds.cache.get(data.guildID);
+        if (!guild) {
+            openMails.deleteOne({ guildID: data.guildID });
+            continue;
+        }
+        const channel = guild.channels.cache.get(data.channelID);
+        if (!channel) {
+            openMails.deleteOne({ channelID: data.channelID });
+            continue;
+        }
+        client.userTickets.set(data.userID, data.channelID);
+        client.ticketMessages.set(data.channelID, data.messages);
     }
     await checkPunishments(client);
     cron.schedule("0 0 * * *", async () => {

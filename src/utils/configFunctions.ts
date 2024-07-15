@@ -806,7 +806,7 @@ async function modLogChannel(interaction: SelectMenuInteraction, client: KhaxyCl
             const channel = interaction.guild!.channels.cache.get(data) as TextChannel
             const config = {
                 $set: {
-                    "config.modLogChannel": channel.id
+                    "config.modlogChannel": channel.id
                 }
             }
             await client.updateGuildConfig({guildId: interaction.guild!.id, config})

@@ -1,6 +1,5 @@
 import { SlashCommandBuilder, PermissionsBitField, EmbedBuilder, ChannelType } from "discord.js";
-import fetch, { Headers } from "node-fetch";
-import FormData from "form-data";
+import fs from "fs/promises";
 import { replaceMassString } from "../../utils/utils.js";
 export default {
     help: {
@@ -21,8 +20,7 @@ export default {
         "tr": "Aktif bir modmaili kapatır."
     }),
     async execute({ client, interaction }) {
-        const data = client.guildsConfig.get(interaction.guild.id);
-        if (!interaction.member.permissions.has(PermissionsBitField.Flags.ManageGuild) || !interaction.member.roles.cache.hasAny(...data.config.staffRole))
+        if (!interaction.member.permissions.has(PermissionsBitField.Flags.ManageGuild))
             return interaction.reply({ content: client.handleLanguages("CLOSEMAIL_NO_PERMS", client, interaction.guild.id), ephemeral: true });
         const ticket = client.userTickets.find((t) => t === interaction.channel.id);
         const user = client.userTickets.findKey((t) => t === interaction.channel.id);
@@ -42,45 +40,18 @@ export default {
                 return interaction.channel.send({ content: client.handleLanguages("CLOSEMAIL_LOG_CHANNEL_ERROR", client, interaction.guild.id) });
             }
         }
-        const myHeaders = new Headers();
-        myHeaders.append("Accept", "application/json");
-        const formdata = new FormData();
-        formdata.append("username", "arsabutispik");
-        formdata.append("password", "G7jqT9c4JShir@O");
-        const login = await fetch("https://pastes.io/api/login", {
-            method: "POST",
-            headers: myHeaders,
-            body: formdata,
-            redirect: "follow",
-        });
-        const loginResponse = await login.json();
-        const myPostHeaders = new Headers();
-        myPostHeaders.append("Accept", "application/json");
-        myPostHeaders.append("Authorization", "Bearer " + loginResponse.success.api_token);
-        const postformdata = new FormData();
-        postformdata.append("content", client.ticketMessages.get(user));
-        postformdata.append("status", "2");
-        postformdata.append("expire", "N");
-        postformdata.append("title", `Mail: ${interaction.channel.name} - Answered By: ${interaction.user.username}`);
-        postformdata.append("syntax", "none");
-        const pasteio = await fetch("https://pastes.io/api/paste/create", {
-            method: "POST",
-            headers: myPostHeaders,
-            body: postformdata,
-            redirect: "follow",
-        });
-        const response = await pasteio.json();
+        await fs.writeFile(`./logs/${interaction.guild.members.cache.get(user).user.username}.txt`, client.ticketMessages.get(interaction.channel.id));
         const lastEmbed = new EmbedBuilder()
             .setAuthor({ name: interaction.user.username, iconURL: interaction.user.displayAvatarURL() })
             .setDescription(replaceMassString(client.handleLanguages("CLOSEMAIL_LOG_MESSAGE", client, interaction.guild.id), {
             "{userName}": interaction.user.username,
             "{mailChannelName}": interaction.channel.name,
-            "{url}": response.success.slug
         }))
             .setColor("Greyple")
             .setTimestamp();
         if (logChannel) {
-            await logChannel.send({ embeds: [lastEmbed] });
+            await logChannel.send({ embeds: [lastEmbed], files: [`./logs/${interaction.guild.members.cache.get(user).user.username}.txt`]
+            });
         }
         client.userTickets.delete(user);
         client.ticketMessages.delete(ticket);
@@ -96,7 +67,8 @@ export default {
             .setDescription(client.handleLanguages("CLOSEMAIL_NOTIFY", client, interaction.guild.id))
             .setColor("Red")
             .setTimestamp();
-        await userDM.send({ embeds: [closeEmbed] });
+        await userDM.send({ embeds: [closeEmbed], files: [`./logs/${interaction.guild.members.cache.get(user).user.username}.txt`] });
+        await fs.unlink(`./logs/${interaction.guild.members.cache.get(user).user.username}.txt`);
     }
 };
 //# sourceMappingURL=close.js.map

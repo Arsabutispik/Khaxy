@@ -3,7 +3,7 @@ import ms from 'ms';
 import guildSchema from "../schemas/guildSchema.js";
 import {KhaxyClient} from "../types";
 import {log, replaceMassString} from "./utils.js";
-type actions = "WARNING" | "BAN" | "KICK" | "MUTE" | "FORCED_BAN" | "TIMED_BAN" | "CHANGES" | "BAN_REMOVE" | "BAN_END" | "FORCED_TIMED_BAN"
+type actions = "WARNING" | "BAN" | "KICK" | "MUTE" | "FORCED_BAN" | "TIMED_BAN" | "CHANGES" | "BAN_REMOVE" | "BAN_END" | "FORCED_TIMED_BAN" | "TIMEOUT"
 
 export default async(data: {guild: Guild, user: User, action: actions, actionmaker: User, reason: string, duration?: number, casenumber?: number}, client: KhaxyClient) => {
     const {guild, user, action, actionmaker, reason, duration, casenumber} = data;
@@ -105,6 +105,19 @@ export default async(data: {guild: Guild, user: User, action: actions, actionmak
             amount = amount.replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün")
         }
         message += replaceMassString(client.handleLanguages("MODLOG_BAN_TIMEOUT", client, guild.id), {
+            "{user_id}": user.id,
+            "{actionmaker_username}": actionmaker.username,
+            "{actionmaker_id}": actionmaker.id,
+            "{reason}": reason,
+            "{amount}": amount
+        })
+    } else if (action === "TIMEOUT") {
+        let amount = ms(duration!, {long: true})
+        if(lang === "turkish") {
+            amount = amount.replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün")
+        }
+        message += replaceMassString(client.handleLanguages("MODLOG_TIMEOUT", client, guild.id), {
+            "{user_username}": user.username,
             "{user_id}": user.id,
             "{actionmaker_username}": actionmaker.username,
             "{actionmaker_id}": actionmaker.id,

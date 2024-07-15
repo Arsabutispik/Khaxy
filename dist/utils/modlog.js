@@ -119,6 +119,20 @@ export default async (data, client) => {
             "{amount}": amount
         });
     }
+    else if (action === "TIMEOUT") {
+        let amount = ms(duration, { long: true });
+        if (lang === "turkish") {
+            amount = amount.replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün");
+        }
+        message += replaceMassString(client.handleLanguages("MODLOG_TIMEOUT", client, guild.id), {
+            "{user_username}": user.username,
+            "{user_id}": user.id,
+            "{actionmaker_username}": actionmaker.username,
+            "{actionmaker_id}": actionmaker.id,
+            "{reason}": reason,
+            "{amount}": amount
+        });
+    }
     try {
         const channel = await guild.channels.fetch(guildData.config.modlogChannel);
         if (channel && channel instanceof TextChannel) {

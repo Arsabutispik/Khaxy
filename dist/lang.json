@@ -12,173 +12,9 @@
             "turkish": "Bu komutu çalıştırırken bir hata oluştu. Lütfen daha sonra tekrar deneyin.",
             "english": "An error occurred while executing this command. Please try again later."
         },
-        "MODMAIL_TOPIC": {
-            "turkish": "Modmail kanalı **{user_name}** tarafından oluşturuldu /kapat yazarak kapatılabilir.",
-            "english": "Modmail has been created by **{user_name}** with /close you can close this modmail."
-        },
-        "MODMAIL_CREATED": {
-            "turkish": "Modmail kanalı oluşturuldu.",
-            "english": "Modmail channel has been created."
-        },
-        "MODMAIL_CREATE_MESSAGE": {
-            "turkish": {
-                "content": "Yeni bir modmail geldi, yanıtlamak için sohbete yazın reddetmek için aşağıdaki butona basabilirsiniz.",
-                "embeds": [
-                    {
-                        "author": {
-                            "name": "{user_name}",
-                            "icon_url": "{user_avatar}"
-                        },
-                        "description": "{message_content}",
-                        "color": 0,
-                        "timestamp": "{timestamp}"
-                    }
-                ],
-                "components": [
-                    {
-                        "type": 1,
-                        "components": [
-                            {
-                                "type": 2,
-                                "label": "❌| Reddet",
-                                "style": 4,
-                                "custom_id": "reject"
-                            }
-                        ]
-                    }
-                ]
-            },
-            "english": {
-                "content": "There is a new modmail! To reply type in this channel. To reject this modmail use the button below",
-                "embeds": [
-                    {
-                        "author": {
-                            "name": "{user_name}",
-                            "icon_url": "{user_avatar}"
-                        },
-                        "description": "{message_content}",
-                        "color": 0,
-                        "timestamp": "{timestamp}"
-                    }
-                ],
-                "components": [
-                    {
-                        "type": 1,
-                        "components": [
-                            {
-                                "type": 2,
-                                "label": "❌| Reject",
-                                "style": 4,
-                                "custom_id": "reject"
-                            }
-                        ]
-                    }
-                ]
-            }
-        },
-        "MODMAIL_REJECT_REASON": {
-            "turkish": "Reddetme sebebinizi yazın.",
-            "english": "Write the reason for rejection."
-        },
-        "MODMAIL_REJECTED": {
-            "turkish": {
-                "content": "Modmail aşağıdaki sebepten dolayı reddedildi.",
-                "embeds": [
-                    {
-                        "author": {
-                            "name": "{user_name}",
-                            "icon_url": "{user_avatar}"
-                        },
-                        "description": "{reason}",
-                        "color": 0
-                    }
-                ]
-            },
-            "english": {
-                "content": "Modmail has been rejected with the following reason.",
-                "embeds": [
-                    {
-                        "author": {
-                            "name": "{user_name}",
-                            "icon_url": "{user_avatar}"
-                        },
-                        "description": "{reason}",
-                        "color": 0
-                    }
-                ]
-            }
-        },
-        "MODMAIL_REJECTED_MESSAGE": {
-            "turkish": "Mail reddedildi\n**Reddeden:** {author_username}\n**Reddetme sebebi:** {reject_reason}",
-            "english": "Mail has been rejected\n**Rejected by:** {author_username}\n**Reason for rejection:** {reject_reason}"
-        },
-        "MODMAIL_CHANNEL_DELETE_MISSING_PERMS": {
-            "turkish": "Modmail kanalını silerken bir hata oluştu. Lütfen yetkilerimi kontrol edin.",
-            "english": "An error occurred while deleting the modmail channel. Please check my permissions."
-        },
-        "GENERAL_ERROR": {
-            "turkish": "Bir hata oluştu. Lütfen daha sonra tekrar deneyin.",
-            "english": "An error occurred. Please try again later."
-        },
-        "MODMAIL_CLOSE_BUTTON": {
-            "turkish": "❌| Kapat",
-            "english": "❌| Close"
-        },
-        "MODMAIL_CLOSED": {
-            "turkish": {
-                "content": "Modmail kapatıldı.",
-                "embeds": [
-                    {
-                        "author": {
-                            "name": "{user_name}",
-                            "icon_url": "{user_avatar}"
-                        },
-                        "description": "{reason}",
-                        "color": 0
-                    }
-                ]
-            },
-            "english": {
-                "content": "Modmail has been closed.",
-                "embeds": [
-                    {
-                        "author": {
-                            "name": "{user_name}",
-                            "icon_url": "{user_avatar}"
-                        },
-                        "description": "{reason}",
-                        "color": 0
-                    }
-                ]
-            }
-        },
-        "MODMAIL_LOG_TITLE": {
-            "turkish": "{mailChannel_name} - {author_username} tarafından yanıtlanan modmail",
-            "english": "{mailChannel_name} - Modmail answered by {author_username}"
-        },
-        "MODMAIL_LOG_MESSAGE": {
-            "turkish": {
-                "embeds": [
-                    {
-                        "title": "{mailChannel_name} - {author_username} tarafından yanıtlanan modmail",
-                        "description": "{author_username} tarafından {mailChannel_name} modmaili kapatıldı. Konuşma logları [BURADA](https://pastes.io/raw/{paste_id}) bulunabilir",
-                        "color": 0
-                    }
-                ]
-            },
-            "english": {
-                "embeds": [
-                    {
-                        "title": "{mailChannel_name} - Modmail answered by {author_username}",
-                        "description": "{author_username} has closed the modmail {mailChannel_name}. Conversation logs can be found [HERE](https://pastes.io/raw/{paste_id})",
-                        "color": 0
-                    }
-                ]
-            }
-        },
         "NO_SEND_MESSAGE_PERMS": {
-            "turkish": "Botun düzgün çalışması için `Mesaj Gönder` yetkisine ihtiyacı var!",
-            "english": "For this bot to work properly it needs `Send Messages` perm!"
+            "turkish": "Bu komutu çalıştırabilmek için `Mesaj Gönder` yetkisine ihtiyacım var.",
+            "english": "I need the `Send Messages` permission to run this command."
         },
         "NO_ONE_IN_VOICE": {
             "turkish": {
@@ -262,6 +98,10 @@
         "MODLOG_FORCED_TIME_BAN": {
             "turkish": "<:banbanned:1017703176528474152> Kullanıcı (`{user_id}`), **{amount}** boyunca **{actionmaker_username}** tarafından zorla banlandı. Sebep:\n```{reason}```",
             "english": "<:banbanned:1017703176528474152> User (`{user_id}`) has been force banned by **{actionmaker_username}** for **{amount}**. Reason:\n```{reason}```"
+        },
+        "MODLOG_TIMEOUT": {
+            "turkish": "🔇 **{actionmaker_username}**, **{user_username}** adlı kullanıcıya **{amount}** zaman aşımı verdi. Sebep:\n```{reason}```",
+            "english": "🔇 **{actionmaker_username}** has given **{user_username}** a **{amount}** timeout. Reason:\n```{reason}```"
         },
         "BAN_BOT_MISSING_PERMS": {
             "turkish": "Üyeleri yasaklayabilmek için `Üyeleri Yasakla` yetkim yok.",
@@ -814,8 +654,8 @@
             "english": "Since modmail logs couldn't be found, a channel was tried to be created. However, the channel couldn't be created. Please make sure you set the modmail log channel properly."
         },
         "CLOSEMAIL_LOG_MESSAGE": {
-            "turkish": "{userName} tarafından {mailChannelName} maili kapatıldı. Konuşma logları [BURADA](https://pastes.io/raw/{url}) bulunabilir.",
-            "english": "{userName} has closed the {mailChannelName} modmail. Conversation logs can be found [HERE](https://pastes.io/raw/{url})."
+            "turkish": "{userName} tarafından {mailChannelName} maili kapatıldı. Konuşma logları yukarıda paylaşılan .txt dosyasında bulunabilir.",
+            "english": "{userName} has closed the {mailChannelName} mail. Conversation logs can be found in the .txt file shared above."
         },
         "CLOSEMAIL_NO_PERM_TO_DELETE": {
             "turkish": "Modmail kapatıldı ancak konuşma logları silinemedi. Lütfen konuşma loglarını manuel olarak silin.",
@@ -3420,6 +3260,292 @@
         "COLOUR_OF_THE_DAY_ROLE_ERROR_OR_EXPIRED": {
             "turkish": "Bir hata oluştu veya zaman aşımına uğradı.",
             "english": "An error occurred or the process has expired."
+        },
+        "SERVER_HAS_NO_CONFIGURATION": {
+            "turkish": {
+                "content": "Bu sunucunun bir konfigürasyonu bulunmamaktadır.",
+                "ephemeral": true
+            },
+            "english": {
+                "content": "This server has no configuration.",
+                "ephemeral": true
+            }
+        },
+        "MAIL_CHANNEL_NOT_SET": {
+            "turkish": {
+                "content": "Bu sunucu için bir modmail ayarlanmamış.",
+                "ephemeral": true
+            },
+            "english": {
+                "content": "No modmail set for this server.",
+                "ephemeral": true
+            }
+        },
+        "MAIL_OPENED": {
+            "turkish": {
+                "content": "Modmail başarıyla açıldı.",
+                "ephemeral": true
+            },
+            "english": {
+                "content": "Modmail has been successfully opened.",
+                "ephemeral": true
+            }
+        },
+        "MAIL_OPENED_MESSAGE": {
+            "turkish": {
+                "content": "{user} tarafından açılan modmail. Detaylar aşşağıda, yanıtlamak için aşağıdaki butonu kullanabilirsiniz.",
+                "ephemeral": false,
+                "embeds": [
+                    {
+                        "author": {
+                            "name": "{user.tag}",
+                            "icon_url": "{user.avatarURL}"
+                        },
+                        "description": "{message}",
+                        "color": 0
+                    }
+                ],
+                "components": [
+                    {
+                        "type": 1,
+                        "components": [
+                            {
+                                "type": 2,
+                                "label": "Yanıtla",
+                                "style": 1,
+                                "custom_id": "modMailReply"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "english": {
+                "content": "Modmail opened by {user}. Details below, you can use the button below to reply.",
+                "ephemeral": false,
+                "embeds": [
+                    {
+                        "author": {
+                            "name": "{user.tag}",
+                            "icon_url": "{user.avatarURL}"
+                        },
+                        "description": "{message}",
+                        "color": 0
+                    }
+                ],
+                "components": [
+                    {
+                        "type": 1,
+                        "components": [
+                            {
+                                "type": 2,
+                                "label": "Reply",
+                                "style": 1,
+                                "custom_id": "modMailReply"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "MAIL_FOLLOWUP_MESSAGE": {
+            "turkish": {
+                "content": "{user} tarafından bir takip mesajı gönderildi. Mesajı aşağıda görebilir ve bu mesaja yanıt vermek için aşağıdaki butonu kullanabilirsiniz.",
+                "ephemeral": false,
+                "embeds": [
+                    {
+                        "author": {
+                            "name": "{user.tag}",
+                            "icon_url": "{user.avatarURL}"
+                        },
+                        "description": "{message}",
+                        "color": 0
+                    }
+                ],
+                "components": [
+                    {
+                        "type": 1,
+                        "components": [
+                            {
+                                "type": 2,
+                                "label": "Yanıtla",
+                                "style": 1,
+                                "custom_id": "modMailReply"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "english": {
+                "content": "{user} has sent a follow-up message. You can see the message below and use the button below to reply to this message.",
+                "ephemeral": false,
+                "embeds": [
+                    {
+                        "author": {
+                            "name": "{user.tag}",
+                            "icon_url": "{user.avatarURL}"
+                        },
+                        "description": "{message}",
+                        "color": 0
+                    }
+                ],
+                "components": [
+                    {
+                        "type": 1,
+                        "components": [
+                            {
+                                "type": 2,
+                                "label": "Reply",
+                                "style": 1,
+                                "custom_id": "modMailReply"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "MAIL_FOLLOWUP_DM_MESSAGE": {
+            "turkish": {
+                "content": "{server} sunucusundan gelen bir yanıtınız var. Yanıtı aşağıda görebilirsiniz ve bu mesajı yanıtlamak için aşağıdaki butonu kullanabilirsiniz.",
+                "ephemeral": false,
+                "embeds": [
+                    {
+                        "author": {
+                            "name": "{user.tag}",
+                            "icon_url": "{user.avatarURL}"
+                        },
+                        "description": "{message}",
+                        "color": 0
+                    }
+                ],
+                "components": [
+                    {
+                        "type": 1,
+                        "components": [
+                            {
+                                "type": 2,
+                                "label": "Yanıtla",
+                                "style": 1,
+                                "custom_id": "modMailReplyDM"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "english": {
+                "content": "You have a response from the {server} server. You can see the response below and use the button below to reply to this message.",
+                "ephemeral": false,
+                "embeds": [
+                    {
+                        "author": {
+                            "name": "{user.tag}",
+                            "icon_url": "{user.avatarURL}"
+                        },
+                        "description": "{message}",
+                        "color": 0
+                    }
+                ],
+                "components": [
+                    {
+                        "type": 1,
+                        "components": [
+                            {
+                                "type": 2,
+                                "label": "Reply",
+                                "style": 1,
+                                "custom_id": "modMailReplyDM"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "MAIL_SENT_ATTACHMENT": {
+            "turkish": "Bir dosya eklenmiş.",
+            "english": "A file has been attached."
+        },
+        "BUTTON_CLICK_MODAL": {
+            "turkish": {
+                "title": "Maile Yanıtınız",
+                "custom_id": "buttonClick",
+                "components": [
+                    {
+                        "type": 1,
+                        "components": [
+                            {
+                                "type": 4,
+                                "custom_id": "buttonClick",
+                                "label": "Maile Yanıtınız",
+                                "style": 2
+                            }
+                        ]
+                    }
+                ]
+            },
+            "english": {
+                "title": "Your Reply to the Mail",
+                "custom_id": "buttonClick",
+                "components": [
+                    {
+                        "type": 1,
+                        "components": [
+                            {
+                                "type": 4,
+                                "custom_id": "buttonClick",
+                                "label": "Your Reply to the Mail",
+                                "style": 2
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "MESSAGE_SENT": {
+            "turkish": {
+                "content": "Mesajınız başarıyla gönderildi.",
+                "ephemeral": true
+            },
+            "english": {
+                "content": "Your message has been successfully sent.",
+                "ephemeral": true
+            }
+        },
+        "MESSAGE_SENT_INFORMATION": {
+            "turkish": {
+                "content": "{user} replied to this message. You can see the message below.",
+                "ephemeral": false,
+                "embeds": [
+                    {
+                        "author": {
+                            "name": "{user.tag}",
+                            "icon_url": "{user.avatarURL}"
+                        },
+                        "description": "{message}",
+                        "color": 0
+                    }
+                ]
+            },
+            "english": {
+                "content": "{user} replied to this message. You can see the message below.",
+                "ephemeral": false,
+                "embeds": [
+                    {
+                        "author": {
+                            "name": "{user.tag}",
+                            "icon_url": "{user.avatarURL}"
+                        },
+                        "description": "{message}",
+                        "color": 0
+                    }
+                ]
+            }
+        },
+        "TIMEOUT_NO_REASON_GIVEN": {
+            "turkish": "Zaman aşımı için herhangi bir sebep belirtilmedi.",
+            "english": "No reason given for timeout."
+        },
+        "TIMEOUT_COULD_NOT_FIND_EXECUTER": {
+            "turkish": "Zaman aşımı işlemini gerçekleştiren kişi bulunamadı.",
+            "english": "The person who performed the timeout operation could not be found."
         }
     }
 }

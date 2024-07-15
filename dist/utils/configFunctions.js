@@ -810,7 +810,7 @@ async function modLogChannel(interaction, client) {
             const channel = interaction.guild.channels.cache.get(data);
             const config = {
                 $set: {
-                    "config.modLogChannel": channel.id
+                    "config.modlogChannel": channel.id
                 }
             };
             await client.updateGuildConfig({ guildId: interaction.guild.id, config });
