@@ -40,6 +40,7 @@ export default {
                 return interaction.channel.send({ content: client.handleLanguages("CLOSEMAIL_LOG_CHANNEL_ERROR", client, interaction.guild.id) });
             }
         }
+        await fs.mkdir("./logs", { recursive: true });
         await fs.writeFile(`./logs/${interaction.guild.members.cache.get(user).user.username}.txt`, client.ticketMessages.get(interaction.channel.id));
         const lastEmbed = new EmbedBuilder()
             .setAuthor({ name: interaction.user.username, iconURL: interaction.user.displayAvatarURL() })
@@ -68,7 +69,7 @@ export default {
             .setColor("Red")
             .setTimestamp();
         await userDM.send({ embeds: [closeEmbed], files: [`./logs/${interaction.guild.members.cache.get(user).user.username}.txt`] });
-        await fs.unlink(`./logs/${interaction.guild.members.cache.get(user).user.username}.txt`);
+        await fs.rm("./logs", { recursive: true, force: true });
     }
 };
 //# sourceMappingURL=close.js.map
