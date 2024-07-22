@@ -1,4 +1,4 @@
-import {slashCommandBase} from "../../types";
+import {slashCommandBase} from "../../../types";
 import {GuildMember, PermissionsBitField, SlashCommandBuilder} from "discord.js";
 import prettyMilliseconds from "pretty-ms";
 import { useMainPlayer } from "discord-player";

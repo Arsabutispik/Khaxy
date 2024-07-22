@@ -1,4 +1,4 @@
-import { slashCommandBase } from "../../types";
+import { slashCommandBase } from "../../../types";
 import prettyMilliseconds from "pretty-ms";
 import {EmbedBuilder, SlashCommandBuilder} from "discord.js";
 import ProgressBar from "string-progressbar";

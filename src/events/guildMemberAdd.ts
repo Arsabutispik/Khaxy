@@ -1,4 +1,4 @@
-import {KhaxyClient} from "../types";
+import {KhaxyClient} from "../../types";
 import {GuildMember, TextChannel} from "discord.js";
 import punishmentSchema from "../schemas/punishmentSchema.js";
 import {replaceMassString} from "../utils/utils.js";

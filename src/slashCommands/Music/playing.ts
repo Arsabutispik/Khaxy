@@ -1,5 +1,5 @@
 import {SlashCommandBuilder} from "discord.js";
-import {slashCommandBase} from "../../types";
+import {slashCommandBase} from "../../../types";
 import prettyMilliseconds from "pretty-ms";
 import ProgressBar from "string-progressbar";
 import {GuildQueue, useQueue} from "discord-player";

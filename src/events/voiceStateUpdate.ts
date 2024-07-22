@@ -1,4 +1,4 @@
-import { KhaxyClient } from "../types";
+import { KhaxyClient } from "../../types";
 import {VoiceState} from "discord.js";
 import {useQueue} from "discord-player";
 

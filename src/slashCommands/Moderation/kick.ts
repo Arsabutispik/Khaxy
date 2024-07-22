@@ -1,4 +1,4 @@
-import {slashCommandBase} from "../../types";
+import {slashCommandBase} from "../../../types";
 import {GuildMember, PermissionsBitField, SlashCommandBuilder} from "discord.js";
 import modlog from "../../utils/modlog.js";
 import {daysToSeconds, log, replaceMassString} from "../../utils/utils.js";

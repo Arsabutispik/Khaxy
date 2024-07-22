@@ -1,0 +1,1512 @@
+{
+    "HAPPY_TO_USE": "Bu botu kullanmaktan memnun musunuz? /invite ile bu botu sunucunuza davet edebilirsiniz!",
+    "ERROR_ON_INTERACTION": "Bu komutu çalıştırırken bir hata oluştu. Lütfen daha sonra tekrar deneyin.",
+    "NO_SEND_MESSAGE_PERMS": "Bu komutu çalıştırabilmek için `Mesaj Gönder` yetkisine ihtiyacım var.",
+    "NO_ONE_IN_VOICE": {
+        "embeds": [
+            {
+                "title": "Sesli Kanalda Kimse Kalmadı",
+                "description": "Sesli kanalda kimse kalmadığı için müzik kapatıldı.",
+                "color": 0
+            }
+        ]
+    },
+    "KICKED_FROM_VOICE": {
+        "embeds": [
+            {
+                "author": {
+                    "name": "Sesli Kanaldan Atıldım",
+                    "icon_url": "https://cdn.discordapp.com/attachments/972754239447261264/1074662659737276466/a26bb800-b7ee-11eb-8909-43ff37955c81.png"
+                },
+                "description": "Bot sesli kanaldan atıldığı için müzik durduruldu.",
+                "color": 0
+            }
+        ]
+    },
+    "MODLOG_WARNING": "⚠️ **{user_username}**, **{actionmaker_username}** tarafından uyarıldı. Sebep:\n```{reason}```",
+    "MODLOG_BAN": "<:banned:1017703188150894622>  **{user_username}**, **{actionmaker_username}** tarafından yasaklandı. Sebep:\n```{reason}```",
+    "MODLOG_KICK": "👢 **{user_username}**, **{actionmaker__username}** tarafından atıldı. Sebep:\n```{reason}```",
+    "MODLOG_FORCED_BAN": "<:banbanned:1017703176528474152> Kullanıcı (`{user_id}`), **{actionmaker_username}** tarafından zorla banlandı. Sebep:\n```{reason}```",
+    "MODLOG_MUTE": "🔇 **{user_username}**, **{actionmaker_username}** tarafından **{amount}** boyunca susturuldu. Sebep:\n```{reason}```",
+    "MODLOG_TIMED_BAN": "<:banned:1017703188150894622> **{user_username}**, **{actionmaker_username}** tarafından **{amount}** boyunca yasaklandı. Sebep:\n```{reason}```",
+    "MODLOG_UNBAN": "🔓 Kullanıcı (`{user_id}`), **{actionmaker_username}** tarafından yasağı kaldırıldı. Sebep:\n```{reason}```",
+    "MODLOG_BAN_TIMEOUT": "🔓 Kullanıcı (`{user_id}`), **{amount}** sonra **{actionmaker_username}** tarafından otomatik olarak yasağı kaldırıldı. Sebep:\n```{reason}```",
+    "MODLOG_CHANGES": "<t:{time}> `[{case}]` ✏️ Olay #{case}, **{actionmaker_username}** tarafından değiştirildi. Sebep:\n```{reason}```",
+    "MODLOG_FORCED_TIME_BAN": "<:banbanned:1017703176528474152> Kullanıcı (`{user_id}`), **{amount}** boyunca **{actionmaker_username}** tarafından zorla banlandı. Sebep:\n```{reason}```",
+    "MODLOG_TIMEOUT": "🔇 **{actionmaker_username}**, **{user_username}** adlı kullanıcıya **{amount}** zaman aşımı verdi. Sebep:\n```{reason}```",
+    "BAN_BOT_MISSING_PERMS": "Üyeleri yasaklayabilmek için `Üyeleri Yasakla` yetkim yok.",
+    "BAN_USER_MISSING_PERMS": "Bu kullanıcıyı yasaklayabilmek için `Üyeleri Yasakla` yetkiniz yok.",
+    "BAN_USER_NOT_FOUND": "Bu kullanıcıyı bulamadım.",
+    "BAN_NO_REASON": "Yasaklama sebebi belirtilmedi.",
+    "BAN_CANT_BAN_YOURSELF": "Kendini yasaklayamazsın.",
+    "BAN_CANT_BAN_BOT": "Bot yasaklayamazsınız.",
+    "BAN_USER_HIGHER_ROLE": "Bu kullanıcı sizden daha yüksek (veya aynı) bir role sahip.",
+    "BAN_USER_HAS_PERMS": "Bu kullanıcıyı yasaklayamazsın çünkü bu kullanıcının `Üyeleri Yasaklama` Yetkisi var.",
+    "BAN_SPECIFY_TIME": "Bir zaman belirtmelisiniz.",
+    "BAN_SPECIFY_UNIT": "Bir zaman birimi belirtmelisiniz.",
+    "BAN_INVALID_TIME": "Geçersiz bir zaman belirttiniz.",
+    "BAN_USER_DURATION_DM": "{guild_name} sunucusundan **{duration}** boyunca yasaklandın. Sebep: {reason}",
+    "BAN_USER_DURATION_MESSAGE": "<a:checkmark:1017704018287546388> **{targetMember_username}** **{duration}** boyunca yasaklandı (Olay #{case}) Kullanıcı özel bir mesaj ile bildirildi.",
+    "BAN_USER_DURATION_MESSAGE_FAIL": "<a:checkmark:1017704018287546388> **{targetMember_username}** **{duration}** boyunca yasaklandı (Olay #{case}) Kullanıcıya özel bir mesaj gönderilemedi.",
+    "NO_PERMISSION_MODLOG": "Modlog kanalına mesaj gönderemedim. Lütfen `Mesaj Gönder` yetkimin olduğundan emin olun",
+    "BAN_USER_DM": "{guild_name} sunucusundan yasaklandın. Sebep: {reason}",
+    "BAN_USER_MESSAGE": "<a:checkmark:1017704018287546388> **{targetMember_username}** yasaklandı (Olay #{case}) Kullanıcı özel bir mesaj ile bildirildi.",
+    "BAN_USER_MESSAGE_FAIL": "<a:checkmark:1017704018287546388> **{targetMember_username}** yasaklandı (Olay #{case}) Kullanıcıya özel bir mesaj gönderilemedi.",
+    "BAN_FORCE_USER_NOT_FOUND": "Bu kullanıcıyı bulamadım.",
+    "BAN_FORCE_MESSAGE": "<a:checkmark:1017704018287546388> **{targetMember_username}** yasaklandı (Olay #{case})",
+    "CONFIG_NO_PERMS": "Bu sunucuda ayarları değiştirebilmek için `Yönetici` yetkisine ihtiyacın var.",
+    "CONFIG_MESSAGE": {
+        "ephemeral": true,
+        "embeds": [
+            {
+                "title": "Ayarlar Menüsü",
+                "description": "Ayarları görmek için aşağıdaki menüden seçim yapabilirsin.",
+                "color": 0
+            }
+        ],
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 3,
+                        "custom_id": "config",
+                        "options": [
+                            {
+                                "label": "Kayıt Ayarları",
+                                "value": "register"
+                            },
+                            {
+                                "label": "Giriş Çıkış Ayarları",
+                                "value": "welcome-leave"
+                            },
+                            {
+                                "label": "Moderasyon Ayarları",
+                                "value": "moderation"
+                            },
+                            {
+                                "label": "Rol Ayarları",
+                                "value": "role"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "CONFIG_REGISTER_MESSAGE": {
+        "ephemeral": true,
+        "embeds": [
+            {
+                "title": "Kayıt Ayarları",
+                "description": "Ayarlar ve kısaca açıklamaları;\n\n**Kayıt Kanalı:** Kayıt işlemlerinin yapıldığı kanal. `/kayıt` sadece bu kanalda yapılır.\n\n**Kayıt Mesajı:** Sunucuya birisi geldiğinde kayıt kanalına atılan mesajdır. Yetkili kadroyu etiketlemenizi de sağlar. Değişkenler: **{user}** - Kullanıcı, **{server}** - Sunucu İsmi, **{memberCount}** - Sunucu Üye Sayısı, **{id}** - Kullanıcı ID'si, **{name}** - Kullanıcının ismi.\n\n**Kayıt Mesajının Atıldığı Kanal:** Kayıt mesajının atıldığı kanal.\n\n**Kayıt Kanalındaki Mesajlar Silinsin mi?:** Kayıt işlemlerinden sonra kanaldaki silinebilecek tüm mesajları silmeye çalışır.\n\n**Kayıt Mesajı Silinsin mi?:** Kullanıcı çıktığı zaman kayıt mesajını silmeye çalışır. (Genellikle çalışmaz.)\n\n**»»----------------------------¤----------------------------««**",
+                "color": 0,
+                "fields": [
+                    {
+                        "name": "Kayıt Kanalı",
+                        "value": "{registerChannel}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Kayıt Mesajı",
+                        "value": "{registerMessage}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Kayıt Mesajının Atıldığı Kanal",
+                        "value": "{registerWelcomeChannel}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Kayıt Kanalındaki Mesajlar Silinsin mi?",
+                        "value": "{registerChannelClear}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Kayıt Mesajı Silinsin mi?",
+                        "value": "{registerMessageClear}",
+                        "inline": true
+                    }
+                ]
+            }
+        ]
+    },
+    "CONFIG_WELCOME_LEAVE_MESSAGE": {
+        "ephemeral": true,
+        "embeds": [
+            {
+                "title": "Giriş Çıkış Ayarları",
+                "description": "Ayarlar ve kısaca açıklamaları;\n\n**Giriş Çıkış Kanalı:** Sunucuya birisi girdiğinde veya çıktığında mesajın atılacağı kanal.\n\n**Giriş Mesajı:** Sunucuya birisi girdiğinde atılacak mesaj. Değişkenler: **{user}** - Kullanıcı, **{server}** - Sunucu İsmi, **{memberCount}** - Sunucu Üye Sayısı, **{id}** - Kullanıcı ID'si, **{name}** - Kullanıcının ismi.\n\n**Çıkış Mesajı:** Sunucudan birisi çıktığında atılacak mesaj. Değişkenler: **{user}** - Kullanıcı, **{server}** - Sunucu İsmi, **{memberCount}** - Sunucu Üye Sayısı, **{id}** - Kullanıcı ID'si, **{name}** - Kullanıcının ismi.\n\n**»»----------------------------¤----------------------------««**",
+                "color": 0,
+                "fields": [
+                    {
+                        "name": "Giriş Kanalı",
+                        "value": "{welcomeChannel}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Giriş Mesajı",
+                        "value": "{welcomeMessage}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Çıkış Kanalı",
+                        "value": "{leaveChannel}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Çıkış Mesajı",
+                        "value": "{leaveMessage}",
+                        "inline": true
+                    }
+                ]
+            }
+        ]
+    },
+    "CONFIG_MODERATION_MESSAGE": {
+        "ephemeral": true,
+        "embeds": [
+            {
+                "title": "Moderasyon Ayarları",
+                "description": "Ayarlar ve kısaca açıklamaları;\n\n**Modlog Kanalı:** Moderasyon işlemlerinin atıldığı kanal.\n\n**Mute Sırasında Roller Alınsın mı?:** Kullanıcı susturulduğunda rollerini alıp bittiğinde geri verilir.\n\n**Yetkili Rolleri:** Spesifik admin komutları içindir. (Örneğin: `/kayıt` komutu)\n\n**ModMail Kanalı**: Modmail üyelerin bota DM yazarak sunucuda modlarla özel bir kanalda konuşabileceği yerler açar.\n\n**Dil**:Sunucunun dilini ayarlar\n\n**»»----------------------------¤----------------------------««**",
+                "color": 0,
+                "fields": [
+                    {
+                        "name": "Modlog Kanalı",
+                        "value": "{modlogChannel}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Mute Sırasında Roller Alınsın mı?",
+                        "value": "{muteGetAllRoles}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Yetkili Rolleri",
+                        "value": "{staffRole}",
+                        "inline": true
+                    },
+                    {
+                        "name": "ModMail Kanalı",
+                        "value": "{modmailChannel}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Dil",
+                        "value": "{language}",
+                        "inline": true
+                    }
+                ]
+            }
+        ]
+    },
+    "CONFIG_ROLE_MESSAGE": {
+        "ephemeral": true,
+        "embeds": [
+            {
+                "title": "Rol Ayarları",
+                "description": "Ayarlar ve kısaca açıklamaları;\n\n**Kayıt Rolleri:** Kayıt sırasında verilecek cinsiyet rolleri.\n\n**Üye Rolü:** Kayıt sırasında verilecek üye rolü. (Eğer kayıt ayarlanmadan bu rol ayarlandıysa bot sunucuya gelen kişiye bu rolü verir.)\n\n**Susturulmuş Rolü:** Kullanıcıya mute atıldığında verilecek rol.\n\n**Günün Rengi Rolü:** Her gün UTC+3 00:00'da bot ayarlanmış rolün rengini ve ismini değiştirir.\n\n**DJ Rolü:** Bu role sahip kullanıcılar müzik dinlerken bazı kısıtlamaları bypass edebilirler.\n\n**»»----------------------------¤----------------------------««**",
+                "color": 0,
+                "fields": [
+                    {
+                        "name": "Kayıt Rolleri",
+                        "value": "{registerRoles}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Üye Rolü",
+                        "value": "{memberRole}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Susturulmuş Rolü",
+                        "value": "{muteRole}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Günün Rengi Rolü",
+                        "value": "{colorOfTheDay}",
+                        "inline": true
+                    },
+                    {
+                        "name": "DJ Rolü",
+                        "value": "{djRole}",
+                        "inline": true
+                    }
+                ]
+            }
+        ]
+    },
+    "EDITCASE_NO_PERMS": "Bu sunucuda olayları düzenleyebilmek için `Sunucuyu Yönet` yetkisine ihtiyacın var.",
+    "EDITCASE_NO_MODLOG": "Bu sunucuda modlog kanalı ayarlanmamış.",
+    "EDITCASE_NO_MODLOG_CHANNEL": "Görünüşe göre bir modlog kanalı bulunamadı. Lütfen modlog kanalını düzgün ayarladığınızdan emin olun.",
+    "EDITCASE_NO_MODLOG_PERMS": "Modlog kanalına mesaj gönderemiyorum. Lütfen `Mesaj Gönder` yetkisine sahip olduğumdan emin olun.",
+    "EDITCASE_NO_CASE": "Bu ID ile bir olay bulunamadı.",
+    "EDITCASE_MESSAGE": {
+        "embeds": [
+            {
+                "title": "Olay Düzenleme Menüsü",
+                "description": "Değişiklikleri onaylamak için düğmelerden <a:checkmark:1017704018287546388>, iptal etmek için <a:wrong:1197091816282001468> tuşuna basınız.",
+                "color": 0,
+                "fields": [
+                    {
+                        "name": "Yeni Yetkili",
+                        "value": "{newStaff}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Yeni Sebep",
+                        "value": "{newReason}",
+                        "inline": true
+                    }
+                ]
+            }
+        ]
+    },
+    "EDITCASE_CONFIRMATION_TIMEOVER": "Onaylama süresi doldu.",
+    "EDITCASE_CONFIRMATION_CANCEL": "Düzenleme işlemi iptal edildi.",
+    "EDITCASE_CONFIRMATION_SUCCESS": "Olay başarıyla düzenlendi.",
+    "CLOSEMAIL_NO_PERMS": "Bu sunucuda modmail kanalını kapatabilmek için `Sunucuyu Yönet` yetkisine ihtiyacın var.",
+    "CLOSEMAIL_NOT_MODMAIL": "Bu kanal bir modmail kanalı değil.",
+    "CLOSEMAIL_CLOSE": "Modmail kapatılıyor...",
+    "CLOSEMAIL_LOG_CHANNEL_ERROR": "Modmail logları bulunamadığı için bir kanal oluşturulmaya çalışıldı. Ancak kanal oluşturulamadı. Lütfen modmail log kanalını düzgün ayarladığınızdan emin olun.",
+    "CLOSEMAIL_LOG_MESSAGE": "{userName} tarafından {mailChannelName} maili kapatıldı. Konuşma logları yukarıda paylaşılan .txt dosyasında bulunabilir.",
+    "CLOSEMAIL_NO_PERM_TO_DELETE": "Modmail kapatıldı ancak konuşma logları silinemedi. Lütfen konuşma loglarını manuel olarak silin.",
+    "CLOSEMAIL_NOTIFY": "Modmail kapatıldı.",
+    "BAN_EVENT_ADD_NO_AUDIT_PERMISSION": "Bu sunucuda yasaklanan kullanıcıları görebilmek için `Denetim Kaydını Görüntüle` yetkisine ihtiyacım var.",
+    "BAN_EVENT_ADD_COULDNT_FIND_EXECUTOR": "Bu kullanıcıyı yasaklayan kişiyi bulamadım.",
+    "BAN_EVENT_ADD_NO_REASON_SPECIFIED": "Yasaklama sebebi belirtilmedi.",
+    "BAN_EVENT_REMOVE_NO_AUDIT_PERMISSION": "Bu sunucuda yasağı kaldırılan kullanıcıları görebilmek için `Denetim Kaydını Görüntüle` yetkisine ihtiyacım var.",
+    "BAN_EVENT_REMOVE_COULDNT_FIND_EXECUTOR": "Bu kullanıcının yasağını kaldıran kişiyi bulamadım.",
+    "BAN_EVENT_REMOVE_NO_REASON_SPECIFIED": "Yasak kaldırma için bir sebep belirtilmedi.",
+    "KICK_EVENT_NO_EXECUTOR": "Bu kullanıcıyı atan kişiyi bulamadım.",
+    "KICK_EVENT_NO_REASON": "Atma sebebi belirtilmedi.",
+    "PLAYER_START": {
+        "embeds": [
+            {
+                "author": {
+                    "name": "Şimdi Çalıyor ♪",
+                    "icon_url": "{icon_url}"
+                },
+                "thumbnail": {
+                    "url": "{thumbnail_url}"
+                },
+                "description": "🎶 [{track_title}]({track_url})",
+                "fields": [
+                    {
+                        "name": "Şarkıyı Talep Eden",
+                        "value": "{requester}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Şarkı Süresi",
+                        "value": "{duration}",
+                        "inline": true
+                    }
+                ],
+                "color": 0
+            }
+        ]
+    },
+    "PLAYER_END": {
+        "embeds": [
+            {
+                "author": {
+                    "name": "Şarkı Bitti",
+                    "icon_url": "{icon_url}"
+                },
+                "color": 0,
+                "timestamp": 0
+            }
+        ]
+    },
+    "KICK_APP_NOT_ENOUGH_PERMISSIONS": "Bu komutu kullanabilmek için `Üyeleri At` yetkim yok!",
+    "KICK_USER_NOT_ENOUGH_PERMISSIONS": "Bu kullanıcıyı atabilmek için `Üyeleri At` yetkin yok!",
+    "KICK_CANT_KICK_YOURSELF": "Kendini atamazsın!",
+    "KICK_CANT_KICK_BOT": "Bir botu atamazsın!",
+    "KICK_TARGET_HIGH_ROLE": "Bu kullanıcının rolü senden yüksek (veya aynı) bu kişiyi atamazsın!",
+    "KICK_TARGET_PERMISSIONS": "Bu kullanıcıyı atamazsın çünkü bu kullanıcının `Üyeleri At` yetkisi var!",
+    "KICK_MESSAGE_DM": "{guild_name} sunucusundan atıldınız. Sebep: {reason}",
+    "KICK_MESSAGE": "<a:checkmark:1017704018287546388> **{targetMember_username}** atıldı (Olay #{case}) Kullanıcı özel bir mesaj ile bildirildi.",
+    "KICK_MESSAGE_FAIL": "<a:checkmark:1017704018287546388> **{targetMember_username}** atıldı (Olay #{case}) Kullanıcıya özel bir mesaj gönderilemedi.",
+    "KICK_MODLOG_FAIL": "Modlog kanalına mesaj göndermek için yetkim yok!",
+    "KICK_CLEAR_SUCCESS": "Kullanıcı başarıyla atıldı ve mesajları silindi!",
+    "KICK_SUCCES": "Kullanıcı başarıyla atıldı!",
+    "KICK_FAIL": "Bir hata çıktı ve kullanıcı atılamadı!",
+    "MUTE_APP_NOT_ENOUGH_PERMISSIONS": "Bu komutu kullanabilmek için `Rolleri Yönet` yetkim yok!",
+    "MUTE_USER_NOT_ENOUGH_PERMISSIONS": "Bu kullanıcıyı susturabilmek için `Rolleri Yönet` yetkin yok!",
+    "MUTE_NO_ROLE": "Bu sunucuda bir susturulmuş rolü ayarlanmamış!",
+    "MUTE_CANT_MUTE_YOURSELF": "Kendini susturamazsın!",
+    "MUTE_CANT_MUTE_APP": "Bir botu susturamazsın!",
+    "MUTE_TARGET_HIGH_ROLE": "Bu kullanıcının rolü senden yüksek (veya aynı) bu kişiyi susturamazsın!",
+    "MUTE_TARGET_HIGHER_APP_ROLE": "Bu kullanıcının rolü bottan yüksek (veya aynı) bu kişiyi susturamazsın!",
+    "MUTE_TARGET_HAS_PERMISSIONS": "Bu kullanıcıyı susturamazsın çünkü bu kullanıcının `Üyeleri Sustur` yetkisi var!",
+    "MUTE_ALREADY_MUTED": "Bu kullanıcı zaten susturulmuş!",
+    "MUTE_NO_REASON": "Susturma sebebi belirtilmedi!",
+    "MUTE_MESSAGE_DM": "{guild_name} sunucusunda {duration} boyunca susturuldunuz. Sebep: ${reason}",
+    "MUTE_MESSAGE": "<a:checkmark:1017704018287546388> **{targetMember_username}** susturuldu (Olay #{case}) Kullanıcı özel bir mesaj ile bildirildi.",
+    "MUTE_MESSAGE_FAIL": "<a:checkmark:1017704018287546388> **{targetMember_username}** susturuldu (Olay #{case}) Kullanıcıya özel bir mesaj gönderilemedi.",
+    "MUTE_MODLOG_FAIL": "Modlog kanalına mesaj göndermek için yetkim yok!",
+    "REGISTER_NOT_ENOUGH_PERMS": "Bu komutu kullanabilmek kayıt yetkilisi olmalısınız!",
+    "REGISTER_NOT_ENOUGH_BOT_PERMS": "Bu komutu kullanabilmek için `Rolleri Yönet` yetkim yok!",
+    "REGISTER_NO_CONFIG": "Bu komut sadece kayıt kanallarında kullanılabilir. Lütfen önce kayıt kanallarını, kayıt sorumlularını ve rolleri ayarlayın ayarlayın!",
+    "REGISTER_NO_REGISTER_CHANNEL": "Bu komut sadece kayıt kanallarında kullanılabilir. Lütfen önce kayıt kanallarını ayarlayın!",
+    "REGISTER_NOT_THE_REGISTER_CHANNEL": "Bu komut sadece kayıt kanallarında kullanılabilir.",
+    "REGISTER_CANT_REGISTER_YOURSELF": "Kendini kayıt edemezsin!",
+    "REGISTER_NO_MALE_ROLE": "Bu sunucuda erkek rolü ayarlanmamış!",
+    "REGISTER_NO_MEMBER_ROLE": "Bu sunucuda üye rolü ayarlanmamış!",
+    "REGISTER_ERROR": "Bir hata oluştu, lütfen daha sonra tekrar deneyin. Hatanın muhtemel sebebi üye rolleri botun rolünün üzerinde",
+    "REGISTER_NO_WOMAN_ROLE": "Bu sunucuda kadın rolü ayarlanmamış!",
+    "REGISTER_SUCCESS": "{targetMember}, başarıyla kayıt edildi!",
+    "UNBAN_NO_APP_PERMISSON": "Bu komutu kullanabilmek için `Üyeleri Yasakla` yetkim yok!",
+    "UNBAN_USER_NOT_ENOUGH_PERMISSIONS": "Bu kullanıcıyı yasak kaldırabilmek için `Üyeleri Yasakla` yetkin yok!",
+    "UNBAN_NO_REASON": "Yasak kaldırma sebebi belirtilmedi!",
+    "UNBAN_USER_NOT_BANNED": "Bu kullanıcı yasaklanmamış!",
+    "UNBAN_MODLOG_FAIL": "Modlog kanalına mesaj göndermek için yetkim yok!",
+    "UNBAN_SUCCESS": "{user_username} adlı kullanıcının yasağı kaldırıldı!",
+    "UNMUTE_APP_NOT_ENOUGH_PERMISSIONS": "Bu komutu kullanabilmek için `Rolleri Yönet` yetkim yok!",
+    "UNMUTE_USER_NOT_ENOUGH_PERMISSIONS": "Bu kullanıcıyı susturmayı kaldırabilmek için `Rolleri Yönet` yetkin yok!",
+    "UNMUTE_NOT_MUTED": "Bu kullanıcı zaten susturulmamış!",
+    "UNMUTE_NO_PREVIOUS_ROLES": "Bu kullanıcının önceki rolleri bulunamadı!",
+    "UNMUTE_SUCESS": "**{user_username}** adlı kullanıcının susturulması kaldırıldı!",
+    "WARN_USER_NOT_ENOUGH_PERMISSIONS": "Bu komutu kullanmak için yeterli yetkin yok.",
+    "WARN_CANNOT_WARN_YOURSELF": "Kendini uyaramazsın!",
+    "WARN_CANNOT_WARN_BOT": "Bir botu uyaramazsın!",
+    "WARN_USER_HAS_HIGHER_ROLE": "Bu kullanıcının rolü senden yüksek (veya aynı) bu kişiyi uyaramazsın!",
+    "WARN_USER_HAS_HIGHER_BOT_ROLE": "Bu kullanıcının rolü bottan yüksek (veya aynı) bu kişiyi uyaramazsın!",
+    "WARN_USER_HAS_PERMISSIONS": "Bu kullanıcıyı uyaramazsın, bu kullanıcının yeterli yetkisi var!",
+    "WARN_USER_DM": "**{guild_name}** sunucusunda uyarıldınız. Sebep: {reason}",
+    "WARN_SUCCESS": "<a:checkmark:1017704018287546388> **{user}** uyarıldı (Olay #{case})",
+    "WARN_USER_CANNOT_DM": "<a:checkmark:1017704018287546388> **{user}** uyarıldı (Olay #{case}) Kullanıcıya özel bir mesaj gönderilemedi.",
+    "WARN_MODLOG_FAIL": "Modlog kanalına mesaj göndermek için yetkim yok!",
+    "USER_NOT_IN_VOICE": "|❌| **Bir sesli kanala girmek zorundasınız**",
+    "USER_NOT_IN_THE_SAME_VOICE": "|❌| **Bot ile aynı sesli kanalda olmalısınız**",
+    "BOT_NOT_PLAYING": "|❌| **Bot şu anda müzik çalmıyor.**",
+    "VOICE_NOT_ENOUGH_PERMS": "|❌| **Bu komutu kullanmak için yeterli yetkiniz yok.**",
+    "DISCONNECT_SUCCESS": "|✅| **Başarıyla sesli kanaldan ayrıldım.**",
+    "LIST_EMBED": {
+        "embeds": [
+            {
+                "author": {
+                    "name": "Şu anda çalıyor",
+                    "icon_url": "{icon_url}"
+                },
+                "color": 0,
+                "timestamp": "0",
+                "description": "`[{track_title}]({track_url})`",
+                "fields": [
+                    {
+                        "name": "Şarkıyı Talep Eden",
+                        "value": "{requestedBy}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Süre",
+                        "value": "{duration}",
+                        "inline": true
+                    }
+                ],
+                "thumbnail": {
+                    "url": "{thumbnail_url}"
+                }
+            }
+        ]
+    },
+    "LIST_UNKNOWN_USER": "Bilinmeyen Kullanıcı",
+    "LIST_PAGINATE": {
+        "embeds": [
+            {
+                "author": {
+                    "name": "Şarkı Listesi",
+                    "icon_url": "{icon_url}"
+                },
+                "color": 0,
+                "description": "**Şu anda Çalıyor**:\n`[{track_title}]({track_url})`\n`{track_duration}` **|** Şarkıyı Talep Eden: {requestedBy}\n\n**Sıradaki Şarkılar**:\n\n"
+            }
+        ]
+    },
+    "LIST_PAGINATE_TRACKS": "`{index}`. [{track_title}]({track_url})\n`{track_duration}` **|** Şarkıyı Talep Eden: {requestedBy}\n\n",
+    "LOOP_ANOTHER_MODE_ENABLED": "|❌| **Başka bir tekrar modu açılmış.**",
+    "LOOP_MODE_ON": "✅ | **Şarkı tekrarı açıldı.**",
+    "LOOP_MODE_OFF": "❌ | **Şarkı tekrarı kapatıldı.**",
+    "LOOP_QUEUE_MODE_ON": "✅ | **Kuyruk tekrarı açıldı.**",
+    "LOOP_QUEUE_MODE_OFF": "❌ | **Kuyruk tekrarı kapatıldı.**",
+    "PAUSE_ALREADY_PAUSED": "|❌| **Şarkı zaten duraklatılmış.**",
+    "PAUSE_SUCCESS": "|✅| **Şarkı duraklatıldı.**",
+    "PLAY_UNABLE_TO_SPEAK": "Mhm! Mhhmhhmhm! MHHHPMHP! (Konuşma yetkim yok)",
+    "PLAY_SEARCHING": "<a:mag_search:1015974107097083934> | **Aranıyor...**",
+    "PLAY_EMBED": {
+        "embeds": [
+            {
+                "author": {
+                    "name": "Şarkı Eklendi",
+                    "icon_url": "{icon_url}"
+                },
+                "color": 0,
+                "description": "🎶 [{track_title}]({track_url})",
+                "fields": [
+                    {
+                        "name": "Şarkıyı Talep Eden",
+                        "value": "{requestedBy}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Süre",
+                        "value": "{duration}",
+                        "inline": true
+                    }
+                ],
+                "thumbnail": {
+                    "url": "{thumbnail_url}"
+                }
+            }
+        ]
+    },
+    "RESUME_ALREADY_RESUMED": "|❌| **Şarkı zaten devam ediyor.**",
+    "RESUME_SUCCESS": "|✅| **Şarkı devam ettirildi.**",
+    "SHUFFLE_SUCCESS": "|✅| **Kuyruk karıştırıldı.**",
+    "SKIP_ONLY_ONE_USER": "{otherUser} **{interactionUser}** Şu anda çalan *`{currentTrack_title}`* şarkısını değiştirmek istiyor lütfen aşağıdan seçimini yap.",
+    "SKIP_SUCCESS": "|✅| **Şarkı başarıyla geçildi.**",
+    "SKIP_REJECT": "|❌| **Şarkıı atlaması reddedildi.**",
+    "SKIP_USER_DIDNT_RESPOND_IN_TIME": "|❌| **Kullanıcı zamanında yanıt vermedi.**",
+    "SKIP_VOTING_EMBED": {
+        "embeds": [
+            {
+                "title": "Şarkı Değiştirme Oylaması",
+                "description": "{interactionUser} Şu anda çalan *`${currentTrack_title}`* şarkısını değiştirmek istiyor lütfen aşağıdan seçimini yap.",
+                "color": 0,
+                "footer": {
+                    "text": "Oylama 2 dakika içinde sona erecek."
+                },
+                "fields": [
+                    {
+                        "name": "👍",
+                        "value": "Şarkıyı Geç"
+                    }
+                ]
+            }
+        ]
+    },
+    "SKIP_WAITING_VOTE": "Oylama Bekleniyor şu anki oylama durumu |⭕|",
+    "SKIP_ALREADY_VOTED": "|❌| **Zaten oy verdiniz.**",
+    "SKIP_ACCEPTED_VOTE": "Oylama Kabul Edildi şu anki oylama durumu |✅|",
+    "SKIP_REJECTED_VOTE": "Oylama Reddedildi şu anki oylama durumu |❌|",
+    "SKIP_EXCEEDED_QUEUE_LENGTH": "|❌| **Kuyrukta o kadar şarkı yok.**",
+    "SKIP_ONLY_ONE_USER_AMOUNT": "{otherUser} **{interactionUser}** Listeden {amount} şarkıyı geçmek istiyor. Lütfen aşağıdan seçimini yap.",
+    "SKIP_AMOUNT_SUCCESS": "|✅| **{amount} şarkı başarıyla geçildi.**",
+    "SKIP_AMOUNT_REJECT": "|❌| **Şarkı geçme reddedildi.**",
+    "SKIP_VOTING_EMBED_AMOUNT": {
+        "embeds": [
+            {
+                "title": "Şarkı Değiştirme Oylaması",
+                "description": "{interactionUser} Listeden {amount} şarkıyı geçmek istiyor. Lütfen aşağıdan seçimini yap.",
+                "color": 0,
+                "footer": {
+                    "text": "Oylama 2 dakika içinde sona erecek."
+                },
+                "fields": [
+                    {
+                        "name": "👍",
+                        "value": "Şarkıyı Geç"
+                    }
+                ]
+            }
+        ]
+    },
+    "PLAYING_EMBED": {
+        "embeds": [
+            {
+                "author": {
+                    "name": "Şu anda Çalıyor",
+                    "icon_url": "{icon_url}"
+                },
+                "color": 0,
+                "description": "🎶 [{track_title}]({track_url})",
+                "fields": [
+                    {
+                        "name": "Şarkıyı Talep Eden",
+                        "value": "{requestedBy}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Süre",
+                        "value": "{duration}",
+                        "inline": true
+                    }
+                ],
+                "thumbnail": {
+                    "url": "{thumbnail_url}"
+                }
+            }
+        ]
+    },
+    "INVITE_EMBED": {
+        "embeds": [
+            {
+                "title": "Davet Linki",
+                "description": "Khaxy kullandığınız için minnetarız :heart:\n\nEğer botu kendi sunucunuzda kullanmak istiyorsanız [buradan]({inviteLink}) davet edebilirsiniz\n\nDestek sunucumuz için [buraya tıkla]({discordLink})",
+                "url": "{link}",
+                "color": 0
+            }
+        ]
+    },
+    "BAN_EXPIRED": "Ban süresi doldu",
+    "REGISTER_CONFIG_PROMPT": {
+        "content": "Ayarlamak istediğiniz ayarı seçiniz.",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 3,
+                        "custom_id": "registerConfig",
+                        "options": [
+                            {
+                                "label": "Kayıt Kanalı",
+                                "value": "registerChannel",
+                                "description": "Kayıt işlemlerinin yapılacağı kanalı ayarlar.",
+                                "emoji": "📝"
+                            },
+                            {
+                                "label": "Kayıt Sorumlusu Rolü",
+                                "value": "staffRole",
+                                "description": "Kayıt işlemlerini yapabilecek rolü ayarlar.",
+                                "emoji": "👮"
+                            },
+                            {
+                                "label": "Kayıt Mesajı",
+                                "value": "registerMessage",
+                                "description": "Kullanıcı sunucuya girdiğinde kayıt kanalına gönderilecek mesajı ayarlar.",
+                                "emoji": "📜"
+                            },
+                            {
+                                "label": "Kayıt Mesajı Silinsin mi?",
+                                "value": "registerMessageClear",
+                                "description": "Kayıt mesajının silinip silinmeyeceğini ayarlar.",
+                                "emoji": "🗑️"
+                            },
+                            {
+                                "label": "Kayıt Kanalı mesajları Silinsin mi?",
+                                "value": "registerChannelClear",
+                                "description": "Kayıt kanalındaki mesajların silinip silinmeyeceğini ayarlar.",
+                                "emoji": "🗑️"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "REGISTER_CONFIG_EXPIRED": "Ayarlar menüsü zaman aşımına uğradı.",
+    "REGISTER_CHANNEL_ALREADY_SETUP": {
+        "content": "Kayıt kanalı zaten ayarlanmış. Değiştirmek mi yoksa silmek mi istersiniz?",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 2,
+                        "label": "✅| Değiştir",
+                        "style": 3,
+                        "custom_id": "registerChannelAccept"
+                    },
+                    {
+                        "type": 2,
+                        "label": "❌| İptal",
+                        "style": 4,
+                        "custom_id": "registerChannelReject"
+                    },
+                    {
+                        "type": 2,
+                        "label": "🗑️| Sil",
+                        "style": 1,
+                        "custom_id": "registerChannelDelete"
+                    }
+                ]
+            }
+        ]
+    },
+    "REGISTER_CHANNEL_CANCEL": "Kayıt kanalı ayarlama işlemi iptal edildi.",
+    "REGISTER_CHANNEL_ACCEPT": {
+        "content": "Yeni kayıt kanalını aşağıdan ayarlayınız",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 8,
+                        "custom_id": "registerChannel",
+                        "placeholder": "Kanal seçiniz.",
+                        "min_values": 0,
+                        "max_values": 1,
+                        "channel_types": [
+                            0
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "REGISTER_CHANNEL_ACCEPT_SUCCESS": "Kayıt kanalı başarıyla ayarlandı.",
+    "REGISTER_CHANNEL_ERROR_OR_EXPIRED": "Bir hata oluştu veya zaman aşımına uğradı.",
+    "REGISTER_CHANNEL_DELETED": "Kayıt kanalı başarıyla silindi.",
+    "STAFF_ROLES_PROMPT": {
+        "content": "Kayıt sorumlusu rolünü ayarlamak için aşağıdan rolleri seçiniz. Seçilmiş olan rollerin seçimini kaldırarak silebilirsiniz.",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 6,
+                        "custom_id": "staffRole",
+                        "placeholder": "Rol seçiniz.",
+                        "min_values": 0,
+                        "max_values": 25,
+                        "default_values": [
+                            {
+                                "id": "0",
+                                "type": "role"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "STAFF_ROLES_SUCCESS": "Kayıt sorumlusu rolü başarıyla ayarlandı.",
+    "STAFF_ROLES_ERROR_OR_EXPIRED": "Bir hata oluştu veya zaman aşımına uğradı.",
+    "REGISTER_MESSAGE_ALREADY_SETUP": {
+        "content": "Kayıt kanalına atılacak mesaj zaten ayarlanmış. Değiştirmek mi yoksa silmek mi istersiniz?",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 2,
+                        "label": "✅| Değiştir",
+                        "style": 3,
+                        "custom_id": "registerMessageAccept"
+                    },
+                    {
+                        "type": 2,
+                        "label": "❌| İptal",
+                        "style": 4,
+                        "custom_id": "registerMessageReject"
+                    },
+                    {
+                        "type": 2,
+                        "label": "🗑️| Sil",
+                        "style": 1,
+                        "custom_id": "registerMessageDelete"
+                    }
+                ]
+            }
+        ]
+    },
+    "REGISTER_MESSAGE_CANCEL": "Kayıt mesajı ayarlama işlemi iptal edildi.",
+    "REGISTER_MESSAGE_MODAL": {
+        "title": "Kayıt Mesajı",
+        "custom_id": "registerMessage",
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 4,
+                        "custom_id": "registerMessage",
+                        "label": "Kayıt Mesajı",
+                        "style": 2,
+                        "min_length": 1,
+                        "max_length": 4000,
+                        "placeholder": "Kullanılabilir değişkenler: {user}, {tag}, {name}, {id}, {server}, {memberCount}",
+                        "required": true
+                    }
+                ]
+            }
+        ]
+    },
+    "REGISTER_MESSAGE_SETUP": {
+        "content": "Kayıt mesajı ayarlamak için aşağıdaki butona tıklayınız.",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 2,
+                        "label": "Kayıt Mesajını Ayarla",
+                        "style": 1,
+                        "custom_id": "registerMessage"
+                    }
+                ]
+            }
+        ]
+    },
+    "REGISTER_MESSAGE_SUCCESS": "Kayıt mesajı başarıyla ayarlandı.",
+    "REGISTER_MESSAGE_ERROR_OR_EXPIRED": "Bir hata oluştu veya zaman aşımına uğradı.",
+    "REGISTER_MESSAGE_DELETED": "Kayıt mesajı başarıyla silindi.",
+    "REGISTER_MESSAGE_DELETE_TRUE": "Kayıt mesajı silme ayarı aktif edildi.",
+    "REGISTER_MESSAGE_DELETE_FALSE": "Kayıt mesajı silme ayarı deaktif edildi.",
+    "REGISTER_CHANNEL_DELETE_TRUE": "Kayıt kanalı mesajları silme ayarı aktif edildi.",
+    "REGISTER_CHANNEL_DELETE_FALSE": "Kayıt kanalı mesajları silme ayarı deaktif edildi.",
+    "WELCOME_CONFIG_PROMPT": {
+        "content": "Ayarlamak istediğiniz ayarı seçiniz.",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 3,
+                        "custom_id": "welcomeConfig",
+                        "options": [
+                            {
+                                "label": "Hoşgeldin Kanalı",
+                                "value": "welcomeChannel",
+                                "description": "Hoşgeldin mesajlarının gönderileceği kanalı ayarlar.",
+                                "emoji": "📝"
+                            },
+                            {
+                                "label": "Hoşgeldin Mesajı",
+                                "value": "welcomeMessage",
+                                "description": "Kullanıcı sunucuya girdiğinde hoşgeldin kanalına gönderilecek mesajı ayarlar.",
+                                "emoji": "📜"
+                            },
+                            {
+                                "label": "Görüşürüz kanalı",
+                                "value": "goodbyeChannel",
+                                "description": "Görüşürüz kanalı ayarlar.",
+                                "emoji": "👋"
+                            },
+                            {
+                                "label": "Görüşürüz mesajı",
+                                "value": "goodbyeMessage",
+                                "description": "Görüşürüz mesajı ayarlar.",
+                                "emoji": "👋"
+                            },
+                            {
+                                "label": "Kayıt Kanalı",
+                                "value": "registerChannel",
+                                "description": "Kayıt kanalı ayarlar.",
+                                "emoji": "🔒"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "WELCOME_CONFIG_ERROR_OR_EXPIRED": "Bir hata oluştu veya zaman aşımına uğradı.",
+    "WELCOME_CHANNEL_PROMPT": {
+        "content": "Yeni hoşgeldin kanalını aşağıdan ayarlayınız",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 8,
+                        "custom_id": "welcomeChannel",
+                        "placeholder": "Kanal seçiniz.",
+                        "min_values": 0,
+                        "max_values": 1,
+                        "default_values": [
+                            {
+                                "id": "0",
+                                "type": "channel"
+                            }
+                        ],
+                        "channel_types": [
+                            0
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "WELCOME_CHANNEL_SUCCESS": "Hoşgeldin kanalı başarıyla ayarlandı.",
+    "WELCOME_CHANNEL_ERROR_OR_EXPIRED": "Bir hata oluştu veya zaman aşımına uğradı.",
+    "WELCOME_MESSAGE_ALREADY_SETUP": {
+        "content": "Hoşgeldin mesajı zaten ayarlanmış. Değiştirmek mi yoksa silmek mi istersiniz?",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 2,
+                        "label": "✅| Değiştir",
+                        "style": 3,
+                        "custom_id": "welcomeMessageAccept"
+                    },
+                    {
+                        "type": 2,
+                        "label": "❌| İptal",
+                        "style": 4,
+                        "custom_id": "welcomeMessageReject"
+                    },
+                    {
+                        "type": 2,
+                        "label": "🗑️| Sil",
+                        "style": 1,
+                        "custom_id": "welcomeMessageDelete"
+                    }
+                ]
+            }
+        ]
+    },
+    "WELCOME_MESSAGE_CANCEL": "Hoşgeldin mesajı ayarlama işlemi iptal edildi.",
+    "WELCOME_MESSAGE_MODAL": {
+        "title": "Hoşgeldin Mesajı",
+        "custom_id": "welcomeMessage",
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 4,
+                        "custom_id": "welcomeMessage",
+                        "label": "Hoşgeldin Mesajı",
+                        "style": 2,
+                        "min_length": 1,
+                        "max_length": 4000,
+                        "placeholder": "Kullanılabilir değişkenler: {user}, {tag}, {name}, {id}, {server}, {memberCount}",
+                        "required": true
+                    }
+                ]
+            }
+        ]
+    },
+    "WELCOME_MESSAGE_SETUP": {
+        "content": "Hoşgeldin mesajı ayarlamak için aşağıdaki butona tıklayınız.",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 2,
+                        "label": "Hoşgeldin Mesajını Ayarla",
+                        "style": 1,
+                        "custom_id": "welcomeMessage"
+                    }
+                ]
+            }
+        ]
+    },
+    "WELCOME_MESSAGE_SUCCESS": "Hoşgeldin mesajı başarıyla ayarlandı.",
+    "WELCOME_MESSAGE_ERROR_OR_EXPIRED": "Bir hata oluştu veya zaman aşımına uğradı.",
+    "WELCOME_MESSAGE_DELETED": "Hoşgeldin mesajı başarıyla silindi.",
+    "GOODBYE_CHANNEL_PROMPT": {
+        "content": "Yeni görüşürüz kanalını aşağıdan ayarlayınız",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 8,
+                        "custom_id": "goodbyeChannel",
+                        "placeholder": "Kanal seçiniz.",
+                        "min_values": 0,
+                        "max_values": 1,
+                        "default_values": [
+                            {
+                                "id": "0",
+                                "type": "channel"
+                            }
+                        ],
+                        "channel_types": [
+                            0
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "GOODBYE_CHANNEL_SUCCESS": "Görüşürüz kanalı başarıyla ayarlandı.",
+    "GOODBYE_CHANNEL_ERROR_OR_EXPIRED": "Bir hata oluştu veya zaman aşımına uğradı.",
+    "GOODBYE_MESSAGE_ALREADY_SETUP": {
+        "content": "Görüşürüz mesajı zaten ayarlanmış. Değiştirmek mi yoksa silmek mi istersiniz?",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 2,
+                        "label": "✅| Değiştir",
+                        "style": 3,
+                        "custom_id": "goodbyeMessageAccept"
+                    },
+                    {
+                        "type": 2,
+                        "label": "❌| İptal",
+                        "style": 4,
+                        "custom_id": "goodbyeMessageReject"
+                    },
+                    {
+                        "type": 2,
+                        "label": "🗑️| Sil",
+                        "style": 1,
+                        "custom_id": "goodbyeMessageDelete"
+                    }
+                ]
+            }
+        ]
+    },
+    "GOODBYE_MESSAGE_CANCEL": "Görüşürüz mesajı ayarlama işlemi iptal edildi.",
+    "GOODBYE_MESSAGE_MODAL": {
+        "title": "Görüşürüz Mesajı",
+        "custom_id": "goodbyeMessage",
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 4,
+                        "custom_id": "goodbyeMessage",
+                        "label": "Görüşürüz Mesajı",
+                        "style": 2,
+                        "min_length": 1,
+                        "max_length": 4000,
+                        "placeholder": "Kullanılabilir değişkenler: {user}, {tag}, {name}, {id}, {server}, {memberCount}",
+                        "required": true
+                    }
+                ]
+            }
+        ]
+    },
+    "GOODBYE_MESSAGE_SETUP": {
+        "content": "Görüşürüz mesajı ayarlamak için aşağıdaki butona tıklayınız.",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 2,
+                        "label": "Görüşürüz Mesajını Ayarla",
+                        "style": 1,
+                        "custom_id": "goodbyeMessage"
+                    }
+                ]
+            }
+        ]
+    },
+    "GOODBYE_MESSAGE_SUCCESS": "Görüşürüz mesajı başarıyla ayarlandı.",
+    "GOODBYE_MESSAGE_ERROR_OR_EXPIRED": "Bir hata oluştu veya zaman aşımına uğradı.",
+    "GOODBYE_MESSAGE_DELETED": "Görüşürüz mesajı başarıyla silindi.",
+    "REGISTER_MESSAGE_CHANNEL_PROMPT": {
+        "content": "Kayıt kanalını aşağıdan ayarlayınız",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 8,
+                        "custom_id": "registerChannel",
+                        "placeholder": "Kanal seçiniz.",
+                        "min_values": 0,
+                        "max_values": 1,
+                        "default_values": [
+                            {
+                                "id": "0",
+                                "type": "channel"
+                            }
+                        ],
+                        "channel_types": [
+                            0
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "REGISTER_MESSAGE_CHANNEL_SUCCESS": "Kayıt kanalı başarıyla ayarlandı.",
+    "REGISTER_MESSAGE_CHANNEL_ERROR_OR_EXPIRED": "Bir hata oluştu veya zaman aşımına uğradı.",
+    "MODERATION_CONFIG_PROMPT": {
+        "content": "Ayarlamak istediğiniz ayarı seçiniz.",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 3,
+                        "custom_id": "moderationConfig",
+                        "options": [
+                            {
+                                "label": "ModLog Kanalını Ayarla",
+                                "value": "modLogChannel",
+                                "description": "ModLog kanalını ayarlar.",
+                                "emoji": "📝"
+                            },
+                            {
+                                "label": "Susturmada Tüm Rolleri Al",
+                                "value": "muteGetAllRoles",
+                                "description": "Susturmada tüm rolleri alır.",
+                                "emoji": "🔇"
+                            },
+                            {
+                                "label": "Yetkili Rolleri",
+                                "value": "staffRoles",
+                                "description": "Kayıt sorumlusu rollerini ayarlar.",
+                                "emoji": "👮"
+                            },
+                            {
+                                "label": "ModMail'i Ayarla",
+                                "value": "modMail",
+                                "description": "ModMail'i ayarlar.",
+                                "emoji": "📧"
+                            },
+                            {
+                                "label": "Dili ayarla",
+                                "value": "language",
+                                "description": "Dili ayarlar.",
+                                "emoji": "🌐"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "MODERATION_CONFIG_ERROR_OR_EXPIRED": "Bir hata oluştu veya zaman aşımına uğradı.",
+    "MODLOG_CHANNEL_PROMPT": {
+        "content": "ModLog kanalını aşağıdan ayarlayınız",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 8,
+                        "custom_id": "modLogChannel",
+                        "placeholder": "Kanal seçiniz.",
+                        "default_values": [
+                            {
+                                "id": "0",
+                                "type": "channel"
+                            }
+                        ],
+                        "channel_types": [
+                            0
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "MODLOG_CHANNEL_SUCCESS": "ModLog kanalı başarıyla ayarlandı.",
+    "MODLOG_CHANNEL_ERROR_OR_EXPIRED": "Bir hata oluştu veya zaman aşımına uğradı.",
+    "MUTE_GET_ALL_ROLES_TRUE": "Susturmada tüm rolleri al ayarı aktif edildi.",
+    "MUTE_GET_ALL_ROLES_FALSE": "Susturmada tüm rolleri al ayarı deaktif edildi.",
+    "MODMAIL_PROMPT": {
+        "content": "Modmail daha önceden ayarlanmış. Eğer kanalları sildiyseniz sil seçeneğini kullanınız.",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 2,
+                        "label": "🗑️ | Sil",
+                        "style": 4,
+                        "custom_id": "modMailDelete"
+                    },
+                    {
+                        "type": 2,
+                        "label": "❌ | İptal",
+                        "style": 3,
+                        "custom_id": "modMailReject"
+                    }
+                ]
+            }
+        ]
+    },
+    "MODMAIL_DELETE": "Modmail başarıyla silindi.",
+    "MODMAIL_REJECT": "Modmail ayarlama işlemi iptal edildi.",
+    "MODMAIL_ERROR_OR_EXPIRED": "Bir hata oluştu veya zaman aşımına uğradı.",
+    "MODMAIL_ERROR_ON_CREATION": "Modmail kanalları oluşturulurken bir hata oluştu. Kanal açma yetkimin olduğundan emin olun.",
+    "MODMAIL_SUCCESS": "Modmail başarıyla ayarlandı.",
+    "LANGUAGE_PROMPT": {
+        "content": "Dili aşağıdan ayarlayınız",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 3,
+                        "custom_id": "language",
+                        "placeholder": "placeholder",
+                        "options": [
+                            {
+                                "label": "Türkçe",
+                                "value": "tr",
+                                "description": "Türkçe dilini seçer.",
+                                "emoji": "🇹🇷"
+                            },
+                            {
+                                "label": "English",
+                                "value": "en-US",
+                                "description": "Selects the English language.",
+                                "emoji": "🇺🇸"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "LANGUAGE_SUCCESS": "Dil başarıyla ayarlandı.",
+    "LANGUAGE_ERROR_OR_EXPIRED": "Bir hata oluştu veya zaman aşımına uğradı.",
+    "ROLE_CONFIG_PROMPT": {
+        "content": "Ayarlamak istediğiniz ayarı seçiniz.",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 3,
+                        "custom_id": "roleConfig",
+                        "options": [
+                            {
+                                "label": "Üye Rolü Ayarla",
+                                "value": "memberRole",
+                                "description": "Üye rolünü ayarlar.",
+                                "emoji": "👤"
+                            },
+                            {
+                                "label": "Erkek Rolü Ayarla",
+                                "value": "maleRole",
+                                "description": "Erkek rolünü ayarlar.",
+                                "emoji": "👨"
+                            },
+                            {
+                                "label": "Kadın Rolü Ayarla",
+                                "value": "femaleRole",
+                                "description": "Kadın rolünü ayarlar.",
+                                "emoji": "👩"
+                            },
+                            {
+                                "label": "Mute Rolü Ayarla",
+                                "value": "muteRole",
+                                "description": "Mute rolünü ayarlar.",
+                                "emoji": "🔇"
+                            },
+                            {
+                                "label": "DJ Rolü Ayarla",
+                                "value": "djRole",
+                                "description": "DJ rolünü ayarlar.",
+                                "emoji": "🎧"
+                            },
+                            {
+                                "label": "Günün Rengi Rol Ayarla",
+                                "value": "dayColorRole",
+                                "description": "Günün rengi rolünü ayarlar.",
+                                "emoji": "🌈"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "ROLE_CONFIG_ERROR_OR_EXPIRED": "Bir hata oluştu veya zaman aşımına uğradı.",
+    "MEMBER_ROLE_PROMPT": {
+        "content": "Üye rolünü aşağıdan ayarlayınız",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 8,
+                        "custom_id": "memberRole",
+                        "placeholder": "Rol seçiniz.",
+                        "min_values": 0,
+                        "max_values": 1,
+                        "default_values": [
+                            {
+                                "id": "0",
+                                "type": "role"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "MEMBER_ROLE_SUCCESS": "Üye rolü başarıyla ayarlandı.",
+    "MEMBER_ROLE_ERROR_OR_EXPIRED": "Bir hata oluştu veya zaman aşımına uğradı.",
+    "MALE_ROLE_PROMPT": {
+        "content": "Erkek rolünü aşağıdan ayarlayınız",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 8,
+                        "custom_id": "maleRole",
+                        "placeholder": "Rol seçiniz.",
+                        "min_values": 0,
+                        "max_values": 1,
+                        "default_values": [
+                            {
+                                "id": "0",
+                                "type": "role"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "MALE_ROLE_SUCCESS": "Erkek rolü başarıyla ayarlandı.",
+    "MALE_ROLE_ERROR_OR_EXPIRED": "Bir hata oluştu veya zaman aşımına uğradı.",
+    "FEMALE_ROLE_PROMPT": {
+        "content": "Kadın rolünü aşağıdan ayarlayınız",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 8,
+                        "custom_id": "femaleRole",
+                        "placeholder": "Rol seçiniz.",
+                        "min_values": 0,
+                        "max_values": 1,
+                        "default_values": [
+                            {
+                                "id": "0",
+                                "type": "role"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "FEMALE_ROLE_SUCCESS": "Kadın rolü başarıyla ayarlandı.",
+    "FEMALE_ROLE_ERROR_OR_EXPIRED": "Bir hata oluştu veya zaman aşımına uğradı.",
+    "MUTE_ROLE_PROMPT": {
+        "content": "Mute rolünü aşağıdan ayarlayınız",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 8,
+                        "custom_id": "muteRole",
+                        "placeholder": "Rol seçiniz.",
+                        "min_values": 0,
+                        "max_values": 1,
+                        "default_values": [
+                            {
+                                "id": "0",
+                                "type": "role"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "MUTE_ROLE_SUCCESS": "Mute rolü başarıyla ayarlandı.",
+    "MUTE_ROLE_ERROR_OR_EXPIRED": "Bir hata oluştu veya zaman aşımına uğradı.",
+    "DJ_ROLE_PROMPT": {
+        "content": "DJ rolünü aşağıdan ayarlayınız",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 8,
+                        "custom_id": "djRole",
+                        "placeholder": "Rol seçiniz.",
+                        "min_values": 0,
+                        "max_values": 1,
+                        "default_values": [
+                            {
+                                "id": "0",
+                                "type": "role"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "DJ_ROLE_SUCCESS": "DJ rolü başarıyla ayarlandı.",
+    "DJ_ROLE_ERROR_OR_EXPIRED": "Bir hata oluştu veya zaman aşımına uğradı.",
+    "COLOUR_OF_THE_DAY_ROLE_PROMPT": {
+        "content": "Günün rengi rolünü aşağıdan ayarlayınız",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 8,
+                        "custom_id": "dayColorRole",
+                        "placeholder": "Rol seçiniz.",
+                        "min_values": 0,
+                        "max_values": 1,
+                        "default_values": [
+                            {
+                                "id": "0",
+                                "type": "role"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "COLOUR_OF_THE_DAY_ROLE_SUCCESS": "Günün rengi rolü başarıyla ayarlandı.",
+    "COLOUR_OF_THE_DAY_ROLE_ERROR_OR_EXPIRED": "Bir hata oluştu veya zaman aşımına uğradı.",
+    "SERVER_HAS_NO_CONFIGURATION": {
+        "content": "Bu sunucunun bir konfigürasyonu bulunmamaktadır.",
+        "ephemeral": true
+    },
+    "MAIL_CHANNEL_NOT_SET": {
+        "content": "Bu sunucu için bir modmail ayarlanmamış.",
+        "ephemeral": true
+    },
+    "MAIL_OPENED": {
+        "content": "Modmail başarıyla açıldı.",
+        "ephemeral": true
+    },
+    "MAIL_OPENED_MESSAGE": {
+        "content": "{user} tarafından açılan modmail. Detaylar aşşağıda, yanıtlamak için aşağıdaki butonu kullanabilirsiniz.",
+        "ephemeral": false,
+        "embeds": [
+            {
+                "author": {
+                    "name": "{user.tag}",
+                    "icon_url": "{user.avatarURL}"
+                },
+                "description": "{message}",
+                "color": 0
+            }
+        ],
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 2,
+                        "label": "Yanıtla",
+                        "style": 1,
+                        "custom_id": "modMailReply"
+                    }
+                ]
+            }
+        ]
+    },
+    "MAIL_FOLLOWUP_MESSAGE": {
+        "content": "{user} tarafından bir takip mesajı gönderildi. Mesajı aşağıda görebilir ve bu mesaja yanıt vermek için aşağıdaki butonu kullanabilirsiniz.",
+        "ephemeral": false,
+        "embeds": [
+            {
+                "author": {
+                    "name": "{user.tag}",
+                    "icon_url": "{user.avatarURL}"
+                },
+                "description": "{message}",
+                "color": 0
+            }
+        ],
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 2,
+                        "label": "Yanıtla",
+                        "style": 1,
+                        "custom_id": "modMailReply"
+                    }
+                ]
+            }
+        ]
+    },
+    "MAIL_FOLLOWUP_DM_MESSAGE": {
+        "content": "{server} sunucusundan gelen bir yanıtınız var. Yanıtı aşağıda görebilirsiniz ve bu mesajı yanıtlamak için aşağıdaki butonu kullanabilirsiniz.",
+        "ephemeral": false,
+        "embeds": [
+            {
+                "author": {
+                    "name": "{user.tag}",
+                    "icon_url": "{user.avatarURL}"
+                },
+                "description": "{message}",
+                "color": 0
+            }
+        ],
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 2,
+                        "label": "Yanıtla",
+                        "style": 1,
+                        "custom_id": "modMailReplyDM"
+                    }
+                ]
+            }
+        ]
+    },
+    "MAIL_SENT_ATTACHMENT": "Bir dosya eklenmiş.",
+    "BUTTON_CLICK_MODAL": {
+        "title": "Maile Yanıtınız",
+        "custom_id": "buttonClick",
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 4,
+                        "custom_id": "buttonClick",
+                        "label": "Maile Yanıtınız",
+                        "style": 2
+                    }
+                ]
+            }
+        ]
+    },
+    "MESSAGE_SENT": {
+        "content": "Mesajınız başarıyla gönderildi.",
+        "ephemeral": true
+    },
+    "MESSAGE_SENT_INFORMATION": {
+        "content": "{user} replied to this message. You can see the message below.",
+        "ephemeral": false,
+        "embeds": [
+            {
+                "author": {
+                    "name": "{user.tag}",
+                    "icon_url": "{user.avatarURL}"
+                },
+                "description": "{message}",
+                "color": 0
+            }
+        ]
+    },
+    "TIMEOUT_NO_REASON_GIVEN": "Zaman aşımı için herhangi bir sebep belirtilmedi.",
+    "TIMEOUT_COULD_NOT_FIND_EXECUTER": "Zaman aşımı işlemini gerçekleştiren kişi bulunamadı."
+}

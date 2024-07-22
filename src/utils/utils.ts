@@ -6,7 +6,7 @@ import {
     ComponentType,
     ButtonInteraction, ChatInputCommandInteraction
 } from "discord.js";
-import {customObject} from "../types";
+import {customObject} from "../../types";
 
 const consoleColors = {
     "SUCCESS": "\u001b[32m",

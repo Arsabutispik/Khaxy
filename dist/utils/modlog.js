@@ -50,7 +50,7 @@ export default async (data, client) => {
     }
     else if (action === "MUTE") {
         let amount = ms(duration, { long: true });
-        if (lang === "turkish") {
+        if (lang === "tr") {
             amount = amount.replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün");
         }
         message += replaceMassString(client.handleLanguages("MODLOG_MUTE", client, guild.id), {
@@ -64,7 +64,7 @@ export default async (data, client) => {
     }
     else if (action === "TIMED_BAN") {
         let amount = ms(duration, { long: true });
-        if (lang === "turkish") {
+        if (lang === "tr") {
             amount = amount.replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün");
         }
         message += replaceMassString(client.handleLanguages("MODLOG_TIMED_BAN", client, guild.id), {
@@ -86,7 +86,7 @@ export default async (data, client) => {
     }
     else if (action === "BAN_END") {
         let amount = ms(duration, { long: true });
-        if (lang === "turkish") {
+        if (lang === "tr") {
             amount = amount.replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün");
         }
         message += replaceMassString(client.handleLanguages("MODLOG_BAN_TIMEOUT", client, guild.id), {
@@ -108,7 +108,7 @@ export default async (data, client) => {
     }
     else if (action === "FORCED_TIMED_BAN") {
         let amount = ms(duration, { long: true });
-        if (lang === "turkish") {
+        if (lang === "tr") {
             amount = amount.replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün");
         }
         message += replaceMassString(client.handleLanguages("MODLOG_BAN_TIMEOUT", client, guild.id), {
@@ -121,7 +121,7 @@ export default async (data, client) => {
     }
     else if (action === "TIMEOUT") {
         let amount = ms(duration, { long: true });
-        if (lang === "turkish") {
+        if (lang === "tr") {
             amount = amount.replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün");
         }
         message += replaceMassString(client.handleLanguages("MODLOG_TIMEOUT", client, guild.id), {

@@ -66,7 +66,7 @@ export interface guildConfig {
             logChannel: string,
             tickets: number,
         }
-        language: "turkish" | "english"
+        language: "tr" | "en-US"
     }
 }
 export declare class KhaxyClient extends Client {
@@ -87,7 +87,7 @@ export declare class KhaxyClient extends Client {
 
     public ticketMessages : Collection<string, string>
 
-    public handleLanguages<K extends keyof typeof import("./lang.json").translations>(textId: K, client: KhaxyClient, guildId: Snowflake): typeof import("./lang.json").translations[K]["turkish"] | typeof import("./lang.json").translations[K]["english"]
+    public handleLanguages<K extends keyof typeof import("./src/localizations/en-US.json") | keyof typeof import("./src/localizations/tr.json")>(textId: K, client: KhaxyClient, guildId: Snowflake): typeof import("./src/localizations/en-US.json")[K] | typeof import("./src/localizations/tr.json")[K]
 }
 
 export interface customObject {

@@ -1,5 +1,5 @@
 import {ActivityType, Client, EmbedBuilder, Partials, IntentsBitField, Collection } from "discord.js";
-import {KhaxyClient} from "./types";
+import {KhaxyClient} from "../types";
 import {registerEvents, registerSlashCommands} from "./utils/registery.js";
 import {log, replaceMassString} from "./utils/utils.js";
 import mongoose from "mongoose";

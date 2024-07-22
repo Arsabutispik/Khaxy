@@ -128,7 +128,7 @@ export default {
         const duration = ms(`${interaction.options.getString("duration", true)}${interaction.options.getString("time", true)}`);
         const reason = interaction.options.getString("reason", false) || client.handleLanguages("MUTE_NO_REASON", client, interaction.guildId);
         let longduration = ms(duration, { long: true });
-        if (lang === "turkish") {
+        if (lang === "tr") {
             longduration = longduration.replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün");
         }
         try {

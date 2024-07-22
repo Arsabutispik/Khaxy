@@ -1,4 +1,4 @@
-import {slashCommandBase} from "../../types";
+import {slashCommandBase} from "../../../types";
 import {GuildMember, SlashCommandBuilder, PermissionsBitField} from "discord.js";
 import punishmentSchema from "../../schemas/punishmentSchema.js";
 import {replaceMassString} from "../../utils/utils.js";

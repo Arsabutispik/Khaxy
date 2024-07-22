@@ -1,5 +1,5 @@
 import {ChannelType, PermissionsBitField, SlashCommandBuilder, TextChannel} from "discord.js";
-import {slashCommandBase} from "../../types";
+import {slashCommandBase} from "../../../types";
 import openMailsSchema from "../../schemas/openMailsSchema.js";
 export default {
     data: new SlashCommandBuilder()

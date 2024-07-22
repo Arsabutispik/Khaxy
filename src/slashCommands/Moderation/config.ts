@@ -1,4 +1,4 @@
-import {slashCommandBase} from "../../types";
+import {slashCommandBase} from "../../../types";
 import {
     GuildMember, MessageComponentInteraction, PermissionsBitField,
     SlashCommandBuilder, ComponentType
@@ -50,8 +50,8 @@ export default {
         const guildConfig = client.guildsConfig.get(interaction.guild!.id)!
         const setting = interaction.options.getString("setting") as "register" | "welcome-leave" | "moderation" | "role" | undefined
         const language = {
-            "turkish": "🇹🇷 Türkçe",
-            "english": "🇬🇧 English"
+            "tr": "🇹🇷 Türkçe",
+            "en-US": "🇺🇸 English"
         }
         if(!(interaction.member as GuildMember).permissions.has(PermissionsBitField.Flags.Administrator)) return interaction.reply({content: client.handleLanguages("CONFIG_NO_PERMS", client, interaction.guild!.id), ephemeral: true});
         if (!setting) {

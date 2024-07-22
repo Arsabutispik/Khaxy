@@ -1,0 +1,1513 @@
+{
+    "HAPPY_TO_USE": "Enjoying the bot? Use /invite to invite me to your server!",
+    "ERROR_ON_INTERACTION": "An error occurred while executing this command. Please try again later.",
+    "NO_SEND_MESSAGE_PERMS": "I need the `Send Messages` permission to run this command.",
+    "NO_ONE_IN_VOICE": {
+        "embeds": [
+            {
+                "title": "No One Left in Voice Channel",
+                "description": "Music has been stopped because no one is left in the voice channel.",
+                "color": 0
+            }
+        ]
+    },
+    "KICKED_FROM_VOICE": {
+        "embeds": [
+            {
+                "title": "Kicked From Voice Channel",
+                "description": "Music has been stopped because the bot has been kicked from the voice channel.",
+                "color": 0
+            }
+        ]
+    },
+    "MODLOG_WARNING": "⚠️ **{user_username}** has been warned by **{actionmaker_username}**. Reason:\n```{reason}```",
+    "MODLOG_BAN": "<:banned:1017703188150894622>  **{user_username}** has been banned by **{actionmaker_username}**. Reason:\n```{reason}```",
+    "MODLOG_KICK": "👢 **{user_username}** has been kicked by **{actionmaker__username}**. Reason:\n```{reason}```",
+    "MODLOG_FORCED_BAN": "<:banbanned:1017703176528474152> User (`{user_id}`) has been force banned by **{actionmaker_username}**. Reason:\n```{reason}```",
+    "MODLOG_MUTE": "🔇 **{user_username}** has been muted by **{actionmaker_username}** for **{amount}**. Reason:\n```{reason}```",
+    "MODLOG_TIMED_BAN": "<:banned:1017703188150894622> **{user_username}** has been banned by **{actionmaker_username}** for **{amount}**. Reason:\n```{reason}```",
+    "MODLOG_UNBAN": "🔓 User (`{user_id}`) has been unbanned by **{actionmaker_username}**. Reason:\n```{reason}```",
+    "MODLOG_BAN_TIMEOUT": "🔓 User (`{user_id}`) has been automatically unbanned by **{actionmaker_username}** after **{amount}**. Reason:\n```{reason}```",
+    "MODLOG_CHANGES": "<t:{time}> `[{case}]` ✏️ Case #{case}, has been modified by **{actionmaker_username}**. Reason:\n```{reason}```",
+    "MODLOG_FORCED_TIME_BAN": "<:banbanned:1017703176528474152> User (`{user_id}`) has been force banned by **{actionmaker_username}** for **{amount}**. Reason:\n```{reason}```",
+    "MODLOG_TIMEOUT": "🔇 **{actionmaker_username}** has given **{user_username}** a **{amount}** timeout. Reason:\n```{reason}```",
+    "BAN_BOT_MISSING_PERMS": "I don't have the `Ban Members` permission to ban members.",
+    "BAN_USER_MISSING_PERMS": "You don't have the `Ban Members` permission to ban this user.",
+    "BAN_USER_NOT_FOUND": "I couldn't find this user.",
+    "BAN_NO_REASON": "No reason specified for the ban.",
+    "BAN_CANT_BAN_YOURSELF": "You can't ban yourself.",
+    "BAN_CANT_BAN_BOT": "You can't ban a bot.",
+    "BAN_USER_HIGHER_ROLE": "This user has a higher (or same) role than you.",
+    "BAN_USER_HAS_PERMS": "You can't ban this user because this user has the `Ban Members` permission.",
+    "BAN_SPECIFY_TIME": "You must specify a time.",
+    "BAN_SPECIFY_UNIT": "You must specify a time unit.",
+    "BAN_INVALID_TIME": "You specified an invalid time.",
+    "BAN_USER_DURATION_DM": "You have been banned from {guild_name} for **{duration}**. Reason: {reason}",
+    "BAN_USER_DURATION_MESSAGE": "<a:checkmark:1017704018287546388> **{targetMember_username}** has been banned for **{duration}** (Case #{case}) User has been notified with a DM.",
+    "BAN_USER_DURATION_MESSAGE_FAIL": "<a:checkmark:1017704018287546388> **{targetMember_username}** has been banned for **{duration}** (Case #{case}) Couldn't send a DM to the user.",
+    "NO_PERMISSION_MODLOG": "I couldn't send a message to the modlog channel. Please make sure I have the `Send Messages` permission.",
+    "BAN_USER_DM": "You have been banned from {guild_name}. Reason: {reason}",
+    "BAN_USER_MESSAGE": "<a:checkmark:1017704018287546388> **{targetMember_username}** has been banned (Case #{case}) User has been notified with a DM.",
+    "BAN_USER_MESSAGE_FAIL": "<a:checkmark:1017704018287546388> **{targetMember_username}** has been banned (Case #{case}) Couldn't send a DM to the user.",
+    "BAN_FORCE_USER_NOT_FOUND": "I couldn't find this user.",
+    "BAN_FORCE_MESSAGE": "<a:checkmark:1017704018287546388> **{targetMember_username}** has been banned (Case #{case})",
+    "CONFIG_NO_PERMS": "You need the `Administrator` permission to change settings in this server.",
+    "CONFIG_MESSAGE": {
+        "ephemeral": true,
+        "embeds": [
+            {
+                "title": "Settings Menu",
+                "description": "You can choose from the menu below to see the settings.",
+                "color": 0
+            }
+        ],
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 3,
+                        "custom_id": "config",
+                        "options": [
+                            {
+                                "label": "Register Settings",
+                                "value": "register"
+                            },
+                            {
+                                "label": "Welcome Leave Settings",
+                                "value": "welcome-leave"
+                            },
+                            {
+                                "label": "Moderation Settings",
+                                "value": "moderation"
+                            },
+                            {
+                                "label": "Role Settings",
+                                "value": "role"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "CONFIG_REGISTER_MESSAGE": {
+        "ephemeral": true,
+        "embeds": [
+            {
+                "title": "Register Settings",
+                "description": "Settings and brief explanations;\n\n**Register Channel:** The channel where registration processes are done. `/register` can only be done in this channel.\n\n**Register Message:** The message sent to the registration channel when someone joins the server. It also allows you to tag the authorized team. Variables: **{user}** - User, **{server}** - Server Name, **{memberCount}** - Server Member Count, **{id}** - User ID, **{name}** - User's name.\n\n**Channel to Send the Register Message:** The channel where the registration message is sent.\n\n**Should Messages in the Register Channel be Deleted?:** Tries to delete all messages that can be deleted in the channel after the registration process.\n\n**Should the Register Message be Deleted?:** Tries to delete the registration message when the user leaves. (Usually doesn't work.)\n\n**»»----------------------------¤----------------------------««**",
+                "color": 0,
+                "fields": [
+                    {
+                        "name": "Register Channel",
+                        "value": "{registerChannel}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Register Message",
+                        "value": "{registerMessage}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Channel to Send the Register Message",
+                        "value": "{registerWelcomeChannel}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Should Messages in the Register Channel be Deleted?",
+                        "value": "{registerChannelClear}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Should the Register Message be Deleted?",
+                        "value": "{registerMessageClear}",
+                        "inline": true
+                    }
+                ]
+            }
+        ]
+    },
+    "CONFIG_WELCOME_LEAVE_MESSAGE": {
+        "ephemeral": true,
+        "embeds": [
+            {
+                "title": "Welcome Leave Settings",
+                "description": "Settings and brief explanations;\n\n**Welcome Leave Channel:** The channel where the message will be sent when someone enters or leaves the server.\n\n**Welcome Message:** The message to be sent when someone enters the server. Variables: **{user}** - User, **{server}** - Server Name, **{memberCount}** - Server Member Count, **{id}** - User ID, **{name}** - User's name.\n\n**Leave Message:** The message to be sent when someone leaves the server. Variables: **{user}** - User, **{server}** - Server Name, **{memberCount}** - Server Member Count, **{id}** - User ID, **{name}** - User's name.\n\n**»»----------------------------¤----------------------------««**",
+                "color": 0,
+                "fields": [
+                    {
+                        "name": "Welcome Channel",
+                        "value": "{welcomeChannel}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Welcome Message",
+                        "value": "{welcomeMessage}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Leave Channel",
+                        "value": "{leaveChannel}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Leave Message",
+                        "value": "{leaveMessage}",
+                        "inline": true
+                    }
+                ]
+            }
+        ]
+    },
+    "CONFIG_MODERATION_MESSAGE": {
+        "ephemeral": true,
+        "embeds": [
+            {
+                "title": "Moderation Settings",
+                "description": "Settings and brief explanations;\n\n**Modlog Channel:** The channel where moderation actions are sent.\n\n**Should Roles be Removed During Mute?:** Roles are removed when a user is muted and given back when the mute is over.\n\n**Staff Roles:** For specific admin commands. (For example: `/register` command)\n\n**ModMail Channel**: Modmail opens a channel where members can talk to the mods in a private channel by DMing the bot.\n\n**Language**: Sets the language of the server\n\n**»»----------------------------¤----------------------------««**",
+                "color": 0,
+                "fields": [
+                    {
+                        "name": "Modlog Channel",
+                        "value": "{modlogChannel}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Should Roles be Removed During Mute?",
+                        "value": "{muteGetAllRoles}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Staff Roles",
+                        "value": "{staffRole}",
+                        "inline": true
+                    },
+                    {
+                        "name": "ModMail Channel",
+                        "value": "{modmailChannel}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Language",
+                        "value": "{language}",
+                        "inline": true
+                    }
+                ]
+            }
+        ]
+    },
+    "CONFIG_ROLE_MESSAGE": {
+        "ephemeral": true,
+        "embeds": [
+            {
+                "title": "Role Settings",
+                "description": "Settings and brief explanations;\n\n**Register Roles:** Gender roles given out during registration.\n\n**Member Role:** The member role that's given during registration. (If the registration isn't set properly this role is given when the member joins.)\n\n**Mute Role:** This role is given when a member gets muted.\n\n**Color of the Day:** Everyday at UTC+3 00:00 bot changes the color and the name of the role\n\n**DJ Role:** This role allows to bypass some limitations on music commands.\n\n**»»----------------------------¤----------------------------««**",
+                "color": 0,
+                "fields": [
+                    {
+                        "name": "Register Roles",
+                        "value": "{registerRoles}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Member Role",
+                        "value": "{memberRole}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Mute Role",
+                        "value": "{muteRole}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Color of the Day",
+                        "value": "{colorOfTheDay}",
+                        "inline": true
+                    },
+                    {
+                        "name": "DJ Role",
+                        "value": "{djRole}",
+                        "inline": true
+                    }
+                ]
+            }
+        ]
+    },
+    "EDITCASE_NO_PERMS": "You need the `Manage Server` permission to edit cases in this server.",
+    "EDITCASE_NO_MODLOG": "There is no modlog channel set in this server.",
+    "EDITCASE_NO_MODLOG_CHANNEL": "It seems like I couldn't find a modlog channel. Please make sure you set the modlog channel properly.",
+    "EDITCASE_NO_MODLOG_PERMS": "I can't send messages to the modlog channel. Please make sure I have the `Send Messages` permission.",
+    "EDITCASE_NO_CASE": "No case found with this ID.",
+    "EDITCASE_MESSAGE": {
+        "embeds": [
+            {
+                "title": "Edit Case Menu",
+                "description": "Press <a:checkmark:1017704018287546388> to confirm the changes, <a:wrong:1197091816282001468> to cancel.",
+                "color": 0,
+                "fields": [
+                    {
+                        "name": "New Staff",
+                        "value": "{newStaff}",
+                        "inline": true
+                    },
+                    {
+                        "name": "New Reason",
+                        "value": "{newReason}",
+                        "inline": true
+                    }
+                ]
+            }
+        ]
+    },
+    "EDITCASE_CONFIRMATION_TIMEOVER": "Confirmation time is over.",
+    "EDITCASE_CONFIRMATION_CANCEL": "Editing process has been cancelled.",
+    "EDITCASE_CONFIRMATION_SUCCESS": "Case has been successfully edited.",
+    "CLOSEMAIL_NO_PERMS": "You need the `Manage Server` permission to close the modmail channel in this server.",
+    "CLOSEMAIL_NOT_MODMAIL": "This channel is not a modmail channel.",
+    "CLOSEMAIL_CLOSE": "Closing the modmail...",
+    "CLOSEMAIL_LOG_CHANNEL_ERROR": "Since modmail logs couldn't be found, a channel was tried to be created. However, the channel couldn't be created. Please make sure you set the modmail log channel properly.",
+    "CLOSEMAIL_LOG_MESSAGE": "{userName} has closed the {mailChannelName} mail. Conversation logs can be found in the .txt file shared above.",
+    "CLOSEMAIL_NO_PERM_TO_DELETE": "Modmail has been closed but the conversation logs couldn't be deleted. Please delete the conversation logs manually.",
+    "CLOSEMAIL_NOTIFY": "Modmail has been closed.",
+    "BAN_EVENT_ADD_NO_AUDIT_PERMISSION": "I need the `View Audit Log` permission to see the banned users in this server.",
+    "BAN_EVENT_ADD_COULDNT_FIND_EXECUTOR": "I couldn't find the user who banned this user.",
+    "BAN_EVENT_ADD_NO_REASON_SPECIFIED": "No reason specified for the ban.",
+    "BAN_EVENT_REMOVE_NO_AUDIT_PERMISSION": "I need the `View Audit Log` permission to see the unbanned users in this server.",
+    "BAN_EVENT_REMOVE_COULDNT_FIND_EXECUTOR": "I couldn't find the user who unbanned this user.",
+    "BAN_EVENT_REMOVE_NO_REASON_SPECIFIED": "No reason specified for the unban.",
+    "KICK_EVENT_NO_EXECUTOR": "I couldn't find the user who kicked this user.",
+    "KICK_EVENT_NO_REASON": "No reason specified for the kick.",
+    "PLAYER_START": {
+        "embeds": [
+            {
+                "author": {
+                    "name": "Now Playing ♪",
+                    "icon_url": "{icon_url}"
+                },
+                "thumbnail": {
+                    "url": "{thumbnail_url}"
+                },
+                "description": "🎶 [{track_title}]({track_url})",
+                "fields": [
+                    {
+                        "name": "Requested By",
+                        "value": "{requester}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Song Duration",
+                        "value": "{duration}",
+                        "inline": true
+                    }
+                ],
+                "color": 0
+            }
+        ]
+    },
+    "PLAYER_END": {
+        "embeds": [
+            {
+                "author": {
+                    "name": "Song Ended",
+                    "icon_url": "{icon_url}"
+                },
+                "color": 0,
+                "timestamp": 0
+            }
+        ]
+    },
+    "KICK_APP_NOT_ENOUGH_PERMISSIONS": "I don't have the `Kick Members` permission to kick members!",
+    "KICK_USER_NOT_ENOUGH_PERMISSIONS": "You don't have the `Kick Members` permission to kick this user!",
+    "KICK_CANT_KICK_YOURSELF": "You can't kick yourself!",
+    "KICK_CANT_KICK_BOT": "You can't kick a bot!",
+    "KICK_TARGET_HIGH_ROLE": "This user has a higher (or same) role than you, you can't kick this user!",
+    "KICK_TARGET_PERMISSIONS": "You can't kick this user because this user has the `Kick Members` permission!",
+    "KICK_MESSAGE_DM": "You have been kicked from {guild_name}. Reason: {reason}",
+    "KICK_MESSAGE": "<a:checkmark:1017704018287546388> **{targetMember_username}** has been kicked (Case #{case}) User has been notified with a DM.",
+    "KICK_MESSAGE_FAIL": "<a:checkmark:1017704018287546388> **{targetMember_username}** has been kicked (Case #{case}) Couldn't send a DM to the user.",
+    "KICK_MODLOG_FAIL": "I don't have the permission to send messages to the modlog channel!",
+    "KICK_CLEAR_SUCCESS": "User has been successfully kicked and messages have been cleared!",
+    "KICK_SUCCES": "User has been successfully kicked!",
+    "KICK_FAIL": "An error occurred and the user couldn't be kicked!",
+    "MUTE_APP_NOT_ENOUGH_PERMISSIONS": "I don't have the `Manage Roles` permission to mute members!",
+    "MUTE_USER_NOT_ENOUGH_PERMISSIONS": "You don't have the `Manage Roles` permission to mute this user!",
+    "MUTE_NO_ROLE": "There is no muted role set in this server!",
+    "MUTE_CANT_MUTE_YOURSELF": "You can't mute yourself!",
+    "MUTE_CANT_MUTE_APP": "You can't mute a bot!",
+    "MUTE_TARGET_HIGH_ROLE": "This user has a higher (or same) role than you, you can't mute this user!",
+    "MUTE_TARGET_HIGHER_APP_ROLE": "This user has a higher (or same) role than the bot, you can't mute this user!",
+    "MUTE_TARGET_HAS_PERMISSIONS": "You can't mute this user because this user has the `Mute Members` permission!",
+    "MUTE_ALREADY_MUTED": "This user is already muted!",
+    "MUTE_NO_REASON": "No reason specified for the mute!",
+    "MUTE_MESSAGE_DM": "You have been muted in {guild_name} for {duration}. Reason: {reason}",
+    "MUTE_MESSAGE": "<a:checkmark:1017704018287546388> **{targetMember_username}** has been muted (Case #{case}) User has been notified with a DM.",
+    "MUTE_MESSAGE_FAIL": "<a:checkmark:1017704018287546388> **{targetMember_username}** has been muted (Case #{case}) Couldn't send a DM to the user.",
+    "MUTE_MODLOG_FAIL": "I don't have the permission to send messages to the modlog channel!",
+    "REGISTER_NOT_ENOUGH_PERMS": "You must be a register staff to use this command!",
+    "REGISTER_NOT_ENOUGH_BOT_PERMS": "I don't have the `Manage Roles` permission to register members!",
+    "REGISTER_NO_CONFIG": "This command can only be used in registration channels. Please set up registration channels, registrars, and roles first!",
+    "REGISTER_NO_REGISTER_CHANNEL": "This command can only be used in registration channels. Please set up registration channels first!",
+    "REGISTER_NOT_THE_REGISTER_CHANNEL": "This command can only be used in registration channels.",
+    "REGISTER_CANT_REGISTER_YOURSELF": "You can't register yourself!",
+    "REGISTER_NO_MALE_ROLE": "There is no male role set in this server!",
+    "REGISTER_NO_MEMBER_ROLE": "There is no member role set in this server!",
+    "REGISTER_ERROR": "An error occurred, please try again later. The probable reason for the error is that the member roles are above the bot's role.",
+    "REGISTER_NO_WOMAN_ROLE": "There is no woman role set in this server!",
+    "REGISTER_SUCCESS": "{targetMember}, has been successfully registered!",
+    "UNBAN_NO_APP_PERMISSON": "I don't have the `Ban Members` permission to unban members!",
+    "UNBAN_USER_NOT_ENOUGH_PERMISSIONS": "You don't have the `Ban Members` permission to unban this user!",
+    "UNBAN_NO_REASON": "No reason specified for the unban!",
+    "UNBAN_USER_NOT_BANNED": "This user is not banned!",
+    "UNBAN_MODLOG_FAIL": "I don't have the permission to send messages to the modlog channel!",
+    "UNBAN_SUCCESS": "The ban of {user_username} has been lifted!",
+    "UNMUTE_APP_NOT_ENOUGH_PERMISSIONS": "I don't have the `Manage Roles` permission to unmute members!",
+    "UNMUTE_USER_NOT_ENOUGH_PERMISSIONS": "You don't have the `Manage Roles` permission to unmute this user!",
+    "UNMUTE_NOT_MUTED": "This user is not muted!",
+    "UNMUTE_NO_PREVIOUS_ROLES": "Couldn't find the previous roles of this user!",
+    "UNMUTE_SUCESS": "The mute of **{user_username}** has been lifted!",
+    "WARN_USER_NOT_ENOUGH_PERMISSIONS": "You don't have enough permissions to use this command.",
+    "WARN_CANNOT_WARN_YOURSELF": "You can't warn yourself!",
+    "WARN_CANNOT_WARN_BOT": "You can't warn a bot!",
+    "WARN_USER_HAS_HIGHER_ROLE": "This user has a higher (or same) role than you, you can't warn this user!",
+    "WARN_USER_HAS_HIGHER_BOT_ROLE": "This user has a higher (or same) role than the bot, you can't warn this user!",
+    "WARN_USER_HAS_PERMISSIONS": "You can't warn this user, this user has enough permissions!",
+    "WARN_USER_DM": "You have been warned in **{guild_name}**. Reason: {reason}",
+    "WARN_SUCCESS": "<a:checkmark:1017704018287546388> **{user}** has been warned (Case #{case})",
+    "WARN_USER_CANNOT_DM": "<a:checkmark:1017704018287546388> **{user}** has been warned (Case #{case}) Couldn't send a DM to the user.",
+    "WARN_MODLOG_FAIL": "I don't have the permission to send messages to the modlog channel!",
+    "USER_NOT_IN_VOICE": "|❌| **You must be in a voice channel**",
+    "USER_NOT_IN_THE_SAME_VOICE": "|❌| **You must be in the same voice channel with the bot**",
+    "BOT_NOT_PLAYING": "|❌| **The bot is not playing music right now.**",
+    "VOICE_NOT_ENOUGH_PERMS": "|❌| **You don't have enough permissions to use this command.**",
+    "DISCONNECT_SUCCESS": "|✅| **I have successfully left the voice channel.**",
+    "LIST_EMBED": {
+        "embeds": [
+            {
+                "author": {
+                    "name": "Now Playing",
+                    "icon_url": "{icon_url}"
+                },
+                "color": 0,
+                "timestamp": "0",
+                "description": "`[{track_title}]({track_url})`",
+                "fields": [
+                    {
+                        "name": "Requested By",
+                        "value": "{requestedBy}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Duration",
+                        "value": "{duration}",
+                        "inline": true
+                    }
+                ],
+                "thumbnail": {
+                    "url": "{thumbnail_url}"
+                }
+            }
+        ]
+    },
+    "LIST_UNKNOWN_USER": "Unknown User",
+    "LIST_PAGINATE": {
+        "embeds": [
+            {
+                "author": {
+                    "name": "Song List",
+                    "icon_url": "{icon_url}"
+                },
+                "color": 0,
+                "description": "**Now Playing**:\n`[{track_title}]({track_url})`\n`{track_duration}`\n\n**Upcoming Songs**:\n\n"
+            }
+        ]
+    },
+    "LIST_PAGINATE_TRACKS": "`{index}`. [{track_title}]({track_url})\n`{track_duration}` **|** Requested By: {requestedBy}\n\n",
+    "LOOP_ANOTHER_MODE_ENABLED": "|❌| **Another loop mode is already enabled.**",
+    "LOOP_MODE_ON": "✅ | **Song loop mode has been enabled.**",
+    "LOOP_MODE_OFF": "❌ | **Song loop mode has been disabled.**",
+    "LOOP_QUEUE_MODE_ON": "✅ | **Queue loop mode has been enabled.**",
+    "LOOP_QUEUE_MODE_OFF": "❌ | **Queue loop mode has been disabled.**",
+    "PAUSE_ALREADY_PAUSED": "|❌| **The song is already paused.**",
+    "PAUSE_SUCCESS": "|✅| **The song has been paused.**",
+    "PLAY_UNABLE_TO_SPEAK": "Mhm! Mhhmhhmhm! MHHHPMHP! (I don't have the permission to speak)",
+    "PLAY_SEARCHING": "<a:mag_search:1015974107097083934> | **Searching...**",
+    "PLAY_EMBED": {
+        "embeds": [
+            {
+                "author": {
+                    "name": "Song Added",
+                    "icon_url": "{icon_url}"
+                },
+                "color": 0,
+                "description": "🎶 [{track_title}]({track_url})",
+                "fields": [
+                    {
+                        "name": "Requested By",
+                        "value": "{requestedBy}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Duration",
+                        "value": "{duration}",
+                        "inline": true
+                    }
+                ],
+                "thumbnail": {
+                    "url": "{thumbnail_url}"
+                }
+            }
+        ]
+    },
+    "RESUME_ALREADY_RESUMED": "|❌| **The song is already resumed.**",
+    "RESUME_SUCCESS": "|✅| **The song has been resumed.**",
+    "SHUFFLE_SUCCESS": "|✅| **The queue has been shuffled.**",
+    "SKIP_ONLY_ONE_USER": "{otherUser} **{interactionUser}** wants to change the currently playing *`{currentTrack_title}`* song, please make your choice below.",
+    "SKIP_SUCCESS": "|✅| **The song has been successfully skipped.**",
+    "SKIP_REJECT": "|❌| **The song skip has been denied.**",
+    "SKIP_USER_DIDNT_RESPOND_IN_TIME": "|❌| **The user didn't respond in time.**",
+    "SKIP_VOTING_EMBED": {
+        "embeds": [
+            {
+                "title": "Song Change Voting",
+                "description": "{interactionUser} wants to change the currently playing *`${currentTrack_title}`* song, please make your choice below.",
+                "color": 0,
+                "footer": {
+                    "text": "The voting will end in 2 minutes."
+                },
+                "fields": [
+                    {
+                        "name": "👍",
+                        "value": "Şarkıyı Geç",
+                        "inline": true
+                    }
+                ]
+            }
+        ]
+    },
+    "SKIP_WAITING_VOTE": "Waiting for the vote current voting status |⭕|",
+    "SKIP_ALREADY_VOTED": "|❌| **You have already voted.**",
+    "SKIP_ACCEPTED_VOTE": "Voting Accepted current voting status |✅|",
+    "SKIP_REJECTED_VOTE": "Voting Rejected current voting status |❌|",
+    "SKIP_EXCEEDED_QUEUE_LENGTH": "|❌| **There are not that many songs in the queue.**",
+    "SKIP_ONLY_ONE_USER_AMOUNT": "{otherUser} **{interactionUser}** wants to skip {amount} songs from the list. Please make your choice below.",
+    "SKIP_AMOUNT_SUCCESS": "|✅| **{amount} songs have been successfully skipped.**",
+    "SKIP_AMOUNT_REJECT": "|❌| **The song skip has been denied.**",
+    "SKIP_VOTING_EMBED_AMOUNT": {
+        "embeds": [
+            {
+                "title": "Song Change Voting",
+                "description": "{interactionUser} wants to skip {amount} songs from the list. Please make your choice below.",
+                "color": 0,
+                "footer": {
+                    "text": "The voting will end in 2 minutes."
+                },
+                "fields": [
+                    {
+                        "name": "👍",
+                        "value": "Şarkıyı Geç",
+                        "inline": true
+                    }
+                ]
+            }
+        ]
+    },
+    "PLAYING_EMBED": {
+        "embeds": [
+            {
+                "author": {
+                    "name": "Now Playing",
+                    "icon_url": "{icon_url}"
+                },
+                "color": 0,
+                "description": "🎶 [{track_title}]({track_url})",
+                "fields": [
+                    {
+                        "name": "Requested By",
+                        "value": "{requestedBy}",
+                        "inline": true
+                    },
+                    {
+                        "name": "Duration",
+                        "value": "{duration}",
+                        "inline": true
+                    }
+                ],
+                "thumbnail": {
+                    "url": "{thumbnail_url}"
+                }
+            }
+        ]
+    },
+    "INVITE_EMBED": {
+        "embeds": [
+            {
+                "title": "Invite Link",
+                "description": "Thank you for using Khaxy :heart:\n\nIf you want to use the bot in your own server, you can invite it [here]({inviteLink})\n\nFor our support server, click [here]({discordLink})",
+                "url": "{link}",
+                "color": 0
+            }
+        ]
+    },
+    "BAN_EXPIRED": "Ban has expired",
+    "REGISTER_CONFIG_PROMPT": {
+        "content": "Select the setting you want to adjust.",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 3,
+                        "custom_id": "registerConfig",
+                        "options": [
+                            {
+                                "label": "Register Channel",
+                                "value": "registerChannel",
+                                "description": "Sets the channel where registration processes will be performed.",
+                                "emoji": "📝"
+                            },
+                            {
+                                "label": "Registrar Role",
+                                "value": "staffRole",
+                                "description": "Sets the role that can perform registration processes.",
+                                "emoji": "👮"
+                            },
+                            {
+                                "label": "Registration Message",
+                                "value": "registerMessage",
+                                "description": "Sets the message to be sent to the registration channel when the user enters the server.",
+                                "emoji": "📜"
+                            },
+                            {
+                                "label": "Should the Registration Message be Deleted?",
+                                "value": "registerMessageClear",
+                                "description": "Sets whether the registration message should be deleted or not.",
+                                "emoji": "🗑️"
+                            },
+                            {
+                                "label": "Should the Registration Channel Messages be Deleted?",
+                                "value": "registerChannelClear",
+                                "description": "Sets whether the messages in the registration channel should be deleted or not.",
+                                "emoji": "🗑️"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "REGISTER_CONFIG_EXPIRED": "The settings menu has expired.",
+    "REGISTER_CHANNEL_ALREADY_SETUP": {
+        "content": "The registration channel is already set up. Would you like to change it or delete it?",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 2,
+                        "label": "✅| Change",
+                        "style": 3,
+                        "custom_id": "registerChannelAccept"
+                    },
+                    {
+                        "type": 2,
+                        "label": "❌| Cancel",
+                        "style": 4,
+                        "custom_id": "registerChannelReject"
+                    },
+                    {
+                        "type": 2,
+                        "label": "🗑️| Delete",
+                        "style": 1,
+                        "custom_id": "registerChannelDelete"
+                    }
+                ]
+            }
+        ]
+    },
+    "REGISTER_CHANNEL_CANCEL": "The registration channel setup process has been canceled.",
+    "REGISTER_CHANNEL_ACCEPT": {
+        "content": "Set the new registration channel below",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 8,
+                        "custom_id": "registerChannel",
+                        "placeholder": "Select a channel.",
+                        "min_values": 0,
+                        "max_values": 1,
+                        "channel_types": [
+                            0
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "REGISTER_CHANNEL_ACCEPT_SUCCESS": "The registration channel has been successfully set.",
+    "REGISTER_CHANNEL_ERROR_OR_EXPIRED": "An error occurred or the process has expired.",
+    "REGISTER_CHANNEL_DELETED": "The registration channel has been successfully deleted.",
+    "STAFF_ROLES_PROMPT": {
+        "content": "Select the roles below to set the registrar role. You can delete the selection of the selected roles.",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 6,
+                        "custom_id": "staffRole",
+                        "placeholder": "Select a role.",
+                        "min_values": 0,
+                        "max_values": 25,
+                        "default_values": [
+                            {
+                                "id": "0",
+                                "type": "role"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "STAFF_ROLES_SUCCESS": "The registrar role has been successfully set.",
+    "STAFF_ROLES_ERROR_OR_EXPIRED": "An error occurred or the process has expired.",
+    "REGISTER_MESSAGE_ALREADY_SETUP": {
+        "content": "The message to be sent to the registration channel is already set up. Would you like to change it or delete it?",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 2,
+                        "label": "✅| Change",
+                        "style": 3,
+                        "custom_id": "registerMessageAccept"
+                    },
+                    {
+                        "type": 2,
+                        "label": "❌| Cancel",
+                        "style": 4,
+                        "custom_id": "registerMessageReject"
+                    },
+                    {
+                        "type": 2,
+                        "label": "🗑️| Delete",
+                        "style": 1,
+                        "custom_id": "registerMessageDelete"
+                    }
+                ]
+            }
+        ]
+    },
+    "REGISTER_MESSAGE_CANCEL": "The registration message setup process has been canceled.",
+    "REGISTER_MESSAGE_MODAL": {
+        "title": "Registration Message",
+        "custom_id": "registerMessage",
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 4,
+                        "custom_id": "registerMessage",
+                        "label": "Registration Message",
+                        "style": 2,
+                        "min_length": 1,
+                        "max_length": 4000,
+                        "placeholder": "Available variables: {user}, {tag}, {name}, {id}, {server}, {memberCount}",
+                        "required": true
+                    }
+                ]
+            }
+        ]
+    },
+    "REGISTER_MESSAGE_SETUP": {
+        "content": "Click the button below to set the registration message.",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 2,
+                        "label": "Set Registration Message",
+                        "style": 1,
+                        "custom_id": "registerMessage"
+                    }
+                ]
+            }
+        ]
+    },
+    "REGISTER_MESSAGE_SUCCESS": "The registration message has been successfully set.",
+    "REGISTER_MESSAGE_ERROR_OR_EXPIRED": "An error occurred or the process has expired.",
+    "REGISTER_MESSAGE_DELETED": "The registration message has been successfully deleted.",
+    "REGISTER_MESSAGE_DELETE_TRUE": "The registration message deletion setting has been activated.",
+    "REGISTER_MESSAGE_DELETE_FALSE": "The registration message deletion setting has been deactivated.",
+    "REGISTER_CHANNEL_DELETE_TRUE": "The registration channel message deletion setting has been activated.",
+    "REGISTER_CHANNEL_DELETE_FALSE": "The registration channel message deletion setting has been deactivated.",
+    "WELCOME_CONFIG_PROMPT": {
+        "content": "Select the setting you want to adjust.",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 3,
+                        "custom_id": "welcomeConfig",
+                        "options": [
+                            {
+                                "label": "Welcome Channel",
+                                "value": "welcomeChannel",
+                                "description": "Sets the channel where welcome messages will be sent.",
+                                "emoji": "📝"
+                            },
+                            {
+                                "label": "Welcome Message",
+                                "value": "welcomeMessage",
+                                "description": "Sets the message to be sent to the welcome channel when the user enters the server.",
+                                "emoji": "📜"
+                            },
+                            {
+                                "label": "Goodbye Channel",
+                                "value": "goodbyeChannel",
+                                "description": "Sets the goodbye channel.",
+                                "emoji": "👋"
+                            },
+                            {
+                                "label": "Goodbye Message",
+                                "value": "goodbyeMessage",
+                                "description": "Sets the goodbye message.",
+                                "emoji": "👋"
+                            },
+                            {
+                                "label": "Register Channel",
+                                "value": "registerChannel",
+                                "description": "Sets the register channel.",
+                                "emoji": "🔒"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "WELCOME_CONFIG_ERROR_OR_EXPIRED": "An error occurred or the process has expired.",
+    "WELCOME_CHANNEL_PROMPT": {
+        "content": "Set the new welcome channel below",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 8,
+                        "custom_id": "welcomeChannel",
+                        "placeholder": "Select a channel.",
+                        "min_values": 0,
+                        "max_values": 1,
+                        "default_values": [
+                            {
+                                "id": "0",
+                                "type": "channel"
+                            }
+                        ],
+                        "channel_types": [
+                            0
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "WELCOME_CHANNEL_SUCCESS": "The welcome channel has been successfully set.",
+    "WELCOME_CHANNEL_ERROR_OR_EXPIRED": "An error occurred or the process has expired.",
+    "WELCOME_MESSAGE_ALREADY_SETUP": {
+        "content": "The welcome message is already set up. Would you like to change it or delete it?",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 2,
+                        "label": "✅| Change",
+                        "style": 3,
+                        "custom_id": "welcomeMessageAccept"
+                    },
+                    {
+                        "type": 2,
+                        "label": "❌| Cancel",
+                        "style": 4,
+                        "custom_id": "welcomeMessageReject"
+                    },
+                    {
+                        "type": 2,
+                        "label": "🗑️| Delete",
+                        "style": 1,
+                        "custom_id": "welcomeMessageDelete"
+                    }
+                ]
+            }
+        ]
+    },
+    "WELCOME_MESSAGE_CANCEL": "The welcome message setup process has been canceled.",
+    "WELCOME_MESSAGE_MODAL": {
+        "title": "Welcome Message",
+        "custom_id": "welcomeMessage",
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 4,
+                        "custom_id": "welcomeMessage",
+                        "label": "Welcome Message",
+                        "style": 2,
+                        "min_length": 1,
+                        "max_length": 4000,
+                        "placeholder": "Available variables: {user}, {tag}, {name}, {id}, {server}, {memberCount}",
+                        "required": true
+                    }
+                ]
+            }
+        ]
+    },
+    "WELCOME_MESSAGE_SETUP": {
+        "content": "Click the button below to set the welcome message.",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 2,
+                        "label": "Set Welcome Message",
+                        "style": 1,
+                        "custom_id": "welcomeMessage"
+                    }
+                ]
+            }
+        ]
+    },
+    "WELCOME_MESSAGE_SUCCESS": "The welcome message has been successfully set.",
+    "WELCOME_MESSAGE_ERROR_OR_EXPIRED": "An error occurred or the process has expired.",
+    "WELCOME_MESSAGE_DELETED": "The welcome message has been successfully deleted.",
+    "GOODBYE_CHANNEL_PROMPT": {
+        "content": "Set the new goodbye channel below",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 8,
+                        "custom_id": "goodbyeChannel",
+                        "placeholder": "Select a channel.",
+                        "min_values": 0,
+                        "max_values": 1,
+                        "default_values": [
+                            {
+                                "id": "0",
+                                "type": "channel"
+                            }
+                        ],
+                        "channel_types": [
+                            0
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "GOODBYE_CHANNEL_SUCCESS": "The goodbye channel has been successfully set.",
+    "GOODBYE_CHANNEL_ERROR_OR_EXPIRED": "An error occurred or the process has expired.",
+    "GOODBYE_MESSAGE_ALREADY_SETUP": {
+        "content": "The goodbye message is already set up. Would you like to change it or delete it?",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 2,
+                        "label": "✅| Change",
+                        "style": 3,
+                        "custom_id": "goodbyeMessageAccept"
+                    },
+                    {
+                        "type": 2,
+                        "label": "❌| Cancel",
+                        "style": 4,
+                        "custom_id": "goodbyeMessageReject"
+                    },
+                    {
+                        "type": 2,
+                        "label": "🗑️| Delete",
+                        "style": 1,
+                        "custom_id": "goodbyeMessageDelete"
+                    }
+                ]
+            }
+        ]
+    },
+    "GOODBYE_MESSAGE_CANCEL": "The goodbye message setup process has been canceled.",
+    "GOODBYE_MESSAGE_MODAL": {
+        "title": "Goodbye Message",
+        "custom_id": "goodbyeMessage",
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 4,
+                        "custom_id": "goodbyeMessage",
+                        "label": "Goodbye Message",
+                        "style": 2,
+                        "min_length": 1,
+                        "max_length": 4000,
+                        "placeholder": "Available variables: {user}, {tag}, {name}, {id}, {server}, {memberCount}",
+                        "required": true
+                    }
+                ]
+            }
+        ]
+    },
+    "GOODBYE_MESSAGE_SETUP": {
+        "content": "Click the button below to set the goodbye message.",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 2,
+                        "label": "Set Goodbye Message",
+                        "style": 1,
+                        "custom_id": "goodbyeMessage"
+                    }
+                ]
+            }
+        ]
+    },
+    "GOODBYE_MESSAGE_SUCCESS": "The goodbye message has been successfully set.",
+    "GOODBYE_MESSAGE_ERROR_OR_EXPIRED": "An error occurred or the process has expired.",
+    "GOODBYE_MESSAGE_DELETED": "The goodbye message has been successfully deleted.",
+    "REGISTER_MESSAGE_CHANNEL_PROMPT": {
+        "content": "Set the register channel below",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 8,
+                        "custom_id": "registerChannel",
+                        "placeholder": "Select a channel.",
+                        "min_values": 0,
+                        "max_values": 1,
+                        "default_values": [
+                            {
+                                "id": "0",
+                                "type": "channel"
+                            }
+                        ],
+                        "channel_types": [
+                            0
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "REGISTER_MESSAGE_CHANNEL_SUCCESS": "The register channel has been successfully set.",
+    "REGISTER_MESSAGE_CHANNEL_ERROR_OR_EXPIRED": "An error occurred or the process has expired.",
+    "MODERATION_CONFIG_PROMPT": {
+        "content": "Select the setting you want to adjust.",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 3,
+                        "custom_id": "moderationConfig",
+                        "options": [
+                            {
+                                "label": "Set ModLog Channel",
+                                "value": "modLogChannel",
+                                "description": "Sets the ModLog channel.",
+                                "emoji": "📝"
+                            },
+                            {
+                                "label": "Take All Roles in Mute",
+                                "value": "muteGetAllRoles",
+                                "description": "Takes all roles in mute.",
+                                "emoji": "🔇"
+                            },
+                            {
+                                "label": "Staff Roles",
+                                "value": "staffRoles",
+                                "description": "Sets the registrar roles.",
+                                "emoji": "👮"
+                            },
+                            {
+                                "label": "Set ModMail",
+                                "value": "modMail",
+                                "description": "Sets the ModMail.",
+                                "emoji": "📧"
+                            },
+                            {
+                                "label": "Set language",
+                                "value": "language",
+                                "description": "Sets the language.",
+                                "emoji": "🌐"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "MODERATION_CONFIG_ERROR_OR_EXPIRED": "An error occurred or the process has expired.",
+    "MODLOG_CHANNEL_PROMPT": {
+        "content": "Set the ModLog channel below",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 8,
+                        "custom_id": "modLogChannel",
+                        "placeholder": "Select a channel.",
+                        "min_values": 0,
+                        "max_values": 1,
+                        "default_values": [
+                            {
+                                "id": "0",
+                                "type": "channel"
+                            }
+                        ],
+                        "channel_types": [
+                            0
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "MODLOG_CHANNEL_SUCCESS": "The ModLog channel has been successfully set.",
+    "MODLOG_CHANNEL_ERROR_OR_EXPIRED": "An error occurred or the process has expired.",
+    "MUTE_GET_ALL_ROLES_TRUE": "The setting to take all roles in mute has been activated.",
+    "MUTE_GET_ALL_ROLES_FALSE": "The setting to take all roles in mute has been deactivated.",
+    "MODMAIL_PROMPT": {
+        "content": "Modmail has been set up before. If you have deleted the channels, use the delete option.",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 2,
+                        "label": "🗑️ | Delete",
+                        "style": 4,
+                        "custom_id": "modMailDelete"
+                    },
+                    {
+                        "type": 2,
+                        "label": "❌ | Cancel",
+                        "style": 3,
+                        "custom_id": "modMailReject"
+                    }
+                ]
+            }
+        ]
+    },
+    "MODMAIL_DELETE": "Modmail has been successfully deleted.",
+    "MODMAIL_REJECT": "The Modmail setup process has been canceled.",
+    "MODMAIL_ERROR_OR_EXPIRED": "An error occurred or the process has expired.",
+    "MODMAIL_ERROR_ON_CREATION": "An error occurred while creating Modmail channels. Make sure I have permission to open channels.",
+    "MODMAIL_SUCCESS": "Modmail has been successfully set.",
+    "LANGUAGE_PROMPT": {
+        "content": "Set the language below",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 3,
+                        "custom_id": "language",
+                        "placeholder": "placeholder",
+                        "options": [
+                            {
+                                "label": "Türkçe",
+                                "value": "tr",
+                                "description": "Selects the Turkish language.",
+                                "emoji": "🇹🇷"
+                            },
+                            {
+                                "label": "English",
+                                "value": "en-US",
+                                "description": "Selects the English language.",
+                                "emoji": "🇺🇸"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "LANGUAGE_SUCCESS": "The language has been successfully set.",
+    "LANGUAGE_ERROR_OR_EXPIRED": "An error occurred or the process has expired.",
+    "ROLE_CONFIG_PROMPT": {
+        "content": "Select the setting you want to adjust.",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 3,
+                        "custom_id": "roleConfig",
+                        "options": [
+                            {
+                                "label": "Set Member Role",
+                                "value": "memberRole",
+                                "description": "Sets the member role.",
+                                "emoji": "👤"
+                            },
+                            {
+                                "label": "Set Male Role",
+                                "value": "maleRole",
+                                "description": "Sets a male role",
+                                "emoji": "👨"
+                            },
+                            {
+                                "label": "Set Woman Role",
+                                "value": "femaleRole",
+                                "description": "Sets a female role",
+                                "emoji": "👩"
+                            },
+                            {
+                                "label": "Set Mute Role",
+                                "value": "muteRole",
+                                "description": "Sets the mute role.",
+                                "emoji": "🔇"
+                            },
+                            {
+                                "label": "Set DJ Role",
+                                "value": "djRole",
+                                "description": "Sets the DJ role.",
+                                "emoji": "🎧"
+                            },
+                            {
+                                "label": "Set Colour of the Day Role",
+                                "value": "dayColorRole",
+                                "description": "Sets the colour of the day role.",
+                                "emoji": "🌈"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "ROLE_CONFIG_ERROR_OR_EXPIRED": "An error occurred or the process has expired.",
+    "MEMBER_ROLE_PROMPT": {
+        "content": "Set the member role below",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 8,
+                        "custom_id": "memberRole",
+                        "placeholder": "Select a role.",
+                        "min_values": 0,
+                        "max_values": 1,
+                        "default_values": [
+                            {
+                                "id": "0",
+                                "type": "role"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "MEMBER_ROLE_SUCCESS": "The member role has been successfully set.",
+    "MEMBER_ROLE_ERROR_OR_EXPIRED": "An error occurred or the process has expired",
+    "MALE_ROLE_PROMPT": {
+        "content": "Set the male role below",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 8,
+                        "custom_id": "maleRole",
+                        "placeholder": "Select a role.",
+                        "min_values": 0,
+                        "max_values": 1,
+                        "default_values": [
+                            {
+                                "id": "0",
+                                "type": "role"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "MALE_ROLE_SUCCESS": "Male role has been successfully set.",
+    "MALE_ROLE_ERROR_OR_EXPIRED": "An error occurred or the process has expired.",
+    "FEMALE_ROLE_PROMPT": {
+        "content": "Set the female role below",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 8,
+                        "custom_id": "femaleRole",
+                        "placeholder": "Rol seçiniz.",
+                        "min_values": 0,
+                        "max_values": 1,
+                        "default_values": [
+                            {
+                                "id": "0",
+                                "type": "role"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "FEMALE_ROLE_SUCCESS": "Female role has been successfully set.",
+    "FEMALE_ROLE_ERROR_OR_EXPIRED": "An error occurred or the process has expired.",
+    "MUTE_ROLE_PROMPT": {
+        "content": "Set the mute role below",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 8,
+                        "custom_id": "muteRole",
+                        "placeholder": "Select a role.",
+                        "min_values": 0,
+                        "max_values": 1,
+                        "default_values": [
+                            {
+                                "id": "0",
+                                "type": "role"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "MUTE_ROLE_SUCCESS": "The mute role has been successfully set.",
+    "MUTE_ROLE_ERROR_OR_EXPIRED": "An error occurred or the process has expired.",
+    "DJ_ROLE_PROMPT": {
+        "content": "Set the DJ role below",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 8,
+                        "custom_id": "djRole",
+                        "placeholder": "Select a role.",
+                        "min_values": 0,
+                        "max_values": 1,
+                        "default_values": [
+                            {
+                                "id": "0",
+                                "type": "role"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "DJ_ROLE_SUCCESS": "The DJ role has been successfully set.",
+    "DJ_ROLE_ERROR_OR_EXPIRED": "An error occurred or the process has expired.",
+    "COLOUR_OF_THE_DAY_ROLE_PROMPT": {
+        "content": "Set the colour of the day role below",
+        "ephemeral": true,
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 8,
+                        "custom_id": "dayColorRole",
+                        "placeholder": "Select a role.",
+                        "min_values": 0,
+                        "max_values": 1,
+                        "default_values": [
+                            {
+                                "id": "0",
+                                "type": "role"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "COLOUR_OF_THE_DAY_ROLE_SUCCESS": "The colour of the day role has been successfully set.",
+    "COLOUR_OF_THE_DAY_ROLE_ERROR_OR_EXPIRED": "An error occurred or the process has expired.",
+    "SERVER_HAS_NO_CONFIGURATION": {
+        "content": "This server has no configuration.",
+        "ephemeral": true
+    },
+    "MAIL_CHANNEL_NOT_SET": {
+        "content": "No modmail set for this server.",
+        "ephemeral": true
+    },
+    "MAIL_OPENED": {
+        "content": "Modmail has been successfully opened.",
+        "ephemeral": true
+    },
+    "MAIL_OPENED_MESSAGE": {
+        "content": "Modmail opened by {user}. Details below, you can use the button below to reply.",
+        "ephemeral": false,
+        "embeds": [
+            {
+                "author": {
+                    "name": "{user.tag}",
+                    "icon_url": "{user.avatarURL}"
+                },
+                "description": "{message}",
+                "color": 0
+            }
+        ],
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 2,
+                        "label": "Reply",
+                        "style": 1,
+                        "custom_id": "modMailReply"
+                    }
+                ]
+            }
+        ]
+    },
+    "MAIL_FOLLOWUP_MESSAGE": {
+        "content": "{user} has sent a follow-up message. You can see the message below and use the button below to reply to this message.",
+        "ephemeral": false,
+        "embeds": [
+            {
+                "author": {
+                    "name": "{user.tag}",
+                    "icon_url": "{user.avatarURL}"
+                },
+                "description": "{message}",
+                "color": 0
+            }
+        ],
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 2,
+                        "label": "Reply",
+                        "style": 1,
+                        "custom_id": "modMailReply"
+                    }
+                ]
+            }
+        ]
+    },
+    "MAIL_FOLLOWUP_DM_MESSAGE": {
+        "content": "You have a response from the {server} server. You can see the response below and use the button below to reply to this message.",
+        "ephemeral": false,
+        "embeds": [
+            {
+                "author": {
+                    "name": "{user.tag}",
+                    "icon_url": "{user.avatarURL}"
+                },
+                "description": "{message}",
+                "color": 0
+            }
+        ],
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 2,
+                        "label": "Reply",
+                        "style": 1,
+                        "custom_id": "modMailReplyDM"
+                    }
+                ]
+            }
+        ]
+    },
+    "MAIL_SENT_ATTACHMENT": "A file has been attached.",
+    "BUTTON_CLICK_MODAL": {
+        "title": "Your Reply to the Mail",
+        "custom_id": "buttonClick",
+        "components": [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 4,
+                        "custom_id": "buttonClick",
+                        "label": "Your Reply to the Mail",
+                        "style": 2
+                    }
+                ]
+            }
+        ]
+    },
+    "MESSAGE_SENT": {
+        "content": "Your message has been successfully sent.",
+        "ephemeral": true
+    },
+    "MESSAGE_SENT_INFORMATION": {
+        "content": "{user} replied to this message. You can see the message below.",
+        "ephemeral": false,
+        "embeds": [
+            {
+                "author": {
+                    "name": "{user.tag}",
+                    "icon_url": "{user.avatarURL}"
+                },
+                "description": "{message}",
+                "color": 0
+            }
+        ]
+    },
+    "TIMEOUT_NO_REASON_GIVEN": "No reason given for timeout.",
+    "TIMEOUT_COULD_NOT_FIND_EXECUTER": "The person who performed the timeout operation could not be found."
+}

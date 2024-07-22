@@ -1,5 +1,5 @@
 import {EmbedBuilder, SlashCommandBuilder, PermissionsBitField, GuildMember} from "discord.js";
-import {slashCommandBase} from "../../types";
+import {slashCommandBase} from "../../../types";
 import modlog from "../../utils/modlog.js";
 import {replaceMassString} from "../../utils/utils.js";
 

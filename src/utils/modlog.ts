@@ -1,7 +1,7 @@
 import { Guild, TextChannel, User } from 'discord.js';
 import ms from 'ms';
 import guildSchema from "../schemas/guildSchema.js";
-import {KhaxyClient} from "../types";
+import {KhaxyClient} from "../../types";
 import {log, replaceMassString} from "./utils.js";
 type actions = "WARNING" | "BAN" | "KICK" | "MUTE" | "FORCED_BAN" | "TIMED_BAN" | "CHANGES" | "BAN_REMOVE" | "BAN_END" | "FORCED_TIMED_BAN" | "TIMEOUT"
 
@@ -48,7 +48,7 @@ export default async(data: {guild: Guild, user: User, action: actions, actionmak
         })
     } else if(action === "MUTE"){
         let amount = ms(duration!, {long: true})
-        if(lang === "turkish") {
+        if(lang === "tr") {
             amount = amount.replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün")
         }
         message += replaceMassString(client.handleLanguages("MODLOG_MUTE", client, guild.id), {
@@ -61,7 +61,7 @@ export default async(data: {guild: Guild, user: User, action: actions, actionmak
         })
     } else if(action === "TIMED_BAN") {
         let amount = ms(duration!, {long: true})
-        if(lang === "turkish") {
+        if(lang === "tr") {
             amount = amount.replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün")
         }
         message += replaceMassString(client.handleLanguages("MODLOG_TIMED_BAN", client, guild.id), {
@@ -81,7 +81,7 @@ export default async(data: {guild: Guild, user: User, action: actions, actionmak
         })
     } else if(action === "BAN_END"){
         let amount = ms(duration!, {long: true})
-        if(lang === "turkish") {
+        if(lang === "tr") {
             amount = amount.replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün")
         }
         message += replaceMassString(client.handleLanguages("MODLOG_BAN_TIMEOUT", client, guild.id), {
@@ -101,7 +101,7 @@ export default async(data: {guild: Guild, user: User, action: actions, actionmak
         })!
     } else if(action === "FORCED_TIMED_BAN"){
         let amount = ms(duration!, {long: true})
-        if(lang === "turkish") {
+        if(lang === "tr") {
             amount = amount.replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün")
         }
         message += replaceMassString(client.handleLanguages("MODLOG_BAN_TIMEOUT", client, guild.id), {
@@ -113,7 +113,7 @@ export default async(data: {guild: Guild, user: User, action: actions, actionmak
         })
     } else if (action === "TIMEOUT") {
         let amount = ms(duration!, {long: true})
-        if(lang === "turkish") {
+        if(lang === "tr") {
             amount = amount.replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün")
         }
         message += replaceMassString(client.handleLanguages("MODLOG_TIMEOUT", client, guild.id), {

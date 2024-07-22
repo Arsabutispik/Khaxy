@@ -32,8 +32,8 @@ const guildSchema = new Schema({
         },
         language: {
             type: String,
-            default: "english",
-            enum: ["turkish", "english"]
+            default: "en-US",
+            enum: ["tr", "en-US"]
         }
     }
 }, {

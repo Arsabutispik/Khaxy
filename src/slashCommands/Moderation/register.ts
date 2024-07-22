@@ -1,4 +1,4 @@
-import {slashCommandBase} from "../../types";
+import {slashCommandBase} from "../../../types";
 import {EmbedBuilder, TextChannel, SlashCommandBuilder, Message, PermissionsBitField} from "discord.js";
 import {replaceMassString, sleep} from "../../utils/utils.js";
 

@@ -1,4 +1,4 @@
-import {slashCommandBase} from "../../types";
+import {slashCommandBase} from "../../../types";
 import {SlashCommandBuilder} from "discord.js";
 export default {
     help: {

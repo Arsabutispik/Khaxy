@@ -1,4 +1,4 @@
-import {slashCommandBase} from "../../types";
+import {slashCommandBase} from "../../../types";
 import {
     EmbedBuilder,
     MessageComponentInteraction,
