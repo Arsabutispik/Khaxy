@@ -983,7 +983,7 @@
     ]
   },
   "REGISTER_CANT_REGISTER_YOURSELF": "You can't register yourself!",
-  "REGISTER_CHANNEL_ACCEPT": {
+  "REGISTER_CHANNEL_PROMPT": {
     "components": [
       {
         "components": [
@@ -992,6 +992,12 @@
               0
             ],
             "custom_id": "registerChannel",
+            "default_values": [
+              {
+                "id": "0",
+                "type": "channel"
+              }
+            ],
             "max_values": 1,
             "min_values": 0,
             "placeholder": "Select a channel.",
@@ -1001,43 +1007,9 @@
         "type": 1
       }
     ],
-    "content": "Set the new registration channel below",
+    "content": "Set the register channel below",
     "ephemeral": true
   },
-  "REGISTER_CHANNEL_ACCEPT_SUCCESS": "The registration channel has been successfully set.",
-  "REGISTER_CHANNEL_ALREADY_SETUP": {
-    "components": [
-      {
-        "components": [
-          {
-            "custom_id": "registerChannelAccept",
-            "label": "✅| Change",
-            "style": 3,
-            "type": 2
-          },
-          {
-            "custom_id": "registerChannelDelete",
-            "label": "🗑️| Delete",
-            "style": 1,
-            "type": 2
-          },
-          {
-            "custom_id": "registerChannelReject",
-            "label": "❌| Cancel",
-            "style": 4,
-            "type": 2
-          }
-        ],
-        "type": 1
-      }
-    ],
-    "content": "The registration channel is already set up. Would you like to change it or delete it?",
-    "ephemeral": true
-  },
-  "REGISTER_CHANNEL_CANCEL": "The registration channel setup process has been canceled.",
-  "REGISTER_CHANNEL_DELETE_FALSE": "The registration channel message deletion setting has been deactivated.",
-  "REGISTER_CHANNEL_DELETE_TRUE": "The registration channel message deletion setting has been activated.",
-  "REGISTER_CHANNEL_DELETED": "The registration channel has been successfully deleted.",
   "REGISTER_CHANNEL_ERROR_OR_EXPIRED": "An error occurred or the process has expired.",
   "REGISTER_CONFIG_EXPIRED": "The settings menu has expired.",
   "REGISTER_CONFIG_PROMPT": {
@@ -1144,8 +1116,10 @@
       }
     ],
     "content": "Set the register channel below",
-    "ephemeral": true
   },
+  "REGISTER_CHANNEL_SUCCESS": "The registration channel has been successfully set.",
+  "REGISTER_CHANNEL_DELETE_FALSE": "The registration channel message deletion setting has been deactivated.",
+  "REGISTER_CHANNEL_DELETE_TRUE": "The registration channel message deletion setting has been activated.",
   "REGISTER_MESSAGE_CHANNEL_SUCCESS": "The register channel has been successfully set.",
   "REGISTER_MESSAGE_DELETE_FALSE": "The registration message deletion setting has been deactivated.",
   "REGISTER_MESSAGE_DELETE_TRUE": "The registration message deletion setting has been activated.",
@@ -1509,5 +1483,15 @@
     "content": "Click the button below to set the welcome message.",
     "ephemeral": true
   },
-  "WELCOME_MESSAGE_SUCCESS": "The welcome message has been successfully set."
+  "WELCOME_MESSAGE_SUCCESS": "The welcome message has been successfully set.",
+  "TIMEOUT_MEMBER_NOT_ENOUGH_PERMISSIONS": "You don't have the `Timeout Members` permission to timeout this user!",
+  "TIMEOUT_MEMBER_NOT_FOUND": "Couldn't find the user you want to timeout!",
+  "TIMEOUT_CANT_TIMEOUT_YOURSELF": "You can't timeout yourself!",
+  "TIMEOUT_CANT_TIMEOUT_BOT": "You can't timeout a bot!",
+  "TIMEOUT_MEMBER_HAS_PERMISSIONS": "You can't timeout this user, this user has enough permissions!",
+  "TIMEOUT_MEMBER_HAS_HIGHER_ROLE": "This user has a higher (or same) role than you, you can't timeout this user!",
+  "TIMEOUT_NO_REASON": "No reason specified for timeout!",
+  "TIMEOUT_MEMBER_HAS_COMMUNICATION_DISABLED": "This user has already in a timeout!",
+  "TIMEOUT_APP_NOT_ENOUGH_PERMISSIONS": "I don't have the `Mute Members` permission to timeout members!",
+  "TIMEOUT_SUCCESS": "The timeout of **{user_username}** has been successfully applied!",
 }

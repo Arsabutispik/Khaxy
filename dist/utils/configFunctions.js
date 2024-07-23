@@ -39,112 +39,45 @@ async function registerConfig(interaction, client) {
     }
 }
 async function registerChannel(interaction, client) {
-    if (client.guildsConfig.get(interaction.guild.id)?.config.registerChannel) {
-        const raw = client.handleLanguages("REGISTER_CHANNEL_ALREADY_SETUP", client, interaction.guildId);
-        await interaction.reply(raw);
-        const msg = await interaction.fetchReply();
-        const filter = (i) => i.user.id === interaction.user.id;
-        try {
-            const collector = await msg.awaitMessageComponent({
-                filter: filter,
-                componentType: ComponentType.Button,
-                time: 60000
-            });
-            if (collector.customId === "registerChannelReject") {
-                await collector.reply({
-                    content: client.handleLanguages("REGISTER_CHANNEL_CANCEL", client, interaction.guildId),
-                    ephemeral: true
-                });
-            }
-            else if (collector.customId === "registerChannelAccept") {
-                const channelSelect = client.handleLanguages("REGISTER_CHANNEL_ACCEPT", client, interaction.guildId);
-                await collector.reply(channelSelect);
-                const msg = await collector.fetchReply();
-                const filter = (i) => i.user.id === interaction.user.id;
-                try {
-                    const collector = await msg.awaitMessageComponent({
-                        filter: filter,
-                        componentType: ComponentType.ChannelSelect,
-                        time: 60000
-                    });
-                    if (collector) {
-                        const data = collector.values[0];
-                        const channel = interaction.guild.channels.cache.get(data);
-                        const config = {
-                            $set: {
-                                "config.registerChannel": channel.id
-                            }
-                        };
-                        await client.updateGuildConfig({ guildId: interaction.guild.id, config });
-                        await collector.reply({
-                            content: client.handleLanguages("REGISTER_CHANNEL_ACCEPT_SUCCESS", client, interaction.guildId),
-                            ephemeral: true
-                        });
-                    }
+    const raw = client.handleLanguages("REGISTER_CHANNEL_PROMPT", client, interaction.guildId);
+    raw.components[0].components[0].default_values.shift();
+    const registerChannel = client.guildsConfig.get(interaction.guild.id)?.config.registerChannel;
+    if (registerChannel) {
+        raw.components[0].components[0].default_values.push({
+            "id": registerChannel,
+            "type": "channel"
+        });
+    }
+    await interaction.reply(raw);
+    const msg = await interaction.fetchReply();
+    const filter = (i) => i.user.id === interaction.user.id;
+    try {
+        const collector = await msg.awaitMessageComponent({
+            filter: filter,
+            componentType: ComponentType.ChannelSelect,
+            time: 60000
+        });
+        if (collector) {
+            const data = collector.values[0];
+            const channel = interaction.guild.channels.cache.get(data);
+            const config = {
+                $set: {
+                    "config.registerChannel": channel.id
                 }
-                catch (error) {
-                    console.log(error);
-                    await interaction.followUp({
-                        content: client.handleLanguages("REGISTER_CHANNEL_ERROR_OR_EXPIRED", client, interaction.guildId),
-                        ephemeral: true
-                    });
-                }
-            }
-            else if (collector.customId === "registerChannelDelete") {
-                const config = {
-                    $set: {
-                        "config.registerChannel": null
-                    }
-                };
-                await client.updateGuildConfig({ guildId: interaction.guild.id, config });
-                await collector.reply({
-                    content: client.handleLanguages("REGISTER_CHANNEL_DELETED", client, interaction.guildId),
-                    components: [],
-                    ephemeral: true
-                });
-            }
-        }
-        catch (error) {
-            console.log(error);
-            await interaction.followUp({
-                content: client.handleLanguages("REGISTER_CHANNEL_ERROR_OR_EXPIRED", client, interaction.guildId),
+            };
+            await client.updateGuildConfig({ guildId: interaction.guild.id, config });
+            await collector.reply({
+                content: client.handleLanguages("REGISTER_CHANNEL_SUCCESS", client, interaction.guildId),
                 ephemeral: true
             });
         }
     }
-    else {
-        const channelSelect = client.handleLanguages("REGISTER_CHANNEL_ACCEPT", client, interaction.guildId);
-        await interaction.reply(channelSelect);
-        const msg = await interaction.fetchReply();
-        const filter = (i) => i.user.id === interaction.user.id;
-        try {
-            const collector = await msg.awaitMessageComponent({
-                filter: filter,
-                componentType: ComponentType.ChannelSelect,
-                time: 60000
-            });
-            if (collector) {
-                const data = collector.values[0];
-                const channel = interaction.guild.channels.cache.get(data);
-                const config = {
-                    $set: {
-                        "config.registerChannel": channel.id
-                    }
-                };
-                await client.updateGuildConfig({ guildId: interaction.guild.id, config });
-                await collector.reply({
-                    content: client.handleLanguages("REGISTER_CHANNEL_ACCEPT_SUCCESS", client, interaction.guildId),
-                    ephemeral: true
-                });
-            }
-        }
-        catch (error) {
-            console.log(error);
-            await interaction.followUp({
-                content: client.handleLanguages("REGISTER_CHANNEL_ERROR_OR_EXPIRED", client, interaction.guildId),
-                ephemeral: true
-            });
-        }
+    catch (error) {
+        await interaction.followUp({
+            content: client.handleLanguages("REGISTER_CHANNEL_ERROR_OR_EXPIRED", client, interaction.guildId),
+            ephemeral: true
+        });
+        console.error(error);
     }
 }
 async function registerMessage(interaction, client) {

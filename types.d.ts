@@ -6,6 +6,7 @@ import {
     SlashCommandBuilder, Snowflake
 } from "discord.js";
 import { UpdateQuery } from "mongoose";
+
 export type ExecuteParameters = {
     client: HolyClient;
     message: Message;
@@ -87,7 +88,7 @@ export declare class KhaxyClient extends Client {
 
     public ticketMessages : Collection<string, string>
 
-    public handleLanguages<K extends keyof typeof import("./src/localizations/en-US.json") | keyof typeof import("./src/localizations/tr.json")>(textId: K, client: KhaxyClient, guildId: Snowflake): typeof import("./src/localizations/en-US.json")[K] | typeof import("./src/localizations/tr.json")[K]
+    public handleLanguages<K extends keyof typeof import("./src/localisations/en-US.json") | keyof typeof import("./src/localisations/tr.json")>(textId: K, client: KhaxyClient, guildId: Snowflake): typeof import("./src/localisations/en-US.json")[K] | typeof import("./src/localisations/tr.json")[K]
 }
 
 export interface customObject {

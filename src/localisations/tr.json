@@ -984,7 +984,7 @@
     ]
   },
   "REGISTER_CANT_REGISTER_YOURSELF": "Kendini kayıt edemezsin!",
-  "REGISTER_CHANNEL_ACCEPT": {
+  "REGISTER_CHANNEL_PROMPT": {
     "components": [
       {
         "components": [
@@ -993,6 +993,12 @@
               0
             ],
             "custom_id": "registerChannel",
+            "default_values": [
+              {
+                "id": "0",
+                "type": "channel"
+              }
+            ],
             "max_values": 1,
             "min_values": 0,
             "placeholder": "Kanal seçiniz.",
@@ -1002,43 +1008,12 @@
         "type": 1
       }
     ],
-    "content": "Yeni kayıt kanalını aşağıdan ayarlayınız",
+    "content": "Kayıt kanalını aşağıdan ayarlayınız",
     "ephemeral": true
   },
-  "REGISTER_CHANNEL_ACCEPT_SUCCESS": "Kayıt kanalı başarıyla ayarlandı.",
-  "REGISTER_CHANNEL_ALREADY_SETUP": {
-    "components": [
-      {
-        "components": [
-          {
-            "custom_id": "registerChannelAccept",
-            "label": "✅| Değiştir",
-            "style": 3,
-            "type": 2
-          },
-          {
-            "custom_id": "registerChannelDelete",
-            "label": "🗑️| Sil",
-            "style": 1,
-            "type": 2
-          },
-          {
-            "custom_id": "registerChannelReject",
-            "label": "❌| İptal",
-            "style": 4,
-            "type": 2
-          }
-        ],
-        "type": 1
-      }
-    ],
-    "content": "Kayıt kanalı zaten ayarlanmış. Değiştirmek mi yoksa silmek mi istersiniz?",
-    "ephemeral": true
-  },
-  "REGISTER_CHANNEL_CANCEL": "Kayıt kanalı ayarlama işlemi iptal edildi.",
+  "REGISTER_CHANNEL_SUCCESS": "Kayıt kanalı başarıyla ayarlandı.",
   "REGISTER_CHANNEL_DELETE_FALSE": "Kayıt kanalı mesajları silme ayarı deaktif edildi.",
   "REGISTER_CHANNEL_DELETE_TRUE": "Kayıt kanalı mesajları silme ayarı aktif edildi.",
-  "REGISTER_CHANNEL_DELETED": "Kayıt kanalı başarıyla silindi.",
   "REGISTER_CHANNEL_ERROR_OR_EXPIRED": "Bir hata oluştu veya zaman aşımına uğradı.",
   "REGISTER_CONFIG_EXPIRED": "Ayarlar menüsü zaman aşımına uğradı.",
   "REGISTER_CONFIG_PROMPT": {
@@ -1508,5 +1483,15 @@
     "content": "Hoşgeldin mesajı ayarlamak için aşağıdaki butona tıklayınız.",
     "ephemeral": true
   },
-  "WELCOME_MESSAGE_SUCCESS": "Hoşgeldin mesajı başarıyla ayarlandı."
+  "WELCOME_MESSAGE_SUCCESS": "Hoşgeldin mesajı başarıyla ayarlandı.",
+  "TIMEOUT_MEMBER_NOT_ENOUGH_PERMISSIONS": "Bu komutu kullanabilmek için `Üyeleri Sustur` yetkin yok!",
+  "TIMEOUT_MEMBER_NOT_FOUND": "Bu kullanıcı bulunamadı.",
+  "TIMEOUT_CANT_TIMEOUT_YOURSELF": "Kendini zaman aşımına uğratamazsın!",
+  "TIMEOUT_CANT_TIMEOUT_BOT": "Bir botu zaman aşımına uğratamazsın!",
+  "TIMEOUT_MEMBER_HAS_PERMISSIONS": "Bu kullanıcıyı zaman aşımına uğratamazsın, bu kullanıcının yeterli yetkisi var!",
+  "TIMEOUT_MEMBER_HAS_HIGHER_ROLE": "Bu kullanıcının rolü senden yüksek (veya aynı) bu kişiyi zaman aşımına uğratamazsın!",
+  "TIMEOUT_NO_REASON": "Zaman aşımı sebebi belirtilmedi!",
+  "TIMEOUT_MEMBER_HAS_COMMUNICATION_DISABLED": "Bu kullanıcı zaten zaman aşımına uğramış!",
+  "TIMEOUT_APP_NOT_ENOUGH_PERMISSIONS": "Bu komutu kullanabilmek için `Üyeleri Sustur` yetkim yok!",
+  "TIMEOUT_SUCCESS": "**{user_username}** zaman aşımına uğratıldı!",
 }

@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const localizationsDir = path.join(__dirname, '../localizations');
+const localizationsDir = path.join(__dirname, '../localisations');
 const languages: Record<string, any> = {};
 
 function loadLocalizations(directory: string) {
@@ -25,7 +25,7 @@ function loadLocalizations(directory: string) {
     });
 }
 
-// Load localizations
+// Load localisations
 loadLocalizations(localizationsDir);
 
 function languageHandler(textId: string, client: KhaxyClient, guildId: string) {
