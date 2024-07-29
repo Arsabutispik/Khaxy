@@ -1493,5 +1493,5 @@
   "TIMEOUT_NO_REASON": "Zaman aşımı sebebi belirtilmedi!",
   "TIMEOUT_MEMBER_HAS_COMMUNICATION_DISABLED": "Bu kullanıcı zaten zaman aşımına uğramış!",
   "TIMEOUT_APP_NOT_ENOUGH_PERMISSIONS": "Bu komutu kullanabilmek için `Üyeleri Sustur` yetkim yok!",
-  "TIMEOUT_SUCCESS": "**{user_username}** zaman aşımına uğratıldı!",
+  "TIMEOUT_SUCCESS": "**{user_username}** zaman aşımına uğratıldı!"
 }

@@ -1115,7 +1115,7 @@
         "type": 1
       }
     ],
-    "content": "Set the register channel below",
+    "content": "Set the register channel below"
   },
   "REGISTER_CHANNEL_SUCCESS": "The registration channel has been successfully set.",
   "REGISTER_CHANNEL_DELETE_FALSE": "The registration channel message deletion setting has been deactivated.",
@@ -1493,5 +1493,5 @@
   "TIMEOUT_NO_REASON": "No reason specified for timeout!",
   "TIMEOUT_MEMBER_HAS_COMMUNICATION_DISABLED": "This user has already in a timeout!",
   "TIMEOUT_APP_NOT_ENOUGH_PERMISSIONS": "I don't have the `Mute Members` permission to timeout members!",
-  "TIMEOUT_SUCCESS": "The timeout of **{user_username}** has been successfully applied!",
+  "TIMEOUT_SUCCESS": "The timeout of **{user_username}** has been successfully applied!"
 }
