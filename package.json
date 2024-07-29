@@ -38,6 +38,7 @@
     "rebuild": "^0.1.2",
     "string-progressbar": "^1.0.4",
     "ts-node": "^10.9.2",
+    "tsc": "^2.0.4",
     "ws": "^8.17.1",
     "youtube-ext": "^1.1.25"
   }

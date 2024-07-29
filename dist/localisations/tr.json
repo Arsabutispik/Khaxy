@@ -925,7 +925,7 @@
                     "name": "Şarkı Bitti"
                 },
                 "color": 0,
-                "timestamp": 0
+                "timestamp": "timestamp"
             }
         ]
     },

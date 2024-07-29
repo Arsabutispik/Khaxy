@@ -924,7 +924,7 @@
           "name": "Song Ended"
         },
         "color": 0,
-        "timestamp": 0
+        "timestamp": "timestamp"
       }
     ]
   },

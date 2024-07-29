@@ -171,7 +171,7 @@ player.events.on("emptyQueue", async (player) => {
         let z1 = z.substring(0, y);
         embeds.color = Number(`0x${z1 + x}`);
         embeds.author.icon_url = client.config.IconURL;
-        embeds.timestamp = Date.now();
+        embeds.timestamp = new Date().toISOString();
         Object.assign(emptyQueue.embeds, embeds);
     }
     await player.metadata.channel.send(emptyQueue);
