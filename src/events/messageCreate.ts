@@ -4,7 +4,9 @@ import bumpLeaderboardSchema from "../schemas/bumpLeaderboardSchema.js";
 import {bumpLeaderboard} from "../utils/utils.js";
 export default async(client: KhaxyClient, message: Message) => {
     if(message.channel.type === ChannelType.DM) return;
-    const leaderboardChannel = client.guildsConfig.get(message.guild!.id)!.config.bumpLeaderboardChannel;
+    const config = client.guildsConfig.get(message.guild!.id);
+    if(!config) return;
+    const leaderboardChannel = config.config.bumpLeaderboardChannel;
     if(message.interaction && message.interaction.commandName === "bump" && message.author.id === "302050872383242240" && message.channel.id === leaderboardChannel) {
         const results = await bumpLeaderboardSchema.findOne({guildID: message.guild!.id} );
         if(results) {
