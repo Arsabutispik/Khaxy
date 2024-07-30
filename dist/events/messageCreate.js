@@ -11,7 +11,7 @@ export default async (client, message) => {
             }
             else {
                 results.users.push({
-                    userID: message.author.id,
+                    userID: message.interaction.user.id,
                     bumps: 1
                 });
             }
@@ -27,7 +27,7 @@ export default async (client, message) => {
             await bumpLeaderboardSchema.create({
                 guildID: message.guild.id,
                 users: [{
-                        userID: message.author.id,
+                        userID: message.interaction.user.id,
                         bumps: 1
                     }],
             });
