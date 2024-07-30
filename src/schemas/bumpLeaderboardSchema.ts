@@ -8,6 +8,10 @@ const bumpLeaderboardSchema = new Schema({
     users: {
         type: Array,
         default: [],
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now(),
     }
 })
 
