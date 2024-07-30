@@ -35,7 +35,8 @@ const guildSchema = new Schema({
             type: String,
             default: "en-US",
             enum: ["tr", "en-US"]
-        }
+        },
+        bumpLeaderboardChannel: String
     }
 }, {
     toObject: {

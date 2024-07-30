@@ -259,6 +259,23 @@
     ],
     "ephemeral": true
   },
+  "CONFIG_MISC_MESSAGE": {
+    "embeds": [
+      {
+        "color": 0,
+        "description": "Ayarlar ve kısaca açıklamaları;\n\n**Bump Lider Tahtası:** Sunucunun bump lider tahtası kanalı.(UYARI: Kanalda daha önceden mesaj atılmamış olması gerekiyor.)\n\n**»»----------------------------¤----------------------------««**",
+        "fields": [
+          {
+            "inline": true,
+            "name": "Bump Lider Tahtası",
+            "value": "{bumpLeaderboard}"
+          }
+        ],
+        "title": "Miscellaneous Settings"
+      }
+    ],
+    "ephemeral": true
+  },
   "DISCONNECT_SUCCESS": "|✅| **Başarıyla sesli kanaldan ayrıldım.**",
   "DJ_ROLE_ERROR_OR_EXPIRED": "Bir hata oluştu veya zaman aşımına uğradı.",
   "DJ_ROLE_PROMPT": {
@@ -1493,5 +1510,59 @@
   "TIMEOUT_NO_REASON": "Zaman aşımı sebebi belirtilmedi!",
   "TIMEOUT_MEMBER_HAS_COMMUNICATION_DISABLED": "Bu kullanıcı zaten zaman aşımına uğramış!",
   "TIMEOUT_APP_NOT_ENOUGH_PERMISSIONS": "Bu komutu kullanabilmek için `Üyeleri Sustur` yetkim yok!",
-  "TIMEOUT_SUCCESS": "**{user_username}** zaman aşımına uğratıldı!"
+  "TIMEOUT_SUCCESS": "**{user_username}** zaman aşımına uğratıldı!",
+  "MISC_CONFIG_PROMPT": {
+    "components": [
+      {
+        "components": [
+          {
+            "custom_id": "miscConfig",
+            "options": [
+              {
+                "description": "Bump için lider tahtası kanalını ayarlar.",
+                "emoji": "📈",
+                "label": "Bump Lider Tahtası Kanalı",
+                "value": "bumpLeaderboardChannel"
+              }
+            ],
+            "type": 3
+          }
+        ],
+        "type": 1
+      }
+    ],
+    "content": "Ayarlamak istediğiniz ayarı seçiniz.",
+    "ephemeral": true
+  },
+  "MISC_CONFIG_ERROR_OR_EXPIRED": "Bir hata oluştu veya zaman aşımına uğradı.",
+  "BUMP_LEADERBOARD_CHANNEL_PROMPT": {
+    "components": [
+      {
+        "components": [
+          {
+            "channel_types": [
+              0
+            ],
+            "custom_id": "bumpLeaderboardChannel",
+            "default_values": [
+              {
+                "id": "0",
+                "type": "channel"
+              }
+            ],
+            "max_values": 1,
+            "min_values": 0,
+            "placeholder": "Kanal seçiniz.",
+            "type": 8
+          }
+        ],
+        "type": 1
+      }
+    ],
+    "content": "Bump lider tahtası kanalını aşağıdan ayarlayınız",
+    "ephemeral": true
+  },
+  "BUMP_LEADERBOARD_CHANNEL_SUCCESS": "Bump lider tahtası kanalı başarıyla ayarlandı.",
+  "BUMP_LEADERBOARD_CHANNEL_ERROR_OR_EXPIRED": "Bir hata oluştu veya zaman aşımına uğradı.",
+  "BUMP_LEADERBOARD_MESSAGE": "Bu ayın bump lider tahtası:\n\n"
 }

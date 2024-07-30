@@ -4,10 +4,10 @@ import {
     ButtonStyle,
     ActionRowBuilder,
     ComponentType,
-    ButtonInteraction, ChatInputCommandInteraction
+    ButtonInteraction, ChatInputCommandInteraction, Snowflake, TextChannel
 } from "discord.js";
-import {customObject} from "../../types";
-
+import {customObject, KhaxyClient} from "../../types";
+import bumpLeaderboardSchema from "../schemas/bumpLeaderboardSchema.js";
 const consoleColors = {
     "SUCCESS": "\u001b[32m",
     "WARNING": "\u001b[33m",
@@ -125,7 +125,7 @@ async function paginate(message: ChatInputCommandInteraction, pages: EmbedBuilde
     if (!message) throw new Error("Channel is inaccessible.");
     if (!pages) throw new Error("Pages are not given.");
     let page = 0;
-    await message.reply({embeds: [pages[page].setFooter({text:`Sayfa ${page + 1} / ${pages.length}`})], components: [row]});
+    await message.reply({embeds: [pages[page].setFooter({text:`Page ${page + 1} / ${pages.length}`})], components: [row]});
     const currPage = await message.fetchReply();
     const filter = (button: ButtonInteraction) => (button.user.id === message.user.id) && (button.customId === "next" || button.customId === "prev" || button.customId === "close" || button.customId === "first" || button.customId === "last");
     const collector = currPage.createMessageComponentCollector({filter, time: timeout, componentType: ComponentType.Button});
@@ -133,30 +133,30 @@ async function paginate(message: ChatInputCommandInteraction, pages: EmbedBuilde
         if (button.customId === "close") return collector.stop();
         if (button.customId === "prev") {
             if(pages.length < 2) {
-                await button.reply({content: "Sayfa yok.", ephemeral: true});
+                await button.reply({content: "No page available", ephemeral: true});
                 return;
             }
             page = page > 0 ? --page : pages.length - 1;
         } else if (button.customId === "next") {
             if(pages.length < 2) {
-                await button.reply({content: "Sayfa yok.", ephemeral: true});
+                await button.reply({content: "No page available", ephemeral: true});
                 return;
             }
             page = page + 1 < pages.length ? ++page : 0;
         } else if (button.customId === "first") {
             if(pages.length < 2) {
-                await button.reply({content: "Sayfa yok.", ephemeral: true});
+                await button.reply({content: "No page available", ephemeral: true});
                 return;
             }
             page = 0;
         } else if (button.customId === "last") {
             if(pages.length < 2) {
-                await button.reply({content: "Sayfa yok.", ephemeral: true});
+                await button.reply({content: "No page available", ephemeral: true});
                 return;
             }
             page = pages.length - 1;
         }
-        await currPage.edit({embeds: [pages[page].setFooter({text:`Sayfa ${page + 1} / ${pages.length}`})], components: [row]});
+        await currPage.edit({embeds: [pages[page].setFooter({text:`Page ${page + 1} / ${pages.length}`})], components: [row]});
     })
     collector.on("end", async () => {
         await currPage.edit({components: []});
@@ -218,4 +218,37 @@ const arrayShuffle = function(array: Array<any>) {
     return values[arrayShuffle(pool)['0']];
  };
 
-export {log, randomRange, msToTime, chunkSubstr, sleep, paginate, replaceMassString, daysToSeconds, percentageChance}
+ async function bumpLeaderboard (client: KhaxyClient, guildID: Snowflake) {
+    const guild = client.guilds.cache.get(guildID);
+    if (!guild) return;
+    const guildConfig = client.guildsConfig.get(guildID);
+    if (!guildConfig) return;
+    const channel = guild.channels.cache.get(guildConfig.config.bumpLeaderboardChannel) as TextChannel;
+    if (!channel) return;
+    const result = await bumpLeaderboardSchema.findOne({guildID: guildID}).sort({bumps: -1}).limit(10);
+    if (!result) return;
+    const messages = await channel.messages.fetch();
+    const message = messages.first();
+    if(message) {
+        if(message.author.id !== client.user!.id) {
+            log("WARNING", "src/utils.ts", "bumpLeaderboard: The message is not sent by the bot. Aborting the task");
+            return {error: "The message is not sent by the bot. Aborting the task"};
+        }
+        let leaderBoardMessage = client.handleLanguages("BUMP_LEADERBOARD_MESSAGE", client, guildID);
+        let count = 1;
+        result.users.forEach((user) => {
+            leaderBoardMessage += `\n${count}. <@${user.userID}> - **${user.bumps}** bumps`;
+            count++;
+        });
+        await message.edit({content: leaderBoardMessage});
+    } else if (!message) {
+        let leaderBoardMessage = client.handleLanguages("BUMP_LEADERBOARD_MESSAGE", client, guildID);
+        let count = 1;
+        result.users.forEach((user) => {
+            leaderBoardMessage += `\n${count}. <@${user.userID}> - **${user.bumps}** bumps`;
+            count++;
+        });
+        await channel.send({content: leaderBoardMessage});
+    }
+ }
+export {log, randomRange, msToTime, chunkSubstr, sleep, paginate, replaceMassString, daysToSeconds, percentageChance, bumpLeaderboard}

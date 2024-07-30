@@ -789,7 +789,7 @@ async function staffRole(interaction: SelectMenuInteraction, client: KhaxyClient
             "type": "role"
         })
     }
-    //Discord typing doesn't match with the API so it complains about the type
+    //Discord typing doesn't match with the API, so it complains about the type
     //@ts-ignore
     await interaction.reply(raw)
     const msg = await interaction.fetchReply()
@@ -1195,4 +1195,73 @@ async function dayColorRole(interaction: SelectMenuInteraction, client: KhaxyCli
         })
     }
 }
-export {registerConfig, welcomeConfig, moderationConfig, roleConfig}
+
+async function miscConfig(interaction: ChatInputCommandInteraction, client: KhaxyClient) {
+    await interaction.reply(client.handleLanguages("MISC_CONFIG_PROMPT", client, interaction.guildId!))
+    const msg = await interaction.fetchReply() as Message
+    const filter = (i: SelectMenuInteraction) => i.customId === "miscConfig" && i.user.id === interaction.user.id
+    try {
+        const collector = await msg.awaitMessageComponent({
+            filter,
+            componentType: ComponentType.SelectMenu,
+            time: 60000
+        })
+        if (collector.customId === "miscConfig") {
+            switch (collector.values[0]) {
+                case "bumpLeaderboardChannel":
+                    await bumpLeaderboardChannel(collector, client)
+                    break
+            }
+        }
+    } catch (e) {
+        await interaction.followUp({
+            content: client.handleLanguages("MISC_CONFIG_ERROR_OR_EXPIRED", client, interaction.guildId!),
+            ephemeral: true
+        })
+        console.log(e)
+    }
+}
+
+async function bumpLeaderboardChannel(interaction: SelectMenuInteraction, client: KhaxyClient) {
+    const raw = client.handleLanguages("BUMP_LEADERBOARD_CHANNEL_PROMPT", client, interaction.guildId!)
+    raw.components[0].components[0].default_values.shift()
+    const bumpLeaderboardChannel = client.guildsConfig.get(interaction.guild!.id)?.config.bumpLeaderboardChannel
+    if (bumpLeaderboardChannel) {
+        raw.components[0].components[0].default_values.push({
+            "id": bumpLeaderboardChannel,
+            "type": "channel"
+        })
+    }
+    //@ts-ignore
+    await interaction.reply(raw)
+    const msg = await interaction.fetchReply() as Message
+    const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id
+    try {
+        const collector = await msg.awaitMessageComponent({
+            filter: filter,
+            componentType: ComponentType.ChannelSelect,
+            time: 60000
+        })
+        if (collector) {
+            const data = collector.values[0]
+            const channel = interaction.guild!.channels.cache.get(data) as TextChannel
+            const config = {
+                $set: {
+                    "config.bumpLeaderboardChannel": channel.id
+                }
+            }
+            await client.updateGuildConfig({guildId: interaction.guild!.id, config})
+            await collector.reply({
+                content: client.handleLanguages("BUMP_LEADERBOARD_CHANNEL_SUCCESS", client, interaction.guildId!),
+                ephemeral: true
+            })
+        }
+    } catch (error) {
+        await interaction.followUp({
+            content: client.handleLanguages("BUMP_LEADERBOARD_CHANNEL_ERROR_OR_EXPIRED", client, interaction.guildId!),
+            ephemeral: true
+        })
+        console.error(error)
+    }
+}
+export {registerConfig, welcomeConfig, moderationConfig, roleConfig, miscConfig}

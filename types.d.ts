@@ -67,7 +67,8 @@ export interface guildConfig {
             logChannel: string,
             tickets: number,
         }
-        language: "tr" | "en-US"
+        language: "tr" | "en-US",
+        bumpLeaderboardChannel: string
     }
 }
 export declare class KhaxyClient extends Client {

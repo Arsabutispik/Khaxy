@@ -4,7 +4,7 @@ import {
     SlashCommandBuilder, ComponentType
 } from "discord.js";
 import {replaceMassString} from "../../utils/utils.js";
-import {registerConfig, welcomeConfig, moderationConfig, roleConfig} from "../../utils/configFunctions.js";
+import {registerConfig, welcomeConfig, moderationConfig, roleConfig, miscConfig} from "../../utils/configFunctions.js";
 export default {
     help: {
         name: "config",
@@ -44,11 +44,14 @@ export default {
                 }, {
                     name: "Role Settings",
                     value: "role"
+                }, {
+                    name: "Miscellanous Settings",
+                    value: "misc"
                 })
         }),
     execute: async ({interaction, client}) => {
         const guildConfig = client.guildsConfig.get(interaction.guild!.id)!
-        const setting = interaction.options.getString("setting") as "register" | "welcome-leave" | "moderation" | "role" | undefined
+        const setting = interaction.options.getString("setting") as "register" | "welcome-leave" | "moderation" | "role" | "misc" | undefined
         const language = {
             "tr": "🇹🇷 Türkçe",
             "en-US": "🇺🇸 English"
@@ -60,7 +63,7 @@ export default {
             const filter = (i: MessageComponentInteraction) => i.customId === "config" && i.user.id === interaction.user.id
             const collector = msg.createMessageComponentCollector({filter, componentType: ComponentType.StringSelect,time: 60000})
             collector.on("collect", async i => {
-                const setting = i.values[0] as "register" | "welcome-leave" | "moderation" | "role"
+                const setting = i.values[0] as "register" | "welcome-leave" | "moderation" | "role" | "misc"
                 if(setting === "register") {
                     const registerMessage = client.handleLanguages("CONFIG_REGISTER_MESSAGE", client, interaction.guild!.id)
 
@@ -141,6 +144,8 @@ export default {
                         }
                     }
                     await i.update(roleMessage)
+                } else if(setting === "misc") {
+
                 }
             })
             return
@@ -158,6 +163,8 @@ export default {
             case "role":
                 await roleConfig(interaction, client)
                 break
+            case "misc":
+                await miscConfig(interaction, client)
         }
     }
 } as slashCommandBase

@@ -23,11 +23,13 @@ const client = new Client({
         IntentsBitField.Flags.DirectMessageReactions,
         IntentsBitField.Flags.GuildModeration,
         IntentsBitField.Flags.GuildWebhooks,
+        IntentsBitField.Flags.GuildMessages,
+        IntentsBitField.Flags.MessageContent,
         IntentsBitField.Flags.GuildInvites,
         IntentsBitField.Flags.GuildIntegrations,
         IntentsBitField.Flags.GuildEmojisAndStickers
     ],
-    partials: [Partials.Channel, Partials.User, Partials.Reaction, Partials.GuildMember]
+    partials: [Partials.Channel, Partials.User, Partials.Reaction, Partials.GuildMember, Partials.Message]
 }) as KhaxyClient;
 client.config = (await import("./botconfig.js")).default;
 const player = new Player(client);
