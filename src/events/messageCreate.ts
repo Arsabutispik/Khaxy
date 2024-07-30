@@ -1,8 +1,9 @@
 import {KhaxyClient} from "../../types";
-import {Message} from "discord.js";
+import {ChannelType, Message} from "discord.js";
 import bumpLeaderboardSchema from "../schemas/bumpLeaderboardSchema.js";
 import {bumpLeaderboard} from "../utils/utils.js";
 export default async(client: KhaxyClient, message: Message) => {
+    if(message.channel.type === ChannelType.DM) return;
     const leaderboardChannel = client.guildsConfig.get(message.guild!.id)!.config.bumpLeaderboardChannel;
     if(message.interaction && message.interaction.commandName === "bump" && message.author.id === "302050872383242240" && message.channel.id === leaderboardChannel) {
         const results = await bumpLeaderboardSchema.findOne({guildID: message.guild!.id} );
@@ -25,12 +26,16 @@ export default async(client: KhaxyClient, message: Message) => {
                 });
 
         } else {
-            await bumpLeaderboardSchema.create({
+            await bumpLeaderboardSchema.findOneAndUpdate({
                 guildID: message.guild!.id,
+            }, {
                 users: [{
                     userID: message.interaction.user.id,
-                    bumps: 1
+                    bumps: 1,
                 }],
+            }, {
+                upsert: true,
+                timestamps: true,
             });
         }
         await message.delete();
