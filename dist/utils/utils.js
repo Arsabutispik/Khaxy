@@ -1,4 +1,4 @@
-import { ButtonBuilder, ButtonStyle, ActionRowBuilder, ComponentType } from "discord.js";
+import { ButtonBuilder, ButtonStyle, ActionRowBuilder, ComponentType, time } from "discord.js";
 import bumpLeaderboardSchema from "../schemas/bumpLeaderboardSchema.js";
 const consoleColors = {
     "SUCCESS": "\u001b[32m",
@@ -172,6 +172,7 @@ async function bumpLeaderboard(client, guildID) {
             leaderBoardMessage += `\n${count}. <@${user.userID}> - **${user.bumps}** bumps`;
             count++;
         });
+        leaderBoardMessage += client.handleLanguages("BUMP_LEADERBOARD_LAST_BUMP", client, guildID).replace("{time}", time(new Date()));
         await message.edit({ content: leaderBoardMessage });
     }
     else if (!message) {

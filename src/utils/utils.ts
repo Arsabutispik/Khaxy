@@ -4,7 +4,7 @@ import {
     ButtonStyle,
     ActionRowBuilder,
     ComponentType,
-    ButtonInteraction, ChatInputCommandInteraction, Snowflake, TextChannel
+    ButtonInteraction, ChatInputCommandInteraction, Snowflake, TextChannel, time
 } from "discord.js";
 import {customObject, KhaxyClient} from "../../types";
 import bumpLeaderboardSchema from "../schemas/bumpLeaderboardSchema.js";
@@ -240,6 +240,7 @@ const arrayShuffle = function(array: Array<any>) {
             leaderBoardMessage += `\n${count}. <@${user.userID}> - **${user.bumps}** bumps`;
             count++;
         });
+        leaderBoardMessage += client.handleLanguages("BUMP_LEADERBOARD_LAST_BUMP", client, guildID).replace("{time}", time(new Date()));
         await message.edit({content: leaderBoardMessage});
     } else if (!message) {
         let leaderBoardMessage = client.handleLanguages("BUMP_LEADERBOARD_MESSAGE", client, guildID);
