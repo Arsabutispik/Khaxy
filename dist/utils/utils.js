@@ -172,7 +172,7 @@ async function bumpLeaderboard(client, guildID) {
             leaderBoardMessage += `\n${count}. <@${user.userID}> - **${user.bumps}** bumps`;
             count++;
         });
-        leaderBoardMessage += client.handleLanguages("BUMP_LEADERBOARD_LAST_BUMP", client, guildID).replace("{time}", time(new Date(), "R"));
+        leaderBoardMessage += `\n\n${client.handleLanguages("BUMP_LEADERBOARD_LAST_BUMP", client, guildID).replace("{time}", time(new Date(), "R"))}`;
         await message.edit({ content: leaderBoardMessage });
     }
     else if (!message) {
@@ -182,7 +182,7 @@ async function bumpLeaderboard(client, guildID) {
             leaderBoardMessage += `\n${count}. <@${user.userID}> - **${user.bumps}** bumps`;
             count++;
         });
-        leaderBoardMessage += client.handleLanguages("BUMP_LEADERBOARD_LAST_BUMP", client, guildID).replace("{time}", time(new Date(), "R"));
+        leaderBoardMessage += `\n\n${client.handleLanguages("BUMP_LEADERBOARD_LAST_BUMP", client, guildID).replace("{time}", time(new Date(), "R"))}`;
         await channel.send({ content: leaderBoardMessage });
     }
 }
