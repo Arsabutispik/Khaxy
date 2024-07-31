@@ -168,7 +168,7 @@ async function bumpLeaderboard(client, guildID) {
         }
         let leaderBoardMessage = client.handleLanguages("BUMP_LEADERBOARD_MESSAGE", client, guildID);
         let count = 1;
-        result.users.forEach((user) => {
+        result.users.sort((a, b) => b.bumps - a.bumps).forEach((user) => {
             leaderBoardMessage += `\n${count}. <@${user.userID}> - **${user.bumps}** bumps`;
             count++;
         });
@@ -176,9 +176,9 @@ async function bumpLeaderboard(client, guildID) {
         await message.edit({ content: leaderBoardMessage });
     }
     else if (!message) {
-        let leaderBoardMessage = client.handleLanguages("BUMP_LEADERBOARD_MESSAGE", client, guildID);
+        let leaderBoardMessage = `\n\n${client.handleLanguages("BUMP_LEADERBOARD_MESSAGE", client, guildID)}`;
         let count = 1;
-        result.users.forEach((user) => {
+        result.users.sort((a, b) => b.bumps - a.bumps).forEach((user) => {
             leaderBoardMessage += `\n${count}. <@${user.userID}> - **${user.bumps}** bumps`;
             count++;
         });
