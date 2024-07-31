@@ -242,7 +242,7 @@ const arrayShuffle = function(array: Array<any>) {
             leaderBoardMessage += `\n${count}. <@${user.userID}> - **${user.bumps}** bumps`;
             count++;
         });
-        leaderBoardMessage += client.handleLanguages("BUMP_LEADERBOARD_LAST_BUMP", client, guildID).replace("{time}", time(new Date()));
+        leaderBoardMessage += client.handleLanguages("BUMP_LEADERBOARD_LAST_BUMP", client, guildID).replace("{time}", time(new Date(), "R"));
         await message.edit({content: leaderBoardMessage});
     } else if (!message) {
         let leaderBoardMessage = `\n\n${client.handleLanguages("BUMP_LEADERBOARD_MESSAGE", client, guildID)}`;
@@ -253,6 +253,7 @@ const arrayShuffle = function(array: Array<any>) {
             leaderBoardMessage += `\n${count}. <@${user.userID}> - **${user.bumps}** bumps`;
             count++;
         });
+        leaderBoardMessage += client.handleLanguages("BUMP_LEADERBOARD_LAST_BUMP", client, guildID).replace("{time}", time(new Date(), "R"));
         await channel.send({content: leaderBoardMessage});
     }
  }
