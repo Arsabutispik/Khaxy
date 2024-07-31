@@ -11,7 +11,7 @@ export default async (client, message) => {
     if (message.interaction && message.interaction.commandName === "bump" && message.author.id === "302050872383242240" && message.channel.id === leaderboardChannel) {
         const results = await bumpLeaderboardSchema.findOne({ guildID: message.guild.id });
         if (results) {
-            const user = results.users.find((result) => result.userID === message.author.id);
+            const user = results.users.find((result) => result.userID === message.interaction.user.id);
             if (user) {
                 user.bumps++;
             }
