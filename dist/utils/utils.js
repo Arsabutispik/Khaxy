@@ -146,7 +146,7 @@ const percentageChance = function (values, chances) {
     }
     return values[arrayShuffle(pool)['0']];
 };
-async function bumpLeaderboard(client, guildID) {
+async function bumpLeaderboard(client, guildID, lastBump) {
     const guild = client.guilds.cache.get(guildID);
     if (!guild)
         return;
@@ -172,7 +172,10 @@ async function bumpLeaderboard(client, guildID) {
             leaderBoardMessage += `\n${count}. <@${user.userID}> - **${user.bumps}** bumps`;
             count++;
         });
-        leaderBoardMessage += `\n\n${client.handleLanguages("BUMP_LEADERBOARD_LAST_BUMP", client, guildID).replace("{time}", time(new Date(), "R"))}`;
+        leaderBoardMessage += `\n\n${replaceMassString(client.handleLanguages("BUMP_LEADERBOARD_LAST_BUMP", client, guildID), {
+            "{time}": time(new Date(), "R"),
+            "{user}": lastBump.toString()
+        })}`;
         await message.edit({ content: leaderBoardMessage });
     }
     else if (!message) {
@@ -182,7 +185,10 @@ async function bumpLeaderboard(client, guildID) {
             leaderBoardMessage += `\n${count}. <@${user.userID}> - **${user.bumps}** bumps`;
             count++;
         });
-        leaderBoardMessage += `\n\n${client.handleLanguages("BUMP_LEADERBOARD_LAST_BUMP", client, guildID).replace("{time}", time(new Date(), "R"))}`;
+        leaderBoardMessage += `\n\n${replaceMassString(client.handleLanguages("BUMP_LEADERBOARD_LAST_BUMP", client, guildID), {
+            "{time}": time(new Date(), "R"),
+            "{user}": lastBump.toString()
+        })}`;
         await channel.send({ content: leaderBoardMessage });
     }
 }

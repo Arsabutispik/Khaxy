@@ -43,7 +43,7 @@ export default async (client, message) => {
             });
         }
         await message.delete();
-        const result = await bumpLeaderboard(client, message.guild.id);
+        const result = await bumpLeaderboard(client, message.guild.id, message.interaction.user);
         if (result && result.error) {
             message.channel.send({ content: "An error occurred while updating the leaderboard. Please try again later.\nError: " + result.error });
         }

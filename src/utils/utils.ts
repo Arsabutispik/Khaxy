@@ -4,7 +4,7 @@ import {
     ButtonStyle,
     ActionRowBuilder,
     ComponentType,
-    ButtonInteraction, ChatInputCommandInteraction, Snowflake, TextChannel, time
+    ButtonInteraction, ChatInputCommandInteraction, Snowflake, TextChannel, time, User
 } from "discord.js";
 import {customObject, KhaxyClient} from "../../types";
 import bumpLeaderboardSchema from "../schemas/bumpLeaderboardSchema.js";
@@ -218,7 +218,7 @@ const arrayShuffle = function(array: Array<any>) {
     return values[arrayShuffle(pool)['0']];
  };
 
- async function bumpLeaderboard (client: KhaxyClient, guildID: Snowflake) {
+ async function bumpLeaderboard (client: KhaxyClient, guildID: Snowflake, lastBump: User) {
     const guild = client.guilds.cache.get(guildID);
     if (!guild) return;
     const guildConfig = client.guildsConfig.get(guildID);
@@ -242,7 +242,10 @@ const arrayShuffle = function(array: Array<any>) {
             leaderBoardMessage += `\n${count}. <@${user.userID}> - **${user.bumps}** bumps`;
             count++;
         });
-        leaderBoardMessage += `\n\n${client.handleLanguages("BUMP_LEADERBOARD_LAST_BUMP", client, guildID).replace("{time}", time(new Date(), "R"))}`;
+        leaderBoardMessage += `\n\n${replaceMassString(client.handleLanguages("BUMP_LEADERBOARD_LAST_BUMP", client, guildID), {
+            "{time}": time(new Date(), "R"),
+            "{user}": lastBump.toString()
+        })}`
         await message.edit({content: leaderBoardMessage});
     } else if (!message) {
         let leaderBoardMessage = `\n\n${client.handleLanguages("BUMP_LEADERBOARD_MESSAGE", client, guildID)}`;
@@ -253,7 +256,11 @@ const arrayShuffle = function(array: Array<any>) {
             leaderBoardMessage += `\n${count}. <@${user.userID}> - **${user.bumps}** bumps`;
             count++;
         });
-        leaderBoardMessage += `\n\n${client.handleLanguages("BUMP_LEADERBOARD_LAST_BUMP", client, guildID).replace("{time}", time(new Date(), "R"))}`
+
+        leaderBoardMessage += `\n\n${replaceMassString(client.handleLanguages("BUMP_LEADERBOARD_LAST_BUMP", client, guildID), {
+            "{time}": time(new Date(), "R"),
+            "{user}": lastBump.toString()
+        })}`
         await channel.send({content: leaderBoardMessage});
     }
  }

@@ -1565,5 +1565,5 @@
     "BUMP_LEADERBOARD_CHANNEL_SUCCESS": "The bump leaderboard channel has been successfully set.",
     "BUMP_LEADERBOARD_CHANNEL_ERROR_OR_EXPIRED": "An error occurred or the process has expired.",
     "BUMP_LEADERBOARD_MESSAGE": "This month's bump leaderboard:\n\n",
-    "BUMP_LEADERBOARD_LAST_BUMP": "Last Bump {time} ago"
+    "BUMP_LEADERBOARD_LAST_BUMP": "Last Bump {time} ago. By {user}"
 }
