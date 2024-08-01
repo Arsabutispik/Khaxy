@@ -172,10 +172,12 @@ async function bumpLeaderboard(client, guildID, lastBump) {
             leaderBoardMessage += `\n${count}. <@${user.userID}> - **${user.bumps}** bumps`;
             count++;
         });
-        leaderBoardMessage += `\n\n${replaceMassString(client.handleLanguages("BUMP_LEADERBOARD_LAST_BUMP", client, guildID), {
-            "{time}": time(new Date(), "R"),
-            "{user}": lastBump.toString()
-        })}`;
+        if (lastBump) {
+            leaderBoardMessage += `\n\n${replaceMassString(client.handleLanguages("BUMP_LEADERBOARD_LAST_BUMP", client, guildID), {
+                "{time}": time(new Date(), "R"),
+                "{user}": lastBump.toString()
+            })}`;
+        }
         await message.edit({ content: leaderBoardMessage });
     }
     else if (!message) {
@@ -185,10 +187,12 @@ async function bumpLeaderboard(client, guildID, lastBump) {
             leaderBoardMessage += `\n${count}. <@${user.userID}> - **${user.bumps}** bumps`;
             count++;
         });
-        leaderBoardMessage += `\n\n${replaceMassString(client.handleLanguages("BUMP_LEADERBOARD_LAST_BUMP", client, guildID), {
-            "{time}": time(new Date(), "R"),
-            "{user}": lastBump.toString()
-        })}`;
+        if (lastBump) {
+            leaderBoardMessage += `\n\n${replaceMassString(client.handleLanguages("BUMP_LEADERBOARD_LAST_BUMP", client, guildID), {
+                "{time}": time(new Date(), "R"),
+                "{user}": lastBump.toString()
+            })}`;
+        }
         await channel.send({ content: leaderBoardMessage });
     }
 }

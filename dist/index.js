@@ -11,6 +11,7 @@ import colorOfTheDay from "./utils/colorOfTheDay.js";
 import cron from "node-cron";
 import handleLanguages from "./utils/languageHandler.js";
 import "dotenv/config.js";
+import resetBumpLeaderboard from "./utils/resetBumpLeaderboard.js";
 const client = new Client({
     intents: [
         IntentsBitField.Flags.Guilds,
@@ -94,7 +95,14 @@ client.once("ready", async () => {
     cron.schedule("0 0 * * *", async () => {
         await colorOfTheDay(client);
     }, {
-        timezone: "Europe/Istanbul"
+        timezone: "Europe/Istanbul",
+        recoverMissedExecutions: true
+    });
+    cron.schedule("0 0 1 * *", async () => {
+        await resetBumpLeaderboard(client);
+    }, {
+        timezone: "Europe/Istanbul",
+        recoverMissedExecutions: true
     });
     log("SUCCESS", "src/events/ready.js", "App activated successfully.");
     const messages = [

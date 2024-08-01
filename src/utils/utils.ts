@@ -218,7 +218,7 @@ const arrayShuffle = function(array: Array<any>) {
     return values[arrayShuffle(pool)['0']];
  };
 
- async function bumpLeaderboard (client: KhaxyClient, guildID: Snowflake, lastBump: User) {
+ async function bumpLeaderboard (client: KhaxyClient, guildID: Snowflake, lastBump?: User) {
     const guild = client.guilds.cache.get(guildID);
     if (!guild) return;
     const guildConfig = client.guildsConfig.get(guildID);
@@ -242,10 +242,12 @@ const arrayShuffle = function(array: Array<any>) {
             leaderBoardMessage += `\n${count}. <@${user.userID}> - **${user.bumps}** bumps`;
             count++;
         });
-        leaderBoardMessage += `\n\n${replaceMassString(client.handleLanguages("BUMP_LEADERBOARD_LAST_BUMP", client, guildID), {
-            "{time}": time(new Date(), "R"),
-            "{user}": lastBump.toString()
-        })}`
+        if(lastBump) {
+            leaderBoardMessage += `\n\n${replaceMassString(client.handleLanguages("BUMP_LEADERBOARD_LAST_BUMP", client, guildID), {
+                "{time}": time(new Date(), "R"),
+                "{user}": lastBump.toString()
+            })}`
+        }
         await message.edit({content: leaderBoardMessage});
     } else if (!message) {
         let leaderBoardMessage = `\n\n${client.handleLanguages("BUMP_LEADERBOARD_MESSAGE", client, guildID)}`;
@@ -257,10 +259,12 @@ const arrayShuffle = function(array: Array<any>) {
             count++;
         });
 
-        leaderBoardMessage += `\n\n${replaceMassString(client.handleLanguages("BUMP_LEADERBOARD_LAST_BUMP", client, guildID), {
-            "{time}": time(new Date(), "R"),
-            "{user}": lastBump.toString()
-        })}`
+        if(lastBump) {
+            leaderBoardMessage += `\n\n${replaceMassString(client.handleLanguages("BUMP_LEADERBOARD_LAST_BUMP", client, guildID), {
+                "{time}": time(new Date(), "R"),
+                "{user}": lastBump.toString()
+            })}`
+        }
         await channel.send({content: leaderBoardMessage});
     }
  }
