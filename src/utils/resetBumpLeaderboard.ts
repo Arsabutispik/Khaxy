@@ -1,6 +1,6 @@
 import { KhaxyClient } from "../../types";
 import bumpLeaderboardSchema from "../schemas/bumpLeaderboardSchema.js";
-import {bumpLeaderboard, log} from "./utils";
+import {bumpLeaderboard, log} from "./utils.js";
 
 async function resetBumpLeaderboard(client: KhaxyClient) {
     await bumpLeaderboardSchema.updateMany({}, { $unset: { users: [] } });

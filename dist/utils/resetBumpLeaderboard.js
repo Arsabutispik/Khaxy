@@ -1,5 +1,5 @@
 import bumpLeaderboardSchema from "../schemas/bumpLeaderboardSchema.js";
-import { bumpLeaderboard, log } from "./utils";
+import { bumpLeaderboard, log } from "./utils.js";
 async function resetBumpLeaderboard(client) {
     await bumpLeaderboardSchema.updateMany({}, { $unset: { users: [] } });
     const guilds = await bumpLeaderboardSchema.find();
