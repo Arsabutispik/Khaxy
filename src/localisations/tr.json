@@ -537,7 +537,7 @@
           "name": "Şu anda çalıyor"
         },
         "color": 0,
-        "description": "`[{track_title}]({track_url})`",
+        "description": "[{track_title}]({track_url})",
         "fields": [
           {
             "inline": true,
@@ -552,8 +552,7 @@
         ],
         "thumbnail": {
           "url": "{thumbnail_url}"
-        },
-        "timestamp": "0"
+        }
       }
     ]
   },
@@ -1565,5 +1564,6 @@
   "BUMP_LEADERBOARD_CHANNEL_SUCCESS": "Bump lider tahtası kanalı başarıyla ayarlandı.",
   "BUMP_LEADERBOARD_CHANNEL_ERROR_OR_EXPIRED": "Bir hata oluştu veya zaman aşımına uğradı.",
   "BUMP_LEADERBOARD_MESSAGE": "Bu ayın bump lider tahtası:\n\n",
-  "BUMP_LEADERBOARD_LAST_BUMP": "En son bump {user} tarafından {time} önce yapıldı."
+  "BUMP_LEADERBOARD_LAST_BUMP": "En son bump {user} tarafından {time} önce yapıldı.",
+  "PLAY_YOUTUBE_LINK": "YouTube'un yeni politikası gereği, YouTube bağlantılarını oynatamıyorum. İstediğiniz şarkıyı çalmak için arama komutunu kullanabilirsiniz."
 }

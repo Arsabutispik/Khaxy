@@ -32,7 +32,6 @@ const client = new Client({
 });
 client.config = (await import("./botconfig.js")).default;
 const player = new Player(client);
-await player.extractors.loadDefault((ext) => ext !== "YouTubeExtractor");
 (async () => {
     client.categories = new Collection();
     client.slashCommands = new Collection();
@@ -69,7 +68,7 @@ await player.extractors.loadDefault((ext) => ext !== "YouTubeExtractor");
     }
 })();
 client.once("ready", async () => {
-    await player.extractors.loadDefault();
+    await player.extractors.loadDefault(ext => ext !== "YouTubeExtractor");
     await registerEvents(client, "../events");
     await registerSlashCommands(client, "../slashCommands");
     const guildData = await guildSchema.find();

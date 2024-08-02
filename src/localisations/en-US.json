@@ -534,7 +534,7 @@
           "name": "Now Playing"
         },
         "color": 0,
-        "description": "`[{track_title}]({track_url})`",
+        "description": "[{track_title}]({track_url})",
         "fields": [
           {
             "inline": true,
@@ -549,8 +549,7 @@
         ],
         "thumbnail": {
           "url": "{thumbnail_url}"
-        },
-        "timestamp": "0"
+        }
       }
     ]
   },
@@ -1565,5 +1564,6 @@
   "BUMP_LEADERBOARD_CHANNEL_SUCCESS": "The bump leaderboard channel has been successfully set.",
   "BUMP_LEADERBOARD_CHANNEL_ERROR_OR_EXPIRED": "An error occurred or the process has expired.",
   "BUMP_LEADERBOARD_MESSAGE": "This month's bump leaderboard:\n\n",
-  "BUMP_LEADERBOARD_LAST_BUMP": "Last Bump {time} ago. By {user}"
+  "BUMP_LEADERBOARD_LAST_BUMP": "Last Bump {time} ago. By {user}",
+  "PLAY_YOUTUBE_LINK": "As of YouTube's new policy, I can't play YouTube links. You can use the search command to play the song you want."
 }

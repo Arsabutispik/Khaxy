@@ -31,7 +31,7 @@ export default {
         }
 
         if (player.size < 2) {
-            const timestamp = player.node.getTimestamp()!;
+            const timestamp = player.node.getTimestamp(true)!;
             const QueueEmbed = client.handleLanguages("LIST_EMBED", client, interaction.guildId!)
             for (const embed of QueueEmbed.embeds) {
                 embed.author.icon_url = client.config.IconURL;
@@ -45,11 +45,10 @@ export default {
                     "{track_title}": player.currentTrack!.title,
                     "{track_url}": player.currentTrack!.url,
                 })!
-                embed.timestamp = timestamp.current.value.toString();
                 for (const field of embed.fields) {
                     field.value = replaceMassString(field.value, {
                         "{duration}": `${ProgressBar.splitBar(timestamp.total.value, timestamp.current.value, 15)[0]} ${prettyMilliseconds(timestamp.current.value, {colonNotation: true})}/${prettyMilliseconds(timestamp.total.value, {colonNotation: true})}`,
-                        "{requestedBy}": player.currentTrack!.requestedBy?.toString() || client.handleLanguages("LIST_UNKNOWN_USER", client, interaction.guildId!),
+                        "{requestedBy}": player.metadata.requestedBy.toString() || client.handleLanguages("LIST_UNKNOWN_USER", client, interaction.guildId!),
                     })!
                     Object.assign(embed.fields, field);
                 }

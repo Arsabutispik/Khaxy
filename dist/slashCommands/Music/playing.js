@@ -32,7 +32,7 @@ export default {
             await interaction.reply(client.handleLanguages("BOT_NOT_PLAYING", client, interaction.guildId));
             return;
         }
-        const timestamp = player.node.getTimestamp();
+        const timestamp = player.node.getTimestamp(true);
         const { embeds } = client.handleLanguages("PLAYING_EMBED", client, interaction.guildId);
         embeds[0].author.icon_url = client.config.IconURL;
         let x = Math.round(0xffffff * Math.random()).toString(16);
@@ -40,13 +40,14 @@ export default {
         let z = "000000";
         let z1 = z.substring(0, y);
         embeds[0].color = Number(`0x${z1 + x}`);
+        embeds[0].thumbnail.url = song.thumbnail;
         embeds[0].description = replaceMassString(embeds[0].description, {
             "{track_title}": song.title,
             "{track_url}": song.url,
         });
         for (const field of embeds[0].fields) {
             field.value = replaceMassString(field.value, {
-                "{requestedBy}": song.requestedBy?.username || client.handleLanguages("LIST_UNKNOWN_USER", client, interaction.guildId),
+                "{requestedBy}": player.metadata.requestedBy?.toString() || client.handleLanguages("LIST_UNKNOWN_USER", client, interaction.guildId),
                 "{duration}": `${ProgressBar.splitBar(timestamp.total.value, timestamp.current.value, 15)[0]} ${prettyMilliseconds(timestamp.current.value, { colonNotation: true })}/${prettyMilliseconds(timestamp.total.value, { colonNotation: true })}`
             });
         }
