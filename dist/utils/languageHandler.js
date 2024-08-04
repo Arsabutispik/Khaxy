@@ -5,18 +5,22 @@ import { fileURLToPath } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const localizationsDir = path.join(__dirname, '../locales');
 const languages = {};
-function loadLocalizations(directory) {
-    const files = fs.readdirSync(directory);
+async function loadLocalizations(directory) {
+    const files = await fs.promises.readdir(directory);
     for (const file of files) {
-        if (fs.lstatSync(path.join(directory, file)).isDirectory()) {
-            loadLocalizations(path.join(directory, file));
-        }
+        const stat = await fs.promises.lstat(path.join(directory, file));
+        if (stat.isDirectory())
+            await loadLocalizations(path.join(directory, file));
         else {
-            languages[file.replace('.json', '')] = import(path.join(directory, file)).then((res) => res.default);
+            if (file.endsWith(".json")) {
+                const language = file.split(".")[0];
+                const data = await fs.promises.readFile(path.join(directory, file));
+                languages[language] = JSON.parse(data.toString());
+            }
         }
     }
 }
-loadLocalizations(localizationsDir);
+await loadLocalizations(localizationsDir);
 function languageHandler(textId, client, guildId) {
     const selectedLanguage = client.guildsConfig.get(guildId)?.config.language || "en-US";
     if (!languages[selectedLanguage] || !languages[selectedLanguage][textId]) {

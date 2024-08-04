@@ -90,7 +90,7 @@ export declare class KhaxyClient extends Client {
 
     public ticketMessages : Collection<string, string>
 
-    public handleLanguages<K extends keyof typeof import("../src/locales/en-US/translation.json") | keyof typeof import("../src/locales/tr/translation.json")>(textId: K, client: KhaxyClient, guildId: Snowflake): $SpecialObject<typeof import("../src/locales/en-US/translation.json") | typeof import("../src/locales/tr/translation.json")>
+    public handleLanguages<K extends keyof typeof import("../src/locales/en-US/en-US.json") | keyof typeof import("../src/locales/tr/tr.json")>(textId: K, client: KhaxyClient, guildId: Snowflake): $SpecialObject<typeof import("../src/locales/en-US/en-US.json") | typeof import("../src/locales/tr/tr.json")>
 }
 
 export interface customObject {
