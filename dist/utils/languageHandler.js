@@ -8,12 +8,11 @@ const languages = {};
 function loadLocalizations(directory) {
     const files = fs.readdirSync(directory);
     for (const file of files) {
-        const stat = fs.lstatSync(path.join(directory, file));
-        if (stat.isDirectory()) {
+        if (fs.lstatSync(path.join(directory, file)).isDirectory()) {
             loadLocalizations(path.join(directory, file));
         }
         else {
-            languages[file.split(".")[0]] = import(path.join(directory, file)).then((res) => res.default);
+            languages[file.replace('.json', '')] = import(path.join(directory, file)).then((res) => res.default);
         }
     }
 }
