@@ -1,4 +1,4 @@
-import {slashCommandBase} from "../../../types";
+import {slashCommandBase} from "../../../@types/types";
 import {GuildMember, SlashCommandBuilder, PermissionsBitField} from "discord.js";
 import punishmentSchema from "../../schemas/punishmentSchema.js";
 import {replaceMassString} from "../../utils/utils.js";
@@ -47,7 +47,7 @@ export default {
             }
             await member.roles.add(data.previousRoles!)
         }
-        await interaction.reply({content: replaceMassString(client.handleLanguages("UNMUTE_SUCESS", client, interaction.guildId!), {
+        await interaction.reply({content: replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("UNMUTE_SUCESS", client, interaction.guildId!))), {
             "{user_username}": member.user.username,
             })!, ephemeral: true});
         await punishmentSchema.deleteOne({guildID: interaction.guild!.id, userId: member.id, type: "mute"});

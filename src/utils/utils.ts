@@ -6,7 +6,7 @@ import {
     ComponentType,
     ButtonInteraction, ChatInputCommandInteraction, Snowflake, TextChannel, time, User
 } from "discord.js";
-import {customObject, KhaxyClient} from "../../types";
+import {customObject, KhaxyClient} from "../../@types/types";
 import bumpLeaderboardSchema from "../schemas/bumpLeaderboardSchema.js";
 const consoleColors = {
     "SUCCESS": "\u001b[32m",

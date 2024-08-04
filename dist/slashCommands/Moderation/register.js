@@ -148,7 +148,7 @@ export default {
                 await interaction.reply({ content: client.handleLanguages("REGISTER_ERROR", client, interaction.guildId), ephemeral: true });
             }
         }
-        await interaction.reply({ content: replaceMassString(client.handleLanguages("REGISTER_SUCCESS", client, interaction.guildId), {
+        await interaction.reply({ content: replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("REGISTER_SUCCESS", client, interaction.guildId))), {
                 "{targetMember}": targetMember.toString(),
             }), ephemeral: true });
         await sleep(1000);

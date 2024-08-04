@@ -49,7 +49,7 @@ export default {
                 if (userStates.size === 1) {
                     const otherUser = userStates.first();
                     if (otherUser) {
-                        await interaction.reply({ content: replaceMassString(client.handleLanguages("SKIP_ONLY_ONE_USER", client, interaction.guildId), {
+                        await interaction.reply({ content: replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("SKIP_ONLY_ONE_USER", client, interaction.guildId))), {
                                 "{otherUser}": otherUser.toString(),
                                 "{interactionUser}": interaction.user.username,
                                 "{currentTrack_title}": player.currentTrack.title
@@ -77,7 +77,7 @@ export default {
                 else if (userStates.size >= 2) {
                     let dataHolder = [];
                     let accepted = 0;
-                    const { embeds } = client.handleLanguages("SKIP_VOTING_EMBED", client, interaction.guildId);
+                    const { embeds } = JSON.parse(JSON.stringify(client.handleLanguages("SKIP_VOTING_EMBED", client, interaction.guildId)));
                     embeds[0].description = replaceMassString(embeds[0].description, {
                         "{interactionUser}": interaction.user.username,
                         "{currentTrack_title}": player.currentTrack.title
@@ -155,7 +155,7 @@ export default {
                 if (userStates.size === 1) {
                     const otherUser = userStates.filter(member => member.id !== interaction.user.id).first();
                     if (otherUser) {
-                        await interaction.reply({ content: replaceMassString(client.handleLanguages("SKIP_ONLY_ONE_USER_AMOUNT", client, interaction.guildId), {
+                        await interaction.reply({ content: replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("SKIP_ONLY_ONE_USER_AMOUNT", client, interaction.guildId))), {
                                 "{otherUser}": otherUser.toString(),
                                 "{interactionUser}": interaction.user.username,
                                 "{amount}": amount.toString()
@@ -167,7 +167,7 @@ export default {
                             switch (response.customId) {
                                 case 'accept':
                                     player.node.skipTo(amount - 1);
-                                    await msg.edit({ content: replaceMassString(client.handleLanguages("SKIP_AMOUNT_SUCCESS", client, interaction.guildId), {
+                                    await msg.edit({ content: replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("SKIP_AMOUNT_SUCCESS", client, interaction.guildId))), {
                                             "{amount}": amount.toString()
                                         }), components: [] });
                                     break;
@@ -286,7 +286,7 @@ export default {
                 if (amount > player.size)
                     return await interaction.reply({ content: client.handleLanguages("SKIP_EXCEEDED_QUEUE_LENGTH", client, interaction.guildId) });
                 player.node.skipTo(amount - 1);
-                await interaction.reply({ content: replaceMassString(client.handleLanguages("SKIP_AMOUNT_SUCCESS", client, interaction.guildId), {
+                await interaction.reply({ content: replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("SKIP_AMOUNT_SUCCESS", client, interaction.guildId))), {
                         "{amount}": amount.toString()
                     }) });
             }
@@ -298,7 +298,7 @@ export default {
                 if (amount > player.size)
                     return await interaction.reply({ content: client.handleLanguages("SKIP_EXCEEDED_QUEUE_LENGTH", client, interaction.guildId) });
                 player.node.skipTo(amount - 1);
-                await interaction.reply({ content: replaceMassString(client.handleLanguages("SKIP_AMOUNT_SUCCESS", client, interaction.guildId), {
+                await interaction.reply({ content: replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("SKIP_AMOUNT_SUCCESS", client, interaction.guildId))), {
                         "{amount}": amount.toString()
                     }) });
             }
@@ -314,7 +314,7 @@ export default {
         if (amount > player.size)
             return await interaction.reply({ content: client.handleLanguages("SKIP_EXCEEDED_QUEUE_LENGTH", client, interaction.guildId) });
         player.node.skipTo(amount - 1);
-        await interaction.reply({ content: replaceMassString(client.handleLanguages("SKIP_AMOUNT_SUCCESS", client, interaction.guildId), {
+        await interaction.reply({ content: replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("SKIP_AMOUNT_SUCCESS", client, interaction.guildId))), {
                 "{amount}": amount.toString()
             }) });
     }

@@ -1,4 +1,4 @@
-import { KhaxyClient } from "../../types"
+import { KhaxyClient } from "../../@types/types"
 import guildSchema from "../schemas/guildSchema.js";
 import {ColorResolvable} from "discord.js"
 import ntc from "../utils/ntc.js"

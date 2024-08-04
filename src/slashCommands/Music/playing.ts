@@ -1,5 +1,5 @@
 import {SlashCommandBuilder} from "discord.js";
-import {slashCommandBase} from "../../../types";
+import {slashCommandBase} from "../../../@types/types";
 import prettyMilliseconds from "pretty-ms";
 import ProgressBar from "string-progressbar";
 import {GuildQueue, useQueue} from "discord-player";
@@ -36,7 +36,7 @@ export default {
             return
         }
         const timestamp = player.node.getTimestamp(true)!;
-        const {embeds} = client.handleLanguages("PLAYING_EMBED", client, interaction.guildId!)
+        const {embeds} = JSON.parse(JSON.stringify(client.handleLanguages("PLAYING_EMBED", client, interaction.guildId!)))
         embeds[0].author.icon_url = client.config.IconURL;
         let x = Math.round(0xffffff * Math.random()).toString(16);
         let y = (6 - x.length);

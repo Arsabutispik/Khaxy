@@ -1,7 +1,7 @@
 import { Guild, TextChannel, User } from 'discord.js';
 import ms from 'ms';
 import guildSchema from "../schemas/guildSchema.js";
-import {KhaxyClient} from "../../types";
+import {KhaxyClient} from "../../@types/types";
 import {log, replaceMassString} from "./utils.js";
 type actions = "WARNING" | "BAN" | "KICK" | "MUTE" | "FORCED_BAN" | "TIMED_BAN" | "CHANGES" | "BAN_REMOVE" | "BAN_END" | "FORCED_TIMED_BAN" | "TIMEOUT"
 
@@ -16,7 +16,7 @@ export default async(data: {guild: Guild, user: User, action: actions, actionmak
     const lang = guildData!.config.language || "en";
     let message = `<t:${Math.floor(Date.now() / 1000)}> \`[${caseNumber}]\``
     if(action === "WARNING") {
-        message += replaceMassString(client.handleLanguages("MODLOG_WARNING", client, guild.id), {
+        message += replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("MODLOG_WARNING", client, guild.id))), {
             "{user_username}": user.username,
             "{user_id}": user.id,
             "{actionmaker_username}": actionmaker.username,
@@ -24,7 +24,7 @@ export default async(data: {guild: Guild, user: User, action: actions, actionmak
             "{reason}": reason
         })
     } else if (action === "BAN"){
-        message += replaceMassString(client.handleLanguages("MODLOG_BAN", client, guild.id), {
+        message += replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("MODLOG_BAN", client, guild.id))), {
             "{user_username}": user.username,
             "{user_id}": user.id,
             "{actionmaker_username}": actionmaker.username,
@@ -32,7 +32,7 @@ export default async(data: {guild: Guild, user: User, action: actions, actionmak
             "{reason}": reason
         })
     } else if(action === "KICK") {
-        message += replaceMassString(client.handleLanguages("MODLOG_KICK", client, guild.id), {
+        message += replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("MODLOG_KICK", client, guild.id))), {
             "{user_username}": user.username,
             "{user_id}": user.id,
             "{actionmaker_username}": actionmaker.username,
@@ -40,7 +40,7 @@ export default async(data: {guild: Guild, user: User, action: actions, actionmak
             "{reason}": reason
         })
     } else if(action === "FORCED_BAN"){
-        message += replaceMassString(client.handleLanguages("MODLOG_FORCED_BAN", client, guild.id), {
+        message += replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("MODLOG_FORCED_BAN", client, guild.id))), {
             "{user_id}": user.id,
             "{actionmaker_username}": actionmaker.username,
             "{actionmaker_id}": actionmaker.id,
@@ -51,7 +51,7 @@ export default async(data: {guild: Guild, user: User, action: actions, actionmak
         if(lang === "tr") {
             amount = amount.replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün")
         }
-        message += replaceMassString(client.handleLanguages("MODLOG_MUTE", client, guild.id), {
+        message += replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("MODLOG_MUTE", client, guild.id))), {
             "{user_username}": user.username,
             "{user_id}": user.id,
             "{actionmaker_username}": actionmaker.username,
@@ -64,7 +64,7 @@ export default async(data: {guild: Guild, user: User, action: actions, actionmak
         if(lang === "tr") {
             amount = amount.replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün")
         }
-        message += replaceMassString(client.handleLanguages("MODLOG_TIMED_BAN", client, guild.id), {
+        message += replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("MODLOG_TIMED_BAN", client, guild.id))), {
             "{user_username}": user.username,
             "{user_id}": user.id,
             "{actionmaker_username}": actionmaker.username,
@@ -73,7 +73,7 @@ export default async(data: {guild: Guild, user: User, action: actions, actionmak
             "{amount}": amount
         })
     } else if(action === "BAN_REMOVE"){
-        message += replaceMassString(client.handleLanguages("MODLOG_UNBAN", client, guild.id), {
+        message += replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("MODLOG_UNBAN", client, guild.id))), {
             "{user_id}": user.id,
             "{actionmaker_username}": actionmaker.username,
             "{actionmaker_id}": actionmaker.id,
@@ -84,7 +84,7 @@ export default async(data: {guild: Guild, user: User, action: actions, actionmak
         if(lang === "tr") {
             amount = amount.replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün")
         }
-        message += replaceMassString(client.handleLanguages("MODLOG_BAN_TIMEOUT", client, guild.id), {
+        message += replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("MODLOG_BAN_TIMEOUT", client, guild.id))), {
             "{user_id}": user.id,
             "{actionmaker_username}": actionmaker.username,
             "{actionmaker_id}": actionmaker.id,
@@ -92,7 +92,7 @@ export default async(data: {guild: Guild, user: User, action: actions, actionmak
             "{amount}": amount
         })
     } else if(action === "CHANGES"){
-        message = replaceMassString(client.handleLanguages("MODLOG_CHANGES", client, guild.id), {
+        message = replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("MODLOG_CHANGES", client, guild.id))), {
             "{time}": `${Math.floor(Date.now() / 1000)}`,
             "{actionmaker_username}": actionmaker.username,
             "{actionmaker_id}": actionmaker.id,
@@ -104,7 +104,7 @@ export default async(data: {guild: Guild, user: User, action: actions, actionmak
         if(lang === "tr") {
             amount = amount.replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün")
         }
-        message += replaceMassString(client.handleLanguages("MODLOG_BAN_TIMEOUT", client, guild.id), {
+        message += replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("MODLOG_BAN_TIMEOUT", client, guild.id))), {
             "{user_id}": user.id,
             "{actionmaker_username}": actionmaker.username,
             "{actionmaker_id}": actionmaker.id,
@@ -116,7 +116,7 @@ export default async(data: {guild: Guild, user: User, action: actions, actionmak
         if(lang === "tr") {
             amount = amount.replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün")
         }
-        message += replaceMassString(client.handleLanguages("MODLOG_TIMEOUT", client, guild.id), {
+        message += replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("MODLOG_TIMEOUT", client, guild.id))), {
             "{user_username}": user.username,
             "{user_id}": user.id,
             "{actionmaker_username}": actionmaker.username,

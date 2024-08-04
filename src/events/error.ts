@@ -1,4 +1,4 @@
-import {KhaxyClient} from "../../types";
+import {KhaxyClient} from "../../@types/types";
 import {log} from "../utils/utils.js";
 import {EmbedBuilder} from "discord.js";
 export default async(client: KhaxyClient, error: Error) => {

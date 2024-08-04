@@ -1,4 +1,4 @@
-import { KhaxyClient } from "../../types";
+import { KhaxyClient } from "../../@types/types";
 import bumpLeaderboardSchema from "../schemas/bumpLeaderboardSchema.js";
 import {bumpLeaderboard, log} from "./utils.js";
 

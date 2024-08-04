@@ -1,5 +1,5 @@
 import {DMChannel, NonThreadGuildBasedChannel} from "discord.js";
-import {KhaxyClient} from "../../types";
+import {KhaxyClient} from "../../@types/types";
 import openMailsSchema from "../schemas/openMailsSchema.js";
 
 export default async (_client: KhaxyClient, channel: DMChannel | NonThreadGuildBasedChannel) => {

@@ -1,4 +1,4 @@
-import {KhaxyClient} from "../../types";
+import {KhaxyClient} from "../../@types/types";
 import fs from 'fs';
 import path from 'path';
 import { dirname } from 'node:path';
@@ -34,8 +34,8 @@ function languageHandler(textId: string, client: KhaxyClient, guildId: string) {
     if (!languages[selectedLanguage] || !languages[selectedLanguage][textId]) {
         throw new Error(`Text with id ${textId} not found in language file for ${selectedLanguage}`);
     }
-
-    return languages[selectedLanguage][textId];
+    if(typeof languages[selectedLanguage][textId] === "string") return languages[selectedLanguage][textId];
+    return JSON.parse(JSON.stringify(languages[selectedLanguage][textId]));
 }
 
 export default languageHandler;

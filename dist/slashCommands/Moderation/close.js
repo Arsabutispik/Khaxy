@@ -44,7 +44,7 @@ export default {
         await fs.writeFile(`./logs/${interaction.guild.members.cache.get(user).user.username}.txt`, client.ticketMessages.get(interaction.channel.id));
         const lastEmbed = new EmbedBuilder()
             .setAuthor({ name: interaction.user.username, iconURL: interaction.user.displayAvatarURL() })
-            .setDescription(replaceMassString(client.handleLanguages("CLOSEMAIL_LOG_MESSAGE", client, interaction.guild.id), {
+            .setDescription(replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("CLOSEMAIL_LOG_MESSAGE", client, guild.id))), {
             "{userName}": interaction.user.username,
             "{mailChannelName}": interaction.channel.name,
         }))

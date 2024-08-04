@@ -1,4 +1,4 @@
-import {KhaxyClient} from "../../types";
+import {KhaxyClient} from "../../@types/types";
 import {ChannelType, Message} from "discord.js";
 import bumpLeaderboardSchema from "../schemas/bumpLeaderboardSchema.js";
 import {bumpLeaderboard} from "../utils/utils.js";

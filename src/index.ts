@@ -1,5 +1,5 @@
 import {ActivityType, Client, EmbedBuilder, Partials, IntentsBitField, Collection } from "discord.js";
-import {KhaxyClient} from "../types";
+import {KhaxyClient} from "../@types/types";
 import {registerEvents, registerSlashCommands} from "./utils/registery.js";
 import {log, replaceMassString} from "./utils/utils.js";
 import mongoose from "mongoose";
@@ -13,7 +13,6 @@ import cron from "node-cron";
 import handleLanguages from "./utils/languageHandler.js";
 import "dotenv/config.js";
 import resetBumpLeaderboard from "./utils/resetBumpLeaderboard.js";
-
 const client = new Client({
     intents: [
         IntentsBitField.Flags.Guilds,

@@ -1,4 +1,4 @@
-import {slashCommandBase} from "../../../types";
+import {slashCommandBase} from "../../../@types/types";
 import {GuildMember, PermissionsBitField, SlashCommandBuilder} from "discord.js";
 import prettyMilliseconds from "pretty-ms";
 import { useMainPlayer } from "discord-player";
@@ -72,7 +72,7 @@ export default {
             }, fallbackSearchEngine: "soundcloud"
         })
 
-        let SongAddedEmbed = client.handleLanguages("PLAY_EMBED", client, interaction.guildId!)
+        let SongAddedEmbed = JSON.parse(JSON.stringify(client.handleLanguages("PLAY_EMBED", client, interaction.guildId!)))
         for(const embed of SongAddedEmbed.embeds) {
             embed.author.icon_url = client.config.IconURL
             embed.description = replaceMassString(embed.description, {

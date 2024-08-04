@@ -1,4 +1,4 @@
-import { KhaxyClient } from "../../types";
+import { KhaxyClient } from "../../@types/types";
 import punishmentSchema from "../schemas/punishmentSchema.js";
 import modlog from "./modlog.js";
 import {User} from "discord.js";

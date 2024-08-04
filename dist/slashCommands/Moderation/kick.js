@@ -75,17 +75,17 @@ export default {
             return;
         }
         try {
-            await targetMember.send(replaceMassString(client.handleLanguages("KICK_MESSAGE_DM", client, interaction.guildId), {
+            await targetMember.send(replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("KICK_MESSAGE_DM", client, interaction.guildId))), {
                 "{guild_name}": interaction.guild.name,
                 "{reason}": reason
             }));
-            await interaction.reply(replaceMassString(client.handleLanguages("KICK_MESSAGE", client, interaction.guildId), {
+            await interaction.reply(replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("KICK_MESSAGE", client, interaction.guildId))), {
                 "{targetMember_username}": targetMember.user.username,
                 "{case}": data.case.toString()
             }));
         }
         catch {
-            await interaction.reply(replaceMassString(client.handleLanguages("KICK_MESSAGE_FAIL", client, interaction.guildId), {
+            await interaction.reply(replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("KICK_MESSAGE_FAIL", client, interaction.guildId))), {
                 "{targetMember_username}": targetMember.user.username,
                 "{case}": data.case.toString()
             }));

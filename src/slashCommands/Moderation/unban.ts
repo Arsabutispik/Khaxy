@@ -1,5 +1,5 @@
 import {EmbedBuilder, SlashCommandBuilder, PermissionsBitField, GuildMember} from "discord.js";
-import {slashCommandBase} from "../../../types";
+import {slashCommandBase} from "../../../@types/types";
 import modlog from "../../utils/modlog.js";
 import {replaceMassString} from "../../utils/utils.js";
 
@@ -74,7 +74,7 @@ export default {
         const embed = new EmbedBuilder()
             .setAuthor({name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL()})
             .setColor("Green")
-            .setDescription(replaceMassString(client.handleLanguages("UNBAN_SUCCESS", client, interaction.guildId!), {
+            .setDescription(replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("UNBAN_SUCCESS", client, interaction.guildId!))), {
                 "{user_username}": user.user.username,
             }))
         await interaction.reply({embeds: [embed]})

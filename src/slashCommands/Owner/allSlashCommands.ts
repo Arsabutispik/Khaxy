@@ -2,7 +2,7 @@ import {
     SlashCommandBuilder,
     EmbedBuilder
 } from 'discord.js';
-import {slashCommandBase} from "../../../types";
+import {slashCommandBase} from "../../../@types/types";
 export default {
     help: {
         hidden: true,

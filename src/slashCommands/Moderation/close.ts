@@ -1,4 +1,4 @@
-import {slashCommandBase} from "../../../types";
+import {slashCommandBase} from "../../../@types/types";
 import {
     SlashCommandBuilder,
     PermissionsBitField,
@@ -50,7 +50,7 @@ export default {
         const lastEmbed = new EmbedBuilder()
             .setAuthor({name: interaction.user.username, iconURL: interaction.user.displayAvatarURL()})
             //@ts-ignore
-            .setDescription(replaceMassString(client.handleLanguages("CLOSEMAIL_LOG_MESSAGE", client, interaction.guild!.id), {
+            .setDescription(replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("CLOSEMAIL_LOG_MESSAGE", client, guild.id))), {
                 "{userName}": interaction.user.username,
                 "{mailChannelName}": (interaction.channel as TextChannel)!.name,
             }))

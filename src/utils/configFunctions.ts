@@ -9,7 +9,7 @@ import {
     SelectMenuInteraction,
     RoleSelectMenuInteraction, PermissionsBitField, TextChannel, Role, ChannelType
 } from "discord.js";
-import {KhaxyClient} from "../../types";
+import {KhaxyClient} from "../../@types/types";
 
 async function registerConfig(interaction: ChatInputCommandInteraction, client: KhaxyClient) {
     const SelectMenu = client.handleLanguages("REGISTER_CONFIG_PROMPT", client, interaction.guildId!)

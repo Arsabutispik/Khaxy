@@ -1,5 +1,5 @@
 import {GuildMember, SlashCommandBuilder} from "discord.js";
-import {slashCommandBase} from "../../../types";
+import {slashCommandBase} from "../../../@types/types";
 import {useQueue} from "discord-player";
 export default {
     help: {

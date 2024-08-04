@@ -1,4 +1,4 @@
-import {KhaxyClient} from "../../types";
+import {KhaxyClient} from "../../@types/types";
 import {ChannelType, Interaction, EmbedBuilder, TextChannel, ModalSubmitInteraction} from "discord.js";
 import guildConfig from "../schemas/guildSchema.js";
 import {log, percentageChance} from "../utils/utils.js";

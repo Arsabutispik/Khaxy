@@ -63,7 +63,7 @@ export default {
             await interaction.reply({ embeds: [embed], ephemeral: true });
             return;
         }
-        const editCaseMessage = client.handleLanguages("EDITCASE_MESSAGE", client, interaction.guild.id);
+        const editCaseMessage = JSON.parse(JSON.stringify(client.handleLanguages("EDITCASE_MESSAGE", client, interaction.guildId)));
         for (const embeds of editCaseMessage.embeds) {
             let x = Math.round(0xffffff * Math.random()).toString(16);
             let y = (6 - x.length);

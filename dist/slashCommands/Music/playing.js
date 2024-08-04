@@ -33,7 +33,7 @@ export default {
             return;
         }
         const timestamp = player.node.getTimestamp(true);
-        const { embeds } = client.handleLanguages("PLAYING_EMBED", client, interaction.guildId);
+        const { embeds } = JSON.parse(JSON.stringify(client.handleLanguages("PLAYING_EMBED", client, interaction.guildId)));
         embeds[0].author.icon_url = client.config.IconURL;
         let x = Math.round(0xffffff * Math.random()).toString(16);
         let y = (6 - x.length);

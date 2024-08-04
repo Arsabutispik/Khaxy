@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import {KhaxyClient, commandBase, slashCommandBase} from "../../types";
+import {KhaxyClient, commandBase, slashCommandBase} from "../../@types/types";
 import { log } from "./utils.js";
 import { fileURLToPath, pathToFileURL } from 'url';
 const __filename = fileURLToPath(import.meta.url);

@@ -1,4 +1,4 @@
-import {slashCommandBase} from "../../../types";
+import {slashCommandBase} from "../../../@types/types";
 import {
     GuildMember, MessageComponentInteraction, PermissionsBitField,
     SlashCommandBuilder, ComponentType
@@ -65,7 +65,7 @@ export default {
             collector.on("collect", async i => {
                 const setting = i.values[0] as "register" | "welcome-leave" | "moderation" | "role" | "misc"
                 if(setting === "register") {
-                    const registerMessage = client.handleLanguages("CONFIG_REGISTER_MESSAGE", client, interaction.guild!.id)
+                    const registerMessage = JSON.parse(JSON.stringify(client.handleLanguages("CONFIG_REGISTER_MESSAGE", client, interaction.guildId!)))
 
                     for (const embeds of registerMessage.embeds ) {
                         let x=Math.round(0xffffff * Math.random()).toString(16);
@@ -86,7 +86,7 @@ export default {
                     }
                     await i.update(registerMessage)
                 } else if(setting === "welcome-leave") {
-                    const welcomeLeaveMessage = client.handleLanguages("CONFIG_WELCOME_LEAVE_MESSAGE", client, interaction.guild!.id)
+                    const welcomeLeaveMessage = JSON.parse(JSON.stringify(client.handleLanguages("CONFIG_WELCOME_LEAVE_MESSAGE", client, interaction.guildId!)))
                     for (const embeds of welcomeLeaveMessage.embeds) {
                         let x = Math.round(0xffffff * Math.random()).toString(16);
                         let y = (6 - x.length);
@@ -105,7 +105,7 @@ export default {
                     }
                     await i.update(welcomeLeaveMessage)
                 } else if(setting === "moderation") {
-                    const moderationMessage = client.handleLanguages("CONFIG_MODERATION_MESSAGE", client, interaction.guild!.id)
+                    const moderationMessage = JSON.parse(JSON.stringify(client.handleLanguages("CONFIG_MODERATION_MESSAGE", client, interaction.guildId!)))
                     for (const embeds of moderationMessage.embeds) {
                         let x = Math.round(0xffffff * Math.random()).toString(16);
                         let y = (6 - x.length);
@@ -125,7 +125,7 @@ export default {
                     }
                     await i.update(moderationMessage)
                 } else if(setting === "role") {
-                    const roleMessage = client.handleLanguages("CONFIG_ROLE_MESSAGE", client, interaction.guild!.id)
+                    const roleMessage = JSON.parse(JSON.stringify(client.handleLanguages("CONFIG_ROLE_MESSAGE", client, interaction.guildId!)))
                     for (const embeds of roleMessage.embeds) {
                         let x = Math.round(0xffffff * Math.random()).toString(16);
                         let y = (6 - x.length);

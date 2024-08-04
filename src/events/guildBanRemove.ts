@@ -1,4 +1,4 @@
-import {KhaxyClient} from "../../types";
+import {KhaxyClient} from "../../@types/types";
 import {GuildBan, AuditLogEvent} from "discord.js";
 import modlog from "../utils/modlog.js";
 import {sleep} from "../utils/utils.js";
