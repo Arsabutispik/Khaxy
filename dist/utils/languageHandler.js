@@ -3,7 +3,7 @@ import path from 'path';
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const localizationsDir = path.join(__dirname, '../localisations');
+const localizationsDir = path.join(__dirname, '../locales');
 const languages = {};
 function loadLocalizations(directory) {
     const files = fs.readdirSync(directory);

@@ -6,7 +6,7 @@ import {fileURLToPath} from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const localizationsDir = path.join(__dirname, '../localisations');
+const localizationsDir = path.join(__dirname, '../locales');
 const languages: Record<string, any> = {};
 
 function loadLocalizations(directory: string) {
