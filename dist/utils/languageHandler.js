@@ -13,7 +13,7 @@ function loadLocalizations(directory) {
             loadLocalizations(path.join(directory, file));
         }
         else {
-            languages[file.split(".")[0]] = require(path.join(directory, file));
+            languages[file.split(".")[0]] = import(path.join(directory, file)).then((res) => res.default);
         }
     }
 }
