@@ -134,6 +134,7 @@ export default async (client, interaction) => {
             interaction.channel.send({ embeds: [embed] });
         }
         try {
+            console.log(interaction);
             await cmd.execute({ client, interaction });
             log("SUCCESS", "Slash Command", `${interaction.user.tag} (${interaction.user.id}) executed ${interaction.commandName} in ${interaction.guild.name} (${interaction.guild.id})`);
         }
