@@ -7,19 +7,15 @@ const localizationsDir = path.join(__dirname, '../localisations');
 const languages = {};
 function loadLocalizations(directory) {
     const files = fs.readdirSync(directory);
-    files.forEach(file => {
-        if (file.endsWith('.json')) {
-            const filePath = path.join(directory, file);
-            const locale = path.basename(file, '.json');
-            const content = fs.readFileSync(filePath, 'utf-8');
-            try {
-                languages[locale] = JSON.parse(content);
-            }
-            catch (error) {
-                console.error(`Error parsing JSON file ${file}:`, error);
-            }
+    for (const file of files) {
+        const stat = fs.lstatSync(path.join(directory, file));
+        if (stat.isDirectory()) {
+            loadLocalizations(path.join(directory, file));
         }
-    });
+        else {
+            languages[file.split(".")[0]] = require(path.join(directory, file));
+        }
+    }
 }
 loadLocalizations(localizationsDir);
 function languageHandler(textId, client, guildId) {
