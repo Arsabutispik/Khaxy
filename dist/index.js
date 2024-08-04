@@ -12,6 +12,7 @@ import cron from "node-cron";
 import handleLanguages from "./utils/languageHandler.js";
 import "dotenv/config.js";
 import resetBumpLeaderboard from "./utils/resetBumpLeaderboard.js";
+import cluster from "cluster";
 const client = new Client({
     intents: [
         IntentsBitField.Flags.Guilds,
@@ -92,12 +93,16 @@ client.once("ready", async () => {
     }
     await checkPunishments(client);
     cron.schedule("0 0 * * *", async () => {
+        if (cluster.worker?.id !== 1)
+            return;
         await colorOfTheDay(client);
     }, {
         timezone: "Europe/Istanbul",
         recoverMissedExecutions: true
     });
     cron.schedule("0 0 1 * *", async () => {
+        if (cluster.worker?.id !== 1)
+            return;
         await resetBumpLeaderboard(client);
     }, {
         timezone: "Europe/Istanbul",
