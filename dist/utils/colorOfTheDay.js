@@ -5,6 +5,7 @@ import { DateTime } from "luxon";
 export default async (client) => {
     const guilds = await guildSchema.find();
     for (const guildConfig of guilds) {
+        console.log(guildConfig.guildID);
         const guild = client.guilds.cache.get(guildConfig.guildID);
         if (!guild)
             continue;
