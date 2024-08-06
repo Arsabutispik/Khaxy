@@ -2,6 +2,7 @@ import guildSchema from "../schemas/guildSchema.js";
 import ntc from "../utils/ntc.js";
 import cronjobsSchema from "../schemas/cronjobsSchema.js";
 import { DateTime } from "luxon";
+import cluster from "cluster";
 export default async (client) => {
     const guilds = await guildSchema.find();
     for (const guildConfig of guilds) {
@@ -56,6 +57,7 @@ export default async (client) => {
     }
 };
 async function specificGuildColorUpdate(client, guildId) {
+    console.log(cluster.workers);
     const guildConfig = await guildSchema.findOne({ guildID: guildId });
     if (!guildConfig)
         return;

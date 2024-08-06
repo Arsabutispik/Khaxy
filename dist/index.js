@@ -12,7 +12,6 @@ import cron from "node-cron";
 import handleLanguages from "./utils/languageHandler.js";
 import "dotenv/config.js";
 import resetBumpLeaderboard from "./utils/resetBumpLeaderboard.js";
-import cluster from "cluster";
 import recoverMissedCronJob from "./utils/recoverMissedCronJob.js";
 const client = new Client({
     intents: [
@@ -77,7 +76,6 @@ client.once("ready", async () => {
     for (const data of guildData) {
         client.guildsConfig.set(data.guildID, data.toJSON());
     }
-    console.log(cluster.workers);
     const openMailData = await openMails.find();
     for (const data of openMailData) {
         const guild = client.guilds.cache.get(data.guildID);
