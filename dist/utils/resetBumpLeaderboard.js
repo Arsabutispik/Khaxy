@@ -7,6 +7,13 @@ async function resetBumpLeaderboard(client) {
     const guilds = await bumpLeaderboardSchema.find();
     for (const guild of guilds) {
         cronjobsSchema.findOneAndUpdate({ guildID: guild.guildID }, {
+            $pull: {
+                cronjobs: {
+                    name: "resetBumpLeaderboardCron"
+                }
+            }
+        });
+        await cronjobsSchema.findOneAndUpdate({ guildID: guild.guildID }, {
             $push: {
                 cronjobs: {
                     name: "resetBumpLeaderboardCron",

@@ -35,6 +35,13 @@ export default async (client) => {
             });
             await role.edit({ name: `${name}${colorName}`, color: color, reason: "Role of the day!" });
             await cronjobsSchema.findOneAndUpdate({ guildID: guild.id }, {
+                $pull: {
+                    cronjobs: {
+                        name: "colorCron"
+                    }
+                }
+            });
+            await cronjobsSchema.findOneAndUpdate({ guildID: guild.id }, {
                 $push: {
                     cronjobs: {
                         name: "colorCron",
