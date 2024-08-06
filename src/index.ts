@@ -14,6 +14,7 @@ import handleLanguages from "./utils/languageHandler.js";
 import "dotenv/config.js";
 import resetBumpLeaderboard from "./utils/resetBumpLeaderboard.js";
 import recoverMissedCronJob from "./utils/recoverMissedCronJob.js";
+import cluster from "cluster";
 
 const client = new Client({
     intents: [
@@ -68,6 +69,9 @@ const player = new Player(client);
     }
 
 })();
+cluster.on("online", (worker) => {
+    log("SUCCESS", "src/index.js", `Worker ${worker.id} is online.`);
+})
 client.once("ready", async () => {
     await player.extractors.loadDefault(ext => ext !== "YouTubeExtractor");
     await registerEvents(client, "../events");

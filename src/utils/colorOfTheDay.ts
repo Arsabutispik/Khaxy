@@ -4,7 +4,6 @@ import {ColorResolvable} from "discord.js"
 import ntc from "../utils/ntc.js"
 import cronjobsSchema from "../schemas/cronjobsSchema.js";
 import {DateTime} from "luxon";
-import cluster from "cluster";
 export default async (client: KhaxyClient) => {
     const guilds = await guildSchema.find()
     for(const guildConfig of guilds) {
@@ -53,7 +52,6 @@ export default async (client: KhaxyClient) => {
 }
 
 async function specificGuildColorUpdate(client: KhaxyClient, guildId: string) {
-    console.log(cluster.workers)
     const guildConfig = await guildSchema.findOne({guildID: guildId})
     if(!guildConfig) return
     const guild = client.guilds.cache.get(guildConfig.guildID);
