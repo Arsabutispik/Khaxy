@@ -92,14 +92,14 @@ client.once("ready", async () => {
     }
     await checkPunishments(client)
     cron.schedule("0 0 * * *", async () => {
-        if (cluster.worker?.id !== 1) return;
+        console.log(cluster.worker?.id)
       await colorOfTheDay(client)
     }, {
         timezone: "Europe/Istanbul",
         recoverMissedExecutions: true
     })
     cron.schedule("0 0 1 * *", async () => {
-        if (cluster.worker?.id !== 1) return;
+        console.log(cluster.worker?.id)
         await resetBumpLeaderboard(client)
     }, {
         timezone: "Europe/Istanbul",

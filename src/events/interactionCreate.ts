@@ -126,7 +126,6 @@ export default async (client: KhaxyClient, interaction: Interaction) => {
 
         }
         try {
-            console.log(interaction)
             await cmd.execute({client, interaction});
             log("SUCCESS", "Slash Command", `${interaction.user.tag} (${interaction.user.id}) executed ${interaction.commandName} in ${interaction.guild!.name} (${interaction.guild!.id})`)
         } catch (e) {
