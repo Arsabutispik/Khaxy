@@ -2,7 +2,7 @@ import {KhaxyClient} from "../../@types/types";
 import colorOfTheDay from "./colorOfTheDay.js";
 import resetBumpLeaderboard from "./resetBumpLeaderboard.js";
 import cronjobsSchema from "../schemas/cronjobsSchema.js";
-import {log} from "./utils";
+import {log} from "./utils.js";
 
 async function recoverMissedCronJob(client: KhaxyClient) {
     const cronjobs = await cronjobsSchema.find();

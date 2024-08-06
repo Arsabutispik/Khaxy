@@ -1,7 +1,7 @@
 import colorOfTheDay from "./colorOfTheDay.js";
 import resetBumpLeaderboard from "./resetBumpLeaderboard.js";
 import cronjobsSchema from "../schemas/cronjobsSchema.js";
-import { log } from "./utils";
+import { log } from "./utils.js";
 async function recoverMissedCronJob(client) {
     const cronjobs = await cronjobsSchema.find();
     for (const cronjob of cronjobs) {
