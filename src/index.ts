@@ -77,6 +77,7 @@ client.once("ready", async () => {
     for(const data of guildData) {
         client.guildsConfig.set(data.guildID, data.toJSON());
     }
+    console.log(cluster.workers)
     const openMailData = await openMails.find();
     for(const data of openMailData) {
         const guild = client.guilds.cache.get(data.guildID);
@@ -95,14 +96,12 @@ client.once("ready", async () => {
     await checkPunishments(client);
     await recoverMissedCronJob(client);
     cron.schedule("0 0 * * *", async () => {
-        console.log(cluster.worker?.id)
       await colorOfTheDay(client)
     }, {
         timezone: "Europe/Istanbul",
         recoverMissedExecutions: true
     })
     cron.schedule("0 0 1 * *", async () => {
-        console.log(cluster.worker?.id)
         await resetBumpLeaderboard(client)
     }, {
         timezone: "Europe/Istanbul",

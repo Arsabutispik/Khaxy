@@ -1,8 +1,8 @@
-import colorOfTheDay from "./colorOfTheDay.js";
-import resetBumpLeaderboard from "./resetBumpLeaderboard.js";
+import { specificGuildColorUpdate } from "./colorOfTheDay.js";
+import { specificGuildBumpLeaderboardUpdate } from "./resetBumpLeaderboard.js";
 import cronjobsSchema from "../schemas/cronjobsSchema.js";
 import { log } from "./utils.js";
-async function recoverMissedCronJob(client) {
+export default async (client) => {
     const cronjobs = await cronjobsSchema.find();
     for (const cronjob of cronjobs) {
         for (const job of cronjob.cronjobs) {
@@ -10,16 +10,15 @@ async function recoverMissedCronJob(client) {
                 switch (job.name) {
                     case "colorCron":
                         log("ERROR", "src/utils/recoverMissedCronJob.ts", "Missed colorCron job, recovering...");
-                        await colorOfTheDay(client);
+                        await specificGuildColorUpdate(client, cronjob.guildID);
                         break;
                     case "resetBumpLeaderboardCron":
                         log("ERROR", "src/utils/recoverMissedCronJob.ts", "Missed resetBumpLeaderboardCron job, recovering...");
-                        await resetBumpLeaderboard(client);
+                        await specificGuildBumpLeaderboardUpdate(client, cronjob.guildID);
                         break;
                 }
             }
         }
     }
-}
-export default recoverMissedCronJob;
+};
 //# sourceMappingURL=recoverMissedCronJob.js.map
