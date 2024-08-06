@@ -2,6 +2,9 @@ import { KhaxyClient } from "../../@types/types"
 import guildSchema from "../schemas/guildSchema.js";
 import {ColorResolvable} from "discord.js"
 import ntc from "../utils/ntc.js"
+import cronjobsSchema from "../schemas/cronjobsSchema.js";
+import {DateTime} from "luxon";
+
 export default async (client: KhaxyClient) => {
     const guilds = await guildSchema.find()
     for(const guildConfig of guilds) {
@@ -28,6 +31,14 @@ export default async (client: KhaxyClient) => {
                 }
             })
             await role.edit({name: `${name}${colorName}`, color: color, reason: "Role of the day!"})
+            await cronjobsSchema.findOneAndUpdate({guildID: guild.id}, {
+                $push: {
+                    cronjobs: {
+                        name: "colorCron",
+                        time: DateTime.now().plus({days: 1}).toJSDate(),
+                    }
+                }
+            })
         } catch (e) {
             console.error(e)
         }

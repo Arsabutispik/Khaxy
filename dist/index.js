@@ -13,6 +13,7 @@ import handleLanguages from "./utils/languageHandler.js";
 import "dotenv/config.js";
 import resetBumpLeaderboard from "./utils/resetBumpLeaderboard.js";
 import cluster from "cluster";
+import recoverMissedCronJob from "./utils/recoverMissedCronJob.js";
 const client = new Client({
     intents: [
         IntentsBitField.Flags.Guilds,
@@ -92,6 +93,7 @@ client.once("ready", async () => {
         client.ticketMessages.set(data.channelID, data.messages);
     }
     await checkPunishments(client);
+    await recoverMissedCronJob(client);
     cron.schedule("0 0 * * *", async () => {
         console.log(cluster.worker?.id);
         await colorOfTheDay(client);
