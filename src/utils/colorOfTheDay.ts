@@ -8,7 +8,6 @@ import {DateTime} from "luxon";
 export default async (client: KhaxyClient) => {
     const guilds = await guildSchema.find()
     for(const guildConfig of guilds) {
-        console.log(guildConfig.guildID)
         const guild = client.guilds.cache.get(guildConfig.guildID);
         if(!guild) continue
         if(!guild.members.me!.permissions.has("ManageRoles")) continue;
