@@ -4,6 +4,7 @@ import cronjobsSchema from "../schemas/cronjobsSchema.js";
 import { DateTime } from "luxon";
 export default async (client) => {
     const guilds = await guildSchema.find();
+    console.log("Before loop");
     for (const guildConfig of guilds) {
         const guild = client.guilds.cache.get(guildConfig.guildID);
         if (!guild)
@@ -33,6 +34,7 @@ export default async (client) => {
                     "config.colorName": colorName
                 }
             });
+            console.log("Before edit");
             await role.edit({ name: `${name}${colorName}`, color: color, reason: "Role of the day!" });
             await cronjobsSchema.findOneAndUpdate({ guildID: guild.id }, {
                 $pull: {
@@ -87,6 +89,7 @@ async function specificGuildColorUpdate(client, guildId) {
                 "config.colorName": colorName
             }
         });
+        console.log("Before edit");
         await role.edit({ name: `${name}${colorName}`, color: color, reason: "Role of the day!" });
         await cronjobsSchema.findOneAndUpdate({ guildID: guild.id }, {
             $pull: {
