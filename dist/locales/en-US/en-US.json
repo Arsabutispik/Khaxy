@@ -66,7 +66,7 @@
                         "max_values": 1,
                         "min_values": 0,
                         "placeholder": "Select a role.",
-                        "type": 8
+                        "type": 7
                     }
                 ],
                 "type": 1
