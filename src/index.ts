@@ -101,13 +101,11 @@ client.once("ready", async () => {
       await colorOfTheDay(client)
     }, {
         timezone: "Europe/Istanbul",
-        recoverMissedExecutions: true
     })
     cron.schedule("0 0 1 * *", async () => {
         await resetBumpLeaderboard(client)
     }, {
         timezone: "Europe/Istanbul",
-        recoverMissedExecutions: true
     })
     log("SUCCESS", "src/events/ready.js", "App activated successfully.");
     const messages: {message: string, type: ActivityType.Custom | undefined}[] =
