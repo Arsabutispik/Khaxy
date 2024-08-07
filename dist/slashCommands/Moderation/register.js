@@ -39,7 +39,7 @@ export default {
     })),
     execute: async ({ interaction, client }) => {
         const guildConfig = client.guildsConfig.get(interaction.guild.id);
-        if (!interaction.member.roles.cache.hasAny(...guildConfig.config.staffRole) || !interaction.member.permissions.has(PermissionsBitField.Flags.ManageRoles)) {
+        if (!interaction.member.permissions.has(PermissionsBitField.Flags.ManageRoles)) {
             const embed = new EmbedBuilder()
                 .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
                 .setColor("Red")

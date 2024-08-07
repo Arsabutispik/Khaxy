@@ -36,7 +36,7 @@ export default {
         const id = interaction.options.getNumber("id", true);
         const reason = interaction.options.getString("reason", true);
         const data = client.guildsConfig.get(interaction.guild!.id)!;
-        if(!(interaction.member as GuildMember).permissions.has(PermissionsBitField.Flags.ManageGuild) || !(interaction.member as GuildMember).roles.cache.hasAny(...data.config.staffRole)) return interaction.reply({content: client.handleLanguages("EDITCASE_NO_PERMS", client, interaction.guild!.id), ephemeral: true});
+        if(!(interaction.member as GuildMember).permissions.has(PermissionsBitField.Flags.ManageGuild)) return interaction.reply({content: client.handleLanguages("EDITCASE_NO_PERMS", client, interaction.guild!.id), ephemeral: true});
         if(!data.config.modlogChannel) {
             const embed = new EmbedBuilder()
                 .setAuthor({name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL()})

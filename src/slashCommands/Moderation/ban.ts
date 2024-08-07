@@ -124,7 +124,7 @@ export default {
         const data = client.guildsConfig.get(interaction.guild!.id)!;
         const lang = data.config.language || "english";
         const subCommand = interaction.options.getSubcommand(true);
-        if(!(interaction.member as GuildMember).permissions.has(PermissionsBitField.Flags.BanMembers) || !(interaction.member as GuildMember).roles.cache.hasAny(...data.config.staffRole)) return interaction.reply({content: client.handleLanguages("BAN_USER_MISSING_PERMS", client, interaction.guild!.id), ephemeral: true});
+        if(!(interaction.member as GuildMember).permissions.has(PermissionsBitField.Flags.BanMembers)) return interaction.reply({content: client.handleLanguages("BAN_USER_MISSING_PERMS", client, interaction.guild!.id), ephemeral: true});
         if(subCommand ===  "üye"){
             const user = interaction.options.getUser("member");
             let targetMember: GuildMember;
