@@ -1,7 +1,7 @@
 import {KhaxyClient} from "../../@types/types";
 import {ChannelType, Interaction, EmbedBuilder, TextChannel, ModalSubmitInteraction} from "discord.js";
 import guildConfig from "../schemas/guildSchema.js";
-import {log, percentageChance} from "../utils/utils.js";
+import {handleErrors, log, percentageChance} from "../utils/utils.js";
 import openMailsSchema from "../schemas/openMailsSchema.js";
 
 export default async (client: KhaxyClient, interaction: Interaction) => {
@@ -128,14 +128,8 @@ export default async (client: KhaxyClient, interaction: Interaction) => {
         try {
             await cmd.execute({client, interaction});
             log("SUCCESS", "Slash Command", `${interaction.user.tag} (${interaction.user.id}) executed ${interaction.commandName} in ${interaction.guild!.name} (${interaction.guild!.id})`)
-        } catch (e) {
-            log("ERROR", "unknwn", `${interaction.commandName} returned an error: ${e}`)
-            console.error(e)
-            if(!interaction.replied){
-                await interaction.reply({content: client.handleLanguages("ERROR_ON_INTERACTION", client, interaction.guild!.id), ephemeral: true});
-            } else {
-                await interaction.followUp({content: client.handleLanguages("ERROR_ON_INTERACTION", client, interaction.guild!.id), ephemeral: true});
-            }
+        } catch (error) {
+            await handleErrors(client, error, "interactionCreate.ts", interaction)
         }
     }
 }

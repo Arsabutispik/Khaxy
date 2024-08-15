@@ -1,6 +1,6 @@
 import { ChannelType, EmbedBuilder } from "discord.js";
 import guildConfig from "../schemas/guildSchema.js";
-import { log, percentageChance } from "../utils/utils.js";
+import { handleErrors, log, percentageChance } from "../utils/utils.js";
 import openMailsSchema from "../schemas/openMailsSchema.js";
 export default async (client, interaction) => {
     if (interaction.isButton()) {
@@ -137,15 +137,8 @@ export default async (client, interaction) => {
             await cmd.execute({ client, interaction });
             log("SUCCESS", "Slash Command", `${interaction.user.tag} (${interaction.user.id}) executed ${interaction.commandName} in ${interaction.guild.name} (${interaction.guild.id})`);
         }
-        catch (e) {
-            log("ERROR", "unknwn", `${interaction.commandName} returned an error: ${e}`);
-            console.error(e);
-            if (!interaction.replied) {
-                await interaction.reply({ content: client.handleLanguages("ERROR_ON_INTERACTION", client, interaction.guild.id), ephemeral: true });
-            }
-            else {
-                await interaction.followUp({ content: client.handleLanguages("ERROR_ON_INTERACTION", client, interaction.guild.id), ephemeral: true });
-            }
+        catch (error) {
+            await handleErrors(client, error, "interactionCreate.ts", interaction);
         }
     }
 };

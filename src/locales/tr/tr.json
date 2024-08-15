@@ -1565,5 +1565,7 @@
   "BUMP_LEADERBOARD_CHANNEL_ERROR_OR_EXPIRED": "Bir hata oluştu veya zaman aşımına uğradı.",
   "BUMP_LEADERBOARD_MESSAGE": "Bu ayın bump lider tahtası:\n\n",
   "BUMP_LEADERBOARD_LAST_BUMP": "En son bump {user} tarafından {time} önce yapıldı.",
-  "PLAY_YOUTUBE_LINK": "YouTube'un yeni politikası gereği, YouTube bağlantılarını oynatamıyorum. İstediğiniz şarkıyı çalmak için arama komutunu kullanabilirsiniz."
+  "PLAY_YOUTUBE_LINK": "YouTube'un yeni politikası gereği, YouTube bağlantılarını oynatamıyorum. İstediğiniz şarkıyı çalmak için arama komutunu kullanabilirsiniz.",
+  "ERROR_TIME": "Geçerli süre içerisinde bir yanıt verilmediği için işlem iptal edildi.",
+  "ERROR_MESSAGE": "Bir hata oluştu. En kısa sürede düzeltilecektir."
 }

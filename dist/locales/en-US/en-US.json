@@ -1565,5 +1565,7 @@
     "BUMP_LEADERBOARD_CHANNEL_ERROR_OR_EXPIRED": "An error occurred or the process has expired.",
     "BUMP_LEADERBOARD_MESSAGE": "This month's bump leaderboard:\n\n",
     "BUMP_LEADERBOARD_LAST_BUMP": "Last Bump {time} ago. By {user}",
-    "PLAY_YOUTUBE_LINK": "As of YouTube's new policy, I can't play YouTube links. You can use the search command to play the song you want."
+    "PLAY_YOUTUBE_LINK": "As of YouTube's new policy, I can't play YouTube links. You can use the search command to play the song you want.",
+    "ERROR_TIME": "A reply was not received in time. The process has been canceled.",
+    "ERROR_MESSAGE": "An error occurred. We will try to fix it as soon as possible."
 }

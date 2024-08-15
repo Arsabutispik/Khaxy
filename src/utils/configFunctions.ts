@@ -10,6 +10,7 @@ import {
     RoleSelectMenuInteraction, PermissionsBitField, TextChannel, Role, ChannelType
 } from "discord.js";
 import {KhaxyClient} from "../../@types/types";
+import {handleErrors} from "./utils.js";
 
 async function registerConfig(interaction: ChatInputCommandInteraction, client: KhaxyClient) {
     const SelectMenu = client.handleLanguages("REGISTER_CONFIG_PROMPT", client, interaction.guildId!)
@@ -42,11 +43,7 @@ async function registerConfig(interaction: ChatInputCommandInteraction, client: 
             }
         }
     } catch (error) {
-        await interaction.followUp({
-            content: client.handleLanguages("REGISTER_CONFIG_EXPIRED", client, interaction.guildId!),
-            ephemeral: true
-        })
-        console.log(error)
+        await handleErrors(client, error, "configFunctions.ts", interaction)
     }
 }
 
@@ -85,11 +82,7 @@ async function registerChannel(interaction: SelectMenuInteraction, client: Khaxy
             })
         }
     } catch (error) {
-        await interaction.followUp({
-            content: client.handleLanguages("REGISTER_CHANNEL_ERROR_OR_EXPIRED", client, interaction.guildId!),
-            ephemeral: true
-        })
-        console.error(error)
+        await handleErrors(client, error, "configFunctions.ts", interaction)
     }
 }
 
@@ -168,12 +161,8 @@ async function registerMessage(interaction: SelectMenuInteraction, client: Khaxy
                     })
                 }
             }
-        } catch (e) {
-            await interaction.reply({
-                content: client.handleLanguages("REGISTER_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!),
-                ephemeral: true
-            })
-            console.log(e)
+        } catch (error) {
+            await handleErrors(client, error, "configFunctions.ts", interaction)
         }
     } else {
         const modal = client.handleLanguages("REGISTER_MESSAGE_MODAL", client, interaction.guildId!)
@@ -211,12 +200,8 @@ async function registerMessage(interaction: SelectMenuInteraction, client: Khaxy
                     console.log(e)
                 }
             }
-        } catch (e) {
-            await interaction.followUp({
-                content: client.handleLanguages("REGISTER_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!),
-                ephemeral: true
-            })
-            console.log(e)
+        } catch (error) {
+            await handleErrors(client, error, "configFunctions.ts", interaction)
         }
     }
 }
@@ -255,11 +240,7 @@ async function registerMessageChannel(interaction: SelectMenuInteraction, client
             })
         }
     } catch (error) {
-        await interaction.followUp({
-            content: client.handleLanguages("REGISTER_MESSAGE_CHANNEL_ERROR_OR_EXPIRED", client, interaction.guildId!),
-            ephemeral: true
-        })
-        console.error(error)
+        await handleErrors(client, error, "configFunctions.ts", interaction)
     }
 }
 
@@ -341,12 +322,8 @@ async function welcomeConfig(interaction: ChatInputCommandInteraction, client: K
                     break
             }
         }
-    } catch (e) {
-        await interaction.followUp({
-            content: client.handleLanguages("WELCOME_CONFIG_ERROR_OR_EXPIRED", client, interaction.guildId!),
-            ephemeral: true
-        })
-        console.log(e)
+    } catch (error) {
+        await handleErrors(client, error, "configFunctions.ts", interaction)
     }
 }
 
@@ -385,11 +362,7 @@ async function welcomeChannel(interaction: SelectMenuInteraction, client: KhaxyC
             })
         }
     } catch (error) {
-        await interaction.followUp({
-            content: client.handleLanguages("WELCOME_CHANNEL_ERROR_OR_EXPIRED", client, interaction.guildId!),
-            ephemeral: true
-        })
-        console.error(error)
+        await handleErrors(client, error, "configFunctions.ts", interaction)
     }
 }
 
@@ -435,20 +408,12 @@ async function welcomeMessage(interaction: SelectMenuInteraction, client: KhaxyC
                                 content: client.handleLanguages("WELCOME_MESSAGE_SUCCESS", client, interaction.guildId!),
                                 ephemeral: true
                             })
-                        } catch (e) {
-                            await modalcollector.followUp({
-                                content: client.handleLanguages("WELCOME_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!),
-                                ephemeral: true
-                            })
-                            console.log(e)
+                        } catch (error) {
+                            await handleErrors(client, error, "configFunctions.ts", interaction)
                         }
                     }
-                } catch (e) {
-                    await interaction.followUp({
-                        content: client.handleLanguages("WELCOME_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!),
-                        ephemeral: true
-                    })
-                    console.log(e)
+                } catch (error) {
+                    await handleErrors(client, error, "configFunctions.ts", interaction)
                 }
             } else if (collector.customId === "welcomeMessageDelete") {
                 const config = {
@@ -462,12 +427,8 @@ async function welcomeMessage(interaction: SelectMenuInteraction, client: KhaxyC
                     ephemeral: true
                 })
             }
-        } catch (e) {
-            await interaction.followUp({
-                content: client.handleLanguages("WELCOME_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!),
-                ephemeral: true
-            })
-            console.log(e)
+        } catch (error) {
+            await handleErrors(client, error, "configFunctions.ts", interaction)
         }
     } else {
         await interaction.reply(client.handleLanguages("WELCOME_MESSAGE_SETUP", client, interaction.guildId!))
@@ -495,20 +456,12 @@ async function welcomeMessage(interaction: SelectMenuInteraction, client: KhaxyC
                         content: client.handleLanguages("WELCOME_MESSAGE_SUCCESS", client, interaction.guildId!),
                         ephemeral: true
                     })
-                } catch (e) {
-                    await collector.reply({
-                        content: client.handleLanguages("WELCOME_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!),
-                        ephemeral: true
-                    })
-                    console.log(e)
+                } catch (error) {
+                    await handleErrors(client, error, "configFunctions.ts", interaction)
                 }
             }
-        } catch (e) {
-            await interaction.followUp({
-                content: client.handleLanguages("WELCOME_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!),
-                ephemeral: true
-            })
-            console.log(e)
+        } catch (error) {
+            await handleErrors(client, error, "configFunctions.ts", interaction)
         }
     }
 }
@@ -548,11 +501,7 @@ async function goodbyeChannel(interaction: SelectMenuInteraction, client: KhaxyC
             })
         }
     } catch (error) {
-        await interaction.followUp({
-            content: client.handleLanguages("GOODBYE_CHANNEL_ERROR_OR_EXPIRED", client, interaction.guildId!),
-            ephemeral: true
-        })
-        console.error(error)
+        await handleErrors(client, error, "configFunctions.ts", interaction)
     }
 }
 
@@ -599,20 +548,12 @@ async function goodbyeMessage(interaction: SelectMenuInteraction, client: KhaxyC
                                     content: client.handleLanguages("GOODBYE_MESSAGE_SUCCESS", client, interaction.guildId!),
                                     ephemeral: true
                                 })
-                            } catch (e) {
-                                await modalcollector.followUp({
-                                    content: client.handleLanguages("GOODBYE_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!),
-                                    ephemeral: true
-                                })
-                                console.log(e)
+                            } catch (error) {
+                                await handleErrors(client, error, "configFunctions.ts", interaction)
                             }
                         }
-                    } catch (e) {
-                        await interaction.followUp({
-                            content: client.handleLanguages("GOODBYE_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!),
-                            ephemeral: true
-                        })
-                        console.log(e)
+                    } catch (error) {
+                        await handleErrors(client, error, "configFunctions.ts", interaction)
                     }
                 } else if (collector2.customId === "goodByeMessageDelete") {
                     const config = {
@@ -627,12 +568,8 @@ async function goodbyeMessage(interaction: SelectMenuInteraction, client: KhaxyC
                     })
                 }
             }
-        } catch (e) {
-            await interaction.followUp({
-                content: client.handleLanguages("GOODBYE_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!),
-                ephemeral: true
-            })
-            console.log(e)
+        } catch (error) {
+            await handleErrors(client, error, "configFunctions.ts", interaction)
         }
     } else {
         await interaction.reply(client.handleLanguages("GOODBYE_MESSAGE_SETUP", client, interaction.guildId!))
@@ -660,20 +597,12 @@ async function goodbyeMessage(interaction: SelectMenuInteraction, client: KhaxyC
                         content: client.handleLanguages("GOODBYE_MESSAGE_SUCCESS", client, interaction.guildId!),
                         ephemeral: true
                     })
-                } catch (e) {
-                    await collector.reply({
-                        content: client.handleLanguages("GOODBYE_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!),
-                        ephemeral: true
-                    })
-                    console.log(e)
+                } catch (error) {
+                    await handleErrors(client, error, "configFunctions.ts", interaction)
                 }
             }
-        } catch (e) {
-            await interaction.followUp({
-                content: client.handleLanguages("GOODBYE_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId!),
-                ephemeral: true
-            })
-            console.log(e)
+        } catch (error) {
+            await handleErrors(client, error, "configFunctions.ts", interaction)
         }
     }
 }
@@ -707,12 +636,8 @@ async function moderationConfig(interaction: ChatInputCommandInteraction, client
                     await languageHandler(collector, client)
             }
         }
-    } catch (e) {
-        await interaction.followUp({
-            content: client.handleLanguages("MODERATION_CONFIG_ERROR_OR_EXPIRED", client, interaction.guildId!),
-            ephemeral: true
-        })
-        console.log(e)
+    } catch (error) {
+        await handleErrors(client, error, "configFunctions.ts", interaction)
     }
 }
 
@@ -751,11 +676,7 @@ async function modLogChannel(interaction: SelectMenuInteraction, client: KhaxyCl
             })
         }
     } catch (error) {
-        await interaction.followUp({
-            content: client.handleLanguages("MODLOG_CHANNEL_ERROR_OR_EXPIRED", client, interaction.guildId!),
-            ephemeral: true
-        })
-        console.error(error)
+        await handleErrors(client, error, "configFunctions.ts", interaction)
     }
 }
 
@@ -814,11 +735,7 @@ async function staffRole(interaction: SelectMenuInteraction, client: KhaxyClient
             })
         }
     } catch (error) {
-        await interaction.followUp({
-            content: client.handleLanguages("STAFF_ROLES_ERROR_OR_EXPIRED", client, interaction.guildId!),
-            ephemeral: true
-        })
-        console.error(error)
+        await handleErrors(client, error, "configFunctions.ts", interaction)
     }
 }
 
@@ -843,9 +760,8 @@ async function modMail(interaction: SelectMenuInteraction, client: KhaxyClient) 
                     await collector.reply({content: client.handleLanguages("MODMAIL_REJECT", client, interaction.guildId!), ephemeral: true})
                 }
             }
-        } catch (e){
-            await interaction.followUp({content: client.handleLanguages("MODMAIL_ERROR_OR_EXPIRED", client, interaction.guildId!), ephemeral: true})
-            console.error(e)
+        } catch (error){
+            await handleErrors(client, error, "configFunctions.ts", interaction)
         }
     } else {
         try {
@@ -875,9 +791,8 @@ async function modMail(interaction: SelectMenuInteraction, client: KhaxyClient) 
             }
             await client.updateGuildConfig({guildId: interaction.guild!.id, config})
             await interaction.reply({content: client.handleLanguages("MODMAIL_SUCCESS", client, interaction.guildId!), ephemeral: true})
-        } catch (e) {
-            await interaction.reply({content: client.handleLanguages("MODMAIL_ERROR_ON_CREATION", client, interaction.guildId!), ephemeral: true})
-            console.error(e)
+        } catch (error) {
+            await handleErrors(client, error, "configFunctions.ts", interaction)
         }
     }
 }
@@ -903,9 +818,8 @@ async function languageHandler(interaction: SelectMenuInteraction, client: Khaxy
             await client.updateGuildConfig({guildId: interaction.guild!.id, config})
             await collector.reply({content: client.handleLanguages("LANGUAGE_SUCCESS", client, interaction.guildId!), ephemeral: true})
         }
-    } catch (e) {
-        await interaction.followUp({content: client.handleLanguages("LANGUAGE_ERROR_OR_EXPIRED", client, interaction.guildId!), ephemeral: true})
-        console.error(e)
+    } catch (error) {
+        await handleErrors(client, error, "configFunctions.ts", interaction)
     }
 }
 
@@ -936,9 +850,8 @@ async function roleConfig(interaction: ChatInputCommandInteraction, client: Khax
                     await dayColorRole(collector, client)
             }
         }
-    } catch (e) {
-        await interaction.followUp({content: client.handleLanguages("ROLE_CONFIG_ERROR_OR_EXPIRED", client, interaction.guildId!), ephemeral: true})
-        console.log(e)
+    } catch (error) {
+        await handleErrors(client, error, "configFunctions.ts", interaction)
     }
 }
 
@@ -977,11 +890,7 @@ async function memberRole(interaction: SelectMenuInteraction, client: KhaxyClien
             })
         }
     } catch (error) {
-        await interaction.followUp({
-            content: client.handleLanguages("MEMBER_ROLE_ERROR_OR_EXPIRED", client, interaction.guildId!),
-            ephemeral: true
-        })
-        console.error(error)
+        await handleErrors(client, error, "configFunctions.ts", interaction)
     }
 }
 
@@ -1020,11 +929,7 @@ async function maleRole(interaction: SelectMenuInteraction, client: KhaxyClient)
             })
         }
     } catch (error) {
-        await interaction.followUp({
-            content: client.handleLanguages("MALE_ROLE_ERROR_OR_EXPIRED", client, interaction.guildId!),
-            ephemeral: true
-        })
-        console.error(error)
+        await handleErrors(client, error, "configFunctions.ts", interaction)
     }
 }
 
@@ -1063,10 +968,7 @@ async function femaleRole(interaction: SelectMenuInteraction, client: KhaxyClien
             })
         }
     } catch (error) {
-        await interaction.followUp({
-            content: client.handleLanguages("FEMALE_ROLE_ERROR_OR_EXPIRED", client, interaction.guildId!),
-            ephemeral: true
-        })
+        await handleErrors(client, error, "configFunctions.ts", interaction)
     }
 }
 
@@ -1105,10 +1007,7 @@ async function muteRole(interaction: SelectMenuInteraction, client: KhaxyClient)
             })
         }
     } catch (error) {
-        await interaction.followUp({
-            content: client.handleLanguages("MUTE_ROLE_ERROR_OR_EXPIRED", client, interaction.guildId!),
-            ephemeral: true
-        })
+        await handleErrors(client, error, "configFunctions.ts", interaction)
     }
 }
 
@@ -1147,10 +1046,7 @@ async function djRole(interaction: SelectMenuInteraction, client: KhaxyClient) {
             })
         }
     } catch (error) {
-        await interaction.followUp({
-            content: client.handleLanguages("DJ_ROLE_ERROR_OR_EXPIRED", client, interaction.guildId!),
-            ephemeral: true
-        })
+        await handleErrors(client, error, "configFunctions.ts", interaction)
     }
 }
 
@@ -1189,10 +1085,7 @@ async function dayColorRole(interaction: SelectMenuInteraction, client: KhaxyCli
             })
         }
     } catch (error) {
-        await interaction.followUp({
-            content: client.handleLanguages("COLOUR_OF_THE_DAY_ROLE_ERROR_OR_EXPIRED", client, interaction.guildId!),
-            ephemeral: true
-        })
+        await handleErrors(client, error, "configFunctions.ts", interaction)
     }
 }
 
@@ -1213,12 +1106,8 @@ async function miscConfig(interaction: ChatInputCommandInteraction, client: Khax
                     break
             }
         }
-    } catch (e) {
-        await interaction.followUp({
-            content: client.handleLanguages("MISC_CONFIG_ERROR_OR_EXPIRED", client, interaction.guildId!),
-            ephemeral: true
-        })
-        console.log(e)
+    } catch (error) {
+        await handleErrors(client, error, "configFunctions.ts", interaction)
     }
 }
 
@@ -1257,11 +1146,7 @@ async function bumpLeaderboardChannel(interaction: SelectMenuInteraction, client
             })
         }
     } catch (error) {
-        await interaction.followUp({
-            content: client.handleLanguages("BUMP_LEADERBOARD_CHANNEL_ERROR_OR_EXPIRED", client, interaction.guildId!),
-            ephemeral: true
-        })
-        console.error(error)
+        await handleErrors(client, error, "configFunctions.ts", interaction)
     }
 }
 export {registerConfig, welcomeConfig, moderationConfig, roleConfig, miscConfig}

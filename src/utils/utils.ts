@@ -4,10 +4,12 @@ import {
     ButtonStyle,
     ActionRowBuilder,
     ComponentType,
-    ButtonInteraction, ChatInputCommandInteraction, Snowflake, TextChannel, time, User
+    ButtonInteraction, ChatInputCommandInteraction, Snowflake, TextChannel, time, User, StringSelectMenuInteraction
 } from "discord.js";
 import {customObject, KhaxyClient} from "../../@types/types";
 import bumpLeaderboardSchema from "../schemas/bumpLeaderboardSchema.js";
+import "dotenv/config.js";
+
 const consoleColors = {
     "SUCCESS": "\u001b[32m",
     "WARNING": "\u001b[33m",
@@ -268,4 +270,41 @@ const arrayShuffle = function(array: Array<any>) {
         await channel.send({content: leaderBoardMessage});
     }
  }
-export {log, randomRange, msToTime, chunkSubstr, sleep, paginate, replaceMassString, daysToSeconds, percentageChance, bumpLeaderboard}
+async function handleErrors(client: KhaxyClient, error: Error, path: string, interaction: ChatInputCommandInteraction | StringSelectMenuInteraction | ButtonInteraction) {
+    log("ERROR", path, error.message);
+    console.error(error);
+    const channel = client.channels.cache.get(process.env.ERROR_LOG_CHANNEL as string) as TextChannel;
+    if (!channel) return;
+    if(error.message.includes("time")) {
+        if(interaction.replied) return  interaction.followUp({content: client.handleLanguages("ERROR_TIME", client, interaction.guildId!), ephemeral: true});
+        return await interaction?.reply({content: client.handleLanguages("ERROR_TIME", client, interaction.guildId!), ephemeral: true});
+    }
+    const errorEmbed = new EmbedBuilder()
+        .setTitle("Error")
+        .setDescription(`An error occurred in the path: ${path}`)
+        .addFields({
+            name: "Error",
+            value: error.message
+        }, {
+            name: "Stack Trace",
+            value: `\`\`\`${error.stack}\`\`\``
+        }, {
+            name: "Interaction",
+            value: `${interaction.isChatInputCommand() ? `Command: ${interaction.commandName}`: "Other Type of Interaction"}\nUser: ${interaction.user.toString()}`
+        })
+        .setColor("Red")
+        .setTimestamp();
+    const webhooks = await channel.fetchWebhooks()
+    let webhook = webhooks.first();
+    if (!webhook) {
+         webhook = await channel.createWebhook({
+            name: `${client.user!.username} Error Logger`,
+            avatar: client.user!.displayAvatarURL(),
+            reason: "Error Logger"
+        });
+    }
+    await webhook.send({embeds: [errorEmbed]});
+    if(interaction.replied) return interaction.followUp({content: client.handleLanguages("ERROR_MESSAGE", client, interaction.guildId!), ephemeral: true});
+    await interaction?.reply({content: client.handleLanguages("ERROR_MESSAGE", client, interaction.guildId!), ephemeral: true});
+}
+export {log, randomRange, msToTime, chunkSubstr, sleep, paginate, replaceMassString, daysToSeconds, percentageChance, bumpLeaderboard, handleErrors}

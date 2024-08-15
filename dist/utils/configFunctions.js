@@ -1,4 +1,5 @@
 import { ComponentType, PermissionsBitField, ChannelType } from "discord.js";
+import { handleErrors } from "./utils.js";
 async function registerConfig(interaction, client) {
     const SelectMenu = client.handleLanguages("REGISTER_CONFIG_PROMPT", client, interaction.guildId);
     await interaction.reply(SelectMenu);
@@ -31,11 +32,7 @@ async function registerConfig(interaction, client) {
         }
     }
     catch (error) {
-        await interaction.followUp({
-            content: client.handleLanguages("REGISTER_CONFIG_EXPIRED", client, interaction.guildId),
-            ephemeral: true
-        });
-        console.log(error);
+        await handleErrors(client, error, "configFunctions.ts", interaction);
     }
 }
 async function registerChannel(interaction, client) {
@@ -73,11 +70,7 @@ async function registerChannel(interaction, client) {
         }
     }
     catch (error) {
-        await interaction.followUp({
-            content: client.handleLanguages("REGISTER_CHANNEL_ERROR_OR_EXPIRED", client, interaction.guildId),
-            ephemeral: true
-        });
-        console.error(error);
+        await handleErrors(client, error, "configFunctions.ts", interaction);
     }
 }
 async function registerMessage(interaction, client) {
@@ -159,12 +152,8 @@ async function registerMessage(interaction, client) {
                 }
             }
         }
-        catch (e) {
-            await interaction.reply({
-                content: client.handleLanguages("REGISTER_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId),
-                ephemeral: true
-            });
-            console.log(e);
+        catch (error) {
+            await handleErrors(client, error, "configFunctions.ts", interaction);
         }
     }
     else {
@@ -204,12 +193,8 @@ async function registerMessage(interaction, client) {
                 }
             }
         }
-        catch (e) {
-            await interaction.followUp({
-                content: client.handleLanguages("REGISTER_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId),
-                ephemeral: true
-            });
-            console.log(e);
+        catch (error) {
+            await handleErrors(client, error, "configFunctions.ts", interaction);
         }
     }
 }
@@ -248,11 +233,7 @@ async function registerMessageChannel(interaction, client) {
         }
     }
     catch (error) {
-        await interaction.followUp({
-            content: client.handleLanguages("REGISTER_MESSAGE_CHANNEL_ERROR_OR_EXPIRED", client, interaction.guildId),
-            ephemeral: true
-        });
-        console.error(error);
+        await handleErrors(client, error, "configFunctions.ts", interaction);
     }
 }
 async function registerMessageClear(interaction, client) {
@@ -334,12 +315,8 @@ async function welcomeConfig(interaction, client) {
             }
         }
     }
-    catch (e) {
-        await interaction.followUp({
-            content: client.handleLanguages("WELCOME_CONFIG_ERROR_OR_EXPIRED", client, interaction.guildId),
-            ephemeral: true
-        });
-        console.log(e);
+    catch (error) {
+        await handleErrors(client, error, "configFunctions.ts", interaction);
     }
 }
 async function welcomeChannel(interaction, client) {
@@ -377,11 +354,7 @@ async function welcomeChannel(interaction, client) {
         }
     }
     catch (error) {
-        await interaction.followUp({
-            content: client.handleLanguages("WELCOME_CHANNEL_ERROR_OR_EXPIRED", client, interaction.guildId),
-            ephemeral: true
-        });
-        console.error(error);
+        await handleErrors(client, error, "configFunctions.ts", interaction);
     }
 }
 async function welcomeMessage(interaction, client) {
@@ -428,21 +401,13 @@ async function welcomeMessage(interaction, client) {
                                 ephemeral: true
                             });
                         }
-                        catch (e) {
-                            await modalcollector.followUp({
-                                content: client.handleLanguages("WELCOME_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId),
-                                ephemeral: true
-                            });
-                            console.log(e);
+                        catch (error) {
+                            await handleErrors(client, error, "configFunctions.ts", interaction);
                         }
                     }
                 }
-                catch (e) {
-                    await interaction.followUp({
-                        content: client.handleLanguages("WELCOME_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId),
-                        ephemeral: true
-                    });
-                    console.log(e);
+                catch (error) {
+                    await handleErrors(client, error, "configFunctions.ts", interaction);
                 }
             }
             else if (collector.customId === "welcomeMessageDelete") {
@@ -458,12 +423,8 @@ async function welcomeMessage(interaction, client) {
                 });
             }
         }
-        catch (e) {
-            await interaction.followUp({
-                content: client.handleLanguages("WELCOME_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId),
-                ephemeral: true
-            });
-            console.log(e);
+        catch (error) {
+            await handleErrors(client, error, "configFunctions.ts", interaction);
         }
     }
     else {
@@ -493,21 +454,13 @@ async function welcomeMessage(interaction, client) {
                         ephemeral: true
                     });
                 }
-                catch (e) {
-                    await collector.reply({
-                        content: client.handleLanguages("WELCOME_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId),
-                        ephemeral: true
-                    });
-                    console.log(e);
+                catch (error) {
+                    await handleErrors(client, error, "configFunctions.ts", interaction);
                 }
             }
         }
-        catch (e) {
-            await interaction.followUp({
-                content: client.handleLanguages("WELCOME_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId),
-                ephemeral: true
-            });
-            console.log(e);
+        catch (error) {
+            await handleErrors(client, error, "configFunctions.ts", interaction);
         }
     }
 }
@@ -546,11 +499,7 @@ async function goodbyeChannel(interaction, client) {
         }
     }
     catch (error) {
-        await interaction.followUp({
-            content: client.handleLanguages("GOODBYE_CHANNEL_ERROR_OR_EXPIRED", client, interaction.guildId),
-            ephemeral: true
-        });
-        console.error(error);
+        await handleErrors(client, error, "configFunctions.ts", interaction);
     }
 }
 async function goodbyeMessage(interaction, client) {
@@ -598,21 +547,13 @@ async function goodbyeMessage(interaction, client) {
                                     ephemeral: true
                                 });
                             }
-                            catch (e) {
-                                await modalcollector.followUp({
-                                    content: client.handleLanguages("GOODBYE_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId),
-                                    ephemeral: true
-                                });
-                                console.log(e);
+                            catch (error) {
+                                await handleErrors(client, error, "configFunctions.ts", interaction);
                             }
                         }
                     }
-                    catch (e) {
-                        await interaction.followUp({
-                            content: client.handleLanguages("GOODBYE_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId),
-                            ephemeral: true
-                        });
-                        console.log(e);
+                    catch (error) {
+                        await handleErrors(client, error, "configFunctions.ts", interaction);
                     }
                 }
                 else if (collector2.customId === "goodByeMessageDelete") {
@@ -629,12 +570,8 @@ async function goodbyeMessage(interaction, client) {
                 }
             }
         }
-        catch (e) {
-            await interaction.followUp({
-                content: client.handleLanguages("GOODBYE_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId),
-                ephemeral: true
-            });
-            console.log(e);
+        catch (error) {
+            await handleErrors(client, error, "configFunctions.ts", interaction);
         }
     }
     else {
@@ -664,21 +601,13 @@ async function goodbyeMessage(interaction, client) {
                         ephemeral: true
                     });
                 }
-                catch (e) {
-                    await collector.reply({
-                        content: client.handleLanguages("GOODBYE_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId),
-                        ephemeral: true
-                    });
-                    console.log(e);
+                catch (error) {
+                    await handleErrors(client, error, "configFunctions.ts", interaction);
                 }
             }
         }
-        catch (e) {
-            await interaction.followUp({
-                content: client.handleLanguages("GOODBYE_MESSAGE_ERROR_OR_EXPIRED", client, interaction.guildId),
-                ephemeral: true
-            });
-            console.log(e);
+        catch (error) {
+            await handleErrors(client, error, "configFunctions.ts", interaction);
         }
     }
 }
@@ -711,12 +640,8 @@ async function moderationConfig(interaction, client) {
             }
         }
     }
-    catch (e) {
-        await interaction.followUp({
-            content: client.handleLanguages("MODERATION_CONFIG_ERROR_OR_EXPIRED", client, interaction.guildId),
-            ephemeral: true
-        });
-        console.log(e);
+    catch (error) {
+        await handleErrors(client, error, "configFunctions.ts", interaction);
     }
 }
 async function modLogChannel(interaction, client) {
@@ -754,11 +679,7 @@ async function modLogChannel(interaction, client) {
         }
     }
     catch (error) {
-        await interaction.followUp({
-            content: client.handleLanguages("MODLOG_CHANNEL_ERROR_OR_EXPIRED", client, interaction.guildId),
-            ephemeral: true
-        });
-        console.error(error);
+        await handleErrors(client, error, "configFunctions.ts", interaction);
     }
 }
 async function muteGetAllRoles(interaction, client) {
@@ -815,11 +736,7 @@ async function staffRole(interaction, client) {
         }
     }
     catch (error) {
-        await interaction.followUp({
-            content: client.handleLanguages("STAFF_ROLES_ERROR_OR_EXPIRED", client, interaction.guildId),
-            ephemeral: true
-        });
-        console.error(error);
+        await handleErrors(client, error, "configFunctions.ts", interaction);
     }
 }
 async function modMail(interaction, client) {
@@ -844,9 +761,8 @@ async function modMail(interaction, client) {
                 }
             }
         }
-        catch (e) {
-            await interaction.followUp({ content: client.handleLanguages("MODMAIL_ERROR_OR_EXPIRED", client, interaction.guildId), ephemeral: true });
-            console.error(e);
+        catch (error) {
+            await handleErrors(client, error, "configFunctions.ts", interaction);
         }
     }
     else {
@@ -878,9 +794,8 @@ async function modMail(interaction, client) {
             await client.updateGuildConfig({ guildId: interaction.guild.id, config });
             await interaction.reply({ content: client.handleLanguages("MODMAIL_SUCCESS", client, interaction.guildId), ephemeral: true });
         }
-        catch (e) {
-            await interaction.reply({ content: client.handleLanguages("MODMAIL_ERROR_ON_CREATION", client, interaction.guildId), ephemeral: true });
-            console.error(e);
+        catch (error) {
+            await handleErrors(client, error, "configFunctions.ts", interaction);
         }
     }
 }
@@ -906,9 +821,8 @@ async function languageHandler(interaction, client) {
             await collector.reply({ content: client.handleLanguages("LANGUAGE_SUCCESS", client, interaction.guildId), ephemeral: true });
         }
     }
-    catch (e) {
-        await interaction.followUp({ content: client.handleLanguages("LANGUAGE_ERROR_OR_EXPIRED", client, interaction.guildId), ephemeral: true });
-        console.error(e);
+    catch (error) {
+        await handleErrors(client, error, "configFunctions.ts", interaction);
     }
 }
 async function roleConfig(interaction, client) {
@@ -939,9 +853,8 @@ async function roleConfig(interaction, client) {
             }
         }
     }
-    catch (e) {
-        await interaction.followUp({ content: client.handleLanguages("ROLE_CONFIG_ERROR_OR_EXPIRED", client, interaction.guildId), ephemeral: true });
-        console.log(e);
+    catch (error) {
+        await handleErrors(client, error, "configFunctions.ts", interaction);
     }
 }
 async function memberRole(interaction, client) {
@@ -979,11 +892,7 @@ async function memberRole(interaction, client) {
         }
     }
     catch (error) {
-        await interaction.followUp({
-            content: client.handleLanguages("MEMBER_ROLE_ERROR_OR_EXPIRED", client, interaction.guildId),
-            ephemeral: true
-        });
-        console.error(error);
+        await handleErrors(client, error, "configFunctions.ts", interaction);
     }
 }
 async function maleRole(interaction, client) {
@@ -1021,11 +930,7 @@ async function maleRole(interaction, client) {
         }
     }
     catch (error) {
-        await interaction.followUp({
-            content: client.handleLanguages("MALE_ROLE_ERROR_OR_EXPIRED", client, interaction.guildId),
-            ephemeral: true
-        });
-        console.error(error);
+        await handleErrors(client, error, "configFunctions.ts", interaction);
     }
 }
 async function femaleRole(interaction, client) {
@@ -1063,10 +968,7 @@ async function femaleRole(interaction, client) {
         }
     }
     catch (error) {
-        await interaction.followUp({
-            content: client.handleLanguages("FEMALE_ROLE_ERROR_OR_EXPIRED", client, interaction.guildId),
-            ephemeral: true
-        });
+        await handleErrors(client, error, "configFunctions.ts", interaction);
     }
 }
 async function muteRole(interaction, client) {
@@ -1104,10 +1006,7 @@ async function muteRole(interaction, client) {
         }
     }
     catch (error) {
-        await interaction.followUp({
-            content: client.handleLanguages("MUTE_ROLE_ERROR_OR_EXPIRED", client, interaction.guildId),
-            ephemeral: true
-        });
+        await handleErrors(client, error, "configFunctions.ts", interaction);
     }
 }
 async function djRole(interaction, client) {
@@ -1145,10 +1044,7 @@ async function djRole(interaction, client) {
         }
     }
     catch (error) {
-        await interaction.followUp({
-            content: client.handleLanguages("DJ_ROLE_ERROR_OR_EXPIRED", client, interaction.guildId),
-            ephemeral: true
-        });
+        await handleErrors(client, error, "configFunctions.ts", interaction);
     }
 }
 async function dayColorRole(interaction, client) {
@@ -1186,10 +1082,7 @@ async function dayColorRole(interaction, client) {
         }
     }
     catch (error) {
-        await interaction.followUp({
-            content: client.handleLanguages("COLOUR_OF_THE_DAY_ROLE_ERROR_OR_EXPIRED", client, interaction.guildId),
-            ephemeral: true
-        });
+        await handleErrors(client, error, "configFunctions.ts", interaction);
     }
 }
 async function miscConfig(interaction, client) {
@@ -1210,12 +1103,8 @@ async function miscConfig(interaction, client) {
             }
         }
     }
-    catch (e) {
-        await interaction.followUp({
-            content: client.handleLanguages("MISC_CONFIG_ERROR_OR_EXPIRED", client, interaction.guildId),
-            ephemeral: true
-        });
-        console.log(e);
+    catch (error) {
+        await handleErrors(client, error, "configFunctions.ts", interaction);
     }
 }
 async function bumpLeaderboardChannel(interaction, client) {
@@ -1253,11 +1142,7 @@ async function bumpLeaderboardChannel(interaction, client) {
         }
     }
     catch (error) {
-        await interaction.followUp({
-            content: client.handleLanguages("BUMP_LEADERBOARD_CHANNEL_ERROR_OR_EXPIRED", client, interaction.guildId),
-            ephemeral: true
-        });
-        console.error(error);
+        await handleErrors(client, error, "configFunctions.ts", interaction);
     }
 }
 export { registerConfig, welcomeConfig, moderationConfig, roleConfig, miscConfig };
