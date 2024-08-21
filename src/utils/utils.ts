@@ -250,7 +250,7 @@ const arrayShuffle = function(array: Array<any>) {
                 "{user}": lastBump.toString()
             })}`
         }
-        if(result.winner) {
+        if(result.winner?.totalBumps) {
             leaderBoardMessage += `\n\n${replaceMassString(client.handleLanguages("BUMP_LEADERBOARD_LAST_MONTH_WINNER", client, guildID), {
                 "{totalBump}": result.winner.totalBumps!.toString(),
                 "{user}": guild.members.cache.get(result.winner.user!.userID!)?.toString() || "Unknown User",
@@ -274,7 +274,7 @@ const arrayShuffle = function(array: Array<any>) {
                 "{user}": lastBump.toString()
             })}`
         }
-        if(result.winner) {
+        if(result.winner?.totalBumps) {
             leaderBoardMessage += `\n\n${replaceMassString(client.handleLanguages("BUMP_LEADERBOARD_LAST_MONTH_WINNER", client, guildID), {
                 "{totalBump}": result.winner.totalBumps!.toString(),
                 "{user}": guild.members.cache.get(result.winner.user!.userID!)?.toString() || "Unknown User",

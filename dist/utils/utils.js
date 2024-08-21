@@ -179,7 +179,7 @@ async function bumpLeaderboard(client, guildID, lastBump) {
                 "{user}": lastBump.toString()
             })}`;
         }
-        if (result.winner) {
+        if (result.winner?.totalBumps) {
             leaderBoardMessage += `\n\n${replaceMassString(client.handleLanguages("BUMP_LEADERBOARD_LAST_MONTH_WINNER", client, guildID), {
                 "{totalBump}": result.winner.totalBumps.toString(),
                 "{user}": guild.members.cache.get(result.winner.user.userID)?.toString() || "Unknown User",
@@ -201,7 +201,7 @@ async function bumpLeaderboard(client, guildID, lastBump) {
                 "{user}": lastBump.toString()
             })}`;
         }
-        if (result.winner) {
+        if (result.winner?.totalBumps) {
             leaderBoardMessage += `\n\n${replaceMassString(client.handleLanguages("BUMP_LEADERBOARD_LAST_MONTH_WINNER", client, guildID), {
                 "{totalBump}": result.winner.totalBumps.toString(),
                 "{user}": guild.members.cache.get(result.winner.user.userID)?.toString() || "Unknown User",
