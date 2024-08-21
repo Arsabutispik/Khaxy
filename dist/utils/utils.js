@@ -179,6 +179,13 @@ async function bumpLeaderboard(client, guildID, lastBump) {
                 "{user}": lastBump.toString()
             })}`;
         }
+        if (result.winner) {
+            leaderBoardMessage += `\n\n${replaceMassString(client.handleLanguages("BUMP_LEADERBOARD_LAST_MONTH_WINNER", client, guildID), {
+                "{totalBump}": result.winner.totalBumps.toString(),
+                "{user}": guild.members.cache.get(result.winner.user.userID)?.toString() || "Unknown User",
+                "{count}": result.winner.user.bumps.toString()
+            })}`;
+        }
         await message.edit({ content: leaderBoardMessage });
     }
     else if (!message) {
@@ -192,6 +199,13 @@ async function bumpLeaderboard(client, guildID, lastBump) {
             leaderBoardMessage += `\n\n${replaceMassString(client.handleLanguages("BUMP_LEADERBOARD_LAST_BUMP", client, guildID), {
                 "{time}": time(new Date(), "R"),
                 "{user}": lastBump.toString()
+            })}`;
+        }
+        if (result.winner) {
+            leaderBoardMessage += `\n\n${replaceMassString(client.handleLanguages("BUMP_LEADERBOARD_LAST_MONTH_WINNER", client, guildID), {
+                "{totalBump}": result.winner.totalBumps.toString(),
+                "{user}": guild.members.cache.get(result.winner.user.userID)?.toString() || "Unknown User",
+                "{count}": result.winner.user.bumps.toString()
             })}`;
         }
         await channel.send({ content: leaderBoardMessage });

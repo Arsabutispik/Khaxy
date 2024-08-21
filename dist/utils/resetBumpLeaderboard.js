@@ -3,10 +3,21 @@ import { bumpLeaderboard, log } from "./utils.js";
 import cronjobsSchema from "../schemas/cronjobsSchema.js";
 import { DateTime } from "luxon";
 export default async (client) => {
-    await bumpLeaderboardSchema.updateMany({}, { $unset: { users: [] } });
     const guilds = await bumpLeaderboardSchema.find();
     for (const guild of guilds) {
-        cronjobsSchema.findOneAndUpdate({ guildID: guild.guildID }, {
+        const winner = guild.users.sort((a, b) => b.bumps - a.bumps)[0];
+        const totalBumps = guild.users.reduce((acc, user) => acc + user.bumps, 0);
+        await bumpLeaderboardSchema.findOneAndUpdate({ guildID: guild.guildID }, {
+            winner: {
+                user: {
+                    userID: winner.userID,
+                    bumps: winner.bumps
+                },
+                totalBumps: totalBumps,
+            },
+            $unset: { users: [] }
+        });
+        await cronjobsSchema.findOneAndUpdate({ guildID: guild.guildID }, {
             $pull: {
                 cronjobs: {
                     name: "resetBumpLeaderboardCron"
@@ -28,7 +39,21 @@ export default async (client) => {
     }
 };
 async function specificGuildBumpLeaderboardUpdate(client, guildId) {
-    await bumpLeaderboardSchema.updateOne({ guildID: guildId }, { $unset: { users: [] } });
+    const guild = await bumpLeaderboardSchema.findOne({ guildID: guildId });
+    if (!guild)
+        return;
+    const winner = guild.users.sort((a, b) => b.bumps - a.bumps)[0];
+    const totalBumps = guild.users.reduce((acc, user) => acc + user.bumps, 0);
+    await bumpLeaderboardSchema.findOneAndUpdate({ guildID: guild.guildID }, {
+        winner: {
+            user: {
+                userID: winner.userID,
+                bumps: winner.bumps,
+            },
+            totalBumps: totalBumps,
+        },
+        $unset: { users: [] }
+    });
     cronjobsSchema.findOneAndUpdate({ guildID: guildId }, {
         $pull: {
             cronjobs: {

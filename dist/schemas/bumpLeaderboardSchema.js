@@ -7,6 +7,13 @@ const bumpLeaderboardSchema = new Schema({
     users: {
         type: Array,
         default: [],
+    },
+    winner: {
+        user: {
+            userID: String,
+            bumps: Number,
+        },
+        totalBumps: Number,
     }
 });
 export default model("bumpleaderboard", bumpLeaderboardSchema);
