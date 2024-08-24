@@ -35,7 +35,6 @@ export default async (client) => {
                 }
             });
             console.log("This should occur " + guilds.length + " times.");
-            console.log(guild);
             await role.edit({ name: `${name}${colorName}`, color: color, reason: "Role of the day!" });
             await cronjobsSchema.findOneAndUpdate({ guildID: guild.id }, {
                 $pull: {
@@ -90,7 +89,6 @@ async function specificGuildColorUpdate(client, guildId) {
                 "config.colorName": colorName
             }
         });
-        console.log("Before edit");
         await role.edit({ name: `${name}${colorName}`, color: color, reason: "Role of the day!" });
         await cronjobsSchema.findOneAndUpdate({ guildID: guild.id }, {
             $pull: {
