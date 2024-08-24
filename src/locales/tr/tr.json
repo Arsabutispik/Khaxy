@@ -47,9 +47,9 @@
   "CLOSEMAIL_LOG_CHANNEL_ERROR": "Modmail logları bulunamadığı için bir kanal oluşturulmaya çalışıldı. Ancak kanal oluşturulamadı. Lütfen modmail log kanalını düzgün ayarladığınızdan emin olun.",
   "CLOSEMAIL_LOG_MESSAGE": "{userName} tarafından {mailChannelName} maili kapatıldı. Konuşma logları yukarıda paylaşılan .txt dosyasında bulunabilir.",
   "CLOSEMAIL_NO_PERM_TO_DELETE": "Modmail kapatıldı ancak konuşma logları silinemedi. Lütfen konuşma loglarını manuel olarak silin.",
-  "CLOSEMAIL_NO_PERMS": "Bu sunucuda modmail kanalını kapatabilmek için `Sunucuyu Yönet` yetkisine ihtiyacın var.",
+  "CLOSEMAIL_NO_PERMS": "Bu sunucuda modmail kanalını kapatabilmek için `Mesajları Sil` yetkisine ihtiyacın var.",
   "CLOSEMAIL_NOT_MODMAIL": "Bu kanal bir modmail kanalı değil.",
-  "CLOSEMAIL_NOTIFY": "Modmail kapatıldı.",
+  "CLOSEMAIL_NOTIFY": "Konunuz artık kapalı! Lütfen yeni bir konu açmak için tekrar mesaj gönderin.",
   "COLOUR_OF_THE_DAY_ROLE_ERROR_OR_EXPIRED": "Bir hata oluştu veya zaman aşımına uğradı.",
   "COLOUR_OF_THE_DAY_ROLE_PROMPT": {
     "components": [
@@ -931,7 +931,7 @@
       }
     ]
   },
-  "PLAY_SEARCHING": "<a:mag_search:1015974107097083934> | **Aranıyor...**",
+  "PLAY_SEARCHING": "${searchEmoji} | **Aranıyor...**",
   "PLAY_UNABLE_TO_SPEAK": "Mhm! Mhhmhhmhm! MHHHPMHP! (Konuşma yetkim yok)",
   "PLAYER_END": {
     "embeds": [
@@ -1568,5 +1568,15 @@
   "BUMP_LEADERBOARD_LAST_MONTH_WINNER": "Geçen ayın kazananı: **{totalBump}** bump üzerinden `{count}` bump ile {user}",
   "PLAY_YOUTUBE_LINK": "YouTube'un yeni politikası gereği, YouTube bağlantılarını oynatamıyorum. İstediğiniz şarkıyı çalmak için arama komutunu kullanabilirsiniz.",
   "ERROR_TIME": "Geçerli süre içerisinde bir yanıt verilmediği için işlem iptal edildi.",
-  "ERROR_MESSAGE": "Bir hata oluştu. En kısa sürede düzeltilecektir."
+  "ERROR_MESSAGE": "Bir hata oluştu. En kısa sürede düzeltilecektir.",
+  "MOD_MAIL_THREAD_CREATED": "`Hesap Yaşı:` **{accountAge}**, `ID:` **{id}**\n`Kullanıcı İsmi:` **{username}** ({userMention}), `Sunucuya Katılma Tarihi:` **{joinDate}**\n**»»----------------------------¤----------------------------««**",
+  "REPLY_TOO_LONG": "Mesajınız 2000 karakter limitini aşmakta. Lütfen daha kısa bir mesaj gönderin. Unutmayın rol etiketlemeleri, emojiler, linkler ve diğer öğeler de karakter sınırına dahildir.",
+  "REPLY_NO_PERMISSION": "Bu komutu kullanabilmek için `Mesajları Yönet` yetkin olmalı.",
+  "REPLY_NOT_A_MAIL_CHANNEL": "Bu komut sadece mod mail kanallarında kullanılabilir.",
+  "NEWTHREAD_NO_CATEGORY": "Bu sunucuda mod mail kategorisi ayarlanmamış.",
+  "NEWTHREAD_BOT_USER": "Bir bot ile mod mail başlatamazsınız.",
+  "NEWTHREAD_SAME_USER": "Kendinizle mod mail başlatamazsınız.",
+  "NEWTHREAD_ALREADY_OPEN": "Bu kullanıcı ile zaten açık bir mod mail konusu var.",
+  "NEWTHREAD_SUCCESS": "Mod mail kanalı başarıyla açıldı.",
+  "CLOSEMAIL_LOG_CHANNEL_CREATED": "Log kanalı bulunamadığı için yeni bir log kanalı oluşturuldu."
 }

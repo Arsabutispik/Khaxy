@@ -47,9 +47,9 @@
     "CLOSEMAIL_LOG_CHANNEL_ERROR": "Since modmail logs couldn't be found, a channel was tried to be created. However, the channel couldn't be created. Please make sure you set the modmail log channel properly.",
     "CLOSEMAIL_LOG_MESSAGE": "{userName} has closed the {mailChannelName} mail. Conversation logs can be found in the .txt file shared above.",
     "CLOSEMAIL_NO_PERM_TO_DELETE": "Modmail has been closed but the conversation logs couldn't be deleted. Please delete the conversation logs manually.",
-    "CLOSEMAIL_NO_PERMS": "You need the `Manage Server` permission to close the modmail channel in this server.",
+    "CLOSEMAIL_NO_PERMS": "You need the `Delete Messages` permission to close the modmail channel in this server.",
     "CLOSEMAIL_NOT_MODMAIL": "This channel is not a modmail channel.",
-    "CLOSEMAIL_NOTIFY": "Modmail has been closed.",
+    "CLOSEMAIL_NOTIFY": "Your thread is now closed! Please message again to open a new thread.",
     "COLOUR_OF_THE_DAY_ROLE_ERROR_OR_EXPIRED": "An error occurred or the process has expired.",
     "COLOUR_OF_THE_DAY_ROLE_PROMPT": {
         "components": [
@@ -930,7 +930,7 @@
             }
         ]
     },
-    "PLAY_SEARCHING": "<a:mag_search:1015974107097083934> | **Searching...**",
+    "PLAY_SEARCHING": "{searchEmoji} | **Searching...**",
     "PLAY_UNABLE_TO_SPEAK": "Mhm! Mhhmhhmhm! MHHHPMHP! (I don't have the permission to speak)",
     "PLAYER_END": {
         "embeds": [
@@ -1568,5 +1568,15 @@
     "BUMP_LEADERBOARD_LAST_MONTH_WINNER": "Last month's winner: {user} with `{count}` bump out of **{totalBump}** bumps.",
     "PLAY_YOUTUBE_LINK": "As of YouTube's new policy, I can't play YouTube links. You can use the search command to play the song you want.",
     "ERROR_TIME": "A reply was not received in time. The process has been canceled.",
-    "ERROR_MESSAGE": "An error occurred. We will try to fix it as soon as possible."
+    "ERROR_MESSAGE": "An error occurred. We will try to fix it as soon as possible.",
+    "MOD_MAIL_THREAD_CREATED": "`Account Age:` **{accountAge}**, `ID:` **{id}**\n`Username:` **{username}** ({userMention}), `Join Date:` **{joinDate}**\n**»»----------------------------¤----------------------------««**",
+    "REPLY_TOO_LONG": "The message you want to reply with exceeds 2000 characters. Don't forget that role mentions, emojis, links, and other things can increase the character count.",
+    "REPLY_NO_PERMISSION": "You need to have the `Manage Messages` permission to use this command.",
+    "REPLY_NOT_A_MAIL_CHANNEL": "This command can only be used in ModMail channels.",
+    "NEWTHREAD_NO_CATEGORY": "The ModMail category is not set in this server.",
+    "NEWTHREAD_BOT_USER": "You can't open a ModMail thread with a bot.",
+    "NEWTHREAD_SAME_USER": "You can't open a ModMail thread with yourself.",
+    "NEWTHREAD_ALREADY_OPEN": "This user already has an open ModMail thread.",
+    "NEWTHREAD_SUCCESS": "The ModMail thread has been successfully opened.",
+    "CLOSEMAIL_LOG_CHANNEL_CREATED": "Since the ModMail log channel was not found, a new log channel has been created."
 }

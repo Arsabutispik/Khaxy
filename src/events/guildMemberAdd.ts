@@ -1,7 +1,7 @@
 import {KhaxyClient} from "../../@types/types";
 import {GuildMember, TextChannel} from "discord.js";
 import punishmentSchema from "../schemas/punishmentSchema.js";
-import {replaceMassString} from "../utils/utils.js";
+import {handleErrors, replaceMassString} from "../utils/utils.js";
 
 export default async (client: KhaxyClient, member: GuildMember) => {
     const data = client.guildsConfig.get(member.guild.id)
@@ -34,28 +34,29 @@ export default async (client: KhaxyClient, member: GuildMember) => {
             console.log(e)
         }
     }
-    const welcomeChannel = await member.guild.channels.fetch(data.config.welcomeChannel) as TextChannel
-    if (welcomeChannel && text && welcomeChannel.permissionsFor(client.user!)?.has("SendMessages")) {
-        try {
+    try {
+        const welcomeChannel = await member.guild.channels.fetch(data.config.welcomeChannel) as TextChannel
+        if (welcomeChannel && text && welcomeChannel.permissionsFor(client.user!)?.has("SendMessages")) {
             await welcomeChannel.send(text);
-        } catch (e) {
-            console.error(e)
         }
+    } catch (error) {
+        await handleErrors(client, error, 'guildMemberAdd.ts', member.guild)
     }
-    const welcomeChannel2 = member.guild.channels.cache.get(data.config.registerWelcomeChannel) as TextChannel;
-    if (welcomeChannel2 && registerText && welcomeChannel2.permissionsFor(client.user!)?.has("SendMessages")) {
-        try {
+    try {
+
+        const welcomeChannel2 = member.guild.channels.cache.get(data.config.registerWelcomeChannel) as TextChannel;
+        if (welcomeChannel2 && registerText && welcomeChannel2.permissionsFor(client.user!)?.has("SendMessages")) {
             await welcomeChannel2.send(registerText);
-        } catch (e) {
-            console.error(e)
         }
+    } catch (error) {
+        await handleErrors(client, error, 'guildMemberAdd.ts', member.guild)
     }
     if(!data.config.registerChannel) {
         if(member.guild.roles.cache.get(data.config.memberRole)){
             try {
                 await member.roles.add(data.config.memberRole);
             } catch (e) {
-                console.log(e)
+                await handleErrors(client, e, 'guildMemberAdd.ts', member.guild)
             }
         }
     }

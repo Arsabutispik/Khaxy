@@ -56,7 +56,7 @@ export default {
         if(SearchString.match(new RegExp("^((?:https?:)?\\/\\/)?((?:www|m)\\.)?(youtube(?:-nocookie)?\\.com|youtu.be)(\\/(?:[\\w\\-]+\\?v=|embed\\/|live\\/|v\\/)?)([\\w\\-]+)(\\S+)?$"))) {
             return await interaction.reply(client.handleLanguages("PLAY_YOUTUBE_LINK", client, interaction.guildId!));
         }
-        await interaction.reply(client.handleLanguages("PLAY_SEARCHING", client, interaction.guildId!));
+        await interaction.reply(client.handleLanguages("PLAY_SEARCHING", client, interaction.guildId!).replace("{searchEmoji}", client.config.Emojis.searchEmoji));
         const message = await interaction.fetchReply()
         const player = await useMainPlayer()!.play((interaction.member as GuildMember).voice.channel!, SearchString, {
             nodeOptions: {

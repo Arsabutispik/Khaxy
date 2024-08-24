@@ -29,7 +29,9 @@ const guildSchema = new Schema({
             tickets: {
                 type: Number,
                 default: 1
-            }
+            },
+            newThreadMessage: String,
+            snippets: Array
         },
         language: {
             type: String,

@@ -1,5 +1,5 @@
 import punishmentSchema from "../schemas/punishmentSchema.js";
-import { replaceMassString } from "../utils/utils.js";
+import { handleErrors, replaceMassString } from "../utils/utils.js";
 export default async (client, member) => {
     const data = client.guildsConfig.get(member.guild.id);
     if (!data)
@@ -29,23 +29,23 @@ export default async (client, member) => {
             console.log(e);
         }
     }
-    const welcomeChannel = await member.guild.channels.fetch(data.config.welcomeChannel);
-    if (welcomeChannel && text && welcomeChannel.permissionsFor(client.user)?.has("SendMessages")) {
-        try {
+    try {
+        const welcomeChannel = await member.guild.channels.fetch(data.config.welcomeChannel);
+        if (welcomeChannel && text && welcomeChannel.permissionsFor(client.user)?.has("SendMessages")) {
             await welcomeChannel.send(text);
         }
-        catch (e) {
-            console.error(e);
-        }
     }
-    const welcomeChannel2 = member.guild.channels.cache.get(data.config.registerWelcomeChannel);
-    if (welcomeChannel2 && registerText && welcomeChannel2.permissionsFor(client.user)?.has("SendMessages")) {
-        try {
+    catch (error) {
+        await handleErrors(client, error, 'guildMemberAdd.ts', member.guild);
+    }
+    try {
+        const welcomeChannel2 = member.guild.channels.cache.get(data.config.registerWelcomeChannel);
+        if (welcomeChannel2 && registerText && welcomeChannel2.permissionsFor(client.user)?.has("SendMessages")) {
             await welcomeChannel2.send(registerText);
         }
-        catch (e) {
-            console.error(e);
-        }
+    }
+    catch (error) {
+        await handleErrors(client, error, 'guildMemberAdd.ts', member.guild);
     }
     if (!data.config.registerChannel) {
         if (member.guild.roles.cache.get(data.config.memberRole)) {
@@ -53,7 +53,7 @@ export default async (client, member) => {
                 await member.roles.add(data.config.memberRole);
             }
             catch (e) {
-                console.log(e);
+                await handleErrors(client, e, 'guildMemberAdd.ts', member.guild);
             }
         }
     }

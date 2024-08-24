@@ -11,6 +11,7 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@types/humanize-duration": "^3.27.4",
     "@types/lodash": "^4.14.184",
     "@types/luxon": "^3.4.2",
     "@types/mongoose": "^5.11.97",
@@ -30,6 +31,7 @@
     "discord.js": "^14.11.0",
     "dotenv": "^16.4.5",
     "ffmpeg-static": "^5.1.0",
+    "humanize-duration": "^3.32.1",
     "i18next-resources-for-ts": "^1.5.0",
     "ip": "^2.0.1",
     "lodash": "^4.17.21",

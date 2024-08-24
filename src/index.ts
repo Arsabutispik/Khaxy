@@ -1,13 +1,12 @@
 import {ActivityType, Client, EmbedBuilder, Partials, IntentsBitField, Collection } from "discord.js";
 import {KhaxyClient} from "../@types/types";
-import {registerEvents, registerSlashCommands} from "./utils/registery.js";
+import {registerCommands, registerEvents, registerSlashCommands} from "./utils/registery.js";
 import {log, replaceMassString} from "./utils/utils.js";
 import mongoose from "mongoose";
 import checkPunishments from "./utils/checkPunishments.js";
 import { Player } from "discord-player";
 import prettyMilliseconds from "pretty-ms";
 import guildSchema from "./schemas/guildSchema.js";
-import openMails from "./schemas/openMailsSchema.js";
 import colorOfTheDay from "./utils/colorOfTheDay.js";
 import cron from "node-cron";
 import handleLanguages from "./utils/languageHandler.js";
@@ -37,11 +36,10 @@ const client = new Client({
 client.config = (await import("./botconfig.js")).default;
 const player = new Player(client);
 (async () => {
+    client.commands = new Collection();
     client.categories = new Collection();
     client.slashCommands = new Collection();
     client.guildsConfig = new Collection();
-    client.userTickets = new Collection();
-    client.ticketMessages = new Collection();
     client.handleLanguages = handleLanguages;
     try {
         mongoose.set("strictQuery", true);
@@ -76,24 +74,10 @@ client.once("ready", async () => {
     await player.extractors.loadDefault(ext => ext !== "YouTubeExtractor");
     await registerEvents(client, "../events");
     await registerSlashCommands(client, "../slashCommands");
+    await registerCommands(client, "../messageCommands");
     const guildData = await guildSchema.find();
     for(const data of guildData) {
         client.guildsConfig.set(data.guildID, data.toJSON());
-    }
-    const openMailData = await openMails.find();
-    for(const data of openMailData) {
-        const guild = client.guilds.cache.get(data.guildID);
-        if(!guild){
-            openMails.deleteOne({guildID: data.guildID});
-            continue;
-        }
-        const channel = guild.channels.cache.get(data.channelID);
-        if(!channel) {
-            openMails.deleteOne({channelID: data.channelID});
-            continue;
-        }
-        client.userTickets.set(data.userID, data.channelID);
-        client.ticketMessages.set(data.channelID, data.messages);
     }
     await checkPunishments(client);
     await recoverMissedCronJob(client);

@@ -13,6 +13,11 @@ export default {
     Spotify: {
         clientID: process.env.SPOTIFY_ID,
         clientSecret: process.env.SPOTIFY_SECRET,
+    },
+    Emojis: {
+        "searchEmoji": "<a:magnifyingGlass:1276505335145955421>",
+        "gearSpinning": "<a:gearSpinning:1276244551203557428>",
+        "mailSent": "<a:mailSent:1277019710147264542>"
     }
 };
 //# sourceMappingURL=botconfig.js.map
