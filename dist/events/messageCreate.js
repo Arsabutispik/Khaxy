@@ -4,7 +4,7 @@ import openMailsSchema from "../schemas/openMailsSchema.js";
 import { bumpLeaderboard, handleErrors, replaceMassString } from "../utils/utils.js";
 import humanizeDuration from "humanize-duration";
 import _ from "lodash";
-import * as process from "node:process";
+import * as linkify from "linkifyjs";
 export default async (client, message) => {
     if (message.channel.type === ChannelType.DM) {
         if (message.author.bot)
@@ -176,7 +176,7 @@ export default async (client, message) => {
     if (["1268315569497571458", "898703247689273344"].includes(message.channel.id)) {
         if (message.author.bot)
             return;
-        if (message.attachments.size > 0) {
+        if (message.attachments.size > 0 || linkify.find(message.content).length > 0) {
             await message.react("👍");
             return;
         }
