@@ -173,6 +173,14 @@ export default async (client, message) => {
         }
         return;
     }
+    if (["1268315569497571458", "898703247689273344"].includes(message.channel.id)) {
+        if (message.author.bot)
+            return;
+        if (message.attachments.size > 0) {
+            await message.react("👍");
+            return;
+        }
+    }
     const config = client.guildsConfig.get(message.guild.id);
     if (!config)
         return;
