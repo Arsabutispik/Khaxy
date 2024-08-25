@@ -81,6 +81,13 @@ export default {
             const userDM = await client.users.fetch(openMail!.userID);
             await userDM.send(client.handleLanguages("CLOSEMAIL_NOTIFY", client, interaction.guild!.id));
             await fs.rm("./logs", {recursive: true, force: true});
+            await client.updateGuildConfig({guildId: interaction.guildId!,
+                config: {
+                    modmail: {
+                        tickets: guildConfig.config.modmail.tickets + 1,
+                    }
+                }
+            });
         } catch (error) {
             await handleErrors(client, error, "close.ts", interaction);
         }
