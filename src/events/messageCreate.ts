@@ -265,7 +265,7 @@ export default async(client: KhaxyClient, message: Message) => {
         await message.delete();
     }
     const prefix = "!"; // You can change this to your prefix
-
+    if (!message.content.startsWith(prefix) || message.author.bot) return;
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
 
     const commandName: string = args.shift()?.toLowerCase() as string;

@@ -15,6 +15,7 @@ export default {
         if (!message.member!.permissions.has(PermissionsBitField.Flags.ManageMessages, true)) return message.channel.send({
             content: client.handleLanguages("REPLY_NO_PERMISSION", client, message.guildId!),
         });
+        if(!args.length) return message.channel.send(client.handleLanguages("REPLY_NO_MESSAGE", client, message.guildId!));
         const config = client.guildsConfig.get(message.guildId!);
         if (!config) return message.channel.send(client.handleLanguages("SERVER_HAS_NO_CONFIGURATION", client, message.guildId!))
         const lang = config.config.language;

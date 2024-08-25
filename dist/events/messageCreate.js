@@ -268,6 +268,8 @@ export default async (client, message) => {
         await message.delete();
     }
     const prefix = "!";
+    if (!message.content.startsWith(prefix) || message.author.bot)
+        return;
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const commandName = args.shift()?.toLowerCase();
     const cmd = client.commands.get(commandName);

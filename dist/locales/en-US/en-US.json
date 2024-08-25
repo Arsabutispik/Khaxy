@@ -1578,5 +1578,6 @@
     "NEWTHREAD_SAME_USER": "You can't open a ModMail thread with yourself.",
     "NEWTHREAD_ALREADY_OPEN": "This user already has an open ModMail thread.",
     "NEWTHREAD_SUCCESS": "The ModMail thread has been successfully opened.",
-    "CLOSEMAIL_LOG_CHANNEL_CREATED": "Since the ModMail log channel was not found, a new log channel has been created."
+    "CLOSEMAIL_LOG_CHANNEL_CREATED": "Since the ModMail log channel was not found, a new log channel has been created.",
+    "REPLY_NO_MESSAGE": "You need to provide a message to reply to the user."
 }

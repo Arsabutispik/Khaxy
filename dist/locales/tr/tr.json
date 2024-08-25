@@ -1578,5 +1578,6 @@
     "NEWTHREAD_SAME_USER": "Kendinizle mod mail başlatamazsınız.",
     "NEWTHREAD_ALREADY_OPEN": "Bu kullanıcı ile zaten açık bir mod mail konusu var.",
     "NEWTHREAD_SUCCESS": "Mod mail kanalı başarıyla açıldı.",
-    "CLOSEMAIL_LOG_CHANNEL_CREATED": "Log kanalı bulunamadığı için yeni bir log kanalı oluşturuldu."
+    "CLOSEMAIL_LOG_CHANNEL_CREATED": "Log kanalı bulunamadığı için yeni bir log kanalı oluşturuldu.",
+    "REPLY_NO_MESSAGE": "Bir mesaj belirtmelisiniz."
 }
