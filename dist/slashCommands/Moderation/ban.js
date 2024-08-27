@@ -2,7 +2,7 @@ import { EmbedBuilder, SlashCommandBuilder, PermissionsBitField } from "discord.
 import ms from "ms";
 import modlog from "../../utils/modlog.js";
 import Punishment from "../../schemas/punishmentSchema.js";
-import { daysToSeconds, replaceMassString } from "../../utils/utils.js";
+import { daysToSeconds, handleErrors, replaceMassString } from "../../utils/utils.js";
 export default {
     help: {
         name: "ban",
@@ -157,7 +157,13 @@ export default {
                 if (lang === "tr") {
                     longduration = longduration.replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün");
                 }
-                await targetMember.ban({ reason: reason });
+                try {
+                    await targetMember.ban({ reason, deleteMessageSeconds: daysToSeconds(7) });
+                }
+                catch (error) {
+                    await handleErrors(client, error, 'ban.ts', interaction);
+                    return;
+                }
                 try {
                     await targetMember.send(replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("BAN_USER_DURATION_DM", client, interaction.guild.id))), {
                         "{guild_name}": interaction.guild.name,
@@ -181,7 +187,6 @@ export default {
                         "{confirm}": client.config.Emojis.confirm
                     }));
                 }
-                await targetMember.ban({ reason, deleteMessageSeconds: daysToSeconds(7) });
                 if (interaction.guild.channels.cache.get(data.config.modlogChannel)) {
                     try {
                         await modlog({
@@ -200,6 +205,13 @@ export default {
                 await new Punishment({ guildID: interaction.guild.id, userId: targetMember.id, staffId: interaction.user.id, reason, expires: new Date(Date.now() + duration), type: "ban" }).save();
             }
             else {
+                try {
+                    await targetMember.ban({ reason, deleteMessageSeconds: daysToSeconds(7) });
+                }
+                catch (error) {
+                    await handleErrors(client, error, 'ban.ts', interaction);
+                    return;
+                }
                 try {
                     await targetMember.send(replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("BAN_USER_DM", client, interaction.guild.id))), {
                         "{guild_name}": interaction.guild.name,
@@ -232,7 +244,6 @@ export default {
                         await interaction.followUp({ content: client.handleLanguages("NO_PERMISSION_MODLOG", client, interaction.guild.id), ephemeral: true });
                     }
                 }
-                await targetMember.ban({ reason });
             }
         }
         else if (subCommand === "force") {
@@ -294,7 +305,10 @@ export default {
                     "{case}": data.case.toString(),
                     "{confirm}": client.config.Emojis.confirm
                 }));
-                await interaction.guild.bans.create(fetchUser.id);
+                await interaction.guild.bans.create(fetchUser.id, {
+                    reason,
+                    deleteMessageSeconds: daysToSeconds(7)
+                });
                 if (interaction.guild.channels.cache.get(data.config.modlogChannel)) {
                     try {
                         await modlog({
