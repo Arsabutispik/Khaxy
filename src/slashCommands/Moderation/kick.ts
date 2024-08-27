@@ -1,7 +1,7 @@
 import {slashCommandBase} from "../../../@types/types";
 import {GuildMember, PermissionsBitField, SlashCommandBuilder} from "discord.js";
 import modlog from "../../utils/modlog.js";
-import {daysToSeconds, log, replaceMassString} from "../../utils/utils.js";
+import {daysToSeconds, handleErrors, replaceMassString} from "../../utils/utils.js";
 
 export default {
     help: {
@@ -82,12 +82,14 @@ export default {
             })!)
             await interaction.reply(replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("KICK_MESSAGE", client, interaction.guildId!))), {
                 "{targetMember_username}": targetMember.user.username,
-                "{case}": data.case.toString()
+                "{case}": data.case.toString(),
+                "{confirm}": client.config.Emojis.confirm
             })!)
         } catch {
             await interaction.reply(replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("KICK_MESSAGE_FAIL", client, interaction.guildId!))), {
                 "{targetMember_username}": targetMember.user.username,
-                "{case}": data.case.toString()
+                "{case}": data.case.toString(),
+                "{confirm}": client.config.Emojis.confirm
             })!)
         }
         if(interaction.guild!.channels.cache.get(data.config.modlogChannel)) {
@@ -99,29 +101,20 @@ export default {
                     actionmaker: interaction.user,
                     reason
                 }, client)
-            } catch {
-                await interaction.followUp({content: client.handleLanguages("KICK_MODLOG_FAIL", client, interaction.guildId!), ephemeral: true})
+            } catch (error){
+                await handleErrors(client, error, "kick.ts", interaction)
             }
         }
         try {
             if (clear) {
                 await targetMember.ban({reason: `Softban - ${reason}`, deleteMessageSeconds: daysToSeconds(7)})
                 await interaction.guild!.bans.remove(targetMember.user, "softban")
-                await interaction.reply({
-                    content: client.handleLanguages("KICK_CLEAR_SUCCESS", client, interaction.guildId!),
-                    ephemeral: true
-                })
+
             } else {
                 await targetMember.kick(reason)
-                await interaction.reply({
-                    content: client.handleLanguages("KICK_SUCCES", client, interaction.guildId!),
-                    ephemeral: true
-                })
             }
         } catch (e) {
-            await interaction.reply({content: client.handleLanguages("KICK_FAIL", client, interaction.guildId!), ephemeral: true})
-            log("ERROR", `${__filename}`, `An error occurred while kicking a user details below:\n`)
-            console.error(e)
+            await handleErrors(client, e, "kick.ts", interaction)
         }
     }
 } as slashCommandBase

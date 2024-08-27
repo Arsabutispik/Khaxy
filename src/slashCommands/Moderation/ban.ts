@@ -181,7 +181,8 @@ export default {
                             "{targetMember_username}": targetMember.user.tag,
                             "{duration}": longduration,
                             "{reason}": reason,
-                            "{case}": data.case.toString()
+                            "{case}": data.case.toString(),
+                            "{confirm}": client.config.Emojis.confirm
                         }
                     )!)
                 } catch {
@@ -190,7 +191,8 @@ export default {
                             "{targetMember_username}": targetMember.user.tag,
                             "{duration}": longduration,
                             "{reason}": reason,
-                            "{case}": data.case.toString()
+                            "{case}": data.case.toString(),
+                            "{confirm}": client.config.Emojis.confirm
                         }
                     )!)
                 }
@@ -223,6 +225,7 @@ export default {
                         {
                             "{targetMember_username}": targetMember.user.tag,
                             "{case}": data.case.toString(),
+                            "{confirm}": client.config.Emojis.confirm
                         }
                     )!)
                 } catch {
@@ -230,6 +233,7 @@ export default {
                         {
                             "{targetMember_username}": targetMember.user.tag,
                             "{case}": data.case.toString(),
+                            "{confirm}": client.config.Emojis.confirm
                         }
                     )!)
                 }
@@ -275,10 +279,12 @@ export default {
                     longduration = longduration.replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün")
                 }
                 const reason = interaction.options.getString("reason", false) || client.handleLanguages("BAN_NO_REASON", client, interaction.guild!.id)
-                await interaction.reply(replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("BAN_USER_DURATION_MESSAGE", client, interaction.guild!.id))),
+                await interaction.reply(replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("BAN_FORCE_DURATION_MESSAGE", client, interaction.guild!.id))),
                     {
                         "{targetMember_username}": fetchUser.tag,
-                        "{duration}": longduration
+                        "{duration}": longduration,
+                        "{confirm}": client.config.Emojis.confirm,
+                        "{case}": data.case.toString()
                     }
                 )!)
                 await interaction.guild!.bans.create(fetchUser.id)
@@ -304,6 +310,7 @@ export default {
                     {
                         "{targetMember_username}": fetchUser.tag,
                         "{case}": data.case.toString(),
+                        "{confirm}": client.config.Emojis.confirm
                     }
                 )!)
                 await interaction.guild!.bans.create(fetchUser.id)

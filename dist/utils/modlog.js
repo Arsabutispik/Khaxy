@@ -28,7 +28,8 @@ export default async (data, client) => {
             "{user_id}": user.id,
             "{actionmaker_username}": actionmaker.username,
             "{actionmaker_id}": actionmaker.id,
-            "{reason}": reason
+            "{reason}": reason,
+            "{ban}": client.config.Emojis.ban
         });
     }
     else if (action === "KICK") {
@@ -45,7 +46,8 @@ export default async (data, client) => {
             "{user_id}": user.id,
             "{actionmaker_username}": actionmaker.username,
             "{actionmaker_id}": actionmaker.id,
-            "{reason}": reason
+            "{reason}": reason,
+            "{forceban}": client.config.Emojis.forceban
         });
     }
     else if (action === "MUTE") {
@@ -73,7 +75,8 @@ export default async (data, client) => {
             "{actionmaker_username}": actionmaker.username,
             "{actionmaker_id}": actionmaker.id,
             "{reason}": reason,
-            "{amount}": amount
+            "{amount}": amount,
+            "{ban}": client.config.Emojis.ban
         });
     }
     else if (action === "BAN_REMOVE") {

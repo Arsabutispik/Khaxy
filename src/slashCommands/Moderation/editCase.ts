@@ -3,7 +3,7 @@ import {
     EmbedBuilder,
     MessageComponentInteraction,
     Message,
-    SlashCommandBuilder, ComponentType, PermissionsBitField, GuildMember
+    SlashCommandBuilder, ComponentType, PermissionsBitField, GuildMember, ActionRowBuilder, ButtonBuilder, ButtonStyle
 } from "discord.js";
 import modlog from "../../utils/modlog.js";
 import {replaceMassString} from "../../utils/utils.js";
@@ -67,6 +67,16 @@ export default {
             await interaction.reply({embeds: [embed], ephemeral: true})
             return
         }
+        const acceptButton = new ButtonBuilder()
+            .setCustomId("accept")
+            .setEmoji(client.config.Emojis.confirm)
+            .setStyle(ButtonStyle.Success)
+        const rejectedButton = new ButtonBuilder()
+            .setCustomId("reject")
+            .setEmoji(client.config.Emojis.reject)
+            .setStyle(ButtonStyle.Danger)
+        const row = new ActionRowBuilder()
+            .addComponents(acceptButton, rejectedButton)
         const editCaseMessage = JSON.parse(JSON.stringify(client.handleLanguages("EDITCASE_MESSAGE", client, interaction.guildId!)));
         for (const embeds of editCaseMessage.embeds) {
             let x=Math.round(0xffffff * Math.random()).toString(16);
@@ -74,6 +84,10 @@ export default {
             let z="000000";
             let z1 = z.substring(0,y);
             embeds.color = Number(`0x${z1 + x}`)
+            embeds.description = replaceMassString(embeds.description,{
+                "{confirm}": client.config.Emojis.confirm,
+                "{reject}": client.config.Emojis.reject,
+            })
             for (const values of embeds.fields) {
                 values.value = replaceMassString(values.value,
                     {
@@ -83,7 +97,7 @@ export default {
                 Object.assign(embeds.fields, values)
             }
         }
-        await interaction.reply(editCaseMessage)
+        await interaction.reply({...editCaseMessage, components: [row]})
         const embed = new EmbedBuilder(editCaseMessage.embeds[0]);
         const msg = await interaction.fetchReply() as Message;
         const filter = (m: MessageComponentInteraction) => (m.customId === "reject" || m.customId === "accept") && (m.user.id === interaction.user.id)

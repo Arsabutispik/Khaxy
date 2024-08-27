@@ -3,7 +3,7 @@ import ms from "ms";
 import Punishment from "../../schemas/punishmentSchema.js";
 import modlog from "../../utils/modlog.js";
 import {slashCommandBase} from "../../../@types/types";
-import {replaceMassString} from "../../utils/utils.js";
+import {handleErrors, replaceMassString} from "../../utils/utils.js";
 
 export default {
     help: {
@@ -146,12 +146,14 @@ export default {
             })!)
             await interaction.reply(replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("MUTE_MESSAGE", client, interaction.guildId!))), {
                 "{targetMember_username}": targetMember.user.username,
-                "{case}": data.case.toString()
+                "{case}": data.case.toString(),
+                "{confirm}": client.config.Emojis.confirm
             })!)
         } catch {
             await interaction.reply(replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("MUTE_MESSAGE_FAIL", client, interaction.guildId!))), {
                 "{targetMember_username}": targetMember.user.username,
-                "{case}": data.case.toString()
+                "{case}": data.case.toString(),
+                "{confirm}": client.config.Emojis.confirm
             })!)
         }
         if(data.config.muteGetAllRoles) {
@@ -173,8 +175,8 @@ export default {
                     reason,
                     duration
                 }, client)
-            } catch {
-                await interaction.followUp({content: client.handleLanguages("MUTE_MODLOG_FAIL", client, interaction.guildId!), ephemeral: true})
+            } catch (error) {
+                await handleErrors(client, error, "mute.ts", interaction)
             }
         }
     }

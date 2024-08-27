@@ -168,7 +168,8 @@ export default {
                         "{targetMember_username}": targetMember.user.tag,
                         "{duration}": longduration,
                         "{reason}": reason,
-                        "{case}": data.case.toString()
+                        "{case}": data.case.toString(),
+                        "{confirm}": client.config.Emojis.confirm
                     }));
                 }
                 catch {
@@ -176,7 +177,8 @@ export default {
                         "{targetMember_username}": targetMember.user.tag,
                         "{duration}": longduration,
                         "{reason}": reason,
-                        "{case}": data.case.toString()
+                        "{case}": data.case.toString(),
+                        "{confirm}": client.config.Emojis.confirm
                     }));
                 }
                 await targetMember.ban({ reason, deleteMessageSeconds: daysToSeconds(7) });
@@ -206,12 +208,14 @@ export default {
                     await interaction.channel.send(replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("BAN_USER_MESSAGE", client, interaction.guild.id))), {
                         "{targetMember_username}": targetMember.user.tag,
                         "{case}": data.case.toString(),
+                        "{confirm}": client.config.Emojis.confirm
                     }));
                 }
                 catch {
                     await interaction.channel.send(replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("BAN_USER_MESSAGE_FAIL", client, interaction.guild.id))), {
                         "{targetMember_username}": targetMember.user.tag,
                         "{case}": data.case.toString(),
+                        "{confirm}": client.config.Emojis.confirm
                     }));
                 }
                 if (interaction.guild.channels.cache.get(data.config.modlogChannel)) {
@@ -259,9 +263,11 @@ export default {
                     longduration = longduration.replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün");
                 }
                 const reason = interaction.options.getString("reason", false) || client.handleLanguages("BAN_NO_REASON", client, interaction.guild.id);
-                await interaction.reply(replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("BAN_USER_DURATION_MESSAGE", client, interaction.guild.id))), {
+                await interaction.reply(replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("BAN_FORCE_DURATION_MESSAGE", client, interaction.guild.id))), {
                     "{targetMember_username}": fetchUser.tag,
-                    "{duration}": longduration
+                    "{duration}": longduration,
+                    "{confirm}": client.config.Emojis.confirm,
+                    "{case}": data.case.toString()
                 }));
                 await interaction.guild.bans.create(fetchUser.id);
                 if (interaction.guild.channels.cache.get(data.config.modlogChannel)) {
@@ -286,6 +292,7 @@ export default {
                 await interaction.channel.send(replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("BAN_FORCE_MESSAGE", client, interaction.guild.id))), {
                     "{targetMember_username}": fetchUser.tag,
                     "{case}": data.case.toString(),
+                    "{confirm}": client.config.Emojis.confirm
                 }));
                 await interaction.guild.bans.create(fetchUser.id);
                 if (interaction.guild.channels.cache.get(data.config.modlogChannel)) {

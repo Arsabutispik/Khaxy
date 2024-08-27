@@ -29,7 +29,8 @@ export default async(data: {guild: Guild, user: User, action: actions, actionmak
             "{user_id}": user.id,
             "{actionmaker_username}": actionmaker.username,
             "{actionmaker_id}": actionmaker.id,
-            "{reason}": reason
+            "{reason}": reason,
+            "{ban}": client.config.Emojis.ban
         })
     } else if(action === "KICK") {
         message += replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("MODLOG_KICK", client, guild.id))), {
@@ -44,7 +45,8 @@ export default async(data: {guild: Guild, user: User, action: actions, actionmak
             "{user_id}": user.id,
             "{actionmaker_username}": actionmaker.username,
             "{actionmaker_id}": actionmaker.id,
-            "{reason}": reason
+            "{reason}": reason,
+            "{forceban}": client.config.Emojis.forceban
         })
     } else if(action === "MUTE"){
         let amount = ms(duration!, {long: true})
@@ -70,7 +72,8 @@ export default async(data: {guild: Guild, user: User, action: actions, actionmak
             "{actionmaker_username}": actionmaker.username,
             "{actionmaker_id}": actionmaker.id,
             "{reason}": reason,
-            "{amount}": amount
+            "{amount}": amount,
+            "{ban}": client.config.Emojis.ban
         })
     } else if(action === "BAN_REMOVE"){
         message += replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("MODLOG_UNBAN", client, guild.id))), {

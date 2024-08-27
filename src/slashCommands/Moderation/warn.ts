@@ -91,7 +91,8 @@ export default {
         try{
             await member.send(replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("WARN_USER_DM", client, interaction.guildId!))), {
                 "{guild_name}": interaction.guild!.name,
-                "{reason}": reason
+                "{reason}": reason,
+                "{confirm}": client.config.Emojis.confirm
             })!)
             await interaction.reply(replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("WARN_SUCCESS", client, interaction.guildId!))), {
                 "{user}": member.user.username,
@@ -100,7 +101,8 @@ export default {
         }catch{
             await interaction.reply(replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("WARN_USER_CANNOT_DM", client, interaction.guildId!))), {
                 "{user}": member.user.username,
-                "{case}": data.case.toString()
+                "{case}": data.case.toString(),
+                "{confirm}": client.config.Emojis.confirm
             })!)
         }
         if(interaction.guild!.channels.cache.get(data.config.modlogChannel)) {

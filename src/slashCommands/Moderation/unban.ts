@@ -1,7 +1,7 @@
 import {EmbedBuilder, SlashCommandBuilder, PermissionsBitField, GuildMember} from "discord.js";
 import {slashCommandBase} from "../../../@types/types";
 import modlog from "../../utils/modlog.js";
-import {replaceMassString} from "../../utils/utils.js";
+import {handleErrors, replaceMassString} from "../../utils/utils.js";
 
 export default {
     help: {
@@ -39,16 +39,21 @@ export default {
                 "tr": "Kullanıcının yasağının kaldırılma sebebi"
             })),
     execute: async ({interaction, client}) => {
+        if(!(interaction.member as GuildMember).permissions.has(PermissionsBitField.Flags.BanMembers)) {
+            await interaction.reply({content: client.handleLanguages("UNBAN_USER_NOT_ENOUGH_PERMISSIONS", client, interaction.guildId!), ephemeral: true});
+            return
+        }
         if(!interaction.guild!.members.me!.permissions.has(PermissionsBitField.Flags.BanMembers)) {
             await interaction.reply({content: client.handleLanguages("UNBAN_NO_APP_PERMISSON", client, interaction.guildId!), ephemeral: true})
             return
         }
+
         const id = interaction.options.getString("id", true);
         const reason = interaction.options.getString("reason", false) || client.handleLanguages("UNBAN_NO_REASON", client, interaction.guildId!);
         const banned = await interaction.guild!.bans.fetch();
         const user = banned.get(id);
         const data = client.guildsConfig.get(interaction.guild!.id)!;
-        if(!(interaction.member as GuildMember).permissions.has(PermissionsBitField.Flags.BanMembers)) return interaction.reply({content: client.handleLanguages("UNBAN_USER_NOT_ENOUGH_PERMISSIONS", client, interaction.guildId!), ephemeral: true});
+
         if(!user){
             const embed = new EmbedBuilder()
                 .setAuthor({name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL()})
@@ -58,6 +63,13 @@ export default {
             return
         }
         await interaction.guild!.members.unban(user.user, reason);
+        const embed = new EmbedBuilder()
+            .setAuthor({name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL()})
+            .setColor("Green")
+            .setDescription(replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("UNBAN_SUCCESS", client, interaction.guildId!))), {
+                "{user_username}": user.user.username,
+            }))
+        await interaction.reply({embeds: [embed]})
         if(interaction.guild!.channels.cache.get(data.config.modlogChannel)){
             try {
                 await modlog({
@@ -67,16 +79,9 @@ export default {
                     reason,
                     action: "BAN_REMOVE"
                 }, client)
-            } catch {
-                await interaction.followUp({content: client.handleLanguages("UNBAN_MODLOG_FAIL", client, interaction.guildId!), ephemeral: true})
+            } catch (error) {
+                await handleErrors(client, error, "unban.ts", interaction)
             }
         }
-        const embed = new EmbedBuilder()
-            .setAuthor({name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL()})
-            .setColor("Green")
-            .setDescription(replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("UNBAN_SUCCESS", client, interaction.guildId!))), {
-                "{user_username}": user.user.username,
-            }))
-        await interaction.reply({embeds: [embed]})
     }
 } as slashCommandBase

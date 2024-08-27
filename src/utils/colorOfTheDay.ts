@@ -6,7 +6,6 @@ import cronjobsSchema from "../schemas/cronjobsSchema.js";
 import {DateTime} from "luxon";
 export default async (client: KhaxyClient) => {
     const guilds = await guildSchema.find()
-    console.log("This should only occur once.")
     for(const guildConfig of guilds) {
         const guild = client.guilds.cache.get(guildConfig.guildID);
         if(!guild) continue
@@ -30,7 +29,6 @@ export default async (client: KhaxyClient) => {
                     "config.colorName": colorName
                 }
             })
-            console.log("This should occur " + guilds.length + " times.")
             await role.edit({name: `${name}${colorName}`, color: color, reason: "Role of the day!"})
             await cronjobsSchema.findOneAndUpdate({guildID: guild.id}, {
                 $pull: {

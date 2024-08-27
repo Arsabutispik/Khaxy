@@ -76,10 +76,10 @@ export default {
                         for (const values of embeds.fields ) {
                             values.value = replaceMassString(values.value, {
                                 "{registerChannel}": guildConfig.config.registerChannel ? `<#${guildConfig.config.registerChannel}>` : "N/A",
-                                "{registerMessage}": guildConfig.config.registerMessage ? "<a:checkmark:1017704018287546388>" : "<a:wrong:1197091816282001468>",
+                                "{registerMessage}": guildConfig.config.registerMessage ? client.config.Emojis.confirm : client.config.Emojis.reject,
                                 "{registerWelcomeChannel}": guildConfig.config.registerWelcomeChannel ? `<#${guildConfig.config.registerWelcomeChannel}>` : "N/A",
-                                "{registerChannelClear}": guildConfig.config.registerChannelClear ? "<a:checkmark:1017704018287546388>" : "<a:wrong:1197091816282001468>",
-                                "{registerMessageClear}": guildConfig.config.registerMessageClear ? "<a:checkmark:1017704018287546388>" : "<a:wrong:1197091816282001468>"
+                                "{registerChannelClear}": guildConfig.config.registerChannelClear ? client.config.Emojis.confirm : client.config.Emojis.reject,
+                                "{registerMessageClear}": guildConfig.config.registerMessageClear ? client.config.Emojis.confirm : client.config.Emojis.reject,
                             })!
                             Object.assign(embeds.fields, values)
                         }
@@ -95,9 +95,9 @@ export default {
                         embeds.color = Number(`0x${z1 + x}`)
                         for (const values of embeds.fields) {
                             values.value = replaceMassString(values.value, {
-                                "{welcomeMessage}": guildConfig.config.welcomeMessage ? "<a:checkmark:1017704018287546388>" : "<a:wrong:1197091816282001468>",
+                                "{welcomeMessage}": guildConfig.config.welcomeMessage ? client.config.Emojis.confirm : client.config.Emojis.reject,
                                 "{welcomeChannel}": guildConfig.config.welcomeChannel ? `<#${guildConfig.config.welcomeChannel}>` : "N/A",
-                                "{leaveMessage}": guildConfig.config.leaveMessage ? "<a:checkmark:1017704018287546388>" : "<a:wrong:1197091816282001468>",
+                                "{leaveMessage}": guildConfig.config.leaveMessage ? client.config.Emojis.confirm : client.config.Emojis.reject,
                                 "{leaveChannel}": guildConfig.config.leaveChannel ? `<#${guildConfig.config.leaveChannel}>` : "N/A"
                             })!
                             Object.assign(embeds.fields, values)
@@ -115,7 +115,7 @@ export default {
                         for (const values of embeds.fields) {
                             values.value = replaceMassString(values.value, {
                                 "{modlogChannel}": guildConfig.config.modlogChannel ? `<#${guildConfig.config.modlogChannel}>` : "N/A",
-                                "{muteGetAllRoles}": guildConfig.config.muteGetAllRoles ? "<a:checkmark:1017704018287546388>" : "<a:wrong:1197091816282001468>",
+                                "{muteGetAllRoles}": guildConfig.config.muteGetAllRoles ? client.config.Emojis.confirm : client.config.Emojis.reject,
                                 "{staffRole}": guildConfig.config.staffRole.length > 0 ? guildConfig.config.staffRole.map(x => `<@&${x}>`).join(", ") : "N/A",
                                 "{modmailChannel}": guildConfig.config.modmail.logChannel ? `<#${guildConfig.config.modmail.logChannel}>` : "N/A",
                                 "{language}": language[guildConfig.config.language]
