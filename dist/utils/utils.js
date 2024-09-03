@@ -218,6 +218,12 @@ async function handleErrors(client, error, path, interaction) {
     if (!channel)
         return;
     if (interaction instanceof Message) {
+        if (error.message.includes("time")) {
+            await interaction.reply({
+                content: client.handleLanguages("ERROR_TIME", client, interaction.guildId)
+            });
+            return;
+        }
         const errorEmbed = new EmbedBuilder()
             .setTitle("Error")
             .setDescription(`An error occurred in the path: ${path}`)
