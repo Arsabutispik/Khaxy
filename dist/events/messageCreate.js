@@ -64,7 +64,7 @@ export default async (client, message) => {
                 await message.author.send("Your message is too long. Keep it under 2000 characters. Remember, your username will be added to the message.");
                 return;
             }
-            const commonGuilds = client.guilds.cache.filter(async (guild) => await guild.members.fetch(message.author.id) && client.guildsConfig.get(guild.id)?.config.modmail);
+            const commonGuilds = client.guilds.cache.filter(async (guild) => guild.members.cache.has(message.author.id) && client.guildsConfig.get(guild.id)?.config.modmail);
             if (commonGuilds.size === 0)
                 return;
             const stringSelection = new StringSelectMenuBuilder()
