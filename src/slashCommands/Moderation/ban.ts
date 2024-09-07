@@ -125,7 +125,7 @@ export default {
         const lang = data.config.language || "english";
         const subCommand = interaction.options.getSubcommand(true);
         if(!(interaction.member as GuildMember).permissions.has(PermissionsBitField.Flags.BanMembers)) return interaction.reply({content: client.handleLanguages("BAN_USER_MISSING_PERMS", client, interaction.guild!.id), ephemeral: true});
-        if(subCommand ===  "üye"){
+        if(subCommand ===  "member"){
             const user = interaction.options.getUser("member");
             let targetMember: GuildMember;
             try{
@@ -168,12 +168,6 @@ export default {
                 if(lang === "tr") {
                     longduration = longduration.replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün")
                 }
-                try {
-                    await targetMember.ban({reason, deleteMessageSeconds: daysToSeconds(7)})
-                } catch (error) {
-                    await handleErrors(client, error, 'ban.ts', interaction)
-                    return
-                }
                 try{
                     await targetMember.send(replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("BAN_USER_DURATION_DM", client, interaction.guild!.id))),
                         {
@@ -201,6 +195,12 @@ export default {
                         }
                     )!)
                 }
+                try {
+                    await targetMember.ban({reason, deleteMessageSeconds: daysToSeconds(7)})
+                } catch (error) {
+                    await handleErrors(client, error, 'ban.ts', interaction)
+                    return
+                }
                 if(interaction.guild!.channels.cache.get(data.config.modlogChannel)) {
                     try {
                         await modlog({
@@ -218,12 +218,6 @@ export default {
                 await new Punishment({guildID: interaction.guild!.id, userId: targetMember.id, staffId: interaction.user.id, reason, expires: new Date(Date.now() + duration), type: "ban"}).save()
 
             } else {
-                try {
-                    await targetMember.ban({reason, deleteMessageSeconds: daysToSeconds(7)})
-                } catch (error) {
-                    await handleErrors(client, error, 'ban.ts', interaction)
-                    return
-                }
                 try{
                     await targetMember.send(replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("BAN_USER_DM", client, interaction.guild!.id))),
                         {
@@ -246,6 +240,12 @@ export default {
                             "{confirm}": client.config.Emojis.confirm
                         }
                     )!)
+                }
+                try {
+                    await targetMember.ban({reason, deleteMessageSeconds: daysToSeconds(7)})
+                } catch (error) {
+                    await handleErrors(client, error, 'ban.ts', interaction)
+                    return
                 }
                 if(interaction.guild!.channels.cache.get(data.config.modlogChannel)) {
                     try {

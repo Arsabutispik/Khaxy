@@ -112,7 +112,7 @@ export default {
         const subCommand = interaction.options.getSubcommand(true);
         if (!interaction.member.permissions.has(PermissionsBitField.Flags.BanMembers))
             return interaction.reply({ content: client.handleLanguages("BAN_USER_MISSING_PERMS", client, interaction.guild.id), ephemeral: true });
-        if (subCommand === "üye") {
+        if (subCommand === "member") {
             const user = interaction.options.getUser("member");
             let targetMember;
             try {
@@ -158,13 +158,6 @@ export default {
                     longduration = longduration.replace(/minutes|minute/, "dakika").replace(/hours|hour/, "saat").replace(/days|day/, "gün");
                 }
                 try {
-                    await targetMember.ban({ reason, deleteMessageSeconds: daysToSeconds(7) });
-                }
-                catch (error) {
-                    await handleErrors(client, error, 'ban.ts', interaction);
-                    return;
-                }
-                try {
                     await targetMember.send(replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("BAN_USER_DURATION_DM", client, interaction.guild.id))), {
                         "{guild_name}": interaction.guild.name,
                         "{duration}": longduration,
@@ -187,6 +180,13 @@ export default {
                         "{confirm}": client.config.Emojis.confirm
                     }));
                 }
+                try {
+                    await targetMember.ban({ reason, deleteMessageSeconds: daysToSeconds(7) });
+                }
+                catch (error) {
+                    await handleErrors(client, error, 'ban.ts', interaction);
+                    return;
+                }
                 if (interaction.guild.channels.cache.get(data.config.modlogChannel)) {
                     try {
                         await modlog({
@@ -206,13 +206,6 @@ export default {
             }
             else {
                 try {
-                    await targetMember.ban({ reason, deleteMessageSeconds: daysToSeconds(7) });
-                }
-                catch (error) {
-                    await handleErrors(client, error, 'ban.ts', interaction);
-                    return;
-                }
-                try {
                     await targetMember.send(replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("BAN_USER_DM", client, interaction.guild.id))), {
                         "{guild_name}": interaction.guild.name,
                         "{reason}": reason
@@ -229,6 +222,13 @@ export default {
                         "{case}": data.case.toString(),
                         "{confirm}": client.config.Emojis.confirm
                     }));
+                }
+                try {
+                    await targetMember.ban({ reason, deleteMessageSeconds: daysToSeconds(7) });
+                }
+                catch (error) {
+                    await handleErrors(client, error, 'ban.ts', interaction);
+                    return;
                 }
                 if (interaction.guild.channels.cache.get(data.config.modlogChannel)) {
                     try {
