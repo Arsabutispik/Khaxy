@@ -1,5 +1,5 @@
 import { PermissionsBitField, SlashCommandBuilder } from "discord.js";
-import { handleErrors } from "../../utils/utils";
+import { handleErrors } from "../../utils/utils.js";
 export default {
   data: new SlashCommandBuilder()
     .setName("snippets")
