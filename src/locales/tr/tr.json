@@ -574,90 +574,9 @@
     "content": "Bu sunucu için bir modmail ayarlanmamış.",
     "ephemeral": true
   },
-  "MAIL_FOLLOWUP_DM_MESSAGE": {
-    "components": [
-      {
-        "components": [
-          {
-            "custom_id": "modMailReplyDM",
-            "label": "Yanıtla",
-            "style": 1,
-            "type": 2
-          }
-        ],
-        "type": 1
-      }
-    ],
-    "content": "{server} sunucusundan gelen bir yanıtınız var. Yanıtı aşağıda görebilirsiniz ve bu mesajı yanıtlamak için aşağıdaki butonu kullanabilirsiniz.",
-    "embeds": [
-      {
-        "author": {
-          "icon_url": "{user.avatarURL}",
-          "name": "{user.tag}"
-        },
-        "color": 0,
-        "description": "{message}"
-      }
-    ],
-    "ephemeral": false
-  },
-  "MAIL_FOLLOWUP_MESSAGE": {
-    "components": [
-      {
-        "components": [
-          {
-            "custom_id": "modMailReply",
-            "label": "Yanıtla",
-            "style": 1,
-            "type": 2
-          }
-        ],
-        "type": 1
-      }
-    ],
-    "content": "{user} tarafından bir takip mesajı gönderildi. Mesajı aşağıda görebilir ve bu mesaja yanıt vermek için aşağıdaki butonu kullanabilirsiniz.",
-    "embeds": [
-      {
-        "author": {
-          "icon_url": "{user.avatarURL}",
-          "name": "{user.tag}"
-        },
-        "color": 0,
-        "description": "{message}"
-      }
-    ],
-    "ephemeral": false
-  },
   "MAIL_OPENED": {
     "content": "Modmail başarıyla açıldı.",
     "ephemeral": true
-  },
-  "MAIL_OPENED_MESSAGE": {
-    "components": [
-      {
-        "components": [
-          {
-            "custom_id": "modMailReply",
-            "label": "Yanıtla",
-            "style": 1,
-            "type": 2
-          }
-        ],
-        "type": 1
-      }
-    ],
-    "content": "{user} tarafından açılan modmail. Detaylar aşşağıda, yanıtlamak için aşağıdaki butonu kullanabilirsiniz.",
-    "embeds": [
-      {
-        "author": {
-          "icon_url": "{user.avatarURL}",
-          "name": "{user.tag}"
-        },
-        "color": 0,
-        "description": "{message}"
-      }
-    ],
-    "ephemeral": false
   },
   "MAIL_SENT_ATTACHMENT": "Bir dosya eklenmiş.",
   "MALE_ROLE_ERROR_OR_EXPIRED": "Bir hata oluştu veya zaman aşımına uğradı.",
