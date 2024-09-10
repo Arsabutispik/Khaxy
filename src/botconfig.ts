@@ -1,5 +1,6 @@
 import "dotenv/config.js";
 import { KhaxyClient } from "../@types/types";
+import { log } from "./utils/utils.js";
 
 export default {
   IconURL: "https://cdn.discordapp.com/attachments/933095626844037224/1016257179872923708/music-disc.gif",
@@ -28,12 +29,15 @@ export default {
   },
 };
 export async function getEmoji(client: KhaxyClient, emojiID: string, fallbackEmoji: string): Promise<string> {
-  const emojis = await client.application?.emojis.fetch();
-  if (!emojis || !emojis.size) return fallbackEmoji;
-  const emoji = emojis.get(emojiID);
-  if (!emoji) return fallbackEmoji;
-  let emojiString: string;
-  if (emoji.animated) emojiString = `<a:${emoji.name}:${emoji.id}>`;
-  else emojiString = `<:${emoji.name}:${emoji.id}>`;
-  return emojiString;
+  try {
+    const emoji = await client.application?.emojis.fetch(emojiID);
+    if (!emoji) return fallbackEmoji;
+    let emojiString: string;
+    if (emoji.animated) emojiString = `<a:${emoji.name}:${emoji.id}>`;
+    else emojiString = `<:${emoji.name}:${emoji.id}>`;
+    return emojiString;
+  } catch (e) {
+    log("ERROR", "botconfig.ts", `Failed to fetch emoji with ID: ${emojiID}. Error: ${e}`);
+    return fallbackEmoji;
+  }
 }
