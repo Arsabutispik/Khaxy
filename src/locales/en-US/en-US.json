@@ -365,9 +365,7 @@
       {
         "components": [
           {
-            "channel_types": [
-              0
-            ],
+            "channel_types": [0],
             "custom_id": "goodbyeChannel",
             "default_values": [
               {
@@ -785,9 +783,7 @@
       {
         "components": [
           {
-            "channel_types": [
-              0
-            ],
+            "channel_types": [0],
             "custom_id": "modLogChannel",
             "default_values": [
               {
@@ -1000,9 +996,7 @@
       {
         "components": [
           {
-            "channel_types": [
-              0
-            ],
+            "channel_types": [0],
             "custom_id": "registerChannel",
             "default_values": [
               {
@@ -1108,9 +1102,7 @@
       {
         "components": [
           {
-            "channel_types": [
-              0
-            ],
+            "channel_types": [0],
             "custom_id": "registerChannel",
             "default_values": [
               {
@@ -1353,9 +1345,7 @@
       {
         "components": [
           {
-            "channel_types": [
-              0
-            ],
+            "channel_types": [0],
             "custom_id": "welcomeChannel",
             "default_values": [
               {
@@ -1534,9 +1524,7 @@
       {
         "components": [
           {
-            "channel_types": [
-              0
-            ],
+            "channel_types": [0],
             "custom_id": "bumpLeaderboardChannel",
             "default_values": [
               {

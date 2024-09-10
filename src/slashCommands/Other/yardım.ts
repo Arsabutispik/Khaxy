@@ -1,25 +1,25 @@
-import {slashCommandBase} from "../../../@types/types";
-import {SlashCommandBuilder} from "discord.js";
+import { slashCommandBase } from "../../../@types/types";
+import { SlashCommandBuilder } from "discord.js";
 export default {
-    help: {
-        name: "yardım",
-        description: "Tüm komutları gösterir",
-        usage: "yardım",
-        examples: ["yardım"],
-        category: "Diğer"
-    },
-    data: new SlashCommandBuilder()
-        .setName("help")
-        .setNameLocalizations({
-            "tr": "yardım",
-        })
-        .setDescription("Displays all commands.")
+  help: {
+    name: "yardım",
+    description: "Tüm komutları gösterir",
+    usage: "yardım",
+    examples: ["yardım"],
+    category: "Diğer",
+  },
+  data: new SlashCommandBuilder()
+    .setName("help")
+    .setNameLocalizations({
+      tr: "yardım",
+    })
+    .setDescription("Displays all commands.")
     .setDescriptionLocalizations({
-        "tr": "Tüm komutları gösterir."
+      tr: "Tüm komutları gösterir.",
     }),
-    execute: async ({interaction}) => {
-        await interaction.reply("Untill further notice, this command is disabled.")
-        /*const category = client.slashCommands.map((command) => command.help.category)
+  execute: async ({ interaction }) => {
+    await interaction.reply("Untill further notice, this command is disabled.");
+    /*const category = client.slashCommands.map((command) => command.help.category)
             .filter((value, index, self) => self.indexOf(value) === index)
             .filter((value) => value)
             .map((value) => ({label: value, value: value.toLowerCase()}))
@@ -62,5 +62,5 @@ export default {
             await message.edit({embeds: [embed], components: []})
         })
         */
-    }
-} as slashCommandBase
+  },
+} as slashCommandBase;

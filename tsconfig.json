@@ -21,13 +21,13 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "resolveJsonModule": true,
-    "baseUrl": ".",
+    "baseUrl": "."
   },
   "ts-node": {
     "esm": true,
     "files": true,
-    "swc": true,
+    "swc": true
   },
   "exclude": ["node_modules"],
-  "include": ["./src/**/*", "@types"],
+  "include": ["./src/**/*", "@types"]
 }
