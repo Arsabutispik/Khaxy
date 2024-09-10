@@ -13,6 +13,7 @@ import "dotenv/config.js";
 import resetBumpLeaderboard from "./utils/resetBumpLeaderboard.js";
 import recoverMissedCronJob from "./utils/recoverMissedCronJob.js";
 import cluster from "cluster";
+import { getEmoji } from "./botconfig.js";
 const client = new Client({
   intents: [
     IntentsBitField.Flags.Guilds,
@@ -39,6 +40,7 @@ const player = new Player(client);
   client.slashCommands = new Collection();
   client.guildsConfig = new Collection();
   client.handleLanguages = handleLanguages;
+  client.getEmoji = getEmoji;
   try {
     mongoose.set("strictQuery", true);
     if (process.env.npm_lifecycle_event === "test") {

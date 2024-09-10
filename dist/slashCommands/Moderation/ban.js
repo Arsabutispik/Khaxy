@@ -257,7 +257,7 @@ export default {
                 "{duration}": longduration,
                 "{reason}": reason,
                 "{case}": data.case.toString(),
-                "{confirm}": client.emojis.cache.get(client.config.Emojis.confirm)?.toString() || "✅",
+                "{confirm}": await client.getEmoji(client, client.config.Emojis.confirm, "✅"),
               },
             ),
           );
@@ -272,7 +272,7 @@ export default {
                 "{duration}": longduration,
                 "{reason}": reason,
                 "{case}": data.case.toString(),
-                "{confirm}": client.emojis.cache.get(client.config.Emojis.confirm)?.toString() || "✅",
+                "{confirm}": await client.getEmoji(client, client.config.Emojis.confirm, "✅"),
               },
             ),
           );
@@ -331,7 +331,7 @@ export default {
               {
                 "{targetMember_username}": targetMember.user.tag,
                 "{case}": data.case.toString(),
-                "{confirm}": client.emojis.cache.get(client.config.Emojis.confirm)?.toString() || "✅",
+                "{confirm}": await client.getEmoji(client, client.config.Emojis.confirm, "✅"),
               },
             ),
           );
@@ -342,7 +342,7 @@ export default {
               {
                 "{targetMember_username}": targetMember.user.tag,
                 "{case}": data.case.toString(),
-                "{confirm}": client.emojis.cache.get(client.config.Emojis.confirm)?.toString() || "✅",
+                "{confirm}": await client.getEmoji(client, client.config.Emojis.confirm, "✅"),
               },
             ),
           );
@@ -426,7 +426,7 @@ export default {
             {
               "{targetMember_username}": fetchUser.tag,
               "{duration}": longduration,
-              "{confirm}": client.emojis.cache.get(client.config.Emojis.confirm)?.toString() || "✅",
+              "{confirm}": await client.getEmoji(client, client.config.Emojis.confirm, "✅"),
               "{case}": data.case.toString(),
             },
           ),
@@ -470,7 +470,7 @@ export default {
             {
               "{targetMember_username}": fetchUser.tag,
               "{case}": data.case.toString(),
-              "{confirm}": client.emojis.cache.get(client.config.Emojis.confirm)?.toString() || "✅",
+              "{confirm}": await client.getEmoji(client, client.config.Emojis.confirm, "✅"),
             },
           ),
         );

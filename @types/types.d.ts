@@ -81,6 +81,8 @@ export declare class KhaxyClient extends Client {
 
   public updateGuildConfig(p: updateGuildConfigParameters): Promise<void>;
 
+  public getEmoji(client: KhaxyClient, emojiID: string, fallbackEmoji: string): Promise<string>;
+
   public handleLanguages<
     K extends keyof typeof import("../src/locales/en-US/en-US.json") | keyof typeof import("../src/locales/tr/tr.json"),
   >(

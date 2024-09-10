@@ -24,4 +24,14 @@ export default {
     forceban: "1278053258492907591",
   },
 };
+export async function getEmoji(client, emojiID, fallbackEmoji) {
+  const emojis = await client.application?.emojis.fetch();
+  if (!emojis || !emojis.size) return fallbackEmoji;
+  const emoji = emojis.get(emojiID);
+  if (!emoji) return fallbackEmoji;
+  let emojiString;
+  if (emoji.animated) emojiString = `<a:${emoji.name}:${emoji.id}>`;
+  else emojiString = `<:${emoji.name}:${emoji.id}>`;
+  return emojiString;
+}
 //# sourceMappingURL=botconfig.js.map
