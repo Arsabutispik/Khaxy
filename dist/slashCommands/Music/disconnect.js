@@ -39,21 +39,21 @@ export default {
         } else {
           await interaction.reply(client.handleLanguages("DISCONNECT_SUCCESS", client, interaction.guildId));
           const message = await interaction.fetchReply();
-          await message.react("✅");
+          await message.react(await client.getEmoji(client, client.config.Emojis.confirm, "✅"));
           player.delete();
           return;
         }
       } else {
         await interaction.reply(client.handleLanguages("DISCONNECT_SUCCESS", client, interaction.guildId));
         const message = await interaction.fetchReply();
-        await message.react("✅");
+        await message.react(await client.getEmoji(client, client.config.Emojis.confirm, "✅"));
         player.delete();
         return;
       }
     }
     await interaction.reply(client.handleLanguages("DISCONNECT_SUCCESS", client, interaction.guildId));
     const message = await interaction.fetchReply();
-    await message.react("✅");
+    await message.react(await client.getEmoji(client, client.config.Emojis.confirm, "✅"));
     player.delete();
   },
 };
