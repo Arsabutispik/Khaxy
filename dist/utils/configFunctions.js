@@ -534,7 +534,7 @@ async function goodbyeMessage(interaction, client) {
     const filter = (i) =>
       (i.customId === "goodByeMessageReject" ||
         i.customId === "goodByeMessageAccept" ||
-        i.customId === "registerChannelDelete") &&
+        i.customId === "goodByeMessageDelete") &&
       i.user.id === interaction.user.id;
     try {
       const collector = await interaction.fetchReply();
@@ -1191,6 +1191,9 @@ async function miscConfig(interaction, client) {
         case "bumpLeaderboardChannel":
           await bumpLeaderboardChannel(collector, client);
           break;
+        case "modMailMessage":
+          await modMailMessage(collector, client);
+          break;
       }
     }
   } catch (error) {
@@ -1235,6 +1238,125 @@ async function bumpLeaderboardChannel(interaction, client) {
     }
   } catch (error) {
     await handleErrors(client, error, "configFunctions.ts", interaction);
+  }
+}
+async function modMailMessage(interaction, client) {
+  if (client.guildsConfig.get(interaction.guildId)?.config.modmail.newThreadMessage) {
+    await interaction.reply(client.handleLanguages("MODMAIL_MESSAGE_ALREADY_SETUP", client, interaction.guildId));
+    const filter = (i) =>
+      (i.customId === "modMailMessageReject" ||
+        i.customId === "modMailMessageAccept" ||
+        i.customId === "modMailMessageDelete") &&
+      i.user.id === interaction.user.id;
+    try {
+      const collector = await interaction.fetchReply();
+      const collector2 = await collector.awaitMessageComponent({
+        filter,
+        componentType: ComponentType.Button,
+        time: 60000,
+      });
+      if (collector2) {
+        if (collector2.customId === "modMailMessageReject") {
+          await collector2.reply({
+            content: client.handleLanguages("MODMAIL_MESSAGE_CANCEL", client, interaction.guildId),
+            ephemeral: true,
+          });
+        } else if (collector2.customId === "modMailMessageAccept") {
+          await collector2.reply(client.handleLanguages("MODMAIL_MESSAGE_SETUP", client, interaction.guildId));
+          const msg = await collector2.fetchReply();
+          const buttonFilter = (i) => i.customId === "modMailMessage" && i.user.id === interaction.user.id;
+          try {
+            const modalcollector = await msg.awaitMessageComponent({
+              filter: buttonFilter,
+              componentType: ComponentType.Button,
+              time: 60000,
+            });
+            if (modalcollector) {
+              await modalcollector.showModal(
+                client.handleLanguages("MODMAIL_MESSAGE_MODAL", client, interaction.guildId),
+              );
+              const filter = (i) => i.customId === "modMailMessage" && i.user.id === interaction.user.id;
+              try {
+                const collector = await modalcollector.awaitModalSubmit({
+                  filter,
+                  time: 60000,
+                });
+                const data = collector.fields.getTextInputValue("modMailMessage");
+                const config = {
+                  $set: {
+                    "config.modmail.newThreadMessage": data,
+                  },
+                };
+                await client.updateGuildConfig({
+                  guildId: interaction.guild.id,
+                  config,
+                });
+                await collector.reply({
+                  content: client.handleLanguages("MODMAIL_MESSAGE_SUCCESS", client, interaction.guildId),
+                  ephemeral: true,
+                });
+              } catch (error) {
+                await handleErrors(client, error, "configFunctions.ts", interaction);
+              }
+            }
+          } catch (error) {
+            await handleErrors(client, error, "configFunctions.ts", interaction);
+          }
+        } else if (collector2.customId === "modMailMessageDelete") {
+          const config = {
+            $set: {
+              "config.modmail.newThreadMessage": null,
+            },
+          };
+          await client.updateGuildConfig({ guildId: interaction.guild.id, config });
+          await collector2.reply({
+            content: client.handleLanguages("MODMAIL_MESSAGE_DELETED", client, interaction.guildId),
+            ephemeral: true,
+          });
+        }
+      }
+    } catch (error) {
+      await handleErrors(client, error, "configFunctions.ts", interaction);
+    }
+  } else {
+    await interaction.reply(client.handleLanguages("MODMAIL_MESSAGE_SETUP", client, interaction.guildId));
+    const msg = await interaction.fetchReply();
+    const buttonFilter = (i) => i.customId === "modMailMessage" && i.user.id === interaction.user.id;
+    try {
+      const modalcollector = await msg.awaitMessageComponent({
+        filter: buttonFilter,
+        componentType: ComponentType.Button,
+        time: 60000,
+      });
+      if (modalcollector) {
+        await modalcollector.showModal(client.handleLanguages("MODMAIL_MESSAGE_MODAL", client, interaction.guildId));
+        const filter = (i) => i.customId === "modMailMessage" && i.user.id === interaction.user.id;
+        try {
+          const collector = await modalcollector.awaitModalSubmit({
+            filter,
+            time: 60000,
+          });
+          const data = collector.fields.getTextInputValue("modMailMessage");
+          const config = {
+            $set: {
+              "config.modmail.newThreadMessage": data,
+            },
+          };
+          await client.updateGuildConfig({
+            guildId: interaction.guild.id,
+            config,
+          });
+          await collector.reply({
+            content: client.handleLanguages("MODMAIL_MESSAGE_SUCCESS", client, interaction.guildId),
+            ephemeral: true,
+          });
+        } catch (error) {
+          await handleErrors(client, error, "configFunctions.ts", interaction);
+        }
+      }
+    } catch (error) {
+      await handleErrors(client, error, "configFunctions.ts", interaction);
+    }
   }
 }
 export { registerConfig, welcomeConfig, moderationConfig, roleConfig, miscConfig };

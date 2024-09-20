@@ -191,6 +191,28 @@ export default {
           }
           await i.update(roleMessage);
         } else if (setting === "misc") {
+          const miscMessage = JSON.parse(
+            JSON.stringify(client.handleLanguages("CONFIG_MISC_MESSAGE", client, interaction.guildId)),
+          );
+          for (const embeds of miscMessage.embeds) {
+            const x = Math.round(0xffffff * Math.random()).toString(16);
+            const y = 6 - x.length;
+            const z = "000000";
+            const z1 = z.substring(0, y);
+            embeds.color = Number(`0x${z1 + x}`);
+            for (const values of embeds.fields) {
+              values.value = replaceMassString(values.value, {
+                "{bumpLeaderboard}": guildConfig.config.bumpLeaderboardChannel
+                  ? `<#${guildConfig.config.bumpLeaderboardChannel}>`
+                  : "N/A",
+                "{modMailMessage}": guildConfig.config.modmail.newThreadMessage
+                  ? await client.getEmoji(client, client.config.Emojis.confirm, "✅")
+                  : await client.getEmoji(client, client.config.Emojis.reject, "❌"),
+              });
+              Object.assign(embeds.fields, values);
+            }
+          }
+          await i.update(miscMessage);
         }
       });
       return;

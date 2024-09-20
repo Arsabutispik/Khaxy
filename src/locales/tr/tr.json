@@ -270,6 +270,11 @@
             "inline": true,
             "name": "Bump Lider Tahtası",
             "value": "{bumpLeaderboard}"
+          },
+          {
+            "inline": true,
+            "name": "Modmail Mesajı",
+            "value": "{modMailMessage}"
           }
         ],
         "title": "Miscellaneous Settings"
@@ -1427,6 +1432,12 @@
                 "emoji": "📈",
                 "label": "Bump Lider Tahtası Kanalı",
                 "value": "bumpLeaderboardChannel"
+              },
+              {
+                "description": "Yeni modmail threadı oluşturulduğunda botun göndereceği mesajı ayarlar.",
+                "emoji": "📧",
+                "label": "Modmail Mesajı",
+                "value": "modMailMessage"
               }
             ],
             "type": 3
@@ -1482,5 +1493,76 @@
   "NEWTHREAD_ALREADY_OPEN": "Bu kullanıcı ile zaten açık bir mod mail konusu var.",
   "NEWTHREAD_SUCCESS": "Mod mail kanalı başarıyla açıldı.",
   "CLOSEMAIL_LOG_CHANNEL_CREATED": "Log kanalı bulunamadığı için yeni bir log kanalı oluşturuldu.",
-  "REPLY_NO_MESSAGE": "Bir mesaj belirtmelisiniz."
+  "REPLY_NO_MESSAGE": "Bir mesaj belirtmelisiniz.",
+  "MODMAIL_MESSAGE_ALREADY_SETUP": {
+    "components": [
+      {
+        "components": [
+          {
+            "custom_id": "modMailMessageAccept",
+            "label": "✅| Değiştir",
+            "style": 3,
+            "type": 2
+          },
+          {
+            "custom_id": "modMailMessageDelete",
+            "label": "🗑️| Sil",
+            "style": 1,
+            "type": 2
+          },
+          {
+            "custom_id": "modMailMessageReject",
+            "label": "❌| İptal",
+            "style": 4,
+            "type": 2
+          }
+        ],
+        "type": 1
+      }
+    ],
+    "content": "Modmail mesajı zaten ayarlanmış. Değiştirmek mi yoksa silmek mi istersiniz?",
+    "ephemeral": true
+  },
+  "MODMAIL_MESSAGE_CANCEL": "Modmail mesajı ayarlama işlemi iptal edildi.",
+  "MODMAIL_MESSAGE_DELETED": "Modmail mesajı başarıyla silindi.",
+  "MODMAIL_MESSAGE_ERROR_OR_EXPIRED": "Bir hata oluştu veya zaman aşımına uğradı.",
+  "MODMAIL_MESSAGE_MODAL": {
+    "components": [
+      {
+        "components": [
+          {
+            "custom_id": "modMailMessage",
+            "label": "Modmail Mesajı",
+            "max_length": 4000,
+            "min_length": 1,
+            "placeholder": "Kullanılabilir değişkenler: {user}, {tag}, {name}, {id}, {server}, {memberCount}",
+            "required": true,
+            "style": 2,
+            "type": 4
+          }
+        ],
+        "type": 1
+      }
+    ],
+    "custom_id": "modMailMessage",
+    "title": "Modmail Mesajı"
+  },
+  "MODMAIL_MESSAGE_SETUP": {
+    "components": [
+      {
+        "components": [
+          {
+            "custom_id": "modMailMessage",
+            "label": "Modmail Mesajını Ayarla",
+            "style": 1,
+            "type": 2
+          }
+        ],
+        "type": 1
+      }
+    ],
+    "content": "Modmail mesajı ayarlamak için aşağıdaki butona tıklayınız.",
+    "ephemeral": true
+  },
+  "MODMAIL_MESSAGE_SUCCESS": "Modmail mesajı başarıyla ayarlandı."
 }

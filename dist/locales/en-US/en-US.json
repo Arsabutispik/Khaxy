@@ -269,6 +269,11 @@
             "inline": true,
             "name": "Bump Leaderboard",
             "value": "{bumpLeaderboard}"
+          },
+          {
+            "inline": true,
+            "name": "ModMail Message",
+            "value": "{modMailMessage}"
           }
         ],
         "title": "Miscellaneous Settings"
@@ -1507,6 +1512,12 @@
                 "emoji": "📈",
                 "label": "Set Bump Leaderboard Channel",
                 "value": "bumpLeaderboardChannel"
+              },
+              {
+                "description": "Sets the message sent to the user opening the ModMail thread.",
+                "emoji": "📧",
+                "label": "Set ModMail Message",
+                "value": "modMailMessage"
               }
             ],
             "type": 3
@@ -1562,5 +1573,77 @@
   "NEWTHREAD_ALREADY_OPEN": "This user already has an open ModMail thread.",
   "NEWTHREAD_SUCCESS": "The ModMail thread has been successfully opened.",
   "CLOSEMAIL_LOG_CHANNEL_CREATED": "Since the ModMail log channel was not found, a new log channel has been created.",
-  "REPLY_NO_MESSAGE": "You need to provide a message to reply to the user."
+  "REPLY_NO_MESSAGE": "You need to provide a message to reply to the user.",
+  "MODMAIL_MESSAGE_ALREADY_SETUP": {
+    "components": [
+      {
+        "components": [
+          {
+            "custom_id": "modMailMessageAccept",
+            "label": "✅| Change",
+            "style": 3,
+            "type": 2
+          },
+          {
+            "custom_id": "modMailMessageDelete",
+            "label": "🗑️| Delete",
+            "style": 1,
+            "type": 2
+          },
+          {
+            "custom_id": "modMailMessageReject",
+            "label": "❌| Cancel",
+            "style": 4,
+            "type": 2
+          }
+        ],
+        "type": 1
+      }
+    ],
+    "content": "The message to be sent to the ModMail channel is already set up. Would you like to change it or delete it?",
+    "ephemeral": true
+  },
+  "MODMAIL_MESSAGE_CANCEL": "The ModMail message setup process has been canceled.",
+  "MODMAIL_MESSAGE_DELETED": "The ModMail message has been successfully deleted.",
+  "MODMAIL_MESSAGE_CHANNEL_ERROR_OR_EXPIRED": "An error occurred or the process has expired.",
+  "MODMAIL_MESSAGE_MODAL": {
+    "components": [
+      {
+        "components": [
+          {
+            "custom_id": "modMailMessage",
+            "label": "ModMail Message",
+            "max_length": 4000,
+            "min_length": 1,
+            "placeholder": "Available variables: {user}, {tag}, {name}, {id}, {server}, {memberCount}",
+            "required": true,
+            "style": 2,
+            "type": 4
+          }
+        ],
+        "type": 1
+      }
+    ],
+    "custom_id": "modMailMessage",
+    "title": "ModMail Message"
+  },
+  "MODMAIL_MESSAGE_SETUP": {
+    "components": [
+      {
+        "components": [
+          {
+            "custom_id": "modMailMessage",
+            "label": "Set ModMail Message",
+            "style": 1,
+            "type": 2
+          }
+        ],
+        "type": 1
+      }
+    ],
+    "content": "Click the button below to set the ModMail message.",
+    "ephemeral": true
+  },
+  "MODMAIL_MESSAGE_SUCCESS": "The ModMail channel has been successfully set.",
+  "MODMAIL_MESSAGE_CHANNEL_SUCCESS": "The ModMail channel has been successfully set."
 }
