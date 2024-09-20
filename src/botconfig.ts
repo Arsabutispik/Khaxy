@@ -31,6 +31,7 @@ export default {
 export async function getEmoji(client: KhaxyClient, emojiID: string, fallbackEmoji: string): Promise<string> {
   try {
     const emoji = await client.application?.emojis.fetch(emojiID);
+    console.log(emoji);
     if (!emoji) return fallbackEmoji;
     let emojiString: string;
     if (emoji.animated) emojiString = `<a:${emoji.name}:${emoji.id}>`;
