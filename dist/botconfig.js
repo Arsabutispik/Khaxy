@@ -28,7 +28,6 @@ export default {
 export async function getEmoji(client, emojiID, fallbackEmoji) {
   try {
     const emoji = await client.application?.emojis.fetch(emojiID);
-    console.log(emoji);
     if (!emoji) return fallbackEmoji;
     let emojiString;
     if (emoji.animated) emojiString = `<a:${emoji.name}:${emoji.id}>`;
