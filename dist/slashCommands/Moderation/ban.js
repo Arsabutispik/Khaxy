@@ -247,7 +247,7 @@ export default {
               },
             ),
           );
-          await interaction.channel.send(
+          await interaction.reply(
             replaceMassString(
               JSON.parse(
                 JSON.stringify(client.handleLanguages("BAN_USER_DURATION_MESSAGE", client, interaction.guild.id)),
@@ -262,7 +262,7 @@ export default {
             ),
           );
         } catch {
-          await interaction.channel.send(
+          await interaction.reply(
             replaceMassString(
               JSON.parse(
                 JSON.stringify(client.handleLanguages("BAN_USER_DURATION_MESSAGE_FAIL", client, interaction.guild.id)),
@@ -325,7 +325,7 @@ export default {
               },
             ),
           );
-          await interaction.channel.send(
+          await interaction.reply(
             replaceMassString(
               JSON.parse(JSON.stringify(client.handleLanguages("BAN_USER_MESSAGE", client, interaction.guild.id))),
               {
@@ -336,7 +336,7 @@ export default {
             ),
           );
         } catch {
-          await interaction.channel.send(
+          await interaction.reply(
             replaceMassString(
               JSON.parse(JSON.stringify(client.handleLanguages("BAN_USER_MESSAGE_FAIL", client, interaction.guild.id))),
               {
@@ -464,7 +464,7 @@ export default {
         const reason =
           interaction.options.getString("reason", false) ||
           client.handleLanguages("BAN_NO_REASON", client, interaction.guild.id);
-        await interaction.channel.send(
+        await interaction.reply(
           replaceMassString(
             JSON.parse(JSON.stringify(client.handleLanguages("BAN_FORCE_MESSAGE", client, interaction.guild.id))),
             {
