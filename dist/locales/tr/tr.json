@@ -1572,7 +1572,7 @@
   },
   "MODMAIL_MESSAGE_SUCCESS": "Modmail mesajı başarıyla ayarlandı.",
   "MEMBER_FAILED_TO_REGISTER": "Üye verilen {days} gün içinde kayıt olamadı.",
-  "MEMBER_FAILED_TO_REGISTER_DM": "Verilen {days} gün içinde kayıt olamadınız. Bu sebepten dolayı atıldınız.",
+  "MEMBER_FAILED_TO_REGISTER_DM": "Verilen **{days}** gün içinde **{server}** sunucusunda kayıt olamadınız. Bu sebepten dolayı atıldınız.",
   "DAYS_FOR_MEMBERS_TO_REGISTER_PROMPT": {
     "components": [
       {
@@ -1583,6 +1583,12 @@
             "min_values": 1,
             "placeholder": "Bir sayı seçiniz.",
             "options": [
+              {
+                "description": "Bu özelliği devre dışı bırakın.",
+                "emoji": "❌",
+                "label": "Devre Dışı Bırak",
+                "value": "0"
+              },
               {
                 "description": "Üyeler 1 gün içinde kayıt olmalıdır.",
                 "emoji": "1️⃣",

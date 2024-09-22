@@ -42,7 +42,7 @@ const guildSchema = new Schema(
       bumpLeaderboardChannel: String,
       daysToKick: {
         type: Number,
-        default: 7,
+        default: 0,
       },
     },
   },

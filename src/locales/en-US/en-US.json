@@ -1653,7 +1653,7 @@
   "MODMAIL_MESSAGE_SUCCESS": "The ModMail channel has been successfully set.",
   "MODMAIL_MESSAGE_CHANNEL_SUCCESS": "The ModMail channel has been successfully set.",
   "MEMBER_FAILED_TO_REGISTER": "Member failed to register within {days} days.",
-  "MEMBER_FAILED_TO_REGISTER_DM": "You have failed to register within {days} days. You have been kicked from the server.",
+  "MEMBER_FAILED_TO_REGISTER_DM": "You have failed to register in **{server}** server within **{days}** days. You have been kicked from the server.",
   "DAYS_FOR_MEMBERS_TO_REGISTER_PROMPT": {
     "components": [
       {
@@ -1665,6 +1665,12 @@
             "placeholder": "Select a number.",
             "type": 3,
             "options": [
+              {
+                "description": "Disable this feature.",
+                "emoji": "❌",
+                "label": "Disable",
+                "value": "0"
+              },
               {
                 "description": "Members must register within 1 day.",
                 "emoji": "1️⃣",

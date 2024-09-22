@@ -10,6 +10,7 @@ export default async (client) => {
     if (!guild) continue;
     if (!guild.members.me.permissions.has("ManageRoles")) continue;
     if (!guildConfig.config) continue;
+    if (guildConfig.config.daysToKick === 0) continue;
     if (!guildConfig.config.registerChannel) continue;
     if (!guild.channels.cache.get(guildConfig.config.registerChannel)) continue;
     if (!guildConfig.config.memberRole) continue;
@@ -25,7 +26,8 @@ export default async (client) => {
             .send(
               client
                 .handleLanguages("MEMBER_FAILED_TO_REGISTER_DM", client, guild.id)
-                .replace("{days}", guildConfig.config?.daysToKick.toString() || "7"),
+                .replace("{days}", guildConfig.config?.daysToKick.toString() || "7")
+                .replace("{server}", guild.name),
             )
             .catch(() => {});
           member
