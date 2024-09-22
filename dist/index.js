@@ -42,6 +42,34 @@ const player = new Player(client);
   client.guildsConfig = new Collection();
   client.handleLanguages = handleLanguages;
   client.allEmojis = new Collection();
+  try {
+    mongoose.set("strictQuery", true);
+    if (process.env.npm_lifecycle_event === "test") {
+      await mongoose.connect(process.env.TEST_MONGODB_URI);
+    } else {
+      await mongoose.connect(process.env.MONGODB_URI);
+    }
+    log("SUCCESS", "src/index.js", "Connected to the database.");
+  } catch (e) {
+    log("ERROR", "src/index.js", `Error connecting to the database: ${e.message}`);
+    process.exit(1);
+  }
+  try {
+    if (process.env.npm_lifecycle_event === "test") {
+      await client.login(process.env.TEST_TOKEN);
+    } else {
+      await client.login(process.env.TOKEN);
+    }
+    log("SUCCESS", "src/index.js", `Logged in as ${client.user.tag}`);
+  } catch (e) {
+    log("ERROR", "src/index.js", `Error on connection: ${e.message}`);
+    process.exit(500);
+  }
+})();
+cluster.on("online", (worker) => {
+  log("SUCCESS", "src/index.js", `Worker ${worker.id} is online.`);
+});
+client.once("ready", async () => {
   const emojis = [
     {
       name: "searchEmoji",
@@ -80,34 +108,6 @@ const player = new Player(client);
     },
   ];
   await loadEmojis(client, emojis);
-  try {
-    mongoose.set("strictQuery", true);
-    if (process.env.npm_lifecycle_event === "test") {
-      await mongoose.connect(process.env.TEST_MONGODB_URI);
-    } else {
-      await mongoose.connect(process.env.MONGODB_URI);
-    }
-    log("SUCCESS", "src/index.js", "Connected to the database.");
-  } catch (e) {
-    log("ERROR", "src/index.js", `Error connecting to the database: ${e.message}`);
-    process.exit(1);
-  }
-  try {
-    if (process.env.npm_lifecycle_event === "test") {
-      await client.login(process.env.TEST_TOKEN);
-    } else {
-      await client.login(process.env.TOKEN);
-    }
-    log("SUCCESS", "src/index.js", `Logged in as ${client.user.tag}`);
-  } catch (e) {
-    log("ERROR", "src/index.js", `Error on connection: ${e.message}`);
-    process.exit(500);
-  }
-})();
-cluster.on("online", (worker) => {
-  log("SUCCESS", "src/index.js", `Worker ${worker.id} is online.`);
-});
-client.once("ready", async () => {
   await player.extractors.loadDefault((ext) => ext !== "YouTubeExtractor");
   await registerEvents(client, "../events");
   await registerSlashCommands(client, "../slashCommands");
