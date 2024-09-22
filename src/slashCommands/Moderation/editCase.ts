@@ -100,11 +100,11 @@ export default {
     }
     const acceptButton = new ButtonBuilder()
       .setCustomId("accept")
-      .setEmoji(await client.getEmoji(client, client.config.Emojis.confirm, "✅"))
+      .setEmoji(client.allEmojis.get(client.config.Emojis.confirm)!.format)
       .setStyle(ButtonStyle.Success);
     const rejectedButton = new ButtonBuilder()
       .setCustomId("reject")
-      .setEmoji(await client.getEmoji(client, client.config.Emojis.reject, "❌"))
+      .setEmoji(client.allEmojis.get(client.config.Emojis.reject)!.format)
       .setStyle(ButtonStyle.Danger);
     const row = new ActionRowBuilder().addComponents(acceptButton, rejectedButton);
     const editCaseMessage = JSON.parse(
@@ -117,8 +117,8 @@ export default {
       const z1 = z.substring(0, y);
       embeds.color = Number(`0x${z1 + x}`);
       embeds.description = replaceMassString(embeds.description, {
-        "{confirm}": await client.getEmoji(client, client.config.Emojis.confirm, "✅"),
-        "{reject}": await client.getEmoji(client, client.config.Emojis.reject, "❌"),
+        "{confirm}": client.allEmojis.get(client.config.Emojis.confirm)!.format,
+        "{reject}": client.allEmojis.get(client.config.Emojis.reject)!.format,
       });
       for (const values of embeds.fields) {
         values.value = replaceMassString(values.value, {

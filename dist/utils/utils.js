@@ -246,6 +246,34 @@ async function handleErrors(client, error, path, interaction) {
   console.error(error);
   const channel = client.channels.cache.get(process.env.ERROR_LOG_CHANNEL);
   if (!channel) return;
+  const webhooks = await channel.fetchWebhooks();
+  if (!interaction) {
+    const errorEmbed = new EmbedBuilder()
+      .setTitle("Error")
+      .setDescription(`An error occurred in the path: ${path}`)
+      .addFields(
+        {
+          name: "Error",
+          value: error.message,
+        },
+        {
+          name: "Stack Trace",
+          value: `\`\`\`${error.stack}\`\`\``,
+        },
+      )
+      .setColor("Red")
+      .setTimestamp();
+    let webhook = webhooks.first();
+    if (!webhook) {
+      webhook = await channel.createWebhook({
+        name: `${client.user.username} Error Logger`,
+        avatar: client.user.displayAvatarURL(),
+        reason: "Error Logger",
+      });
+    }
+    await webhook.send({ embeds: [errorEmbed] });
+    return;
+  }
   if (interaction instanceof Message) {
     if (error.message.includes("time")) {
       await interaction.reply({
@@ -305,7 +333,6 @@ async function handleErrors(client, error, path, interaction) {
       )
       .setColor("Red")
       .setTimestamp();
-    const webhooks = await channel.fetchWebhooks();
     let webhook = webhooks.first();
     if (!webhook) {
       webhook = await channel.createWebhook({

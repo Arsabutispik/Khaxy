@@ -47,21 +47,21 @@ export default {
           player.node.pause();
           await interaction.reply(client.handleLanguages("PAUSE_SUCCESS", client, interaction.guild.id));
           const message = await interaction.fetchReply();
-          await message.react(await client.getEmoji(client, client.config.Emojis.confirm, "✅"));
+          await message.react(client.allEmojis.get(client.config.Emojis.confirm).format);
           return;
         }
       } else {
         player.node.pause();
         await interaction.reply(client.handleLanguages("PAUSE_SUCCESS", client, interaction.guild.id));
         const message = await interaction.fetchReply();
-        await message.react(await client.getEmoji(client, client.config.Emojis.confirm, "✅"));
+        await message.react(client.allEmojis.get(client.config.Emojis.confirm).format);
         return;
       }
     }
     player.node.pause();
     await interaction.reply(client.handleLanguages("PAUSE_SUCCESS", client, interaction.guild.id));
     const message = await interaction.fetchReply();
-    await message.react(await client.getEmoji(client, client.config.Emojis.confirm, "✅"));
+    await message.react(client.allEmojis.get(client.config.Emojis.confirm).format);
   },
 };
 //# sourceMappingURL=pause.js.map

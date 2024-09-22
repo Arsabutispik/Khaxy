@@ -34,7 +34,7 @@ export default async (data, client) => {
       "{actionmaker_username}": actionmaker.username,
       "{actionmaker_id}": actionmaker.id,
       "{reason}": reason,
-      "{ban}": await client.getEmoji(client, client.config.Emojis.ban, "🔨"),
+      "{ban}": client.allEmojis.get(client.config.Emojis.ban).format,
     });
   } else if (action === "KICK") {
     message += replaceMassString(JSON.parse(JSON.stringify(client.handleLanguages("MODLOG_KICK", client, guild.id))), {
@@ -52,7 +52,7 @@ export default async (data, client) => {
         "{actionmaker_username}": actionmaker.username,
         "{actionmaker_id}": actionmaker.id,
         "{reason}": reason,
-        "{forceban}": await client.getEmoji(client, client.config.Emojis.forceban, "🔨"),
+        "{forceban}": client.allEmojis.get(client.config.Emojis.forceban).format,
       },
     );
   } else if (action === "MUTE") {
@@ -88,7 +88,7 @@ export default async (data, client) => {
         "{actionmaker_id}": actionmaker.id,
         "{reason}": reason,
         "{amount}": amount,
-        "{ban}": await client.getEmoji(client, client.config.Emojis.ban, "🔨"),
+        "{ban}": client.allEmojis.get(client.config.Emojis.ban).format,
       },
     );
   } else if (action === "BAN_REMOVE") {

@@ -43,21 +43,21 @@ export default {
           player.tracks.shuffle();
           await interaction.reply(client.handleLanguages("SHUFFLE_SUCCESS", client, interaction.guildId));
           const message = await interaction.fetchReply();
-          await message.react(await client.getEmoji(client, client.config.Emojis.confirm, "✅"));
+          await message.react(client.allEmojis.get(client.config.Emojis.confirm).format);
           return;
         }
       } else {
         player.tracks.shuffle();
         await interaction.reply(client.handleLanguages("SHUFFLE_SUCCESS", client, interaction.guildId));
         const message = await interaction.fetchReply();
-        await message.react(await client.getEmoji(client, client.config.Emojis.confirm, "✅"));
+        await message.react(client.allEmojis.get(client.config.Emojis.confirm).format);
         return;
       }
     }
     player.tracks.shuffle();
     await interaction.reply(client.handleLanguages("SHUFFLE_SUCCESS", client, interaction.guildId));
     const message = await interaction.fetchReply();
-    await message.react(await client.getEmoji(client, client.config.Emojis.confirm, "✅"));
+    await message.react(client.allEmojis.get(client.config.Emojis.confirm).format);
   },
 };
 //# sourceMappingURL=shuffle.js.map

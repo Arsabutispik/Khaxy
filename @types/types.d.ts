@@ -66,6 +66,7 @@ export interface guildConfig {
     };
     language: "tr" | "en-US";
     bumpLeaderboardChannel: string;
+    daysToKick: number;
   };
 }
 export declare class KhaxyClient extends Client {
@@ -79,9 +80,9 @@ export declare class KhaxyClient extends Client {
 
   public guildsConfig: Collection<string, guildConfig>;
 
-  public updateGuildConfig(p: updateGuildConfigParameters): Promise<void>;
+  public allEmojis: Collection<string, { name: string; format: string }>;
 
-  public getEmoji(client: KhaxyClient, emojiID: string, fallbackEmoji: string): Promise<string>;
+  public updateGuildConfig(p: updateGuildConfigParameters): Promise<void>;
 
   public handleLanguages<
     K extends keyof typeof import("../src/locales/en-US/en-US.json") | keyof typeof import("../src/locales/tr/tr.json"),

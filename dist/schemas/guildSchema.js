@@ -39,6 +39,10 @@ const guildSchema = new Schema(
         enum: ["tr", "en-US"],
       },
       bumpLeaderboardChannel: String,
+      daysToKick: {
+        type: Number,
+        default: 7,
+      },
     },
   },
   {

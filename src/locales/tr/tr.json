@@ -626,7 +626,7 @@
             "max_values": 1,
             "min_values": 0,
             "placeholder": "Rol seçiniz.",
-            "type": 8
+            "type": 6
           }
         ],
         "type": 1
@@ -691,6 +691,12 @@
                 "emoji": "🔇",
                 "label": "Susturmada Tüm Rolleri Al",
                 "value": "muteGetAllRoles"
+              },
+              {
+                "description": "Belirtilen süre içerisinde kayıt yaptırmayan üyeyi atar.",
+                "emoji": "📅",
+                "label": "Kayıt İçin Gün Sınırı",
+                "value": "daysForMembersToRegister"
               }
             ],
             "type": 3
@@ -1564,5 +1570,58 @@
     "content": "Modmail mesajı ayarlamak için aşağıdaki butona tıklayınız.",
     "ephemeral": true
   },
-  "MODMAIL_MESSAGE_SUCCESS": "Modmail mesajı başarıyla ayarlandı."
+  "MODMAIL_MESSAGE_SUCCESS": "Modmail mesajı başarıyla ayarlandı.",
+  "MEMBER_FAILED_TO_REGISTER": "Üye verilen {days} gün içinde kayıt olamadı.",
+  "MEMBER_FAILED_TO_REGISTER_DM": "Verilen {days} gün içinde kayıt olamadınız. Bu sebepten dolayı atıldınız.",
+  "DAYS_FOR_MEMBERS_TO_REGISTER_PROMPT": {
+    "components": [
+      {
+        "components": [
+          {
+            "custom_id": "daysForMembersToRegister",
+            "max_values": 1,
+            "min_values": 1,
+            "placeholder": "Bir sayı seçiniz.",
+            "options": [
+              {
+                "description": "Üyeler 1 gün içinde kayıt olmalıdır.",
+                "emoji": "1️⃣",
+                "label": "1 gün",
+                "value": "1"
+              },
+              {
+                "description": "Üyeler 3 gün içinde kayıt olmalıdır.",
+                "emoji": "3️⃣",
+                "label": "3 gün",
+                "value": "3"
+              },
+              {
+                "description": "Üyeler 7 gün içinde kayıt olmalıdır.",
+                "emoji": "7️⃣",
+                "label": "7 gün",
+                "value": "7"
+              },
+              {
+                "description": "Üyeler 14 gün içinde kayıt olmalıdır.",
+                "emoji": "1️⃣4️⃣",
+                "label": "14 gün",
+                "value": "14"
+              },
+              {
+                "description": "Üyeler 30 gün içinde kayıt olmalıdır.",
+                "emoji": "3️⃣0️⃣",
+                "label": "30 gün",
+                "value": "30"
+              }
+            ],
+            "type": 3
+          }
+        ],
+        "type": 1
+      }
+    ],
+    "content": "Üyelerin kayıt olması için gereken gün sayısını aşağıdan seçiniz.",
+    "ephemeral": true
+  },
+  "DAYS_FOR_MEMBERS_TO_REGISTER_SUCCESS": "Üyelerin kayıt olması için gereken gün sayısı başarıyla ayarlandı."
 }

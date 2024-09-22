@@ -25,17 +25,43 @@ export default {
     forceban: "1278053258492907591",
   },
 };
-export async function getEmoji(client, emojiID, fallbackEmoji) {
+export async function loadEmojis(client, emojiObject) {
   try {
-    const emoji = await client.application?.emojis.fetch(emojiID);
-    if (!emoji) return fallbackEmoji;
-    let emojiString;
-    if (emoji.animated) emojiString = `<a:${emoji.name}:${emoji.id}>`;
-    else emojiString = `<:${emoji.name}:${emoji.id}>`;
-    return emojiString;
+    const emojis = await client.application?.emojis.fetch();
+    if (!emojis) {
+      log("ERROR", "src/botconfig.ts", "No emojis found.");
+      for (const emoji of emojiObject) {
+        client.allEmojis.set(emoji.id, {
+          name: emoji.name,
+          format: emoji.fallBack,
+        });
+      }
+      return;
+    }
+    for (const emoji of emojiObject) {
+      const fetchedEmoji = emojis.find((e) => e.id === emoji.id);
+      if (!fetchedEmoji) {
+        log("ERROR", "src/botconfig.ts", `Emoji not found: ${emoji.name}`);
+        client.allEmojis.set(emoji.id, {
+          name: emoji.name,
+          format: emoji.fallBack,
+        });
+      } else {
+        if (fetchedEmoji.animated) {
+          client.allEmojis.set(emoji.id, {
+            name: emoji.name,
+            format: `<a:${fetchedEmoji.name}:${fetchedEmoji.id}>`,
+          });
+        } else {
+          client.allEmojis.set(emoji.id, {
+            name: emoji.name,
+            format: `<:${fetchedEmoji.name}:${fetchedEmoji.id}>`,
+          });
+        }
+      }
+    }
   } catch (e) {
-    log("ERROR", "botconfig.ts", `Failed to fetch emoji with ID: ${emojiID}. Error: ${e}`);
-    return fallbackEmoji;
+    log("ERROR", "src/botconfig.ts", `Error fetching emojis: ${e.message}`);
   }
 }
 //# sourceMappingURL=botconfig.js.map

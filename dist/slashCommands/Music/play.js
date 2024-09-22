@@ -88,7 +88,7 @@ export default {
     await interaction.reply(
       client
         .handleLanguages("PLAY_SEARCHING", client, interaction.guildId)
-        .replace("{searchEmoji}", await client.getEmoji(client, client.config.Emojis.searchEmoji, "🔍")),
+        .replace("{searchEmoji}", client.allEmojis.get(client.config.Emojis.searchEmoji).format),
     );
     const message = await interaction.fetchReply();
     const player = await useMainPlayer().play(interaction.member.voice.channel, SearchString, {

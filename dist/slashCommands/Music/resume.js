@@ -47,21 +47,21 @@ export default {
           player.node.resume();
           await interaction.reply(client.handleLanguages("RESUME_SUCCESS", client, interaction.guildId));
           const message = await interaction.fetchReply();
-          await message.react(await client.getEmoji(client, client.config.Emojis.confirm, "✅"));
+          await message.react(client.allEmojis.get(client.config.Emojis.confirm).format);
           return;
         }
       } else {
         player.node.resume();
         await interaction.reply(client.handleLanguages("RESUME_SUCCESS", client, interaction.guildId));
         const message = await interaction.fetchReply();
-        await message.react(await client.getEmoji(client, client.config.Emojis.confirm, "✅"));
+        await message.react(client.allEmojis.get(client.config.Emojis.confirm).format);
         return;
       }
     }
     player.node.resume();
     await interaction.reply(client.handleLanguages("RESUME_SUCCESS", client, interaction.guildId));
     const message = await interaction.fetchReply();
-    await message.react(await client.getEmoji(client, client.config.Emojis.confirm, "✅"));
+    await message.react(client.allEmojis.get(client.config.Emojis.confirm).format);
   },
 };
 //# sourceMappingURL=resume.js.map

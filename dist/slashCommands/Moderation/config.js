@@ -1,12 +1,10 @@
 import { PermissionsBitField, SlashCommandBuilder, ComponentType } from "discord.js";
 import { replaceMassString } from "../../utils/utils.js";
-import {
-  registerConfig,
-  welcomeConfig,
-  moderationConfig,
-  roleConfig,
-  miscConfig,
-} from "../../utils/configFunctions.js";
+import registerConfig from "../../configFunctions/registerConfig.js";
+import welcomeConfig from "../../configFunctions/welcomeConfig.js";
+import moderationConfig from "../../configFunctions/moderationConfig.js";
+import roleConfig from "../../configFunctions/roleConfig.js";
+import miscConfig from "../../configFunctions/miscConfig.js";
 export default {
   help: {
     name: "config",
@@ -96,17 +94,17 @@ export default {
                   ? `<#${guildConfig.config.registerChannel}>`
                   : "N/A",
                 "{registerMessage}": guildConfig.config.registerMessage
-                  ? await client.getEmoji(client, client.config.Emojis.confirm, "✅")
-                  : await client.getEmoji(client, client.config.Emojis.reject, "❌"),
+                  ? client.allEmojis.get(client.config.Emojis.confirm).format
+                  : client.allEmojis.get(client.config.Emojis.reject).format,
                 "{registerWelcomeChannel}": guildConfig.config.registerWelcomeChannel
                   ? `<#${guildConfig.config.registerWelcomeChannel}>`
                   : "N/A",
                 "{registerChannelClear}": guildConfig.config.registerChannelClear
-                  ? await client.getEmoji(client, client.config.Emojis.confirm, "✅")
-                  : await client.getEmoji(client, client.config.Emojis.reject, "❌"),
+                  ? client.allEmojis.get(client.config.Emojis.confirm).format
+                  : client.allEmojis.get(client.config.Emojis.reject).format,
                 "{registerMessageClear}": guildConfig.config.registerMessageClear
-                  ? await client.getEmoji(client, client.config.Emojis.confirm, "✅")
-                  : await client.getEmoji(client, client.config.Emojis.reject, "❌"),
+                  ? client.allEmojis.get(client.config.Emojis.confirm).format
+                  : client.allEmojis.get(client.config.Emojis.reject).format,
               });
               Object.assign(embeds.fields, values);
             }
@@ -125,14 +123,14 @@ export default {
             for (const values of embeds.fields) {
               values.value = replaceMassString(values.value, {
                 "{welcomeMessage}": guildConfig.config.welcomeMessage
-                  ? await client.getEmoji(client, client.config.Emojis.confirm, "✅")
-                  : await client.getEmoji(client, client.config.Emojis.reject, "❌"),
+                  ? client.allEmojis.get(client.config.Emojis.confirm).format
+                  : client.allEmojis.get(client.config.Emojis.reject).format,
                 "{welcomeChannel}": guildConfig.config.welcomeChannel
                   ? `<#${guildConfig.config.welcomeChannel}>`
                   : "N/A",
                 "{leaveMessage}": guildConfig.config.leaveMessage
-                  ? await client.getEmoji(client, client.config.Emojis.confirm, "✅")
-                  : await client.getEmoji(client, client.config.Emojis.reject, "❌"),
+                  ? client.allEmojis.get(client.config.Emojis.confirm).format
+                  : client.allEmojis.get(client.config.Emojis.reject).format,
                 "{leaveChannel}": guildConfig.config.leaveChannel ? `<#${guildConfig.config.leaveChannel}>` : "N/A",
               });
               Object.assign(embeds.fields, values);
@@ -153,8 +151,8 @@ export default {
               values.value = replaceMassString(values.value, {
                 "{modlogChannel}": guildConfig.config.modlogChannel ? `<#${guildConfig.config.modlogChannel}>` : "N/A",
                 "{muteGetAllRoles}": guildConfig.config.muteGetAllRoles
-                  ? await client.getEmoji(client, client.config.Emojis.confirm, "✅")
-                  : await client.getEmoji(client, client.config.Emojis.reject, "❌"),
+                  ? client.allEmojis.get(client.config.Emojis.confirm).format
+                  : client.allEmojis.get(client.config.Emojis.reject).format,
                 "{staffRole}":
                   guildConfig.config.staffRole.length > 0
                     ? guildConfig.config.staffRole.map((x) => `<@&${x}>`).join(", ")
@@ -206,8 +204,8 @@ export default {
                   ? `<#${guildConfig.config.bumpLeaderboardChannel}>`
                   : "N/A",
                 "{modMailMessage}": guildConfig.config.modmail.newThreadMessage
-                  ? await client.getEmoji(client, client.config.Emojis.confirm, "✅")
-                  : await client.getEmoji(client, client.config.Emojis.reject, "❌"),
+                  ? client.allEmojis.get(client.config.Emojis.confirm).format
+                  : client.allEmojis.get(client.config.Emojis.reject).format,
               });
               Object.assign(embeds.fields, values);
             }

@@ -260,7 +260,7 @@ export default {
                 "{duration}": longduration,
                 "{reason}": reason,
                 "{case}": data.case.toString(),
-                "{confirm}": await client.getEmoji(client, client.config.Emojis.confirm, "✅"),
+                "{confirm}": client.allEmojis.get(client.config.Emojis.confirm)!.format,
               },
             )!,
           );
@@ -275,7 +275,7 @@ export default {
                 "{duration}": longduration,
                 "{reason}": reason,
                 "{case}": data.case.toString(),
-                "{confirm}": await client.getEmoji(client, client.config.Emojis.confirm, "✅"),
+                "{confirm}": client.allEmojis.get(client.config.Emojis.confirm)!.format,
               },
             )!,
           );
@@ -334,7 +334,7 @@ export default {
               {
                 "{targetMember_username}": targetMember.user.tag,
                 "{case}": data.case.toString(),
-                "{confirm}": await client.getEmoji(client, client.config.Emojis.confirm, "✅"),
+                "{confirm}": client.allEmojis.get(client.config.Emojis.confirm)!.format,
               },
             )!,
           );
@@ -347,7 +347,7 @@ export default {
               {
                 "{targetMember_username}": targetMember.user.tag,
                 "{case}": data.case.toString(),
-                "{confirm}": await client.getEmoji(client, client.config.Emojis.confirm, "✅"),
+                "{confirm}": client.allEmojis.get(client.config.Emojis.confirm)!.format,
               },
             )!,
           );
@@ -431,7 +431,7 @@ export default {
             {
               "{targetMember_username}": fetchUser.tag,
               "{duration}": longduration,
-              "{confirm}": await client.getEmoji(client, client.config.Emojis.confirm, "✅"),
+              "{confirm}": client.allEmojis.get(client.config.Emojis.confirm)!.format,
               "{case}": data.case.toString(),
             },
           )!,
@@ -475,7 +475,7 @@ export default {
             {
               "{targetMember_username}": fetchUser.tag,
               "{case}": data.case.toString(),
-              "{confirm}": await client.getEmoji(client, client.config.Emojis.confirm, "✅"),
+              "{confirm}": client.allEmojis.get(client.config.Emojis.confirm)!.format,
             },
           )!,
         );

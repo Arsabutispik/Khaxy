@@ -13,7 +13,8 @@ import "dotenv/config.js";
 import resetBumpLeaderboard from "./utils/resetBumpLeaderboard.js";
 import recoverMissedCronJob from "./utils/recoverMissedCronJob.js";
 import cluster from "cluster";
-import { getEmoji } from "./botconfig.js";
+import { loadEmojis } from "./botconfig.js";
+import checkUnregisteredPeople from "./utils/checkUnregisteredPeople.js";
 const client = new Client({
   intents: [
     IntentsBitField.Flags.Guilds,
@@ -40,7 +41,45 @@ const player = new Player(client);
   client.slashCommands = new Collection();
   client.guildsConfig = new Collection();
   client.handleLanguages = handleLanguages;
-  client.getEmoji = getEmoji;
+  client.allEmojis = new Collection();
+  const emojis = [
+    {
+      name: "searchEmoji",
+      id: client.config.Emojis.searchEmoji,
+      fallBack: "🔍",
+    },
+    {
+      name: "gearSpinning",
+      id: client.config.Emojis.gearSpinning,
+      fallBack: "⚙️",
+    },
+    {
+      name: "mailSent",
+      id: client.config.Emojis.mailSent,
+      fallBack: "📩",
+    },
+    {
+      name: "confirm",
+      id: client.config.Emojis.confirm,
+      fallBack: "✅",
+    },
+    {
+      name: "reject",
+      id: client.config.Emojis.reject,
+      fallBack: "❌",
+    },
+    {
+      name: "ban",
+      id: client.config.Emojis.ban,
+      fallBack: "🔨",
+    },
+    {
+      name: "forceban",
+      id: client.config.Emojis.forceban,
+      fallBack: "🔨",
+    },
+  ];
+  await loadEmojis(client, emojis);
   try {
     mongoose.set("strictQuery", true);
     if (process.env.npm_lifecycle_event === "test") {
@@ -97,6 +136,9 @@ client.once("ready", async () => {
       timezone: "Europe/Istanbul",
     },
   );
+  cron.schedule("0 0 * * *", async () => {
+    await checkUnregisteredPeople(client);
+  });
   log("SUCCESS", "src/events/ready.js", "App activated successfully.");
   const messages = [
     {

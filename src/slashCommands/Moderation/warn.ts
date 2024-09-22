@@ -127,7 +127,7 @@ export default {
           {
             "{user}": member.user.username,
             "{case}": data.case.toString(),
-            "{confirm}": await client.getEmoji(client, client.config.Emojis.confirm, "✅"),
+            "{confirm}": client.allEmojis.get(client.config.Emojis.confirm)!.format,
           },
         )!,
       );
@@ -138,7 +138,7 @@ export default {
           {
             "{user}": member.user.username,
             "{case}": data.case.toString(),
-            "{confirm}": await client.getEmoji(client, client.config.Emojis.confirm, "✅"),
+            "{confirm}": client.allEmojis.get(client.config.Emojis.confirm)!.format,
           },
         )!,
       );
