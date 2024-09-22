@@ -1682,18 +1682,6 @@
                 "emoji": "7️⃣",
                 "label": "7 days",
                 "value": "7"
-              },
-              {
-                "description": "Members must register within 14 days.",
-                "emoji": "1️⃣4️⃣",
-                "label": "14 days",
-                "value": "14"
-              },
-              {
-                "description": "Members must register within 30 days.",
-                "emoji": "3️⃣0️⃣",
-                "label": "30 days",
-                "value": "30"
               }
             ]
           }

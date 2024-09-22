@@ -1600,18 +1600,6 @@
                 "emoji": "7️⃣",
                 "label": "7 gün",
                 "value": "7"
-              },
-              {
-                "description": "Üyeler 14 gün içinde kayıt olmalıdır.",
-                "emoji": "1️⃣4️⃣",
-                "label": "14 gün",
-                "value": "14"
-              },
-              {
-                "description": "Üyeler 30 gün içinde kayıt olmalıdır.",
-                "emoji": "3️⃣0️⃣",
-                "label": "30 gün",
-                "value": "30"
               }
             ],
             "type": 3
