@@ -189,26 +189,26 @@ export default {
       } catch (e) {
         await handleErrors(client, e, "register.ts", interaction);
       }
-      await interaction.reply({
-        content: replaceMassString(
-          JSON.parse(JSON.stringify(client.handleLanguages("REGISTER_SUCCESS", client, interaction.guildId))),
-          {
-            "{targetMember}": targetMember.toString(),
-          },
-        ),
-        ephemeral: true,
-      });
-      await sleep(1000);
-      if (guildConfig.config.registerChannelClear) {
-        if (!interaction.inCachedGuild()) return;
-        const msgs = await interaction.channel.messages.fetch();
-        await interaction.channel.bulkDelete(msgs.filter((m) => !m.pinned));
-      }
-      if (guildConfig.config.registerMessageClear) {
-        const welcomeChannel = interaction.guild.channels.cache.get(guildConfig.config.registerWelcomeChannel);
-        const wmsgs = await welcomeChannel.messages.fetch({ cache: true });
-        await welcomeChannel.messages.delete(wmsgs.find((m) => m.mentions.members?.first()?.id === targetMember.id));
-      }
+    }
+    await interaction.reply({
+      content: replaceMassString(
+        JSON.parse(JSON.stringify(client.handleLanguages("REGISTER_SUCCESS", client, interaction.guildId))),
+        {
+          "{targetMember}": targetMember.toString(),
+        },
+      ),
+      ephemeral: true,
+    });
+    await sleep(1000);
+    if (guildConfig.config.registerChannelClear) {
+      if (!interaction.inCachedGuild()) return;
+      const msgs = await interaction.channel.messages.fetch();
+      await interaction.channel.bulkDelete(msgs.filter((m) => !m.pinned));
+    }
+    if (guildConfig.config.registerMessageClear) {
+      const welcomeChannel = interaction.guild.channels.cache.get(guildConfig.config.registerWelcomeChannel);
+      const wmsgs = await welcomeChannel.messages.fetch({ cache: true });
+      await welcomeChannel.messages.delete(wmsgs.find((m) => m.mentions.members?.first()?.id === targetMember.id));
     }
   },
 };
