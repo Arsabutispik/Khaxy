@@ -2,6 +2,7 @@ import { GuildMember, EmbedBuilder, SlashCommandBuilder, PermissionsBitField } f
 import modlog from "../../utils/modlog.js";
 import { slashCommandBase } from "../../../@types/types";
 import { replaceMassString } from "../../utils/utils.js";
+import { addInfraction } from "../../utils/infractionsHandler.js";
 
 export default {
   help: {
@@ -162,5 +163,13 @@ export default {
         });
       }
     }
+    await addInfraction({
+      client,
+      guild: interaction.guild!,
+      member: member.user.id,
+      moderator: interaction.user.id,
+      reason,
+      type: "warn",
+    });
   },
 } as slashCommandBase;

@@ -43,6 +43,7 @@ const guildSchema = new Schema(
         type: Number,
         default: 0,
       },
+      infractions: Array,
     },
   },
   {

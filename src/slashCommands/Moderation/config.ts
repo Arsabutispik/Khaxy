@@ -174,6 +174,7 @@ export default {
                   ? `<#${guildConfig.config.modmail.logChannel}>`
                   : "N/A",
                 "{language}": language[guildConfig.config.language],
+                "{registerDayLimit}": guildConfig.config.daysToKick.toString(),
               })!;
               Object.assign(embeds.fields, values);
             }

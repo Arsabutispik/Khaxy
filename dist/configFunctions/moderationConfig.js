@@ -274,7 +274,7 @@ async function daysForMembersToRegister(interaction, client) {
       const data = collector.values[0];
       const config = {
         $set: {
-          "config.daysForMembersToRegister": parseInt(data),
+          "config.daysToKick": parseInt(data),
         },
       };
       await client.updateGuildConfig({

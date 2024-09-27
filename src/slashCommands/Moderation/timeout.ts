@@ -2,6 +2,7 @@ import { slashCommandBase } from "../../../@types/types";
 import { GuildMember, GuildMemberRoleManager, PermissionsBitField, SlashCommandBuilder } from "discord.js";
 import ms from "ms";
 import modlog from "../../utils/modlog.js";
+import { addInfraction } from "../../utils/infractionsHandler.js";
 
 export default {
   data: new SlashCommandBuilder()
@@ -134,5 +135,13 @@ export default {
       },
       client,
     );
+    await addInfraction({
+      client,
+      member: member.user.id,
+      guild: interaction.guild!,
+      moderator: interaction.user.id,
+      reason,
+      type: "mute",
+    });
   },
 } as slashCommandBase;

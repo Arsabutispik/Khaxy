@@ -120,7 +120,7 @@
     "embeds": [
       {
         "color": 0,
-        "description": "Ayarlar ve kısaca açıklamaları;\n\n**Modlog Kanalı:** Moderasyon işlemlerinin atıldığı kanal.\n\n**Mute Sırasında Roller Alınsın mı?:** Kullanıcı susturulduğunda rollerini alıp bittiğinde geri verilir.\n\n**Yetkili Rolleri:** Spesifik admin komutları içindir. (Örneğin: `/kayıt` komutu)\n\n**ModMail Kanalı**: Modmail üyelerin bota DM yazarak sunucuda modlarla özel bir kanalda konuşabileceği yerler açar.\n\n**Dil**:Sunucunun dilini ayarlar\n\n**»»----------------------------¤----------------------------««**",
+        "description": "Ayarlar ve kısaca açıklamaları;\n\n**Modlog Kanalı:** Moderasyon işlemlerinin atıldığı kanal.\n\n**Mute Sırasında Roller Alınsın mı?:** Kullanıcı susturulduğunda rollerini alıp bittiğinde geri verilir.\n\n**Yetkili Rolleri:** Spesifik admin komutları içindir. (Örneğin: `/kayıt` komutu)\n\n**ModMail Kanalı**: Modmail üyelerin bota DM yazarak sunucuda modlarla özel bir kanalda konuşabileceği yerler açar.\n\n**Dil**:Sunucunun dilini ayarlar\n\n**Kayıt İçin Gün Sınırı**: Üyelerin verilen gün içinde kayıt olmazlarsa atılmasına sebep olurlar\n\n**»»----------------------------¤----------------------------««**",
         "fields": [
           {
             "inline": true,
@@ -146,6 +146,11 @@
             "inline": true,
             "name": "Yetkili Rolleri",
             "value": "{staffRole}"
+          },
+          {
+            "inline": true,
+            "name": "Kayıt İçin Gün Sınırı",
+            "value": "{registerDayLimit}"
           }
         ],
         "title": "Moderasyon Ayarları"
@@ -320,8 +325,18 @@
         "fields": [
           {
             "inline": true,
+            "name": "Eski Sebep",
+            "value": "{oldReason}"
+          },
+          {
+            "inline": true,
             "name": "Yeni Sebep",
             "value": "{newReason}"
+          },
+          {
+            "inline": true,
+            "name": "Eski Yetkili",
+            "value": "{oldStaff}"
           },
           {
             "inline": true,

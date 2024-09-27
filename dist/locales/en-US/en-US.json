@@ -119,7 +119,7 @@
     "embeds": [
       {
         "color": 0,
-        "description": "Settings and brief explanations;\n\n**Modlog Channel:** The channel where moderation actions are sent.\n\n**Should Roles be Removed During Mute?:** Roles are removed when a user is muted and given back when the mute is over.\n\n**Staff Roles:** For specific admin commands. (For example: `/register` command)\n\n**ModMail Channel**: Modmail opens a channel where members can talk to the mods in a private channel by DMing the bot.\n\n**Language**: Sets the language of the server\n\n**»»----------------------------¤----------------------------««**",
+        "description": "Settings and brief explanations;\n\n**Modlog Channel:** The channel where moderation actions are sent.\n\n**Should Roles be Removed During Mute?:** Roles are removed when a user is muted and given back when the mute is over.\n\n**Staff Roles:** For specific admin commands. (For example: `/register` command)\n\n**ModMail Channel**: Modmail opens a channel where members can talk to the mods in a private channel by DMing the bot.\n\n**Language**: Sets the language of the server\n\n**Day Limit for Registration**: If members do not register within the given day, they will be kicked out.\n\n**»»----------------------------¤----------------------------««**",
         "fields": [
           {
             "inline": true,
@@ -145,6 +145,11 @@
             "inline": true,
             "name": "Staff Roles",
             "value": "{staffRole}"
+          },
+          {
+            "inline": true,
+            "name": "Day Limit for Registration",
+            "value": "{registerDayLimit}"
           }
         ],
         "title": "Moderation Settings"
@@ -315,12 +320,22 @@
     "embeds": [
       {
         "color": 0,
-        "description": "Press {confirm} to confirm the changes, {confirm} to cancel.",
+        "description": "Press {confirm} to confirm the changes, {reject} to cancel.",
         "fields": [
+          {
+            "inline": true,
+            "name": "Old Reason",
+            "value": "{oldReason}"
+          },
           {
             "inline": true,
             "name": "New Reason",
             "value": "{newReason}"
+          },
+          {
+            "inline": true,
+            "name": "Old Staff",
+            "value": "{oldStaff}"
           },
           {
             "inline": true,

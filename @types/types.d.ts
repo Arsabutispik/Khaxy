@@ -1,4 +1,13 @@
-import { ChatInputCommandInteraction, Client, Collection, Message, SlashCommandBuilder, Snowflake } from "discord.js";
+import {
+  ChatInputCommandInteraction,
+  Client,
+  Collection,
+  Guild,
+  Message,
+  SlashCommandBuilder,
+  Snowflake,
+  User,
+} from "discord.js";
 import { UpdateQuery } from "mongoose";
 import botconfig from "../src/botconfig.js";
 
@@ -67,6 +76,22 @@ export interface guildConfig {
     language: "tr" | "en-US";
     bumpLeaderboardChannel: string;
     daysToKick: number;
+    infractions: Array<{
+      moderator: string;
+      reason: string;
+      memberId: string;
+      type: "warn" | "mute" | "kick" | "ban" | "forceban";
+      date: number;
+      case: number;
+      oldInfractions?: Array<{
+        moderator: string;
+        reason: string;
+        memberId: string;
+        type: "warn" | "mute" | "kick" | "ban" | "forceban";
+        date: number;
+        case: number;
+      }>;
+    }>;
   };
 }
 export declare class KhaxyClient extends Client {
@@ -100,4 +125,12 @@ export interface customObject {
 export interface updateGuildConfigParameters {
   guildId: Snowflake;
   config: UpdateQuery<any>;
+}
+export interface infractionAddParameters {
+  guild: Guild;
+  member: Snowflake;
+  moderator: Snowflake;
+  type: "warn" | "mute" | "kick" | "ban" | "forceban";
+  reason: string;
+  client: KhaxyClient;
 }

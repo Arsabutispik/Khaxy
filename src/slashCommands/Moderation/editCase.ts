@@ -13,6 +13,7 @@ import {
 } from "discord.js";
 import modlog from "../../utils/modlog.js";
 import { replaceMassString } from "../../utils/utils.js";
+import { editInfraction } from "../../utils/infractionsHandler.js";
 
 export default {
   help: {
@@ -120,10 +121,23 @@ export default {
         "{confirm}": client.allEmojis.get(client.config.Emojis.confirm)!.format,
         "{reject}": client.allEmojis.get(client.config.Emojis.reject)!.format,
       });
+      const oldInfractions = data.config.infractions.find((x) => x.case === id)!;
+      let oldStaff: string | GuildMember;
+      let oldReason: string;
+      if (oldInfractions.oldInfractions?.length) {
+        const lastInfraction = oldInfractions.oldInfractions[oldInfractions.oldInfractions.length - 1];
+        oldStaff = interaction.guild!.members.cache.get(lastInfraction.moderator) || lastInfraction.moderator;
+        oldReason = lastInfraction.reason;
+      } else {
+        oldStaff = interaction.guild!.members.cache.get(oldInfractions.moderator) || oldInfractions.moderator;
+        oldReason = oldInfractions.reason;
+      }
       for (const values of embeds.fields) {
         values.value = replaceMassString(values.value, {
           "{newStaff}": interaction.user.toString(),
           "{newReason}": reason,
+          "{oldStaff}": oldStaff.toString(),
+          "{oldReason}": oldReason,
         })!;
         Object.assign(embeds.fields, values);
       }
@@ -157,6 +171,7 @@ export default {
         await msg.edit({ embeds: [embed] });
         break;
       case "accept":
+        const infractions = data.config.infractions.find((x) => x.case === id)!;
         embed.setColor("Green");
         await msg.edit({ embeds: [embed], components: [] });
         await modlog(
@@ -173,6 +188,15 @@ export default {
         await response.reply({
           content: client.handleLanguages("EDITCASE_CONFIRMATION_SUCCESS", client, interaction.guild!.id),
           ephemeral: true,
+        });
+        await editInfraction({
+          client,
+          guild: interaction.guild!,
+          caseNumber: id,
+          reason,
+          member: infractions.memberId,
+          type: infractions.type,
+          moderator: interaction.user.id,
         });
         break;
     }

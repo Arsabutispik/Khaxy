@@ -3,6 +3,7 @@ import ms from "ms";
 import Punishment from "../../schemas/punishmentSchema.js";
 import modlog from "../../utils/modlog.js";
 import { handleErrors, replaceMassString } from "../../utils/utils.js";
+import { addInfraction } from "../../utils/infractionsHandler.js";
 export default {
   help: {
     name: "mute",
@@ -261,6 +262,14 @@ export default {
         await handleErrors(client, error, "mute.ts", interaction);
       }
     }
+    await addInfraction({
+      client,
+      member: targetMember.user.id,
+      guild: interaction.guild,
+      moderator: interaction.user.id,
+      reason,
+      type: "mute",
+    });
   },
 };
 //# sourceMappingURL=mute.js.map

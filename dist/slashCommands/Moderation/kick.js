@@ -1,6 +1,7 @@
 import { PermissionsBitField, SlashCommandBuilder } from "discord.js";
 import modlog from "../../utils/modlog.js";
 import { daysToSeconds, handleErrors, replaceMassString } from "../../utils/utils.js";
+import { addInfraction } from "../../utils/infractionsHandler.js";
 export default {
   help: {
     name: "kick",
@@ -159,6 +160,14 @@ export default {
     } catch (e) {
       await handleErrors(client, e, "kick.ts", interaction);
     }
+    await addInfraction({
+      client,
+      member: targetMember.user.id,
+      guild: interaction.guild,
+      moderator: interaction.user.id,
+      reason,
+      type: "kick",
+    });
   },
 };
 //# sourceMappingURL=kick.js.map

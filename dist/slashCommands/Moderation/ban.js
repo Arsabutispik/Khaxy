@@ -3,6 +3,7 @@ import ms from "ms";
 import modlog from "../../utils/modlog.js";
 import Punishment from "../../schemas/punishmentSchema.js";
 import { daysToSeconds, handleErrors, replaceMassString } from "../../utils/utils.js";
+import { addInfraction } from "../../utils/infractionsHandler.js";
 export default {
   help: {
     name: "ban",
@@ -314,6 +315,14 @@ export default {
           expires: new Date(Date.now() + duration),
           type: "ban",
         }).save();
+        await addInfraction({
+          client,
+          member: targetMember.user.id,
+          guild: interaction.guild,
+          moderator: interaction.user.id,
+          reason,
+          type: "ban",
+        });
       } else {
         try {
           await targetMember.send(
@@ -375,6 +384,14 @@ export default {
             });
           }
         }
+        await addInfraction({
+          client,
+          member: targetMember.user.id,
+          guild: interaction.guild,
+          moderator: interaction.user.id,
+          reason,
+          type: "ban",
+        });
       }
     } else if (subCommand === "force") {
       let fetchUser;
@@ -460,6 +477,14 @@ export default {
           expires: new Date(Date.now() + duration),
           type: "ban",
         }).save();
+        await addInfraction({
+          client,
+          member: fetchUser.id,
+          guild: interaction.guild,
+          moderator: interaction.user.id,
+          reason,
+          type: "forceban",
+        });
       } else {
         const reason =
           interaction.options.getString("reason", false) ||
@@ -497,6 +522,14 @@ export default {
             });
           }
         }
+        await addInfraction({
+          client,
+          member: fetchUser.id,
+          guild: interaction.guild,
+          moderator: interaction.user.id,
+          reason,
+          type: "forceban",
+        });
       }
     }
   },

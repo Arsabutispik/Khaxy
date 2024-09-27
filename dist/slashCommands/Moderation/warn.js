@@ -1,6 +1,7 @@
 import { EmbedBuilder, SlashCommandBuilder, PermissionsBitField } from "discord.js";
 import modlog from "../../utils/modlog.js";
 import { replaceMassString } from "../../utils/utils.js";
+import { addInfraction } from "../../utils/infractionsHandler.js";
 export default {
   help: {
     name: "warn",
@@ -160,6 +161,14 @@ export default {
         });
       }
     }
+    await addInfraction({
+      client,
+      guild: interaction.guild,
+      member: member.user.id,
+      moderator: interaction.user.id,
+      reason,
+      type: "warn",
+    });
   },
 };
 //# sourceMappingURL=warn.js.map
