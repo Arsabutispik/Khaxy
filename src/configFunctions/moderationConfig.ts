@@ -43,6 +43,9 @@ export default async function moderationConfig(interaction: ChatInputCommandInte
         case "daysForMembersToRegister":
           await daysForMembersToRegister(collector, client);
           break;
+        case "infractionEvents":
+            await infractionEvents(collector, client);
+            break;
       }
     }
   } catch (error) {
@@ -310,4 +313,38 @@ async function daysForMembersToRegister(interaction: SelectMenuInteraction, clie
   } catch (error) {
     await handleErrors(client, error, "moderationConfig.ts", interaction);
   }
+}
+
+async function infractionEvents(interaction: SelectMenuInteraction, client: KhaxyClient) {
+    const raw = client.handleLanguages("INFRACTION_EVENTS_PROMPT", client, interaction.guildId!);
+    const infractionEvents = client.guildsConfig.get(interaction.guild!.id)?.config.infractionEvents;
+    if (infractionEvents?.length) {
+      const emojis = {
+        "1": "1️⃣",
+        "2": "2️⃣",
+        "3": "3️⃣",
+        "4": "4️⃣",
+        "5": "5️⃣",
+      }
+
+      function removeItem<T>(arr: Array<T>, value: T): Array<T> {
+        const index = arr.indexOf(value);
+        if (index > -1) {
+          arr.splice(index, 1);
+        }
+        return arr;
+      }
+
+      raw.components[0].components[0].options = infractionEvents.map((event, index) => {
+        const options = raw.components[0].components[0].options;
+        removeItem(options, options.find((option) => option.value === (index + 1).toString()));
+        return {
+          label: event.event,
+          value: (index + 1).toString(),
+          description: `${index + 1}. ${event.event}`,
+          emoji: emojis[(index + 1).toString() as keyof typeof emojis],
+        };
+      })
+    }
+    await interaction.reply(raw);
 }

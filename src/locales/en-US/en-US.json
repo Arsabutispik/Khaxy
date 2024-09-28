@@ -1713,5 +1713,55 @@
     "content": "Select the number of days for members to register.",
     "ephemeral": true
   },
-  "DAYS_FOR_MEMBERS_TO_REGISTER_SUCCESS": "The number of days for members to register has been successfully set."
+  "DAYS_FOR_MEMBERS_TO_REGISTER_SUCCESS": "The number of days for members to register has been successfully set.",
+  "INFRACTION_EVENTS_PROMPT": {
+    "components": [
+      {
+        "components": [
+          {
+            "custom_id": "infractionEvents",
+            "max_values": 1,
+            "min_values": 1,
+            "placeholder": "Select an infraction.",
+            "type": 3,
+            "options": [
+              {
+                "description": "1. No Action",
+                "emoji": "1️⃣",
+                "label": "No Action",
+                "value": "1"
+              },
+              {
+                "description": "2. No Action",
+                "emoji": "2️⃣",
+                "label": "No Action",
+                "value": "2"
+              },
+              {
+                "description": "3. No Action",
+                "emoji": "3️⃣",
+                "label": "No Action",
+                "value": "3"
+              },
+              {
+                "description": "4. No Action",
+                "emoji": "4️⃣",
+                "label": "No Action",
+                "value": "4"
+              },
+              {
+                "description": "5. No Action",
+                "emoji": "5️⃣",
+                "label": "No Action",
+                "value": "5"
+              }
+            ]
+          }
+        ],
+        "type": 1
+      }
+    ],
+    "content": "Select an infraction to configure.",
+    "ephemeral": true
+  }
 }

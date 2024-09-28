@@ -1632,5 +1632,55 @@
     "content": "Üyelerin kayıt olması için gereken gün sayısını aşağıdan seçiniz.",
     "ephemeral": true
   },
-  "DAYS_FOR_MEMBERS_TO_REGISTER_SUCCESS": "Üyelerin kayıt olması için gereken gün sayısı başarıyla ayarlandı."
+  "DAYS_FOR_MEMBERS_TO_REGISTER_SUCCESS": "Üyelerin kayıt olması için gereken gün sayısı başarıyla ayarlandı.",
+  "INFRACTION_EVENTS_PROMPT": {
+    "components": [
+      {
+        "components": [
+          {
+            "custom_id": "infractionEvents",
+            "max_values": 1,
+            "min_values": 1,
+            "placeholder": "Bir seçenek seçiniz.",
+            "type": 3,
+            "options": [
+              {
+                "description": "1. Eylem Yok",
+                "emoji": "1️⃣",
+                "label": "Eylem Yok",
+                "value": "1"
+              },
+              {
+                "description": "2. Eylem Yok",
+                "emoji": "2️⃣",
+                "label": "Eylem Yok",
+                "value": "2"
+              },
+              {
+                "description": "3. Eylem Yok",
+                "emoji": "3️⃣",
+                "label": "Eylem Yok",
+                "value": "3"
+              },
+              {
+                "description": "4. Eylem Yok",
+                "emoji": "4️⃣",
+                "label": "Eylem Yok",
+                "value": "4"
+              },
+              {
+                "description": "5. Eylem Yok",
+                "emoji": "5️⃣",
+                "label": "Eylem Yok",
+                "value": "5"
+              }
+            ]
+          }
+        ],
+        "type": 1
+      }
+    ],
+    "content": "İhlal olaylarını aşağıdan seçiniz.",
+    "ephemeral": true
+  }
 }

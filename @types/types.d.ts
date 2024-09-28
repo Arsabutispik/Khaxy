@@ -6,7 +6,6 @@ import {
   Message,
   SlashCommandBuilder,
   Snowflake,
-  User,
 } from "discord.js";
 import { UpdateQuery } from "mongoose";
 import botconfig from "../src/botconfig.js";
@@ -91,6 +90,11 @@ export interface guildConfig {
         date: number;
         case: number;
       }>;
+    }>;
+    infractionEvents: Array<{
+      event: "mute" | "kick" | "ban" | "none";
+      time: number;
+      eventNumber: number;
     }>;
   };
 }

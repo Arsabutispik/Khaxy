@@ -244,6 +244,7 @@ export default {
         break;
       case "misc":
         await miscConfig(interaction, client);
+        break;
     }
   },
 } as slashCommandBase;

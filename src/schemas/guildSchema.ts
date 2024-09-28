@@ -45,6 +45,7 @@ const guildSchema = new Schema(
         default: 0,
       },
       infractions: Array,
+      infractionEvents: Array
     },
   },
   {
