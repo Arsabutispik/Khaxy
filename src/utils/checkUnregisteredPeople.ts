@@ -21,6 +21,7 @@ export default async (client: KhaxyClient) => {
       members.filter(async (member) => {
         if (member.user.bot) return;
         if (member.roles.cache.has(guildConfig.config?.memberRole || "0")) return;
+        if (member.roles.cache.has(guildConfig.config?.muteRole || "0")) return;
         if (member.joinedTimestamp! < Date.now() - 1000 * 60 * 60 * 24 * (guildConfig.config?.daysToKick || 7)) {
           if (!member.kickable) return;
           member
