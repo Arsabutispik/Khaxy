@@ -9,6 +9,7 @@ export default async (client: KhaxyClient, oldMember: GuildMember, newMember: Gu
       type: AuditLogEvent.MemberUpdate,
     });
     const log = fetchedLogs.entries.first();
+    if (Date.now() - log!.createdTimestamp >= 5000) return;
     if (!log) {
       await modlog(
         {
