@@ -66,6 +66,24 @@
     }
   },
   "messageUpdate": {
-    "message_edit": "***Kullanıcı mesajını düzenledi.***\n```diff\n- {{oldContent}}\n+ {{newContent}}\n```"
+    "message_edit": "***Kullanıcı mesajını düzenledi.***\n```diff\n- {{oldContent}}\n+ {{newContent}}\n```",
+    "embed": {
+      "title": "Mesaj Düzenlendi",
+      "description": "> **Kanal**: {{message.channel.name}} (<#{{message.channel.id}}>)\n> **Kullanıcı**: {{message.author.tag}} (<@{{message.author.id}}>)\n> **Mesaj ID**: [{{message.id}}](https://discord.com/channels/{{message.guild.id}}/{{message.channel.id}}/{{message.id}})",
+      "fields": {
+        "oldContent": "Önceden",
+        "newContent": "Sonra"
+      }
+    }
+  },
+  "messageDelete": {
+    "embed": {
+      "title": "Mesaj Silindi",
+      "description": "> **Kanal**: {{message.channel.name}} (<#{{message.channel.id}}>)\n> **Kullanıcı**: {{message.author.tag}} (<@{{message.author.id}}>)\n> **Mesaj ID**: [{{message.id}}](https://discord.com/channels/{{message.guild.id}}/{{message.channel.id}}/{{message.id}})",
+      "fields": {
+        "content": "Mesaj",
+        "attachments": "{{count}} Ek Dosya"
+      }
+    }
   }
 }

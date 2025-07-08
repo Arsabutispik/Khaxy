@@ -1,6 +1,7 @@
-import { Client } from "discord.js";
+import { Client, Message, TextChannel } from "discord.js";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration.js";
+import { getGuildConfig, updateGuildConfig } from "@database";
 /**
  * Pauses execution for a specified number of milliseconds.
  *
@@ -73,4 +74,37 @@ function trimString(str: string, maxLength = 100): string {
   return trimmed.slice(0, trimmed.lastIndexOf(" ")) + "...";
 }
 
-export { sleep, missingPermissionsAsString, replacePlaceholders, toStringId, formatDuration, trimString };
+async function returnWebhook(
+  message: Message<true>,
+  channel: TextChannel,
+  guild_config: NonNullable<Awaited<ReturnType<typeof getGuildConfig>>>,
+) {
+  let webhook = message.client.webhooks.get(toStringId(guild_config.message_logs_webhook_id));
+  if (!webhook) {
+    const webhooks = await channel.fetchWebhooks().catch(() => null);
+    if (!webhooks?.size) {
+      webhook = await channel.createWebhook({
+        name: message.client.user.username,
+        avatar: message.client.user.displayAvatarURL(),
+      });
+      await updateGuildConfig(message.guild.id, {
+        message_logs_webhook_id: BigInt(webhook.id),
+      });
+      message.client.webhooks.set(toStringId(guild_config.message_logs_webhook_id), webhook);
+    } else {
+      webhook = webhooks.get(toStringId(guild_config.message_logs_webhook_id));
+      console.log(webhook);
+      message.client.webhooks.set(toStringId(guild_config.message_logs_webhook_id), webhook);
+    }
+  }
+  return webhook!;
+}
+export {
+  sleep,
+  missingPermissionsAsString,
+  replacePlaceholders,
+  toStringId,
+  formatDuration,
+  trimString,
+  returnWebhook,
+};

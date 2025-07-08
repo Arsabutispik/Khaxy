@@ -66,6 +66,24 @@
     }
   },
   "messageUpdate": {
-    "message_edit": "***User edited their message.***\n```diff\n- {{oldContent}}\n+ {{newContent}}\n```"
+    "message_edit": "***User edited their message.***\n```diff\n- {{oldContent}}\n+ {{newContent}}\n```",
+    "embed": {
+      "title": "Message Edited",
+      "description": "> **Channel**: {{message.channel.name}} (<#{{message.channel.id}}>)\n> **Author**: {{message.author.tag}} (<@{{message.author.id}}>)\n> **Message ID**: [{{message.id}}](https://discord.com/channels/{{message.guild.id}}/{{message.channel.id}}/{{message.id}})",
+      "fields": {
+        "oldContent": "Before",
+        "newContent": "After"
+      }
+    }
+  },
+  "messageDelete": {
+    "embed": {
+      "title": "Message Deleted",
+      "description": "> **Channel**: {{message.channel.name}} (<#{{message.channel.id}}>)\n> **Author**: {{message.author.tag}} (<@{{message.author.id}}>)\n> **Message ID**: [{{message.id}}](https://discord.com/channels/{{message.guild.id}}/{{message.channel.id}}/{{message.id}})",
+      "fields": {
+        "content": "Message",
+        "attachments": "{{count}} Attachment(s)"
+      }
+    }
   }
 }

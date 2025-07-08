@@ -1,8 +1,8 @@
 import { EventBase } from "@customTypes";
-import { Events } from "discord.js";
+import { ChannelType, EmbedBuilder, Events } from "discord.js";
 import { getGuildConfig, getModMailThreadByUser, updateModMailMessage } from "@database";
 import { ModMailThreadStatus } from "@constants";
-import { toStringId } from "@utils";
+import { returnWebhook, toStringId } from "@utils";
 
 export default {
   name: Events.MessageUpdate,
@@ -35,6 +35,38 @@ export default {
           oldContent: oldMessage.content,
           newContent: newMessage.content,
         })}**`,
+      });
+    }
+    if (oldMessage.partial) oldMessage = await oldMessage.fetch();
+    if (newMessage.partial) newMessage = await newMessage.fetch();
+    if (oldMessage.inGuild()) {
+      if (oldMessage.author.id === newMessage.client.user!.id) return; // Ignore messages sent by the bot itself
+      const guild_config = await getGuildConfig(oldMessage.guild.id);
+      if (!guild_config) return;
+      const channel = oldMessage.guild.channels.cache.get(toStringId(guild_config.message_logs_channel_id));
+      if (!channel || channel.type !== ChannelType.GuildText) return;
+      const t = oldMessage.client.i18next.getFixedT(guild_config.language, "events", "messageUpdate");
+      const webhook = await returnWebhook(oldMessage, channel, guild_config);
+      const embed = new EmbedBuilder()
+        .setTitle(t("embed.title"))
+        .setDescription(t("embed.description", { message: newMessage }))
+        .setColor("Yellow")
+        .addFields([
+          {
+            name: t("embed.fields.oldContent"),
+            value: oldMessage.content,
+            inline: true,
+          },
+          {
+            name: t("embed.fields.newContent"),
+            value: newMessage.content,
+            inline: true,
+          },
+        ])
+        .setTimestamp();
+      await webhook.send({
+        embeds: [embed],
+        allowedMentions: { parse: [] }, // Prevent mentions in the log
       });
     }
   },
