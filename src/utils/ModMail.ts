@@ -28,7 +28,7 @@ import {
   updateModMailThread,
 } from "@database";
 import { ModMailMessageSentTo, ModMailMessageType, ModMailThreadStatus } from "@constants";
-import relativeTime from "dayjs/plugin/relativeTime";
+import relativeTime from "dayjs/plugin/relativeTime.js";
 import { logger } from "@lib";
 import type { TFunction } from "i18next";
 
