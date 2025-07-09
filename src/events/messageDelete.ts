@@ -15,6 +15,7 @@ export default {
     if (!channel || channel.type !== ChannelType.GuildText) return;
     const t = message.client.i18next.getFixedT(guild_config.language, "events", "messageDelete");
     const webhook = await returnWebhook(message, channel, guild_config);
+    if (message.author.id === webhook.id) return;
     const embed = new EmbedBuilder()
       .setTitle(t("embed.title"))
       .setColor("Red")
