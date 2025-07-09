@@ -85,5 +85,13 @@
         "attachments": "{{count}} Ek Dosya"
       }
     }
+  },
+  "messageBulkDelete": {
+    "embed": {
+      "title": "{{count}} Mesaj Silindi",
+      "description": "> **Kanal**: {{message.channel.name}} (<#{{message.channel.id}}>)"
+    },
+    "file_name": "silinen_mesajlar.txt",
+    "message": "**Mesaj ID:** {{message.id}} **Kullanıcı:** {{message.author.tag}} **İçerik:** {{message.content}}"
   }
 }

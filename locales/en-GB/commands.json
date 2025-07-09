@@ -314,5 +314,12 @@
         }
       }
     }
+  },
+  "purge": {
+    "not_text_channel": "This command can only be used in text channels.",
+    "any": {
+      "success": "{{confirm}} Successfully deleted **{{count}}** messages.",
+      "error": "An error occurred while deleting the messages. Please try again later."
+    }
   }
 }

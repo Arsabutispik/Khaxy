@@ -93,7 +93,6 @@ async function returnWebhook(
       message.client.webhooks.set(toStringId(guild_config.message_logs_webhook_id), webhook);
     } else {
       webhook = webhooks.get(toStringId(guild_config.message_logs_webhook_id));
-      console.log(webhook);
       message.client.webhooks.set(toStringId(guild_config.message_logs_webhook_id), webhook);
     }
   }

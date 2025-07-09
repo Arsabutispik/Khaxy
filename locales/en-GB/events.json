@@ -85,5 +85,13 @@
         "attachments": "{{count}} Attachment(s)"
       }
     }
+  },
+  "messageBulkDelete": {
+    "embed": {
+      "title": "{{count}} Message(s) Deleted",
+      "description": "> **Channel**: {{message.channel.name}} (<#{{message.channel.id}}>)"
+    },
+    "file_name": "deleted_messages.txt",
+    "message": "**Message ID:** {{message.id}} **Author:** {{message.author.tag}} **Content:** {{message.content}}"
   }
 }

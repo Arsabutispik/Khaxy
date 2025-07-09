@@ -314,5 +314,12 @@
         }
       }
     }
+  },
+  "purge": {
+    "not_text_channel": "Bu komut sadece metin kanallarında kullanılabilir.",
+    "any": {
+      "success": "{{confirm}} **{{count}}** mesaj başarıyla temizlendi.",
+        "error": "Mesajlar temizlenirken hata oluştu. Daha sonra tekrar deneyin."
+    }
   }
 }
