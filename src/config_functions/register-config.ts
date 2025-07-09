@@ -110,7 +110,8 @@ export async function dynamicChannel(
     | "leave_channel_id"
     | "mod_log_channel_id"
     | "mod_mail_channel_id"
-    | "bump_leaderboard_channel_id",
+    | "bump_leaderboard_channel_id"
+    | "message_logs_channel_id",
   interaction: StringSelectMenuInteraction<"cached">,
   data: Guilds,
   t: TFunction,

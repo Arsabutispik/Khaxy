@@ -10,7 +10,14 @@ import {
   EmbedBuilder,
   InteractionContextType,
 } from "discord.js";
-import { miscConfig, moderationConfig, registerConfig, roleConfig, welcomeLeaveConfig } from "@configFunctions";
+import {
+  logConfig,
+  miscConfig,
+  moderationConfig,
+  registerConfig,
+  roleConfig,
+  welcomeLeaveConfig,
+} from "@configFunctions";
 import { getGuildConfig } from "@database";
 import { localeFlags } from "@constants";
 
@@ -310,7 +317,12 @@ export default {
           embed
             .setTitle(t("embed.log.title"))
             .setURL(`${docs_url}/${guild_config.language.split("-")[0]}/configuration/log-settings`)
-            .addFields();
+            .addFields([
+              {
+                name: t("embed.log.fields.message_logs_channel"),
+                value: guild_config.message_logs_channel_id ? `<#${guild_config.message_logs_channel_id}>` : t("none"),
+              },
+            ]);
           actionRow.setComponents(newSelectMenu);
           await i.update({ embeds: [embed], components: [actionRow] });
         }
@@ -334,6 +346,9 @@ export default {
         break;
       case "misc":
         await miscConfig(interaction);
+        break;
+      case "log":
+        await logConfig(interaction);
         break;
     }
   },

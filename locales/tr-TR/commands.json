@@ -107,7 +107,8 @@
       "register": "Kayıt Ayarları",
       "welcome_leave": "Gelen/Giden Ayarları",
       "role": "Rol Ayarları",
-      "misc": "Diğer Ayarlar"
+      "misc": "Diğer Ayarlar",
+      "log": "Günlük Ayarları"
     },
     "no_setting": "Aşağıdaki menüyü kullanarak ayarlara göz atın. Her başlık dökümantasyonu görmek için tıklanabilir.",
     "none": "Bulunamadı",
@@ -159,6 +160,12 @@
         "fields": {
           "language": "Dil",
           "mod_mail_message": "Mod Mail Mesajı"
+        }
+      },
+      "log": {
+        "title": "Günlük Ayarları",
+        "fields": {
+          "message_logs_channel": "Mesaj Günlük Kanalı"
         }
       }
     }

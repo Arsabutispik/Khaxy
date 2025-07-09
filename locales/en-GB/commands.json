@@ -107,7 +107,8 @@
       "register": "Register Settings",
       "welcome_leave": "Welcome/Leave Settings",
       "role": "Role Settings",
-      "misc": "Miscellaneous Settings"
+      "misc": "Miscellaneous Settings",
+      "log": "Log Settings"
     },
     "no_setting": "Use the menu below to navigate the settings. Each title can be clicked to view the documentation.",
     "none": "N/A",
@@ -159,6 +160,12 @@
         "fields": {
           "language": "Language",
           "mod_mail_message": "Mod Mail Message"
+        }
+      },
+      "log": {
+        "title": "Log Settings",
+        "fields": {
+          "message_logs_channel": "Message Logs Channel"
         }
       }
     }

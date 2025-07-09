@@ -221,6 +221,17 @@
       "set": "Bump leaderboard channel has been set to {{channel}}."
     }
   },
+  "log_config": {
+    "initial": "Select the setting you want to update.",
+    "timeout": "Message timed out. Please run the command again.",
+    "channel_initial": "Select a channel below. If you want to remove the channel, press x and click elsewhere.",
+    "message_logs_channel_id": {
+      "label": "Set Message Logs Channel",
+      "description": "The channel where; message delete, message update, bulk delete logs will be sent.",
+      "unset": "Message Logs channel has been removed.",
+      "set": "Message Logs channel has been set to {{channel}}."
+    }
+  },
   "mod_mail_log": {
     "initial": "# Mod-mail thread #{{thread_id}} with {{user.tag}} {{user.id}} started at {{time}}. All times are in GMT.\n",
     "bot_to_user": "[BOT TO USER]",
