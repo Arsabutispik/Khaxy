@@ -533,7 +533,7 @@ export async function modMailTextFile(
       messages.push(`[${dayjs(row.sent_at)}] ${t("command")} [${author ? author.tag : "Unknown"}] ${row.content}`);
     }
   }
-  const buffer = Buffer.from(messages.join("\n"), "utf-8");
+  const buffer = Buffer.from(messages.join("\n"), "utf8");
   const id = crypto.randomUUID();
   return new AttachmentBuilder(buffer, { name: id + ".txt" });
 }
