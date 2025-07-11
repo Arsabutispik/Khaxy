@@ -104,7 +104,7 @@ jobs:
           git fetch origin $NEW_COMMIT
           echo "Cleaning working directory..."
           git reset --hard
-          git clean -xdf
+          git clean -fd
 
           echo "Checking if commit $NEW_COMMIT exists..."
           if git cat-file -e $NEW_COMMIT^{commit}; then
