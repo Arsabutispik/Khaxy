@@ -1,6 +1,7 @@
 {
   "name": "khaxyrewrite",
   "version": "1.0.0",
+  "packageManager": "pnpm@10.11.1",
   "type": "module",
   "description": "",
   "main": "dist/index.js",
