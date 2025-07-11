@@ -94,17 +94,33 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
 
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no $VPS_USER@$VPS_HOST << 'EOF'
-            set -e
-            export PATH="/root/.nvm/versions/node/v22.16.0/bin:$PATH"
-            cd /opt/discord-bot
-            git rev-parse HEAD > .last_good_commit
-            git fetch origin
-            git reset --hard
-            git clean -fd
-            git reset --hard $NEW_COMMIT
-            pnpm install --frozen-lockfile
-            sudo systemctl restart discord-bot.service
+          set -e
+          export PATH="/root/.nvm/versions/node/v22.16.0/bin:$PATH"
+          cd /opt/discord-bot
+
+          echo "Fetching latest from origin..."
+          git fetch --all --prune
+          git fetch origin "+refs/heads/*:refs/remotes/origin/*" "+refs/pull/*/head:refs/remotes/origin/pr/*"
+          git fetch origin $NEW_COMMIT
+          echo "Cleaning working directory..."
+          git reset --hard
+          git clean -xdf
+
+          echo "Checking if commit $NEW_COMMIT exists..."
+          if git cat-file -e $NEW_COMMIT^{commit}; then
+          git reset --hard $NEW_COMMIT
+          else
+          echo "Warning: Commit not found, defaulting to origin/master."
+          git reset --hard origin/master
+          fi
+
+          echo "Installing dependencies..."
+          pnpm install --frozen-lockfile
+
+          echo "Restarting bot..."
+          sudo systemctl restart discord-bot.service
           EOF
+
 
       - name: Mark deployment as successful
         if: success()
