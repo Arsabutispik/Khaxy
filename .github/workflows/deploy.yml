@@ -98,7 +98,9 @@ jobs:
             export PATH="/root/.nvm/versions/node/v22.16.0/bin:$PATH"
             cd /opt/discord-bot
             git rev-parse HEAD > .last_good_commit
-            git fetch --all
+            git fetch origin
+            git reset --hard
+            git clean -fd
             git reset --hard $NEW_COMMIT
             pnpm install --frozen-lockfile
             sudo systemctl restart discord-bot.service
