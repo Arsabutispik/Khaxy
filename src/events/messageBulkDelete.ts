@@ -37,7 +37,7 @@ export default {
             },
             content: message.content?.trim() || "No content",
           };
-          return t("message", { message: formattedMessage });
+          return `[${new Date()}] ${t("message", { message: formattedMessage })}`;
         })
         .join("\n"),
       "utf8",

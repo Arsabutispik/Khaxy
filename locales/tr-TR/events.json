@@ -79,7 +79,7 @@
   "messageDelete": {
     "embed": {
       "title": "Mesaj Silindi",
-      "description": "> **Kanal**: {{message.channel.name}} (<#{{message.channel.id}}>)\n> **Kullanıcı**: {{message.author.tag}} (<@{{message.author.id}}>)\n> **Mesaj ID**: [{{message.id}}](https://discord.com/channels/{{message.guild.id}}/{{message.channel.id}}/{{message.id}})",
+      "description": "> **Kanal**: {{message.channel.name}} (<#{{message.channel.id}}>)\n> **Kullanıcı**: {{message.author.tag}} (<@{{message.author.id}}>)\n> **Mesaj ID**: [{{message.id}}](https://discord.com/channels/{{message.guild.id}}/{{message.channel.id}}/{{message.id}})\n> **Mesaj Oluşturulma Tarihi**: {{timestamp}}",
       "fields": {
         "content": "Mesaj",
         "attachments": "{{count}} Ek Dosya"

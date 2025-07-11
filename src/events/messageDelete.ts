@@ -1,5 +1,5 @@
 import { EventBase } from "@customTypes";
-import { ChannelType, EmbedBuilder, Events } from "discord.js";
+import { ChannelType, EmbedBuilder, Events, time, TimestampStyles } from "discord.js";
 import { getGuildConfig } from "@database";
 import { returnWebhook, toStringId, WebhookType } from "@utils";
 
@@ -22,7 +22,9 @@ export default {
     const embed = new EmbedBuilder()
       .setTitle(t("embed.title"))
       .setColor("Red")
-      .setDescription(t("embed.description", { message }))
+      .setDescription(
+        t("embed.description", { message, timestamp: time(message.createdAt, TimestampStyles.RelativeTime) }),
+      )
       .setTimestamp();
     if (message.content) {
       embed.addFields({ name: t("embed.fields.content"), value: message.content });
