@@ -2,6 +2,7 @@ import { EventBase } from "@customTypes";
 import { ChannelType, EmbedBuilder, Events, time, TimestampStyles } from "discord.js";
 import { getGuildConfig } from "@database";
 import { returnWebhook, toStringId, WebhookType } from "@utils";
+import { logger } from "@lib";
 
 export default {
   name: Events.MessageDelete,
@@ -30,7 +31,7 @@ export default {
       embed.addFields({ name: t("embed.fields.content"), value: message.content });
     }
     if (message.attachments.size > 0) {
-      const maxLength = 2048;
+      const maxLength = 1024; // Maximum length for the attachments field
       const links: string[] = [];
       let currentLength = 0;
 
@@ -40,17 +41,26 @@ export default {
         links.push(link);
         currentLength += link.length + 2;
       }
-
-      const attachmentText = links.join(", ");
+      const remaining = message.attachments.size - links.length;
+      const suffix = remaining > 0 ? ", [...]" : "";
+      const attachmentText = links.join(", ") + suffix;
       embed.addFields({
         name: t("embed.fields.attachments", { count: message.attachments.size }),
         value: `> ${attachmentText}`,
       });
     }
-    await webhook.send({
-      files: message.attachments.size > 0 ? message.attachments.map((a) => a.url) : [],
-      embeds: [embed],
-      allowedMentions: { parse: [] }, // Prevent mentions in the log
-    });
+    await webhook
+      .send({
+        files: message.attachments.size > 0 ? message.attachments.map((a) => a.url) : [],
+        embeds: [embed],
+        allowedMentions: { parse: [] }, // Prevent mentions in the log
+      })
+      .catch((error) => {
+        logger.log({
+          level: "error",
+          message: `Failed to send message delete log for guild ${message.guild.id}: ${error.message}`,
+          error,
+        });
+      });
   },
 } satisfies EventBase<Events.MessageDelete>;
