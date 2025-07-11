@@ -22,7 +22,15 @@
         "permanent": "{{confirm}} **{{user}}**, kalıcı olarak yasaklandı (Vaka #{{case}}). Kullanıcıya DM ile bildirilmedi."
       }
     },
-    "database_error": "Veritabanı güncellenirken kritik hata oluştu. Geliştiricilere bildirildi. Komut iptal edildi."
+    "database_error": "Veritabanı güncellenirken kritik hata oluştu. Geliştiricilere bildirildi. Komut iptal edildi.",
+    "embed": {
+      "title": "Kullanıcı Yasaklandı",
+      "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.i}}\n> **Katılma Tarihi**: {{timestamp}}",
+      "fields": {
+        "reason": "Sebep"
+      }
+    },
+    "never_joined": "Kullanıcı bu sunucuya hiç katılmamış."
   },
   "kick": {
     "no_reason": "Atılma sebebi belirtilmedi.",

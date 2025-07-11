@@ -1,9 +1,18 @@
 import type { SlashCommandBase } from "@customTypes";
-import { InteractionContextType, MessageFlagsBitField, PermissionsBitField, SlashCommandBuilder } from "discord.js";
+import {
+  ChannelType,
+  EmbedBuilder,
+  InteractionContextType,
+  MessageFlagsBitField,
+  PermissionsBitField,
+  SlashCommandBuilder,
+  time as formatted_time,
+  TimestampStyles,
+} from "discord.js";
 import dayjs from "dayjs";
 import dayjsduration from "dayjs/plugin/duration.js";
 import relativeTime from "dayjs/plugin/relativeTime.js";
-import { modlog, toStringId, addInfraction } from "@utils";
+import { modlog, toStringId, addInfraction, returnWebhook, WebhookType } from "@utils";
 import "dayjs/locale/tr.js";
 import { logger } from "@lib";
 import { createPunishment, getGuildConfig } from "@database";
@@ -288,6 +297,57 @@ export default {
         } else {
           await interaction.reply(reply.message);
         }
+      }
+    }
+    if (
+      guild_config.guild_logs_channel_id &&
+      interaction.guild.channels.cache.has(toStringId(guild_config.guild_logs_channel_id))
+    ) {
+      const channel = interaction.guild.channels.cache.get(toStringId(guild_config.guild_logs_channel_id));
+      if (channel?.type === ChannelType.GuildText) {
+        const webhook = await returnWebhook(interaction.client, channel, interaction.guild.id, {
+          id: guild_config.guild_logs_webhook_id,
+          type: WebhookType.GUILD_LOGS,
+        });
+        const member = await interaction.guild.members.fetch(user.id).catch(() => null);
+        const embed = new EmbedBuilder()
+          .setTitle(t("embed.title"))
+          .setColor("Red")
+          .setDescription(
+            t("embed.description", {
+              user: user,
+              timestamp:
+                member && member.joinedAt
+                  ? formatted_time(member.joinedAt, TimestampStyles.RelativeTime)
+                  : t("never_joined"),
+            }),
+          )
+          .addFields([
+            {
+              name: t("embed.fields.reason"),
+              value: reason,
+            },
+          ])
+          .setFooter({
+            text: interaction.user.tag,
+            iconURL: interaction.user.displayAvatarURL(),
+          });
+        await webhook
+          .send({
+            embeds: [embed],
+            allowedMentions: { parse: [] }, // Prevent mentions in the log
+          })
+          .catch((error) => {
+            logger.log({
+              level: "error",
+              message: "Error sending ban log",
+              error: error,
+              meta: {
+                guildID: interaction.guild.id,
+                userID: interaction.user.id,
+              },
+            });
+          });
       }
     }
   },

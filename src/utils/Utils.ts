@@ -76,6 +76,7 @@ function trimString(str: string, maxLength = 100): string {
 export enum WebhookType {
   MESSAGE_LOGS = "message_logs_webhook_id",
   GUILD_LOGS = "guild_logs_webhook_id",
+  MOD_LOGS = "mod_logs_webhook_id",
 }
 async function returnWebhook(
   client: Client,

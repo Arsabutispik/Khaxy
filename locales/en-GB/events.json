@@ -1,9 +1,15 @@
 {
   "guildBanAdd": {
-    "noPermission": "I need the 'View Audit Log' permission to see the banned users in this server.",
-    "errorOnFetchAuditLogs": "An error occurred while fetching audit logs.",
-    "executorNotMatch": "I couldn't determine who banned this user.",
-    "noReason": "No reason provided."
+    "embed": {
+      "title": "User Banned",
+      "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Joined At**: {{timestamp}}",
+      "fields": {
+        "reason": "Reason"
+      }
+    },
+    "no_reason": "No reason provided.",
+    "unknown_executor": "Unknown Executor",
+    "never_joined": "User never joined the server."
   },
   "guildBanRemove": {
     "noPermission": "I need the 'View Audit Log' permission to see the unbanned users in this server.",

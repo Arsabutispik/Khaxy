@@ -55,6 +55,10 @@ model guilds {
   unverified_role_id          BigInt?
   message_logs_channel_id      BigInt?
   message_logs_webhook_id      BigInt?
+  guild_logs_channel_id    BigInt?
+  guild_logs_webhook_id    BigInt?
+  mod_logs_channel_id      BigInt?
+  mod_logs_webhook_id      BigInt?
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.

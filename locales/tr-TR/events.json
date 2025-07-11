@@ -1,9 +1,15 @@
 {
   "guildBanAdd": {
-    "noPermission": "Bu sunucudaki yasaklanan kullanıcıları görmek için Denetim Kaydını Görüntüle iznine ihtiyacım var.",
-    "errorOnFetchAuditLogs": "Denetim kayıtları alınırken bir hata oluştu.",
-    "executorNotMatch": "Bu kullanıcıyı yasaklayan kullanıcıyı bulamadım.",
-    "noReason": "Sebep belirtilmedi."
+    "embed": {
+      "title": "Kullanıcı Yasaklandı",
+      "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Katılma Tarihi**: {{timestamp}}",
+      "fields": {
+        "reason": "Sebep"
+      }
+    },
+    "no_reason": "Sebep belirtilmedi.",
+    "unknown_executor": "Bilinmeyen Yetkili",
+    "never_joined": "Kullanıcı bu sunucuya hiç katılmadı."
   },
   "guildBanRemove": {
     "noPermission": "Bu sunucudaki yasaklanan kullanıcıları görmek için Denetim Kaydını Görüntüle iznine ihtiyacım var.",

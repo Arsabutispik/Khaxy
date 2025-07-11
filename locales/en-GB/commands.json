@@ -22,7 +22,15 @@
         "duration": "{{confirm}} **{{user}}** has been banned for **{{duration}}** (Case #{{case}}). The user could not be notified via DM.",
         "permanent": "{{confirm}} **{{user}}** has been permanently banned (Case #{{case}}). The user could not be notified via DM."
       }
-    }
+    },
+    "embed": {
+      "title": "User Banned",
+      "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Joined At**: {{timestamp}}",
+      "fields": {
+        "reason": "Reason"
+      }
+    },
+    "never_joined": "User never joined the server."
   },
   "kick": {
     "no_reason": "No reason provided for kicking.",
