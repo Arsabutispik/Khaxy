@@ -227,7 +227,7 @@
     "channel_initial": "Aşağıdaki kanallardan birini seçin. Kanalı kaldırmak istiyorsanız x'e basın ve başka bir yere basın",
     "message_logs_channel_id": {
       "label": "Mesaj Günlükleri Kanalını Ayarla",
-      "description": "Silinen mesajların, düzenlenen mesajların ve birden fazla mesajın silindiği mesajların gönderildiği kanal",
+      "description": "Mesajlar üzerinde yapılan değişikliklerin kaydedildiği kanal",
       "unset": "Mesaj günlükleri  kanalı kaldırıldı.",
       "set": "Mesaj günlükleri kanalı {{channel}} olarak ayarlandı."
     }
