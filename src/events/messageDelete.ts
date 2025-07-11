@@ -30,9 +30,21 @@ export default {
       embed.addFields({ name: t("embed.fields.content"), value: message.content });
     }
     if (message.attachments.size > 0) {
+      const maxLength = 2048;
+      const links: string[] = [];
+      let currentLength = 0;
+
+      for (const a of message.attachments.values()) {
+        const link = `[${a.name}](${a.url})`;
+        if (currentLength + link.length + 2 > maxLength) break; // +2 for ", "
+        links.push(link);
+        currentLength += link.length + 2;
+      }
+
+      const attachmentText = links.join(", ");
       embed.addFields({
         name: t("embed.fields.attachments", { count: message.attachments.size }),
-        value: `> ${message.attachments.map((a) => `[${a.name}](${a.url})`).join(", ")}`,
+        value: `> ${attachmentText}`,
       });
     }
     await webhook.send({
