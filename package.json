@@ -9,6 +9,7 @@
     "remove-commands": "tsc && tsc-alias && node --enable-source-maps dist/utils/remove-commands.js",
     "start": "prisma migrate deploy && prisma generate && tsc && tsc-alias && node .",
     "validate-translations": "node scripts/ValidateI18nKeys.js",
+    "generate-webhooks": "node scripts/GenerateWebhookTrigger.js",
     "test": "vitest",
     "dev": "prisma migrate dev && prisma generate && tsc && tsc-alias && node --enable-source-maps ."
   },

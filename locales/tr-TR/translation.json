@@ -221,6 +221,17 @@
       "set": "Bump lider tablosu kanalı {{channel}} olarak ayarlandı."
     }
   },
+  "log_config": {
+    "initial": "Güncellemek istediğiniz ayarı seçin.",
+    "timeout": "Mesaj zaman aşımına uğradı. Lütfen komutu tekrar çalıştırın.",
+    "channel_initial": "Aşağıdaki kanallardan birini seçin. Kanalı kaldırmak istiyorsanız x'e basın ve başka bir yere basın",
+    "message_logs_channel_id": {
+      "label": "Mesaj Günlükleri Kanalını Ayarla",
+      "description": "Silinen mesajların, düzenlenen mesajların ve birden fazla mesajın silindiği mesajların gönderildiği kanal",
+      "unset": "Mesaj günlükleri  kanalı kaldırıldı.",
+      "set": "Mesaj günlükleri kanalı {{channel}} olarak ayarlandı."
+    }
+  },
   "mod_mail_log": {
     "initial": "# {{user.tag}} ({{user.id}}) ile olan modmail konuşması #{{thread_id}} {{time}} tarihinde başladı. Zaman dilimi GMT",
     "bot_to_user": "[BOTTAN KULLANICIYA]",

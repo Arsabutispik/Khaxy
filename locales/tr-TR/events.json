@@ -1,9 +1,15 @@
 {
   "guildBanAdd": {
-    "noPermission": "Bu sunucudaki yasaklanan kullanıcıları görmek için Denetim Kaydını Görüntüle iznine ihtiyacım var.",
-    "errorOnFetchAuditLogs": "Denetim kayıtları alınırken bir hata oluştu.",
-    "executorNotMatch": "Bu kullanıcıyı yasaklayan kullanıcıyı bulamadım.",
-    "noReason": "Sebep belirtilmedi."
+    "embed": {
+      "title": "Kullanıcı Yasaklandı",
+      "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Katılma Tarihi**: {{timestamp}}",
+      "fields": {
+        "reason": "Sebep"
+      }
+    },
+    "no_reason": "Sebep belirtilmedi.",
+    "unknown_executor": "Bilinmeyen Yetkili",
+    "never_joined": "Kullanıcı bu sunucuya hiç katılmadı."
   },
   "guildBanRemove": {
     "noPermission": "Bu sunucudaki yasaklanan kullanıcıları görmek için Denetim Kaydını Görüntüle iznine ihtiyacım var.",
@@ -66,6 +72,32 @@
     }
   },
   "messageUpdate": {
-    "message_edit": "***Kullanıcı mesajını düzenledi.***\n```diff\n- {{oldContent}}\n+ {{newContent}}\n```"
+    "message_edit": "***Kullanıcı mesajını düzenledi.***\n```diff\n- {{oldContent}}\n+ {{newContent}}\n```",
+    "embed": {
+      "title": "Mesaj Düzenlendi",
+      "description": "> **Kanal**: {{message.channel.name}} (<#{{message.channel.id}}>)\n> **Kullanıcı**: {{message.author.tag}} (<@{{message.author.id}}>)\n> **Mesaj ID**: [{{message.id}}](https://discord.com/channels/{{message.guild.id}}/{{message.channel.id}}/{{message.id}})",
+      "fields": {
+        "oldContent": "Önceden",
+        "newContent": "Sonra"
+      }
+    }
+  },
+  "messageDelete": {
+    "embed": {
+      "title": "Mesaj Silindi",
+      "description": "> **Kanal**: {{message.channel.name}} (<#{{message.channel.id}}>)\n> **Kullanıcı**: {{message.author.tag}} (<@{{message.author.id}}>)\n> **Mesaj ID**: [{{message.id}}](https://discord.com/channels/{{message.guild.id}}/{{message.channel.id}}/{{message.id}})\n> **Mesaj Oluşturulma Tarihi**: {{timestamp}}",
+      "fields": {
+        "content": "Mesaj",
+        "attachments": "{{count}} Ek Dosya"
+      }
+    }
+  },
+  "messageBulkDelete": {
+    "embed": {
+      "title": "{{count}} Mesaj Silindi",
+      "description": "> **Kanal**: {{message.channel.name}} (<#{{message.channel.id}}>)"
+    },
+    "file_name": "silinen_mesajlar.txt",
+    "message": "**Mesaj ID:** {{message.id}} **Kullanıcı:** {{message.author.tag}} **İçerik:** {{message.content}}"
   }
 }

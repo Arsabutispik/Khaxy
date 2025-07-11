@@ -1,6 +1,6 @@
 import type { EventBase } from "@customTypes";
-import { AuditLogEvent, Events, PermissionsBitField } from "discord.js";
-import { modlog, toStringId } from "@utils";
+import { AuditLogEvent, ChannelType, EmbedBuilder, Events, time } from "discord.js";
+import { modlog, returnWebhook, toStringId, WebhookType } from "@utils";
 import { logger } from "@lib";
 import { getGuildConfig } from "@database";
 
@@ -12,81 +12,77 @@ export default {
 
     // If no guild data is found, exit the function
     if (!guild_config) return;
-
-    // If mod log channel is configured but does not exist, exit the function
-    if (guild_config.mod_log_channel_id && !ban.guild.channels.cache.has(toStringId(guild_config.mod_log_channel_id)))
-      return;
-
-    // If the bot does not have permission to view audit logs, log the ban without audit log details
-    if (!ban.guild.members.me?.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
-      await modlog(
-        {
-          guild: ban.guild,
-          action: "BAN",
-          user: ban.user,
-          moderator: ban.client.user,
-          reason: ban.client.i18next.getFixedT(guild_config.language)("events:guildBanAdd.noPermission"),
-        },
-        ban.client,
-      );
-      return;
+    const t = ban.client.i18next.getFixedT(guild_config.language, "events", "guildBanAdd");
+    const audit_logs = await ban.guild
+      .fetchAuditLogs({
+        limit: 1,
+        type: AuditLogEvent.MemberBanAdd,
+      })
+      .catch(() => null);
+    const audit_log = audit_logs?.entries.first();
+    if (audit_log?.executor?.id === ban.client.user.id) return; // Ignore if the bot itself is the executor
+    if (
+      guild_config.guild_logs_channel_id &&
+      ban.guild.channels.cache.has(toStringId(guild_config.guild_logs_channel_id))
+    ) {
+      const channel = ban.guild.channels.cache.get(toStringId(guild_config.guild_logs_channel_id));
+      if (channel?.type === ChannelType.GuildText) {
+        const webhook = await returnWebhook(ban.client, channel, ban.guild.id, {
+          id: guild_config.guild_logs_webhook_id,
+          type: WebhookType.GUILD_LOGS,
+        });
+        const member = await ban.guild.members.fetch(ban.user.id).catch(() => null);
+        const embed = new EmbedBuilder()
+          .setTitle(t("embed.title"))
+          .setColor("Red")
+          .setDescription(
+            t("embed.description", {
+              user: ban.user,
+              timestamp: member && member.joinedAt ? time(member.joinedAt, "R") : t("never_joined"),
+            }),
+          )
+          .addFields([
+            {
+              name: t("embed.fields.reason"),
+              value: ban.reason || t("no_reason"),
+            },
+          ])
+          .setFooter({
+            text: audit_log?.executor?.tag || t("unknown_executor"),
+            iconURL: audit_log?.executor?.displayAvatarURL() || undefined,
+          });
+        await webhook
+          .send({
+            embeds: [embed],
+            allowedMentions: { parse: [] }, // Prevent mentions in the log
+          })
+          .catch((error) => {
+            logger.log({
+              level: "error",
+              message: "Error sending ban log",
+              error: error,
+              meta: {
+                guildID: ban.guild.id,
+                userID: ban.user.id,
+              },
+            });
+          });
+      }
     }
-
-    try {
-      // Fetch the most recent audit log entry for MemberBanAdd
-      const auditLog = await ban.guild.fetchAuditLogs({ type: AuditLogEvent.MemberBanAdd, limit: 1 });
-      const entry = auditLog.entries.first();
-
-      // If no audit log entry is found or the executor is the bot itself, exit the function
-      if (!entry || entry.executor?.id === ban.client.user.id) return;
-
-      // If the target of the audit log entry does not match the banned user, log the ban with a mismatch reason
-      if (entry.target?.id !== ban.user.id) {
+    if (guild_config.mod_log_channel_id && ban.guild.channels.cache.has(toStringId(guild_config.mod_log_channel_id))) {
+      const mod_log_channel = ban.guild.channels.cache.get(toStringId(guild_config.mod_log_channel_id));
+      if (mod_log_channel?.type === ChannelType.GuildText) {
         await modlog(
           {
             guild: ban.guild,
             action: "BAN",
             user: ban.user,
-            moderator: ban.client.user,
-            reason: ban.client.i18next.getFixedT(guild_config.language)("events:guildBanAdd.executorNotMatch"),
+            reason: ban.reason || t("no_reason"),
+            moderator: audit_log?.executor || null,
           },
           ban.client,
         );
-        return;
       }
-
-      // Log the ban with details from the audit log entry
-      await modlog(
-        {
-          guild: ban.guild,
-          action: "BAN",
-          user: ban.user,
-          moderator: entry.executor!,
-          reason: entry.reason || ban.client.i18next.getFixedT(guild_config.language)("events:guildBanAdd.noReason"),
-        },
-        ban.client,
-      );
-    } catch (error) {
-      // If an error occurs while fetching audit logs, log the ban with an error reason
-      await modlog(
-        {
-          guild: ban.guild,
-          action: "BAN",
-          user: ban.user,
-          moderator: ban.client.user,
-          reason: ban.client.i18next.getFixedT(guild_config.language)("events:guildBanAdd.errorOnFetchAuditLogs"),
-        },
-        ban.client,
-      );
-      logger.log({
-        level: "error",
-        message: "Error fetching audit logs",
-        error: error,
-        meta: {
-          guildID: ban.guild.id,
-          userID: ban.user.id,
-        },
-      });
     }
   },
 } satisfies EventBase<Events.GuildBanAdd>;

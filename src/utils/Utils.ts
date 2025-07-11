@@ -1,6 +1,7 @@
-import { Client } from "discord.js";
+import { Client, TextChannel } from "discord.js";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration.js";
+import { updateGuildConfig } from "@database";
 /**
  * Pauses execution for a specified number of milliseconds.
  *
@@ -72,5 +73,51 @@ function trimString(str: string, maxLength = 100): string {
   const trimmed = str.slice(0, maxLength);
   return trimmed.slice(0, trimmed.lastIndexOf(" ")) + "...";
 }
-
-export { sleep, missingPermissionsAsString, replacePlaceholders, toStringId, formatDuration, trimString };
+export enum WebhookType {
+  MESSAGE_LOGS = "message_logs_webhook_id",
+  GUILD_LOGS = "guild_logs_webhook_id",
+  MOD_LOGS = "mod_logs_webhook_id",
+}
+async function returnWebhook(
+  client: Client,
+  channel: TextChannel,
+  guildId: string,
+  webhookInfo: { id: bigint | null; type: WebhookType },
+): Promise<import("discord.js").Webhook> {
+  let webhook = client.webhooks.get(toStringId(webhookInfo.id));
+  if (!webhook) {
+    const webhooks = await channel.fetchWebhooks().catch(() => null);
+    if (!webhooks?.size) {
+      webhook = await channel.createWebhook({
+        name: client.user!.username,
+        avatar: client.user!.displayAvatarURL(),
+      });
+      await updateGuildConfig(guildId, {
+        [webhookInfo.type]: BigInt(webhook.id),
+      });
+      client.webhooks.set(toStringId(webhookInfo.id), webhook);
+    } else {
+      webhook = webhooks.get(toStringId(webhookInfo.id));
+      if (!webhook) {
+        webhook = await channel.createWebhook({
+          name: client.user!.username,
+          avatar: client.user!.displayAvatarURL(),
+        });
+        await updateGuildConfig(guildId, {
+          [webhookInfo.type]: BigInt(webhook.id),
+        });
+      }
+      client.webhooks.set(toStringId(webhookInfo.id), webhook);
+    }
+  }
+  return webhook;
+}
+export {
+  sleep,
+  missingPermissionsAsString,
+  replacePlaceholders,
+  toStringId,
+  formatDuration,
+  trimString,
+  returnWebhook,
+};

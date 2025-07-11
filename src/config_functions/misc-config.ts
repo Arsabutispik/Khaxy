@@ -33,16 +33,19 @@ export async function miscConfig(interaction: ChatInputCommandInteraction<"cache
         label: t("language.label"),
         value: "language",
         description: t("language.description"),
+        emoji: "🌐",
       },
       {
         label: t("mod_mail_message.label"),
         value: "mod_mail_message",
         description: t("mod_mail_message.description"),
+        emoji: "📬",
       },
       {
         label: t("bump_leaderboard_channel_id.label"),
         value: "leaderboard",
         description: t("bump_leaderboard_channel_id.description"),
+        emoji: "📊",
       },
     ]);
   const action_row = new ActionRowBuilder<StringSelectMenuBuilder>().setComponents(select_menu);

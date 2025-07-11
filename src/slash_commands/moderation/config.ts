@@ -10,7 +10,14 @@ import {
   EmbedBuilder,
   InteractionContextType,
 } from "discord.js";
-import { miscConfig, moderationConfig, registerConfig, roleConfig, welcomeLeaveConfig } from "@configFunctions";
+import {
+  logConfig,
+  miscConfig,
+  moderationConfig,
+  registerConfig,
+  roleConfig,
+  welcomeLeaveConfig,
+} from "@configFunctions";
 import { getGuildConfig } from "@database";
 import { localeFlags } from "@constants";
 
@@ -74,6 +81,13 @@ export default {
               tr: "Diğer Ayarlar",
             },
           },
+          {
+            name: "Log Settings",
+            value: "log",
+            name_localizations: {
+              tr: "Günlük Ayarları",
+            },
+          },
         ),
     ),
   async execute(interaction) {
@@ -93,6 +107,7 @@ export default {
       | "moderation"
       | "role"
       | "misc"
+      | "log"
       | undefined;
     if (!setting) {
       const selectMenu = new StringSelectMenuBuilder()
@@ -103,6 +118,7 @@ export default {
           { label: t("select_menu.welcome_leave"), value: "welcome-leave", emoji: "👋" },
           { label: t("select_menu.role"), value: "role", emoji: "🔒" },
           { label: t("select_menu.misc"), value: "misc", emoji: "🔧" },
+          { label: t("select_menu.log"), value: "log", emoji: "📜" },
         );
       const actionRow = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(selectMenu);
       const reply = await interaction.reply({
@@ -297,6 +313,18 @@ export default {
             );
           actionRow.setComponents(newSelectMenu);
           await i.update({ embeds: [embed], components: [actionRow] });
+        } else if (setting === "log") {
+          embed
+            .setTitle(t("embed.log.title"))
+            .setURL(`${docs_url}/${guild_config.language.split("-")[0]}/configuration/log-settings`)
+            .addFields([
+              {
+                name: t("embed.log.fields.message_logs_channel"),
+                value: guild_config.message_logs_channel_id ? `<#${guild_config.message_logs_channel_id}>` : t("none"),
+              },
+            ]);
+          actionRow.setComponents(newSelectMenu);
+          await i.update({ embeds: [embed], components: [actionRow] });
         }
         collector?.on("end", () => {
           interaction.editReply({ content: t("times_up"), components: [] });
@@ -318,6 +346,9 @@ export default {
         break;
       case "misc":
         await miscConfig(interaction);
+        break;
+      case "log":
+        await logConfig(interaction);
         break;
     }
   },

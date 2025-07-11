@@ -22,7 +22,15 @@
         "duration": "{{confirm}} **{{user}}** has been banned for **{{duration}}** (Case #{{case}}). The user could not be notified via DM.",
         "permanent": "{{confirm}} **{{user}}** has been permanently banned (Case #{{case}}). The user could not be notified via DM."
       }
-    }
+    },
+    "embed": {
+      "title": "User Banned",
+      "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Joined At**: {{timestamp}}",
+      "fields": {
+        "reason": "Reason"
+      }
+    },
+    "never_joined": "User never joined the server."
   },
   "kick": {
     "no_reason": "No reason provided for kicking.",
@@ -107,7 +115,8 @@
       "register": "Register Settings",
       "welcome_leave": "Welcome/Leave Settings",
       "role": "Role Settings",
-      "misc": "Miscellaneous Settings"
+      "misc": "Miscellaneous Settings",
+      "log": "Log Settings"
     },
     "no_setting": "Use the menu below to navigate the settings. Each title can be clicked to view the documentation.",
     "none": "N/A",
@@ -159,6 +168,12 @@
         "fields": {
           "language": "Language",
           "mod_mail_message": "Mod Mail Message"
+        }
+      },
+      "log": {
+        "title": "Log Settings",
+        "fields": {
+          "message_logs_channel": "Message Logs Channel"
         }
       }
     }
@@ -313,6 +328,13 @@
           "moderator": "Responsible Moderator"
         }
       }
+    }
+  },
+  "purge": {
+    "not_text_channel": "This command can only be used in text channels.",
+    "any": {
+      "success": "{{confirm}} Successfully deleted **{{count}}** messages.",
+      "error": "An error occurred while deleting the messages. Please try again later."
     }
   }
 }

@@ -1,9 +1,15 @@
 {
   "guildBanAdd": {
-    "noPermission": "I need the 'View Audit Log' permission to see the banned users in this server.",
-    "errorOnFetchAuditLogs": "An error occurred while fetching audit logs.",
-    "executorNotMatch": "I couldn't determine who banned this user.",
-    "noReason": "No reason provided."
+    "embed": {
+      "title": "User Banned",
+      "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Joined At**: {{timestamp}}",
+      "fields": {
+        "reason": "Reason"
+      }
+    },
+    "no_reason": "No reason provided.",
+    "unknown_executor": "Unknown Executor",
+    "never_joined": "User never joined the server."
   },
   "guildBanRemove": {
     "noPermission": "I need the 'View Audit Log' permission to see the unbanned users in this server.",
@@ -66,6 +72,32 @@
     }
   },
   "messageUpdate": {
-    "message_edit": "***User edited their message.***\n```diff\n- {{oldContent}}\n+ {{newContent}}\n```"
+    "message_edit": "***User edited their message.***\n```diff\n- {{oldContent}}\n+ {{newContent}}\n```",
+    "embed": {
+      "title": "Message Edited",
+      "description": "> **Channel**: {{message.channel.name}} (<#{{message.channel.id}}>)\n> **Author**: {{message.author.tag}} (<@{{message.author.id}}>)\n> **Message ID**: [{{message.id}}](https://discord.com/channels/{{message.guild.id}}/{{message.channel.id}}/{{message.id}})",
+      "fields": {
+        "oldContent": "Before",
+        "newContent": "After"
+      }
+    }
+  },
+  "messageDelete": {
+    "embed": {
+      "title": "Message Deleted",
+      "description": "> **Channel**: {{message.channel.name}} (<#{{message.channel.id}}>)\n> **Author**: {{message.author.tag}} (<@{{message.author.id}}>)\n> **Message ID**: [{{message.id}}](https://discord.com/channels/{{message.guild.id}}/{{message.channel.id}}/{{message.id}})\n> **Created At**: {{timestamp}}",
+      "fields": {
+        "content": "Message",
+        "attachments": "{{count}} Attachment(s)"
+      }
+    }
+  },
+  "messageBulkDelete": {
+    "embed": {
+      "title": "{{count}} Message(s) Deleted",
+      "description": "> **Channel**: {{message.channel.name}} (<#{{message.channel.id}}>)"
+    },
+    "file_name": "deleted_messages.txt",
+    "message": "**Message ID:** {{message.id}} **Author:** {{message.author.tag}} **Content:** {{message.content}}"
   }
 }

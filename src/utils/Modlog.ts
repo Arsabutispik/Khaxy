@@ -5,7 +5,7 @@ import "dayjs/locale/tr.js";
 import { ChannelType, Client, Guild, User } from "discord.js";
 import type { PartialUser } from "discord.js";
 import { logger } from "@lib";
-import { toStringId } from "@utils";
+import { returnWebhook, toStringId, WebhookType } from "@utils";
 import { createGuildConfig, getGuildConfig, updateGuildConfig } from "@database";
 
 // Define the possible actions for the mod log
@@ -24,9 +24,9 @@ type actions =
 export async function modlog(
   data: {
     guild: Guild;
-    user: User | PartialUser;
+    user: User | PartialUser | null;
     action: actions;
-    moderator: User | PartialUser;
+    moderator: User | PartialUser | null;
     reason?: string;
     duration?: Dayjs;
     caseID?: number;
@@ -62,14 +62,31 @@ export async function modlog(
     }
     return { message: client.i18next.getFixedT("en")("mod_log.function_errors.no_guild_config"), type: "WARNING" };
   }
-  const lang = guild_data.language || "en";
+  const lang = guild_data.language || "en-GB";
   const t = client.i18next.getFixedT(lang);
+  const caseNumber = caseID || guild_data.case_id;
+  // Update the case ID in the database if the action is not "CHANGES"
+  if (action !== "CHANGES") {
+    try {
+      await updateGuildConfig(guild.id, { case_id: caseNumber + 1 });
+    } catch (error) {
+      logger.log({
+        level: "error",
+        message: "Error updating case ID",
+        error: error,
+        meta: {
+          guildID: guild.id,
+          oldCaseNumber: caseNumber,
+        },
+      });
+      return { message: t("mod_log.function_errors.case_id_error"), type: "ERROR" };
+    }
+  }
   // If mod log channel is not configured, exit the function
   if (!guild_data.mod_log_channel_id) {
     return { message: t("mod_log.function_errors.no_modlog_channel"), type: "WARNING" };
   }
 
-  const caseNumber = caseID || guild_data.case_id;
   let message = `<t:${Math.floor(Date.now() / 1000)}> \`[${caseNumber}]\``;
 
   dayjs.extend(relativeTime);
@@ -138,8 +155,12 @@ export async function modlog(
   try {
     // Fetch the mod log channel and send the log message
     const channel = await guild.channels.fetch(toStringId(guild_data.mod_log_channel_id));
-    if (channel && channel.isTextBased() && channel.type === ChannelType.GuildText) {
-      await channel.send({ content: message });
+    if (channel && channel.type === ChannelType.GuildText) {
+      const webhook = await returnWebhook(client, channel, guild.id, {
+        id: guild_data.mod_logs_webhook_id,
+        type: WebhookType.MOD_LOGS,
+      });
+      await webhook.send({ content: message });
     }
   } catch (error) {
     logger.log({
@@ -158,23 +179,5 @@ export async function modlog(
       logger.error(error);
     }
     return { message: t("mod_log.function_errors.channel_error"), type: "ERROR" };
-  }
-
-  // Update the case ID in the database if the action is not "CHANGES"
-  if (action !== "CHANGES") {
-    try {
-      await updateGuildConfig(guild.id, { case_id: caseNumber + 1 });
-    } catch (error) {
-      logger.log({
-        level: "error",
-        message: "Error updating case ID",
-        error: error,
-        meta: {
-          guildID: guild.id,
-          oldCaseNumber: caseNumber,
-        },
-      });
-      return { message: t("mod_log.function_errors.case_id_error"), type: "ERROR" };
-    }
   }
 }

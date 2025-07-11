@@ -47,6 +47,7 @@ await player.extractors.register(YoutubeiExtractor, {
 await player.extractors.register(SoundcloudExtractor, {});
 client.slashCommands = new Collection();
 client.allEmojis = new Collection();
+client.webhooks = new Collection();
 client.config = (await import("@lib")).Config;
 await RegisterSlashCommands(client);
 const eventsPath = path.join(__dirname, "events");
