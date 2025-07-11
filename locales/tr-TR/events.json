@@ -90,7 +90,8 @@
         "content": "Mesaj",
         "attachments": "{{count}} Ek Dosya"
       }
-    }
+    },
+    "skipped_files": "⚠\uFE0F Büyük Dosyalar Atlandı"
   },
   "messageBulkDelete": {
     "embed": {

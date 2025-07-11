@@ -7,8 +7,9 @@ import { logger } from "@lib";
 export default {
   name: Events.MessageDelete,
   async execute(message) {
-    if (!message.inGuild() || message.partial) return;
-    if (message.author.id === message.client.user.id) return;
+    if (!message.inGuild()) return;
+    if (message.partial) return; // Ignore partial messages
+    if (message.author.id === message.client.user.id) return; // Ignore messages sent by the bot itself
 
     const guild_config = await getGuildConfig(message.guild.id);
     if (!guild_config) return;
@@ -17,6 +18,7 @@ export default {
     if (!channel || channel.type !== ChannelType.GuildText) return;
 
     const t = message.client.i18next.getFixedT(guild_config.language, "events", "messageDelete");
+
     const webhook = await returnWebhook(message.client, channel, message.guild.id, {
       id: guild_config.message_logs_webhook_id,
       type: WebhookType.MESSAGE_LOGS,
@@ -28,10 +30,7 @@ export default {
       .setTitle(t("embed.title"))
       .setColor("Red")
       .setDescription(
-        t("embed.description", {
-          message,
-          timestamp: time(message.createdAt, TimestampStyles.RelativeTime),
-        }),
+        t("embed.description", { message, timestamp: time(message.createdAt, TimestampStyles.RelativeTime) }),
       )
       .setTimestamp();
 
@@ -39,35 +38,59 @@ export default {
       embed.addFields({ name: t("embed.fields.content"), value: message.content });
     }
 
-    const attachments = [...message.attachments.values()];
+    // Constants
+    const MAX_FILE_SIZE = 8 * 1024 * 1024; // 8MB
+    const MAX_EMBED_ATTACHMENTS_LENGTH = 1024; // Max embed field length for attachments
 
-    // Generate attachment field text (limited to 1024 characters)
-    if (attachments.length > 0) {
+    // Filter attachments: skip files > 8MB
+    const attachments = [...message.attachments.values()];
+    const filteredAttachments = attachments.filter((a) => {
+      if (a.size > MAX_FILE_SIZE) {
+        logger.log({
+          level: "warn",
+          message: `Skipped attachment ${a.name} due to size (${(a.size / 1024 / 1024).toFixed(2)}MB) exceeding 8MB limit.`,
+        });
+        return false;
+      }
+      return true;
+    });
+
+    // Add attachment links to embed, truncated to MAX_EMBED_ATTACHMENTS_LENGTH
+    if (filteredAttachments.length > 0) {
       const links: string[] = [];
       let currentLength = 0;
 
-      for (const a of attachments) {
+      for (const a of filteredAttachments) {
         const link = `[${a.name}](${a.url})`;
-        if (currentLength + link.length + 2 > 1024) break;
+        if (currentLength + link.length + 2 > MAX_EMBED_ATTACHMENTS_LENGTH) break; // +2 for ", "
         links.push(link);
         currentLength += link.length + 2;
       }
 
-      const remaining = attachments.length - links.length;
+      const remaining = filteredAttachments.length - links.length;
       const suffix = remaining > 0 ? ", [...]" : "";
       embed.addFields({
-        name: t("embed.fields.attachments", { count: attachments.length }),
+        name: t("embed.fields.attachments", { count: filteredAttachments.length }),
         value: `> ${links.join(", ")}${suffix}`,
       });
     }
 
-    // Split attachments into batches under 8MB
-    const maxBytes = 8 * 1024 * 1024; // 8MB
+    // If there were skipped files, mention them in the embed
+    const skippedFiles = attachments.filter((a) => a.size > MAX_FILE_SIZE);
+    if (skippedFiles.length > 0) {
+      embed.addFields({
+        name: t("skipped_files"),
+        value: "> " + skippedFiles.map((f) => `${f.name} (${(f.size / 1024 / 1024).toFixed(2)}MB)`).join(", "),
+      });
+    }
+
+    // Split filtered attachments into batches under 8MB total size
+    const maxBytes = MAX_FILE_SIZE; // 8MB
     const batches: string[][] = [];
     let currentBatch: string[] = [];
     let currentSize = 0;
 
-    for (const a of attachments) {
+    for (const a of filteredAttachments) {
       if (currentSize + a.size > maxBytes) {
         batches.push(currentBatch);
         currentBatch = [];
@@ -95,7 +118,7 @@ export default {
       return;
     }
 
-    // Send follow-up messages for remaining batches
+    // Send follow-up messages for remaining batches, referencing first message
     for (let i = 1; i < batches.length; i++) {
       const batch = batches[i];
       try {

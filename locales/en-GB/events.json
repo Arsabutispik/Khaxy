@@ -90,7 +90,8 @@
         "content": "Message",
         "attachments": "{{count}} Attachment(s)"
       }
-    }
+    },
+    "skipped_files": "⚠\uFE0F Skipped Large Files"
   },
   "messageBulkDelete": {
     "embed": {
