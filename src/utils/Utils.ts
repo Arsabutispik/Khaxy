@@ -97,10 +97,19 @@ async function returnWebhook(
       client.webhooks.set(toStringId(webhookInfo.id), webhook);
     } else {
       webhook = webhooks.get(toStringId(webhookInfo.id));
+      if (!webhook) {
+        webhook = await channel.createWebhook({
+          name: client.user!.username,
+          avatar: client.user!.displayAvatarURL(),
+        });
+        await updateGuildConfig(guildId, {
+          [webhookInfo.type]: BigInt(webhook.id),
+        });
+      }
       client.webhooks.set(toStringId(webhookInfo.id), webhook);
     }
   }
-  return webhook!;
+  return webhook;
 }
 export {
   sleep,
