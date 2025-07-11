@@ -2,7 +2,7 @@ import { EventBase } from "@customTypes";
 import { ChannelType, EmbedBuilder, Events } from "discord.js";
 import { getGuildConfig, getModMailThreadByUser, updateModMailMessage } from "@database";
 import { ModMailThreadStatus } from "@constants";
-import { returnWebhook, toStringId } from "@utils";
+import { returnWebhook, toStringId, WebhookType } from "@utils";
 
 export default {
   name: Events.MessageUpdate,
@@ -46,7 +46,10 @@ export default {
       const channel = oldMessage.guild.channels.cache.get(toStringId(guild_config.message_logs_channel_id));
       if (!channel || channel.type !== ChannelType.GuildText) return;
       const t = oldMessage.client.i18next.getFixedT(guild_config.language, "events", "messageUpdate");
-      const webhook = await returnWebhook(oldMessage, channel, guild_config);
+      const webhook = await returnWebhook(oldMessage.client, channel, oldMessage.guild.id, {
+        id: guild_config.message_logs_webhook_id,
+        type: WebhookType.MESSAGE_LOGS,
+      });
       const embed = new EmbedBuilder()
         .setTitle(t("embed.title"))
         .setDescription(t("embed.description", { message: newMessage }))

@@ -1,7 +1,7 @@
 import { EventBase } from "@customTypes";
 import { ChannelType, EmbedBuilder, Events } from "discord.js";
 import { getGuildConfig } from "@database";
-import { returnWebhook, toStringId } from "@utils";
+import { returnWebhook, toStringId, WebhookType } from "@utils";
 
 export default {
   name: Events.MessageDelete,
@@ -14,7 +14,10 @@ export default {
     const channel = message.guild.channels.cache.get(toStringId(guild_config.message_logs_channel_id));
     if (!channel || channel.type !== ChannelType.GuildText) return;
     const t = message.client.i18next.getFixedT(guild_config.language, "events", "messageDelete");
-    const webhook = await returnWebhook(message, channel, guild_config);
+    const webhook = await returnWebhook(message.client, channel, message.guild.id, {
+      id: guild_config.message_logs_webhook_id,
+      type: WebhookType.MESSAGE_LOGS,
+    });
     if (message.author.id === webhook.id) return;
     const embed = new EmbedBuilder()
       .setTitle(t("embed.title"))
@@ -30,7 +33,7 @@ export default {
         value: `> ${message.attachments.map((a) => `[${a.name}](${a.url})`).join(", ")}`,
       });
     }
-    await webhook!.send({
+    await webhook.send({
       files: message.attachments.size > 0 ? message.attachments.map((a) => a.url) : [],
       embeds: [embed],
       allowedMentions: { parse: [] }, // Prevent mentions in the log

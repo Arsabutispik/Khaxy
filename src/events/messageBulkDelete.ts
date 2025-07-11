@@ -1,7 +1,7 @@
 import { EventBase } from "@customTypes";
-import { AttachmentBuilder, EmbedBuilder, Events } from "discord.js";
+import { AttachmentBuilder, ChannelType, EmbedBuilder, Events } from "discord.js";
 import { getGuildConfig } from "@database";
-import { toStringId } from "@utils";
+import { returnWebhook, toStringId, WebhookType } from "@utils";
 
 export default {
   name: Events.MessageBulkDelete,
@@ -14,9 +14,12 @@ export default {
     if (!guild_config) return;
 
     const channel = guild.channels.cache.get(toStringId(guild_config.message_logs_channel_id));
-    if (!channel || !channel.isTextBased()) return;
-
+    if (!channel || channel.type !== ChannelType.GuildText) return;
     const t = guild.client.i18next.getFixedT(guild_config.language, "events", "messageBulkDelete");
+    const webhook = await returnWebhook(guild.client, channel, guild.id, {
+      id: guild_config.message_logs_webhook_id,
+      type: WebhookType.MESSAGE_LOGS,
+    });
     const embed = new EmbedBuilder()
       .setTitle(t("embed.title", { count: messages.size }))
       .setColor("Red")
@@ -40,6 +43,10 @@ export default {
       "utf8",
     );
     const attachment = new AttachmentBuilder(buffer, { name: t("file_name") });
-    await channel.send({ embeds: [embed], files: [attachment] });
+    await webhook.send({
+      embeds: [embed],
+      files: [attachment],
+      allowedMentions: { parse: [] }, // Prevent mentions in the log
+    });
   },
 } satisfies EventBase<Events.MessageBulkDelete>;

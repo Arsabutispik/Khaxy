@@ -1,7 +1,7 @@
-import { Client, Message, TextChannel } from "discord.js";
+import { Client, TextChannel } from "discord.js";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration.js";
-import { getGuildConfig, updateGuildConfig } from "@database";
+import { updateGuildConfig } from "@database";
 /**
  * Pauses execution for a specified number of milliseconds.
  *
@@ -73,27 +73,31 @@ function trimString(str: string, maxLength = 100): string {
   const trimmed = str.slice(0, maxLength);
   return trimmed.slice(0, trimmed.lastIndexOf(" ")) + "...";
 }
-
+export enum WebhookType {
+  MESSAGE_LOGS = "message_logs_webhook_id",
+  GUILD_LOGS = "guild_logs_webhook_id",
+}
 async function returnWebhook(
-  message: Message<true>,
+  client: Client,
   channel: TextChannel,
-  guild_config: NonNullable<Awaited<ReturnType<typeof getGuildConfig>>>,
-) {
-  let webhook = message.client.webhooks.get(toStringId(guild_config.message_logs_webhook_id));
+  guildId: string,
+  webhookInfo: { id: bigint | null; type: WebhookType },
+): Promise<import("discord.js").Webhook> {
+  let webhook = client.webhooks.get(toStringId(webhookInfo.id));
   if (!webhook) {
     const webhooks = await channel.fetchWebhooks().catch(() => null);
     if (!webhooks?.size) {
       webhook = await channel.createWebhook({
-        name: message.client.user.username,
-        avatar: message.client.user.displayAvatarURL(),
+        name: client.user!.username,
+        avatar: client.user!.displayAvatarURL(),
       });
-      await updateGuildConfig(message.guild.id, {
-        message_logs_webhook_id: BigInt(webhook.id),
+      await updateGuildConfig(guildId, {
+        [webhookInfo.type]: BigInt(webhook.id),
       });
-      message.client.webhooks.set(toStringId(guild_config.message_logs_webhook_id), webhook);
+      client.webhooks.set(toStringId(webhookInfo.id), webhook);
     } else {
-      webhook = webhooks.get(toStringId(guild_config.message_logs_webhook_id));
-      message.client.webhooks.set(toStringId(guild_config.message_logs_webhook_id), webhook);
+      webhook = webhooks.get(toStringId(webhookInfo.id));
+      client.webhooks.set(toStringId(webhookInfo.id), webhook);
     }
   }
   return webhook!;
