@@ -301,6 +301,7 @@
     "permissions": "Permissions",
     "examples": "Examples",
     "command_not_found": "Command not found.",
+    "command_help_not_found": "Help for this command is not available.",
     "footer": "<param> are required parameters, [param] are optional parameters."
   },
   "modmail-blacklist": {

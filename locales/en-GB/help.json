@@ -56,6 +56,19 @@
       "`/kick user:@user clear:True` - Kicks the user and clears their messages."
     ]
   },
+  "modmail-blacklist": {
+    "title": "Manage Modmail Blacklist",
+    "description": "Add or remove users from the modmail blacklist, preventing them from starting new threads. You can also view the current blacklist of a user.",
+    "usage": "Usage: </{{command.name}}:{{command.id}}> (add/remove/get) `<user> [reason] [duration] [time]`",
+    "permissions": [
+      "User Permissions: `Manage Messages`"
+    ],
+    "examples": [
+      "`/modmail-blacklist add user:@user reason:Spamming` - Adds the user to the modmail blacklist with a reason.",
+      "`/modmail-blacklist remove user:@user` - Removes the user from the modmail blacklist.",
+      "`/modmail-blacklist get user:@user` - Retrieves the current modmail blacklist status for the user."
+    ]
+  },
   "mute": {
     "title": "Mute User",
     "description": "Mutes the user in the server, preventing them from sending messages.",

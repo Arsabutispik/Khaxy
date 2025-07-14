@@ -62,6 +62,13 @@ export default {
       });
       return;
     }
+    if (helpt(`${command.name}.title`, { fallbackLng: false }) === `${command.name}.title`) {
+      await interaction.reply({
+        content: t("command_help_not_found", { command: command_name }),
+        flags: MessageFlags.Ephemeral,
+      });
+      return;
+    }
     const embed = new EmbedBuilder()
       .setTitle(helpt(`${command.name}.title`))
       .setDescription(helpt(`${command.name}.description`))

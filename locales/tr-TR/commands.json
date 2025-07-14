@@ -301,6 +301,7 @@
     "permissions": "Gerekli İzinler",
     "examples": "Örnekler",
     "command_not_found": "Komut bulunamadı.",
+    "command_help_not_found": "Bu komut için yardım bulunamadı.",
     "footer": "<param> - Zorunlu parametre, [param] - İsteğe bağlı parametre"
   },
   "modmail-blacklist": {
