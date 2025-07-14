@@ -101,7 +101,6 @@ export default {
       reason,
       type: InfractionType.KICK,
       moderator: interaction.user.id,
-      client,
     });
     try {
       await member.send(

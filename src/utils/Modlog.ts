@@ -35,7 +35,7 @@ export async function modlog(
 ) {
   const { guild, user, action, moderator, reason, duration, caseID } = data;
   // Fetch guild configuration from the database
-  const guild_data = await getGuildConfig(guild.id);
+  let guild_data = await getGuildConfig(guild.id);
   // If no guild configuration is found, create a new one
   if (!guild_data) {
     try {
@@ -50,6 +50,15 @@ export async function modlog(
         message: `Guild config for ${guild.id} created successfully.`,
         discord: false,
       });
+      guild_data = await getGuildConfig(guild.id);
+      if (!guild_data) {
+        logger.log({
+          level: "error",
+          message: `Failed to create guild config for ${guild.id}`,
+          discord: false,
+        });
+        return;
+      }
     } catch (error) {
       logger.log({
         level: "error",
@@ -59,8 +68,8 @@ export async function modlog(
           guildID: guild.id,
         },
       });
+      return;
     }
-    return { message: client.i18next.getFixedT("en")("mod_log.function_errors.no_guild_config"), type: "WARNING" };
   }
   const lang = guild_data.language || "en-GB";
   const t = client.i18next.getFixedT(lang);
@@ -83,9 +92,7 @@ export async function modlog(
     }
   }
   // If mod log channel is not configured, exit the function
-  if (!guild_data.mod_log_channel_id) {
-    return { message: t("mod_log.function_errors.no_modlog_channel"), type: "WARNING" };
-  }
+  if (!guild_data.mod_log_channel_id) return;
 
   let message = `<t:${Math.floor(Date.now() / 1000)}> \`[${caseNumber}]\``;
 
@@ -176,8 +183,12 @@ export async function modlog(
         discord: false,
       });
     } catch (error) {
-      logger.error(error);
+      logger.log({
+        level: "error",
+        message: `Error deleting modlog channel ID for ${guild.name} (${guild.id})`,
+        error: error,
+      });
     }
-    return { message: t("mod_log.function_errors.channel_error"), type: "ERROR" };
+    return { message: t("mod_log.function_errors.channel_not_found"), type: "ERROR" };
   }
 }

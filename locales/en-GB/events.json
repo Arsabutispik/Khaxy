@@ -12,10 +12,19 @@
     "never_joined": "User never joined the server."
   },
   "guildBanRemove": {
-    "noPermission": "I need the 'View Audit Log' permission to see the unbanned users in this server.",
-    "errorOnFetchAuditLogs": "An error occurred while fetching audit logs.",
-    "executorNotMatch": "I couldn't determine who unbanned this user.",
-    "noReason": "No reason provided."
+    "embed": {
+        "title": "User Unbanned",
+        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
+        "fields": {
+            "reason": "Reason"
+        }
+    }
+  },
+  "guildMemberAdd": {
+    "embed": {
+      "title": "User Joined",
+      "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Account Age**: {{timestamp}}\n> **Member Count**: {{member_count}}"
+    }
   },
   "interactionCreate": {
     "memberMissingPermissions": "You don't have the required `{{permissions}}` permissions to use this command."
@@ -46,7 +55,16 @@
   },
   "guildMemberRemove": {
     "no_reason": "No reason provided.",
-    "user_left": "**User has left {{guild}}**"
+    "user_left": "**User has left {{guild}}**",
+    "embed": {
+      "title": "User Left",
+      "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Joined At**: {{timestamp}}\n> **Member Count**: {{member_count}}",
+      "fields": {
+        "reason": "Reason"
+      }
+    },
+    "never_joined": "User never joined the server.",
+    "unknown_executor": "Unknown Executor"
   },
   "messageCreate": {
     "mod_mail": {

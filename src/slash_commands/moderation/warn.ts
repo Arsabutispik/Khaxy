@@ -78,7 +78,6 @@ export default {
       await addInfraction({
         guild: interaction.guild,
         member: member.id,
-        client: interaction.client,
         reason: reason,
         moderator: interaction.user.id,
         type: InfractionType.WARN,

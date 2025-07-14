@@ -6,12 +6,12 @@ import {
   Awaitable,
   Guild,
   Snowflake,
-  Client,
   Webhook,
   WebhookType,
 } from "discord.js";
 import { i18n } from "i18next";
 import { Config } from "@lib";
+import { InfractionType } from "@constants";
 declare module "discord.js" {
   interface Client {
     slashCommands: Collection<string, SlashCommandBase>;
@@ -45,7 +45,6 @@ export interface infractionParameters {
   guild: Guild;
   member: Snowflake;
   moderator: Snowflake;
-  type: "warn" | "mute" | "kick" | "ban" | "forceban";
+  type: InfractionType;
   reason: string;
-  client: Client;
 }

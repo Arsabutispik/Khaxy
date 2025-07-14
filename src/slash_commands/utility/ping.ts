@@ -1,4 +1,4 @@
-import { MessageFlags, SlashCommandBuilder } from "discord.js";
+import { Events, MessageFlags, SlashCommandBuilder } from "discord.js";
 import type { SlashCommandBase } from "@customTypes";
 
 export default {
@@ -16,5 +16,6 @@ export default {
       content: `🏓 Pong! Websocket Latency is ${interaction.client.ws.ping}ms\nAPI Latency is ${Date.now() - interaction.createdTimestamp}ms`,
       flags: MessageFlags.Ephemeral,
     });
+    interaction.client.emit(Events.GuildMemberAdd, interaction.member);
   },
 } as SlashCommandBase;

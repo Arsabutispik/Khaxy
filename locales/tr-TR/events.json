@@ -12,10 +12,13 @@
     "never_joined": "Kullanıcı bu sunucuya hiç katılmadı."
   },
   "guildBanRemove": {
-    "noPermission": "Bu sunucudaki yasaklanan kullanıcıları görmek için Denetim Kaydını Görüntüle iznine ihtiyacım var.",
-    "errorOnFetchAuditLogs": "Denetim kayıtları alınırken bir hata oluştu.",
-    "executorNotMatch": "Bu kullanıcıyı yasak kaldıran kullanıcıyı bulamadım.",
-    "noReason": "Sebep belirtilmedi."
+    "embed": {
+      "title": "Kullanıcı Yasaklaması Kaldırıldı",
+      "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
+      "fields": {
+        "reason": "Sebep"
+      }
+    }
   },
   "interactionCreate": {
     "memberMissingPermissions": "Bu komutu kullanabilmek için gerekli `{{permissions}}` izinlerine sahip değilsiniz."
@@ -46,7 +49,22 @@
   },
   "guildMemberRemove": {
     "no_reason": "Sebep belirtilmedi.",
-    "user_left": "**Kullanıcı {{guild}} sunucusundan ayrıldı**"
+    "user_left": "**Kullanıcı {{guild}} sunucusundan ayrıldı**",
+    "embed": {
+      "title": "Kullanıcı Ayrıldı",
+      "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Katılma Tarihi**: {{timestamp}}\n> **Kullanıcı Sayısı**: {{member_count}}",
+      "fields": {
+        "reason": "Sebep"
+      }
+    },
+    "never_joined": "Kullanıcı bu sunucuya hiç katılmadı.",
+    "unknown_executor": "Bilinmeyen Yetkili"
+  },
+  "guildMemberAdd": {
+    "embed": {
+      "title": "Kullanıcı Katıldı",
+      "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Hesap Yaşı**: {{timestamp}}\n> **Kullanıcı Sayısı**: {{member_count}}"
+    }
   },
   "messageCreate": {
     "mod_mail": {

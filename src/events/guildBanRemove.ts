@@ -1,7 +1,7 @@
 import type { EventBase } from "@customTypes";
-import { AuditLogEvent, Events, PermissionsBitField } from "discord.js";
+import { AuditLogEvent, ChannelType, EmbedBuilder, Events } from "discord.js";
 import { logger } from "@lib";
-import { toStringId, modlog } from "@utils";
+import { toStringId, modlog, returnWebhook, WebhookType } from "@utils";
 import { getGuildConfig } from "@database";
 
 export default {
@@ -12,81 +12,70 @@ export default {
 
     // If no guild data is found, exit the function
     if (!guild_config) return;
-
-    // If mod log channel is configured but does not exist, exit the function
-    if (guild_config.mod_log_channel_id && !ban.guild.channels.cache.has(toStringId(guild_config.mod_log_channel_id)))
-      return;
-
-    // If the bot does not have permission to view audit logs, log the unban without audit log details
-    if (!ban.guild.members.me?.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
-      await modlog(
-        {
-          guild: ban.guild,
-          action: "UNBAN",
-          user: ban.user,
-          moderator: ban.client.user,
-          reason: ban.client.i18next.getFixedT(guild_config.language)("events:guildBanRemove.noPermission"),
-        },
-        ban.client,
-      );
-      return;
-    }
-
-    try {
-      // Fetch the most recent audit log entry for MemberBanRemove
-      const auditLog = await ban.guild.fetchAuditLogs({ type: AuditLogEvent.MemberBanRemove, limit: 1 });
-      const entry = auditLog.entries.first();
-
-      // If no audit log entry is found or the executor is the bot itself, exit the function
-      if (!entry || entry.executor?.id === ban.client.user.id) return;
-
-      // If the target of the audit log entry does not match the unbanned user, log the unban with a mismatch reason
-      if (entry.target?.id !== ban.user.id) {
-        await modlog(
-          {
-            guild: ban.guild,
-            action: "UNBAN",
-            user: ban.user,
-            moderator: ban.client.user,
-            reason: ban.client.i18next.getFixedT(guild_config.language)("events:guildBanRemove.executorNotMatch"),
-          },
-          ban.client,
-        );
-        return;
+    const t = ban.client.i18next.getFixedT(guild_config.language, "events", "guildBanRemove");
+    const audit_logs = await ban.guild
+      .fetchAuditLogs({
+        limit: 1,
+        type: AuditLogEvent.MemberBanRemove,
+      })
+      .catch(() => null);
+    const audit_log = audit_logs?.entries.first();
+    if (
+      guild_config.guild_logs_channel_id &&
+      ban.guild.channels.cache.has(toStringId(guild_config.guild_logs_channel_id))
+    ) {
+      if (audit_log?.executor?.id !== ban.client.user.id) {
+        const channel = ban.guild.channels.cache.get(toStringId(guild_config.guild_logs_channel_id));
+        if (channel?.type === ChannelType.GuildText) {
+          const webhook = await returnWebhook(ban.client, channel, ban.guild.id, {
+            id: guild_config.guild_logs_webhook_id,
+            type: WebhookType.GUILD_LOGS,
+          });
+          const embed = new EmbedBuilder()
+            .setTitle(t("embed.title"))
+            .setColor("Green")
+            .setThumbnail(ban.user.displayAvatarURL())
+            .setDescription(t("embed.description", { user: ban.user }))
+            .setFooter({
+              text: audit_log?.executor?.tag || t("unknown_executor"),
+              iconURL: audit_log?.executor?.displayAvatarURL() || undefined,
+            })
+            .setTimestamp()
+            .addFields([
+              {
+                name: t("embed.fields.reason"),
+                value: ban.reason || t("no_reason"),
+              },
+            ]);
+          await webhook
+            .send({
+              embeds: [embed],
+              allowedMentions: { parse: [] }, // Prevent mentions in the log
+            })
+            .catch((error) => {
+              logger.log({
+                level: "error",
+                message: `Failed to send guild ban remove log`,
+                error,
+                meta: {
+                  guildId: ban.guild.id,
+                  userId: ban.user.id,
+                },
+              });
+            });
+        }
       }
-
-      // Log the unban with details from the audit log entry
-      await modlog(
-        {
-          guild: ban.guild,
-          action: "UNBAN",
-          user: ban.user,
-          moderator: entry.executor!,
-          reason: entry.reason || ban.client.i18next.getFixedT(guild_config.language)("events:guildBanRemove.noReason"),
-        },
-        ban.client,
-      );
-    } catch (error) {
-      // If an error occurs while fetching audit logs, log the unban with an error reason
-      await modlog(
-        {
-          guild: ban.guild,
-          action: "UNBAN",
-          user: ban.user,
-          moderator: ban.client.user,
-          reason: ban.client.i18next.getFixedT(guild_config.language)("events:guildBanRemove.errorOnFetchAuditLogs"),
-        },
-        ban.client,
-      );
-      logger.log({
-        level: "error",
-        message: "Error fetching audit logs",
-        error: error,
-        meta: {
-          guildID: ban.guild.id,
-          userID: ban.user.id,
-        },
-      });
     }
+
+    await modlog(
+      {
+        guild: ban.guild,
+        user: ban.user,
+        moderator: audit_log?.executor ?? null,
+        action: "UNBAN",
+        reason: ban.reason || t("no_reason"),
+      },
+      ban.client,
+    );
   },
 } satisfies EventBase<Events.GuildBanRemove>;
