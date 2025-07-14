@@ -10,7 +10,7 @@ export default {
     if (!message.inGuild()) return;
     if (message.partial) return; // Ignore partial messages
     if (message.author.id === message.client.user.id) return; // Ignore messages sent by the bot itself
-
+    if (message.author.bot && !message.content.length) return; // Ignore bot messages without content
     const guild_config = await getGuildConfig(message.guild.id);
     if (!guild_config) return;
 
