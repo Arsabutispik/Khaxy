@@ -7,6 +7,7 @@ import { returnWebhook, toStringId, WebhookType } from "@utils";
 export default {
   name: Events.MessageUpdate,
   async execute(oldMessage, newMessage) {
+    // If the message is a modmail message, handle it separately
     if (oldMessage.content !== newMessage.content && !oldMessage.inGuild()) {
       if (oldMessage.partial) oldMessage = await oldMessage.fetch();
       if (oldMessage.author.bot) return;
@@ -39,7 +40,8 @@ export default {
     }
     if (oldMessage.partial) oldMessage = await oldMessage.fetch();
     if (newMessage.partial) newMessage = await newMessage.fetch();
-    if (oldMessage.inGuild()) {
+    // If the message is in a guild and the content has changed, log it
+    if (oldMessage.content !== newMessage.content && oldMessage.inGuild()) {
       if (oldMessage.author.id === newMessage.client.user!.id) return; // Ignore messages sent by the bot itself
       const guild_config = await getGuildConfig(oldMessage.guild.id);
       if (!guild_config) return;
