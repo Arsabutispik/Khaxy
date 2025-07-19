@@ -243,23 +243,6 @@
     "preparing_close": "Kapatılıyor...",
     "thread_closed_dm": "{{guild}} sunucusundaki mod mail konuşmanız kapatıldı."
   },
-  "vote": {
-    "not_eligible": "Oy verme işlemi için uygun değilsin.",
-    "already_voted": "Zaten oy verdin.",
-    "voted_yes": "Onay verdin.",
-    "voted_no": "Onay vermedin.",
-    "no_votes": "Bu oylama için hiç oy verilmedi.",
-    "embed": {
-      "title": "Oylama Devam Ediyor",
-      "description": "**{{totalUsers}}** kullanıcı ile oylama başlatıldı. **{{requiredVotes}}** oylama kabul edilmesi için gerekli. Şu ana kadar **{{yesVotes}}** onay verdi ve **{{noVotes}}** onay vermedi böylelikle toplamda **{{totalVotes}}** kişi oy verdi.",
-      "fields": {
-        "yes": "✅ Evet",
-        "no": "❌ Hayır",
-        "voted": "🗳️ Oy Verildi",
-        "required": "\uD83D\uDCCA Gerekli Oy"
-      }
-    }
-  },
   "check_expired_modmail_blacklists": {
     "expired_modmail_blacklist_notification": "🔔 **{{guild}}** sunucusu için modmail kara listesi süresi doldu."
   }

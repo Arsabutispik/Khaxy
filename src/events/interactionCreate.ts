@@ -2,7 +2,6 @@ import type { EventBase } from "@customTypes";
 import { Events, MessageFlags, MessageFlagsBitField } from "discord.js";
 import { missingPermissionsAsString } from "@utils";
 import { logger } from "@lib";
-import { useMainPlayer } from "discord-player";
 import { createGuildConfig, getGuildConfig } from "@database";
 
 export default {
@@ -79,12 +78,8 @@ export default {
         return;
       }
       try {
-        const player = useMainPlayer();
-        const data = {
-          guild: interaction.guild,
-        };
         // Execute the command
-        await player.context.provide(data, () => command.execute(interaction));
+        command.execute(interaction);
         logger.log({
           level: "info",
           message: `Command ${interaction.commandName} executed by ${interaction.user.username} in ${Date.now() - interaction.createdTimestamp}ms successfully.`,
