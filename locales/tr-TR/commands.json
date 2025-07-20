@@ -217,66 +217,6 @@
     "message_send_failed": "Mesaj gönderilirken hata oluştu. Mod mail kanalı iptal edildi.",
     "thread_created": "Konuşma oluşturuldu."
   },
-  "play": {
-    "not_in_voice_channel": "Herhangi bir ses kanalında değilsin.",
-    "already_in_voice_channel": "Bot ile aynı ses kanalında olmak zorundasın.",
-    "no_connect_permission": "Kanala katılma iznim yok.",
-    "no_speak_permission": "Kanalda konuşma iznim yok.",
-    "playing": "Listeye eklendi **{{query}}**",
-    "error_playing": "Müzik oynatılırken hata oluştu."
-  },
-  "playing": {
-    "no_song_playing": "Şu anda oynatılan bir müzik yok.",
-    "embed": {
-      "author": "Şu Anda Oynatılıyor ♪",
-      "description": "\uD83C\uDFB6 | Şu anda oynatılan müzik **[{{track.title}}]({{track.url}})**!",
-      "fieldName0": "Talep Eden",
-      "fieldName1": "Süre"
-    }
-  },
-  "pause": {
-    "no_song_playing": "Şu anda oynatılan bir müzik yok.",
-    "pause_vote": "**{{track}}**, **{{user}}** tarafından duraklatılmak için oylamaya sunuldu. Kullanıcılar ✅ veya ❌ ile oylamak zorundadır. Şarkıyı duraklatmak için {{count}} oya ihtiyaç var.",
-    "resume_vote": "**{{track}}**, **{{user}}** tarafından devam ettirilmek için oylamaya sunuldu. Kullanıcılar ✅ veya ❌ ile oylamak zorundadır. Şarkıyı devam ettirmek için {{count}} oya ihtiyaç var.",
-    "pause_vote_fail": "Oylama başarısız oldu.",
-    "resumed": "Müzik devam ettirildi.",
-    "paused": "Müzik duraklatıldı."
-  },
-  "skip": {
-    "no_queue": "Şu anda oynatılan bir müzik yok.",
-    "not_in_the_same_voice": "Bot ile aynı ses kanalında olmak zorundasın.",
-    "skip_vote": "**{{track}}**, **{{user}}** tarafından atlanmak için oylamaya sunuldu. Kullanıcılar ✅ veya ❌ ile oylamak zorundadır. Şarkıyı atlamak için {{count}} oya ihtiyaç var.",
-    "skip_vote_success": "Şarkı atlandı.",
-    "skip_vote_fail": "Oylama başarısız oldu."
-  },
-  "shuffle": {
-    "no_queue": "Şu anda oynatılan bir müzik yok.",
-    "not_enough_tracks": "Şarkı listesinin karıştırılması için yeterli şarkı yok.",
-    "not_in_same_voice": "Bot ile aynı ses kanalında olmak zorundasın.",
-    "shuffle_vote": "**{{user}}** tarafından şarkı sırası karıştırılmak için oylama başlatıldı. Kullanıcılar ✅ veya ❌ ile oylamak zorundadır. Şarkı listesini karıştırmak için {{count}} oya ihtiyaç var.",
-    "shuffle_vote_success": "Şarkı listesi karıştırıldı.",
-    "shuffle_vote_fail": "Oylama başarısız oldu."
-  },
-  "loop": {
-    "no_queue": "Şu anda oynatılan bir müzik yok.",
-    "not_in_same_voice": "Bot ile aynı ses kanalında olmak zorundasın.",
-    "loop_vote": "**{{user}}** {{state}}. Kullanıcılar ✅ veya ❌ ile oylamak zorundadır. Şarkıyı döngüye almak için {{count}} oya ihtiyaç var.",
-    "loop_vote_success": "Şarkı döngüye alındı.",
-    "loop_vote_fail": "Oylama başarısız oldu.",
-    "state": {
-      "0": "döngüyü kapatmak istiyor",
-      "1": "şu anki parçayı döngüye almak istiyor",
-      "2": "tüm sırayı döngüye almak istiyor"
-    }
-  },
-  "list": {
-    "no_queue": "Şu anda oynatılan bir müzik yok.",
-    "embed": {
-      "title": "Şarkı Listesi",
-      "description": "Şu anda oynatılan müzik **[{{track.title}}]({{track.url}})**\n{{duration}}\n\n**Şarkı Listesi:**\n{{queue}}",
-      "footer": "Şarkıyı atlamak için /atla komutunu kullanabilirsiniz."
-    }
-  },
   "suspend": {
     "no_thread": "Bu bir mod mail kanalı değil.",
     "already_suspended": "Bu mod mail kanalı zaten askıya alınmış.",

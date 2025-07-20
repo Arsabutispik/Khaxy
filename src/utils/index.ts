@@ -8,7 +8,6 @@ export * from "./Modlog.js";
 export * from "./ntc.js";
 export * from "./RecoverMissedCronjob.js";
 export * from "./Utils.js";
-export * from "./Vote.js";
 export * from "./BumpLeaderboard.js";
 export * from "./ModMail.js";
 export * from "./LoadEmojis.js";
