@@ -83,3 +83,4 @@ CronJob.from({
   start: true,
   timeZone: "UTC",
 });
+await client.login(process.env.TOKEN);
