@@ -27,26 +27,6 @@
     "noPermission": "Bu sunucudaki güncellenen üyeleri görmek için Denetim Kaydını Görüntüle iznine ihtiyacım var.",
     "noReason": "Sebep belirtilmedi."
   },
-  "playerStart": {
-    "embed": {
-      "author": "Şimdi Çalıyor ♪",
-      "description": "\uD83C\uDFB6 | Şimdi **[{{track.title}}]({{track.url}})** çalıyor!",
-      "fieldName0": "Şarkıyı Talep Eden",
-      "fieldName1": "Şarkı Süresi"
-    }
-  },
-  "emptyChannel": {
-    "embed": {
-      "description": "Sesli kanalda kimse kalmadığı için müzik durduruldu.",
-      "title": "Boş Kanal"
-    }
-  },
-  "emptyQueue": {
-    "embed": {
-      "description": "Şarkı kuyruğu boş olduğu için müzik durduruldu.",
-      "title": "Boş Kuyruk"
-    }
-  },
   "guildMemberRemove": {
     "no_reason": "Sebep belirtilmedi.",
     "user_left": "**Kullanıcı {{guild}} sunucusundan ayrıldı**",

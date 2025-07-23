@@ -170,36 +170,6 @@
       "`/uyar kullanıcı:@kullanıcı sebep:Spam yapma` - Kullanıcıyı spam yaptığı için uyarır."
     ]
   },
-  "list": {
-    "title": "Şarkı Sıralarını Listele",
-    "description": "Sunucudaki şarkı sıralarını listeler, hangi şarkıların sırada olduğunu gösterir.",
-    "usage": "Kullanım: </{{command.name}}:{{command.id}}>"
-  },
-  "loop": {
-    "title": "Şarkıyı Döngüye Al",
-    "description": "Şu anda çalınan şarkıyı veya listeyi döngüye al ya da döngüyü kapat.",
-    "usage": "Kullanım: </{{command.name}}:{{command.id}}>"
-  },
-  "pause": {
-    "title": "Şarkıyı Duraklat veya Devam Ettir",
-    "description": "Şu anda çalınan şarkıyı duraklatır veya devam ettirir.",
-    "usage": "Kullanım: </{{command.name}}:{{command.id}}>"
-  },
-  "playing": {
-    "title": "Şu Anda Çalan Şarkıyı Göster",
-    "description": "Şu anda çalınan şarkıyı gösterir, hangi şarkının çalındığını belirtir.",
-    "usage": "Kullanım: </{{command.name}}:{{command.id}}>"
-  },
-  "shuffle": {
-    "title": "Şarkı Sırasını Karıştır",
-    "description": "Şarkı sırasını karıştırır, sıradaki şarkıları rastgele bir şekilde düzenler.",
-    "usage": "Kullanım: </{{command.name}}:{{command.id}}>"
-  },
-  "skip": {
-    "title": "Şarkıyı Atla",
-    "description": "Şu anda çalınan şarkıyı atlar ve sıradaki şarkıya geçer.",
-    "usage": "Kullanım: </{{command.name}}:{{command.id}}>"
-  },
   "help": {
     "title": "Yardım",
     "description": "Bu komut, botun tüm komutlarını ve nasıl kullanılacağını gösterir.",

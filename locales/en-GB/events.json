@@ -33,26 +33,6 @@
     "noPermission": "I need the 'View Audit Log' permission to see the updated members in this server.",
     "noReason": "No reason provided."
   },
-  "playerStart": {
-    "embed": {
-      "author": "Now Playing ♪",
-      "description": "\uD83C\uDFB6 | Now playing **[{{track.title}}]({{track.url}})**!",
-      "fieldName0": "Requested by",
-      "fieldName1": "Duration"
-    }
-  },
-  "emptyChannel": {
-    "embed": {
-      "description": "Music has been stopped because no one remains in the voice channel.",
-      "title": "Empty Channel"
-    }
-  },
-  "emptyQueue": {
-    "embed": {
-      "description": "Music has been stopped because the queue is empty",
-      "title": "Empty Queue"
-    }
-  },
   "guildMemberRemove": {
     "no_reason": "No reason provided.",
     "user_left": "**User has left {{guild}}**",
