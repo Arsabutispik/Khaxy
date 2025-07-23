@@ -7,11 +7,11 @@ import i18next, { initI18n } from "./i18n/index.js";
 import { logger } from "@lib";
 import { CronJob } from "cron";
 import {
+  CheckExpiredModMailBlacklists,
+  checkExpiredThreads,
   checkPunishments,
   colorUpdate,
-  checkExpiredThreads,
   RegisterSlashCommands,
-  CheckExpiredModMailBlacklists,
 } from "@utils";
 
 dotenv.config();

@@ -24,8 +24,29 @@
     "memberMissingPermissions": "Bu komutu kullanabilmek için gerekli `{{permissions}}` izinlerine sahip değilsiniz."
   },
   "guildMemberUpdate": {
-    "noPermission": "Bu sunucudaki güncellenen üyeleri görmek için Denetim Kaydını Görüntüle iznine ihtiyacım var.",
-    "noReason": "Sebep belirtilmedi."
+    "unknown_executor": "Bilinmeyen Yetkili",
+    "timeout": {
+      "no_reason": "Zaman aşımı için sebep belirtilmedi.",
+      "embed": {
+        "title": "Kullanıcı Zaman Aşımına Uğradı",
+        "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Zaman Aşımı Tarihi**: {{timestamp}}",
+        "fields": {
+          "reason": "Sebep"
+        }
+      }
+    },
+    "remove_roles": {
+      "embed": {
+        "title": "Kullanıcı Rolleri Kaldırıldı",
+        "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Kaldırılan Roller**: {{roles}}"
+      }
+    },
+    "add_roles": {
+      "embed": {
+        "title": "Kullanıcı Rolleri Eklendi",
+        "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Eklenen Roller**: {{roles}}"
+      }
+    }
   },
   "guildMemberRemove": {
     "no_reason": "Sebep belirtilmedi.",

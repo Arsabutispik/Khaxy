@@ -13,11 +13,11 @@
   },
   "guildBanRemove": {
     "embed": {
-        "title": "User Unbanned",
-        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
-        "fields": {
-            "reason": "Reason"
-        }
+      "title": "User Unbanned",
+      "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
+      "fields": {
+        "reason": "Reason"
+      }
     }
   },
   "guildMemberAdd": {
@@ -30,8 +30,29 @@
     "memberMissingPermissions": "You don't have the required `{{permissions}}` permissions to use this command."
   },
   "guildMemberUpdate": {
-    "noPermission": "I need the 'View Audit Log' permission to see the updated members in this server.",
-    "noReason": "No reason provided."
+    "unknown_executor": "Unknown Executor",
+    "timeout": {
+      "no_reason": "No reason provided for timeout.",
+      "embed": {
+        "title": "User Timed Out",
+        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Timeout Until**: {{timestamp}}",
+        "fields": {
+          "reason": "Reason"
+        }
+      }
+    },
+    "remove_roles": {
+      "embed": {
+        "title": "User Roles Removed",
+        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Roles Removed**: {{roles}}"
+      }
+    },
+    "add_roles": {
+      "embed": {
+        "title": "User Roles Added",
+        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Roles Added**: {{roles}}"
+      }
+    }
   },
   "guildMemberRemove": {
     "no_reason": "No reason provided.",

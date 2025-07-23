@@ -20,12 +20,11 @@ export default {
       })
       .catch(() => null);
     const audit_log = audit_logs?.entries.first();
-    if (
-      guild_config.guild_logs_channel_id &&
-      ban.guild.channels.cache.has(toStringId(guild_config.guild_logs_channel_id))
-    ) {
+    if (guild_config.guild_logs_channel_id) {
       if (audit_log?.executor?.id !== ban.client.user.id) {
-        const channel = ban.guild.channels.cache.get(toStringId(guild_config.guild_logs_channel_id));
+        const channel = await ban.guild.channels
+          .fetch(toStringId(guild_config.guild_logs_channel_id))
+          .catch(() => null);
         if (channel?.type === ChannelType.GuildText) {
           const webhook = await returnWebhook(ban.client, channel, ban.guild.id, {
             id: guild_config.guild_logs_webhook_id,
