@@ -58,19 +58,7 @@ export default {
 
     // If no register channel is configured, assign the member role if present and exit the function
     if (!guild_config.register_channel_id && guild_config.member_role_id) {
-      try {
-        await member.roles.add(toStringId(guild_config.member_role_id));
-      } catch (error) {
-        logger.log({
-          level: "error",
-          message: "Error assigning member role",
-          error: error,
-          meta: {
-            guildID: member.guild.id,
-            userID: member.id,
-          },
-        });
-      }
+      await member.roles.add(toStringId(guild_config.member_role_id)).catch(() => null);
     }
 
     // If a register welcome message and channel are configured, send the register welcome message to the channel
@@ -84,23 +72,8 @@ export default {
         )
           await register_welcome_channel.send(replacePlaceholders(guild_config.register_join_message, replacements));
         // If the guild set up an unverified role, assign it to the member
-        if (
-          guild_config.unverified_role_id &&
-          member.guild.roles.cache.has(toStringId(guild_config.unverified_role_id))
-        ) {
-          try {
-            await member.roles.add(toStringId(guild_config.unverified_role_id));
-          } catch (error) {
-            logger.log({
-              level: "error",
-              message: "Error assigning unverified role",
-              error: error,
-              meta: {
-                guildID: member.guild.id,
-                userID: member.id,
-              },
-            });
-          }
+        if (guild_config.unverified_role_id) {
+          await member.roles.add(toStringId(guild_config.unverified_role_id)).catch(() => null);
         }
       }
     }

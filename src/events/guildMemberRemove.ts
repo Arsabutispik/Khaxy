@@ -35,13 +35,11 @@ export default {
     if (!guild_config) return;
 
     // If a goodbye message and channel are configured, send the goodbye message to the channel
-    if (
-      guild_config.leave_message &&
-      guild_config.leave_channel_id &&
-      member.guild.channels.cache.has(toStringId(guild_config.leave_channel_id))
-    ) {
-      const goodbye_channel = member.guild.channels.cache.get(toStringId(guild_config.leave_channel_id))!;
-      if (goodbye_channel.type === ChannelType.GuildText) {
+    if (guild_config.leave_message && guild_config.leave_channel_id) {
+      const goodbye_channel = await member.guild.channels
+        .fetch(toStringId(guild_config.leave_channel_id))
+        .catch(() => null);
+      if (goodbye_channel?.type === ChannelType.GuildText) {
         if (goodbye_channel.permissionsFor(member.guild.members.me!)?.has(PermissionsBitField.Flags.SendMessages))
           await goodbye_channel.send(replacePlaceholders(guild_config.leave_message, replacements));
       }
@@ -70,11 +68,10 @@ export default {
         member.client,
       );
     }
-    if (
-      guild_config.guild_logs_channel_id &&
-      member.guild.channels.cache.has(toStringId(guild_config.guild_logs_channel_id))
-    ) {
-      const channel = member.guild.channels.cache.get(toStringId(guild_config.guild_logs_channel_id));
+    if (guild_config.guild_logs_channel_id) {
+      const channel = await member.guild.channels
+        .fetch(toStringId(guild_config.guild_logs_channel_id))
+        .catch(() => null);
       if (channel?.type === ChannelType.GuildText) {
         const webhook = await returnWebhook(member.client, channel, member.guild.id, {
           id: guild_config.guild_logs_webhook_id,
