@@ -72,16 +72,18 @@ export default {
         }
       }
     }
-    await modlog(
-      {
-        guild: ban.guild,
-        action: "BAN",
-        user: ban.user,
-        reason: ban.reason || t("no_reason"),
-        moderator: audit_log?.executor ?? null,
-      },
-      ban.client,
-    );
+    if (audit_log?.executor?.id !== ban.client.user.id) {
+      await modlog(
+        {
+          guild: ban.guild,
+          action: "BAN",
+          user: ban.user,
+          reason: ban.reason || t("no_reason"),
+          moderator: audit_log?.executor ?? null,
+        },
+        ban.client,
+      );
+    }
     await addInfraction({
       guild: ban.guild,
       member: ban.user.id,
