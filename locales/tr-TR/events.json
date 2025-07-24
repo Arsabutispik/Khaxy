@@ -35,6 +35,13 @@
         }
       }
     },
+    "remove_timeout": {
+      "no_reason": "Zaman aşımını kaldırmak için sebep belirtilmedi.",
+      "embed": {
+        "title": "Kullanıcının Zaman Aşımı Kaldırıldı",
+        "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Zaman Aşımı Kaldırma Tarihi**: {{timestamp}}"
+      }
+    },
     "remove_roles": {
       "embed": {
         "title": "Kullanıcı Rolleri Kaldırıldı",
@@ -45,6 +52,19 @@
       "embed": {
         "title": "Kullanıcı Rolleri Eklendi",
         "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Eklenen Roller**: {{roles}}"
+      }
+    },
+    "nickname_change": {
+      "no_nickname": "Takma Ad Yok.",
+      "embed": {
+        "title": "Kullanıcı Takma Adı Değiştirildi",
+        "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Eski Takma Ad**: {{old_nickname}}\n>**Yeni Takma Ad**: {{new_nickname}} "
+      }
+    },
+    "username_change": {
+      "embed": {
+        "title": "Kullanıcı Kullanıcı Adı Değiştirildi",
+        "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Eski Kullanıcı Adı**: {{old_username}}\n> **Yeni Kullanıcı Adı**: {{new_username}}"
       }
     }
   },

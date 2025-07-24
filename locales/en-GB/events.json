@@ -41,6 +41,13 @@
         }
       }
     },
+    "remove_timeout": {
+      "no_reason": "No reason provided for removing timeout.",
+      "embed": {
+        "title": "User Timeout Removed",
+        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}"
+      }
+    },
     "remove_roles": {
       "embed": {
         "title": "User Roles Removed",
@@ -51,6 +58,19 @@
       "embed": {
         "title": "User Roles Added",
         "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Roles Added**: {{roles}}"
+      }
+    },
+    "nickname_change": {
+      "no_nickname": "No Nickname",
+      "embed": {
+        "title": "User Nickname Changed",
+        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Old Nickname**: {{old_nickname}}\n> **New Nickname**: {{new_nickname}}"
+      }
+    },
+    "username_change": {
+      "embed": {
+        "title": "User Username Changed",
+        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Old Username**: {{old_username}}\n> **New Username**: {{new_username}}"
       }
     }
   },

@@ -18,14 +18,14 @@ export default {
       })
       .catch(() => null);
     const audit_log = audit_logs?.entries.first();
-    const guild_logs_channel = await newMember.guild.channels
-      .fetch(toStringId(guild_config.guild_logs_channel_id))
+    const guild_member_logs_channel = await newMember.guild.channels
+      .fetch(toStringId(guild_config.guild_member_logs_channel_id))
       .catch(() => null);
     if (
       newMember.isCommunicationDisabled() &&
       !oldMember.isCommunicationDisabled() &&
       audit_log?.executor?.id !== newMember.client.user.id &&
-      guild_logs_channel?.type === ChannelType.GuildText
+      guild_member_logs_channel?.type === ChannelType.GuildText
     ) {
       const embed = new EmbedBuilder()
         .setTitle(t("timeout.embed.title"))
@@ -36,10 +36,7 @@ export default {
             timestamp: time(newMember.communicationDisabledUntil, TimestampStyles.LongDateTime),
           }),
         )
-        .setFooter({
-          text: audit_log?.executor?.tag || t("unknown_executor"),
-          iconURL: audit_log?.executor?.displayAvatarURL() || undefined,
-        })
+        .setThumbnail(newMember.user.displayAvatarURL())
         .setTimestamp()
         .addFields([
           {
@@ -47,9 +44,15 @@ export default {
             value: audit_log?.reason || t("timeout.no_reason"),
           },
         ]);
-      const webhook = await returnWebhook(newMember.client, guild_logs_channel, newMember.guild.id, {
-        id: guild_config.guild_logs_webhook_id,
-        type: WebhookType.GUILD_LOGS,
+      if (audit_log?.executor) {
+        embed.setFooter({
+          text: audit_log?.executor?.tag || t("unknown_executor"),
+          iconURL: audit_log?.executor?.displayAvatarURL() || undefined,
+        });
+      }
+      const webhook = await returnWebhook(newMember.client, guild_member_logs_channel, newMember.guild.id, {
+        id: guild_config.guild_member_logs_webhook_id,
+        type: WebhookType.GUILD_MEMBER_LOGS,
       });
       await webhook.send({ embeds: [embed] }).catch((error) => {
         logger.log({
@@ -74,9 +77,47 @@ export default {
       );
     }
     if (
+      oldMember.isCommunicationDisabled() &&
+      !newMember.isCommunicationDisabled() &&
+      audit_log?.executor?.id !== newMember.client.user.id &&
+      guild_member_logs_channel?.type === ChannelType.GuildText
+    ) {
+      const embed = new EmbedBuilder()
+        .setTitle(t("remove_timeout.embed.title"))
+        .setColor("Green")
+        .setDescription(
+          t("remove_timeout.embed.description", {
+            user: newMember.user,
+          }),
+        )
+        .setThumbnail(newMember.user.displayAvatarURL())
+        .setTimestamp();
+      if (audit_log?.executor) {
+        embed.setFooter({
+          text: audit_log?.executor?.tag || t("unknown_executor"),
+          iconURL: audit_log?.executor?.displayAvatarURL() || undefined,
+        });
+      }
+      const webhook = await returnWebhook(newMember.client, guild_member_logs_channel, newMember.guild.id, {
+        id: guild_config.guild_member_logs_webhook_id,
+        type: WebhookType.GUILD_MEMBER_LOGS,
+      });
+      await webhook.send({ embeds: [embed] }).catch((error) => {
+        logger.log({
+          level: "error",
+          message: `Failed to send guild member remove timeout log: ${error.message}`,
+          error,
+          context: {
+            guildId: newMember.guild.id,
+            userId: newMember.user.id,
+          },
+        });
+      });
+    }
+    if (
       oldMember.roles.cache.size - newMember.roles.cache.size > 0 &&
       audit_log?.executor?.id !== newMember.client.user.id &&
-      guild_logs_channel?.type === ChannelType.GuildText
+      guild_member_logs_channel?.type === ChannelType.GuildText
     ) {
       const removedRoles = oldMember.roles.cache.filter((role) => !newMember.roles.cache.has(role.id));
       const embed = new EmbedBuilder()
@@ -88,14 +129,17 @@ export default {
             roles: removedRoles.map((role) => role.toString()).join(", "),
           }),
         )
-        .setFooter({
+        .setThumbnail(newMember.user.displayAvatarURL())
+        .setTimestamp();
+      if (audit_log?.executor) {
+        embed.setFooter({
           text: audit_log?.executor?.tag || t("unknown_executor"),
           iconURL: audit_log?.executor?.displayAvatarURL() || undefined,
-        })
-        .setTimestamp();
-      const webhook = await returnWebhook(newMember.client, guild_logs_channel, newMember.guild.id, {
-        id: guild_config.guild_logs_webhook_id,
-        type: WebhookType.GUILD_LOGS,
+        });
+      }
+      const webhook = await returnWebhook(newMember.client, guild_member_logs_channel, newMember.guild.id, {
+        id: guild_config.guild_member_logs_webhook_id,
+        type: WebhookType.GUILD_MEMBER_LOGS,
       });
       await webhook.send({ embeds: [embed] }).catch((error) => {
         logger.log({
@@ -112,7 +156,7 @@ export default {
     if (
       oldMember.roles.cache.size - newMember.roles.cache.size < 0 &&
       audit_log?.executor?.id !== newMember.client.user.id &&
-      guild_logs_channel?.type === ChannelType.GuildText
+      guild_member_logs_channel?.type === ChannelType.GuildText
     ) {
       const addedRoles = newMember.roles.cache.filter((role) => !oldMember.roles.cache.has(role.id));
       const embed = new EmbedBuilder()
@@ -124,19 +168,121 @@ export default {
             roles: addedRoles.map((role) => role.toString()).join(", "),
           }),
         )
-        .setFooter({
+        .setThumbnail(newMember.user.displayAvatarURL())
+        .setTimestamp();
+      if (audit_log?.executor) {
+        embed.setFooter({
           text: audit_log?.executor?.tag || t("unknown_executor"),
           iconURL: audit_log?.executor?.displayAvatarURL() || undefined,
-        })
-        .setTimestamp();
-      const webhook = await returnWebhook(newMember.client, guild_logs_channel, newMember.guild.id, {
-        id: guild_config.guild_logs_webhook_id,
-        type: WebhookType.GUILD_LOGS,
+        });
+      }
+      const webhook = await returnWebhook(newMember.client, guild_member_logs_channel, newMember.guild.id, {
+        id: guild_config.guild_member_logs_webhook_id,
+        type: WebhookType.GUILD_MEMBER_LOGS,
       });
       await webhook.send({ embeds: [embed] }).catch((error) => {
         logger.log({
           level: "error",
           message: `Failed to send guild member update log: ${error.message}`,
+          error,
+          context: {
+            guildId: newMember.guild.id,
+            userId: newMember.user.id,
+          },
+        });
+      });
+    }
+    if (
+      oldMember.nickname !== newMember.nickname &&
+      audit_log?.executor?.id !== newMember.client.user.id &&
+      guild_member_logs_channel?.type === ChannelType.GuildText
+    ) {
+      const embed = new EmbedBuilder()
+        .setTitle(t("nickname_change.embed.title"))
+        .setColor("Blue")
+        .setDescription(
+          t("nickname_change.embed.description", {
+            user: newMember.user,
+            old_nickname: oldMember.nickname || t("nickname_change.no_nickname"),
+            new_nickname: newMember.nickname || t("nickname_change.no_nickname"),
+          }),
+        )
+        .setThumbnail(newMember.user.displayAvatarURL())
+        .setTimestamp();
+      if (audit_log?.executor) {
+        embed.setFooter({
+          text: audit_log?.executor?.tag || t("unknown_executor"),
+          iconURL: audit_log?.executor?.displayAvatarURL() || undefined,
+        });
+      }
+      const webhook = await returnWebhook(newMember.client, guild_member_logs_channel, newMember.guild.id, {
+        id: guild_config.guild_member_logs_webhook_id,
+        type: WebhookType.GUILD_MEMBER_LOGS,
+      });
+      await webhook.send({ embeds: [embed] }).catch((error) => {
+        logger.log({
+          level: "error",
+          message: `Failed to send guild member nickname change log: ${error.message}`,
+          error,
+          context: {
+            guildId: newMember.guild.id,
+            userId: newMember.user.id,
+          },
+        });
+      });
+    }
+    if (
+      oldMember.user.username !== newMember.user.username &&
+      audit_log?.executor?.id !== newMember.client.user.id &&
+      guild_member_logs_channel?.type === ChannelType.GuildText
+    ) {
+      const embed = new EmbedBuilder()
+        .setTitle(t("username_change.embed.title"))
+        .setColor("Blue")
+        .setDescription(
+          t("username_change.embed.description", {
+            user: newMember.user,
+            old_username: oldMember.user.username,
+            new_username: newMember.user.username,
+          }),
+        )
+        .setThumbnail(newMember.user.displayAvatarURL())
+        .setTimestamp();
+      const webhook = await returnWebhook(newMember.client, guild_member_logs_channel, newMember.guild.id, {
+        id: guild_config.guild_member_logs_webhook_id,
+        type: WebhookType.GUILD_MEMBER_LOGS,
+      });
+      await webhook.send({ embeds: [embed] }).catch((error) => {
+        logger.log({
+          level: "error",
+          message: `Failed to send guild member username change log: ${error.message}`,
+          error,
+          context: {
+            guildId: newMember.guild.id,
+            userId: newMember.user.id,
+          },
+        });
+      });
+    }
+    if (oldMember.user.avatar !== newMember.user.avatar && guild_member_logs_channel?.type === ChannelType.GuildText) {
+      const embed = new EmbedBuilder()
+        .setTitle(t("avatar_change.embed.title"))
+        .setColor("Blue")
+        .setDescription(
+          t("avatar_change.embed.description", {
+            user: newMember.user,
+          }),
+        )
+        .setThumbnail(newMember.user.displayAvatarURL())
+        .setTimestamp();
+      const webhook = await returnWebhook(newMember.client, guild_member_logs_channel, newMember.guild.id, {
+        id: guild_config.guild_member_logs_webhook_id,
+        type: WebhookType.GUILD_MEMBER_LOGS,
+      });
+      await webhook.send({ embeds: [embed] }).catch((error) => {
+        logger.log({
+          level: "error",
+          message: `Failed to send guild member avatar change log: ${error.message}`,
           error,
           context: {
             guildId: newMember.guild.id,

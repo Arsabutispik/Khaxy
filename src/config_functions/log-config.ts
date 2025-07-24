@@ -32,6 +32,12 @@ export async function logConfig(interaction: ChatInputCommandInteraction<"cached
         description: t("message_logs_channel_id.description"),
         emoji: "📜",
       },
+      {
+        label: t("guild_member_logs_channel_id.label"),
+        value: "guild_member_logs_channel_id",
+        description: t("guild_member_logs_channel_id.description"),
+        emoji: "👥",
+      },
     ]);
   const action_row = new ActionRowBuilder<StringSelectMenuBuilder>().setComponents(select_menu);
   const reply = await interaction.reply({
@@ -64,6 +70,9 @@ export async function logConfig(interaction: ChatInputCommandInteraction<"cached
   switch (message_component.values[0]) {
     case "message_logs_channel_id":
       await dynamicChannel("message_logs_channel_id", message_component, guild_config, t);
+      break;
+    case "guild_member_logs_channel_id":
+      await dynamicChannel("guild_member_logs_channel_id", message_component, guild_config, t);
       break;
   }
 }
