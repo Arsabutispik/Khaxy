@@ -1,8 +1,9 @@
 import type { EventBase } from "@customTypes";
 import { AuditLogEvent, ChannelType, EmbedBuilder, Events, time } from "discord.js";
-import { modlog, returnWebhook, toStringId, WebhookType } from "@utils";
+import { addInfraction, modlog, returnWebhook, toStringId, WebhookType } from "@utils";
 import { logger } from "@lib";
 import { getGuildConfig } from "@database";
+import { InfractionType } from "@constants";
 
 export default {
   name: Events.GuildBanAdd,
@@ -20,69 +21,73 @@ export default {
       })
       .catch(() => null);
     const audit_log = audit_logs?.entries.first();
-    if (audit_log?.executor?.id === ban.client.user.id) return; // Ignore if the bot itself is the executor
-    if (
-      guild_config.guild_logs_channel_id &&
-      ban.guild.channels.cache.has(toStringId(guild_config.guild_logs_channel_id))
-    ) {
-      const channel = ban.guild.channels.cache.get(toStringId(guild_config.guild_logs_channel_id));
-      if (channel?.type === ChannelType.GuildText) {
-        const webhook = await returnWebhook(ban.client, channel, ban.guild.id, {
-          id: guild_config.guild_logs_webhook_id,
-          type: WebhookType.GUILD_LOGS,
-        });
-        const member = await ban.guild.members.fetch(ban.user.id).catch(() => null);
-        const embed = new EmbedBuilder()
-          .setTitle(t("embed.title"))
-          .setColor("Red")
-          .setDescription(
-            t("embed.description", {
-              user: ban.user,
-              timestamp: member && member.joinedAt ? time(member.joinedAt, "R") : t("never_joined"),
-            }),
-          )
-          .addFields([
-            {
-              name: t("embed.fields.reason"),
-              value: ban.reason || t("no_reason"),
-            },
-          ])
-          .setFooter({
-            text: audit_log?.executor?.tag || t("unknown_executor"),
-            iconURL: audit_log?.executor?.displayAvatarURL() || undefined,
+    if (guild_config.guild_logs_channel_id) {
+      if (audit_log?.executor?.id !== ban.client.user.id) {
+        const channel = await ban.guild.channels
+          .fetch(toStringId(guild_config.guild_logs_channel_id))
+          .catch(() => null);
+        if (channel?.type === ChannelType.GuildText) {
+          const webhook = await returnWebhook(ban.client, channel, ban.guild.id, {
+            id: guild_config.guild_logs_webhook_id,
+            type: WebhookType.GUILD_LOGS,
           });
-        await webhook
-          .send({
-            embeds: [embed],
-            allowedMentions: { parse: [] }, // Prevent mentions in the log
-          })
-          .catch((error) => {
-            logger.log({
-              level: "error",
-              message: "Error sending ban log",
-              error: error,
-              meta: {
-                guildID: ban.guild.id,
-                userID: ban.user.id,
+          const member = await ban.guild.members.fetch(ban.user.id).catch(() => null);
+          const embed = new EmbedBuilder()
+            .setTitle(t("embed.title"))
+            .setColor("Red")
+            .setThumbnail(ban.user.displayAvatarURL())
+            .setTimestamp()
+            .setDescription(
+              t("embed.description", {
+                user: ban.user,
+                timestamp: member && member.joinedAt ? time(member.joinedAt, "R") : t("never_joined"),
+              }),
+            )
+            .addFields([
+              {
+                name: t("embed.fields.reason"),
+                value: ban.reason || t("no_reason"),
               },
+            ])
+            .setFooter({
+              text: audit_log?.executor?.tag || t("unknown_executor"),
+              iconURL: audit_log?.executor?.displayAvatarURL() || undefined,
             });
-          });
+          await webhook
+            .send({
+              embeds: [embed],
+              allowedMentions: { parse: [] }, // Prevent mentions in the log
+            })
+            .catch((error) => {
+              logger.log({
+                level: "error",
+                message: "Error sending ban log",
+                error: error,
+                meta: {
+                  guildID: ban.guild.id,
+                  userID: ban.user.id,
+                },
+              });
+            });
+        }
       }
     }
-    if (guild_config.mod_log_channel_id && ban.guild.channels.cache.has(toStringId(guild_config.mod_log_channel_id))) {
-      const mod_log_channel = ban.guild.channels.cache.get(toStringId(guild_config.mod_log_channel_id));
-      if (mod_log_channel?.type === ChannelType.GuildText) {
-        await modlog(
-          {
-            guild: ban.guild,
-            action: "BAN",
-            user: ban.user,
-            reason: ban.reason || t("no_reason"),
-            moderator: audit_log?.executor || null,
-          },
-          ban.client,
-        );
-      }
-    }
+    await modlog(
+      {
+        guild: ban.guild,
+        action: "BAN",
+        user: ban.user,
+        reason: ban.reason || t("no_reason"),
+        moderator: audit_log?.executor ?? null,
+      },
+      ban.client,
+    );
+    await addInfraction({
+      guild: ban.guild,
+      member: ban.user.id,
+      type: InfractionType.BAN,
+      reason: ban.reason || t("no_reason"),
+      moderator: audit_log?.executor?.id || "0",
+    });
   },
 } satisfies EventBase<Events.GuildBanAdd>;

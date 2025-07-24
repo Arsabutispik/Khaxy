@@ -1,7 +1,14 @@
 import type { SlashCommandBase } from "@customTypes";
-import { InteractionContextType, MessageFlagsBitField, PermissionsBitField, SlashCommandBuilder } from "discord.js";
+import {
+  ChannelType,
+  EmbedBuilder,
+  InteractionContextType,
+  MessageFlagsBitField,
+  PermissionsBitField,
+  SlashCommandBuilder,
+} from "discord.js";
 import { logger } from "@lib";
-import { modlog } from "@utils";
+import { modlog, returnWebhook, toStringId, WebhookType } from "@utils";
 import { getGuildConfig } from "@database";
 
 export default {
@@ -88,6 +95,50 @@ export default {
         user: interaction.user.id,
       });
     }
+    if (
+      guild_config.guild_logs_channel_id &&
+      interaction.guild.channels.cache.has(toStringId(guild_config.guild_logs_channel_id))
+    ) {
+      const channel = interaction.guild.channels.cache.get(toStringId(guild_config.guild_logs_channel_id));
+      if (channel?.type === ChannelType.GuildText) {
+        const webhook = await returnWebhook(interaction.client, channel, interaction.guild.id, {
+          id: guild_config.guild_logs_webhook_id,
+          type: WebhookType.GUILD_LOGS,
+        });
+        const embed = new EmbedBuilder()
+          .setTitle(t("embed.title"))
+          .setColor("Green")
+          .setThumbnail(user.displayAvatarURL())
+          .setDescription(t("embed.description", { user: user }))
+          .setFooter({
+            text: interaction.user.tag || t("unknown_executor"),
+            iconURL: interaction.user.displayAvatarURL() || undefined,
+          })
+          .setTimestamp()
+          .addFields([
+            {
+              name: t("embed.fields.reason"),
+              value: reason || t("no_reason"),
+            },
+          ]);
+        await webhook
+          .send({
+            embeds: [embed],
+            allowedMentions: { parse: [] }, // Prevent mentions in the log
+          })
+          .catch((error) => {
+            logger.log({
+              level: "error",
+              message: `Failed to send guild ban remove log`,
+              error,
+              meta: {
+                guildId: interaction.guild.id,
+                userId: user.id,
+              },
+            });
+          });
+      }
+    }
     const result = await modlog(
       {
         guild: interaction.guild,
@@ -100,7 +151,7 @@ export default {
     );
     if (result) {
       if (interaction.replied) {
-        await interaction.followUp({ content: result.message });
+        await interaction.followUp({ content: result.message, flags: MessageFlagsBitField.Flags.Ephemeral });
       } else {
         await interaction.reply({ content: result.message, flags: MessageFlagsBitField.Flags.Ephemeral });
       }

@@ -84,7 +84,14 @@
     "no_user": "User not found.",
     "not_banned": "User is not banned.",
     "success": "{{confirm}} **{{user}}** has been unbanned (Case #{{case}}).",
-    "error": "Error while unbanning the user. {{error}}"
+    "error": "Error while unbanning the user. {{error}}",
+    "embed": {
+      "title": "User Unbanned",
+      "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
+      "fields": {
+        "reason": "Reason"
+      }
+    }
   },
   "unmute": {
     "no_member": "Member not found. Is the member still in the server?",

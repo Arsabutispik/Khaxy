@@ -141,7 +141,6 @@ export default {
           reason,
           type: InfractionType.BAN,
           moderator: interaction.user.id,
-          client,
         });
       } catch (error) {
         await interaction.editReply(t("database_error"));
@@ -228,7 +227,6 @@ export default {
           reason,
           type: InfractionType.BAN,
           moderator: interaction.user.id,
-          client,
         });
       } catch (e) {
         await interaction.editReply(t("database_error"));
@@ -313,6 +311,7 @@ export default {
         const embed = new EmbedBuilder()
           .setTitle(t("embed.title"))
           .setColor("Red")
+          .setThumbnail(user.displayAvatarURL())
           .setDescription(
             t("embed.description", {
               user: user,
@@ -331,7 +330,8 @@ export default {
           .setFooter({
             text: interaction.user.tag,
             iconURL: interaction.user.displayAvatarURL(),
-          });
+          })
+          .setTimestamp();
         await webhook
           .send({
             embeds: [embed],

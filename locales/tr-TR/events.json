@@ -12,21 +12,80 @@
     "never_joined": "Kullanıcı bu sunucuya hiç katılmadı."
   },
   "guildBanRemove": {
-    "noPermission": "Bu sunucudaki yasaklanan kullanıcıları görmek için Denetim Kaydını Görüntüle iznine ihtiyacım var.",
-    "errorOnFetchAuditLogs": "Denetim kayıtları alınırken bir hata oluştu.",
-    "executorNotMatch": "Bu kullanıcıyı yasak kaldıran kullanıcıyı bulamadım.",
-    "noReason": "Sebep belirtilmedi."
+    "embed": {
+      "title": "Kullanıcı Yasaklaması Kaldırıldı",
+      "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
+      "fields": {
+        "reason": "Sebep"
+      }
+    }
   },
   "interactionCreate": {
     "memberMissingPermissions": "Bu komutu kullanabilmek için gerekli `{{permissions}}` izinlerine sahip değilsiniz."
   },
   "guildMemberUpdate": {
-    "noPermission": "Bu sunucudaki güncellenen üyeleri görmek için Denetim Kaydını Görüntüle iznine ihtiyacım var.",
-    "noReason": "Sebep belirtilmedi."
+    "unknown_executor": "Bilinmeyen Yetkili",
+    "timeout": {
+      "no_reason": "Zaman aşımı için sebep belirtilmedi.",
+      "embed": {
+        "title": "Kullanıcı Zaman Aşımına Uğradı",
+        "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Zaman Aşımı Tarihi**: {{timestamp}}",
+        "fields": {
+          "reason": "Sebep"
+        }
+      }
+    },
+    "remove_timeout": {
+      "no_reason": "Zaman aşımını kaldırmak için sebep belirtilmedi.",
+      "embed": {
+        "title": "Kullanıcının Zaman Aşımı Kaldırıldı",
+        "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Zaman Aşımı Kaldırma Tarihi**: {{timestamp}}"
+      }
+    },
+    "remove_roles": {
+      "embed": {
+        "title": "Kullanıcı Rolleri Kaldırıldı",
+        "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Kaldırılan Roller**: {{roles}}"
+      }
+    },
+    "add_roles": {
+      "embed": {
+        "title": "Kullanıcı Rolleri Eklendi",
+        "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Eklenen Roller**: {{roles}}"
+      }
+    },
+    "nickname_change": {
+      "no_nickname": "Takma Ad Yok.",
+      "embed": {
+        "title": "Kullanıcı Takma Adı Değiştirildi",
+        "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Eski Takma Ad**: {{old_nickname}}\n>**Yeni Takma Ad**: {{new_nickname}} "
+      }
+    },
+    "username_change": {
+      "embed": {
+        "title": "Kullanıcı Kullanıcı Adı Değiştirildi",
+        "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Eski Kullanıcı Adı**: {{old_username}}\n> **Yeni Kullanıcı Adı**: {{new_username}}"
+      }
+    }
   },
   "guildMemberRemove": {
     "no_reason": "Sebep belirtilmedi.",
-    "user_left": "**Kullanıcı {{guild}} sunucusundan ayrıldı**"
+    "user_left": "**Kullanıcı {{guild}} sunucusundan ayrıldı**",
+    "embed": {
+      "title": "Kullanıcı Ayrıldı",
+      "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Katılma Tarihi**: {{timestamp}}\n> **Kullanıcı Sayısı**: {{member_count}}",
+      "fields": {
+        "reason": "Sebep"
+      }
+    },
+    "never_joined": "Kullanıcı bu sunucuya hiç katılmadı.",
+    "unknown_executor": "Bilinmeyen Yetkili"
+  },
+  "guildMemberAdd": {
+    "embed": {
+      "title": "Kullanıcı Katıldı",
+      "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Hesap Yaşı**: {{timestamp}}\n> **Kullanıcı Sayısı**: {{member_count}}"
+    }
   },
   "messageCreate": {
     "mod_mail": {

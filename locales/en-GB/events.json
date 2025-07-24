@@ -12,21 +12,80 @@
     "never_joined": "User never joined the server."
   },
   "guildBanRemove": {
-    "noPermission": "I need the 'View Audit Log' permission to see the unbanned users in this server.",
-    "errorOnFetchAuditLogs": "An error occurred while fetching audit logs.",
-    "executorNotMatch": "I couldn't determine who unbanned this user.",
-    "noReason": "No reason provided."
+    "embed": {
+      "title": "User Unbanned",
+      "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
+      "fields": {
+        "reason": "Reason"
+      }
+    }
+  },
+  "guildMemberAdd": {
+    "embed": {
+      "title": "User Joined",
+      "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Account Age**: {{timestamp}}\n> **Member Count**: {{member_count}}"
+    }
   },
   "interactionCreate": {
     "memberMissingPermissions": "You don't have the required `{{permissions}}` permissions to use this command."
   },
   "guildMemberUpdate": {
-    "noPermission": "I need the 'View Audit Log' permission to see the updated members in this server.",
-    "noReason": "No reason provided."
+    "unknown_executor": "Unknown Executor",
+    "timeout": {
+      "no_reason": "No reason provided for timeout.",
+      "embed": {
+        "title": "User Timed Out",
+        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Timeout Until**: {{timestamp}}",
+        "fields": {
+          "reason": "Reason"
+        }
+      }
+    },
+    "remove_timeout": {
+      "no_reason": "No reason provided for removing timeout.",
+      "embed": {
+        "title": "User Timeout Removed",
+        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}"
+      }
+    },
+    "remove_roles": {
+      "embed": {
+        "title": "User Roles Removed",
+        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Roles Removed**: {{roles}}"
+      }
+    },
+    "add_roles": {
+      "embed": {
+        "title": "User Roles Added",
+        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Roles Added**: {{roles}}"
+      }
+    },
+    "nickname_change": {
+      "no_nickname": "No Nickname",
+      "embed": {
+        "title": "User Nickname Changed",
+        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Old Nickname**: {{old_nickname}}\n> **New Nickname**: {{new_nickname}}"
+      }
+    },
+    "username_change": {
+      "embed": {
+        "title": "User Username Changed",
+        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Old Username**: {{old_username}}\n> **New Username**: {{new_username}}"
+      }
+    }
   },
   "guildMemberRemove": {
     "no_reason": "No reason provided.",
-    "user_left": "**User has left {{guild}}**"
+    "user_left": "**User has left {{guild}}**",
+    "embed": {
+      "title": "User Left",
+      "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Joined At**: {{timestamp}}\n> **Member Count**: {{member_count}}",
+      "fields": {
+        "reason": "Reason"
+      }
+    },
+    "never_joined": "User never joined the server.",
+    "unknown_executor": "Unknown Executor"
   },
   "messageCreate": {
     "mod_mail": {

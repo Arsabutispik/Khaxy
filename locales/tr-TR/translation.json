@@ -230,6 +230,12 @@
       "description": "Mesajlar üzerinde yapılan değişikliklerin kaydedildiği kanal",
       "unset": "Mesaj günlükleri  kanalı kaldırıldı.",
       "set": "Mesaj günlükleri kanalı {{channel}} olarak ayarlandı."
+    },
+    "guild_member_logs_channel_id": {
+      "label": "Üye Günlükleri Kanalını Ayarla",
+      "description": "Üyeler üzerinde yapılan değişikliklerin kaydedildiği kanal",
+      "unset": "Üye günlükleri kanalı kaldırıldı.",
+      "set": "Üye günlükleri kanalı {{channel}} olarak ayarlandı."
     }
   },
   "mod_mail_log": {

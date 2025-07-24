@@ -25,7 +25,7 @@
     "database_error": "Veritabanı güncellenirken kritik hata oluştu. Geliştiricilere bildirildi. Komut iptal edildi.",
     "embed": {
       "title": "Kullanıcı Yasaklandı",
-      "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.i}}\n> **Katılma Tarihi**: {{timestamp}}",
+      "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Katılma Tarihi**: {{timestamp}}",
       "fields": {
         "reason": "Sebep"
       }
@@ -84,7 +84,14 @@
     "no_user": "Kullanıcı bulunamadı.",
     "not_banned": "Kullanıcı zaten yasaklanmamış.",
     "success": "{{confirm}} **{{user}}** kullanıcısının yasağı kaldırıldı (Vaka #{{case}}).",
-    "error": "Kullanıcının yasağı kaldırılırken hata oluştu. {{error}}"
+    "error": "Kullanıcının yasağı kaldırılırken hata oluştu. {{error}}",
+    "embed": {
+      "title": "Kullanıcının Yasağı Kaldırıldı",
+      "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
+      "fields": {
+        "reason": "Sebep"
+      }
+    }
   },
   "unmute": {
     "no_member": "Kullanıcı bulunamadı. Kullanıcı hala sunucuda mı?",

@@ -230,6 +230,12 @@
       "description": "The channel where; message delete, message update, bulk delete logs will be sent.",
       "unset": "Message Logs channel has been removed.",
       "set": "Message Logs channel has been set to {{channel}}."
+    },
+    "guild_member_logs_channel_id": {
+      "label": "Set Member Logs Channel",
+      "description": "The channel where member update logs will be sent.",
+      "unset": "Member Logs channel has been removed.",
+      "set": "Member Logs channel has been set to {{channel}}."
     }
   },
   "mod_mail_log": {

@@ -1,10 +1,19 @@
 import type { EventBase } from "@customTypes";
-import { AuditLogEvent, Events, PermissionsBitField } from "discord.js";
-import { replacePlaceholders, toStringId, modlog } from "@utils";
+import {
+  AuditLogEvent,
+  ChannelType,
+  EmbedBuilder,
+  Events,
+  PermissionsBitField,
+  time,
+  TimestampStyles,
+} from "discord.js";
+import { replacePlaceholders, toStringId, modlog, returnWebhook, WebhookType } from "@utils";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime.js";
 import { ModMailThreadStatus } from "@constants";
 import { getGuildConfig, getModMailThreadsByUser, updateModMailThread } from "@database";
+import { logger } from "@lib";
 
 export default {
   name: Events.GuildMemberRemove,
@@ -26,41 +35,93 @@ export default {
     if (!guild_config) return;
 
     // If a goodbye message and channel are configured, send the goodbye message to the channel
-    if (
-      guild_config.leave_message &&
-      guild_config.leave_channel_id &&
-      member.guild.channels.cache.has(toStringId(guild_config.leave_channel_id))
-    ) {
-      const goodbye_channel = member.guild.channels.cache.get(toStringId(guild_config.leave_channel_id))!;
-      if (!goodbye_channel.isTextBased()) return;
-      if (!goodbye_channel.permissionsFor(member.guild.members.me!)?.has(PermissionsBitField.Flags.SendMessages))
-        return;
-      await goodbye_channel.send(replacePlaceholders(guild_config.leave_message, replacements));
+    if (guild_config.leave_message && guild_config.leave_channel_id) {
+      const goodbye_channel = await member.guild.channels
+        .fetch(toStringId(guild_config.leave_channel_id))
+        .catch(() => null);
+      if (goodbye_channel?.type === ChannelType.GuildText) {
+        if (goodbye_channel.permissionsFor(member.guild.members.me!)?.has(PermissionsBitField.Flags.SendMessages))
+          await goodbye_channel.send(replacePlaceholders(guild_config.leave_message, replacements));
+      }
     }
-
+    const t = member.client.i18next.getFixedT(guild_config.language, "events", "guildMemberRemove");
+    const audit_logs = await member.guild
+      .fetchAuditLogs({
+        limit: 1,
+        type: AuditLogEvent.MemberKick,
+      })
+      .catch(() => null);
+    const audit_log = audit_logs?.entries.first();
     if (
-      guild_config.mod_log_channel_id &&
-      member.guild.channels.cache.has(toStringId(guild_config.mod_log_channel_id))
+      dayjs().diff(audit_log?.createdAt, "seconds") < 3 &&
+      audit_log?.executor?.id !== member.client.user.id &&
+      audit_log?.target?.id === member.user.id
     ) {
-      if (!member.guild.members.me?.permissions.has("ViewAuditLog")) return;
-      const auditLogs = await member.guild.fetchAuditLogs({ type: AuditLogEvent.MemberKick, limit: 1 });
-      const log = auditLogs.entries.first();
-      if (!log) return;
-      const { executor, target, reason, createdTimestamp } = log;
-      if (dayjs().diff(createdTimestamp, "seconds") > 5) return;
-      if (executor?.id === member.client.user?.id) return;
-      if (target?.id !== member.id) return;
       await modlog(
         {
           guild: member.guild,
-          action: "KICK",
           user: member.user,
-          moderator: executor!,
-          reason:
-            reason ?? member.client.i18next.getFixedT(guild_config.language)("events:guildMemberRemove.no_reason"),
+          action: "KICK",
+          moderator: audit_log.executor!,
+          reason: audit_log.reason || t("no_reason"),
         },
         member.client,
       );
+    }
+    if (guild_config.guild_logs_channel_id) {
+      const channel = await member.guild.channels
+        .fetch(toStringId(guild_config.guild_logs_channel_id))
+        .catch(() => null);
+      if (channel?.type === ChannelType.GuildText) {
+        const webhook = await returnWebhook(member.client, channel, member.guild.id, {
+          id: guild_config.guild_logs_webhook_id,
+          type: WebhookType.GUILD_LOGS,
+        });
+        const embed = new EmbedBuilder()
+          .setTitle(t("embed.title"))
+          .setColor("Red")
+          .setThumbnail(member.user.displayAvatarURL())
+          .setDescription(
+            t("embed.description", {
+              user: member.user,
+              member_count: member.guild.memberCount.toString(),
+              timestamp: member.joinedAt ? time(member.joinedAt, TimestampStyles.RelativeTime) : t("never_joined"),
+            }),
+          )
+          .setTimestamp();
+        if (
+          dayjs().diff(audit_log?.createdAt, "seconds") < 3 &&
+          audit_log?.executor?.id !== member.client.user.id &&
+          audit_log?.target?.id === member.user.id
+        ) {
+          embed.setFooter({
+            text: audit_log.executor?.tag || t("unknown_executor"),
+            iconURL: audit_log.executor?.displayAvatarURL(),
+          });
+          embed.addFields([
+            {
+              name: t("embed.fields.reason"),
+              value: audit_log?.reason || t("no_reason"),
+            },
+          ]);
+        }
+        await webhook
+          .send({
+            embeds: [embed],
+            allowedMentions: { parse: [] }, // Prevent mentions in the log
+          })
+          .catch((error) => {
+            logger.log({
+              level: "error",
+              message: "Error sending guild member remove log",
+              error,
+              meta: {
+                guildId: member.guild.id,
+                userId: member.user.id,
+              },
+            });
+          });
+      }
     }
     const thread_rows = await getModMailThreadsByUser(member.user.id);
     for (const thread of thread_rows) {
@@ -70,7 +131,7 @@ export default {
       const channel = member.guild.channels.cache.get(toStringId(thread.channel_id));
       if (channel?.isTextBased()) {
         await channel.send(
-          member.client.i18next.getFixedT(guild_config.language)("events:guildMemberRemove.user_left", {
+          t("user_left", {
             guild: member.guild.name,
           }),
         );
