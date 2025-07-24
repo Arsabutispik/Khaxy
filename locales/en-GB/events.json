@@ -72,6 +72,12 @@
         "title": "User Username Changed",
         "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Old Username**: {{old_username}}\n> **New Username**: {{new_username}}"
       }
+    },
+    "avatar_change": {
+      "embed": {
+        "title": "User Avatar Changed",
+        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}"
+      }
     }
   },
   "guildMemberRemove": {
