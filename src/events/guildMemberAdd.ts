@@ -20,11 +20,7 @@ export default {
     const punishments = await getPunishmentsByUser(member.guild.id, member.id);
 
     // If punishment data exists and the mute role is present, assign the mute role to the member
-    if (
-      punishments.length > 0 &&
-      guild_config.mute_role_id &&
-      member.guild.roles.cache.has(toStringId(guild_config.mute_role_id))
-    ) {
+    if (punishments.length > 0 && guild_config.mute_role_id) {
       try {
         await member.roles.add(toStringId(guild_config.mute_role_id));
       } catch (error) {
@@ -50,24 +46,18 @@ export default {
       createdAgo: dayjs(member.user.createdAt).fromNow(),
     };
     // If a welcome message and channel are configured, send the welcome message to the channel
-    if (
-      guild_config.join_message &&
-      guild_config.join_channel_id &&
-      member.guild.channels.cache.has(toStringId(guild_config.join_channel_id))
-    ) {
-      const welcome_channel = member.guild.channels.cache.get(toStringId(guild_config.join_channel_id))!;
-      if (welcome_channel.type === ChannelType.GuildText) {
+    if (guild_config.join_message && guild_config.join_channel_id) {
+      const welcome_channel = await member.guild.channels
+        .fetch(toStringId(guild_config.join_channel_id))
+        .catch(() => null);
+      if (welcome_channel?.type === ChannelType.GuildText) {
         if (welcome_channel.permissionsFor(member.guild.members.me!)?.has(PermissionsBitField.Flags.SendMessages))
           await welcome_channel.send(replacePlaceholders(guild_config.join_message, replacements));
       }
     }
 
     // If no register channel is configured, assign the member role if present and exit the function
-    if (
-      !guild_config.register_channel_id &&
-      guild_config.member_role_id &&
-      member.guild.roles.cache.has(toStringId(guild_config.member_role_id))
-    ) {
+    if (!guild_config.register_channel_id && guild_config.member_role_id) {
       try {
         await member.roles.add(toStringId(guild_config.member_role_id));
       } catch (error) {
@@ -84,15 +74,11 @@ export default {
     }
 
     // If a register welcome message and channel are configured, send the register welcome message to the channel
-    if (
-      guild_config.register_join_channel_id &&
-      guild_config.register_join_message &&
-      member.guild.channels.cache.has(toStringId(guild_config.register_join_channel_id))
-    ) {
-      const register_welcome_channel = member.guild.channels.cache.get(
-        toStringId(guild_config.register_join_channel_id),
-      )!;
-      if (register_welcome_channel.type === ChannelType.GuildText) {
+    if (guild_config.register_join_channel_id && guild_config.register_join_message) {
+      const register_welcome_channel = await member.guild.channels
+        .fetch(toStringId(guild_config.register_join_channel_id))
+        .catch(() => null);
+      if (register_welcome_channel?.type === ChannelType.GuildText) {
         if (
           register_welcome_channel.permissionsFor(member.guild.members.me!)?.has(PermissionsBitField.Flags.SendMessages)
         )
@@ -118,11 +104,10 @@ export default {
         }
       }
     }
-    if (
-      guild_config.guild_logs_channel_id &&
-      member.guild.channels.cache.has(toStringId(guild_config.guild_logs_channel_id))
-    ) {
-      const channel = member.guild.channels.cache.get(toStringId(guild_config.guild_logs_channel_id));
+    if (guild_config.guild_logs_channel_id) {
+      const channel = await member.guild.channels
+        .fetch(toStringId(guild_config.guild_logs_channel_id))
+        .catch(() => null);
       if (channel?.type === ChannelType.GuildText) {
         const webhook = await returnWebhook(member.client, channel, member.guild.id, {
           id: guild_config.guild_logs_webhook_id,

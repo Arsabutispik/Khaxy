@@ -3,6 +3,7 @@ import { AuditLogEvent, ChannelType, EmbedBuilder, Events, time, TimestampStyles
 import { toStringId, modlog, returnWebhook, WebhookType } from "@utils";
 import { getGuildConfig } from "@database";
 import { logger } from "@lib";
+import dayjs from "dayjs";
 
 export default {
   name: Events.GuildMemberUpdate,
@@ -44,7 +45,11 @@ export default {
             value: audit_log?.reason || t("timeout.no_reason"),
           },
         ]);
-      if (audit_log?.executor) {
+      if (
+        audit_log?.executor &&
+        audit_log.target?.id === newMember.user.id &&
+        dayjs().diff(audit_log.createdAt, "seconds") < 3
+      ) {
         embed.setFooter({
           text: audit_log?.executor?.tag || t("unknown_executor"),
           iconURL: audit_log?.executor?.displayAvatarURL() || undefined,
@@ -92,7 +97,11 @@ export default {
         )
         .setThumbnail(newMember.user.displayAvatarURL())
         .setTimestamp();
-      if (audit_log?.executor) {
+      if (
+        audit_log?.executor &&
+        audit_log.target?.id === newMember.user.id &&
+        dayjs().diff(audit_log.createdAt, "seconds") < 3
+      ) {
         embed.setFooter({
           text: audit_log?.executor?.tag || t("unknown_executor"),
           iconURL: audit_log?.executor?.displayAvatarURL() || undefined,
@@ -131,7 +140,11 @@ export default {
         )
         .setThumbnail(newMember.user.displayAvatarURL())
         .setTimestamp();
-      if (audit_log?.executor) {
+      if (
+        audit_log?.executor &&
+        audit_log.target?.id === newMember.user.id &&
+        dayjs().diff(audit_log.createdAt, "seconds") < 3
+      ) {
         embed.setFooter({
           text: audit_log?.executor?.tag || t("unknown_executor"),
           iconURL: audit_log?.executor?.displayAvatarURL() || undefined,
@@ -170,7 +183,11 @@ export default {
         )
         .setThumbnail(newMember.user.displayAvatarURL())
         .setTimestamp();
-      if (audit_log?.executor) {
+      if (
+        audit_log?.executor &&
+        audit_log.target?.id === newMember.user.id &&
+        dayjs().diff(audit_log.createdAt, "seconds") < 3
+      ) {
         embed.setFooter({
           text: audit_log?.executor?.tag || t("unknown_executor"),
           iconURL: audit_log?.executor?.displayAvatarURL() || undefined,
@@ -209,7 +226,11 @@ export default {
         )
         .setThumbnail(newMember.user.displayAvatarURL())
         .setTimestamp();
-      if (audit_log?.executor) {
+      if (
+        audit_log?.executor &&
+        audit_log.target?.id === newMember.user.id &&
+        dayjs().diff(audit_log.createdAt, "seconds") < 3
+      ) {
         embed.setFooter({
           text: audit_log?.executor?.tag || t("unknown_executor"),
           iconURL: audit_log?.executor?.displayAvatarURL() || undefined,
