@@ -66,6 +66,12 @@
         "title": "Kullanıcı Kullanıcı Adı Değiştirildi",
         "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Eski Kullanıcı Adı**: {{old_username}}\n> **Yeni Kullanıcı Adı**: {{new_username}}"
       }
+    },
+    "avatar_change": {
+      "embed": {
+        "title": "Kullanıcı Avatarı Değiştirildi",
+        "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}"
+      }
     }
   },
   "guildMemberRemove": {
