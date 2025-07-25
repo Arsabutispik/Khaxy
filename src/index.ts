@@ -6,6 +6,7 @@ import { fileURLToPath, pathToFileURL } from "url";
 import i18next, { initI18n } from "./i18n/index.js";
 import { logger } from "@lib";
 import { CronJob } from "cron";
+import { resetBumpLeaderboard } from "@utils";
 import {
   CheckExpiredModMailBlacklists,
   checkExpiredThreads,
@@ -50,14 +51,14 @@ for (const file of eventFiles) {
   }
 }
 
+await client.login(process.env.TOKEN);
+
 CronJob.from({
   cronTime: "* * * * *",
   onTick: () => checkPunishments(client),
   start: true,
   timeZone: "UTC",
 });
-
-// Run every minute
 CronJob.from({
   cronTime: "* * * * *",
   onTick: async () => await checkExpiredThreads(client),
@@ -83,4 +84,9 @@ CronJob.from({
   start: true,
   timeZone: "UTC",
 });
-await client.login(process.env.TOKEN);
+CronJob.from({
+  cronTime: "0 0 1 * *",
+  onTick: () => resetBumpLeaderboard(client),
+  start: true,
+  timeZone: "UTC",
+});

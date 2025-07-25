@@ -1,6 +1,12 @@
 import { ChannelType, Client, time, User } from "discord.js";
 import { toStringId } from "@utils";
-import { getBumpLeaderboard, getGuildConfig } from "@database";
+import {
+  getBumpLeaderboard,
+  getGuildConfig,
+  getGuilds,
+  resetBumpLeaderboard as resetBumpLeaderboardDatabase,
+  updateGuildConfig,
+} from "@database";
 
 export async function bumpLeaderboard(client: Client, guildId: string, lastBump?: User) {
   const guild = client.guilds.cache.get(guildId);
@@ -52,5 +58,21 @@ export async function bumpLeaderboard(client: Client, guildId: string, lastBump?
       initial += `\n\n${t("last_winner", { user: `<@${guild_config.last_bump_winner}>`, countedBump: guild_config.last_bump_winner_count, totalBumps: guild_config.last_bump_winner_total_count })}`;
     }
     await channel.send(initial);
+  }
+}
+
+export async function resetBumpLeaderboard(client: Client) {
+  const guild_configs = await getGuilds();
+  for (const guild_config of guild_configs) {
+    const bump_leaderboard = await getBumpLeaderboard(toStringId(guild_config.id));
+    const winner = bump_leaderboard.sort((a, b) => b.bump_count - a.bump_count)[0];
+    const total_bumps = bump_leaderboard.reduce((acc, row) => acc + row.bump_count, 0);
+    await updateGuildConfig(toStringId(guild_config.id), {
+      last_bump_winner: toStringId(winner?.user_id) || null,
+      last_bump_winner_count: winner?.bump_count || 0,
+      last_bump_winner_total_count: total_bumps || 0,
+    });
+    await bumpLeaderboard(client, toStringId(guild_config.id));
+    await resetBumpLeaderboardDatabase(toStringId(guild_config.id));
   }
 }
