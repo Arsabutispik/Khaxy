@@ -155,5 +155,27 @@
         "newContent": "Sonra"
       }
     }
+  },
+  "voiceStateUpdate": {
+    "unknown_executor": "Bilinmeyen Yetkili",
+    "join": {
+      "embed": {
+        "title": "Kullanıcı Sese Katıldı",
+        "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Ses Kanalı**: {{channel.name}} (<#{{channel.id}}>)"
+      }
+    },
+    "leave": {
+      "embed": {
+        "title": "Kullanıcı Sesten Ayrıldı",
+        "title_kicked": "Kullanıcı Sesten Atıldı",
+        "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Ses Kanalı**: {{channel.name}} (<#{{channel.id}}>)"
+      }
+    },
+    "move": {
+      "embed": {
+        "title": "Kullanıcı Ses Kanalını Değiştirdi",
+        "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Eski Ses Kanalı**: {{oldChannel.name}} (<#{{oldChannel.id}}>)\n> **Yeni Ses Kanalı**: {{newChannel.name}} (<#{{newChannel.id}}>)"
+      }
+    }
   }
 }

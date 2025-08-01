@@ -113,7 +113,8 @@ export async function dynamicChannel(
     | "bump_leaderboard_channel_id"
     | "message_logs_channel_id"
     | "guild_member_logs_channel_id"
-    | "guild_logs_channel_id",
+    | "guild_logs_channel_id"
+    | "voice_logs_channel_id",
   interaction: StringSelectMenuInteraction<"cached">,
   data: Guilds,
   t: TFunction,
