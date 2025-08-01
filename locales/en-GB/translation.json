@@ -21,7 +21,7 @@
   "bump_leaderboard": {
     "initial": "This month's bump leaderboard:\n\n",
     "last_bump": "Last bump was made {{time}} by {{user}}.",
-    "last_winner": "Last month's winner: {{user}} with `{{countedBump}}` bump out of **{{totalBump}}** bumps.",
+    "last_winner": "Last month's winner: {{user}} with `{{count}}` bump out of **{{total_bumps}}** bumps.",
     "message_not_sent_by_bot": "There are messages in the bump leaderboard channel that were not sent by the bot. Please remove them to avoid errors."
   },
   "unregistered_people": {
@@ -236,6 +236,12 @@
       "description": "The channel where member update logs will be sent.",
       "unset": "Member Logs channel has been removed.",
       "set": "Member Logs channel has been set to {{channel}}."
+    },
+    "guild_logs_channel_id": {
+      "label": "Set Guild Logs Channel",
+      "description": "The channel where guild update logs will be sent.",
+      "unset": "Guild Logs channel has been removed.",
+      "set": "Guild Logs channel has been set to {{channel}}."
     }
   },
   "mod_mail_log": {

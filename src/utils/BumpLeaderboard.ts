@@ -55,7 +55,7 @@ export async function bumpLeaderboard(client: Client, guildId: string, lastBump?
       initial += `\n${t("last_bump", { user: lastBump, time: time(new Date(), "R") })}`;
     }
     if (guild_config.last_bump_winner) {
-      initial += `\n\n${t("last_winner", { user: `<@${guild_config.last_bump_winner}>`, countedBump: guild_config.last_bump_winner_count, totalBumps: guild_config.last_bump_winner_total_count })}`;
+      initial += `\n\n${t("last_winner", { user: `<@${guild_config.last_bump_winner}>`, count: guild_config.last_bump_winner_count || 0, total_bumps: guild_config.last_bump_winner_total_count })}`;
     }
     await channel.send(initial);
   }
