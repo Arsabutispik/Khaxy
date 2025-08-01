@@ -242,6 +242,12 @@
       "description": "The channel where guild update logs will be sent.",
       "unset": "Guild Logs channel has been removed.",
       "set": "Guild Logs channel has been set to {{channel}}."
+    },
+    "voice_logs_channel_id": {
+      "label": "Set Voice Logs Channel",
+      "description": "The channel where voice update logs will be sent.",
+      "unset": "Voice Logs channel has been removed.",
+      "set": "Voice Logs channel has been set to {{channel}}."
     }
   },
   "mod_mail_log": {

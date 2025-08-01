@@ -94,6 +94,7 @@ export default {
           audit_log?.executor?.id !== member.client.user.id &&
           audit_log?.target?.id === member.user.id
         ) {
+          embed.setTitle(t("embed.title_kicked"));
           embed.setFooter({
             text: audit_log.executor?.tag || t("unknown_executor"),
             iconURL: audit_log.executor?.displayAvatarURL(),
