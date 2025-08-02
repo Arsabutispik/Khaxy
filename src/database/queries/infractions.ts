@@ -1,12 +1,10 @@
 import { prisma } from "@database";
 import { Prisma } from "@prisma/client";
 export async function getInfraction(guildId: string, caseId: number) {
-  return prisma.infractions.findUnique({
+  return prisma.infractions.findFirst({
     where: {
-      guild_id_case_id: {
-        guild_id: BigInt(guildId),
-        case_id: caseId,
-      },
+      guild_id: BigInt(guildId),
+      case_id: caseId,
     },
   });
 }
@@ -18,24 +16,20 @@ export async function createInfraction(data: Omit<Prisma.infractionsCreateInput,
 }
 
 export async function updateInfraction(guildId: string, caseId: number, data: Prisma.infractionsUpdateInput) {
-  await prisma.infractions.update({
+  await prisma.infractions.updateMany({
     where: {
-      guild_id_case_id: {
-        guild_id: BigInt(guildId),
-        case_id: caseId,
-      },
+      guild_id: BigInt(guildId),
+      case_id: caseId,
     },
     data,
   });
 }
 
 export async function deleteInfraction(guildId: string, caseId: number) {
-  await prisma.infractions.delete({
+  await prisma.infractions.deleteMany({
     where: {
-      guild_id_case_id: {
-        guild_id: BigInt(guildId),
-        case_id: caseId,
-      },
+      guild_id: BigInt(guildId),
+      case_id: caseId,
     },
   });
 }

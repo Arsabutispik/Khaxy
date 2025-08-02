@@ -71,6 +71,7 @@ model guilds {
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model infractions {
+  id         BigInt    @id @default(autoincrement())
   guild_id     BigInt
   moderator_id BigInt
   case_id      Int
@@ -80,7 +81,7 @@ model infractions {
   reason       String
   type         String
 
-  @@unique([guild_id, case_id])
+  @@unique(id)
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
