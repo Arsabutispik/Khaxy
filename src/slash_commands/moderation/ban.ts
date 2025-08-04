@@ -166,7 +166,7 @@ export default {
               user: user.tag,
               duration: long_duration,
               case: guild_config.case_id,
-              confirm: client.allEmojis.get(client.config.Emojis.confirm)?.format,
+              confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
             }),
           });
         } else {
@@ -175,7 +175,7 @@ export default {
               user: user.tag,
               duration: long_duration,
               case: guild_config.case_id,
-              confirm: client.allEmojis.get(client.config.Emojis.confirm)?.format,
+              confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
             }),
           });
         }
@@ -185,7 +185,7 @@ export default {
             user: user.tag,
             duration: long_duration,
             case: guild_config.case_id,
-            confirm: client.allEmojis.get(client.config.Emojis.confirm)?.format,
+            confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
           }),
         });
       }
@@ -246,7 +246,7 @@ export default {
             content: t("message.success.permanent", {
               user: user.tag,
               case: guild_config.case_id,
-              confirm: client.allEmojis.get(client.config.Emojis.confirm)?.format,
+              confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
             }),
           });
         } else {
@@ -254,7 +254,7 @@ export default {
             content: t("message.success.permanent_no_member", {
               user: user.tag,
               case: guild_config.case_id,
-              confirm: client.allEmojis.get(client.config.Emojis.confirm)?.format,
+              confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
             }),
           });
         }
@@ -263,7 +263,7 @@ export default {
           content: t("message.fail.permanent", {
             user: user.tag,
             case: guild_config.case_id,
-            confirm: client.allEmojis.get(client.config.Emojis.confirm)?.format,
+            confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
           }),
         });
       }

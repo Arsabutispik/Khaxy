@@ -1,0 +1,60 @@
+# Change the IDs to match your custom emojis. Optionally you can also change the fallback emoji.
+# Adding more or removing emojis will break the bot so only change the IDs and fallback emojis.
+[emojis.searchEmoji]
+id = "ID_OF_YOUR_SEARCH_EMOJI"
+fallback = "🔍"
+
+[emojis.gearSpinning]
+id = "ID_OF_YOUR_GEAR_SPINNING_EMOJI"
+fallback = "⚙️"
+
+[emojis.mailSent]
+id = "ID_OF_YOUR_MAIL_SENT_EMOJI"
+fallback = "📩"
+
+[emojis.confirm]
+id = "ID_OF_YOUR_CONFIRM_EMOJI"
+fallback = "✅"
+
+[emojis.reject]
+id = "ID_OF_YOUR_REJECT_EMOJI"
+fallback = "❌"
+
+[emojis.ban]
+id = "ID_OF_YOUR_BAN_EMOJI"
+fallback = "🔨"
+
+[emojis.edit]
+id = "ID_OF_YOUR_EDIT_EMOJI"
+fallback = "✏️"
+
+[emojis.infinity]
+id = "ID_OF_YOUR_INFINITY_EMOJI"
+fallback = "♾️"
+
+# 0 = Playing, 1 = Streaming, 2 = Listening, 3 = Watching, 4 = Custom, 5 = Competing,
+# Add or remove activities as needed.
+# Visit src/events/ready.ts for more keys to add.
+# Failure to set the correct activity type or providing a message will result in the bot not starting.
+[[activity.messages]]
+type = 4
+message = "I am in {guildCount} servers! Use /invite to invite me to your server!"
+reload = true
+
+[[activity.messages]]
+type = 4
+message = "/help to see my commands!"
+
+# Not providing the logging section will disable all logging.
+# If you want to disable a specific logging method, set the enabled key to false.
+[logging.webhook]
+# If set to true, logs will be sent by a webhook. (Mostly error logs)
+enabled = true
+url = "https://discord.com/api/webhooks/123/abc"
+
+[logging.file]
+# If set to true, error logs will be written to a file in the logs directory.
+enabled = true
+# The file will be named "error.log"
+# You can change the file name here.
+filename = "error.log"

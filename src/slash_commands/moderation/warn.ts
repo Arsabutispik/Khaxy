@@ -97,7 +97,7 @@ export default {
         t("success", {
           user: member.user.tag,
           case: guild_config.case_id,
-          confirm: client.allEmojis.get(client.config.Emojis.confirm)?.format,
+          confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
         }),
       );
     } catch {
@@ -105,7 +105,7 @@ export default {
         t("dm_error", {
           user: member.user.tag,
           case: guild_config.case_id,
-          confirm: client.allEmojis.get(client.config.Emojis.confirm)?.format,
+          confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
         }),
       );
     }

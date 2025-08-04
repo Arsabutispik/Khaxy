@@ -237,7 +237,7 @@ export async function modMailMessage(message: Message) {
           `**[${message.author.tag}]**: ${message.content}\n${message.attachments?.map((a) => a.url).join("\n")}`,
         );
         await channel.send(
-          `${client.allEmojis.get(client.config.Emojis.gearSpinning)?.format} **(${client.user!.username})** ${guild_config.mod_mail_message}`,
+          `${client.allEmojis.get(client.config.emojis.gearSpinning.id)?.format} **(${client.user!.username})** ${guild_config.mod_mail_message}`,
         );
         return;
       }
@@ -455,7 +455,7 @@ export async function modMailMessage(message: Message) {
         await message.reply(t("error_inserting"));
         return;
       }
-      await message.react(client.allEmojis.get(client.config.Emojis.confirm)!.format);
+      await message.react(client.allEmojis.get(client.config.emojis.confirm.id)!.format);
     }
   } else if (
     message.inGuild() &&

@@ -1,7 +1,7 @@
-import { ActivityType, Events } from "discord.js";
+import { Events } from "discord.js";
 import type { EventBase } from "@customTypes";
 import { logger } from "@lib";
-import { loadEmojis, recoverMissedCronjob } from "@utils";
+import { loadEmojis, recoverMissedCronjob, replacePlaceholders, updateReloadableMessages } from "@utils";
 export default {
   name: Events.ClientReady,
   once: true,
@@ -17,71 +17,63 @@ export default {
     const emojis: Array<{ name: string; id: string; fallback: string }> = [
       {
         name: "searchEmoji",
-        id: client.config.Emojis.searchEmoji,
-        fallback: "🔍",
+        ...client.config.emojis.searchEmoji,
       },
       {
         name: "gearSpinning",
-        id: client.config.Emojis.gearSpinning,
-        fallback: "⚙️",
+        ...client.config.emojis.gearSpinning,
       },
       {
         name: "mailSent",
-        id: client.config.Emojis.mailSent,
-        fallback: "📩",
+        ...client.config.emojis.mailSent,
       },
       {
         name: "confirm",
-        id: client.config.Emojis.confirm,
-        fallback: "✅",
+        ...client.config.emojis.confirm,
       },
       {
         name: "reject",
-        id: client.config.Emojis.reject,
-        fallback: "❌",
+        ...client.config.emojis.reject,
       },
       {
         name: "ban",
-        id: client.config.Emojis.ban,
-        fallback: "🔨",
+        ...client.config.emojis.ban,
       },
       {
         name: "edit",
-        id: client.config.Emojis.edit,
-        fallback: "✏️",
+        ...client.config.emojis.edit,
       },
       {
         name: "infinite",
-        id: client.config.Emojis.infinity,
-        fallback: "♾️",
+        ...client.config.emojis.infinite,
       },
     ];
     await loadEmojis(client, emojis);
-    const messages: { message: string; type: ActivityType.Custom | undefined }[] = [
-      {
-        message: `Use /invite to add me!`,
-        type: ActivityType.Custom,
-      },
-      {
-        message: `${client.guilds.cache.size} Guilds are under my protection.`,
-        type: ActivityType.Custom,
-      },
-      {
-        message: "/play What about listening to some music?",
-        type: ActivityType.Custom,
-      },
-    ];
-
-    const status = messages[Math.floor(Math.random() * messages.length)];
-    client.user!.setActivity(status.message, { type: status.type });
-    setInterval(() => {
-      messages[1] = {
-        message: `${client.guilds.cache.size} Guilds are under my protection.`,
-        type: ActivityType.Custom,
+    const messages = client.config.activity.messages;
+    if (messages.length === 0) {
+      logger.log({
+        level: "warn",
+        message: "No activity messages configured in config.toml",
+        discord: false,
+      });
+    } else {
+      const values = {
+        guildCount: client.guilds.cache.size.toString(),
+        // add more dynamic values here if needed
       };
       const status = messages[Math.floor(Math.random() * messages.length)];
-      client.user!.setActivity(status.message, { type: status.type });
-    }, 60000);
+
+      client.user!.setActivity(replacePlaceholders(status.message, values), { type: status.type });
+      setInterval(() => {
+        // Update only reloadable messages
+        const updatedMessages = updateReloadableMessages(messages, values);
+
+        // Pick random message from updated list
+        const status = updatedMessages[Math.floor(Math.random() * updatedMessages.length)];
+
+        client.user!.setActivity(status.message, { type: status.type });
+      }, 60000);
+    }
     logger.log({
       level: "info",
       message: `Logged in as ${client.user!.tag}`,

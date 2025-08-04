@@ -131,7 +131,7 @@ export default {
           await interaction.reply({
             content: t("success", {
               user: member.toString(),
-              confirm: client.allEmojis.get(client.config.Emojis.confirm)?.format,
+              confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
             }),
             flags: MessageFlagsBitField.Flags.Ephemeral,
           });
@@ -162,7 +162,7 @@ export default {
           await interaction.reply({
             content: t("success", {
               user: member.toString(),
-              confirm: client.allEmojis.get(client.config.Emojis.confirm)?.format,
+              confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
             }),
             flags: MessageFlagsBitField.Flags.Ephemeral,
           });
@@ -185,7 +185,7 @@ export default {
           await interaction.reply({
             content: t("success", {
               user: member.toString(),
-              confirm: client.allEmojis.get(client.config.Emojis.confirm)?.format,
+              confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
             }),
             flags: MessageFlagsBitField.Flags.Ephemeral,
           });

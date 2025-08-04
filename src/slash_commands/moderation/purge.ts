@@ -55,7 +55,7 @@ export default {
         return interaction.editReply({
           content: t("any.success", {
             count: messages.size,
-            confirm: interaction.client.allEmojis.get(interaction.client.config.Emojis.confirm)!.format,
+            confirm: interaction.client.allEmojis.get(interaction.client.config.emojis.confirm.id)!.format,
           }),
         });
       } catch (error) {

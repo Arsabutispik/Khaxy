@@ -114,7 +114,7 @@ export default {
       await interaction.reply(
         t("success", {
           user: member.user.tag,
-          confirm: client.allEmojis.get(client.config.Emojis.confirm)?.format,
+          confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
           case: guild_config.case_id,
         }),
       );

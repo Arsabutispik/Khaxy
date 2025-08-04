@@ -13,3 +13,4 @@ yarn-error.log*
 /logs
 /generated/prisma
 coverage/
+config.toml

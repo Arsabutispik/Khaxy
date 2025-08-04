@@ -105,7 +105,7 @@ export default {
     try {
       await member.send(
         t("message.dm", {
-          confirm: client.allEmojis.get(client.config.Emojis.confirm)?.format,
+          confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
           guild: interaction.guild.name,
           reason,
         }),
@@ -114,7 +114,7 @@ export default {
         t("message.success", {
           user: member.user.tag,
           case: guild_config.case_id,
-          confirm: client.allEmojis.get(client.config.Emojis.confirm)?.format,
+          confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
         }),
       );
     } catch {
@@ -122,7 +122,7 @@ export default {
         t("message.fail", {
           user: member.user.tag,
           case: guild_config.case_id,
-          confirm: client.allEmojis.get(client.config.Emojis.confirm)?.format,
+          confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
         }),
       );
     }

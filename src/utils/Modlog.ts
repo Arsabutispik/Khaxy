@@ -108,7 +108,7 @@ export async function modlog(
         moderator,
         user,
         reason,
-        emoji: client.allEmojis.get(client.config.Emojis.ban)?.format,
+        emoji: client.allEmojis.get(client.config.emojis.ban.id)?.format,
       });
       break;
     case "KICK":
@@ -123,7 +123,7 @@ export async function modlog(
         user,
         reason,
         duration: dayjs(duration).locale(lang).fromNow(true),
-        emoji: client.allEmojis.get(client.config.Emojis.ban)?.format,
+        emoji: client.allEmojis.get(client.config.emojis.ban.id)?.format,
       });
       break;
     case "CHANGES":

@@ -27,11 +27,11 @@ export default {
           newContent: newMessage.content,
         }),
       );
-      const confirmEmoji = newMessage.client.allEmojis.get(newMessage.client.config.Emojis.confirm);
+      const confirmEmoji = newMessage.client.allEmojis.get(newMessage.client.config.emojis.confirm.id);
       newMessage.reactions.cache
         .get(confirmEmoji!.id || confirmEmoji!.format)
         ?.users?.remove(newMessage.client.user.id);
-      await newMessage.react(newMessage.client.allEmojis.get(newMessage.client.config.Emojis.edit)!.format);
+      await newMessage.react(newMessage.client.allEmojis.get(newMessage.client.config.emojis.edit.id)!.format);
       await updateModMailMessage(oldMessage.id, {
         content: `**${t("message_edit", {
           oldContent: oldMessage.content,

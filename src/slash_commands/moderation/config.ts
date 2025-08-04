@@ -164,15 +164,15 @@ export default {
               {
                 name: t("embed.register.fields.register_join_message"),
                 value: guild_config.register_join_message
-                  ? client.allEmojis.get(client.config.Emojis.confirm)!.format
-                  : client.allEmojis.get(client.config.Emojis.reject)!.format,
+                  ? client.allEmojis.get(client.config.emojis.confirm.id)!.format
+                  : client.allEmojis.get(client.config.emojis.reject.id)!.format,
                 inline: true,
               },
               {
                 name: t("embed.register.fields.register_channel_clear"),
                 value: guild_config.register_channel_clear
-                  ? client.allEmojis.get(client.config.Emojis.confirm)!.format
-                  : client.allEmojis.get(client.config.Emojis.reject)!.format,
+                  ? client.allEmojis.get(client.config.emojis.confirm.id)!.format
+                  : client.allEmojis.get(client.config.emojis.reject.id)!.format,
                 inline: true,
               },
             );
@@ -191,8 +191,8 @@ export default {
               {
                 name: t("embed.welcome_leave.fields.welcome_message"),
                 value: guild_config.join_message
-                  ? client.allEmojis.get(client.config.Emojis.confirm)!.format
-                  : client.allEmojis.get(client.config.Emojis.reject)!.format,
+                  ? client.allEmojis.get(client.config.emojis.confirm.id)!.format
+                  : client.allEmojis.get(client.config.emojis.reject.id)!.format,
                 inline: true,
               },
               {
@@ -203,8 +203,8 @@ export default {
               {
                 name: t("embed.welcome_leave.fields.leave_message"),
                 value: guild_config.leave_message
-                  ? client.allEmojis.get(client.config.Emojis.confirm)!.format
-                  : client.allEmojis.get(client.config.Emojis.reject)!.format,
+                  ? client.allEmojis.get(client.config.emojis.confirm.id)!.format
+                  : client.allEmojis.get(client.config.emojis.reject.id)!.format,
                 inline: true,
               },
             );
@@ -233,8 +233,8 @@ export default {
               {
                 name: t("embed.moderation.fields.mute_get_all_roles"),
                 value: guild_config.mute_get_all_roles
-                  ? client.allEmojis.get(client.config.Emojis.confirm)!.format
-                  : client.allEmojis.get(client.config.Emojis.reject)!.format,
+                  ? client.allEmojis.get(client.config.emojis.confirm.id)!.format
+                  : client.allEmojis.get(client.config.emojis.reject.id)!.format,
                 inline: true,
               },
               {
@@ -306,8 +306,8 @@ export default {
               {
                 name: t("embed.misc.fields.mod_mail_message"),
                 value: guild_config.mod_mail_message
-                  ? client.allEmojis.get(client.config.Emojis.confirm)!.format
-                  : client.allEmojis.get(client.config.Emojis.reject)!.format,
+                  ? client.allEmojis.get(client.config.emojis.confirm.id)!.format
+                  : client.allEmojis.get(client.config.emojis.reject.id)!.format,
                 inline: true,
               },
             );

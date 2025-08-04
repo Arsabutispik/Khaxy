@@ -195,7 +195,7 @@ export default {
         });
         await interaction.reply({
           content: t("blacklist_success", {
-            confirm: interaction.client.allEmojis.get(interaction.client.config.Emojis.confirm)?.format,
+            confirm: interaction.client.allEmojis.get(interaction.client.config.emojis.confirm.id)?.format,
             user: user.toString(),
             reason,
             duration: duration
@@ -203,7 +203,7 @@ export default {
                   .add(duration, time as dayjs.ManipulateType)
                   .locale(guild_config.language)
                   .fromNow(true)
-              : interaction.client.allEmojis.get(interaction.client.config.Emojis.infinity)?.format,
+              : interaction.client.allEmojis.get(interaction.client.config.emojis.infinity.id)?.format,
           }),
           flags: MessageFlagsBitField.Flags.Ephemeral,
         });
@@ -231,7 +231,7 @@ export default {
         }
         await interaction.reply({
           content: t("blacklist_remove.success", {
-            confirm: interaction.client.allEmojis.get(interaction.client.config.Emojis.confirm)?.format,
+            confirm: interaction.client.allEmojis.get(interaction.client.config.emojis.confirm.id)?.format,
             user: user.toString(),
           }),
           flags: MessageFlagsBitField.Flags.Ephemeral,
@@ -276,7 +276,7 @@ export default {
             name: t("blacklist_get.embed.fields.expires_at"),
             value: blacklist.expires_at
               ? dayjs(blacklist.expires_at).format("YYYY-MM-DD HH:mm:ss")
-              : interaction.client.allEmojis.get(interaction.client.config.Emojis.infinity)!.format,
+              : interaction.client.allEmojis.get(interaction.client.config.emojis.infinity.id)!.format,
             inline: true,
           },
           {

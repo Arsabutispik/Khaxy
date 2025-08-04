@@ -1,4 +1,4 @@
-import { Client, TextChannel } from "discord.js";
+import { ActivityType, Client, TextChannel } from "discord.js";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration.js";
 import { updateGuildConfig } from "@database";
@@ -114,6 +114,29 @@ async function returnWebhook(
   }
   return webhook;
 }
+interface ActivityMessage {
+  type: ActivityType;
+  message: string;
+  reload?: boolean;
+}
+/**
+ * Formats a message by replacing placeholders with values from an object.
+ * @param messages - The messages to format.
+ * @param values - The object containing values to replace in the message.
+ * @returns The formatted message string.
+ */
+function updateReloadableMessages(messages: ActivityMessage[], values: Record<string, string>): ActivityMessage[] {
+  return messages.map((msg) => {
+    if (!msg.reload) return msg;
+
+    // Rebuild message with current values
+    const formattedMessage = replacePlaceholders(msg.message, values);
+    return {
+      ...msg,
+      message: formattedMessage,
+    };
+  });
+}
 export {
   sleep,
   missingPermissionsAsString,
@@ -122,4 +145,5 @@ export {
   formatDuration,
   trimString,
   returnWebhook,
+  updateReloadableMessages,
 };

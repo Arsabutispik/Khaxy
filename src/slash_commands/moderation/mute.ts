@@ -220,7 +220,7 @@ export default {
         content: t("message.success", {
           user: member.user.tag,
           duration: long_duration,
-          confirm: client.allEmojis.get(client.config.Emojis.confirm)?.format,
+          confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
           case: guild_config.case_id,
         }),
       });
@@ -230,7 +230,7 @@ export default {
           user: member.user.tag,
           duration: long_duration,
           case: guild_config.case_id,
-          confirm: client.allEmojis.get(client.config.Emojis.confirm)?.format,
+          confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
         }),
       });
     }

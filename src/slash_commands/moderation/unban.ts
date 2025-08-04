@@ -78,7 +78,7 @@ export default {
       await interaction.reply({
         content: t("success", {
           user: user.tag,
-          confirm: client.allEmojis.get(client.config.Emojis.confirm)?.format,
+          confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
           case: guild_config.case_id,
         }),
         flags: MessageFlagsBitField.Flags.Ephemeral,
