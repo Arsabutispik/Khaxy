@@ -1,5 +1,5 @@
 import type { SlashCommandBase } from "@customTypes";
-import { InteractionContextType, Locale, MessageFlags, PermissionsBitField, SlashCommandBuilder } from "discord.js";
+import { InteractionContextType, MessageFlags, PermissionsBitField, SlashCommandBuilder } from "discord.js";
 import { logger } from "@lib";
 import { ModMailMessageSentTo, ModMailMessageType, ModMailThreadStatus } from "@constants";
 import { createModMailMessage, getGuildConfig, getModMailThread, updateModMailThread } from "@database";
@@ -46,14 +46,6 @@ export default {
         content: t("suspended"),
         flags: MessageFlags.Ephemeral,
         withResponse: true,
-      });
-      await createModMailMessage(interaction.channelId, {
-        author_id: BigInt(interaction.user.id),
-        sent_at: new Date(),
-        author_type: ModMailMessageType.STAFF,
-        sent_to: ModMailMessageSentTo.COMMAND,
-        content: `/${interaction.command?.nameLocalizations?.[guild_config.language.split("-")[0] as Locale]}`,
-        message_id: BigInt(interaction.id),
       });
       await createModMailMessage(interaction.channelId, {
         author_id: BigInt(interaction.user.id),

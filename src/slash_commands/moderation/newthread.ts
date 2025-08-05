@@ -2,7 +2,6 @@ import type { SlashCommandBase } from "@customTypes";
 import {
   ChannelType,
   InteractionContextType,
-  Locale,
   MessageFlags,
   PermissionsBitField,
   SlashCommandBuilder,
@@ -167,14 +166,6 @@ export default {
         sent_to: ModMailMessageSentTo.THREAD,
         author_type: ModMailMessageType.CLIENT,
         content: bot_message.content,
-      });
-      await createModMailMessage(channel.id, {
-        author_id: BigInt(interaction.user.id),
-        sent_at: new Date(),
-        author_type: ModMailMessageType.STAFF,
-        sent_to: ModMailMessageSentTo.COMMAND,
-        content: `/${interaction.command?.nameLocalizations?.[guild_config.language.split("-")[0] as Locale]}`,
-        message_id: BigInt(interaction.id),
       });
       await interaction.editReply({
         content: t("thread_created", { channel: channel.toString() }),

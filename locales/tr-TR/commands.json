@@ -206,7 +206,8 @@
     "error": "Veritabanı güncellenirken hata oluştu.",
     "success": "Mesaj kullanıcıya gönderildi.",
     "suspended": "Bu mod mail konuşması askıya alındı. Cevaplamak için tekrar açın.",
-    "no_role": "Rol Yok"
+    "no_role": "Rol Yok",
+    "anonymous": "Anonim"
   },
   "newthread": {
     "user_not_in_guild": "Kullanıcı sunucuda bulunamadı.",

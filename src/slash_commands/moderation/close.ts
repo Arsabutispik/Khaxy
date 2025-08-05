@@ -11,7 +11,6 @@ import {
   SlashCommandBuilder,
   MessageFlagsBitField,
   InteractionContextType,
-  Locale,
   Message,
 } from "discord.js";
 import dayjs from "dayjs";
@@ -150,14 +149,6 @@ export default {
         await createModMailMessage(interaction.channelId, {
           author_id: BigInt(interaction.user.id),
           sent_at: new Date(),
-          author_type: ModMailMessageType.STAFF,
-          sent_to: ModMailMessageSentTo.COMMAND,
-          content: `/${interaction.command?.nameLocalizations?.[guild_config.language.split("-")[0] as Locale]} ${duration} ${time}`,
-          message_id: BigInt(responseId || 0),
-        });
-        await createModMailMessage(interaction.channelId, {
-          author_id: BigInt(interaction.user.id),
-          sent_at: new Date(),
           author_type: ModMailMessageType.CLIENT,
           sent_to: ModMailMessageSentTo.THREAD,
           content: t("close_duration", { duration: long_duration }),
@@ -188,14 +179,6 @@ export default {
         const message = await interaction.guild.members.cache
           .get(toStringId(mod_mail_thread.user_id))
           ?.send(t("thread_closed_dm", { guild: interaction.guild!.name }));
-        await createModMailMessage(interaction.channelId, {
-          author_id: BigInt(interaction.user.id),
-          sent_at: new Date(),
-          author_type: ModMailMessageType.STAFF,
-          sent_to: ModMailMessageSentTo.COMMAND,
-          content: `/${interaction.command?.nameLocalizations?.[guild_config.language.split("-")[0] as Locale]}`,
-          message_id: BigInt(interaction.id),
-        });
         let responseId;
         if (response instanceof Message) {
           responseId = response.id;

@@ -206,7 +206,8 @@
     "error": "An error occurred while accessing the database.",
     "success": "Message has been sent to the user.",
     "suspended": "This mod mail thread has been suspended. Unsuspend the thread to reply.",
-    "no_role": "No Role"
+    "no_role": "No Role",
+    "anonymous": "Anonymous"
   },
   "newthread": {
     "user_not_in_guild": "The user is not a member of the server.",
