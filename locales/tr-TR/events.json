@@ -1,4 +1,11 @@
 {
+  "channelCreate": {
+    "unknown_executor": "Bilinmeyen Yetkili",
+    "embed": {
+      "title": "Kanal Oluşturuldu",
+      "description": "> **Kanal**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Kanal Türü**: {{channel.type}}\n> **Oluşturulma Tarihi**: {{timestamp}}"
+    }
+  },
   "guildBanAdd": {
     "embed": {
       "title": "Kullanıcı Yasaklandı",
@@ -75,7 +82,7 @@
       "no_nickname": "Takma Ad Yok.",
       "embed": {
         "title": "Kullanıcı Takma Adı Değiştirildi",
-        "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Eski Takma Ad**: {{old_nickname}}\n>**Yeni Takma Ad**: {{new_nickname}} "
+        "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Eski Takma Ad**: {{old_nickname}}\n> **Yeni Takma Ad**: {{new_nickname}} "
       }
     },
     "username_change": {
