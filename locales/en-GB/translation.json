@@ -248,6 +248,12 @@
       "description": "The channel where voice update logs will be sent.",
       "unset": "Voice Logs channel has been removed.",
       "set": "Voice Logs channel has been set to {{channel}}."
+    },
+    "channel_logs_channel_id": {
+      "label": "Set Channel Logs Channel",
+      "description": "The channel where channel update logs will be sent.",
+      "unset": "Channel Logs channel has been removed.",
+      "set": "Channel Logs channel has been set to {{channel}}."
     }
   },
   "mod_mail_log": {
