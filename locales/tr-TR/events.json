@@ -4,6 +4,43 @@
     "embed": {
       "title": "Kanal Oluşturuldu",
       "description": "> **Kanal**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Kanal Türü**: {{channel.type}}\n> **Oluşturulma Tarihi**: {{timestamp}}"
+    },
+    "channel_types": {
+      "0": "Metin Kanalı",
+      "1": "DM Kanalı",
+      "2": "Ses Kanalı",
+      "3": "Grup DM Kanalı",
+      "4": "Kategori Kanalı",
+      "5": "Haber Kanalı",
+      "10": "Haber İleti Kanalı",
+      "11": "Genel İleti Kanalı",
+      "12": "Özel İleti Kanalı",
+      "13": "Sahne Kanalı",
+      "14": "Dizin Kanalı",
+      "15": "Forum Kanalı",
+      "16": "Medya Kanalı"
+    }
+  },
+  "channelDelete": {
+    "unknown_executor": "Bilinmeyen Yetkili",
+    "embed": {
+      "title": "Kanal Silindi",
+      "description": "> **Kanal**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Kanal Türü**: {{channel.type}}\n> **Silinme Tarihi**: {{timestamp}}"
+    },
+    "channel_types": {
+      "0": "Metin Kanalı",
+      "1": "DM Kanalı",
+      "2": "Ses Kanalı",
+      "3": "Grup DM Kanalı",
+      "4": "Kategori Kanalı",
+      "5": "Haber Kanalı",
+      "10": "Haber İleti Kanalı",
+      "11": "Genel İleti Kanalı",
+      "12": "Özel İleti Kanalı",
+      "13": "Sahne Kanalı",
+      "14": "Dizin Kanalı",
+      "15": "Forum Kanalı",
+      "16": "Medya Kanalı"
     }
   },
   "guildBanAdd": {

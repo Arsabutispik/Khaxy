@@ -21,6 +21,28 @@
       "16": "Media Channel"
     }
   },
+  "channelDelete": {
+    "unknown_executor": "Unknown Executor",
+    "embed": {
+      "title": "Channel Deleted",
+      "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Type**: {{channel_type}}\n> **Deleted At**: {{timestamp}}"
+    },
+    "channel_types": {
+      "0": "Text Channel",
+      "1": "DM Channel",
+      "2": "Voice Channel",
+      "3": "Group DM Channel",
+      "4": "Category Channel",
+      "5": "News Channel",
+      "10": "News Thread Channel",
+      "11": "Public Thread Channel",
+      "12": "Private Thread Channel",
+      "13": "Stage Channel",
+      "14": "Directory Channel",
+      "15": "Forum Channel",
+      "16": "Media Channel"
+    }
+  },
   "guildBanAdd": {
     "embed": {
       "title": "User Banned",
