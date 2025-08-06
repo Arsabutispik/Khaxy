@@ -114,7 +114,8 @@ export async function dynamicChannel(
     | "message_logs_channel_id"
     | "guild_member_logs_channel_id"
     | "guild_logs_channel_id"
-    | "voice_logs_channel_id",
+    | "voice_logs_channel_id"
+    | "channel_logs_channel_id",
   interaction: StringSelectMenuInteraction<"cached">,
   data: Guilds,
   t: TFunction,
