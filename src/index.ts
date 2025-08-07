@@ -14,6 +14,7 @@ import {
   colorUpdate,
   RegisterSlashCommands,
 } from "@utils";
+import * as process from "node:process";
 
 dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
@@ -89,4 +90,12 @@ CronJob.from({
   onTick: () => resetBumpLeaderboard(client),
   start: true,
   timeZone: "UTC",
+});
+
+process.on("uncaughtException", (err) => {
+  logger.log({
+    level: "error",
+    error: err,
+    message: "Uncaught Exception",
+  });
 });
