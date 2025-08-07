@@ -28,7 +28,7 @@ export default {
       message.channel.id === toStringId(leaderboard) &&
       message.author.id !== message.client.user!.id
     ) {
-      await message.delete();
+      await message.delete().catch(() => null);
       return;
     }
   },
