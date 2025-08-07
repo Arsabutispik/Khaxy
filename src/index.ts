@@ -14,7 +14,6 @@ import {
   colorUpdate,
   RegisterSlashCommands,
 } from "@utils";
-import * as process from "node:process";
 
 dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
