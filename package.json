@@ -8,11 +8,11 @@
   "scripts": {
     "deploy-commands": "tsc && tsc-alias && node --enable-source-maps dist/utils/deploy-commands.js",
     "remove-commands": "tsc && tsc-alias && node --enable-source-maps dist/utils/remove-commands.js",
-    "start": "prisma migrate deploy && prisma generate && tsc && tsc-alias && node .",
+    "start": "prisma migrate deploy && tsc && tsc-alias && node .",
     "validate-translations": "node scripts/ValidateI18nKeys.js",
     "generate-webhooks": "node scripts/GenerateWebhookTrigger.js",
     "test": "vitest",
-    "dev": "prisma migrate dev && prisma generate && tsc && tsc-alias && node --enable-source-maps ."
+    "dev": "prisma migrate dev && tsc && tsc-alias && node --enable-source-maps ."
   },
   "dependencies": {
     "@prisma/client": "^6.9.0",

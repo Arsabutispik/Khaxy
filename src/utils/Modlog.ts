@@ -26,7 +26,7 @@ export async function modlog(
     guild: Guild;
     user: User | PartialUser | null;
     action: actions;
-    moderator: User | PartialUser | null;
+    moderator: User | PartialUser | string | null;
     reason?: string;
     duration?: Dayjs;
     caseID?: number;

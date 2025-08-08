@@ -117,8 +117,13 @@ jobs:
           echo "Installing dependencies..."
           pnpm install --frozen-lockfile
 
-          echo "Restarting bot..."
-          sudo systemctl restart discord-bot.service
+          export PATH="$PATH:/root/.local/share/pnpm"
+  
+          echo "Reloading bot via PM2..."
+          /root/.local/share/pnpm/pm2 reload discord-bot || /root/.local/share/pnpm/pm2 start "pnpm start" --name discord-bot
+  
+          echo "Saving PM2 process list..."
+          /root/.local/share/pnpm/pm2 save
           EOF
 
 

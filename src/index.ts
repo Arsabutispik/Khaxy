@@ -28,6 +28,7 @@ const client = new Client({
     GatewayIntentBits.GuildVoiceStates,
     GatewayIntentBits.DirectMessages,
     GatewayIntentBits.MessageContent,
+    GatewayIntentBits.AutoModerationExecution,
   ],
   partials: [Partials.Channel, Partials.Message],
 });
@@ -89,4 +90,12 @@ CronJob.from({
   onTick: () => resetBumpLeaderboard(client),
   start: true,
   timeZone: "UTC",
+});
+
+process.on("uncaughtException", (err) => {
+  logger.log({
+    level: "error",
+    error: err,
+    message: "Uncaught Exception",
+  });
 });
