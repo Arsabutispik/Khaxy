@@ -26,6 +26,8 @@ export default {
       newMember.isCommunicationDisabled() &&
       !oldMember.isCommunicationDisabled() &&
       audit_log?.executor?.id !== newMember.client.user.id &&
+      audit_log?.target?.id === newMember.user.id &&
+      dayjs().diff(audit_log?.createdAt, "seconds") < 3 &&
       guild_member_logs_channel?.type === ChannelType.GuildText
     ) {
       const embed = new EmbedBuilder()
@@ -45,11 +47,7 @@ export default {
             value: audit_log?.reason || t("timeout.no_reason"),
           },
         ]);
-      if (
-        audit_log?.executor &&
-        audit_log.target?.id === newMember.user.id &&
-        dayjs().diff(audit_log.createdAt, "seconds") < 3
-      ) {
+      if (audit_log?.executor) {
         embed.setFooter({
           text: audit_log?.executor?.tag || t("unknown_executor"),
           iconURL: audit_log?.executor?.displayAvatarURL() || undefined,
