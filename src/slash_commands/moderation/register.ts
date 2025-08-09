@@ -126,7 +126,7 @@ export default {
           return;
         }
         try {
-          await member.roles.add(toStringId(guild_config.male_role_id), toStringId(guild_config.member_role_id));
+          await member.roles.add([toStringId(guild_config.male_role_id), toStringId(guild_config.member_role_id)]);
           await interaction.reply({
             content: t("success", {
               user: member.toString(),
@@ -156,7 +156,7 @@ export default {
           return;
         }
         try {
-          await member.roles.add(toStringId(guild_config.female_role_id), toStringId(guild_config.member_role_id));
+          await member.roles.add([toStringId(guild_config.female_role_id), toStringId(guild_config.member_role_id)]);
           await interaction.reply({
             content: t("success", {
               user: member.toString(),
