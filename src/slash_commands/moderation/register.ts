@@ -102,22 +102,12 @@ export default {
       await interaction.reply({ content: t("already_registered"), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
+    const rolesToAdd: string[] = [
+      ...member.roles.cache.map((role) => role.id),
+      toStringId(guild_config.member_role_id),
+    ];
     if (guild_config.unverified_role_id && member.roles.cache.has(toStringId(guild_config.unverified_role_id))) {
-      try {
-        await member.roles.remove(toStringId(guild_config.unverified_role_id));
-      } catch (e) {
-        await interaction.reply({
-          content: t("error", { error: e.message }),
-          flags: MessageFlagsBitField.Flags.Ephemeral,
-        });
-        logger.error({
-          message: `Error while removing unverified role from user ${member.user.tag} in guild ${interaction.guild.name}`,
-          error: e,
-          guild: interaction.guild.id,
-          user: interaction.user.id,
-        });
-        return;
-      }
+      rolesToAdd.filter((role) => role !== toStringId(guild_config.unverified_role_id));
     }
     switch (gender) {
       case "male":
@@ -126,7 +116,8 @@ export default {
           return;
         }
         try {
-          await member.roles.add([toStringId(guild_config.male_role_id), toStringId(guild_config.member_role_id)]);
+          rolesToAdd.push(toStringId(guild_config.male_role_id));
+          await member.roles.set(rolesToAdd);
           await interaction.reply({
             content: t("success", {
               user: member.toString(),
@@ -156,7 +147,8 @@ export default {
           return;
         }
         try {
-          await member.roles.add([toStringId(guild_config.female_role_id), toStringId(guild_config.member_role_id)]);
+          rolesToAdd.push(toStringId(guild_config.female_role_id));
+          await member.roles.set(rolesToAdd);
           await interaction.reply({
             content: t("success", {
               user: member.toString(),
@@ -179,7 +171,7 @@ export default {
         break;
       case "other":
         try {
-          await member.roles.add(toStringId(guild_config.member_role_id));
+          await member.roles.set(rolesToAdd);
           await interaction.reply({
             content: t("success", {
               user: member.toString(),
