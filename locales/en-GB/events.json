@@ -45,7 +45,7 @@
   },
   "guildBanAdd": {
     "embed": {
-      "title": "User Banned",
+      "title": "User Banned From Server",
       "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Joined At**: {{timestamp}}",
       "fields": {
         "reason": "Reason"
@@ -57,7 +57,7 @@
   },
   "guildBanRemove": {
     "embed": {
-      "title": "User Unbanned",
+      "title": "User Unbanned From Server",
       "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
       "fields": {
         "reason": "Reason"
@@ -66,7 +66,7 @@
   },
   "guildMemberAdd": {
     "embed": {
-      "title": "User Joined",
+      "title": "User Joined Server",
       "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Account Age**: {{timestamp}}\n> **Member Count**: {{member_count}}"
     }
   },
@@ -74,8 +74,8 @@
     "no_reason": "No reason provided.",
     "user_left": "**User has left {{guild}}**",
     "embed": {
-      "title": "User Left",
-      "title_kicked": "User Kicked",
+      "title": "User Left Server",
+      "title_kicked": "User Kicked From Server",
       "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Joined At**: {{timestamp}}\n> **Member Count**: {{member_count}}",
       "fields": {
         "reason": "Reason"

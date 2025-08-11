@@ -63,18 +63,17 @@ export default {
               });
             });
         }
+        await modlog(
+          {
+            guild: ban.guild,
+            user: ban.user,
+            moderator: audit_log?.executor ?? null,
+            action: "UNBAN",
+            reason: ban.reason || t("no_reason"),
+          },
+          ban.client,
+        );
       }
     }
-
-    await modlog(
-      {
-        guild: ban.guild,
-        user: ban.user,
-        moderator: audit_log?.executor ?? null,
-        action: "UNBAN",
-        reason: ban.reason || t("no_reason"),
-      },
-      ban.client,
-    );
   },
 } satisfies EventBase<Events.GuildBanRemove>;

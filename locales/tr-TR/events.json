@@ -45,7 +45,7 @@
   },
   "guildBanAdd": {
     "embed": {
-      "title": "Kullanıcı Yasaklandı",
+      "title": "Kullanıcı Sunucudan Yasaklandı",
       "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Katılma Tarihi**: {{timestamp}}",
       "fields": {
         "reason": "Sebep"
@@ -57,7 +57,7 @@
   },
   "guildBanRemove": {
     "embed": {
-      "title": "Kullanıcı Yasaklaması Kaldırıldı",
+      "title": "Kullanıcının Sunucu Yasağı Kaldırıldı",
       "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
       "fields": {
         "reason": "Sebep"
@@ -66,7 +66,7 @@
   },
   "guildMemberAdd": {
     "embed": {
-      "title": "Kullanıcı Katıldı",
+      "title": "Kullanıcı Sunucuya Katıldı",
       "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Hesap Yaşı**: {{timestamp}}\n> **Kullanıcı Sayısı**: {{member_count}}"
     }
   },
@@ -74,8 +74,8 @@
     "no_reason": "Sebep belirtilmedi.",
     "user_left": "**Kullanıcı {{guild}} sunucusundan ayrıldı**",
     "embed": {
-      "title": "Kullanıcı Ayrıldı",
-      "title_kicked": "Kullanıcı Atıldı",
+      "title": "Kullanıcı Sunucudan Ayrıldı",
+      "title_kicked": "Kullanıcı Sunucudan Atıldı",
       "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Katılma Tarihi**: {{timestamp}}\n> **Kullanıcı Sayısı**: {{member_count}}",
       "fields": {
         "reason": "Sebep"
@@ -105,32 +105,32 @@
     },
     "remove_roles": {
       "embed": {
-        "title": "Kullanıcı Rolleri Kaldırıldı",
+        "title": "Kullanıcıdan Roller Kaldırıldı",
         "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Kaldırılan Roller**: {{roles}}"
       }
     },
     "add_roles": {
       "embed": {
-        "title": "Kullanıcı Rolleri Eklendi",
+        "title": "Kullanıcıya Roller Eklendi",
         "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Eklenen Roller**: {{roles}}"
       }
     },
     "nickname_change": {
       "no_nickname": "Takma Ad Yok.",
       "embed": {
-        "title": "Kullanıcı Takma Adı Değiştirildi",
+        "title": "Kullanıcın Takma Adı Değişti",
         "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Eski Takma Ad**: {{old_nickname}}\n> **Yeni Takma Ad**: {{new_nickname}} "
       }
     },
     "username_change": {
       "embed": {
-        "title": "Kullanıcı Kullanıcı Adı Değiştirildi",
+        "title": "Kullanıcın Kullanıcı Adı Değişti",
         "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Eski Kullanıcı Adı**: {{old_username}}\n> **Yeni Kullanıcı Adı**: {{new_username}}"
       }
     },
     "avatar_change": {
       "embed": {
-        "title": "Kullanıcı Avatarı Değiştirildi",
+        "title": "Kullanıcın Avatarı Değişti",
         "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}"
       }
     }
