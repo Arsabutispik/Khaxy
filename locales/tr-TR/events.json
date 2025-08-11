@@ -43,6 +43,36 @@
       "16": "Medya Kanalı"
     }
   },
+  "channelUpdate": {
+    "name_change": {
+      "unknown_executor": "Bilinmeyen Yetkili",
+      "embed": {
+        "title": "Kanal Adı Değiştirildi",
+        "description": "> **Kanal**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Eski Kanal Adı**: {{old_name}}\n> **Yeni Kanal Adı**: {{new_name}}"
+      }
+    },
+    "topic_change": {
+      "unknown_executor": "Bilinmeyen Yetkili",
+      "embed": {
+        "title": "Kanal Konusu Değiştirildi",
+        "description": "> **Kanal**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Eski Konu**: {{old_topic}}\n> **Yeni Konu**: {{new_topic}}"
+      }
+    },
+    "nsfw_change": {
+      "unknown_executor": "Bilinmeyen Yetkili",
+      "embed": {
+        "title": "Kanal NSFW Durumu Değiştirildi",
+        "description": "> **Kanal**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Eski Durum**: {{old_nsfw}}\n> **Yeni Durum**: {{new_nsfw}}"
+      }
+    },
+    "permissions_change": {
+      "unknown_executor": "Bilinmeyen Yetkili",
+      "embed": {
+        "title": "Kanal İzinleri Değiştirildi",
+        "description": "> **Kanal**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Değiştirilen İzinler**: {{changes}}"
+      }
+    }
+  },
   "guildBanAdd": {
     "embed": {
       "title": "Kullanıcı Sunucudan Yasaklandı",

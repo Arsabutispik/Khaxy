@@ -43,6 +43,36 @@
       "16": "Media Channel"
     }
   },
+  "channelUpdate": {
+    "name_change": {
+      "unknown_executor": "Unknown Executor",
+      "embed": {
+        "title": "Channel Name Changed",
+        "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}"
+      }
+    },
+    "topic_change": {
+      "unknown_executor": "Unknown Executor",
+      "embed": {
+        "title": "Channel Topic Changed",
+        "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Topic**: {{old_topic}}\n> **New Topic**: {{new_topic}}"
+      }
+    },
+    "nsfw_change": {
+      "unknown_executor": "Unknown Executor",
+      "embed": {
+        "title": "Channel NSFW Status Changed",
+        "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Status**: {{old_nsfw}}\n> **New Status**: {{new_nsfw}}"
+      }
+    },
+    "permissions_change": {
+      "unknown_executor": "Unknown Executor",
+      "embed": {
+        "title": "Channel Permission Overwrites Changed",
+        "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n**Changes**: {{changes}}"
+      }
+    }
+  },
   "guildBanAdd": {
     "embed": {
       "title": "User Banned From Server",
