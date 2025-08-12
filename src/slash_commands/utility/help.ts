@@ -62,38 +62,26 @@ export default {
       });
       return;
     }
-    if (helpt(`${command.name}.title`, { fallbackLng: false }) === `${command.name}.title`) {
-      await interaction.reply({
-        content: t("command_help_not_found", { command: command_name }),
-        flags: MessageFlags.Ephemeral,
-      });
-      return;
-    }
     const embed = new EmbedBuilder()
       .setTitle(helpt(`${command.name}.title`))
       .setDescription(helpt(`${command.name}.description`))
       .setColor("Random")
       .setFooter({
         text: t("footer"),
-      });
-    if (helpt(`${command.name}.usage`, { fallbackLng: false }) !== `${command.name}.usage`) {
-      embed.addFields({
+      })
+      .addFields({
         name: t("command_usage"),
         value: helpt(`${command.name}.usage`, { command }),
-      });
-    }
-    if (helpt(`${command.name}.permissions`, { fallbackLng: false }) !== `${command.name}.permissions`) {
-      embed.addFields({
+      })
+      .addFields({
         name: t("permissions"),
         value: helpt(`${command.name}.permissions`, { joinArrays: "\n" }),
-      });
-    }
-    if (helpt(`${command.name}.examples`, { fallbackLng: false }) !== `${command.name}.examples`) {
-      embed.addFields({
+      })
+      .addFields({
         name: t("examples"),
         value: helpt(`${command.name}.examples`, { joinArrays: "\n" }),
       });
-    }
+
     await interaction.reply({
       embeds: [embed],
       flags: MessageFlags.Ephemeral,
