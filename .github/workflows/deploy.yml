@@ -131,8 +131,8 @@ jobs:
             /root/.local/share/pnpm/pm2 start "pnpm start" --name discord-bot
           fi
 
-          echo "Waiting 20 seconds to check stability..."
-          sleep 20
+          echo "Waiting 60 seconds to check stability..."
+          sleep 60
 
           echo "Checking if bot is online..."
           if ! /root/.local/share/pnpm/pm2 status discord-bot | grep -q "online"; then
@@ -141,9 +141,9 @@ jobs:
           fi
 
           echo "Checking PM2 logs for recent errors..."
-          if /root/.local/share/pnpm/pm2 logs discord-bot --lines 50 --nostream | grep -i "error"; then
-            echo "❌ Error found in recent PM2 logs"
-            exit 1
+          if tail -n 50 /root/.pm2/logs/discord-bot-error.log | grep -i "error"; then
+          echo "❌ Error found in recent PM2 logs"
+          exit 1
           fi
 
           echo "Saving PM2 process list..."
