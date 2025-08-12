@@ -52,7 +52,8 @@ export default {
         logger.log({
           level: "error",
           error,
-          message: `Failed to send channel create embed in ${channel.guild.name} (${channel.guild.id})`,
+          message: `Failed to send channelCreate embed in ${channel.guild.name} (${channel.guild.id})`,
+          channel: logChannel.id,
         });
       });
   },

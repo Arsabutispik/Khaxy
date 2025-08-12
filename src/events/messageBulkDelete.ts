@@ -2,6 +2,7 @@ import { EventBase } from "@customTypes";
 import { AttachmentBuilder, ChannelType, EmbedBuilder, Events } from "discord.js";
 import { getGuildConfig } from "@database";
 import { returnWebhook, toStringId, WebhookType } from "@utils";
+import { logger } from "@lib";
 
 export default {
   name: Events.MessageBulkDelete,
@@ -10,14 +11,14 @@ export default {
     const guild = messages.first()?.guild;
     if (!guild) return;
 
-    const guild_config = await getGuildConfig(guild.id);
-    if (!guild_config) return;
+    const guildConfig = await getGuildConfig(guild.id);
+    if (!guildConfig) return;
 
-    const channel = guild.channels.cache.get(toStringId(guild_config.message_logs_channel_id));
-    if (!channel || channel.type !== ChannelType.GuildText) return;
-    const t = guild.client.i18next.getFixedT(guild_config.language, "events", "messageBulkDelete");
-    const webhook = await returnWebhook(guild.client, channel, guild.id, {
-      id: guild_config.message_logs_webhook_id,
+    const logChannel = await guild.channels.fetch(toStringId(guildConfig.message_logs_channel_id)).catch(() => null);
+    if (!logChannel || logChannel.type !== ChannelType.GuildText) return;
+    const t = guild.client.i18next.getFixedT(guildConfig.language, "events", "messageBulkDelete");
+    const webhook = await returnWebhook(guild.client, logChannel, guild.id, {
+      id: guildConfig.message_logs_webhook_id,
       type: WebhookType.MESSAGE_LOGS,
     });
     const embed = new EmbedBuilder()
@@ -43,10 +44,19 @@ export default {
       "utf8",
     );
     const attachment = new AttachmentBuilder(buffer, { name: t("file_name") });
-    await webhook.send({
-      embeds: [embed],
-      files: [attachment],
-      allowedMentions: { parse: [] }, // Prevent mentions in the log
-    });
+    await webhook
+      .send({
+        embeds: [embed],
+        files: [attachment],
+        allowedMentions: { parse: [] }, // Prevent mentions in the log
+      })
+      .catch((error) => {
+        logger.log({
+          level: "error",
+          error,
+          message: `Failed to send messageBulkDelete embed in ${guild.name} (${guild.id})`,
+          channelId: logChannel.id,
+        });
+      });
   },
 } satisfies EventBase<Events.MessageBulkDelete>;

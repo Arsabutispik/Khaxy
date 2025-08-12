@@ -8,7 +8,7 @@ import { logger } from "@lib";
 import { CronJob } from "cron";
 import { resetBumpLeaderboard } from "@utils";
 import {
-  CheckExpiredModMailBlacklists,
+  CheckExpiredModmailBlacklists,
   checkExpiredThreads,
   checkPunishments,
   colorUpdate,
@@ -74,7 +74,7 @@ CronJob.from({
 });
 CronJob.from({
   cronTime: "* * * * *",
-  onTick: async () => await CheckExpiredModMailBlacklists(client),
+  onTick: async () => await CheckExpiredModmailBlacklists(client),
   start: true,
   timeZone: "UTC",
 });

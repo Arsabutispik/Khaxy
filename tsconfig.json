@@ -29,7 +29,7 @@
       "@customTypes": ["src/types/index.ts"],
       "@utils": ["src/utils/index.ts"],
       "@lib": ["src/lib/index.ts"],
-      "@configFunctions": ["src/config_functions/index.ts"]
+      "@configFunctions": ["src/config-functions/index.ts"]
     },
     "types": ["vitest"]
   },

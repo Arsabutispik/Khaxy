@@ -121,7 +121,10 @@ jobs:
           echo "Installing dependencies..."
           pnpm install --frozen-lockfile
           export PATH="$PATH:/root/.local/share/pnpm"
-
+          
+          echo "Clearing PM2 logs..."
+          /root/.local/share/pnpm/pm2 flush
+          
           echo "Reloading bot via PM2..."
           if ! /root/.local/share/pnpm/pm2 reload discord-bot; then
             echo "PM2 reload failed — attempting to start..."

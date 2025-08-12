@@ -11,16 +11,18 @@ export default {
     if (message.partial) return; // Ignore partial messages
     if (message.author.id === message.client.user.id) return; // Ignore messages sent by the bot itself
     if (message.author.bot && !message.content.length) return; // Ignore bot messages without content
-    const guild_config = await getGuildConfig(message.guild.id);
-    if (!guild_config) return;
+    const guildConfig = await getGuildConfig(message.guild.id);
+    if (!guildConfig) return;
 
-    const channel = message.guild.channels.cache.get(toStringId(guild_config.message_logs_channel_id));
-    if (!channel || channel.type !== ChannelType.GuildText) return;
+    const logChannel = await message.guild.channels
+      .fetch(toStringId(guildConfig.message_logs_channel_id))
+      .catch(() => null);
+    if (!logChannel || logChannel.type !== ChannelType.GuildText) return;
 
-    const t = message.client.i18next.getFixedT(guild_config.language, "events", "messageDelete");
+    const t = message.client.i18next.getFixedT(guildConfig.language, "events", "messageDelete");
 
-    const webhook = await returnWebhook(message.client, channel, message.guild.id, {
-      id: guild_config.message_logs_webhook_id,
+    const webhook = await returnWebhook(message.client, logChannel, message.guild.id, {
+      id: guildConfig.message_logs_webhook_id,
       type: WebhookType.MESSAGE_LOGS,
     });
 
@@ -37,9 +39,19 @@ export default {
     if (message.content) {
       embed.addFields({ name: t("embed.fields.content"), value: message.content });
     }
-
+    function getMaxFileSize(premiumTier: number): number {
+      switch (premiumTier) {
+        case 3: // Tier 3
+          return 100 * 1024 * 1024; // 100MB
+        case 2: // Tier 2
+          return 50 * 1024 * 1024; // 50MB
+        case 1: // Tier 1
+        default: // Tier 0
+          return 8 * 1024 * 1024; // 8MB
+      }
+    }
     // Constants
-    const MAX_FILE_SIZE = 8 * 1024 * 1024; // 8MB
+    const MAX_FILE_SIZE = getMaxFileSize(message.guild.premiumTier);
     const MAX_EMBED_ATTACHMENTS_LENGTH = 1024; // Max embed field length for attachments
 
     // Filter attachments: skip files > 8MB
@@ -48,7 +60,8 @@ export default {
       if (a.size > MAX_FILE_SIZE) {
         logger.log({
           level: "warn",
-          message: `Skipped attachment ${a.name} due to size (${(a.size / 1024 / 1024).toFixed(2)}MB) exceeding 8MB limit.`,
+          message: `Skipped attachment ${a.name} due to size (${(a.size / 1024 / 1024).toFixed(2)}MB) exceeding ${(MAX_FILE_SIZE / 1024 / 1024).toFixed(2)}MB limit.`,
+          discord: false,
         });
         return false;
       }

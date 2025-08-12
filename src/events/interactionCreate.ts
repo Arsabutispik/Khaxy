@@ -12,9 +12,9 @@ export default {
     // Check if the interaction is a chat input command
     if (interaction.isChatInputCommand()) {
       if (!interaction.inCachedGuild()) return;
-      let guild_config = await getGuildConfig(interaction.guildId);
+      let guildConfig = await getGuildConfig(interaction.guildId);
       // Check if the guild configuration exists in the database
-      if (interaction.guildId && !guild_config) {
+      if (interaction.guildId && !guildConfig) {
         logger.log({
           level: "warn",
           message: `Guild config for ${interaction.guildId} not found. Creating...`,
@@ -28,9 +28,25 @@ export default {
             message: `Guild config for ${interaction.guildId} created.`,
             discord: false,
           });
-          guild_config = await getGuildConfig(interaction.guildId);
+          guildConfig = await getGuildConfig(interaction.guildId);
+          if (!guildConfig) {
+            logger.log({
+              level: "error",
+              message: `Failed to create guild config for ${interaction.guild.name}.`,
+              guildId: interaction.guildId,
+            });
+            await interaction.reply({
+              content: "An error occurred while creating the guild configuration. Please try again later.",
+              flags: MessageFlagsBitField.Flags.Ephemeral,
+            });
+            return;
+          }
         } catch (error) {
-          logger.error(error);
+          logger.log({
+            level: "error",
+            message: `Error creating guild config for ${interaction.guildId}`,
+            error: error,
+          });
           return;
         }
       }
@@ -38,12 +54,19 @@ export default {
       // Retrieve the command from the client's slash commands collection
       const command = interaction.client.slashCommands.get(interaction.commandName);
       if (!command) {
-        logger.error(`No command matching ${interaction.commandName} was found.`);
+        logger.log({
+          level: "warn",
+          message: `Command ${interaction.commandName} not found in the client's slash commands collection.`,
+          discord: false,
+        });
+        await interaction.reply({
+          content: "This command does not exist or is not available in this server.",
+          flags: MessageFlagsBitField.Flags.Ephemeral,
+        });
         return;
       }
       // Retrieve the language from the guild configuration
-      const guilds_config = await getGuildConfig(interaction.guildId);
-      const language = guilds_config?.language || "en";
+      const language = guildConfig?.language || "en";
       // Retrieve the translation function
       const t = interaction.client.i18next.getFixedT(language);
       // Check if the member has the required permissions to execute the command
@@ -84,10 +107,10 @@ export default {
         // Execute the command
         command.execute(interaction);
         // If the command is used in a mod mail thread keep track of the command execution
-        const mod_mail_thread = await getModMailThread(interaction.channelId);
-        if (mod_mail_thread) {
-          const command_name =
-            interaction.command?.nameLocalizations?.[guild_config!.language.split("-")[0] as Locale] ||
+        const modMailThread = await getModMailThread(interaction.channelId);
+        if (modMailThread) {
+          const commandName =
+            interaction.command?.nameLocalizations?.[guildConfig!.language.split("-")[0] as Locale] ||
             interaction.command?.name;
           let message = "";
           for (const option of interaction.options.data) {
@@ -99,8 +122,8 @@ export default {
             sent_at: new Date(),
             author_type: ModMailMessageType.STAFF,
             content: interaction.options.getAttachment("attachment")
-              ? `/${command_name} ${message} ${interaction.options.getAttachment("attachment")?.url}`
-              : `/${command_name} ${message}`,
+              ? `/${commandName} ${message} ${interaction.options.getAttachment("attachment")?.url}`
+              : `/${commandName} ${message}`,
             sent_to: ModMailMessageSentTo.COMMAND,
             message_id: BigInt(interaction.id),
           });
@@ -115,12 +138,9 @@ export default {
           level: "error",
           message: "Error executing command",
           error: error,
-          meta: {
-            command: interaction.commandName,
-            interactionID: interaction.id,
-            guildID: interaction.guildId,
-            userID: interaction.user.id,
-          },
+          command: interaction.commandName,
+          guildId: interaction.guildId,
+          userId: interaction.user.id,
         });
         // Handle errors during command execution
         if (interaction.replied || interaction.deferred) {

@@ -7,9 +7,9 @@ export default {
   async execute(message) {
     await modMailMessage(message);
     if (!message.inGuild()) return;
-    const guild_config = await getGuildConfig(message.guild.id);
-    if (!guild_config) return;
-    const leaderboard = guild_config.bump_leaderboard_channel_id;
+    const guildConfig = await getGuildConfig(message.guild.id);
+    if (!guildConfig) return;
+    const leaderboard = guildConfig.bump_leaderboard_channel_id;
     if (
       message.interaction &&
       message.interaction.commandName === "bump" &&

@@ -54,7 +54,8 @@ export default {
         logger.log({
           level: "error",
           error,
-          message: `Failed to send channel delete embed in ${channel.guild.name} (${channel.guild.id})`,
+          message: `Failed to send channelDelete embed in ${channel.guild.name} (${channel.guild.id})`,
+          channelId: logChannel.id,
         });
       });
   },

@@ -3,6 +3,7 @@ import { ChannelType, EmbedBuilder, Events } from "discord.js";
 import { getGuildConfig, getModMailThreadByUser, updateModMailMessage } from "@database";
 import { ModMailThreadStatus } from "@constants";
 import { returnWebhook, toStringId, WebhookType } from "@utils";
+import { logger } from "@lib";
 
 export default {
   name: Events.MessageUpdate,
@@ -18,9 +19,9 @@ export default {
       if (!guild) return;
       const channel = await guild.channels.fetch(toStringId(thread.channel_id)).catch(() => null);
       if (!channel || !channel.isTextBased()) return;
-      const guild_config = await getGuildConfig(toStringId(thread.guild_id));
-      if (!guild_config) return;
-      const t = oldMessage.client.i18next.getFixedT(guild_config.language, "events", "messageUpdate");
+      const guildConfig = await getGuildConfig(toStringId(thread.guild_id));
+      if (!guildConfig) return;
+      const t = oldMessage.client.i18next.getFixedT(guildConfig.language, "events", "messageUpdate");
       await channel.send(
         t("message_edit", {
           oldContent: oldMessage.content,
@@ -42,15 +43,15 @@ export default {
     // If the message is in a guild and the content has changed, log it
     if (oldMessage.content !== newMessage.content && oldMessage.inGuild()) {
       if (oldMessage.author.id === newMessage.client.user!.id) return; // Ignore messages sent by the bot itself
-      const guild_config = await getGuildConfig(oldMessage.guild.id);
-      if (!guild_config) return;
-      const channel = await oldMessage.guild.channels
-        .fetch(toStringId(guild_config.message_logs_channel_id))
+      const guildConfig = await getGuildConfig(oldMessage.guild.id);
+      if (!guildConfig) return;
+      const logChannel = await oldMessage.guild.channels
+        .fetch(toStringId(guildConfig.message_logs_channel_id))
         .catch(() => null);
-      if (channel?.type !== ChannelType.GuildText) return;
-      const t = oldMessage.client.i18next.getFixedT(guild_config.language, "events", "messageUpdate");
-      const webhook = await returnWebhook(oldMessage.client, channel, oldMessage.guild.id, {
-        id: guild_config.message_logs_webhook_id,
+      if (logChannel?.type !== ChannelType.GuildText) return;
+      const t = oldMessage.client.i18next.getFixedT(guildConfig.language, "events", "messageUpdate");
+      const webhook = await returnWebhook(oldMessage.client, logChannel, oldMessage.guild.id, {
+        id: guildConfig.message_logs_webhook_id,
         type: WebhookType.MESSAGE_LOGS,
       });
       const embed = new EmbedBuilder()
@@ -70,10 +71,19 @@ export default {
           },
         ])
         .setTimestamp();
-      await webhook.send({
-        embeds: [embed],
-        allowedMentions: { parse: [] }, // Prevent mentions in the log
-      });
+      await webhook
+        .send({
+          embeds: [embed],
+          allowedMentions: { parse: [] }, // Prevent mentions in the log
+        })
+        .catch((error) => {
+          logger.log({
+            level: "error",
+            error,
+            message: `Failed to send messageUpdate embed in ${oldMessage.guild.name} (${oldMessage.guild.id})`,
+            channelId: logChannel.id,
+          });
+        });
     }
   },
 } satisfies EventBase<Events.MessageUpdate>;

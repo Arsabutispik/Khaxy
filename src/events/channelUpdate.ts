@@ -55,7 +55,8 @@ export default {
           logger.log({
             level: "error",
             error,
-            message: `Failed to send channel update embed in ${newChannel.guild.name} (${newChannel.guild.id})`,
+            message: `Failed to send channelUpdate embed in ${newChannel.guild.name} (${newChannel.guild.id})`,
+            channelId: logChannel.id,
           });
         });
       }
@@ -98,7 +99,8 @@ export default {
           logger.log({
             level: "error",
             error,
-            message: `Failed to send channel update embed in ${newChannel.guild.name} (${newChannel.guild.id})`,
+            message: `Failed to send channelUpdate embed in ${newChannel.guild.name} (${newChannel.guild.id})`,
+            channelId: logChannel.id,
           });
         });
       }
@@ -139,7 +141,8 @@ export default {
           logger.log({
             level: "error",
             error,
-            message: `Failed to send channel update embed in ${newChannel.guild.name} (${newChannel.guild.id})`,
+            message: `Failed to send channelUpdate embed in ${newChannel.guild.name} (${newChannel.guild.id})`,
+            channelId: logChannel.id,
           });
         });
       }
@@ -190,7 +193,8 @@ export default {
           logger.log({
             level: "error",
             error,
-            message: `Failed to send channel update embed in ${newChannel.guild.name} (${newChannel.guild.id})`,
+            message: `Failed to send channelUpdate embed in ${newChannel.guild.name} (${newChannel.guild.id})`,
+            channelId: logChannel.id,
           });
         });
       }

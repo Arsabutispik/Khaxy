@@ -11,18 +11,18 @@ export default {
   async execute(member) {
     console.log("I emitted guildMemberAdd event");
     // Fetch guild data from the database
-    const guild_config = await getGuildConfig(member.guild.id);
+    const guildConfig = await getGuildConfig(member.guild.id);
 
     // If no guild data is found, exit the function
-    if (!guild_config) return;
+    if (!guildConfig) return;
 
     // Fetch punishment data for the member from the database
     const punishments = await getPunishmentsByUser(member.guild.id, member.id);
 
     // If punishment data exists and the mute role is present, assign the mute role to the member
-    if (punishments.length > 0 && guild_config.mute_role_id) {
+    if (punishments.length > 0 && guildConfig.mute_role_id) {
       try {
-        await member.roles.add(toStringId(guild_config.mute_role_id));
+        await member.roles.add(toStringId(guildConfig.mute_role_id));
       } catch (error) {
         logger.log({
           level: "error",
@@ -46,47 +46,47 @@ export default {
       createdAgo: dayjs(member.user.createdAt).fromNow(),
     };
     // If a welcome message and channel are configured, send the welcome message to the channel
-    if (guild_config.join_message && guild_config.join_channel_id) {
+    if (guildConfig.join_message && guildConfig.join_channel_id) {
       const welcome_channel = await member.guild.channels
-        .fetch(toStringId(guild_config.join_channel_id))
+        .fetch(toStringId(guildConfig.join_channel_id))
         .catch(() => null);
       if (welcome_channel?.type === ChannelType.GuildText) {
         if (welcome_channel.permissionsFor(member.guild.members.me!)?.has(PermissionsBitField.Flags.SendMessages))
-          await welcome_channel.send(replacePlaceholders(guild_config.join_message, replacements));
+          await welcome_channel.send(replacePlaceholders(guildConfig.join_message, replacements));
       }
     }
 
     // If no register channel is configured, assign the member role if present and exit the function
-    if (!guild_config.register_channel_id && guild_config.member_role_id) {
-      await member.roles.add(toStringId(guild_config.member_role_id)).catch(() => null);
+    if (!guildConfig.register_channel_id && guildConfig.member_role_id) {
+      await member.roles.add(toStringId(guildConfig.member_role_id)).catch(() => null);
     }
 
     // If a register welcome message and channel are configured, send the register welcome message to the channel
-    if (guild_config.register_join_channel_id && guild_config.register_join_message) {
+    if (guildConfig.register_join_channel_id && guildConfig.register_join_message) {
       const register_welcome_channel = await member.guild.channels
-        .fetch(toStringId(guild_config.register_join_channel_id))
+        .fetch(toStringId(guildConfig.register_join_channel_id))
         .catch(() => null);
       if (register_welcome_channel?.type === ChannelType.GuildText) {
         if (
           register_welcome_channel.permissionsFor(member.guild.members.me!)?.has(PermissionsBitField.Flags.SendMessages)
         )
-          await register_welcome_channel.send(replacePlaceholders(guild_config.register_join_message, replacements));
+          await register_welcome_channel.send(replacePlaceholders(guildConfig.register_join_message, replacements));
         // If the guild set up an unverified role, assign it to the member
-        if (guild_config.unverified_role_id) {
-          await member.roles.add(toStringId(guild_config.unverified_role_id)).catch(() => null);
+        if (guildConfig.unverified_role_id) {
+          await member.roles.add(toStringId(guildConfig.unverified_role_id)).catch(() => null);
         }
       }
     }
-    if (guild_config.guild_logs_channel_id) {
+    if (guildConfig.guild_logs_channel_id) {
       const channel = await member.guild.channels
-        .fetch(toStringId(guild_config.guild_logs_channel_id))
+        .fetch(toStringId(guildConfig.guild_logs_channel_id))
         .catch(() => null);
       if (channel?.type === ChannelType.GuildText) {
         const webhook = await returnWebhook(member.client, channel, member.guild.id, {
-          id: guild_config.guild_logs_webhook_id,
+          id: guildConfig.guild_logs_webhook_id,
           type: WebhookType.GUILD_LOGS,
         });
-        const t = member.client.i18next.getFixedT(guild_config.language, "events", "guildMemberAdd");
+        const t = member.client.i18next.getFixedT(guildConfig.language, "events", "guildMemberAdd");
         const embed = new EmbedBuilder()
           .setTitle(t("embed.title"))
           .setColor("Green")
@@ -109,10 +109,8 @@ export default {
               level: "error",
               message: "Error sending guild member add log",
               error: error,
-              meta: {
-                guildId: member.guild.id,
-                userId: member.user.id,
-              },
+              guildId: member.guild.id,
+              userId: member.user.id,
             });
           });
       }

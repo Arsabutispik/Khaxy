@@ -8,7 +8,7 @@ import {
   time,
   TimestampStyles,
 } from "discord.js";
-import { replacePlaceholders, toStringId, modlog, returnWebhook, WebhookType } from "@utils";
+import { replacePlaceholders, toStringId, modLog, returnWebhook, WebhookType } from "@utils";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime.js";
 import { ModMailThreadStatus } from "@constants";
@@ -20,7 +20,7 @@ export default {
   once: false,
   async execute(member) {
     // Fetch guild data from the database
-    const guild_config = await getGuildConfig(member.guild.id);
+    const guildConfig = await getGuildConfig(member.guild.id);
     dayjs.extend(relativeTime);
     const replacements = {
       user: member.toString(),
@@ -32,49 +32,49 @@ export default {
       createdAgo: dayjs(member.user.createdAt).fromNow(),
     };
     // If no guild data is found, exit the function
-    if (!guild_config) return;
+    if (!guildConfig) return;
 
     // If a goodbye message and channel are configured, send the goodbye message to the channel
-    if (guild_config.leave_message && guild_config.leave_channel_id) {
-      const goodbye_channel = await member.guild.channels
-        .fetch(toStringId(guild_config.leave_channel_id))
+    if (guildConfig.leave_message && guildConfig.leave_channel_id) {
+      const goodbyeChannel = await member.guild.channels
+        .fetch(toStringId(guildConfig.leave_channel_id))
         .catch(() => null);
-      if (goodbye_channel?.type === ChannelType.GuildText) {
-        if (goodbye_channel.permissionsFor(member.guild.members.me!)?.has(PermissionsBitField.Flags.SendMessages))
-          await goodbye_channel.send(replacePlaceholders(guild_config.leave_message, replacements));
+      if (goodbyeChannel?.type === ChannelType.GuildText) {
+        if (goodbyeChannel.permissionsFor(member.guild.members.me!)?.has(PermissionsBitField.Flags.SendMessages))
+          await goodbyeChannel.send(replacePlaceholders(guildConfig.leave_message, replacements));
       }
     }
-    const t = member.client.i18next.getFixedT(guild_config.language, "events", "guildMemberRemove");
-    const audit_logs = await member.guild
+    const t = member.client.i18next.getFixedT(guildConfig.language, "events", "guildMemberRemove");
+    const auditLogs = await member.guild
       .fetchAuditLogs({
         limit: 1,
         type: AuditLogEvent.MemberKick,
       })
       .catch(() => null);
-    const audit_log = audit_logs?.entries.first();
+    const logEntry = auditLogs?.entries.first();
     if (
-      dayjs().diff(audit_log?.createdAt, "seconds") < 3 &&
-      audit_log?.executor?.id !== member.client.user.id &&
-      audit_log?.target?.id === member.user.id
+      dayjs().diff(logEntry?.createdAt, "seconds") < 3 &&
+      logEntry?.executor?.id !== member.client.user.id &&
+      logEntry?.target?.id === member.user.id
     ) {
-      await modlog(
+      await modLog(
         {
           guild: member.guild,
           user: member.user,
           action: "KICK",
-          moderator: audit_log.executor!,
-          reason: audit_log.reason || t("no_reason"),
+          moderator: logEntry.executor!,
+          reason: logEntry.reason || t("no_reason"),
         },
         member.client,
       );
     }
-    if (guild_config.guild_logs_channel_id) {
-      const channel = await member.guild.channels
-        .fetch(toStringId(guild_config.guild_logs_channel_id))
+    if (guildConfig.guild_logs_channel_id) {
+      const logChannel = await member.guild.channels
+        .fetch(toStringId(guildConfig.guild_logs_channel_id))
         .catch(() => null);
-      if (channel?.type === ChannelType.GuildText) {
-        const webhook = await returnWebhook(member.client, channel, member.guild.id, {
-          id: guild_config.guild_logs_webhook_id,
+      if (logChannel?.type === ChannelType.GuildText) {
+        const webhook = await returnWebhook(member.client, logChannel, member.guild.id, {
+          id: guildConfig.guild_logs_webhook_id,
           type: WebhookType.GUILD_LOGS,
         });
         const embed = new EmbedBuilder()
@@ -90,19 +90,19 @@ export default {
           )
           .setTimestamp();
         if (
-          dayjs().diff(audit_log?.createdAt, "seconds") < 3 &&
-          audit_log?.executor?.id !== member.client.user.id &&
-          audit_log?.target?.id === member.user.id
+          dayjs().diff(logEntry?.createdAt, "seconds") < 3 &&
+          logEntry?.executor?.id !== member.client.user.id &&
+          logEntry?.target?.id === member.user.id
         ) {
           embed.setTitle(t("embed.title_kicked"));
           embed.setFooter({
-            text: audit_log.executor?.tag || t("unknown_executor"),
-            iconURL: audit_log.executor?.displayAvatarURL(),
+            text: logEntry.executor?.tag || t("unknown_executor"),
+            iconURL: logEntry.executor?.displayAvatarURL(),
           });
           embed.addFields([
             {
               name: t("embed.fields.reason"),
-              value: audit_log?.reason || t("no_reason"),
+              value: logEntry?.reason || t("no_reason"),
             },
           ]);
         }
@@ -114,22 +114,19 @@ export default {
           .catch((error) => {
             logger.log({
               level: "error",
-              message: "Error sending guild member remove log",
+              message: `Failed to send guildMemberUpdate embed in ${member.guild.name} (${member.guild.id})`,
               error,
-              meta: {
-                guildId: member.guild.id,
-                userId: member.user.id,
-              },
+              channelId: logChannel.id,
             });
           });
       }
     }
-    const thread_rows = await getModMailThreadsByUser(member.user.id);
-    for (const thread of thread_rows) {
+    const threadRows = await getModMailThreadsByUser(member.user.id);
+    for (const thread of threadRows) {
       await updateModMailThread(thread.channel_id, {
         status: ModMailThreadStatus.CLOSED,
       });
-      const channel = member.guild.channels.cache.get(toStringId(thread.channel_id));
+      const channel = await member.guild.channels.fetch(toStringId(thread.channel_id)).catch(() => null);
       if (channel?.isTextBased()) {
         await channel.send(
           t("user_left", {

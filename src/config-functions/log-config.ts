@@ -1,0 +1,105 @@
+import {
+  ActionRowBuilder,
+  ChatInputCommandInteraction,
+  ComponentType,
+  MessageComponentInteraction,
+  MessageFlagsBitField,
+  StringSelectMenuBuilder,
+} from "discord.js";
+import { getGuildConfig } from "@database";
+import { dynamicChannel } from "./register-config.js";
+
+export async function logConfig(interaction: ChatInputCommandInteraction<"cached">) {
+  const client = interaction.client;
+  const guildConfig = await getGuildConfig(interaction.guildId!);
+  if (!guildConfig) {
+    await interaction.reply({
+      content: "No guild config found. Running a simple command should create one.",
+      flags: MessageFlagsBitField.Flags.Ephemeral,
+    });
+    return;
+  }
+
+  const t = client.i18next.getFixedT(guildConfig.language, null, "log_config");
+  const selectMenu = new StringSelectMenuBuilder()
+    .setCustomId("log_config")
+    .setMinValues(1)
+    .setMaxValues(1)
+    .setOptions([
+      {
+        label: t("message_logs_channel_id.label"),
+        value: "message_logs_channel_id",
+        description: t("message_logs_channel_id.description"),
+        emoji: "📜",
+      },
+      {
+        label: t("guild_member_logs_channel_id.label"),
+        value: "guild_member_logs_channel_id",
+        description: t("guild_member_logs_channel_id.description"),
+        emoji: "👥",
+      },
+      {
+        label: t("guild_logs_channel_id.label"),
+        value: "guild_logs_channel_id",
+        description: t("guild_logs_channel_id.description"),
+        emoji: "📋",
+      },
+      {
+        label: t("voice_logs_channel_id.label"),
+        value: "voice_logs_channel_id",
+        description: t("voice_logs_channel_id.description"),
+        emoji: "🔊",
+      },
+      {
+        label: t("channel_logs_channel_id.label"),
+        value: "channel_logs_channel_id",
+        description: t("channel_logs_channel_id.description"),
+        emoji: "📂",
+      },
+    ]);
+  const actionRow = new ActionRowBuilder<StringSelectMenuBuilder>().setComponents(selectMenu);
+  const reply = await interaction.reply({
+    content: t("initial"),
+    components: [actionRow],
+    flags: MessageFlagsBitField.Flags.Ephemeral,
+    withResponse: true,
+  });
+  const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id && i.customId === "log_config";
+  let messageComponent;
+  try {
+    messageComponent = await reply.resource!.message!.awaitMessageComponent({
+      filter,
+      time: 1000 * 60,
+      componentType: ComponentType.StringSelect,
+    });
+  } catch {
+    await reply.resource!.message!.edit({ content: t("timeout"), components: [] }).catch(() => null);
+    return;
+  }
+  if (!messageComponent.inCachedGuild()) {
+    await messageComponent.deferUpdate();
+    await messageComponent.editReply({
+      content: "Not cached, unexpected error",
+      components: [],
+    });
+    return;
+  }
+
+  switch (messageComponent.values[0]) {
+    case "message_logs_channel_id":
+      await dynamicChannel("message_logs_channel_id", messageComponent, guildConfig, t);
+      break;
+    case "guild_member_logs_channel_id":
+      await dynamicChannel("guild_member_logs_channel_id", messageComponent, guildConfig, t);
+      break;
+    case "guild_logs_channel_id":
+      await dynamicChannel("guild_logs_channel_id", messageComponent, guildConfig, t);
+      break;
+    case "voice_logs_channel_id":
+      await dynamicChannel("voice_logs_channel_id", messageComponent, guildConfig, t);
+      break;
+    case "channel_logs_channel_id":
+      await dynamicChannel("channel_logs_channel_id", messageComponent, guildConfig, t);
+      break;
+  }
+}
