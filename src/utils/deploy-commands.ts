@@ -41,7 +41,7 @@ async function registerCommands(...dirs: string[]) {
 }
 
 // Load commands from the folder
-await registerCommands("../slash_commands");
+await registerCommands("../slash-commands");
 
 if (!process.env.TOKEN) {
   logger.error("❌ Token is not defined in the .env file", { discord: false });
