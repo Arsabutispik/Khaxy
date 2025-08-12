@@ -248,6 +248,12 @@
       "description": "Ses kanallarında yapılan değişikliklerin kaydedildiği kanal",
       "unset": "Ses günlükleri kanalı kaldırıldı.",
       "set": "Ses günlükleri kanalı {{channel}} olarak ayarlandı."
+    },
+    "channel_logs_channel_id": {
+      "label": "Kanal Günlükleri Kanalını Ayarla",
+      "description": "Kanal üzerinde yapılan değişikliklerin kaydedildiği kanal",
+      "unset": "Kanal günlükleri kanalı kaldırıldı.",
+      "set": "Kanal günlükleri kanalı {{channel}} olarak ayarlandı."
     }
   },
   "mod_mail_log": {

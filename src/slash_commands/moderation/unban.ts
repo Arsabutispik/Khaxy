@@ -95,11 +95,10 @@ export default {
         user: interaction.user.id,
       });
     }
-    if (
-      guild_config.guild_logs_channel_id &&
-      interaction.guild.channels.cache.has(toStringId(guild_config.guild_logs_channel_id))
-    ) {
-      const channel = interaction.guild.channels.cache.get(toStringId(guild_config.guild_logs_channel_id));
+    if (guild_config.guild_logs_channel_id) {
+      const channel = await interaction.guild.channels
+        .fetch(toStringId(guild_config.guild_logs_channel_id))
+        .catch(() => null);
       if (channel?.type === ChannelType.GuildText) {
         const webhook = await returnWebhook(interaction.client, channel, interaction.guild.id, {
           id: guild_config.guild_logs_webhook_id,

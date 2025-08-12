@@ -15,6 +15,9 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://your-production-site.example  # Optional
 
     steps:
       - name: Checkout repo
@@ -89,6 +92,7 @@ jobs:
           VPS_KEY: ${{ secrets.VPS_KEY }}
           NEW_COMMIT: ${{ github.event.workflow_run.head_sha }}
         run: |
+          set -e
           mkdir -p ~/.ssh
           echo "$VPS_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
@@ -108,24 +112,31 @@ jobs:
 
           echo "Checking if commit $NEW_COMMIT exists..."
           if git cat-file -e $NEW_COMMIT^{commit}; then
-          git reset --hard $NEW_COMMIT
+            git reset --hard $NEW_COMMIT
           else
-          echo "Warning: Commit not found, defaulting to origin/master."
-          git reset --hard origin/master
+            echo "Warning: Commit not found, defaulting to origin/master."
+            git reset --hard origin/master
           fi
 
           echo "Installing dependencies..."
           pnpm install --frozen-lockfile
-
           export PATH="$PATH:/root/.local/share/pnpm"
-  
+
           echo "Reloading bot via PM2..."
-          /root/.local/share/pnpm/pm2 reload discord-bot || /root/.local/share/pnpm/pm2 start "pnpm start" --name discord-bot
-  
+          if ! /root/.local/share/pnpm/pm2 reload discord-bot; then
+            echo "PM2 reload failed — attempting to start..."
+            /root/.local/share/pnpm/pm2 start "pnpm start" --name discord-bot
+          fi
+
+          echo "Checking if bot is online..."
+          if ! /root/.local/share/pnpm/pm2 status discord-bot | grep -q "online"; then
+            echo "❌ PM2 process is not online after start/reload"
+            exit 1
+          fi
+
           echo "Saving PM2 process list..."
           /root/.local/share/pnpm/pm2 save
           EOF
-
 
       - name: Mark deployment as successful
         if: success()
@@ -163,7 +174,8 @@ jobs:
             pnpm install --frozen-lockfile
 
             sudo systemctl restart discord-bot.service
-            EOF
+          EOF
+
       - name: Mark deployment as failed
         if: failure()
         env:
