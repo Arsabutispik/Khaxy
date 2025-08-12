@@ -46,13 +46,13 @@ export default {
     )
     .addBooleanOption((option) =>
       option
-        .setName("clean")
+        .setName("preserve-messages")
         .setNameLocalizations({
-          tr: "temizle",
+          tr: "mesajları-koru",
         })
-        .setDescription("Whether to delete the user's messages from the last 7 days.")
+        .setDescription("If true, the user's last 7 days of messages will not be deleted.")
         .setDescriptionLocalizations({
-          tr: "Kullanıcının son 7 gündeki mesajları silinir.",
+          tr: "Eğer seçiliyse, kullanıcının son 7 gün içindeki mesajları silinmeyecek.",
         }),
     )
     .addStringOption((option) =>
@@ -138,7 +138,7 @@ export default {
     const reason = interaction.options.getString("reason") || t("no_reason");
     const duration = interaction.options.getNumber("duration");
     const time = interaction.options.getString("time");
-    const clean = interaction.options.getBoolean("clean") || false;
+    const preserve = interaction.options.getBoolean("preserve") || false;
     if (duration && time) {
       const dayjsDuration = dayjs.duration(duration, time as dayjsduration.DurationUnitType);
       const longDuration = dayjs(dayjs().add(dayjsDuration))
@@ -208,7 +208,7 @@ export default {
         });
       }
       try {
-        await interaction.guild!.members.ban(user, { reason, deleteMessageSeconds: clean ? 604800 : 0 });
+        await interaction.guild!.members.ban(user, { reason, deleteMessageSeconds: preserve ? 0 : 604800 });
       } catch (error) {
         await interaction.editReply(t("failed_to_ban", { user: user.tag }));
         logger.error({
@@ -286,7 +286,7 @@ export default {
         });
       }
       try {
-        await interaction.guild!.members.ban(user, { reason, deleteMessageSeconds: clean ? 604800 : 0 });
+        await interaction.guild!.members.ban(user, { reason, deleteMessageSeconds: preserve ? 0 : 604800 });
       } catch (error) {
         await interaction.editReply(t("failed_to_ban", { user: user.tag }));
         logger.error({
