@@ -52,7 +52,13 @@ for (const file of eventFiles) {
   }
 }
 
-await client.login(process.env.TOKEN);
+await client.login(process.env.TOKEN).catch((error) => {
+  logger.log({
+    level: "error",
+    error,
+    message: "Failed to login to Discord",
+  });
+});
 
 CronJob.from({
   cronTime: "* * * * *",
