@@ -117,6 +117,7 @@ describe("checkPunishments", () => {
       },
     ]);
     vi.mocked(getGuildConfig, { partial: true }).mockResolvedValue({ mute_role_id: BigInt("444"), language: "en" });
+    mockGuild.members.fetch = vi.fn().mockResolvedValue(mockGuild.members.cache.get("456")); // or mockResolvedValue(null)
     await checkPunishments(mockClient);
     expect(mockGuild.members.cache.get("456")?.roles?.cache?.has("444")).toBe(false);
     expect(deleteExpiredPunishments).toHaveBeenCalled();
@@ -219,6 +220,7 @@ describe("checkPunishments", () => {
       if (id === "789") return { id: "789" } as User; // Mock staff user
       return null;
     });
+    mockGuild.members.fetch = vi.fn().mockResolvedValue(null); // or mockResolvedValue(null)
     await checkPunishments(mockClient);
     expect(logger.log).toHaveBeenCalledWith({
       level: "warn",
@@ -315,6 +317,7 @@ describe("checkPunishments", () => {
     (mockClient.users.fetch as unknown as ReturnType<typeof vi.fn>).mockImplementation((id) =>
       id === "456" ? ({ id: "456", tag: "User#1234" } as User) : ({ id: "789" } as User),
     );
+    mockGuild.members.fetch = vi.fn().mockResolvedValue(mockMember); // or mockResolvedValue(null)
     await checkPunishments(mockClient);
 
     // After checkPunishments, "555" should be removed from previous_roles
