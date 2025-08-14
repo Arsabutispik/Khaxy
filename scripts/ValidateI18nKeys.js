@@ -1,35 +1,39 @@
 import fs from "fs";
 import path from "path";
 import chalk from "chalk";
+import yaml from "js-yaml";
 
 const baseLang = "en-GB";
 const localesDir = path.join(process.cwd(), "locales");
 
+// Recursively get all keys from an object
 function getKeys(obj, prefix = "") {
-  return Object.keys(obj).reduce((res, key) => {
-    const value = obj[key];
+  return Object.entries(obj).flatMap(([key, value]) => {
     const prefixedKey = prefix ? `${prefix}.${key}` : key;
+
     if (typeof value === "object" && value !== null) {
-      res.push(...getKeys(value, prefixedKey));
-    } else {
-      res.push(prefixedKey);
+      return getKeys(value, prefixedKey);
     }
-    return res;
-  }, []);
+
+    return [prefixedKey];
+  });
 }
 
-function safeReadJson(filePath) {
+// Safely read YAML file
+function safeReadYaml(filePath) {
   try {
-    return JSON.parse(fs.readFileSync(filePath, "utf-8"));
+    return yaml.load(fs.readFileSync(filePath, "utf-8"));
   } catch (e) {
     console.error(chalk.red(`❌ Error reading or parsing: ${filePath}\n${e.message}`));
     return null;
   }
 }
 
+// Validate keys between base and another language
 function validateKeys(baseLangFilePath, langFilePath, lang, file) {
-  const baseObj = safeReadJson(baseLangFilePath);
-  const langObj = safeReadJson(langFilePath);
+  const baseObj = safeReadYaml(baseLangFilePath);
+  const langObj = safeReadYaml(langFilePath);
+
   if (!baseObj || !langObj) return null;
 
   const baseKeys = getKeys(baseObj);
@@ -41,10 +45,12 @@ function validateKeys(baseLangFilePath, langFilePath, lang, file) {
   return { file, lang, missingKeys, extraKeys };
 }
 
-function getAllJsonFiles(dir) {
-  return fs.readdirSync(dir).filter((file) => file.endsWith(".json"));
+// Get all YAML files in a directory
+function getAllYamlFiles(dir) {
+  return fs.readdirSync(dir).filter((file) => file.endsWith(".yml") || file.endsWith(".yaml"));
 }
 
+// Main logic
 const baseLangDir = path.join(localesDir, baseLang);
 const otherLangDirs = fs.readdirSync(localesDir).filter((lang) => lang !== baseLang);
 
@@ -54,7 +60,7 @@ let totalExtraKeys = 0;
 
 otherLangDirs.forEach((lang) => {
   const langDir = path.join(localesDir, lang);
-  const langFiles = getAllJsonFiles(langDir);
+  const langFiles = getAllYamlFiles(langDir);
 
   langFiles.forEach((file) => {
     const baseLangFilePath = path.join(baseLangDir, file);
@@ -73,22 +79,28 @@ otherLangDirs.forEach((lang) => {
   });
 });
 
+// Reporting
 if (allIssues.length > 0) {
   console.error(chalk.red.bold(`\n🚨 Translation issues detected:`));
+
   allIssues.forEach(({ lang, file, missingKeys, extraKeys }) => {
     console.error(`\n🌍 ${chalk.blue.bold(lang)} ➜ ${chalk.cyan.bold(file)}`);
+
     if (missingKeys.length > 0) {
       console.error(chalk.red(`  ❌  Missing keys (${missingKeys.length}):`));
       missingKeys.forEach((key) => console.error(`    ${chalk.red.bold("- " + key)}`));
     }
+
     if (extraKeys.length > 0) {
-      console.error(chalk.yellow(`  ⚠️ Extra keys: (${extraKeys.length})`));
+      console.error(chalk.yellow(`  ⚠️ Extra keys (${extraKeys.length}):`));
       extraKeys.forEach((key) => console.error(`    ${chalk.yellow.bold("- " + key)}`));
     }
   });
+
   console.error(chalk.blue.bold(`\n📊 Summary:`));
   console.error(chalk.red(`  ❌  Total missing keys: ${totalMissingKeys}`));
   console.error(chalk.yellow(`  ⚠️ Total extra keys: ${totalExtraKeys}`));
+
   process.exit(1);
 } else {
   console.log(chalk.green.bold("✅  All translation files are valid."));

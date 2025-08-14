@@ -1,0 +1,287 @@
+ping: >-
+  Bu komutu {{interaction.user.username}} kullanıcısı çalıştırdı, bu kullanıcı
+  {{interaction.member.joinedAt}} tarihinde katıldı.
+mod_log:
+  warning: >-
+    ⚠️ **{{user.username}}**, **{{moderator.username}}** tarafından uyarıldı.
+    Sebep:```{{reason}}```
+  ban: >-
+    {{emoji}} **{{user.username}}**, **{{moderator.username}}** tarafından
+    yasaklandı. Sebep:```{{reason}}```
+  kick: "\U0001F462 **{{user.username}}**, **{{moderator.username}}** tarafından atıldı. Sebep:```{{reason}}```"
+  mute: "\U0001F507 **{{user.username}}**, **{{moderator.username}}** tarafından **{{duration}}** boyunca susturuldu. Sebep:```{{reason}}```"
+  timed_ban: >-
+    {{emoji}} **{{user.username}}**, **{{moderator.username}}** tarafından
+    **{{duration}}** boyunca yasaklandı. Sebep:```{{reason}}```
+  change_warn: >-
+    <t:{{time}}> `[{{case}}]` ✏️ Vaka #{{case}}, **{{moderator.username}}**
+    tarafından değiştirildi. Sebep:```{{reason}}```
+  unban: "\U0001F513 Kullanıcı (`{{user.id}}`), **{{moderator.username}}** tarafından yasak kaldırıldı. Sebep:```{{reason}}```"
+  ban_expired: "\U0001F513 Kullanıcı (`{{user.id}}`), **{{moderator.username}}** tarafından **{{duration}}** sonra otomatik olarak yasak kaldırıldı. Sebep:```{{reason}}```"
+  timeout: "\U0001F507 **{{user.username}}**, **{{moderator.username}}** tarafından **{{duration}}** boyunca susturuldu. Sebep:```{{reason}}```"
+  unmute: "\U0001F50A **{{user.username}}**, **{{moderator.username}}** tarafından susturulması kaldırıldı. Sebep:```{{reason}}```"
+  function_errors:
+    no_guild_config: >-
+      Sunucu ayarları bulunamadı, bir tane oluşturuluyor, bu mod_log işlemini
+      durdurur. Bu uyarıyı devre dışı bırakmak için "Fonksiyon Uyarıları"
+      ayarını değiştirin.
+    channel_error: >-
+      Mesajı göndermeye çalışırken bir hata oluştu. Bu muhtemelen kanalın
+      silinmesinden veya botun mesaj gönderme izninin olmamasından
+      kaynaklanmaktadır. Lütfen kanalı kontrol edin ve tekrar deneyin. Bu hata
+      modlog kanal id'sini sunucu ayarlarından kaldırır.
+    case_id_error: >-
+      Vaka kimliğini artırmaya çalışırken bir hata oluştu. Bu muhtemelen bizim
+      tarafımızdan veritabanı hatasıdır ve çift vaka kimliklerine neden
+      olacaktır. Lütfen bunu bot geliştiricilerine bildirin.
+    no_modlog_channel: >-
+      Sunucu ayarlarında modlog kanalı ayarlanmamış. Modlog'u etkinleştirmek
+      için bir tane ayarlayın.
+bump_leaderboard:
+  initial: |+
+    Bu ayın bump lider tablosu:
+
+  last_bump: "En son bump {{user}} tarafından {{time}} yapıldı."
+  last_winner: >-
+    Geçen ayın kazananı: **{{total_bumps}}** bump üzerinden `{{count}}` bump ile
+    {{user}}.
+  message_not_sent_by_bot: >-
+    Bump lider tablosu kanalında bot tarafından gönderilmeyen mesajlar var.
+    Hatalardan kaçınmak için bu mesajları kaldırın.
+unregistered_people:
+  kick_message: >-
+    Verilen **{{days}}** gün içinde **{{server}}** sunucusunda kayıt olamadınız.
+    Bu sebepten dolayı atıldınız.
+  initial: "Üye **{{days}}** gün içinde kayıt olamadı."
+role_config:
+  initial: Güncellemek istediğiniz ayarı seçin.
+  timeout: Mesaj zaman aşımına uğradı. Lütfen komutu tekrar çalıştırın.
+  member: Üye Rolünü Ayarla
+  member_description: Üye kayıt olduğunda verilen rol
+  unverified: Doğrulanmamış Rolünü Ayarla
+  unverified_description: Üye sunucuya katıldığında kayıt modülü açıksa verilen rol
+  male: Erkek Rolünü Ayarla
+  male_description: Üye erkek olarak kayıt olduğunda verilen rol
+  female: Kadın Rolünü Ayarla
+  female_description: Üye kadın olarak kayıt olduğunda verilen rol
+  colour_of_the_day: Günün Rengi Rolünü Ayarla
+  colour_of_the_day_description: Her gün değişen bir rol.
+  mute: Susturma Rolünü Ayarla
+  mute_description: Üye susturulduğunda verilen rol
+  dj: DJ Rolünü Ayarla
+  dj_description: Müzik komutu kısıtlamalarını atlayan bir rol
+  role_initial: >-
+    Aşağıdaki rollerden birini seçin. Rolü kaldırmak istiyorsanız x'e basın ve
+    başka bir yere basın
+  role_too_high: >-
+    Verilen rol, botun sahip olduğu en yüksek rolün üstünde. Lütfen daha düşük
+    bir rol seçin.
+  member_role_id:
+    unset: Üye rolü kaldırıldı.
+    set: "Üye rolü {{role}} olarak ayarlandı."
+  unverified_role_id:
+    unset: Doğrulanmamış rolü kaldırıldı.
+    set: "Doğrulanmamış rolü {{role}} olarak ayarlandı."
+  male_role_id:
+    unset: Erkek rolü kaldırıldı.
+    set: "Erkek rolü {{role}} olarak ayarlandı."
+  female_role_id:
+    unset: Kadın rolü kaldırıldı.
+    set: "Kadın rolü {{role}} olarak ayarlandı."
+  colour_id_of_the_day:
+    unset: Günün rengi rolü kaldırıldı.
+    set: "Günün rengi rolü {{role}} olarak ayarlandı."
+  mute_role_id:
+    unset: Susturma rolü kaldırıldı.
+    set: "Susturma rolü {{role}} olarak ayarlandı."
+  dj_role_id:
+    unset: DJ rolü kaldırıldı.
+    set: "DJ rolü {{role}} olarak ayarlandı."
+register_config:
+  initial: Güncellemek istediğiniz ayarı seçin.
+  timeout: Mesaj zaman aşımına uğradı. Lütfen komutu tekrar çalıştırın.
+  channel_initial: >-
+    Aşağıdaki kanallardan birini seçin. Kanalı kaldırmak istiyorsanız x'e basın
+    ve başka bir yere basın
+  register_join_channel_id:
+    label: Kayıt Giriş Kanalını Ayarla
+    description: Üye katıldığında kayıt mesajının gönderildiği kanal
+    unset: Kayıt giriş kanalı kaldırıldı.
+    set: "Kayıt giriş kanalı {{channel}} olarak ayarlandı."
+  register_channel_id:
+    label: Kayıt Kanalını Ayarla
+    description: Kayıt komutunun çalıştırıldığı kanal
+    unset: Kayıt kanalı kaldırıldı.
+    set: "Kayıt kanalı {{channel}} olarak ayarlandı."
+  register_join_message:
+    label: Kayıt Giriş Mesajını Ayarla
+    description: Üye katıldığında gönderilen mesaj
+    unset: Kayıt giriş mesajı kaldırıldı.
+    set: Kayıt giriş mesajı ayarlandı.
+    title: Kayıt Giriş Mesajı
+  register_clear_channel:
+    label: Kayıt Kanalını Temizle
+    description: Kayıt kanalındaki mesajları temizler
+    unset: Kayıt kanalı temizleme işlemi devre dışı bırakıldı.
+    set: Kayıt kanalı temizleme işlemi etkinleştirildi.
+welcome_leave_config:
+  initial: Güncellemek istediğiniz ayarı seçin.
+  timeout: Mesaj zaman aşımına uğradı. Lütfen komutu tekrar çalıştırın.
+  channel_initial: >-
+    Aşağıdaki kanallardan birini seçin. Kanalı kaldırmak istiyorsanız x'e basın
+    ve başka bir yere basın
+  role_initial: >-
+    Aşağıdaki rollerden birini seçin. Rolü kaldırmak istiyorsanız x'e basın ve
+    başka bir yere basın
+  join_channel_id:
+    label: Katılma Kanalını Ayarla
+    description: Üye katıldığında gönderilen mesajın gönderildiği kanal
+    unset: Katılma kanalı kaldırıldı.
+    set: "Katılma kanalı {{channel}} olarak ayarlandı."
+  leave_channel_id:
+    label: Ayrılma Kanalını Ayarla
+    description: Üye ayrıldığında gönderilen mesajın gönderildiği kanal
+    unset: Ayrılma kanalı kaldırıldı.
+    set: "Ayrılma kanalı {{channel}} olarak ayarlandı."
+  join_message:
+    label: Katılma Mesajını Ayarla
+    description: Üye katıldığında gönderilen mesaj
+    unset: Katılma mesajı kaldırıldı.
+    set: Katılma mesajı ayarlandı.
+    title: Katılma Mesajı
+  leave_message:
+    label: Ayrılma Mesajını Ayarla
+    description: Üye ayrıldığında gönderilen mesaj
+    unset: Ayrılma mesajı kaldırıldı.
+    set: Ayrılma mesajı ayarlandı.
+    title: Ayrılma Mesajı
+moderation_config:
+  initial: Güncellemek istediğiniz ayarı seçin.
+  timeout: Mesaj zaman aşımına uğradı. Lütfen komutu tekrar çalıştırın.
+  channel_initial: >-
+    Aşağıdaki kanallardan birini seçin. Kanalı kaldırmak istiyorsanız x'e basın
+    ve başka bir yere basın
+  role_initial: >-
+    Aşağıdaki rollerden birini seçin. Rolü kaldırmak istiyorsanız x'e basın ve
+    başka bir yere basın
+  role_too_high: >-
+    Verilen rol, botun sahip olduğu en yüksek rolün üstünde. Lütfen daha düşük
+    bir rol seçin.
+  mod_log_channel_id:
+    label: Moderasyon Log Kanalını Ayarla
+    description: Moderasyon loglarının gönderildiği kanal
+    unset: Moderasyon log kanalı kaldırıldı.
+    set: "Moderasyon log kanalı {{channel}} olarak ayarlandı."
+  staff_role_id:
+    initial: >-
+      Aşağıdaki rollerden birini seçin. Rolü kaldırmak istiyorsanız x'e basın ve
+      başka bir yere basın
+    label: Yetkili Rolünü Ayarla
+    description: Yetkililerin sahip olduğu rol
+    unset: Yetkili rolü kaldırıldı.
+    set: "Yetkili rolü {{role}} olarak ayarlandı."
+  mod_mail_channel:
+    label: Mod Mail Kanalını Ayarla
+    description: Mod mail mesajlarının gönderildiği kanal
+    unset: Mod mail kanalı kaldırıldı.
+    set: "Mod mail kanalı {{channel}} olarak ayarlandı."
+  mute_get_all_roles:
+    label: Tüm Rolleri Al
+    description: Kullanıcı susturulduğunda tüm rolleri alır ve susturma rolünü verir
+    "false": Tüm rolleri al işlemi devre dışı bırakıldı.
+    "true": Tüm rolleri al işlemi etkinleştirildi.
+  register_day_limit:
+    label: Kayıt Gün Sınırı
+    description: Üye kayıt olurken belirli bir gün sınırı
+    label_zero: Kayıt Gün Sınırını Kaldır
+    description_zero: Kaytı gün sınırını kaldırır
+    label_one: Kayıt Gün Sınırını 1 Gün Olarak Ayarla
+    description_one: Kayıt gün sınırını 1 gün olarak ayarlar
+    label_three: Kayıt Gün Sınırını 3 Gün Olarak Ayarla
+    description_three: Kayıt gün sınırını 3 gün olarak ayarlar
+    label_seven: Kayıt Gün Sınırını 7 Gün Olarak Ayarla
+    description_seven: Kayıt gün sınırını 7 gün olarak ayarlar
+    initial: Kayıt gün sınırını seçin
+    success: "Kayıt gün sınırı {{days}} olarak ayarlandı."
+  default_expiry:
+    label: Varsayılan Sona Erme Süresini Ayarla
+    description: İhlallerin varsayılan sona erme süresi
+    label_zero: Varsayılan Sona Erme Süresini Kaldır
+    description_zero: İhlallerin varsayılan sona erme süresini kaldırır
+    label_seven: Varsayılan Sona Erme Süresini 7 Gün Olarak Ayarla
+    description_seven: İhlallerin varsayılan sona erme süresini 7 gün olarak ayarlar
+    label_fourteen: Varsayılan Sona Erme Süresini 14 Gün Olarak Ayarla
+    description_fourteen: İhlallerin varsayılan sona erme süresini 14 gün olarak ayarlar
+    label_thirty: Varsayılan Sona Erme Süresini 30 Gün Olarak Ayarla
+    description_thirty: İhlallerin varsayılan sona erme süresini 30 gün olarak ayarlar
+    initial: Varsayılan süreyi seçin
+    success: "Varsayılan süre {{days}} olarak ayarlandı."
+misc_config:
+  initial: Güncellemek istediğiniz ayarı seçin.
+  timeout: Mesaj zaman aşımına uğradı. Lütfen komutu tekrar çalıştırın.
+  channel_initial: >-
+    Aşağıdaki kanallardan birini seçin. Kanalı kaldırmak istiyorsanız x'e basın
+    ve başka bir yere basın
+  language:
+    label: Dil Ayarla
+    description: Botun dilini ayarlar
+    initial: Ayarlamak istediğiniz dili seçin
+    set: "Dil ayarı {{language}} olarak ayarlandı."
+  mod_mail_message:
+    label: Mod Mail Mesajını Ayarla
+    set: Mod mail mesajı ayarlandı.
+    title: Mod Mail Mesajı
+    description: Mod mail alındığında botun gönderdiği mesaj
+  bump_leaderboard_channel_id:
+    label: Bump Lider Tablosu Kanalını Ayarla
+    description: Bump lider tablosunun gönderildiği kanal
+    unset: Bump lider tablosu kanalı kaldırıldı.
+    set: "Bump lider tablosu kanalı {{channel}} olarak ayarlandı."
+log_config:
+  initial: Güncellemek istediğiniz ayarı seçin.
+  timeout: Mesaj zaman aşımına uğradı. Lütfen komutu tekrar çalıştırın.
+  channel_initial: >-
+    Aşağıdaki kanallardan birini seçin. Kanalı kaldırmak istiyorsanız x'e basın
+    ve başka bir yere basın
+  message_logs_channel_id:
+    label: Mesaj Günlükleri Kanalını Ayarla
+    description: Mesajlar üzerinde yapılan değişikliklerin kaydedildiği kanal
+    unset: Mesaj günlükleri  kanalı kaldırıldı.
+    set: "Mesaj günlükleri kanalı {{channel}} olarak ayarlandı."
+  guild_member_logs_channel_id:
+    label: Üye Günlükleri Kanalını Ayarla
+    description: Üyeler üzerinde yapılan değişikliklerin kaydedildiği kanal
+    unset: Üye günlükleri kanalı kaldırıldı.
+    set: "Üye günlükleri kanalı {{channel}} olarak ayarlandı."
+  guild_logs_channel_id:
+    label: Sunucu Günlükleri Kanalını Ayarla
+    description: Sunucu üzerinde yapılan değişikliklerin kaydedildiği kanal
+    unset: Sunucu günlükleri kanalı kaldırıldı.
+    set: "Sunucu günlükleri kanalı {{channel}} olarak ayarlandı."
+  voice_logs_channel_id:
+    label: Ses Günlükleri Kanalını Ayarla
+    description: Ses kanallarında yapılan değişikliklerin kaydedildiği kanal
+    unset: Ses günlükleri kanalı kaldırıldı.
+    set: "Ses günlükleri kanalı {{channel}} olarak ayarlandı."
+  channel_logs_channel_id:
+    label: Kanal Günlükleri Kanalını Ayarla
+    description: Kanal üzerinde yapılan değişikliklerin kaydedildiği kanal
+    unset: Kanal günlükleri kanalı kaldırıldı.
+    set: "Kanal günlükleri kanalı {{channel}} olarak ayarlandı."
+mod_mail_log:
+  initial: >-
+    # {{user.tag}} ({{user.id}}) ile olan modmail konuşması #{{thread_id}}
+    {{time}} tarihinde başladı. Zaman dilimi GMT
+  bot_to_user: "[BOTTAN KULLANICIYA]"
+  command: "[KOMUT]"
+  to_user: "[KULLANICIYA]"
+  from_user: "[KULLANICIDAN]"
+  to_thread: "[KONUŞMAYA]"
+  close_message: >-
+    {{user.tag}} ({{user.id}}) ile olan modmail konuşması #{{thread_id}}
+    {{closer.tag}} tarafından kapatıldı.
+     Kullanıcı tarafından **{{messages.user}}** mesaj, kullanıcıya **{{messages.staff}}**, **{{messages.internal}}** iç mesaj gönderildi.
+  preparing_close: Kapatılıyor...
+  thread_closed_dm: "{{guild}} sunucusundaki mod mail konuşmanız kapatıldı."
+check_expired_modmail_blacklists:
+  expired_modmail_blacklist_notification: "\U0001F514 **{{guild}}** sunucusu için modmail kara listesi süresi doldu."

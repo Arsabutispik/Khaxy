@@ -1,0 +1,341 @@
+ban:
+  expired: Ban has expired.
+  cant_ban_self: You can't ban yourself.
+  cant_ban_bot: You can't ban a bot.
+  cant_ban_mod: You can't ban a moderator.
+  cant_ban_higher: You can't ban a user with a higher role than you.
+  no_reason: No reason provided.
+  database_error: >-
+    Critical error while updating the database. The developers have been
+    notified. The command has been cancelled.
+  message:
+    dm:
+      duration: >-
+        You have been banned from **{{guild}}** for **{{duration}}**.
+        Reason:```{{reason}}```
+      permanent: >-
+        You have been permanently banned from **{{guild}}**.
+        Reason:```{{reason}}```
+    success:
+      duration: >-
+        {{confirm}} **{{user}}** has been banned for **{{duration}}** (Case
+        #{{case}}). The user has been notified via DM.
+      permanent: >-
+        {{confirm}} **{{user}}** has been permanently banned (Case #{{case}}).
+        The user has been notified via DM.
+      duration_no_member: >-
+        {{confirm}} **{{user}}** has been banned for **{{duration}}** (Case
+        #{{case}}).
+      permanent_no_member: "{{confirm}} **{{user}}** has been permanently banned (Case #{{case}})."
+    fail:
+      duration: >-
+        {{confirm}} **{{user}}** has been banned for **{{duration}}** (Case
+        #{{case}}). The user could not be notified via DM.
+      permanent: >-
+        {{confirm}} **{{user}}** has been permanently banned (Case #{{case}}).
+        The user could not be notified via DM.
+  embed:
+    title: User Banned
+    description: |-
+      > **User**: {{user.tag}} (<@{{user.id}}>)
+      > **ID**: {{user.id}}
+      > **Joined At**: {{timestamp}}
+    fields:
+      reason: Reason
+  never_joined: User never joined the server.
+kick:
+  no_reason: No reason provided for kicking.
+  cant_kick_yourself: You can't kick yourself.
+  no_member: Member not found in the server.
+  cant_kick_bot: You can't kick a bot.
+  cant_kick_higher: You can't kick a user with a higher role than you.
+  cant_kick_mod: You can't kick a moderator.
+  cant_kick: This user can't be kicked.
+  message:
+    dm: "You have been kicked from **{{guild}}**. Reason:```{{reason}}```"
+    success: >-
+      {{confirm}} **{{user}}** has been kicked (Case #{{case}}). The user has
+      been notified via DM.
+    fail: >-
+      {{confirm}} **{{user}}** has been kicked (Case #{{case}}). The user could
+      not be notified via DM.
+  clear_fail: Failed to clear the messages.
+  fail: Failed to kick the member.
+mute:
+  no_reason: No reason provided for muting.
+  no_member: Member not found. Is the member still in the server?
+  no_mute_role: Mute role not found.
+  already_muted: User is already muted.
+  already_muted_no_punishments: User is already muted but no punishments found. Removing the role.
+  not_muted: "A punishment was found, but the user is not muted. Adding the role."
+  cant_mute_yourself: You can't mute yourself.
+  cant_mute_higher: You can't mute a user with a higher role than you.
+  cant_mute_bot: You can't mute a bot.
+  cant_mute_mod: You can't mute a moderator.
+  message:
+    dm: >-
+      You have been muted in **{{guild}}** for **{{duration}}**.
+      Reason:```{{reason}}```
+    success: >-
+      {{confirm}} **{{user}}** has been muted for **{{duration}}** (Case
+      #{{case}}). The user has been notified via DM.
+    fail: >-
+      {{confirm}} **{{user}}** has been muted for **{{duration}}** (Case
+      #{{case}}). The user could not be notified via DM.
+  database_error: >-
+    Critical error while updating the database. The developers have been
+    notified. The command has been cancelled.
+  role_error: >-
+    Error while removing or adding roles. I may not have permission to do so.
+    Please check the role permissions. The command has been cancelled.
+register:
+  no_member: Member not found. Is the member still in the server?
+  no_register_channel: >-
+    Register channel not found. Please update the register channel in the
+    settings.
+  wrong_channel: "You can only register in <#{{channel}}>"
+  no_member_role: Member role not found. Please update the member role in the settings.
+  already_registered: User is already registered.
+  no_male_role: Male role not found. Please update the male role in the settings.
+  success: "{{confirm}} **{{member}}** has been registered."
+  error: "Error while registering the user. {{error}}"
+  no_female_role: Female role not found. Please update the female role in the settings.
+  not_valid: The option you provided is not valid. Please provide a valid option.
+unban:
+  no_reason: No reason provided for unbanning.
+  no_user: User not found.
+  not_banned: User is not banned.
+  success: "{{confirm}} **{{user}}** has been unbanned (Case #{{case}})."
+  error: "Error while unbanning the user. {{error}}"
+  embed:
+    title: User Unbanned
+    description: |-
+      > **User**: {{user.tag}} (<@{{user.id}}>)
+      > **ID**: {{user.id}}
+    fields:
+      reason: Reason
+unmute:
+  no_member: Member not found. Is the member still in the server?
+  no_reason: No reason provided for unmuting.
+  no_mute_role: Mute role not found. Please update the mute role in the settings.
+  previous_roles_error: >-
+    Failed to reassign previous roles. The following roles couldn't be
+    added:```{{roles}}```
+  not_muted: >-
+    User is not muted. If they appear to be, please remove the role manually.
+    Lost roles cannot be restored automatically.
+  muted_no_punishments: >-
+    User is muted but no punishments found. Removing the role. Lost roles cannot
+    be restored automatically.
+  success: >-
+    {{confirm}} **{{user}}** has been unmuted (Case #{{case}}). The user has
+    been notified via DM.
+  database_error: >-
+    Critical error while updating the database. The developers have been
+    notified. The command has been cancelled.
+  role_error: >-
+    Error while removing the role. The role may have been deleted or I may not
+    have permission to remove it.
+  dm_error: >-
+    {{confirm}} **{{user}}** has been unmuted (Case #{{case}}). The user could
+    not be notified via DM.
+  dm: "You have been unmuted in **{{guild}}**."
+warn:
+  no_member: Member not found. Is the member still in the server?
+  self_warn: You can't warn yourself.
+  bot_warn: You can't warn a bot.
+  staff_warn: You can't warn a staff member.
+  database_error: >-
+    Critical error while updating the database. The developers have been
+    notified. The command has been cancelled.
+  dm: "You have been warned in **{{guild}}**. Reason:```{{reason}}```"
+  success: >-
+    {{confirm}} **{{user}}** has been warned (Case #{{case}}). The user has been
+    notified via DM.
+  dm_error: >-
+    {{confirm}} **{{user}}** has been warned (Case #{{case}}). The user could
+    not be notified via DM.
+config:
+  select_menu:
+    moderation: Moderation Settings
+    register: Register Settings
+    welcome_leave: Welcome/Leave Settings
+    role: Role Settings
+    misc: Miscellaneous Settings
+    log: Log Settings
+  no_setting: >-
+    Use the menu below to navigate the settings. Each title can be clicked to
+    view the documentation.
+  none: N/A
+  times_up: Time's up! You can no longer view the settings.
+  embed:
+    register:
+      title: Register Settings
+      fields:
+        register_join_channel: Register Join Channel
+        register_channel: Register Channel
+        register_join_message: Register Join Message
+        register_channel_clear: Clear Register Channel
+    welcome_leave:
+      title: Welcome/Leave Settings
+      fields:
+        welcome_channel: Welcome Channel
+        welcome_message: Welcome Message
+        leave_channel: Leave Channel
+        leave_message: Leave Message
+    moderation:
+      title: Moderation Settings
+      fields:
+        mod_log_channel: Moderation Log Channel
+        staff_role: Staff Role
+        mod_mail_channel: Mod Mail Channel
+        mute_get_all_roles: Mute Get All Roles
+        register_day_limit: Register Day Limit
+        default_expiry: Default Expiry
+    role:
+      title: Role Settings
+      fields:
+        color_of_the_day: Colour of the Day
+        dj_role: DJ Role
+        member_role: Member Role
+        unverified_role: Unverified Role
+        male_role: Male Role
+        female_role: Female Role
+        mute_role: Mute Role
+    misc:
+      title: Miscellaneous Settings
+      fields:
+        language: Language
+        mod_mail_message: Mod Mail Message
+    log:
+      title: Log Settings
+      fields:
+        message_logs_channel: Message Logs Channel
+close:
+  no_thread: This is not a mod mail thread.
+  no_time: A time unit has not been provided.
+  no_duration: A duration has not been provided.
+  error: Error while closing the thread.
+  close_duration: "Thread will be closed in **{{duration}}**."
+  close: Thread is being closed...
+  thread_closed_dm: "Your thread in {{guild}} has been closed."
+  thread_close_date: >-
+    Thread is scheduled to be closed on **{{date}}**. Would you like to override
+    this?
+  accept: Override
+  reject: Cancel
+  timeout: "Timed out. The thread will be closed on **{{date}}**."
+  thread_close_date_rejected: "Thread will be closed on **{{date}}**."
+  thread_close_date_accepted: Continuing override...
+reply:
+  no_thread: This is not a mod mail thread.
+  member_not_found: Member not found. Is the member still in the server?
+  error: An error occurred while accessing the database.
+  success: Message has been sent to the user.
+  suspended: This mod mail thread has been suspended. Unsuspend the thread to reply.
+  no_role: No Role
+  anonymous: Anonymous
+newthread:
+  user_not_in_guild: The user is not a member of the server.
+  no_modmail_channel: >-
+    Mod mail channel not found. Update the mod mail channel with the /config
+    command.
+  modmail_channel_not_text: >-
+    Mod mail channel is not a text channel. Update the mod mail channel in the
+    channel settings.
+  modmail_channel_not_in_parent: >-
+    Mod mail channel is not in the same parent as the mod mail thread. Put the
+    mod mail channel in the same parent as the mod mail thread or update the mod
+    mail channel with the /config command.
+  thread_already_exists: >-
+    A thread already exists for this user. Close the thread or suspend before
+    creating a new one.
+  topic: "Mod Mail conversation with {{user}}"
+  channel_create_failed: Could not create the channel.
+  initial: >-
+    `Account Age:` **{{account_age}}**, `ID:` **{{user.id}}**
+
+    `Username:` **{{user.username}}** (<@{{user.id}}>), `Join Date:`
+    **{{join_date}}**
+
+    **»»----------------------------¤----------------------------««**
+  message: "A thread with the `{{guild}}` has been created. **[{{user}}]:** {{message}}"
+  dm_fail: Failed to send a DM to the user.
+  created_by: "`Created by {{user}}`"
+  db_error: Failed database query. Mod mail thread is dropped.
+  message_send_failed: Message couldn't be delivered to thread. Mod mail thread is closed.
+  thread_created: Thread has been created.
+suspend:
+  no_thread: This is not a mod mail thread.
+  already_suspended: This mod mail thread is already suspended.
+  suspended: >-
+    This mod mail thread has been suspended. You can no longer reply to the
+    user.
+  error: >-
+    An error occurred while suspending the thread. Developers have been
+    notified.
+close-cancel:
+  no_thread: This is not a mod mail thread.
+  not_closing: This mod mail thread is not marked for close.
+  cancelled: The closing of this mod mail thread has been cancelled.
+  error: An error occurred while cancelling the close. Developers have been notified.
+unsuspend:
+  no_thread: This is not a mod mail thread.
+  not_suspended: This mod mail thread is not suspended.
+  user_has_open_threads: User has a open thread. You can't unsuspend this thread.
+  unsuspended: This mod mail thread has been unsuspended. You can now reply to the user.
+  error: >-
+    An error occurred while unsuspending the thread. Developers have been
+    notified.
+help:
+  command_usage: Command Usage
+  permissions: Permissions
+  examples: Examples
+  command_not_found: Command not found.
+  command_help_not_found: Help for this command is not available.
+  footer: "<param> are required parameters, [param] are optional parameters."
+modmail-blacklist:
+  no_reason: No reason provided for blacklisting.
+  cannot_blacklist_self: You cannot blacklist yourself.
+  cannot_blacklist_bot: You cannot blacklist a bot.
+  duration_without_time: You must provide a time unit for the duration.
+  time_without_duration: You must provide a duration for the time unit.
+  blacklist_success: >-
+    {{confirm}} **{{user}}** has been blacklisted for **{{duration}}** with
+    reason: ```{{reason}}```
+  blacklist_error: >-
+    An error occurred while blacklisting the user. Developers have been
+    notified.
+  blacklist_remove:
+    not_found: >-
+      Blacklist entry for {{user}} not found. This means the user is not
+      blacklisted.
+    success: "{{confirm}} {{user}} has been removed from the blacklist."
+    error: >-
+      An error occurred while removing the user from the blacklist. Developers
+      have been notified.
+  blacklist_get:
+    not_found: >-
+      Blacklist entry for {{user}} not found. This means the user is not
+      blacklisted.
+    embed:
+      title: "Blacklist Entry for {{user}}"
+      fields:
+        reason: Reason
+        duration: Duration
+        created_at: Blacklisted At
+        expires_at: Expires At
+        moderator: Responsible Moderator
+purge:
+  not_text_channel: This command can only be used in text channels.
+  any:
+    success: "{{confirm}} Successfully deleted **{{count}}** messages."
+    error: An error occurred while deleting the messages. Please try again later.
+  bots:
+    success: "{{confirm}} Successfully deleted **{{count}}** messages from bots."
+    error: An error occurred while deleting the bot messages. Please try again later.
+  user:
+    success: "{{confirm}} Successfully deleted **{{count}}** messages from **{{user}}**."
+    error: >-
+      An error occurred while deleting the messages from the user. Please try
+      again later.

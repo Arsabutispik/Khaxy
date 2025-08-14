@@ -12,7 +12,7 @@ export async function initI18n() {
       ns: ["translation", "events", "permissions", "commands", "help"],
       defaultNS: "translation",
       backend: {
-        loadPath: "locales/{{lng}}/{{ns}}.json",
+        loadPath: "locales/{{lng}}/{{ns}}.yml",
       },
       interpolation: { escapeValue: false },
       load: "currentOnly",
