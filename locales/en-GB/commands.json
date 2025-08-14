@@ -284,6 +284,14 @@
     "any": {
       "success": "{{confirm}} Successfully deleted **{{count}}** messages.",
       "error": "An error occurred while deleting the messages. Please try again later."
+    },
+    "bots": {
+      "success": "{{confirm}} Successfully deleted **{{count}}** messages from bots.",
+      "error": "An error occurred while deleting the bot messages. Please try again later."
+    },
+    "user": {
+        "success": "{{confirm}} Successfully deleted **{{count}}** messages from **{{user}}**.",
+        "error": "An error occurred while deleting the messages from the user. Please try again later."
     }
   }
 }

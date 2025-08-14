@@ -283,7 +283,15 @@
     "not_text_channel": "Bu komut sadece metin kanallarında kullanılabilir.",
     "any": {
       "success": "{{confirm}} **{{count}}** mesaj başarıyla temizlendi.",
-        "error": "Mesajlar temizlenirken hata oluştu. Daha sonra tekrar deneyin."
+      "error": "Mesajlar temizlenirken hata oluştu. Daha sonra tekrar deneyin."
+    },
+    "bots": {
+      "success": "{{confirm}} **{{count}}** bot mesajı başarıyla temizlendi.",
+      "error": "Bot mesajları temizlenirken hata oluştu. Daha sonra tekrar deneyin."
+    },
+    "user": {
+      "success": "{{confirm}} {{user}} tarafından gönderilen **{{count}}** mesaj silindi.",
+      "error": "Kullanıcı mesajları temizlenirken hata oluştu. Daha sonra tekrar deneyin."
     }
   }
 }
