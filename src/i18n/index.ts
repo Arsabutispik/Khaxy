@@ -10,7 +10,7 @@ export async function initI18n() {
       lng: "en-GB",
       preload: ["en-GB", "tr-TR"],
       ns: ["translations", "events", "permissions", "commands", "help"],
-      defaultNS: "translation",
+      defaultNS: "translations",
       backend: {
         loadPath: "locales/{{lng}}/{{ns}}.yml",
       },
