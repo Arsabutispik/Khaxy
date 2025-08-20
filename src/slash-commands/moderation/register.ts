@@ -102,10 +102,12 @@ export default {
       await interaction.reply({ content: t("already_registered"), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
-    const rolesToAdd: string[] = [...member.roles.cache.map((role) => role.id), toStringId(guildConfig.member_role_id)];
-    if (guildConfig.unverified_role_id && member.roles.cache.has(toStringId(guildConfig.unverified_role_id))) {
-      rolesToAdd.filter((role) => role !== toStringId(guildConfig.unverified_role_id));
-    }
+    const rolesToAdd = [
+      ...member.roles.cache
+        .map((role) => role.id)
+        .filter((id) => id !== toStringId(guildConfig.unverified_role_id)),
+      toStringId(guildConfig.member_role_id),
+    ];
     switch (gender) {
       case "male":
         if (!guildConfig.male_role_id || !interaction.guild.roles.cache.has(toStringId(guildConfig.male_role_id))) {
