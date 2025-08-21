@@ -62,9 +62,13 @@ export default {
       client.user!.setActivity(replacePlaceholders(status.message, values), { type: status.type });
       setInterval(() => {
         // Update only reloadable messages
+        const values = {
+          guildCount: client.guilds.cache.size.toString(),
+          // add more dynamic values here if needed
+        };
         const updatedMessages = updateReloadableMessages(messages, values);
 
-        // Pick random message from updated list
+        // Pick a random message from an updated list
         const status = updatedMessages[Math.floor(Math.random() * updatedMessages.length)];
 
         client.user!.setActivity(status.message, { type: status.type });
