@@ -1,7 +1,14 @@
 import type { SlashCommandBase } from "@customTypes";
-import { InteractionContextType, MessageFlagsBitField, PermissionsBitField, SlashCommandBuilder } from "discord.js";
+import {
+  ChannelType,
+  EmbedBuilder,
+  InteractionContextType,
+  MessageFlagsBitField,
+  PermissionsBitField,
+  SlashCommandBuilder,
+} from "discord.js";
 import { logger } from "@lib";
-import { toStringId } from "@utils";
+import { returnWebhook, toStringId, WebhookType } from "@utils";
 import { getGuildConfig } from "@database";
 
 export default {
@@ -103,11 +110,10 @@ export default {
       return;
     }
     const rolesToAdd = [
-      ...member.roles.cache
-        .map((role) => role.id)
-        .filter((id) => id !== toStringId(guildConfig.unverified_role_id)),
+      ...member.roles.cache.map((role) => role.id).filter((id) => id !== toStringId(guildConfig.unverified_role_id)),
       toStringId(guildConfig.member_role_id),
     ];
+    let added_roles = "";
     switch (gender) {
       case "male":
         if (!guildConfig.male_role_id || !interaction.guild.roles.cache.has(toStringId(guildConfig.male_role_id))) {
@@ -117,6 +123,7 @@ export default {
         try {
           rolesToAdd.push(toStringId(guildConfig.male_role_id));
           await member.roles.set(rolesToAdd);
+          added_roles = `<@&${guildConfig.male_role_id}>, <@&${guildConfig.member_role_id}>`;
           await interaction.reply({
             content: t("success", {
               user: member.toString(),
@@ -145,6 +152,7 @@ export default {
         try {
           rolesToAdd.push(toStringId(guildConfig.female_role_id));
           await member.roles.set(rolesToAdd);
+          added_roles = `<@&${guildConfig.female_role_id}>, <@&${guildConfig.member_role_id}>`;
           await interaction.reply({
             content: t("success", {
               user: member.toString(),
@@ -168,6 +176,7 @@ export default {
       case "other":
         try {
           await member.roles.set(rolesToAdd);
+          added_roles = `<@&${guildConfig.member_role_id}>`;
           await interaction.reply({
             content: t("success", {
               user: member.toString(),
@@ -192,5 +201,38 @@ export default {
         await interaction.reply(t("not_valid"));
         break;
     }
+    const logChannel = interaction.guild.channels.cache.get(toStringId(guildConfig.guild_member_logs_channel_id));
+    if (logChannel?.type !== ChannelType.GuildText) return;
+    const embed = new EmbedBuilder()
+      .setTitle(t("roles_update.embed.title"))
+      .setColor("Yellow")
+      .setThumbnail(member.user.displayAvatarURL())
+      .setTimestamp()
+      .setFooter({
+        text: interaction.user.username,
+        iconURL: interaction.user.displayAvatarURL(),
+      });
+
+    let description = t("roles_update.embed.description", {
+      user: member.user,
+      added_roles,
+      removed_roles: interaction.guild.roles.cache.get(toStringId(guildConfig.unverified_role_id))
+        ? `<@&${guildConfig.unverified_role_id}>`
+        : "",
+    });
+
+    embed.setDescription(description);
+    const webhook = await returnWebhook(client, logChannel, interaction.guildId, {
+      id: guildConfig.guild_member_logs_webhook_id,
+      type: WebhookType.GUILD_MEMBER_LOGS,
+    });
+    await webhook.send({ embeds: [embed] }).catch((error) => {
+      logger.log({
+        level: "error",
+        message: `Failed to send guildMemberUpdate embed in ${interaction.guild.name} (${interaction.guild.id})`,
+        error,
+        channelId: logChannel.id,
+      });
+    });
   },
 } as SlashCommandBase;

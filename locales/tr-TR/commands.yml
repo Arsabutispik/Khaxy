@@ -99,6 +99,14 @@ register:
   error: "Kullanıcı kayıt edilirken hata oluştu. {{error}}"
   no_female_role: Kadın rolü bulunamadı. Ayarlar kısmından kadın rolünü güncelleyin.
   not_valid: Geçerli bir seçenek belirtmediniz. Lütfen geçerli bir seçenek belirtin.
+  roles_update:
+    embed:
+      title: Kullanıcı Rolleri Değiştirildi
+      description: |-
+        > **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)
+        > **ID**: {{user.id}}
+        > **Eklenen Roller**: {{added_roles}}
+        > **Kaldırılan Roller**: {{removed_roles}}
 unban:
   no_reason: Yasağın kaldırılma sebebi belirtilmedi.
   no_user: Kullanıcı bulunamadı.

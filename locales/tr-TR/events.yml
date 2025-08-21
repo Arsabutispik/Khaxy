@@ -143,20 +143,14 @@ guildMemberUpdate:
         > **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)
         > **ID**: {{user.id}}
         > **Zaman Aşımı Kaldırma Tarihi**: {{timestamp}}
-  remove_roles:
+  roles_update:
     embed:
-      title: Kullanıcıdan Roller Kaldırıldı
+      title: "Kullanıcı Rolleri Değiştirildi"
       description: |-
         > **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)
         > **ID**: {{user.id}}
-        > **Kaldırılan Roller**: {{roles}}
-  add_roles:
-    embed:
-      title: Kullanıcıya Roller Eklendi
-      description: |-
-        > **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)
-        > **ID**: {{user.id}}
-        > **Eklenen Roller**: {{roles}}
+      added: Eklenen Roller
+      removed: Kaldırılan Roller
   nickname_change:
     no_nickname: Takma Ad Yok.
     embed:

@@ -142,20 +142,14 @@ guildMemberUpdate:
       description: |-
         > **User**: {{user.tag}} (<@{{user.id}}>)
         > **ID**: {{user.id}}
-  remove_roles:
+  roles_update:
     embed:
-      title: User Roles Removed
+      title: User Roles Updated
       description: |-
         > **User**: {{user.tag}} (<@{{user.id}}>)
         > **ID**: {{user.id}}
-        > **Roles Removed**: {{roles}}
-  add_roles:
-    embed:
-      title: User Roles Added
-      description: |-
-        > **User**: {{user.tag}} (<@{{user.id}}>)
-        > **ID**: {{user.id}}
-        > **Roles Added**: {{roles}}
+      added: Roles Added
+      removed: Roles Removed
   nickname_change:
     no_nickname: No Nickname
     embed:

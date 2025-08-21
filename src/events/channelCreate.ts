@@ -11,10 +11,8 @@ export default {
     if (!guildConfig) return;
     const t = channel.client.i18next.getFixedT(guildConfig.language, "events", "channelCreate");
     if (!guildConfig.channel_logs_channel_id) return;
-    const logChannel = await channel.guild.channels
-      .fetch(toStringId(guildConfig.channel_logs_channel_id))
-      .catch(() => null);
-    if (!logChannel || logChannel.type !== ChannelType.GuildText) return;
+    const logChannel = channel.guild.channels.cache.get(toStringId(guildConfig.channel_logs_channel_id));
+    if (logChannel?.type !== ChannelType.GuildText) return;
     const auditLogs = await channel.guild
       .fetchAuditLogs({
         limit: 1,

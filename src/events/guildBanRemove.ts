@@ -20,53 +20,51 @@ export default {
       })
       .catch(() => null);
     const logEntry = auditLogs?.entries.first();
-    if (guildConfig.guild_logs_channel_id && logEntry?.executor?.id !== ban.client.user.id) {
-      const channel = await ban.guild.channels.fetch(toStringId(guildConfig.guild_logs_channel_id)).catch(() => null);
-      if (channel?.type === ChannelType.GuildText) {
-        const webhook = await returnWebhook(ban.client, channel, ban.guild.id, {
-          id: guildConfig.guild_logs_webhook_id,
-          type: WebhookType.GUILD_LOGS,
-        });
-        const embed = new EmbedBuilder()
-          .setTitle(t("embed.title"))
-          .setColor("Green")
-          .setThumbnail(ban.user.displayAvatarURL())
-          .setDescription(t("embed.description", { user: ban.user }))
-          .setFooter({
-            text: logEntry?.executor?.tag || t("unknown_executor"),
-            iconURL: logEntry?.executor?.displayAvatarURL() || undefined,
-          })
-          .setTimestamp()
-          .addFields([
-            {
-              name: t("embed.fields.reason"),
-              value: ban.reason || t("no_reason"),
-            },
-          ]);
-        await webhook
-          .send({
-            embeds: [embed],
-            allowedMentions: { parse: [] }, // Prevent mentions in the log
-          })
-          .catch((error) => {
-            logger.log({
-              level: "error",
-              message: `Failed to send guildBanRemove embed in ${ban.guild.name} (${ban.guild.id})`,
-              error,
-              channelId: channel.id,
-            });
-          });
-      }
-      await modLog(
+    if (logEntry?.executor?.id === ban.client.user.id) return;
+    await modLog(
+      {
+        guild: ban.guild,
+        user: ban.user,
+        moderator: logEntry?.executor ?? null,
+        action: "UNBAN",
+        reason: ban.reason || t("no_reason"),
+      },
+      ban.client,
+    );
+    const logChannel = ban.guild.channels.cache.get(toStringId(guildConfig.guild_logs_channel_id));
+    if (logChannel?.type !== ChannelType.GuildText) return;
+    const webhook = await returnWebhook(ban.client, logChannel, ban.guild.id, {
+      id: guildConfig.guild_logs_webhook_id,
+      type: WebhookType.GUILD_LOGS,
+    });
+    const embed = new EmbedBuilder()
+      .setTitle(t("embed.title"))
+      .setColor("Green")
+      .setThumbnail(ban.user.displayAvatarURL())
+      .setDescription(t("embed.description", { user: ban.user }))
+      .setFooter({
+        text: logEntry?.executor?.tag || t("unknown_executor"),
+        iconURL: logEntry?.executor?.displayAvatarURL() || undefined,
+      })
+      .setTimestamp()
+      .addFields([
         {
-          guild: ban.guild,
-          user: ban.user,
-          moderator: logEntry?.executor ?? null,
-          action: "UNBAN",
-          reason: ban.reason || t("no_reason"),
+          name: t("embed.fields.reason"),
+          value: ban.reason || t("no_reason"),
         },
-        ban.client,
-      );
-    }
+      ]);
+    await webhook
+      .send({
+        embeds: [embed],
+        allowedMentions: { parse: [] }, // Prevent mentions in the log
+      })
+      .catch((error) => {
+        logger.log({
+          level: "error",
+          message: `Failed to send guildBanRemove embed in ${ban.guild.name} (${ban.guild.id})`,
+          error,
+          channelId: logChannel.id,
+        });
+      });
   },
 } satisfies EventBase<Events.GuildBanRemove>;

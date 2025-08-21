@@ -101,6 +101,14 @@ register:
   error: "Error while registering the user. {{error}}"
   no_female_role: Female role not found. Please update the female role in the settings.
   not_valid: The option you provided is not valid. Please provide a valid option.
+  roles_update:
+    embed:
+      title: Roles Updated
+      description: |-
+        > **User**: {{user.tag}} (<@{{user.id}}>)
+        > **ID**: {{user.id}}
+        > **Added Roles**: {{added_roles}}
+        > **Removed Roles**: {{removed_roles}}
 unban:
   no_reason: No reason provided for unbanning.
   no_user: User not found.
