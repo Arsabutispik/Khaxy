@@ -89,12 +89,12 @@ mute:
     Roller eklenirken/kaldırılırken hata oluştu. Rollerin eklenme/kaldırılma
     izinlerini kontrol edin. Komut iptal edildi.
   embed:
-    title: Kullanıcın Takma Adı Değişti
+    title: Kullanıcın Rolleri Değiştirildi
     description: |-
       > **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)
       > **ID**: {{user.id}}
-      > **Eski Takma Ad**: {{old_nickname}}
-      > **Yeni Takma Ad**: {{new_nickname}}
+      > **Eklenen Roller**: {{added_roles}}
+    removed: Kaldırılan Roller
 register:
   no_member: Kullanıcı bulunamadı. Kullanıcı hala sunucuda mı?
   no_register_channel: Kayıt kanalı bulunamadı. Ayarlar kısmından kayıt kanalını güncelleyin.
@@ -113,7 +113,7 @@ register:
         > **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)
         > **ID**: {{user.id}}
         > **Eklenen Roller**: {{added_roles}}
-        > **Kaldırılan Roller**: {{removed_roles}}
+      removed: Kaldırılan Roller
 unban:
   no_reason: Yasağın kaldırılma sebebi belirtilmedi.
   no_user: Kullanıcı bulunamadı.

@@ -114,6 +114,7 @@ export default {
       toStringId(guildConfig.member_role_id),
     ];
     let added_roles = "";
+    const check = member.roles.cache.has(toStringId(guildConfig.unverified_role_id));
     switch (gender) {
       case "male":
         if (!guildConfig.male_role_id || !interaction.guild.roles.cache.has(toStringId(guildConfig.male_role_id))) {
@@ -213,15 +214,14 @@ export default {
         iconURL: interaction.user.displayAvatarURL(),
       });
 
-    let description = t("roles_update.embed.description", {
-      user: member.user,
-      added_roles,
-      removed_roles: interaction.guild.roles.cache.get(toStringId(guildConfig.unverified_role_id))
-        ? `<@&${guildConfig.unverified_role_id}>`
-        : "",
-    });
+    let description = t("roles_update.embed.description", { user: member.user, added_roles });
+
+    if (check) {
+      description += `\n> **${t("roles_update.embed.removed")}**: <@&${guildConfig.unverified_role_id}>`;
+    }
 
     embed.setDescription(description);
+
     const webhook = await returnWebhook(client, logChannel, interaction.guildId, {
       id: guildConfig.guild_member_logs_webhook_id,
       type: WebhookType.GUILD_MEMBER_LOGS,

@@ -81,23 +81,19 @@ export async function checkPunishments(client: Client) {
         }
         rolesToChange.push(...punishment.previous_roles.map((role) => toStringId(role)));
       }
-      await member.roles.set(rolesToChange);
       const logChannel = member.guild.channels.cache.get(toStringId(guildConfig.guild_member_logs_channel_id));
       if (logChannel?.type !== ChannelType.GuildText) return;
       const t = client.i18next.getFixedT(guildConfig.language, null, "check_punishments");
-      const embed = new EmbedBuilder()
-        .setTitle(t("embed.title"))
-        .setDescription(
-          t("embed.description", {
-            user: member.user,
-            added_roles: rolesToChange.map((role) => `<@&${role}>`).join(", "),
-            removed_roles: member.guild.roles.cache.get(toStringId(guildConfig.mute_role_id))
-              ? `<@&${guildConfig.mute_role_id}>`
-              : "",
-          }),
-        )
-        .setColor("Yellow")
-        .setTimestamp();
+      const embed = new EmbedBuilder().setTitle(t("embed.title")).setColor("Yellow").setTimestamp();
+      let description = t("embed.description", { user: member.user, removed_roles: `<@&${guildConfig.mute_role_id}>` });
+      if (rolesToChange.length > 0) {
+        description += `\n> ** ${t("embed.added")}**: ${rolesToChange.map((role) => `<@&${role}>`).join(", ")}`;
+        await member.roles.set(rolesToChange);
+      } else {
+        await member.roles.remove(toStringId(guildConfig.mute_role_id));
+      }
+
+      embed.setDescription(description);
       if (client.user) {
         embed.setFooter({
           text: client.user.tag,

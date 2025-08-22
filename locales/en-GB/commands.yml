@@ -89,12 +89,12 @@ mute:
     Error while removing or adding roles. I may not have permission to do so.
     Please check the role permissions. The command has been cancelled.
   embed:
-    title: User Nickname Changed
+    title: User Roles Changed
     description: |-
       > **User**: {{user.tag}} (<@{{user.id}}>)
       > **ID**: {{user.id}}
-      > **Old Nickname**: {{old_nickname}}
-      > **New Nickname**: {{new_nickname}}
+      > **Roles Added**: {{added_roles}}
+    removed: Roles Removed
 register:
   no_member: Member not found. Is the member still in the server?
   no_register_channel: >-
@@ -114,8 +114,8 @@ register:
       description: |-
         > **User**: {{user.tag}} (<@{{user.id}}>)
         > **ID**: {{user.id}}
-        > **Added Roles**: {{added_roles}}
-        > **Removed Roles**: {{removed_roles}}
+        > **Roles Added**: {{added_roles}}
+      removed: Roles Removed
 unban:
   no_reason: No reason provided for unbanning.
   no_user: User not found.

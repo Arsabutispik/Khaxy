@@ -261,17 +261,17 @@ export default {
     }
     const logChannel = member.guild.channels.cache.get(toStringId(guildConfig.guild_member_logs_channel_id));
     if (logChannel?.type !== ChannelType.GuildText) return;
-    const embed = new EmbedBuilder()
-      .setTitle(t("embed.title"))
-      .setDescription(
-        t("embed.description", {
-          user: member.user,
-          removed_roles: filteredRoles.map((role) => `<@&${role}>`).join(", "),
-          added_roles: muteRole.toString(),
-        }),
-      )
-      .setColor("Yellow")
-      .setTimestamp();
+    const embed = new EmbedBuilder().setTitle(t("embed.title")).setColor("Yellow").setTimestamp();
+    let description = t("roles_update.embed.description", {
+      user: member.user,
+      added_roles: muteRole.toString(),
+    });
+
+    if (filteredRoles.length > 0) {
+      description += `\n> **${t("roles_update.embed.removed")}**: ${filteredRoles.map((id) => `<@&${id}>`).join(", ")}`;
+    }
+
+    embed.setDescription(description);
     if (client.user) {
       embed.setFooter({
         text: client.user.tag,
