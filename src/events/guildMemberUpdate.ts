@@ -15,31 +15,29 @@ export default {
     const logChannel = newMember.guild.channels.cache.get(toStringId(guildConfig.guild_member_logs_channel_id));
     if (logChannel?.type !== ChannelType.GuildText) return;
     const t = newMember.client.i18next.getFixedT(guildConfig.language, "events", "guildMemberUpdate");
-    const auditLogs = await newMember.guild
-      .fetchAuditLogs({
-        limit: 1,
-        type: AuditLogEvent.MemberUpdate,
-      })
-      .catch(() => null);
-    const logEntry = auditLogs?.entries.first();
-    if (logEntry?.executor?.id === newMember.client.user.id) return;
+    async function auditLogs<T extends AuditLogEvent>(type: T) {
+      const auditLogs = await newMember.guild
+        .fetchAuditLogs({
+          limit: 1,
+          type,
+        })
+        .catch(() => null);
+      return auditLogs?.entries.first();
+    }
     const webhook = await returnWebhook(newMember.client, logChannel, newMember.guild.id, {
       id: guildConfig.guild_member_logs_webhook_id,
       type: WebhookType.GUILD_MEMBER_LOGS,
     });
     const embed = new EmbedBuilder();
-    if (logEntry?.target?.id === newMember.user.id) {
-      embed.setFooter({
-        text: logEntry?.executor?.tag || t("unknown_executor"),
-        iconURL: logEntry?.executor?.displayAvatarURL() || undefined,
-      });
-    }
-    if (
-      newMember.isCommunicationDisabled() &&
-      !oldMember.isCommunicationDisabled() &&
-      logEntry?.target?.id === newMember.user.id &&
-      dayjs().diff(logEntry?.createdAt, "seconds") < 3
-    ) {
+
+    if (newMember.isCommunicationDisabled() && !oldMember.isCommunicationDisabled()) {
+      const logEntry = await auditLogs(AuditLogEvent.MemberUpdate);
+      if (
+        logEntry?.target?.id !== newMember.user.id &&
+        logEntry?.executor?.id === newMember.client.user.id &&
+        dayjs().diff(logEntry?.createdAt, "seconds") > 3
+      )
+        return;
       embed
         .setTitle(t("timeout.embed.title"))
         .setColor("Yellow")
@@ -56,7 +54,11 @@ export default {
             name: t("timeout.embed.fields.reason"),
             value: logEntry?.reason || t("timeout.no_reason"),
           },
-        ]);
+        ])
+        .setFooter({
+          text: logEntry?.executor?.tag || t("unknown_executor"),
+          iconURL: logEntry?.executor?.displayAvatarURL() || undefined,
+        });
       await webhook.send({ embeds: [embed] }).catch((error) => {
         logger.log({
           level: "error",
@@ -77,6 +79,13 @@ export default {
       );
     }
     if (oldMember.isCommunicationDisabled() && !newMember.isCommunicationDisabled()) {
+      const logEntry = await auditLogs(AuditLogEvent.MemberUpdate);
+      if (
+        logEntry?.target?.id !== newMember.user.id &&
+        logEntry?.executor?.id === newMember.client.user.id &&
+        dayjs().diff(logEntry?.createdAt, "seconds") > 3
+      )
+        return;
       embed
         .setTitle(t("remove_timeout.embed.title"))
         .setColor("Green")
@@ -86,7 +95,11 @@ export default {
           }),
         )
         .setThumbnail(newMember.user.displayAvatarURL())
-        .setTimestamp();
+        .setTimestamp()
+        .setFooter({
+          text: logEntry?.executor?.tag || t("unknown_executor"),
+          iconURL: logEntry?.executor?.displayAvatarURL() || undefined,
+        });
 
       await webhook.send({ embeds: [embed] }).catch((error) => {
         logger.log({
@@ -100,16 +113,23 @@ export default {
     const removedRoles = oldMember.roles.cache.filter((role) => !newMember.roles.cache.has(role.id));
     const addedRoles = newMember.roles.cache.filter((role) => !oldMember.roles.cache.has(role.id));
 
-    if (
-      (removedRoles.size > 0 || addedRoles.size > 0) &&
-      logEntry?.executor?.id !== newMember.client.user.id &&
-      logChannel?.type === ChannelType.GuildText
-    ) {
+    if ((removedRoles.size > 0 || addedRoles.size > 0) && logChannel?.type === ChannelType.GuildText) {
+      const logEntry = await auditLogs(AuditLogEvent.MemberRoleUpdate);
+      if (
+        logEntry?.target?.id !== newMember.user.id &&
+        logEntry?.executor?.id === newMember.client.user.id &&
+        dayjs().diff(logEntry?.createdAt, "seconds") > 3
+      )
+        return;
       embed
         .setTitle(t("roles_update.embed.title"))
         .setColor("Yellow")
         .setThumbnail(newMember.user.displayAvatarURL())
-        .setTimestamp();
+        .setTimestamp()
+        .setFooter({
+          text: logEntry?.executor?.tag || t("unknown_executor"),
+          iconURL: logEntry?.executor?.displayAvatarURL() || undefined,
+        });
 
       let description = t("roles_update.embed.description", { user: newMember.user });
 
@@ -134,6 +154,13 @@ export default {
     }
 
     if (oldMember.nickname !== newMember.nickname && logChannel?.type === ChannelType.GuildText) {
+      const logEntry = await auditLogs(AuditLogEvent.MemberUpdate);
+      if (
+        logEntry?.target?.id !== newMember.user.id &&
+        logEntry?.executor?.id === newMember.client.user.id &&
+        dayjs().diff(logEntry?.createdAt, "seconds") > 3
+      )
+        return;
       embed
         .setTitle(t("nickname_change.embed.title"))
         .setColor("Blue")
@@ -145,49 +172,12 @@ export default {
           }),
         )
         .setThumbnail(newMember.user.displayAvatarURL())
-        .setTimestamp();
-      await webhook.send({ embeds: [embed] }).catch((error) => {
-        logger.log({
-          level: "error",
-          message: `Failed to send guildMemberUpdate embed in ${newMember.guild.name} (${newMember.guild.id})`,
-          error,
-          channelId: logChannel.id,
+        .setTimestamp()
+        .setFooter({
+          text: logEntry?.executor?.tag || t("unknown_executor"),
+          iconURL: logEntry?.executor?.displayAvatarURL() || undefined,
         });
-      });
-    }
-    if (oldMember.user.username !== newMember.user.username && logChannel?.type === ChannelType.GuildText) {
-      embed
-        .setTitle(t("username_change.embed.title"))
-        .setColor("Blue")
-        .setDescription(
-          t("username_change.embed.description", {
-            user: newMember.user,
-            old_username: oldMember.user.username,
-            new_username: newMember.user.username,
-          }),
-        )
-        .setThumbnail(newMember.user.displayAvatarURL())
-        .setTimestamp();
-      await webhook.send({ embeds: [embed] }).catch((error) => {
-        logger.log({
-          level: "error",
-          message: `Failed to send guildMemberUpdate embed in ${newMember.guild.name} (${newMember.guild.id})`,
-          error,
-          channelId: logChannel.id,
-        });
-      });
-    }
-    if (oldMember.user.avatar !== newMember.user.avatar && logChannel?.type === ChannelType.GuildText) {
-      embed
-        .setTitle(t("avatar_change.embed.title"))
-        .setColor("Blue")
-        .setDescription(
-          t("avatar_change.embed.description", {
-            user: newMember.user,
-          }),
-        )
-        .setThumbnail(newMember.user.displayAvatarURL())
-        .setTimestamp();
+
       await webhook.send({ embeds: [embed] }).catch((error) => {
         logger.log({
           level: "error",

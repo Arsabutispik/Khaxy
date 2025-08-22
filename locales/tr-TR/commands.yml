@@ -88,6 +88,13 @@ mute:
   role_error: >-
     Roller eklenirken/kaldırılırken hata oluştu. Rollerin eklenme/kaldırılma
     izinlerini kontrol edin. Komut iptal edildi.
+  embed:
+    title: Kullanıcın Takma Adı Değişti
+    description: |-
+      > **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)
+      > **ID**: {{user.id}}
+      > **Eski Takma Ad**: {{old_nickname}}
+      > **Yeni Takma Ad**: {{new_nickname}}
 register:
   no_member: Kullanıcı bulunamadı. Kullanıcı hala sunucuda mı?
   no_register_channel: Kayıt kanalı bulunamadı. Ayarlar kısmından kayıt kanalını güncelleyin.

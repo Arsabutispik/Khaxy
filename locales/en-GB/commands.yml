@@ -88,6 +88,13 @@ mute:
   role_error: >-
     Error while removing or adding roles. I may not have permission to do so.
     Please check the role permissions. The command has been cancelled.
+  embed:
+    title: User Nickname Changed
+    description: |-
+      > **User**: {{user.tag}} (<@{{user.id}}>)
+      > **ID**: {{user.id}}
+      > **Old Nickname**: {{old_nickname}}
+      > **New Nickname**: {{new_nickname}}
 register:
   no_member: Member not found. Is the member still in the server?
   no_register_channel: >-
@@ -97,7 +104,7 @@ register:
   no_member_role: Member role not found. Please update the member role in the settings.
   already_registered: User is already registered.
   no_male_role: Male role not found. Please update the male role in the settings.
-  success: "{{confirm}} **{{member}}** has been registered."
+  success: "{{confirm}} **{{user}}** has been registered."
   error: "Error while registering the user. {{error}}"
   no_female_role: Female role not found. Please update the female role in the settings.
   not_valid: The option you provided is not valid. Please provide a valid option.

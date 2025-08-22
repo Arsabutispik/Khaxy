@@ -160,20 +160,6 @@ guildMemberUpdate:
         > **ID**: {{user.id}}
         > **Eski Takma Ad**: {{old_nickname}}
         > **Yeni Takma Ad**: {{new_nickname}}
-  username_change:
-    embed:
-      title: Kullanıcın Kullanıcı Adı Değişti
-      description: |-
-        > **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)
-        > **ID**: {{user.id}}
-        > **Eski Kullanıcı Adı**: {{old_username}}
-        > **Yeni Kullanıcı Adı**: {{new_username}}
-  avatar_change:
-    embed:
-      title: Kullanıcın Avatarı Değişti
-      description: |-
-        > **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)
-        > **ID**: {{user.id}}
 guildUpdate:
   unknown_executor: Bilinmeyen Yetkili
   name_change:

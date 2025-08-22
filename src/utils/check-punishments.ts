@@ -1,9 +1,10 @@
 import dayjs from "dayjs";
 import { logger } from "@lib";
-import { toStringId, modLog } from "./index.js";
-import { Client } from "discord.js";
+import { modLog, returnWebhook, toStringId, WebhookType } from "./index.js";
+import { ChannelType, Client, EmbedBuilder } from "discord.js";
 import { deleteExpiredPunishments, getExpiredPunishments, getGuildConfig } from "@database";
 import { PunishmentType } from "@constants";
+
 export async function checkPunishments(client: Client) {
   // Fetch punishments that have expired
   const punishments = await getExpiredPunishments();
@@ -69,6 +70,7 @@ export async function checkPunishments(client: Client) {
         });
         continue;
       }
+      const rolesToChange = [];
       if (punishment.previous_roles) {
         for (const role of [...punishment.previous_roles]) {
           // spread operator to clone the array
@@ -77,11 +79,36 @@ export async function checkPunishments(client: Client) {
             if (idx !== -1) punishment.previous_roles.splice(idx, 1);
           }
         }
-        await member.roles.add(punishment.previous_roles.map((role) => toStringId(role)));
+        rolesToChange.push(...punishment.previous_roles.map((role) => toStringId(role)));
       }
-
-      if (guildConfig.mute_role_id && guild.roles.cache.has(toStringId(guildConfig.mute_role_id)))
-        await member.roles.remove(toStringId(guildConfig.mute_role_id));
+      await member.roles.set(rolesToChange);
+      const logChannel = member.guild.channels.cache.get(toStringId(guildConfig.guild_member_logs_channel_id));
+      if (logChannel?.type !== ChannelType.GuildText) return;
+      const t = client.i18next.getFixedT(guildConfig.language, null, "check_punishments");
+      const embed = new EmbedBuilder()
+        .setTitle(t("embed.title"))
+        .setDescription(
+          t("embed.description", {
+            user: member.user,
+            added_roles: rolesToChange.map((role) => `<@&${role}>`).join(", "),
+            removed_roles: member.guild.roles.cache.get(toStringId(guildConfig.mute_role_id))
+              ? `<@&${guildConfig.mute_role_id}>`
+              : "",
+          }),
+        )
+        .setColor("Yellow")
+        .setTimestamp();
+      if (client.user) {
+        embed.setFooter({
+          text: client.user.tag,
+          iconURL: client.user.displayAvatarURL(),
+        });
+      }
+      const webhook = await returnWebhook(client, logChannel, member.guild.id, {
+        id: guildConfig.guild_member_logs_channel_id,
+        type: WebhookType.GUILD_MEMBER_LOGS,
+      });
+      await webhook.send({ embeds: [embed] });
     }
   }
   // Delete expired punishments from the database

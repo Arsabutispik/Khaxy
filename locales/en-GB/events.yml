@@ -159,20 +159,6 @@ guildMemberUpdate:
         > **ID**: {{user.id}}
         > **Old Nickname**: {{old_nickname}}
         > **New Nickname**: {{new_nickname}}
-  username_change:
-    embed:
-      title: User Username Changed
-      description: |-
-        > **User**: {{user.tag}} (<@{{user.id}}>)
-        > **ID**: {{user.id}}
-        > **Old Username**: {{old_username}}
-        > **New Username**: {{new_username}}
-  avatar_change:
-    embed:
-      title: User Avatar Changed
-      description: |-
-        > **User**: {{user.tag}} (<@{{user.id}}>)
-        > **ID**: {{user.id}}
 guildUpdate:
   unknown_executor: Unknown Executor
   name_change:

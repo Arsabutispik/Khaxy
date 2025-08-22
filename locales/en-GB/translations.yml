@@ -290,3 +290,11 @@ mod_mail_log:
   thread_closed_dm: "Your thread in {{guild}} has been closed."
 check_expired_modmail_blacklists:
   expired_modmail_blacklist_notification: "\U0001F514 Modmail blacklist for **{{guild}}** expired"
+check_punishments:
+  embed:
+    title: User Roles Updated
+    description: >-
+      > **User**: {{user.tag}} (<@{{user.id}}>)
+      > **ID**: {{user.id}}
+      > **Added Roles**: {{added_roles}}
+      > **Removed Roles**: {{removed_roles}}

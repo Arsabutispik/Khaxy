@@ -285,3 +285,11 @@ mod_mail_log:
   thread_closed_dm: "{{guild}} sunucusundaki mod mail konuşmanız kapatıldı."
 check_expired_modmail_blacklists:
   expired_modmail_blacklist_notification: "\U0001F514 **{{guild}}** sunucusu için modmail kara listesi süresi doldu."
+check_punishments:
+  embed:
+    title: Kullanıcın Takma Adı Değişti
+    description: |-
+      > **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)
+      > **ID**: {{user.id}}
+      > **Eski Takma Ad**: {{old_nickname}}
+      > **Yeni Takma Ad**: {{new_nickname}}

@@ -1,11 +1,18 @@
 import type { SlashCommandBase } from "@customTypes";
-import { InteractionContextType, MessageFlagsBitField, PermissionsBitField, SlashCommandBuilder } from "discord.js";
+import {
+  ChannelType,
+  EmbedBuilder,
+  InteractionContextType,
+  MessageFlagsBitField,
+  PermissionsBitField,
+  SlashCommandBuilder,
+} from "discord.js";
 import dayjs from "dayjs";
 import dayjsduration from "dayjs/plugin/duration.js";
 import relativeTime from "dayjs/plugin/relativeTime.js";
 import { logger } from "@lib";
 import "dayjs/locale/tr.js";
-import { toStringId, modLog } from "@utils";
+import { toStringId, modLog, returnWebhook, WebhookType } from "@utils";
 import { createPunishment, getGuildConfig, getLatestPunishmentByUserAndType } from "@database";
 import { PunishmentType } from "@constants";
 export default {
@@ -145,12 +152,12 @@ export default {
     const longDuration = dayjs(dayjs().add(duration))
       .locale(guildConfig.language || "en")
       .fromNow(true);
+    const filteredRoles = member.roles.cache
+      .filter((role) => role.id !== interaction.guild!.id)
+      .filter((role) => role.id !== interaction.guild!.roles.premiumSubscriberRole?.id)
+      .filter((role) => role.position < interaction.guild!.members.me!.roles.highest.position)
+      .map((role) => BigInt(role.id));
     if (guildConfig.mute_get_all_roles) {
-      const filteredRoles = member.roles.cache
-        .filter((role) => role.id !== interaction.guild!.id)
-        .filter((role) => role.id !== interaction.guild!.roles.premiumSubscriberRole?.id)
-        .filter((role) => role.position < interaction.guild!.members.me!.roles.highest.position)
-        .map((role) => BigInt(role.id));
       try {
         await createPunishment(interaction.guildId, {
           user_id: BigInt(member.id),
@@ -252,5 +259,29 @@ export default {
         await interaction.reply(result.message);
       }
     }
+    const logChannel = member.guild.channels.cache.get(toStringId(guildConfig.guild_member_logs_channel_id));
+    if (logChannel?.type !== ChannelType.GuildText) return;
+    const embed = new EmbedBuilder()
+      .setTitle(t("embed.title"))
+      .setDescription(
+        t("embed.description", {
+          user: member.user,
+          removed_roles: filteredRoles.map((role) => `<@&${role}>`).join(", "),
+          added_roles: muteRole.toString(),
+        }),
+      )
+      .setColor("Yellow")
+      .setTimestamp();
+    if (client.user) {
+      embed.setFooter({
+        text: client.user.tag,
+        iconURL: client.user.displayAvatarURL(),
+      });
+    }
+    const webhook = await returnWebhook(client, logChannel, member.guild.id, {
+      id: guildConfig.guild_member_logs_channel_id,
+      type: WebhookType.GUILD_MEMBER_LOGS,
+    });
+    await webhook.send({ embeds: [embed] });
   },
 } as SlashCommandBase;
