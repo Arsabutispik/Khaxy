@@ -9,7 +9,6 @@ import { getPunishmentsByUser, getGuildConfig } from "@database";
 export default {
   name: Events.GuildMemberAdd,
   async execute(member) {
-    console.log("I emitted guildMemberAdd event");
     // Fetch guild data from the database
     const guildConfig = await getGuildConfig(member.guild.id);
 

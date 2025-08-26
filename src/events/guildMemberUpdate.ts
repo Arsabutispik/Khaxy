@@ -3,7 +3,6 @@ import { AuditLogEvent, ChannelType, EmbedBuilder, Events, time, TimestampStyles
 import { toStringId, modLog, returnWebhook, WebhookType } from "@utils";
 import { getGuildConfig } from "@database";
 import { logger } from "@lib";
-import dayjs from "dayjs";
 
 export default {
   name: Events.GuildMemberUpdate,
@@ -32,7 +31,7 @@ export default {
 
     if (newMember.isCommunicationDisabled() && !oldMember.isCommunicationDisabled()) {
       const logEntry = await auditLogs(AuditLogEvent.MemberUpdate);
-      if (!(logEntry?.target?.id !== newMember.user.id) && logEntry?.executor?.id === newMember.client.user.id) return;
+      if (!(logEntry?.target?.id !== newMember.user.id) || logEntry?.executor?.id === newMember.client.user.id) return;
       embed
         .setTitle(t("timeout.embed.title"))
         .setColor("Yellow")
@@ -75,12 +74,7 @@ export default {
     }
     if (oldMember.isCommunicationDisabled() && !newMember.isCommunicationDisabled()) {
       const logEntry = await auditLogs(AuditLogEvent.MemberUpdate);
-      if (
-        logEntry?.target?.id !== newMember.user.id &&
-        logEntry?.executor?.id === newMember.client.user.id &&
-        dayjs().diff(logEntry?.createdAt, "seconds") > 3
-      )
-        return;
+      if (!(logEntry?.target?.id !== newMember.user.id) || logEntry?.executor?.id === newMember.client.user.id) return;
       embed
         .setTitle(t("remove_timeout.embed.title"))
         .setColor("Green")
@@ -110,7 +104,7 @@ export default {
 
     if ((removedRoles.size > 0 || addedRoles.size > 0) && logChannel?.type === ChannelType.GuildText) {
       const logEntry = await auditLogs(AuditLogEvent.MemberRoleUpdate);
-      if (!(logEntry?.target?.id !== newMember.user.id) && logEntry?.executor?.id === newMember.client.user.id) return;
+      if (!(logEntry?.target?.id !== newMember.user.id) || logEntry?.executor?.id === newMember.client.user.id) return;
       embed
         .setTitle(t("roles_update.embed.title"))
         .setColor("Yellow")
@@ -145,7 +139,7 @@ export default {
 
     if (oldMember.nickname !== newMember.nickname && logChannel?.type === ChannelType.GuildText) {
       const logEntry = await auditLogs(AuditLogEvent.MemberUpdate);
-      if (!(logEntry?.target?.id !== newMember.user.id) && logEntry?.executor?.id === newMember.client.user.id) return;
+      if (!(logEntry?.target?.id !== newMember.user.id) || logEntry?.executor?.id === newMember.client.user.id) return;
       embed
         .setTitle(t("nickname_change.embed.title"))
         .setColor("Blue")
