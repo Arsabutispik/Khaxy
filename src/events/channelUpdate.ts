@@ -13,7 +13,7 @@ export default {
     const guildConfig = await getGuildConfig(oldChannel.guildId);
     if (!guildConfig) return;
     const t = oldChannel.client.i18next.getFixedT(guildConfig.language, "events", "channelUpdate");
-    const logChannel = oldChannel.guild.channels.cache.get(toStringId(guildConfig.guild_member_logs_channel_id));
+    const logChannel = oldChannel.guild.channels.cache.get(toStringId(guildConfig.channel_logs_channel_id));
     if (logChannel?.type !== ChannelType.GuildText) return;
     const auditLogs = await oldChannel.guild
       .fetchAuditLogs({
@@ -24,8 +24,8 @@ export default {
     const logEntry = auditLogs?.entries.first();
     if (logEntry?.executor?.id === newChannel.client.user.id) return;
     const webhook = await returnWebhook(newChannel.client, logChannel, newChannel.guild.id, {
-      id: guildConfig.guild_member_logs_webhook_id,
-      type: WebhookType.GUILD_MEMBER_LOGS,
+      id: guildConfig.channel_logs_webhook_id,
+      type: WebhookType.CHANNEL_LOGS,
     });
     const embed = new EmbedBuilder();
     if (logEntry?.target?.id === newChannel.id) {
@@ -57,12 +57,13 @@ export default {
         });
       });
     }
+
     if (
       oldChannel.isTextBased() &&
       !oldChannel.isVoiceBased() &&
       newChannel.isTextBased() &&
       !newChannel.isVoiceBased() &&
-      oldChannel.topic !== newChannel.topic
+      (oldChannel.topic || null) !== (newChannel.topic || null)
     ) {
       embed
         .setColor("Yellow")
@@ -125,6 +126,7 @@ export default {
       allow: po.allow.bitfield,
       deny: po.deny.bitfield,
     }));
+    console.log(oldPerms, newPerms);
     if (!isDeepStrictEqual(oldPerms, newPerms)) {
       embed
         .setColor("Yellow")

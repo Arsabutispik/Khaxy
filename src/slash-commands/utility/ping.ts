@@ -1,4 +1,4 @@
-import { MessageFlags, SlashCommandBuilder } from "discord.js";
+import { InteractionContextType, MessageFlags, SlashCommandBuilder } from "discord.js";
 import type { SlashCommandBase } from "@customTypes";
 
 export default {
@@ -7,6 +7,7 @@ export default {
     .setNameLocalizations({
       tr: "ping",
     })
+    .setContexts(InteractionContextType.Guild)
     .setDescription("Check the bot's latency")
     .setDescriptionLocalizations({
       tr: "Botun gecikmesini kontrol et",

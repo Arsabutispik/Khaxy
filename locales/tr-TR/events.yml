@@ -5,7 +5,7 @@ channelCreate:
     description: |-
       > **Kanal**: {{channel.name}} (<#{{channel.id}}>)
       > **ID**: {{channel.id}}
-      > **Kanal Türü**: {{channel.type}}
+      > **Kanal Türü**: {{channel_type}}
       > **Oluşturulma Tarihi**: {{timestamp}}
   channel_types:
     "0": Metin Kanalı
@@ -28,7 +28,7 @@ channelDelete:
     description: |-
       > **Kanal**: {{channel.name}} (<#{{channel.id}}>)
       > **ID**: {{channel.id}}
-      > **Kanal Türü**: {{channel.type}}
+      > **Kanal Türü**: {{channel_type}}
       > **Silinme Tarihi**: {{timestamp}}
   channel_types:
     "0": Metin Kanalı

@@ -1,5 +1,11 @@
 import { SlashCommandBase } from "@customTypes";
-import { EmbedBuilder, MessageFlagsBitField, PermissionsBitField, SlashCommandBuilder } from "discord.js";
+import {
+  EmbedBuilder,
+  InteractionContextType,
+  MessageFlagsBitField,
+  PermissionsBitField,
+  SlashCommandBuilder,
+} from "discord.js";
 import {
   getGuildConfig,
   addToModmailBlacklist,
@@ -23,6 +29,8 @@ export default {
     .setDescriptionLocalizations({
       tr: "Modmail'den bir kullanıcıyı kara listeye alarak bilet açmasını engeller",
     })
+    .setContexts(InteractionContextType.Guild)
+    .setDefaultMemberPermissions(PermissionsBitField.Flags.ManageMessages)
     .addSubcommand((option) =>
       option
         .setName("add")

@@ -1,5 +1,5 @@
 import { SlashCommandBase } from "@customTypes";
-import { EmbedBuilder, MessageFlags, SlashCommandBuilder, Locale } from "discord.js";
+import { EmbedBuilder, MessageFlags, SlashCommandBuilder, Locale, InteractionContextType } from "discord.js";
 import { getGuildConfig } from "@database";
 
 export default {
@@ -12,6 +12,7 @@ export default {
     .setDescriptionLocalizations({
       tr: "Botun komutları hakkında yardım al",
     })
+    .setContexts(InteractionContextType.Guild)
     .addStringOption((option) =>
       option
         .setName("command")
