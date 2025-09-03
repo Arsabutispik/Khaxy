@@ -1,4 +1,4 @@
-import { ActivityType, Client, TextChannel } from "discord.js";
+import { ActivityType, Client, Guild, GuildForumTagEmoji, TextChannel } from "discord.js";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration.js";
 import { updateGuildConfig } from "@database";
@@ -138,6 +138,24 @@ function updateReloadableMessages(messages: ActivityMessage[], values: Record<st
     };
   });
 }
+function formatUpdatedTagEmoji(guild: Guild, emoji: GuildForumTagEmoji | string | null | undefined): string {
+  if (!emoji) return "N/A";
+
+  // Unicode emoji
+  if (typeof emoji === "string") return emoji;
+
+  // Custom guild emoji
+  if (emoji.id) {
+    const guildEmoji = guild.emojis.cache.get(emoji.id);
+    if (guildEmoji) return `<:${guildEmoji.name}:${guildEmoji.id}>`;
+    return `<:${emoji.name ?? "unknown"}:${emoji.id}>`; // fallback
+  }
+
+  // Unicode fallback (name)
+  if (emoji.name) return emoji.name;
+
+  return "N/A";
+}
 export {
   sleep,
   missingPermissionsAsString,
@@ -147,4 +165,5 @@ export {
   trimString,
   returnWebhook,
   updateReloadableMessages,
+  formatUpdatedTagEmoji,
 };

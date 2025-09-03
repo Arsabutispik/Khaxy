@@ -45,8 +45,22 @@ channelDelete:
     "15": Forum Channel
     "16": Media Channel
 channelUpdate:
+  channel_types:
+    "0": Text Channel
+    "1": DM Channel
+    "2": Voice Channel
+    "3": Group DM Channel
+    "4": Category Channel
+    "5": News Channel
+    "10": News Thread Channel
+    "11": Public Thread Channel
+    "12": Private Thread Channel
+    "13": Stage Channel
+    "14": Directory Channel
+    "15": Forum Channel
+    "16": Media Channel
+  unknown_executor: Unknown Executor
   name_change:
-    unknown_executor: Unknown Executor
     embed:
       title: Channel Name Changed
       description: |-
@@ -55,7 +69,6 @@ channelUpdate:
         > **Old Name**: {{old_name}}
         > **New Name**: {{new_name}}
   topic_change:
-    unknown_executor: Unknown Executor
     embed:
       title: Channel Topic Changed
       description: |-
@@ -64,7 +77,6 @@ channelUpdate:
         > **Old Topic**: {{old_topic}}
         > **New Topic**: {{new_topic}}
   nsfw_change:
-    unknown_executor: Unknown Executor
     embed:
       title: Channel NSFW Status Changed
       description: |-
@@ -73,13 +85,152 @@ channelUpdate:
         > **Old Status**: {{old_nsfw}}
         > **New Status**: {{new_nsfw}}
   permissions_change:
-    unknown_executor: Unknown Executor
     embed:
       title: Channel Permission Overwrites Changed
       description: |-
         > **Channel**: {{channel.name}} (<#{{channel.id}}>)
         > **ID**: {{channel.id}}
         **Changes**: {{changes}}
+  type_change:
+    embed:
+      title: Channel Type Changed
+      description: |-
+        > **Channel**: {{channel.name}} (<#{{channel.id}}>)
+        > **ID**: {{channel.id}}
+        > **Old Type**: {{old_type}}
+        > **New Type**: {{new_type}}
+  bitrate_change:
+    embed:
+      title: Channel Bitrate Changed
+      description: |-
+        > **Channel**: {{channel.name}} (<#{{channel.id}}>)
+        > **ID**: {{channel.id}}
+        > **Old Bitrate**: {{old_bitrate}}
+        > **New Bitrate**: {{new_bitrate}}
+  user_limit_change:
+    embed:
+      title: Channel User Limit Changed
+      description: |-
+        > **Channel**: {{channel.name}} (<#{{channel.id}}>)
+        > **ID**: {{channel.id}}
+        > **Old User Limit**: {{old_user_limit}}
+        > **New User Limit**: {{new_user_limit}}
+  rate_limit_change:
+    embed:
+      title: Channel Rate Limit Changed
+      description: |-
+        > **Channel**: {{channel.name}} (<#{{channel.id}}>)
+        > **ID**: {{channel.id}}
+        > **Old Rate Limit**: {{old_rate_limit}}
+        > **New Rate Limit**: {{new_rate_limit}}
+  rtc_region_change:
+    embed:
+      title: Voice Channel RTC Region Changed
+      description: |-
+        > **Channel**: {{channel.name}} (<#{{channel.id}}>)
+        > **ID**: {{channel.id}}
+        > **Old RTC Region**: {{old_rtc_region}}
+        > **New RTC Region**: {{new_rtc_region}}
+  video_quality_mode_change:
+    modes:
+      0: Auto
+      1: Full (720p)
+    embed:
+      title: Voice Channel Video Quality Mode Changed
+      description: |-
+        > **Channel**: {{channel.name}} (<#{{channel.id}}>)
+        > **ID**: {{channel.id}}
+        > **Old Video Quality Mode**: {{old_video_quality_mode}}
+        > **New Video Quality Mode**: {{new_video_quality_mode}}
+  default_archive_duration_change:
+    time:
+      60: 1 Hour
+      1440: 1 Day
+      4320: 3 Days
+      10080: 1 Week
+    embed:
+      title: Forum Channel Default Archive Duration Changed
+      description: |-
+        > **Channel**: {{channel.name}} (<#{{channel.id}}>)
+        > **ID**: {{channel.id}}
+        > **Old Default Archive Duration**: {{old_archive_duration}}
+        > **New Default Archive Duration**: {{new_archive_duration}}
+  forum_rate_limit_change:
+    embed:
+      title: Forum Channel Rate Limit Changed
+      description: |-
+        > **Channel**: {{channel.name}} (<#{{channel.id}}>)
+        > **ID**: {{channel.id}}
+        > **Old Rate Limit**: {{old_rate_limit}}
+        > **New Rate Limit**: {{new_rate_limit}}
+  forum_default_thread_rate_limit_change:
+    embed:
+      title: Forum Channel Default Thread Rate Limit Changed
+      description: |-
+        > **Channel**: {{channel.name}} (<#{{channel.id}}>)
+        > **ID**: {{channel.id}}
+        > **Old Rate Limit**: {{old_rate_limit}}
+        > **New Rate Limit**: {{new_rate_limit}}
+  forum_default_reaction_emoji_change:
+    embed:
+      title: Forum Channel Default Reaction Emoji Changed
+      description: |-
+        > **Channel**: {{channel.name}} (<#{{channel.id}}>)
+        > **ID**: {{channel.id}}
+        > **Old Reaction Emoji**: {{old_reaction_emoji}}
+        > **New Reaction Emoji**: {{new_reaction_emoji}}
+  forum_default_sort_order_change:
+    modes:
+      0: Latest Activity
+      1: Creation Date
+  forum_available_tags_change:
+    added:
+      embed:
+        title: Forum Channel Available Tags Added
+        description: |-
+          > **Channel**: {{channel.name}} (<#{{channel.id}}>)
+          > **ID**: {{channel.id}}
+          > **Name**: {{tag_name}}
+          > **Moderation Only**: {{tag_moderation_only}}
+          > **Emoji**: {{tag_emoji}}
+    removed:
+      embed:
+        title: Forum Channel Available Tags Removed
+        description: |-
+          > **Channel**: {{channel.name}} (<#{{channel.id}}>)
+          > **ID**: {{channel.id}}  
+          > **Name**: {{tag_name}}
+          > **Moderation Only**: {{tag_moderation_only}}
+          > **Emoji**: {{tag_emoji}}
+    updated:
+      embed:
+        title: Forum Channel Available Tags Updated
+        description: |-
+          > **Channel**: {{channel.name}} (<#{{channel.id}}>)
+          > **ID**: {{channel.id}}
+          > **Name**: ~~{{old_tag_name}}~~ -> {{new_tag_name}}
+          > **Moderation Only**: ~~{{old_tag_moderation_only}}~~ -> {{new_tag_moderation_only}}
+          > **Emoji**: ~~{{old_tag_emoji}}~~ -> {{new_tag_emoji}}
+  forum_default_forum_layout_change:
+    layouts:
+      0: Not Set
+      1: List View
+      2: Gallery View
+    embed:
+      title: Forum Channel Default Forum Layout Changed
+      description: |-
+        > **Channel**: {{channel.name}} (<#{{channel.id}}>)
+        > **ID**: {{channel.id}}
+        > **Old Default Forum Layout**: {{old_layout}}
+        > **New Default Forum Layout**: {{new_layout}},
+  forum_nsfw_change:
+    embed:
+      title: Forum Channel NSFW Status Changed
+      description: |-
+        > **Channel**: {{channel.name}} (<#{{channel.id}}>)
+        > **ID**: {{channel.id}}
+        > **Old Status**: {{old_nsfw}}
+        > **New Status**: {{new_nsfw}}
 guildBanAdd:
   embed:
     title: User Banned From Server
