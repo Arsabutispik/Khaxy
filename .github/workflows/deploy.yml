@@ -72,6 +72,27 @@ jobs:
           echo "Timed out waiting for check runs to complete."
           exit 1
 
+      - name: Create deployment on GitHub
+        id: create_deployment
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo '{
+            "ref": "'"${{ github.event.workflow_run.head_sha }}"'",
+            "environment": "production",
+            "auto_merge": false
+          }' | gh api -X POST /repos/${{ github.repository }}/deployments --input - --jq '.id' > deployment_id.txt
+          echo "deployment_id=$(cat deployment_id.txt)" >> $GITHUB_OUTPUT
+
+      # 🔍 Debug: list all deployments for this repo
+      - name: Debug - List recent deployments
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "=== Recent deployments for ${{ github.repository }} ==="
+          gh api /repos/${{ github.repository }}/deployments \
+            --jq '[.[] | {id, ref, environment, creator: .creator.login, created_at}]'
+
       - name: Find existing GitHub deployment
         id: find_deployment
         env:
