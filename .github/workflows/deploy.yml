@@ -72,44 +72,21 @@ jobs:
           echo "Timed out waiting for check runs to complete."
           exit 1
 
-      - name: Create deployment on GitHub
-        id: create_deployment
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          echo '{
-            "ref": "'"${{ github.event.workflow_run.head_sha }}"'",
-            "environment": "production",
-            "auto_merge": false
-          }' | gh api -X POST /repos/${{ github.repository }}/deployments --input - --jq '.id' > deployment_id.txt
-          echo "deployment_id=$(cat deployment_id.txt)" >> $GITHUB_OUTPUT
-
-      # 🔍 Debug: list all deployments for this repo
-      - name: Debug - List recent deployments
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          echo "=== Recent deployments for ${{ github.repository }} ==="
-          gh api /repos/${{ github.repository }}/deployments \
-            --jq '[.[] | {id, ref, environment, creator: .creator.login, created_at}]'
-
-      - name: Find existing GitHub deployment
+      - name: Find existing deployment
         id: find_deployment
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
           COMMIT_SHA: ${{ github.event.workflow_run.head_sha }}
         run: |
-          DEPLOY_ID=$(gh api \
-            /repos/$REPO/deployments \
-            --jq '.[] | select(.ref == env.COMMIT_SHA and .environment == "production") | .id' \
-            | head -n 1)
-          
+          DEPLOY_ID=$(gh api /repos/$REPO/deployments \
+            --jq '[.[] | select(.ref == env.COMMIT_SHA and .environment == "production")] | first | .id')
+
           if [ -z "$DEPLOY_ID" ]; then
             echo "❌ No existing deployment found for $COMMIT_SHA in production"
             exit 1
           fi
-          
+
           echo "deployment_id=$DEPLOY_ID" >> $GITHUB_OUTPUT
 
       - name: Deploy to VPS
@@ -170,8 +147,8 @@ jobs:
 
           echo "Checking PM2 logs for recent errors..."
           if tail -n 50 /root/.pm2/logs/discord-bot-error.log | grep -i "error"; then
-          echo "❌ Error found in recent PM2 logs"
-          exit 1
+            echo "❌ Error found in recent PM2 logs"
+            exit 1
           fi
 
           echo "Saving PM2 process list..."
@@ -185,14 +162,6 @@ jobs:
         run: |
           gh api -X POST /repos/${{ github.repository }}/deployments/${{ steps.find_deployment.outputs.deployment_id }}/statuses \
           -f state=success
-
-      - name: Mark deployment as failed
-        if: failure()
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh api -X POST /repos/${{ github.repository }}/deployments/${{ steps.find_deployment.outputs.deployment_id }}/statuses \
-          -f state=failure
 
       - name: Rollback on failure
         if: failure()
@@ -223,3 +192,11 @@ jobs:
 
             sudo systemctl restart discord-bot.service
           EOF
+
+      - name: Mark deployment as failed
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api -X POST /repos/${{ github.repository }}/deployments/${{ steps.find_deployment.outputs.deployment_id }}/statuses \
+          -f state=failure
