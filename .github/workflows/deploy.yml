@@ -72,17 +72,24 @@ jobs:
           echo "Timed out waiting for check runs to complete."
           exit 1
 
-      - name: Create deployment on GitHub
-        id: create_deployment
+      - name: Find existing GitHub deployment
+        id: find_deployment
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          COMMIT_SHA: ${{ github.event.workflow_run.head_sha }}
         run: |
-          echo '{
-            "ref": "'"${{ github.event.workflow_run.head_sha }}"'",
-            "environment": "production",
-            "auto_merge": false
-          }' | gh api -X POST /repos/${{ github.repository }}/deployments --input - --jq '.id' > deployment_id.txt
-          echo "deployment_id=$(cat deployment_id.txt)" >> $GITHUB_OUTPUT
+          DEPLOY_ID=$(gh api \
+            /repos/$REPO/deployments \
+            --jq '.[] | select(.ref == env.COMMIT_SHA and .environment == "production") | .id' \
+            | head -n 1)
+          
+          if [ -z "$DEPLOY_ID" ]; then
+            echo "❌ No existing deployment found for $COMMIT_SHA in production"
+            exit 1
+          fi
+          
+          echo "deployment_id=$DEPLOY_ID" >> $GITHUB_OUTPUT
 
       - name: Deploy to VPS
         id: deploy_to_vps
@@ -155,8 +162,16 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh api -X POST /repos/${{ github.repository }}/deployments/${{ steps.create_deployment.outputs.deployment_id }}/statuses \
+          gh api -X POST /repos/${{ github.repository }}/deployments/${{ steps.find_deployment.outputs.deployment_id }}/statuses \
           -f state=success
+
+      - name: Mark deployment as failed
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api -X POST /repos/${{ github.repository }}/deployments/${{ steps.find_deployment.outputs.deployment_id }}/statuses \
+          -f state=failure
 
       - name: Rollback on failure
         if: failure()
@@ -187,11 +202,3 @@ jobs:
 
             sudo systemctl restart discord-bot.service
           EOF
-
-      - name: Mark deployment as failed
-        if: failure()
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh api -X POST /repos/${{ github.repository }}/deployments/${{ steps.create_deployment.outputs.deployment_id }}/statuses \
-          -f state=failure
