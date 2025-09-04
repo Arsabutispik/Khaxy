@@ -77,16 +77,15 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
-          COMMIT_SHA: ${{ github.event.workflow_run.head_sha }}
         run: |
           DEPLOY_ID=$(gh api /repos/$REPO/deployments \
-            --jq '[.[] | select(.ref == env.COMMIT_SHA and .environment == "production")] | first | .id')
-
+            --jq '[.[] | select(.environment == "production")] | first | .id')
+          
           if [ -z "$DEPLOY_ID" ]; then
-            echo "❌ No existing deployment found for $COMMIT_SHA in production"
+            echo "❌ No existing deployment found for production"
             exit 1
           fi
-
+          
           echo "deployment_id=$DEPLOY_ID" >> $GITHUB_OUTPUT
 
       - name: Deploy to VPS
