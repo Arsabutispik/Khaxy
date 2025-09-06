@@ -30,10 +30,10 @@ export default {
           emoji_animated: emoji.animated
             ? emoji.client.allEmojis.get(emoji.client.config.emojis.confirm.id)?.format
             : emoji.client.allEmojis.get(emoji.client.config.emojis.reject.id)?.format,
-          timestamp: time(emoji.createdTimestamp, TimestampStyles.RelativeTime),
+          timestamp: time(emoji.createdAt, TimestampStyles.RelativeTime),
         }),
       )
-      .setThumbnail(emoji.imageURL())
+      .setThumbnail(emoji.animated ? emoji.imageURL({ extension: "gif" }) : emoji.imageURL())
       .setTimestamp();
     if (logEntry?.target?.id === emoji.id) {
       embed.setFooter({
