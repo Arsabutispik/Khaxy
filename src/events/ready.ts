@@ -43,6 +43,10 @@ export default {
         name: "edit",
         ...client.config.emojis.edit,
       },
+      {
+        name: "infinity",
+        ...client.config.emojis.infinity,
+      },
     ];
     await loadEmojis(client, emojis);
     const messages = client.config.activity.messages;

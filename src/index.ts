@@ -29,6 +29,7 @@ const client = new Client({
     GatewayIntentBits.DirectMessages,
     GatewayIntentBits.MessageContent,
     GatewayIntentBits.AutoModerationExecution,
+    GatewayIntentBits.GuildExpressions,
   ],
   partials: [Partials.Channel, Partials.Message],
 });
