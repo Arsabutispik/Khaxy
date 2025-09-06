@@ -240,6 +240,24 @@ emojiCreate:
       > **ID**: {{emoji.id}}
       > **Animated**: {{emoji_animated}}
       > **Created At**: {{timestamp}}
+emojiDelete:
+  unknown_executor: Unknown Executor
+  embed:
+    title: Emoji Deleted
+    description: |-
+      > **Emoji**: {{emoji.name}}
+      > **ID**: {{emoji.id}}
+      > **Animated**: {{emoji_animated}}
+      > **Deleted At**: {{timestamp}}
+emojiUpdate:
+  unknown_executor: Unknown Executor
+  name_change:
+    embed:
+      title: Emoji Name Changed
+      description: |-
+        > **ID**: {{emoji.id}}
+        > **Old Name**: {{old_name}}
+        > **New Name**: {{new_name}}
 guildBanAdd:
   embed:
     title: User Banned From Server
