@@ -271,6 +271,11 @@ log_config:
     description: The channel where channel update logs will be sent.
     unset: Channel Logs channel has been removed.
     set: "Channel Logs channel has been set to {{channel}}."
+  emoji_logs_channel_id:
+    label: Set Emoji Logs Channel
+    description: The channel where emoji update logs will be sent.
+    unset: Emoji Logs channel has been removed.
+    set: "Emoji Logs channel has been set to {{channel}}."
 mod_mail_log:
   initial: >
     # Mod-mail thread #{{thread_id}} with {{user.tag}} {{user.id}} started at
