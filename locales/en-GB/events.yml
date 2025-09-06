@@ -101,7 +101,7 @@ channelUpdate:
         > **New Type**: {{new_type}}
   bitrate_change:
     embed:
-      title: Channel Bitrate Changed
+      title: Voice Channel Bitrate Changed
       description: |-
         > **Channel**: {{channel.name}} (<#{{channel.id}}>)
         > **ID**: {{channel.id}}
@@ -113,8 +113,8 @@ channelUpdate:
       description: |-
         > **Channel**: {{channel.name}} (<#{{channel.id}}>)
         > **ID**: {{channel.id}}
-        > **Old User Limit**: {{old_user_limit}}
-        > **New User Limit**: {{new_user_limit}}
+        > **Old User Limit**: {{old_user_limit}} users
+        > **New User Limit**: {{new_user_limit}} users
   rate_limit_change:
     embed:
       title: Channel Rate Limit Changed
@@ -124,6 +124,20 @@ channelUpdate:
         > **Old Rate Limit**: {{old_rate_limit}}
         > **New Rate Limit**: {{new_rate_limit}}
   rtc_region_change:
+    region:
+      none: Auto
+      brazil: Brazil
+      hongkong: Hong Kong
+      india: India
+      japan: Japan
+      rotterdam: Rotterdam
+      singapore: Singapore
+      southafrica: South Africa
+      sydney: Sydney
+      us-central: US Central
+      us-east: US East
+      us-south: US South
+      us-west: US West
     embed:
       title: Voice Channel RTC Region Changed
       description: |-
@@ -183,6 +197,13 @@ channelUpdate:
     modes:
       0: Latest Activity
       1: Creation Date
+    embed:
+      title: Forum Default Sort Order Changed
+      description: |-
+        > **Channel**: {{channel.name}} (<#{{channel.id}}>)
+        > **ID**: {{channel.id}}
+        > **Old Sort Order**: {{old_sort_order}}
+        > **New Sort Order**: {{new_sort_order}}
   forum_available_tags_change:
     added:
       embed:

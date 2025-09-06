@@ -45,8 +45,22 @@ channelDelete:
     "15": Forum Kanalı
     "16": Medya Kanalı
 channelUpdate:
+  channel_types:
+    "0": Metin Kanalı
+    "1": DM Kanalı
+    "2": Ses Kanalı
+    "3": Grup DM Kanalı
+    "4": Kategori Kanalı
+    "5": Haber Kanalı
+    "10": Haber İleti Kanalı
+    "11": Genel İleti Kanalı
+    "12": Özel İleti Kanalı
+    "13": Sahne Kanalı
+    "14": Dizin Kanalı
+    "15": Forum Kanalı
+    "16": Medya Kanalı
+  unknown_executor: Bilinmeyen Yetkili
   name_change:
-    unknown_executor: Bilinmeyen Yetkili
     embed:
       title: Kanal Adı Değiştirildi
       description: |-
@@ -55,7 +69,6 @@ channelUpdate:
         > **Eski Kanal Adı**: {{old_name}}
         > **Yeni Kanal Adı**: {{new_name}}
   topic_change:
-    unknown_executor: Bilinmeyen Yetkili
     embed:
       title: Kanal Konusu Değiştirildi
       description: |-
@@ -64,7 +77,6 @@ channelUpdate:
         > **Eski Konu**: {{old_topic}}
         > **Yeni Konu**: {{new_topic}}
   nsfw_change:
-    unknown_executor: Bilinmeyen Yetkili
     embed:
       title: Kanal NSFW Durumu Değiştirildi
       description: |-
@@ -73,13 +85,200 @@ channelUpdate:
         > **Eski Durum**: {{old_nsfw}}
         > **Yeni Durum**: {{new_nsfw}}
   permissions_change:
-    unknown_executor: Bilinmeyen Yetkili
     embed:
       title: Kanal İzinleri Değiştirildi
       description: |-
         > **Kanal**: {{channel.name}} (<#{{channel.id}}>)
         > **ID**: {{channel.id}}
         > **Değiştirilen İzinler**: {{changes}}
+  type_change:
+    embed:
+      title: Kanal Tipi Değiştirildi
+      description: |-
+        > **Kanal**: {{channel.name}} (<#{{channel.id}}>)
+        > **ID**: {{channel.id}}
+        > **Eski Tip**: {{old_type}}
+        > **Yeni Tip**: {{new_type}}
+  bitrate_change:
+    embed:
+      title: Ses Kanalı Bithızı Değiştirildi
+      description: |-
+        > **Kanal**: {{channel.name}} (<#{{channel.id}}>)
+        > **ID**: {{channel.id}}
+        > **Eski Bithızı**: {{old_bitrate}}
+        > **Yeni Bithızı**: {{new_bitrate}}
+  user_limit_change:
+    embed:
+      title: Ses Kanalı Kullanıcı Limiti Değiştirildi
+      description: |-
+        > **Kanal**: {{channel.name}} (<#{{channel.id}}>)
+        > **ID**: {{channel.id}}
+        > **Eski Kullanıcı Limiti**: {{old_user_limit}} kullanıcı
+        > **Yeni Kullanıcı Limiti**: {{new_user_limit}} kullanıcı
+  rate_limit_change:
+    embed:
+      title: Kanal Yavaş Mod Değiştirildi
+      description: |-
+        > **Kanal**: {{channel.name}} (<#{{channel.id}}>)
+        > **ID**: {{channel.id}}
+        > **Eski Yavaş Mod Süresi**: {{old_rate_limit}}
+        > **Yeni Yavaş Mod Süresi**: {{new_rate_limit}}
+  rtc_region_change:
+    region:
+      none: Otomatik
+      brazil: Brezilya
+      hongkong: Hong Kong
+      india: Hindistan
+      japan: Japonya
+      rotterdam: Rotterdam
+      singapore: Singapur
+      southafrica: Güney Afrika
+      sydney: Sidney
+      us-central: Merkez ABD
+      us-east: Doğu ABD
+      us-south: Güney ABD
+      us-west: Batı ABD
+    embed:
+      title: Ses Kanalı RTC Bölgesi Değiştirildi
+      description: |-
+        > **Kanal**: {{channel.name}} (<#{{channel.id}}>)
+        > **ID**: {{channel.id}}
+        > **Eski RTC Bölgesi**: {{old_rtc_region}}
+        > **Yeni RTC Bölgesi**: {{new_rtc_region}}
+  video_quality_mode_change:
+    modes:
+      0: Otomatik
+      1: Tam (720p)
+    embed:
+      title: Ses Kanalı Görüntü Kalitesi Değiştirildi
+      description: |-
+        > **Kanal**: {{channel.name}} (<#{{channel.id}}>)
+        > **ID**: {{channel.id}}
+        > **Eski Görüntü Kalitesi**: {{old_video_quality_mode}}
+        > **Yeni Görüntü Kalitesi**: {{new_video_quality_mode}}
+  default_archive_duration_change:
+    time:
+      60: 1 Saat
+      1440: 1 Gün
+      4320: 3 Gün
+      10080: 1 Hafta
+    embed:
+      title: Forum Kanalı Varsayılan Arşiv Süresi Değişti
+      description: |-
+        > **Kanal**: {{channel.name}} (<#{{channel.id}}>)
+        > **ID**: {{channel.id}}
+        > **Eski Varsayılan Arşiv Süresi**: {{old_archive_duration}}
+        > **Yeni Varsayılan Arşiv Süresi**: {{new_archive_duration}}
+  forum_rate_limit_change:
+    embed:
+      title: Forum Kanalı Gönderme Yavaş Mod Süresi Değiştirildi
+      description: |-
+        > **Kanal**: {{channel.name}} (<#{{channel.id}}>)
+        > **ID**: {{channel.id}}
+        > **Eski Yavaş Mod Süresi**: {{old_rate_limit}}
+        > **Yeni Yavaş Mod Süresi**: {{new_rate_limit}}
+  forum_default_thread_rate_limit_change:
+    embed:
+      title: Forum Kanalı Mesaj Yavaş Mod Süresi Değiştirildi
+      description: |-
+        > **Kanal**: {{channel.name}} (<#{{channel.id}}>)
+        > **ID**: {{channel.id}}
+        > **Eski Yavaş Mod Süresi**: {{old_rate_limit}}
+        > **Yeni Yavaş Mod Süresi**: {{new_rate_limit}}
+  forum_default_reaction_emoji_change:
+    embed:
+      title: Forum Kanalı Varsayılan Tepki Değiştirildi
+      description: |-
+        > **Kanal**: {{channel.name}} (<#{{channel.id}}>)
+        > **ID**: {{channel.id}}
+        > **Eski Tepki**: {{old_reaction_emoji}}
+        > **Yeni Tepki**: {{new_reaction_emoji}}
+  forum_default_sort_order_change:
+    modes:
+      0: Son Etkinlik
+      1: Oluşturma Zamanı
+    embed:
+      title: Forum Kanalı Sırlama Ölçütü Değiştirildi
+      description: |-
+        > **Kanal**: {{channel.name}} (<#{{channel.id}}>)
+        > **ID**: {{channel.id}}
+        > **Eski Sıralama Ölçütü**: {{old_sort_order}}
+        > **Yeni Sıralama Ölçütü**: {{new_sort_order}}
+  forum_available_tags_change:
+    added:
+      embed:
+        title: Forum Kanalı Etiket Eklendi
+        description: |-
+          > **Kanal**: {{channel.name}} (<#{{channel.id}}>)
+          > **ID**: {{channel.id}}
+          > **İsim**: {{tag_name}}
+          > **Moderatörlere Özel**: {{tag_moderation_only}}
+          > **Emoji**: {{tag_emoji}}
+    removed:
+      embed:
+        title: Forum Kanalı Etiket Silindi
+        description: |-
+          > **Kanal**: {{channel.name}} (<#{{channel.id}}>)
+          > **ID**: {{channel.id}}
+          > **İsim**: {{tag_name}}
+          > **Moderatörlere Özel**: {{tag_moderation_only}}
+          > **Emoji**: {{tag_emoji}}
+    updated:
+      embed:
+        title: Forum Kanalı Etiket Güncellendi
+        description: |-
+          > **Kanal**: {{channel.name}} (<#{{channel.id}}>)
+          > **ID**: {{channel.id}}
+          > **İsim**: ~~{{old_tag_name}}~~ -> {{new_tag_name}}
+          > **Moderatörlere Özel**: ~~{{old_tag_moderation_only}}~~ -> {{new_tag_moderation_only}}
+          > **Emoji**: ~~{{old_tag_emoji}}~~ -> {{new_tag_emoji}}
+  forum_default_forum_layout_change:
+    layouts:
+      0: Ayarlanmamış
+      1: Liste Görünümü
+      2: Galeri Görünümü
+    embed:
+      title: Forum Kanalı Varsayılan Düzen Değiştirildi
+      description: |-
+        > **Kanal**: {{channel.name}} (<#{{channel.id}}>)
+        > **ID**: {{channel.id}}
+        > **Eski Düzen**: {{old_layout}}
+        > **Yeni Düzen**: {{new_layout}},
+  forum_nsfw_change:
+    embed:
+      title: Forum Kanalı NSFW Durumu Değiştirildi
+      description: |-
+        > **Kanal**: {{channel.name}} (<#{{channel.id}}>)
+        > **ID**: {{channel.id}}
+        > **Eski Durum**: {{old_nsfw}}
+        > **Yeni Durum**: {{new_nsfw}}
+emojiCreate:
+  unknown_executor: Bilinmeyen Yetkili
+  embed:
+    title: Emoji Oluşturulfu
+    description: |-
+      > **Emoji**: {{emoji.name}}
+      > **ID**: {{emoji.id}}
+      > **Animasyon**: {{emoji_animated}}
+      > **Oluşturulma Tarihi**: {{timestamp}}
+emojiDelete:
+  unknown_executor: Bilinmeyen Yetkili
+  embed:
+    title: Emoji Silindi
+    description: |-
+      > **Emoji**: {{emoji.name}}
+      > **ID**: {{emoji.id}}
+      > **Animasyon**: {{emoji_animated}}
+      > **Oluşturulma Tarihi**: {{timestamp}}
+emojiUpdate:
+  unknown_executor: Bilinmeyen Yetkili
+  name_change:
+    embed:
+      title: Emoji İsmi Değiştirildi
+      description: |-
+        > **ID**: {{emoji.id}}
+        > **Eski İsim**: {{old_name}}
+        > **Yeni İsim**: {{new_name}}
 guildBanAdd:
   embed:
     title: Kullanıcı Sunucudan Yasaklandı

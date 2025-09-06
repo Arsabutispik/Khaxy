@@ -268,6 +268,11 @@ log_config:
     description: Kanal üzerinde yapılan değişikliklerin kaydedildiği kanal
     unset: Kanal günlükleri kanalı kaldırıldı.
     set: "Kanal günlükleri kanalı {{channel}} olarak ayarlandı."
+  emoji_logs_channel_id:
+    label: Emoji Günlükleri Kanalını Ayarla
+    description: Emojiler üzerinde yapılan değişikliklerin kaydedildiği kanal
+    unset: Emoji günlükleri kanalı kaldırıldı.
+    set: "Emoji günlükleri kanalı {{channel}} olarak ayarlandı."
 mod_mail_log:
   initial: >-
     # {{user.tag}} ({{user.id}}) ile olan modmail konuşması #{{thread_id}}

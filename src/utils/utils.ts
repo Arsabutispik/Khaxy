@@ -1,6 +1,7 @@
 import { ActivityType, Client, Guild, GuildForumTagEmoji, TextChannel } from "discord.js";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration.js";
+import "dayjs/locale/tr.js";
 import { updateGuildConfig } from "@database";
 /**
  * Pauses execution for a specified number of milliseconds.
@@ -46,21 +47,7 @@ function toStringId(id: bigint | string | null): string | "0" {
 }
 
 dayjs.extend(duration);
-/**
- * Formats a duration in milliseconds to a string.
- * @param ms - The duration in milliseconds.
- * @returns A formatted string representing the duration.
- */
-function formatDuration(ms: number): string {
-  const d = dayjs.duration(ms);
-  const hours = d.hours();
-  const minutes = d.minutes().toString().padStart(2, "0");
-  const seconds = d.seconds().toString().padStart(2, "0");
 
-  return hours > 0
-    ? `${hours}:${minutes}:${seconds}` // e.g., 1:02:15
-    : `${minutes}:${seconds}`; // e.g., 02:15
-}
 /**
  * Trims a string to a specified maximum length, ensuring it does not cut off words.
  * If the string is longer than the maximum length, it will be trimmed and an ellipsis will be added.
@@ -157,6 +144,33 @@ function formatUpdatedTagEmoji(guild: Guild, emoji: GuildForumTagEmoji | string 
 
   return "N/A";
 }
+
+function formatUnit(value: number, unit: "s" | "m" | "h", locale = dayjs.locale()) {
+  const rel = dayjs.Ls[locale].relativeTime;
+
+  let template: string;
+  if (value === 1) {
+    // singular key (s, m, h)
+    template = rel[unit] as string;
+    return template.replace(/^\D+/, "1");
+  } else {
+    // plural key (ss, mm, hh)
+    const key = (unit + unit) as keyof typeof rel;
+    template = rel[key] as string;
+    return template.replace("%d", String(value));
+  }
+}
+function formatDuration(ms: number, locale = dayjs.locale()) {
+  const d = dayjs.duration(ms);
+  const parts: string[] = [];
+
+  if (d.hours()) parts.push(formatUnit(d.hours(), "h", locale));
+  if (d.minutes()) parts.push(formatUnit(d.minutes(), "m", locale));
+  if (d.seconds()) parts.push(formatUnit(d.seconds(), "s", locale));
+
+  return parts.join(", ");
+}
+
 export {
   sleep,
   missingPermissionsAsString,

@@ -4,6 +4,7 @@ import { getGuildConfig } from "@database";
 import {
   diffGuildForumTags,
   diffOverwrites,
+  formatDuration,
   formatUpdatedTagEmoji,
   returnWebhook,
   toStringId,
@@ -206,8 +207,14 @@ export default {
         .setDescription(
           t("user_limit_change.embed.description", {
             channel: newChannel,
-            old_user_limit: oldChannel.userLimit,
-            new_user_limit: newChannel.userLimit,
+            old_user_limit:
+              oldChannel.userLimit > 0
+                ? oldChannel.userLimit
+                : newChannel.client.allEmojis.get(newChannel.client.config.emojis.infinity.id)?.format,
+            new_user_limit:
+              newChannel.userLimit > 0
+                ? newChannel.userLimit
+                : newChannel.client.allEmojis.get(newChannel.client.config.emojis.infinity.id)?.format,
           }),
         )
         .setThumbnail(newChannel.guild.iconURL() ?? null)
@@ -232,8 +239,8 @@ export default {
         .setDescription(
           t("rate_limit_change.embed.description", {
             channel: newChannel,
-            old_rate_limit: `${oldChannel.rateLimitPerUser}s`,
-            new_rate_limit: `${newChannel.rateLimitPerUser}s`,
+            old_rate_limit: formatDuration(oldChannel.rateLimitPerUser!, guildConfig.language),
+            new_rate_limit: formatDuration(newChannel.rateLimitPerUser!, guildConfig.language),
           }),
         )
         .setThumbnail(newChannel.guild.iconURL() ?? null)
