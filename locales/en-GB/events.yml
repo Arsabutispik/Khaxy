@@ -231,6 +231,15 @@ channelUpdate:
         > **ID**: {{channel.id}}
         > **Old Status**: {{old_nsfw}}
         > **New Status**: {{new_nsfw}}
+emojiCreate:
+  unknown_executor: Unknown Executor
+  embed:
+    title: Emoji Created
+    description: |-
+      > **Emoji**: {{emoji.name}}
+      > **ID**: {{emoji.id}}
+      > **Animated**: {{emoji_animated}}
+      > **Created At**: {{timestamp}}
 guildBanAdd:
   embed:
     title: User Banned From Server
