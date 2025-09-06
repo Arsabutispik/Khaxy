@@ -1,5 +1,5 @@
 import { EventBase } from "@customTypes";
-import { AuditLogEvent, ChannelType, EmbedBuilder, Events } from "discord.js";
+import { AuditLogEvent, ChannelType, EmbedBuilder, Events, time, TimestampStyles } from "discord.js";
 import { getGuildConfig } from "@database";
 import { returnWebhook, toStringId, WebhookType } from "@utils";
 import { logger } from "@lib";
@@ -30,7 +30,7 @@ export default {
           emoji_animated: emoji.animated
             ? emoji.client.allEmojis.get(emoji.client.config.emojis.confirm.id)?.format
             : emoji.client.allEmojis.get(emoji.client.config.emojis.reject.id)?.format,
-          timestamp: emoji.createdAt.toLocaleString(),
+          timestamp: time(emoji.createdTimestamp, TimestampStyles.RelativeTime),
         }),
       )
       .setThumbnail(emoji.imageURL())
