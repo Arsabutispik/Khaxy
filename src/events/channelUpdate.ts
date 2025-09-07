@@ -149,7 +149,6 @@ export default {
 
     const oldPerms = normalizeOverwrites(oldChannel);
     const newPerms = normalizeOverwrites(newChannel);
-    console.log(oldPerms, newPerms);
     if (!isDeepStrictEqual(oldPerms, newPerms)) {
       embed
         .setColor("Yellow")
