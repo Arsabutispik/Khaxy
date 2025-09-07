@@ -1,5 +1,18 @@
 import { EventBase } from "@customTypes";
-import { Events, ChannelType, EmbedBuilder, AuditLogEvent, GuildForumTagEmoji } from "discord.js";
+import {
+  Events,
+  ChannelType,
+  EmbedBuilder,
+  AuditLogEvent,
+  GuildForumTagEmoji,
+  CategoryChannel,
+  NewsChannel,
+  StageChannel,
+  TextChannel,
+  VoiceChannel,
+  ForumChannel,
+  MediaChannel,
+} from "discord.js";
 import { getGuildConfig } from "@database";
 import {
   diffGuildForumTags,
@@ -121,20 +134,21 @@ export default {
         });
       });
     }
-    const oldPerms = oldChannel.permissionOverwrites.cache.map((po) => ({
-      id: po.id,
-      type: po.type,
-      allow: po.allow.bitfield,
-      deny: po.deny.bitfield,
-    }));
+    function normalizeOverwrites(
+      channel: CategoryChannel | NewsChannel | StageChannel | TextChannel | VoiceChannel | ForumChannel | MediaChannel,
+    ) {
+      return channel.permissionOverwrites.cache
+        .map((po) => ({
+          id: po.id,
+          type: po.type,
+          allow: po.allow.bitfield.toString(),
+          deny: po.deny.bitfield.toString(),
+        }))
+        .sort((a, b) => a.id.localeCompare(b.id));
+    }
 
-    const newPerms = newChannel.permissionOverwrites.cache.map((po) => ({
-      id: po.id,
-      type: po.type,
-      allow: po.allow.bitfield,
-      deny: po.deny.bitfield,
-    }));
-    console.log(oldPerms, newPerms);
+    const oldPerms = normalizeOverwrites(oldChannel);
+    const newPerms = normalizeOverwrites(newChannel);
     if (!isDeepStrictEqual(oldPerms, newPerms)) {
       embed
         .setColor("Yellow")
