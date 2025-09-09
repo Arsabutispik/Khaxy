@@ -28,7 +28,7 @@ export default {
         guild: ban.guild,
         action: "BAN",
         user: ban.user,
-        reason: ban.reason || t("no_reason"),
+        reason: ban.reason || logEntry?.reason || t("no_reason"),
         moderator: logEntry?.executor ?? null,
       },
       ban.client,
@@ -37,7 +37,7 @@ export default {
       guild: ban.guild,
       member: ban.user.id,
       type: InfractionType.BAN,
-      reason: ban.reason || t("no_reason"),
+      reason: ban.reason || logEntry?.reason || t("no_reason"),
       moderator: logEntry?.executor?.id || ban.client.user.id,
     });
 
@@ -62,7 +62,7 @@ export default {
       .addFields([
         {
           name: t("embed.fields.reason"),
-          value: ban.reason || t("no_reason"),
+          value: ban.reason || logEntry?.reason || t("no_reason"),
         },
       ])
       .setFooter({
