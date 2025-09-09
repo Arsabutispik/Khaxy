@@ -6,7 +6,7 @@ import {
   MessageFlagsBitField,
   StringSelectMenuBuilder,
 } from "discord.js";
-import { getGuildConfig } from "@database";
+import { getGuildConfig, updateGuildConfig } from "@database";
 import { dynamicChannel } from "./register-config.js";
 import { toStringId } from "@utils";
 
@@ -95,26 +95,32 @@ export async function logConfig(interaction: ChatInputCommandInteraction<"cached
   switch (messageComponent.values[0]) {
     case "message_logs_channel_id":
       client.webhooks.delete(toStringId(guildConfig.message_logs_webhook_id));
+      await updateGuildConfig(interaction.guildId, { message_logs_webhook_id: null });
       await dynamicChannel("message_logs_channel_id", messageComponent, guildConfig, t);
       break;
     case "guild_member_logs_channel_id":
       client.webhooks.delete(toStringId(guildConfig.guild_member_logs_webhook_id));
+      await updateGuildConfig(interaction.guildId, { guild_member_logs_webhook_id: null });
       await dynamicChannel("guild_member_logs_channel_id", messageComponent, guildConfig, t);
       break;
     case "guild_logs_channel_id":
       client.webhooks.delete(toStringId(guildConfig.guild_logs_webhook_id));
+      await updateGuildConfig(interaction.guildId, { guild_logs_webhook_id: null });
       await dynamicChannel("guild_logs_channel_id", messageComponent, guildConfig, t);
       break;
     case "voice_logs_channel_id":
       client.webhooks.delete(toStringId(guildConfig.voice_logs_webhook_id));
+      await updateGuildConfig(interaction.guildId, { voice_logs_webhook_id: null });
       await dynamicChannel("voice_logs_channel_id", messageComponent, guildConfig, t);
       break;
     case "channel_logs_channel_id":
       client.webhooks.delete(toStringId(guildConfig.channel_logs_webhook_id));
+      await updateGuildConfig(interaction.guildId, { channel_logs_webhook_id: null });
       await dynamicChannel("channel_logs_channel_id", messageComponent, guildConfig, t);
       break;
     case "emoji_logs_channel_id":
       client.webhooks.delete(toStringId(guildConfig.emoji_logs_webhook_id));
+      await updateGuildConfig(interaction.guildId, { emoji_logs_webhook_id: null });
       await dynamicChannel("emoji_logs_channel_id", messageComponent, guildConfig, t);
       break;
   }
