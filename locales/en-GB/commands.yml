@@ -354,3 +354,11 @@ purge:
     error: >-
       An error occurred while deleting the messages from the user. Please try
       again later.
+support:
+  guild_not_found: Dev Guild not found cannot create invite.
+  error: An error occurred while creating the invite. Please try again later.
+  embed:
+    title: Support Links
+    fields:
+      support_server: Support Server
+      docs_site: Documentation Site

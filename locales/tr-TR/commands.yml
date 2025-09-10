@@ -337,3 +337,11 @@ purge:
   user:
     success: "{{confirm}} {{user}} tarafından gönderilen **{{count}}** mesaj silindi."
     error: Kullanıcı mesajları temizlenirken hata oluştu. Daha sonra tekrar deneyin.
+support:
+  guild_not_found: Destek sunucusu bulunamadığı için davet linki oluşturulamadı
+  error: Daveti oluşturmaya çalışırken bir hata oluştu, lütfen daha sonra tekrar deneyin.
+  embed:
+    title: Destek Linkleri
+    fields:
+      support_server: Destek Sunucusu
+      docs_site: Dokümantasyon Sitesi
