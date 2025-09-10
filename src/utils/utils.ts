@@ -33,8 +33,8 @@ function replacePlaceholders(template: string, replacements: Record<string, stri
  * @returns A string of missing permissions in a human-readable format.
  */
 function missingPermissionsAsString(client: Client, missing: string[], language: string) {
-  const t = client.i18next.getFixedT(language);
-  return missing.map((perm) => t(`permissions:${perm}`)).join(", ");
+  const t = client.i18next.getFixedT(language, "permissions");
+  return missing.map((perm) => t(`permissions.${perm}`)).join(", ");
 }
 /**
  * Converts a bigint or string to a string.
@@ -68,6 +68,7 @@ export enum WebhookType {
   VOICE_LOGS = "voice_logs_webhook_id",
   CHANNEL_LOGS = "channel_logs_webhook_id",
   EMOJI_LOGS = "emoji_logs_webhook_id",
+  ROLE_LOGS = "role_logs_webhook_id",
 }
 async function returnWebhook(
   client: Client,
