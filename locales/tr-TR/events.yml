@@ -451,6 +451,80 @@ messageUpdate:
     fields:
       oldContent: Önceden
       newContent: Sonra
+roleCreate:
+  unknown_executor: Bilinmeyen Yetkili
+  embed:
+    title: Rol Oluşturuldu
+    description: |-
+      > **Rol**: {{role.name}}
+      > **ID**: {{role.id}}
+      > **Renk**: {{role_color}}
+      > **Üyelerden Ayrı Göster**: {{role_hoist}}
+      > **Etiketlenebilir**: {{role_mentionable}}
+      > **Pozisyon**: {{role.position}}
+      > **Oluşturulma Tarihi**: {{timestamp}}
+      > **İzinler**: {{permissions}}
+roleDelete:
+  unknown_executor: Bilinmeyen Yetkili
+  embed:
+    title: Rol Silindi
+    description: |-
+      > **Rol**: {{role.name}}
+      > **ID**: {{role.id}}
+      > **Renk**: {{role_color}}
+      > **Üyelerden Ayrı Göster**: {{role_hoist}}
+      > **Etiketlenebilir**: {{role_mentionable}}
+      > **Pozisyon**: {{role.position}}
+      > **Silinme Tarihi**: {{timestamp}}
+      > **İzinler**: {{permissions}}
+roleUpdate:
+  unknown_executor: Bilinmeyen Yetkili
+  name_change:
+    embed:
+      title: Rol İsmi Değiştirildi
+      description: |-
+        > **ID**: {{role.id}}
+        > **Eski İsim**: {{old_name}}
+        > **Yeni İsim**: {{new_name}}
+  color_change:
+    embed:
+      title: Rol Rengi Değiştirildi
+      description: |-
+        > **Rol**: {{role.name}}
+        > **ID**: {{role.id}}
+        > **Eski Renk**: {{old_color}}
+        > **Yeni Renk**: {{new_color}}
+  hoist_change:
+    embed:
+      title: Rol Üyelerden Ayrı Gösterme Değiştirildi
+      description: |-
+        > **Rol**: {{role.name}}
+        > **ID**: {{role.id}}
+        > **Eski Üyelerden Ayrı Gösterme Durumu**: {{old_hoist}}
+        > **Yeni Üyelerden Ayrı Gösterme Durumu**: {{new_hoist}}
+  mentionable_change:
+    embed:
+      title: Rol Etiketlenebilirlik Durumu Değiştirildi
+      description: |-
+        > **Rol**: {{role.name}}
+        > **ID**: {{role.id}}
+        > **Eski Etiketlenebilirlik Durumu**: {{old_mentionable}}
+        > **Yeni Etiketlenebilirlik Durumu**: {{new_mentionable}}
+  permissions_change:
+    embed:
+      title: Rol İzinleri Değiştirildi
+      description: |-
+        > **Rol**: {{role.name}}
+        > **ID**: {{role.id}}
+        **Değişiklikler**: {{changes}}
+  icon_change:
+    embed:
+      title: Role İkonu Değiştirildi
+      description: |-
+        > **Rol**: {{role.name}}
+        > **ID**: {{role.id}}
+        > **Eski İkon**: {{old_icon}}
+        > **Yeni İkon**: {{new_icon}}
 voiceStateUpdate:
   unknown_executor: Bilinmeyen Yetkili
   join:

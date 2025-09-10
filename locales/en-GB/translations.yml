@@ -276,6 +276,11 @@ log_config:
     description: The channel where emoji update logs will be sent.
     unset: Emoji Logs channel has been removed.
     set: "Emoji Logs channel has been set to {{channel}}."
+  role_logs_channel_id:
+    label: Set Role Logs Channel
+    description: The channel where role update logs will be sent.
+    unset: Role Logs channel has been removed.
+    set: "Role Logs channel has been set to {{channel}}."
 mod_mail_log:
   initial: >
     # Mod-mail thread #{{thread_id}} with {{user.tag}} {{user.id}} started at

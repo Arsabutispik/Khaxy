@@ -16,7 +16,7 @@ import {
 import { getGuildConfig } from "@database";
 import {
   diffGuildForumTags,
-  diffOverwrites,
+  diffPermissions,
   formatDuration,
   formatUpdatedTagEmoji,
   returnWebhook,
@@ -156,7 +156,8 @@ export default {
         .setDescription(
           t("permissions_change.embed.description", {
             channel: newChannel,
-            changes: diffOverwrites(oldChannel.client, oldChannel, newChannel, guildConfig.language) || t("no_changes"),
+            changes:
+              diffPermissions(newChannel.client, oldChannel, newChannel, guildConfig.language) || t("no_changes"),
           }),
         )
         .setThumbnail(newChannel.guild.iconURL() ?? null)

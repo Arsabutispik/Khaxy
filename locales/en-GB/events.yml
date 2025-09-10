@@ -452,6 +452,80 @@ messageUpdate:
     fields:
       oldContent: Before
       newContent: After
+roleCreate:
+  unknown_executor: Unknown Executor
+  embed:
+    title: Role Created
+    description: |-
+      > **Role**: {{role.name}}
+      > **ID**: {{role.id}}
+      > **Color**: {{role_color}}
+      > **Hoisted**: {{role_hoist}}
+      > **Mentionable**: {{role_mentionable}}
+      > **Position**: {{role.position}}
+      > **Created At**: {{timestamp}}
+      > **Permissions**: {{permissions}}
+roleDelete:
+  unknown_executor: Unknown Executor
+  embed:
+    title: Role Deleted
+    description: |-
+      > **Role**: {{role.name}}
+      > **ID**: {{role.id}}
+      > **Color**: {{role_color}}
+      > **Hoisted**: {{role_hoist}}
+      > **Mentionable**: {{role_mentionable}}
+      > **Position**: {{role.position}}
+      > **Deleted At**: {{timestamp}}
+      > **Permissions**: {{permissions}}
+roleUpdate:
+  unknown_executor: Unknown Executor
+  name_change:
+    embed:
+      title: Role Name Changed
+      description: |-
+        > **ID**: {{role.id}}
+        > **Old Name**: {{old_name}}
+        > **New Name**: {{new_name}}
+  color_change:
+    embed:
+      title: Role Color Changed
+      description: |-
+        > **Role**: {{role.name}}
+        > **ID**: {{role.id}}
+        > **Old Color**: {{old_color}}
+        > **New Color**: {{new_color}}
+  hoist_change:
+    embed:
+      title: Role Hoisted Changed
+      description: |-
+        > **Role**: {{role.name}}
+        > **ID**: {{role.id}}
+        > **Old Hoist Status**: {{old_hoist}}
+        > **New Hoist Status**: {{new_hoist}}
+  mentionable_change:
+    embed:
+      title: Role Mentionable Changed
+      description: |-
+        > **Role**: {{role.name}}
+        > **ID**: {{role.id}}
+        > **Old Mentionable Status**: {{old_mentionable}}
+        > **New Mentionable Status**: {{new_mentionable}}
+  permissions_change:
+    embed:
+      title: Role Permissions Changed
+      description: |-
+        > **Role**: {{role.name}}
+        > **ID**: {{role.id}}
+        **Changes**: {{changes}}
+  icon_change:
+    embed:
+      title: Role Icon Changed
+      description: |-
+        > **Role**: {{role.name}}
+        > **ID**: {{role.id}}
+        > **Old Icon**: {{old_icon}}
+        > **New Icon**: {{new_icon}}
 voiceStateUpdate:
   unknown_executor: Unknown Executor
   join:
