@@ -48,11 +48,23 @@ export default {
             name: t("timeout.embed.fields.reason"),
             value: logEntry?.reason || t("timeout.no_reason"),
           },
-        ])
-        .setFooter({
+        ]);
+      if (logEntry?.target?.id === newMember.user.id) {
+        embed.setFooter({
           text: logEntry?.executor?.tag || t("unknown_executor"),
           iconURL: logEntry?.executor?.displayAvatarURL() || undefined,
         });
+        await modLog(
+          {
+            action: "TIMEOUT",
+            moderator: logEntry?.executor ?? null,
+            guild: newMember.guild,
+            user: newMember.user,
+            reason: logEntry?.reason || t("timeout.no_reason"),
+          },
+          newMember.client,
+        );
+      }
       await webhook.send({ embeds: [embed] }).catch((error) => {
         logger.log({
           level: "error",
@@ -61,16 +73,6 @@ export default {
           channelId: logChannel.id,
         });
       });
-      await modLog(
-        {
-          action: "TIMEOUT",
-          moderator: logEntry?.executor ?? null,
-          guild: newMember.guild,
-          user: newMember.user,
-          reason: logEntry?.reason || t("timeout.no_reason"),
-        },
-        newMember.client,
-      );
     }
     if (oldMember.isCommunicationDisabled() && !newMember.isCommunicationDisabled()) {
       const logEntry = await auditLogs(AuditLogEvent.MemberUpdate);
