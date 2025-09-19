@@ -274,8 +274,8 @@ export default {
     embed.setDescription(description);
     if (client.user) {
       embed.setFooter({
-        text: client.user.tag,
-        iconURL: client.user.displayAvatarURL(),
+        text: interaction.user.tag,
+        iconURL: interaction.user.displayAvatarURL(),
       });
     }
     const webhook = await returnWebhook(client, logChannel, member.guild.id, {
