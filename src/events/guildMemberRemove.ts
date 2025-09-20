@@ -1,14 +1,6 @@
 import type { EventBase } from "@customTypes";
-import {
-  AuditLogEvent,
-  ChannelType,
-  EmbedBuilder,
-  Events,
-  PermissionsBitField,
-  time,
-  TimestampStyles,
-} from "discord.js";
-import { replacePlaceholders, toStringId, modLog, returnWebhook, WebhookType } from "@utils";
+import { AuditLogEvent, ChannelType, EmbedBuilder, Events, PermissionsBitField } from "discord.js";
+import { replacePlaceholders, toStringId, modLog, returnWebhook, WebhookType, formatDuration } from "@utils";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime.js";
 import { ModMailThreadStatus } from "@constants";
@@ -85,7 +77,9 @@ export default {
             t("embed.description", {
               user: member.user,
               member_count: member.guild.memberCount.toString(),
-              timestamp: member.joinedAt ? time(member.joinedAt, TimestampStyles.RelativeTime) : t("never_joined"),
+              timestamp: member.joinedTimestamp
+                ? formatDuration(member.joinedTimestamp, guildConfig.language)
+                : t("never_joined"),
             }),
           )
           .setTimestamp();

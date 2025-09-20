@@ -21,7 +21,10 @@ export default {
       .catch(() => null);
     const logEntry = auditLogs?.entries.first();
     const t = newEmoji.client.i18next.getFixedT(guildConfig.language, "events", "emojiUpdate");
-    const embed = new EmbedBuilder().setColor("Yellow");
+    const embed = new EmbedBuilder()
+      .setColor("Yellow")
+      .setThumbnail(newEmoji.animated ? newEmoji.imageURL({ extension: "gif" }) : newEmoji.imageURL())
+      .setTimestamp();
     if (logEntry?.target.id === newEmoji.id) {
       embed.setFooter({
         text: logEntry.executor?.username ?? t("unknown_executor"),
@@ -33,17 +36,13 @@ export default {
       type: WebhookType.EMOJI_LOGS,
     });
     if (oldEmoji.name !== newEmoji.name) {
-      embed
-        .setTitle(t("name_change.embed.title"))
-        .setDescription(
-          t("name_change.embed.description", {
-            emoji: newEmoji,
-            old_name: oldEmoji.name,
-            new_name: newEmoji.name,
-          }),
-        )
-        .setThumbnail(newEmoji.animated ? newEmoji.imageURL({ extension: "gif" }) : newEmoji.imageURL())
-        .setTimestamp();
+      embed.setTitle(t("name_change.embed.title")).setDescription(
+        t("name_change.embed.description", {
+          emoji: newEmoji,
+          old_name: oldEmoji.name,
+          new_name: newEmoji.name,
+        }),
+      );
       await webhook.send({ embeds: [embed] }).catch((error) => {
         logger.log({
           level: "error",

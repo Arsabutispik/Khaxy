@@ -1,7 +1,8 @@
 import { prisma } from "@database";
 import type { guilds as Guilds } from "@prisma/client";
 
-export async function getGuildConfig(guildId: string) {
+export async function getGuildConfig(guildId: string | null | undefined = null) {
+  if (!guildId) return;
   return prisma.guilds.findUnique({
     where: { id: BigInt(guildId) },
   });

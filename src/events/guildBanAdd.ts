@@ -1,6 +1,6 @@
 import type { EventBase } from "@customTypes";
-import { AuditLogEvent, ChannelType, EmbedBuilder, Events, time } from "discord.js";
-import { addInfraction, modLog, returnWebhook, toStringId, WebhookType } from "@utils";
+import { AuditLogEvent, ChannelType, EmbedBuilder, Events } from "discord.js";
+import { addInfraction, formatDuration, modLog, returnWebhook, toStringId, WebhookType } from "@utils";
 import { logger } from "@lib";
 import { getGuildConfig } from "@database";
 import { InfractionType } from "@constants";
@@ -56,7 +56,10 @@ export default {
       .setDescription(
         t("embed.description", {
           user: ban.user,
-          timestamp: member && member.joinedAt ? time(member.joinedAt, "R") : t("never_joined"),
+          timestamp:
+            member && member.joinedTimestamp
+              ? formatDuration(member.joinedTimestamp, guildConfig.language)
+              : t("never_joined"),
         }),
       )
       .addFields([

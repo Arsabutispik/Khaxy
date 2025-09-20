@@ -48,7 +48,11 @@ export default {
       id: guildConfig.channel_logs_webhook_id,
       type: WebhookType.CHANNEL_LOGS,
     });
-    const embed = new EmbedBuilder();
+    let embeds: Array<EmbedBuilder> = [];
+    const embed = new EmbedBuilder()
+      .setColor("Yellow")
+      .setThumbnail(newChannel.guild.iconURL() ?? null)
+      .setTimestamp();
     if (logEntry?.target?.id === newChannel.id) {
       embed.setFooter({
         text: logEntry?.executor?.tag || t("unknown_executor"),
@@ -56,27 +60,14 @@ export default {
       });
     }
     if (oldChannel.name !== newChannel.name) {
-      embed
-        .setColor("Yellow")
-        .setTitle(t("name_change.embed.title"))
-        .setDescription(
-          t("name_change.embed.description", {
-            channel: newChannel,
-            old_name: oldChannel.name,
-            new_name: newChannel.name,
-          }),
-        )
-        .setThumbnail(newChannel.guild.iconURL() ?? null)
-        .setTimestamp();
-
-      await webhook.send({ embeds: [embed] }).catch((error) => {
-        logger.log({
-          level: "error",
-          error,
-          message: `Failed to send channelUpdate embed in ${newChannel.guild.name} (${newChannel.guild.id})`,
-          channelId: logChannel.id,
-        });
-      });
+      embed.setTitle(t("name_change.embed.title")).setDescription(
+        t("name_change.embed.description", {
+          channel: newChannel,
+          old_name: oldChannel.name,
+          new_name: newChannel.name,
+        }),
+      );
+      embeds.push(embed);
     }
 
     if (
@@ -86,53 +77,28 @@ export default {
       !newChannel.isVoiceBased() &&
       (oldChannel.topic || null) !== (newChannel.topic || null)
     ) {
-      embed
-        .setColor("Yellow")
-        .setTitle(t("topic_change.embed.title"))
-        .setDescription(
-          t("topic_change.embed.description", {
-            channel: newChannel,
-            old_topic: oldChannel.topic || t("no_topic"),
-            new_topic: newChannel.topic || t("no_topic"),
-          }),
-        )
-        .setThumbnail(newChannel.guild.iconURL() ?? null)
-        .setTimestamp();
-      await webhook.send({ embeds: [embed] }).catch((error) => {
-        logger.log({
-          level: "error",
-          error,
-          message: `Failed to send channelUpdate embed in ${newChannel.guild.name} (${newChannel.guild.id})`,
-          channelId: logChannel.id,
-        });
-      });
+      embed.setTitle(t("topic_change.embed.title")).setDescription(
+        t("topic_change.embed.description", {
+          channel: newChannel,
+          old_topic: oldChannel.topic || t("no_topic"),
+          new_topic: newChannel.topic || t("no_topic"),
+        }),
+      );
+      embeds.push(embed);
     }
     if (oldChannel.isTextBased() && newChannel.isTextBased() && oldChannel.nsfw !== newChannel.nsfw) {
-      embed
-        .setColor("Yellow")
-        .setTitle(t("nsfw_change.embed.title"))
-        .setDescription(
-          t("nsfw_change.embed.description", {
-            channel: newChannel,
-            old_nsfw: oldChannel.nsfw
-              ? oldChannel.client.allEmojis.get(oldChannel.client.config.emojis.confirm.id)?.format
-              : oldChannel.client.allEmojis.get(oldChannel.client.config.emojis.reject.id)?.format,
-            new_nsfw: newChannel.nsfw
-              ? newChannel.client.allEmojis.get(newChannel.client.config.emojis.confirm.id)?.format
-              : newChannel.client.allEmojis.get(newChannel.client.config.emojis.reject.id)?.format,
-          }),
-        )
-        .setThumbnail(newChannel.guild.iconURL() ?? null)
-        .setTimestamp();
-
-      await webhook.send({ embeds: [embed] }).catch((error) => {
-        logger.log({
-          level: "error",
-          error,
-          message: `Failed to send channelUpdate embed in ${newChannel.guild.name} (${newChannel.guild.id})`,
-          channelId: logChannel.id,
-        });
-      });
+      embed.setTitle(t("nsfw_change.embed.title")).setDescription(
+        t("nsfw_change.embed.description", {
+          channel: newChannel,
+          old_nsfw: oldChannel.nsfw
+            ? oldChannel.client.allEmojis.get(oldChannel.client.config.emojis.confirm.id)?.format
+            : oldChannel.client.allEmojis.get(oldChannel.client.config.emojis.reject.id)?.format,
+          new_nsfw: newChannel.nsfw
+            ? newChannel.client.allEmojis.get(newChannel.client.config.emojis.confirm.id)?.format
+            : newChannel.client.allEmojis.get(newChannel.client.config.emojis.reject.id)?.format,
+        }),
+      );
+      embeds.push(embed);
     }
     function normalizeOverwrites(
       channel: CategoryChannel | NewsChannel | StageChannel | TextChannel | VoiceChannel | ForumChannel | MediaChannel,
@@ -150,250 +116,129 @@ export default {
     const oldPerms = normalizeOverwrites(oldChannel);
     const newPerms = normalizeOverwrites(newChannel);
     if (!isDeepStrictEqual(oldPerms, newPerms)) {
-      embed
-        .setColor("Yellow")
-        .setTitle(t("permissions_change.embed.title"))
-        .setDescription(
-          t("permissions_change.embed.description", {
-            channel: newChannel,
-            changes:
-              diffPermissions(newChannel.client, oldChannel, newChannel, guildConfig.language) || t("no_changes"),
-          }),
-        )
-        .setThumbnail(newChannel.guild.iconURL() ?? null)
-        .setTimestamp();
-      await webhook.send({ embeds: [embed] }).catch((error) => {
-        logger.log({
-          level: "error",
-          error,
-          message: `Failed to send channelUpdate embed in ${newChannel.guild.name} (${newChannel.guild.id})`,
-          channelId: logChannel.id,
-        });
-      });
+      embed.setTitle(t("permissions_change.embed.title")).setDescription(
+        t("permissions_change.embed.description", {
+          channel: newChannel,
+          changes: diffPermissions(newChannel.client, oldChannel, newChannel, guildConfig.language) || t("no_changes"),
+        }),
+      );
+      embeds.push(embed);
     }
     if (oldChannel.type !== newChannel.type) {
-      embed
-        .setColor("Yellow")
-        .setTitle(t("type_change.embed.title"))
-        .setDescription(
-          t("type_change.embed.description", {
-            channel: newChannel,
-            old_type: t(`channel_types.${oldChannel.type}`),
-            new_type: t(`channel_types.${newChannel.type}`),
-          }),
-        )
-        .setThumbnail(newChannel.guild.iconURL() ?? null)
-        .setTimestamp();
-      await webhook.send({ embeds: [embed] }).catch((error) => {
-        logger.log({
-          level: "error",
-          error,
-          message: `Failed to send channelUpdate embed in ${newChannel.guild.name} (${newChannel.guild.id})`,
-          channelId: logChannel.id,
-        });
-      });
+      embed.setTitle(t("type_change.embed.title")).setDescription(
+        t("type_change.embed.description", {
+          channel: newChannel,
+          old_type: t(`channel_types.${oldChannel.type}`),
+          new_type: t(`channel_types.${newChannel.type}`),
+        }),
+      );
+      embeds.push(embed);
     }
     if (oldChannel.isVoiceBased() && newChannel.isVoiceBased() && oldChannel.bitrate !== newChannel.bitrate) {
-      embed
-        .setColor("Yellow")
-        .setTitle(t("bitrate_change.embed.title"))
-        .setDescription(
-          t("bitrate_change.embed.description", {
-            channel: newChannel,
-            old_bitrate: `${oldChannel.bitrate.toString().slice(0, 2)}kbps`,
-            new_bitrate: `${newChannel.bitrate.toString().slice(0, 2)}kbps`,
-          }),
-        )
-        .setThumbnail(newChannel.guild.iconURL() ?? null)
-        .setTimestamp();
-      await webhook.send({ embeds: [embed] }).catch((error) => {
-        logger.log({
-          level: "error",
-          error,
-          message: `Failed to send channelUpdate embed in ${newChannel.guild.name} (${newChannel.guild.id})`,
-          channelId: logChannel.id,
-        });
-      });
+      embed.setTitle(t("bitrate_change.embed.title")).setDescription(
+        t("bitrate_change.embed.description", {
+          channel: newChannel,
+          old_bitrate: `${oldChannel.bitrate.toString().slice(0, 2)}kbps`,
+          new_bitrate: `${newChannel.bitrate.toString().slice(0, 2)}kbps`,
+        }),
+      );
+      embeds.push(embed);
     }
     if (oldChannel.isVoiceBased() && newChannel.isVoiceBased() && oldChannel.userLimit !== newChannel.userLimit) {
-      embed
-        .setColor("Yellow")
-        .setTitle(t("user_limit_change.embed.title"))
-        .setDescription(
-          t("user_limit_change.embed.description", {
-            channel: newChannel,
-            old_user_limit:
-              oldChannel.userLimit > 0
-                ? oldChannel.userLimit
-                : newChannel.client.allEmojis.get(newChannel.client.config.emojis.infinity.id)?.format,
-            new_user_limit:
-              newChannel.userLimit > 0
-                ? newChannel.userLimit
-                : newChannel.client.allEmojis.get(newChannel.client.config.emojis.infinity.id)?.format,
-          }),
-        )
-        .setThumbnail(newChannel.guild.iconURL() ?? null)
-        .setTimestamp();
-      await webhook.send({ embeds: [embed] }).catch((error) => {
-        logger.log({
-          level: "error",
-          error,
-          message: `Failed to send channelUpdate embed in ${newChannel.guild.name} (${newChannel.guild.id})`,
-          channelId: logChannel.id,
-        });
-      });
+      embed.setTitle(t("user_limit_change.embed.title")).setDescription(
+        t("user_limit_change.embed.description", {
+          channel: newChannel,
+          old_user_limit:
+            oldChannel.userLimit > 0
+              ? oldChannel.userLimit
+              : newChannel.client.allEmojis.get(newChannel.client.config.emojis.infinity.id)?.format,
+          new_user_limit:
+            newChannel.userLimit > 0
+              ? newChannel.userLimit
+              : newChannel.client.allEmojis.get(newChannel.client.config.emojis.infinity.id)?.format,
+        }),
+      );
+      embeds.push(embed);
     }
     if (
       oldChannel.isTextBased() &&
       newChannel.isTextBased() &&
       oldChannel.rateLimitPerUser !== newChannel.rateLimitPerUser
     ) {
-      embed
-        .setColor("Yellow")
-        .setTitle(t("rate_limit_change.embed.title"))
-        .setDescription(
-          t("rate_limit_change.embed.description", {
-            channel: newChannel,
-            old_rate_limit: formatDuration(oldChannel.rateLimitPerUser!, guildConfig.language),
-            new_rate_limit: formatDuration(newChannel.rateLimitPerUser!, guildConfig.language),
-          }),
-        )
-        .setThumbnail(newChannel.guild.iconURL() ?? null)
-        .setTimestamp();
-      await webhook.send({ embeds: [embed] }).catch((error) => {
-        logger.log({
-          level: "error",
-          error,
-          message: `Failed to send channelUpdate embed in ${newChannel.guild.name} (${newChannel.guild.id})`,
-          channelId: logChannel.id,
-        });
-      });
+      embed.setTitle(t("rate_limit_change.embed.title")).setDescription(
+        t("rate_limit_change.embed.description", {
+          channel: newChannel,
+          old_rate_limit: formatDuration(oldChannel.rateLimitPerUser!, guildConfig.language),
+          new_rate_limit: formatDuration(newChannel.rateLimitPerUser!, guildConfig.language),
+        }),
+      );
+      embeds.push(embed);
     }
     if (oldChannel.isVoiceBased() && newChannel.isVoiceBased() && oldChannel.rtcRegion !== newChannel.rtcRegion) {
-      embed
-        .setColor("Yellow")
-        .setTitle(t("rtc_region_change.embed.title"))
-        .setDescription(
-          t("rtc_region_change.embed.description", {
-            channel: newChannel,
-            old_rtc_region: oldChannel.rtcRegion || "N/A",
-            new_rtc_region: newChannel.rtcRegion || "N/A",
-          }),
-        )
-        .setThumbnail(newChannel.guild.iconURL() ?? null)
-        .setTimestamp();
-      await webhook.send({ embeds: [embed] }).catch((error) => {
-        logger.log({
-          level: "error",
-          error,
-          message: `Failed to send channelUpdate embed in ${newChannel.guild.name} (${newChannel.guild.id})`,
-          channelId: logChannel.id,
-        });
-      });
+      embed.setTitle(t("rtc_region_change.embed.title")).setDescription(
+        t("rtc_region_change.embed.description", {
+          channel: newChannel,
+          old_rtc_region: oldChannel.rtcRegion || "N/A",
+          new_rtc_region: newChannel.rtcRegion || "N/A",
+        }),
+      );
+      embeds.push(embed);
     }
     if (
       oldChannel.isVoiceBased() &&
       newChannel.isVoiceBased() &&
       oldChannel.videoQualityMode !== newChannel.videoQualityMode
     ) {
-      embed
-        .setColor("Yellow")
-        .setTitle(t("video_quality_mode_change.embed.title"))
-        .setDescription(
-          t("video_quality_mode_change.embed.description", {
-            channel: newChannel,
-            old_video_quality_mode: t(`video_quality_mode_change.modes.${oldChannel.videoQualityMode}`),
-            new_video_quality_mode: t(`video_quality_mode_change.modes.${newChannel.videoQualityMode}`),
-          }),
-        )
-        .setThumbnail(newChannel.guild.iconURL() ?? null)
-        .setTimestamp();
-      await webhook.send({ embeds: [embed] }).catch((error) => {
-        logger.log({
-          level: "error",
-          error,
-          message: `Failed to send channelUpdate embed in ${newChannel.guild.name} (${newChannel.guild.id})`,
-          channelId: logChannel.id,
-        });
-      });
+      embed.setTitle(t("video_quality_mode_change.embed.title")).setDescription(
+        t("video_quality_mode_change.embed.description", {
+          channel: newChannel,
+          old_video_quality_mode: t(`video_quality_mode_change.modes.${oldChannel.videoQualityMode}`),
+          new_video_quality_mode: t(`video_quality_mode_change.modes.${newChannel.videoQualityMode}`),
+        }),
+      );
+      embeds.push(embed);
     }
     if (
       oldChannel.type === ChannelType.GuildForum &&
       newChannel.type === ChannelType.GuildForum &&
       oldChannel.defaultAutoArchiveDuration !== newChannel.defaultAutoArchiveDuration
     ) {
-      embed
-        .setColor("Yellow")
-        .setTitle(t("default_archive_duration_change.embed.title"))
-        .setDescription(
-          t("default_archive_duration_change.embed.description", {
-            channel: newChannel,
-            old_archive_duration: t(`default_archive_duration_change.time.${oldChannel.defaultAutoArchiveDuration}`),
-            new_archive_duration: t(`default_archive_duration_change.time.${newChannel.defaultAutoArchiveDuration}`),
-          }),
-        )
-        .setThumbnail(newChannel.guild.iconURL() ?? null)
-        .setTimestamp();
-      await webhook.send({ embeds: [embed] }).catch((error) => {
-        logger.log({
-          level: "error",
-          error,
-          message: `Failed to send channelUpdate embed in ${newChannel.guild.name} (${newChannel.guild.id})`,
-          channelId: logChannel.id,
-        });
-      });
+      embed.setTitle(t("default_archive_duration_change.embed.title")).setDescription(
+        t("default_archive_duration_change.embed.description", {
+          channel: newChannel,
+          old_archive_duration: t(`default_archive_duration_change.time.${oldChannel.defaultAutoArchiveDuration}`),
+          new_archive_duration: t(`default_archive_duration_change.time.${newChannel.defaultAutoArchiveDuration}`),
+        }),
+      );
+      embeds.push(embed);
     }
     if (
       oldChannel.type === ChannelType.GuildForum &&
       newChannel.type === ChannelType.GuildForum &&
       oldChannel.rateLimitPerUser !== newChannel.rateLimitPerUser
     ) {
-      embed
-        .setColor("Yellow")
-        .setTitle(t("forum_rate_limit_change.embed.title"))
-        .setDescription(
-          t("forum_rate_limit_change.embed.description", {
-            channel: newChannel,
-            old_rate_limit: `${oldChannel.rateLimitPerUser}s`,
-            new_rate_limit: `${newChannel.rateLimitPerUser}s`,
-          }),
-        )
-        .setThumbnail(newChannel.guild.iconURL() ?? null)
-        .setTimestamp();
-      await webhook.send({ embeds: [embed] }).catch((error) => {
-        logger.log({
-          level: "error",
-          error,
-          message: `Failed to send channelUpdate embed in ${newChannel.guild.name} (${newChannel.guild.id})`,
-          channelId: logChannel.id,
-        });
-      });
+      embed.setTitle(t("forum_rate_limit_change.embed.title")).setDescription(
+        t("forum_rate_limit_change.embed.description", {
+          channel: newChannel,
+          old_rate_limit: `${oldChannel.rateLimitPerUser}s`,
+          new_rate_limit: `${newChannel.rateLimitPerUser}s`,
+        }),
+      );
+      embeds.push(embed);
     }
     if (
       oldChannel.type === ChannelType.GuildForum &&
       newChannel.type === ChannelType.GuildForum &&
       oldChannel.defaultThreadRateLimitPerUser !== newChannel.defaultThreadRateLimitPerUser
     ) {
-      embed
-        .setColor("Yellow")
-        .setTitle(t("forum_default_thread_rate_limit_change.embed.title"))
-        .setDescription(
-          t("forum_default_thread_rate_limit_change.embed.description", {
-            channel: newChannel,
-            old_rate_limit: `${oldChannel.defaultThreadRateLimitPerUser}s`,
-            new_rate_limit: `${newChannel.defaultThreadRateLimitPerUser}s`,
-          }),
-        )
-        .setThumbnail(newChannel.guild.iconURL() ?? null)
-        .setTimestamp();
-      await webhook.send({ embeds: [embed] }).catch((error) => {
-        logger.log({
-          level: "error",
-          error,
-          message: `Failed to send channelUpdate embed in ${newChannel.guild.name} (${newChannel.guild.id})`,
-          channelId: logChannel.id,
-        });
-      });
+      embed.setTitle(t("forum_default_thread_rate_limit_change.embed.title")).setDescription(
+        t("forum_default_thread_rate_limit_change.embed.description", {
+          channel: newChannel,
+          old_rate_limit: `${oldChannel.defaultThreadRateLimitPerUser}s`,
+          new_rate_limit: `${newChannel.defaultThreadRateLimitPerUser}s`,
+        }),
+      );
+      embeds.push(embed);
     }
     if (
       oldChannel.type === ChannelType.GuildForum &&
@@ -402,58 +247,33 @@ export default {
     ) {
       const old_reaction_emoji = newChannel.guild.emojis.cache.get(oldChannel.defaultReactionEmoji?.id || "0");
       const new_reaction_emoji = newChannel.guild.emojis.cache.get(newChannel.defaultReactionEmoji?.id || "0");
-      embed
-        .setColor("Yellow")
-        .setTitle(t("forum_default_reaction_emoji_change.embed.title"))
-        .setDescription(
-          t("forum_default_reaction_emoji_change.embed.description", {
-            channel: newChannel,
-            old_reaction_emoji: old_reaction_emoji
-              ? old_reaction_emoji.toString()
-              : oldChannel.defaultReactionEmoji?.name || "N/A",
-            new_reaction_emoji: new_reaction_emoji
-              ? new_reaction_emoji.toString()
-              : newChannel.defaultReactionEmoji?.name || "N/A",
-          }),
-        )
-        .setThumbnail(newChannel.guild.iconURL() ?? null)
-        .setTimestamp();
-      await webhook.send({ embeds: [embed] }).catch((error) => {
-        logger.log({
-          level: "error",
-          error,
-          message: `Failed to send channelUpdate embed in ${newChannel.guild.name} (${newChannel.guild.id})`,
-          channelId: logChannel.id,
-        });
-      });
+      embed.setTitle(t("forum_default_reaction_emoji_change.embed.title")).setDescription(
+        t("forum_default_reaction_emoji_change.embed.description", {
+          channel: newChannel,
+          old_reaction_emoji: old_reaction_emoji
+            ? old_reaction_emoji.toString()
+            : oldChannel.defaultReactionEmoji?.name || "N/A",
+          new_reaction_emoji: new_reaction_emoji
+            ? new_reaction_emoji.toString()
+            : newChannel.defaultReactionEmoji?.name || "N/A",
+        }),
+      );
+      embeds.push(embed);
     }
     if (
       oldChannel.type === ChannelType.GuildForum &&
       newChannel.type === ChannelType.GuildForum &&
       oldChannel.defaultSortOrder !== newChannel.defaultSortOrder
     ) {
-      embed
-        .setColor("Yellow")
-        .setTitle(t("forum_default_sort_order_change.embed.title"))
-        .setDescription(
-          t("forum_default_sort_order_change.embed.description", {
-            channel: newChannel,
-            old_sort_order: t(`forum_default_sort_order_change.modes.${oldChannel.defaultSortOrder}`),
-            new_sort_order: t(`forum_default_sort_order_change.modes.${newChannel.defaultSortOrder}`),
-          }),
-        )
-        .setThumbnail(newChannel.guild.iconURL() ?? null)
-        .setTimestamp();
-      await webhook.send({ embeds: [embed] }).catch((error) => {
-        logger.log({
-          level: "error",
-          error,
-          message: `Failed to send channelUpdate embed in ${newChannel.guild.name} (${newChannel.guild.id})`,
-          channelId: logChannel.id,
-        });
-      });
+      embed.setTitle(t("forum_default_sort_order_change.embed.title")).setDescription(
+        t("forum_default_sort_order_change.embed.description", {
+          channel: newChannel,
+          old_sort_order: t(`forum_default_sort_order_change.modes.${oldChannel.defaultSortOrder}`),
+          new_sort_order: t(`forum_default_sort_order_change.modes.${newChannel.defaultSortOrder}`),
+        }),
+      );
+      embeds.push(embed);
     }
-
     if (
       oldChannel.type === ChannelType.GuildForum &&
       newChannel.type === ChannelType.GuildForum &&
@@ -481,17 +301,8 @@ export default {
                 )
                 .join(", "),
             }),
-          )
-          .setThumbnail(newChannel.guild.iconURL() ?? null)
-          .setTimestamp();
-        await webhook.send({ embeds: [embed] }).catch((error) => {
-          logger.log({
-            level: "error",
-            error,
-            message: `Failed to send channelUpdate embed in ${newChannel.guild.name} (${newChannel.guild.id})`,
-            channelId: logChannel.id,
-          });
-        });
+          );
+        embeds.push(embed);
       } else if (diff.removed.length > 0) {
         embed
           .setColor("Red")
@@ -513,17 +324,8 @@ export default {
                 )
                 .join(", "),
             }),
-          )
-          .setThumbnail(newChannel.guild.iconURL() ?? null)
-          .setTimestamp();
-        await webhook.send({ embeds: [embed] }).catch((error) => {
-          logger.log({
-            level: "error",
-            error,
-            message: `Failed to send channelUpdate embed in ${newChannel.guild.name} (${newChannel.guild.id})`,
-            channelId: logChannel.id,
-          });
-        });
+          );
+        embeds.push(embed);
       } else if (diff.updated.length > 0) {
         const descriptionLines: string[] = [];
 
@@ -568,17 +370,8 @@ export default {
         embed
           .setColor("Yellow")
           .setTitle(t("forum_available_tags_change.updated.embed.title"))
-          .setDescription(descriptionLines.join("\n"))
-          .setThumbnail(newChannel.guild.iconURL() ?? null)
-          .setTimestamp();
-        await webhook.send({ embeds: [embed] }).catch((error) => {
-          logger.log({
-            level: "error",
-            error,
-            message: `Failed to send channelUpdate embed in ${newChannel.guild.name} (${newChannel.guild.id})`,
-            channelId: logChannel.id,
-          });
-        });
+          .setDescription(descriptionLines.join("\n"));
+        embeds.push(embed);
       }
     }
     if (
@@ -586,56 +379,40 @@ export default {
       newChannel.type === ChannelType.GuildForum &&
       oldChannel.defaultForumLayout !== newChannel.defaultForumLayout
     ) {
-      embed
-        .setColor("Yellow")
-        .setTitle(t("forum_default_forum_layout_change.embed.title"))
-        .setDescription(
-          t("forum_default_forum_layout_change.embed.description", {
-            channel: newChannel,
-            old_layout: t(`forum_default_forum_layout_change.layouts.${oldChannel.defaultForumLayout}`),
-            new_layout: t(`forum_default_forum_layout_change.layouts.${newChannel.defaultForumLayout}`),
-          }),
-        )
-        .setThumbnail(newChannel.guild.iconURL() ?? null)
-        .setTimestamp();
-      await webhook.send({ embeds: [embed] }).catch((error) => {
-        logger.log({
-          level: "error",
-          error,
-          message: `Failed to send channelUpdate embed in ${newChannel.guild.name} (${newChannel.guild.id})`,
-          channelId: logChannel.id,
-        });
-      });
+      embed.setTitle(t("forum_default_forum_layout_change.embed.title")).setDescription(
+        t("forum_default_forum_layout_change.embed.description", {
+          channel: newChannel,
+          old_layout: t(`forum_default_forum_layout_change.layouts.${oldChannel.defaultForumLayout}`),
+          new_layout: t(`forum_default_forum_layout_change.layouts.${newChannel.defaultForumLayout}`),
+        }),
+      );
+      embeds.push(embed);
     }
     if (
       oldChannel.type === ChannelType.GuildForum &&
       newChannel.type === ChannelType.GuildForum &&
       oldChannel.nsfw !== newChannel.nsfw
     ) {
-      embed
-        .setColor("Yellow")
-        .setTitle(t("forum_nsfw_change.embed.title"))
-        .setDescription(
-          t("forum_nsfw_change.embed.description", {
-            channel: newChannel,
-            old_nsfw: oldChannel.nsfw
-              ? oldChannel.client.allEmojis.get(oldChannel.client.config.emojis.confirm.id)?.format
-              : oldChannel.client.allEmojis.get(oldChannel.client.config.emojis.reject.id)?.format,
-            new_nsfw: newChannel.nsfw
-              ? newChannel.client.allEmojis.get(newChannel.client.config.emojis.confirm.id)?.format
-              : newChannel.client.allEmojis.get(newChannel.client.config.emojis.reject.id)?.format,
-          }),
-        )
-        .setThumbnail(newChannel.guild.iconURL() ?? null)
-        .setTimestamp();
-      await webhook.send({ embeds: [embed] }).catch((error) => {
-        logger.log({
-          level: "error",
-          error,
-          message: `Failed to send channelUpdate embed in ${newChannel.guild.name} (${newChannel.guild.id})`,
-          channelId: logChannel.id,
-        });
-      });
+      embed.setTitle(t("forum_nsfw_change.embed.title")).setDescription(
+        t("forum_nsfw_change.embed.description", {
+          channel: newChannel,
+          old_nsfw: oldChannel.nsfw
+            ? oldChannel.client.allEmojis.get(oldChannel.client.config.emojis.confirm.id)?.format
+            : oldChannel.client.allEmojis.get(oldChannel.client.config.emojis.reject.id)?.format,
+          new_nsfw: newChannel.nsfw
+            ? newChannel.client.allEmojis.get(newChannel.client.config.emojis.confirm.id)?.format
+            : newChannel.client.allEmojis.get(newChannel.client.config.emojis.reject.id)?.format,
+        }),
+      );
+      embeds.push(embed);
     }
+    await webhook.send({ embeds }).catch((error) => {
+      logger.log({
+        level: "error",
+        error,
+        message: `Failed to send channelUpdate embed in ${newChannel.guild.name} (${newChannel.guild.id})`,
+        channelId: logChannel.id,
+      });
+    });
   },
 } satisfies EventBase<Events.ChannelUpdate>;

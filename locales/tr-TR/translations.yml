@@ -276,8 +276,13 @@ log_config:
   role_logs_channel_id:
     label: Rol Günlükleri Kanalını Ayarla
     description: Roller üzerinde yapılan değişiklerin kaydedildiği kanal
-    unset: Emoji günlüklri kanalı kaldırıldı.
+    unset: Emoji günlükleri kanalı kaldırıldı.
     set: "Emoji Günlükleri kanalı {{channel}} olarak ayarlandı."
+  sticker_logs_channel_id:
+    label: Çıkartma Günlükleri Kanalını Ayarla
+    description: Çıkartmalar üzerinde yapılan değişiklerin kaydedildiği kanal
+    unset: Çıkartma günlükleri kanalı kaldırıldı.
+    set: "Çıkartma Günlükleri kanalı {{channel}} olarak ayarlandı."
 mod_mail_log:
   initial: >-
     # {{user.tag}} ({{user.id}}) ile olan modmail konuşması #{{thread_id}}

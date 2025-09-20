@@ -269,7 +269,7 @@ emojiDelete:
       > **Emoji**: {{emoji.name}}
       > **ID**: {{emoji.id}}
       > **Animasyon**: {{emoji_animated}}
-      > **Oluşturulma Tarihi**: {{timestamp}}
+      > **Silinme Tarihi**: {{timestamp}}
 emojiUpdate:
   unknown_executor: Bilinmeyen Yetkili
   name_change:
@@ -365,8 +365,6 @@ guildUpdate:
     embed:
       title: Sunucu Adı Değiştirildi
       description: |-
-        > **Sunucu**: {{guild.name}} (<@{{guild.id}}>)
-        > **ID**: {{guild.id}}
         > **Eski Sunucu Adı**: {{old_name}}
         > **Yeni Sunucu Adı**: {{new_name}}
 interactionCreate:
@@ -401,9 +399,7 @@ messageCreate:
     confirm_description: >-
       {{guild}} için mod mail konuşmasını onaylamak için aşağıdaki düğmeye
       tıklayın veya konuşmayı iptal etmek için iptal düğmesine tıklayın.
-    timeout: >-
-      Cevap vermeniz için çok uzun süre bekledim. Mod mail konuşması iptal
-      edildi.
+    timeout: Cevap vermeniz için çok uzun süre bekledim. Mod mail konuşması iptal edildi.
     cancelled_title: Mod Mail Konuşması İptal Edildi
     cancelled_description: "{{guild}} için mod mail konuşması iptal edildi."
     confirmed_title: Mod Mail Konuşması Onaylandı
@@ -525,6 +521,50 @@ roleUpdate:
         > **ID**: {{role.id}}
         > **Eski İkon**: {{old_icon}}
         > **Yeni İkon**: {{new_icon}}
+stickerCreate:
+  unknown_executor: Bilinmeyen Yetkili
+  embed:
+    title: Çıkartma Eklendi
+    description: |-
+      > **Çıkartma**: {{sticker.name}}
+      > **ID**: {{sticker.id}}
+      > **Açıklama**: {{sticker.description}}
+      > **Etiketler**: {{sticker.tags}}
+stickerDelete:
+  unknown_executor: Bilinmeyen Yetkili
+  embed:
+    title: Çıkartma Silindi
+    description: |-
+      > **Çıkartma**: {{sticker.name}}
+      > **ID**: {{sticker.id}}
+      > **Açıklama**: {{sticker.description}}
+      > **Etiketler**: {{sticker.tags}}
+stickerUpdate:
+  unknown_executor: Bilinmeyen Yetkili
+  name_change:
+    embed:
+      title: Çıkartma İsmi Değiştirildi
+      description: |-
+        > **Çıkartma**: {{sticker.name}}
+        > **ID**: {{sticker.id}}
+        > **Eski İsim**: {{old_name}}
+        > **Yeni İsim**: {{new_name}}
+  description_change:
+    embed:
+      title: Çıkartma Açıklaması Değiştirildi
+      description: |-
+        > **Çıkartma**: {{sticker.name}}
+        > **ID**: {{sticker.id}}
+        > **Eski Açıklama**: {{old_description}}
+        > **Yeni Açıklama**: {{new_description}}
+  tags_change:
+    embed:
+      title: Çıkartma Etiketleri Değiştirildi
+      description: |-
+        > **Çıkartma**: {{sticker.name}}
+        > **ID**: {{sticker.id}}
+        > **Eski Etiketler**: {{old_tags}}
+        > **Yeni Etiketler**: {{new_tags}}
 voiceStateUpdate:
   unknown_executor: Bilinmeyen Yetkili
   join:
@@ -534,6 +574,7 @@ voiceStateUpdate:
         > **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)
         > **ID**: {{user.id}}
         > **Ses Kanalı**: {{channel.name}} (<#{{channel.id}}>)
+        > **Katılma Tarihi**: {{timestamp}}
   leave:
     embed:
       title: Kullanıcı Sesten Ayrıldı
@@ -542,6 +583,7 @@ voiceStateUpdate:
         > **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)
         > **ID**: {{user.id}}
         > **Ses Kanalı**: {{channel.name}} (<#{{channel.id}}>)
+        > **Ayrılma Tarihi**: {{timestamp}}
   move:
     embed:
       title: Kullanıcı Ses Kanalını Değiştirdi

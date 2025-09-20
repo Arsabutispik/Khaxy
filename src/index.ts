@@ -6,13 +6,13 @@ import { fileURLToPath, pathToFileURL } from "url";
 import i18next, { initI18n } from "./i18n/index.js";
 import { logger } from "@lib";
 import { CronJob } from "cron";
-import { resetBumpLeaderboard } from "@utils";
 import {
   CheckExpiredModmailBlacklists,
   checkExpiredThreads,
   checkPunishments,
   colorUpdate,
   RegisterSlashCommands,
+  resetBumpLeaderboard,
 } from "@utils";
 
 dotenv.config();
@@ -31,7 +31,7 @@ const client = new Client({
     GatewayIntentBits.AutoModerationExecution,
     GatewayIntentBits.GuildExpressions,
   ],
-  partials: [Partials.Channel, Partials.Message],
+  partials: [Partials.Channel, Partials.Message, Partials.GuildMember],
 });
 await initI18n();
 client.i18next = i18next;

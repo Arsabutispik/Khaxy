@@ -281,6 +281,11 @@ log_config:
     description: The channel where role update logs will be sent.
     unset: Role Logs channel has been removed.
     set: "Role Logs channel has been set to {{channel}}."
+  sticker_logs_channel_id:
+    label: Set Sticker Logs Channel
+    description: The channel where sticker update logs will be sent.
+    unset: Sticker Logs channel has been removed.
+    set: "Sticker Logs channel has been set to {{channel}}."
 mod_mail_log:
   initial: >
     # Mod-mail thread #{{thread_id}} with {{user.tag}} {{user.id}} started at

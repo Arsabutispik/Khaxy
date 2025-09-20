@@ -73,6 +73,8 @@ model guilds {
   emoji_logs_webhook_id        BigInt?
   role_logs_channel_id         BigInt?
   role_logs_webhook_id         BigInt?
+  sticker_logs_channel_id      BigInt?
+  sticker_logs_webhook_id      BigInt?
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.

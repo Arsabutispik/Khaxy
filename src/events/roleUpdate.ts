@@ -21,6 +21,7 @@ export default {
       })
       .catch(() => null);
     const logEntry = auditLogs?.entries.first();
+    let embeds: Array<EmbedBuilder> = [];
     const embed = new EmbedBuilder().setThumbnail(newRole.iconURL() ?? newRole.guild.iconURL() ?? null).setTimestamp();
     if (logEntry?.target.id === newRole.id) {
       embed.setFooter({
@@ -65,14 +66,7 @@ export default {
             new_name: newRole.name,
           }),
         );
-      webhook.send({ embeds: [embed] }).catch((error) => {
-        logger.log({
-          level: "error",
-          message: `Failed to send roleUpdate embed in ${newRole.guild.name} (${newRole.guild.id})`,
-          error,
-          channel: logChannel.id,
-        });
-      });
+      embeds.push(embed);
     }
     if (oldRole.color !== newRole.color) {
       embed
@@ -85,14 +79,7 @@ export default {
             new_color: `#${newRole.color.toString(16).padStart(6, "0")}`,
           }),
         );
-      webhook.send({ embeds: [embed] }).catch((error) => {
-        logger.log({
-          level: "error",
-          message: `Failed to send roleUpdate embed in ${newRole.guild.name} (${newRole.guild.id})`,
-          error,
-          channel: logChannel.id,
-        });
-      });
+      embeds.push(embed);
     }
     if (oldRole.hoist !== newRole.hoist) {
       embed
@@ -109,14 +96,7 @@ export default {
               : newRole.client.allEmojis.get(newRole.client.config.emojis.reject.id)?.format,
           }),
         );
-      webhook.send({ embeds: [embed] }).catch((error) => {
-        logger.log({
-          level: "error",
-          message: `Failed to send roleUpdate embed in ${newRole.guild.name} (${newRole.guild.id})`,
-          error,
-          channel: logChannel.id,
-        });
-      });
+      embeds.push(embed);
     }
     if (oldRole.mentionable !== newRole.mentionable) {
       embed
@@ -133,14 +113,7 @@ export default {
               : newRole.client.allEmojis.get(newRole.client.config.emojis.reject.id)?.format,
           }),
         );
-      webhook.send({ embeds: [embed] }).catch((error) => {
-        logger.log({
-          level: "error",
-          message: `Failed to send roleUpdate embed in ${newRole.guild.name} (${newRole.guild.id})`,
-          error,
-          channel: logChannel.id,
-        });
-      });
+      embeds.push(embed);
     }
     if (oldRole.permissions.toArray().sort().join(",") !== newRole.permissions.toArray().sort().join(",")) {
       embed
@@ -152,14 +125,7 @@ export default {
             changes: diffPermissions(newRole.client, oldRole, newRole, guildConfig.language),
           }),
         );
-      webhook.send({ embeds: [embed] }).catch((error) => {
-        logger.log({
-          level: "error",
-          message: `Failed to send roleUpdate embed in ${newRole.guild.name} (${newRole.guild.id})`,
-          error,
-          channel: logChannel.id,
-        });
-      });
+      embeds.push(embed);
     }
     if (oldRole.icon !== newRole.icon) {
       embed
@@ -172,14 +138,15 @@ export default {
             new_icon: newRole.iconURL() ?? "N/A",
           }),
         );
-      webhook.send({ embeds: [embed] }).catch((error) => {
-        logger.log({
-          level: "error",
-          message: `Failed to send roleUpdate embed in ${newRole.guild.name} (${newRole.guild.id})`,
-          error,
-          channel: logChannel.id,
-        });
-      });
+      embeds.push(embed);
     }
+    webhook.send({ embeds }).catch((error) => {
+      logger.log({
+        level: "error",
+        message: `Failed to send roleUpdate embed(s) in ${newRole.guild.name} (${newRole.guild.id})`,
+        error,
+        channel: logChannel.id,
+      });
+    });
   },
 } satisfies EventBase<Events.GuildRoleUpdate>;

@@ -285,7 +285,7 @@ guildBanAdd:
     description: |-
       > **User**: {{user.tag}} (<@{{user.id}}>)
       > **ID**: {{user.id}}
-      > **Joined At**: {{timestamp}}
+      > **Stayed For**: {{timestamp}}
     fields:
       reason: Reason
   no_reason: No reason provided.
@@ -316,7 +316,7 @@ guildMemberRemove:
     description: |-
       > **User**: {{user.tag}} (<@{{user.id}}>)
       > **ID**: {{user.id}}
-      > **Joined At**: {{timestamp}}
+      > **Joined For**: {{timestamp}}
       > **Member Count**: {{member_count}}
     fields:
       reason: Reason
@@ -341,6 +341,7 @@ guildMemberUpdate:
       description: |-
         > **User**: {{user.tag}} (<@{{user.id}}>)
         > **ID**: {{user.id}}
+        > **Timeout Removed At**: {{timestamp}}
   roles_update:
     embed:
       title: User Roles Updated
@@ -402,21 +403,15 @@ messageCreate:
     cancelled_title: Mod Mail Thread Cancelled
     cancelled_description: "The mod mail thread for {{guild}} has been cancelled."
     confirmed_title: Mod Mail Thread Confirmed
-    confirmed_description: >-
-      The mod mail thread for {{guild}} has been confirmed and the conversation
-      has begun.
+    confirmed_description: The mod mail thread for {{guild}} has been confirmed and the conversation has begun.
     parent_channel_missing: >-
       Parent channel is missing. Moderators need to set the parent channel for
       the mod mail to work.
-    channel_missing: >-
-      Channel is missing. Moderators need to set the channel for the mod mail to
-      work.
+    channel_missing: Channel is missing. Moderators need to set the channel for the mod mail to work.
     topic: "Mod Mail conversation with {{user}}"
     error_sending: An error occurred while attempting to send the message.
     reopened: "{{user}} replied to modmail thread, thread won't be closed. ({{closer}})"
-    error_inserting: >-
-      An error occurred while attempting to insert the message into the
-      database.
+    error_inserting: An error occurred while attempting to insert the message into the database.
 messageDelete:
   embed:
     title: Message Deleted
@@ -526,6 +521,50 @@ roleUpdate:
         > **ID**: {{role.id}}
         > **Old Icon**: {{old_icon}}
         > **New Icon**: {{new_icon}}
+stickerCreate:
+  unknown_executor: Unknown Executor
+  embed:
+    title: Sticker Created
+    description: |-
+      > **Name**: {{sticker.name}}
+      > **ID**: {{sticker.id}}
+      > **Description**: {{sticker.description}}
+      > **Tags**: {{sticker.tags}}
+stickerDelete:
+  unknown_executor: Unknown Executor
+  embed:
+    title: Sticker Deleted
+    description: |-
+      > **Name**: {{sticker.name}}
+      > **ID**: {{sticker.id}}
+      > **Description**: {{sticker.description}}
+      > **Tags**: {{sticker.tags}}
+stickerUpdate:
+  unknown_executor: Unknown Executor
+  name_change:
+    embed:
+      title: Sticker Name Changed
+      description: |-
+        > **Name**: {{sticker.name}}
+        > **ID**: {{sticker.id}}
+        > **Old Name**: {{old_name}}
+        > **New Name**: {{new_name}}
+  description_change:
+    embed:
+      title: Sticker Description Changed
+      description: |-
+        > **Name**: {{sticker.name}}
+        > **ID**: {{sticker.id}}
+        > **Old Description**: {{old_description}}
+        > **New Description**: {{new_description}}
+  tags_change:
+    embed:
+      title: Sticker Tags Changed
+      description: |-
+        > **Name**: {{sticker.name}}
+        > **ID**: {{sticker.id}}
+        > **Old Tags**: {{old_tags}}
+        > **New Tags**: {{new_tags}}
 voiceStateUpdate:
   unknown_executor: Unknown Executor
   join:
