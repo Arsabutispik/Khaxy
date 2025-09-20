@@ -43,3 +43,5 @@ permissions:
 allowed: İzin Verildi
 denied: Reddedildi
 unset: Ayarlanmadı
+overwrite_added: Yerine yazma eklendi
+overwrite_removed: Yerine yazma kaldırıldı

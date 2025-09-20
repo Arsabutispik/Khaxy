@@ -28,7 +28,7 @@ function diffRole(oldRole: Role, newRole: Role, t: TFunction): string | null {
 
   if (!added.length && !removed.length) return null;
 
-  let diffText = `**${newRole.name}** (Role Permissions)\n\`\`\`diff\n`;
+  let diffText = `**${newRole.name}**\n\`\`\`diff\n`;
   if (added.length) diffText += `+ ${t("allowed")}: ${added.join(", ")}\n`;
   if (removed.length) diffText += `- ${t("removed")}: ${removed.join(", ")}\n`;
   diffText += `\`\`\`\n`;
@@ -45,42 +45,57 @@ function diffChannelOverwrites(oldChannel: GuildChannel, newChannel: GuildChanne
   const allKeys = new Set([...Object.keys(oldMap), ...Object.keys(newMap)]);
 
   for (const key of allKeys) {
-    const old = oldMap[key] || { allow: 0n, deny: 0n };
-    const now = newMap[key] || { allow: 0n, deny: 0n };
-
-    if (old.allow === now.allow && old.deny === now.deny) continue;
+    const old = oldMap[key];
+    const now = newMap[key];
 
     const [type, id] = key.split("-");
-    const mention = type === "role" ? `<@&${id}>` : `<@${id}>`;
+    const mention = type === "0" ? `<@&${id}>` : `<@${id}>`;
 
-    const addedAllowed: string[] = [];
-    const removedDenied: string[] = [];
-    const unset: string[] = [];
-
-    const oldAllow = new PermissionsBitField(old.allow);
-    const newAllow = new PermissionsBitField(now.allow);
-    const oldDeny = new PermissionsBitField(old.deny);
-    const newDeny = new PermissionsBitField(now.deny);
-
-    for (const [permName, permValue] of Object.entries(PermissionsBitField.Flags)) {
-      const translatedName = t(`permissions.${permName}`) || permName;
-
-      const wasAllowed = oldAllow.has(permValue);
-      const isAllowed = newAllow.has(permValue);
-      const wasDenied = oldDeny.has(permValue);
-      const isDenied = newDeny.has(permValue);
-
-      if (!wasAllowed && isAllowed) addedAllowed.push(translatedName);
-      if (!wasDenied && isDenied) removedDenied.push(translatedName);
-      if ((wasAllowed || wasDenied) && !isAllowed && !isDenied) unset.push(translatedName);
+    // Case 1: overwrite was removed
+    if (old && !now) {
+      diffText += `**${mention}**\n\`\`\`diff\n- ${t("overwrite_removed")}\n\`\`\`\n`;
+      continue;
     }
 
-    if (addedAllowed.length || removedDenied.length || unset.length) {
-      diffText += `**${mention}** (Channel Overwrites)\n\`\`\`diff\n`;
-      if (addedAllowed.length) diffText += `+ ${t("allowed")}: ${addedAllowed.join(", ")}\n`;
-      if (removedDenied.length) diffText += `- ${t("denied")}: ${removedDenied.join(", ")}\n`;
-      if (unset.length) diffText += `/ ${t("unset")}: ${unset.join(", ")}\n`;
-      diffText += `\`\`\`\n`;
+    // Case 2: overwrite was added
+    if (!old && now) {
+      diffText += `**${mention}**\n\`\`\`diff\n+ ${t("overwrite_added")}\n\`\`\`\n`;
+      continue;
+    }
+
+    // Case 3: overwrite exists in both → check for permission changes
+    if (old && now) {
+      if (old.allow === now.allow && old.deny === now.deny) continue;
+
+      const addedAllowed: string[] = [];
+      const addedDenied: string[] = [];
+      const unset: string[] = [];
+
+      const oldAllow = new PermissionsBitField(old.allow);
+      const newAllow = new PermissionsBitField(now.allow);
+      const oldDeny = new PermissionsBitField(old.deny);
+      const newDeny = new PermissionsBitField(now.deny);
+
+      for (const [permName, permValue] of Object.entries(PermissionsBitField.Flags)) {
+        const translatedName = t(`permissions.${permName}`) || permName;
+
+        const wasAllowed = oldAllow.has(permValue);
+        const isAllowed = newAllow.has(permValue);
+        const wasDenied = oldDeny.has(permValue);
+        const isDenied = newDeny.has(permValue);
+
+        if (!wasAllowed && isAllowed) addedAllowed.push(translatedName);
+        if (!wasDenied && isDenied) addedDenied.push(translatedName);
+        if ((wasAllowed || wasDenied) && !isAllowed && !isDenied) unset.push(translatedName);
+      }
+
+      if (addedAllowed.length || addedDenied.length || unset.length) {
+        diffText += `**${mention}**\n\`\`\`diff\n`;
+        if (addedAllowed.length) diffText += `+ ${t("allowed")}: ${addedAllowed.join(", ")}\n`;
+        if (addedDenied.length) diffText += `- ${t("denied")}: ${addedDenied.join(", ")}\n`;
+        if (unset.length) diffText += `/ ${t("unset")}: ${unset.join(", ")}\n`;
+        diffText += `\`\`\`\n`;
+      }
     }
   }
 

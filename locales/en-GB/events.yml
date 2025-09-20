@@ -90,7 +90,7 @@ channelUpdate:
       description: |-
         > **Channel**: {{channel.name}} (<#{{channel.id}}>)
         > **ID**: {{channel.id}}
-        **Changes**: {{changes}}
+        > **Changes**: {{changes}}
   type_change:
     embed:
       title: Channel Type Changed
