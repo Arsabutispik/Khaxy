@@ -148,8 +148,7 @@ function formatUpdatedTagEmoji(guild: Guild, emoji: GuildForumTagEmoji | string 
 }
 
 function formatUnit(value: number, unit: "s" | "m" | "h", locale = dayjs.locale()) {
-  const rel = dayjs.Ls[locale].relativeTime;
-
+  const rel = dayjs.Ls[locale.split("-")[0]].relativeTime;
   let template: string;
   if (value === 1) {
     // singular key (s, m, h)
