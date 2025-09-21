@@ -168,8 +168,8 @@ export default {
       embed.setTitle(t("rate_limit_change.embed.title")).setDescription(
         t("rate_limit_change.embed.description", {
           channel: newChannel,
-          old_rate_limit: formatDuration(oldChannel.rateLimitPerUser!, guildConfig.language),
-          new_rate_limit: formatDuration(newChannel.rateLimitPerUser!, guildConfig.language),
+          old_rate_limit: formatDuration(oldChannel.rateLimitPerUser! * 1000, guildConfig.language),
+          new_rate_limit: formatDuration(newChannel.rateLimitPerUser! * 1000, guildConfig.language),
         }),
       );
       embeds.push(embed);

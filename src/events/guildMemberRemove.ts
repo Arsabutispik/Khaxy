@@ -78,7 +78,7 @@ export default {
               user: member.user,
               member_count: member.guild.memberCount.toString(),
               timestamp: member.joinedTimestamp
-                ? formatDuration(member.joinedTimestamp, guildConfig.language)
+                ? formatDuration(Date.now() - member.joinedTimestamp, guildConfig.language)
                 : t("never_joined"),
             }),
           )

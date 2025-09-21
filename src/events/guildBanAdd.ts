@@ -58,7 +58,7 @@ export default {
           user: ban.user,
           timestamp:
             member && member.joinedTimestamp
-              ? formatDuration(member.joinedTimestamp, guildConfig.language)
+              ? formatDuration(Date.now() - member.joinedTimestamp, guildConfig.language)
               : t("never_joined"),
         }),
       )

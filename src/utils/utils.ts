@@ -3,6 +3,9 @@ import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration.js";
 import "dayjs/locale/tr.js";
 import { updateGuildConfig } from "@database";
+import relativeTime from "dayjs/plugin/relativeTime.js";
+dayjs.extend(relativeTime);
+
 /**
  * Pauses execution for a specified number of milliseconds.
  *
