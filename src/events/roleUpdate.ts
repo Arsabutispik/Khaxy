@@ -33,28 +33,8 @@ export default {
       id: guildConfig.role_logs_channel_id,
       type: WebhookType.ROLE_LOGS,
     });
-    if (oldRole.rawPosition !== newRole.rawPosition) {
-      embed
-        .setColor("Yellow")
-        .setTitle(t("position_change.embed.title"))
-        .setDescription(
-          t("position_change.embed.description", {
-            role: newRole,
-            old_position: oldRole.rawPosition,
-            new_position: newRole.rawPosition,
-          }),
-        );
-      webhook.send({ embeds: [embed] }).catch((error) => {
-        logger.log({
-          level: "error",
-          message: `Failed to send roleUpdate embed in ${newRole.guild.name} (${newRole.guild.id})`,
-          error,
-          channel: logChannel.id,
-        });
-      });
-      //Discord fires RoleUpdate twice if the position is changed alongside any other changes. We don't want to spam the logs with this.
-      return;
-    }
+    //Discord fires RoleUpdate twice if the position is changed alongside any other changes. We don't want to spam the logs with this.
+    if (oldRole.rawPosition !== newRole.rawPosition) return;
     if (oldRole.name !== newRole.name) {
       embed
         .setTitle(t("name_change.embed.title"))

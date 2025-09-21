@@ -150,20 +150,33 @@ function formatUpdatedTagEmoji(guild: Guild, emoji: GuildForumTagEmoji | string 
   return "N/A";
 }
 
+const secondsMap: Record<string, string> = {
+  en: "seconds",
+  tr: "saniye",
+};
+
 function formatUnit(value: number, unit: "s" | "m" | "h", locale = dayjs.locale()) {
-  const rel = dayjs.Ls[locale.split("-")[0]].relativeTime;
-  let template: string;
+  const lang = locale.split("-")[0];
+  const rel = dayjs.Ls[lang]?.relativeTime;
+  if (!rel) throw new Error(`Missing relativeTime for locale: ${locale}`);
+
+  if (unit === "s") {
+    const word = secondsMap[lang] ?? secondsMap["en"];
+    return `${value} ${word}`;
+  }
+
   if (value === 1) {
-    // singular key (s, m, h)
-    template = rel[unit] as string;
+    const template = rel[unit];
+    if (!template) throw new Error(`Missing template for ${unit}`);
     return template.replace(/^\D+/, "1");
   } else {
-    // plural key (ss, mm, hh)
     const key = (unit + unit) as keyof typeof rel;
-    template = rel[key] as string;
+    const template = rel[key];
+    if (!template) throw new Error(`Missing template for ${key}`);
     return template.replace("%d", String(value));
   }
 }
+
 function formatDuration(ms: number, locale = dayjs.locale()) {
   const d = dayjs.duration(ms);
   const parts: string[] = [];
