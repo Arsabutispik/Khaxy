@@ -406,13 +406,15 @@ export default {
       );
       embeds.push(embed);
     }
-    await webhook.send({ embeds }).catch((error) => {
-      logger.log({
-        level: "error",
-        error,
-        message: `Failed to send channelUpdate embed in ${newChannel.guild.name} (${newChannel.guild.id})`,
-        channelId: logChannel.id,
+    if (embeds.length > 0) {
+      await webhook.send({ embeds }).catch((error) => {
+        logger.log({
+          level: "error",
+          error,
+          message: `Failed to send channelUpdate embed in ${newChannel.guild.name} (${newChannel.guild.id})`,
+          channelId: logChannel.id,
+        });
       });
-    });
+    }
   },
 } satisfies EventBase<Events.ChannelUpdate>;

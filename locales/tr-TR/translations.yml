@@ -283,6 +283,11 @@ log_config:
     description: Çıkartmalar üzerinde yapılan değişiklerin kaydedildiği kanal
     unset: Çıkartma günlükleri kanalı kaldırıldı.
     set: "Çıkartma Günlükleri kanalı {{channel}} olarak ayarlandı."
+  event_logs_channel_id:
+    label: Etkinlik Günlükleri Kanalını Ayarla
+    description: Etkinlikler üzerinde yapılan değişiklerin kaydedildiği kanal
+    unset: Etkinlik günlükleri kanalı kaldırıldı.
+    set: "Etkinlik Günlükleri kanalı {{channel}} olarak ayarlandı."
 mod_mail_log:
   initial: >-
     # {{user.tag}} ({{user.id}}) ile olan modmail konuşması #{{thread_id}}

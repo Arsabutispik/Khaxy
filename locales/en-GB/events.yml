@@ -359,6 +359,117 @@ guildMemberUpdate:
         > **ID**: {{user.id}}
         > **Old Nickname**: {{old_nickname}}
         > **New Nickname**: {{new_nickname}}
+guildScheduledEventCreate:
+  unknown_executor: "Unknown Executor"
+  voice_channel:
+    embed:
+      title: Guild Scheduled Event Created
+      description: |-
+        > **Name**: {{event.name}}
+        > **ID**: {{event.id}}
+        > **Channel**: {{event.channel.name}} (<#{{event.channel.id}}>)
+        > **Description**: {{event.description}}
+        > **Start Time**: {{scheduled_start_time}}
+  external_channel:
+    embed:
+      title: Guild Scheduled Event Created
+      description: |-
+        > **Name**: {{event.name}}
+        > **ID**: {{event.id}}
+        > **Location**: {{event.entityMetadata.location}}
+        > **Description**: {{event.description}}
+        > **Start Time**: {{scheduled_start_time}}
+        > **End Time**: {{scheduled_end_time}}
+guildScheduledEventDelete:
+  voice_channel:
+    embed:
+      title: Guild Scheduled Event Deleted
+      description: |-
+        > **Name**: {{event.name}}
+        > **ID**: {{event.id}}
+        > **Channel**: {{event.channel.name}} (<#{{event.channel.id}}>)
+        > **Description**: {{event.description}}
+        > **Start Time**: {{scheduled_start_time}}
+  external_channel:
+    embed:
+      title: Guild Scheduled Event Deleted
+      description: |-
+        > **Name**: {{event.name}}
+        > **ID**: {{event.id}}
+        > **Location**: {{event.entityMetadata.location}}
+        > **Description**: {{event.description}}
+        > **Start Time**: {{scheduled_start_time}}
+        > **End Time**: {{scheduled_end_time}}
+guildScheduledEventUpdate:
+  location_change:
+    embed:
+      title: Guild Scheduled Event Location Changed
+      description: |-
+        > **Name**: {{event.name}}
+        > **ID**: {{event.id}}
+        > **Old Location**: {{old_location}}
+        > **New Location**: {{new_location}}
+  description_change:
+    embed:
+      title: Guild Scheduled Event Description Changed
+      description: |-
+        > **Name**: {{event.name}}
+        > **ID**: {{event.id}}
+        > **Old Description**: {{old_description}}
+        > **New Description**: {{new_description}}
+  name_change:
+    embed:
+      title: Guild Scheduled Event Name Changed
+      description: |-
+        > **Name**: {{event.name}}
+        > **ID**: {{event.id}}
+        > **Old Name**: {{old_name}}
+        > **New Name**: {{new_name}}
+  start_time_change:
+    embed:
+      title: Guild Scheduled Event Start Time Changed
+      description: |-
+        > **Name**: {{event.name}}
+        > **ID**: {{event.id}}
+        > **Old Start**: {{old_start_time}}
+        > **New Start**: {{new_start_time}}
+  end_time_change:
+    embed:
+      title: Guild Scheduled Event End Time Changed
+      description: |-
+        > **Name**: {{event.name}}
+        > **ID**: {{event.id}}
+        > **Old End**: {{old_end_time}}
+        > **New End**: {{new_end_time}}
+  status_change:
+    status:
+      1: Scheduled
+      2: Active
+      3: Completed
+      4: Canceled
+    embed:
+      title: Guild Scheduled Event Status Changed
+      description: |-
+        > **Name**: {{event.name}}
+        > **ID**: {{event.id}}
+        > **Old Status**: {{old_status}}
+        > **New Status**: {{new_status}}
+guildScheduledEventUserAdd:
+  embed:
+    title: User Subscribed To Event
+    description: |-
+      > **User**: {{user.username}} (<@{{user.id}}>)
+      > **User ID**: {{user.id}}
+      > **Event Name**: {{event.name}}
+      > **Event ID**: {{event.id}}
+guildScheduledEventUserRemove:
+  embed:
+    title: User Unsubscribed From Event
+    description: |-
+      > **User**: {{user.username}} (<@{{user.id}}>)
+      > **User ID**: {{user.id}}
+      > **Event Name**: {{event.name}}
+      > **Event ID**: {{event.id}}
 guildUpdate:
   unknown_executor: Unknown Executor
   name_change:

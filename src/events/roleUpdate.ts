@@ -120,13 +120,15 @@ export default {
         );
       embeds.push(embed);
     }
-    webhook.send({ embeds }).catch((error) => {
-      logger.log({
-        level: "error",
-        message: `Failed to send roleUpdate embed(s) in ${newRole.guild.name} (${newRole.guild.id})`,
-        error,
-        channel: logChannel.id,
+    if (embeds.length > 0) {
+      webhook.send({ embeds }).catch((error) => {
+        logger.log({
+          level: "error",
+          message: `Failed to send roleUpdate embed(s) in ${newRole.guild.name} (${newRole.guild.id})`,
+          error,
+          channel: logChannel.id,
+        });
       });
-    });
+    }
   },
 } satisfies EventBase<Events.GuildRoleUpdate>;

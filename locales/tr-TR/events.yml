@@ -359,6 +359,117 @@ guildMemberUpdate:
         > **ID**: {{user.id}}
         > **Eski Takma Ad**: {{old_nickname}}
         > **Yeni Takma Ad**: {{new_nickname}}
+guildScheduledEventCreate:
+  unknown_executor: "Bilinmeyen Yetkili"
+  voice_channel:
+    embed:
+      title: Sunucu Etkinliği Oluşturuldu
+      description: |-
+        > **İsim**: {{event.name}}
+        > **ID**: {{event.id}}
+        > **Kanal**: {{event.channel.name}} (<#{{event.channel.id}}>)
+        > **Açıklama**: {{event.description}}
+        > **Başlama Tarihi**: {{scheduled_start_time}}
+  external_channel:
+    embed:
+      title: Sunucu Etkinliği Oluşturuldu
+      description: |-
+        > **İsim**: {{event.name}}
+        > **ID**: {{event.id}}
+        > **Lokasyon**: {{event.entityMetadata.location}}
+        > **Açıklama**: {{event.description}}
+        > **Başlama Tarihi**: {{scheduled_start_time}}
+        > **Bitiş Tarihi**: {{scheduled_end_time}}
+guildScheduledEventDelete:
+  voice_channel:
+    embed:
+      title: Sunucu Etkinliği Silindi
+      description: |-
+        > **İsim**: {{event.name}}
+        > **ID**: {{event.id}}
+        > **Kanal**: {{event.channel.name}} (<#{{event.channel.id}}>)
+        > **Açıklama**: {{event.description}}
+        > **Start Time**: {{scheduled_start_time}}
+  external_channel:
+    embed:
+      title: Sunucu Etkinliği Silindi
+      description: |-
+        > **İsim**: {{event.name}}
+        > **ID**: {{event.id}}
+        > **Lokasyon**: {{event.entityMetadata.location}}
+        > **Açıklama**: {{event.description}}
+        > **Başlama Tarihi**: {{scheduled_start_time}}
+        > **Bitiş Tarihi**: {{scheduled_end_time}}
+guildScheduledEventUpdate:
+  location_change:
+    embed:
+      title: Sunucu Etkinliği Lokasyon Değiştirildi
+      description: |-
+        > **İsim**: {{event.name}}
+        > **ID**: {{event.id}}
+        > **Eski Lokasyon**: {{old_location}}
+        > **Yeni Lokasyon**: {{new_location}}
+  description_change:
+    embed:
+      title: Sunucu Etkinliği Açıklama Değiştirildi
+      description: |-
+        > **İsim**: {{event.name}}
+        > **ID**: {{event.id}}
+        > **Eski Açıklama**: {{old_description}}
+        > **Yeni Açıklama**: {{new_description}}
+  name_change:
+    embed:
+      title: Sunucu Etkinliği İsim Değiştirildi
+      description: |-
+        > **İsim**: {{event.name}}
+        > **ID**: {{event.id}}
+        > **Eski İsim**: {{old_name}}
+        > **Yeni İsim**: {{new_name}}
+  start_time_change:
+    embed:
+      title: Sunucu Etkinliği Başlama Tarihi Değiştirildi
+      description: |-
+        > **İsim**: {{event.name}}
+        > **ID**: {{event.id}}
+        > **Eski Başlangıç**: {{old_start_time}}
+        > **Yeni Başlangıç**: {{new_start_time}}
+  end_time_change:
+    embed:
+      title: Sunucu Etkinliği Bitiş Tarihi Değiştirildi
+      description: |-
+        > **İsim**: {{event.name}}
+        > **ID**: {{event.id}}
+        > **Eski Bitiş**: {{old_end_time}}
+        > **Yeni Bitiş**: {{new_end_time}}
+  status_change:
+    status:
+      1: Planlanmış
+      2: Aktif
+      3: Tamamlanmış
+      4: İptal Edilmiş
+    embed:
+      title: Sunucu Etkinliği Durumu Değiştirildi
+      description: |-
+        > **İsim**: {{event.name}}
+        > **ID**: {{event.id}}
+        > **Eski Durum**: {{old_status}}
+        > **Yeni Durum**: {{new_status}}
+guildScheduledEventUserAdd:
+  embed:
+    title: Kullanıcı Etkinliğe katıldı
+    description: |-
+      > **Kullanıcı**: {{user.username}} (<@{{user.id}}>)
+      > **Kullanıcı ID**: {{user.id}}
+      > **Etkinlik İsmi**: {{event.name}}
+      > **Etkinlik ID**: {{event.id}}
+guildScheduledEventUserRemove:
+  embed:
+    title: Kullanıcı Etkinlikten Ayrıldı
+    description: |-
+      > **Kullanıcı**: {{user.username}} (<@{{user.id}}>)
+      > **Kullanıcı ID**: {{user.id}}
+      > **Etkinlik İsmi**: {{event.name}}
+      > **Etkinlik ID**: {{event.id}}
 guildUpdate:
   unknown_executor: Bilinmeyen Yetkili
   name_change:

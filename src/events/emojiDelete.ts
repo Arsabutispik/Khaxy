@@ -49,7 +49,7 @@ export default {
       logger.log({
         level: "error",
         error,
-        message: `Failed to send emojiCreate embed in ${emoji.guild.name} (${emoji.guild.id})`,
+        message: `Failed to send emojiDelete embed in ${emoji.guild.name} (${emoji.guild.id})`,
         channelId: logChannel.id,
       });
     });

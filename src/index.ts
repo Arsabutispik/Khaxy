@@ -30,8 +30,9 @@ const client = new Client({
     GatewayIntentBits.MessageContent,
     GatewayIntentBits.AutoModerationExecution,
     GatewayIntentBits.GuildExpressions,
+    GatewayIntentBits.GuildScheduledEvents,
   ],
-  partials: [Partials.Channel, Partials.Message, Partials.GuildMember],
+  partials: [Partials.Channel, Partials.Message, Partials.GuildMember, Partials.GuildScheduledEvent, Partials.User],
 });
 await initI18n();
 client.i18next = i18next;

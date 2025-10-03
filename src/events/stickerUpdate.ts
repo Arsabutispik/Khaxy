@@ -67,13 +67,15 @@ export default {
       );
       embeds.push(embed);
     }
-    webhook.send({ embeds }).catch((error) => {
-      logger.log({
-        level: "error",
-        error,
-        message: `Failed to send stickerUpdate embed(s) in ${newSticker.guild?.name} (${newSticker.guild?.id})`,
-        logChannel: logChannel?.id,
+    if (embeds.length > 0) {
+      webhook.send({ embeds }).catch((error) => {
+        logger.log({
+          level: "error",
+          error,
+          message: `Failed to send stickerUpdate embed(s) in ${newSticker.guild?.name} (${newSticker.guild?.id})`,
+          logChannel: logChannel?.id,
+        });
       });
-    });
+    }
   },
 } satisfies EventBase<Events.GuildStickerUpdate>;

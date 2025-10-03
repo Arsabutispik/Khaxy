@@ -73,6 +73,7 @@ export enum WebhookType {
   EMOJI_LOGS = "emoji_logs_webhook_id",
   ROLE_LOGS = "role_logs_webhook_id",
   STICKER_LOGS = "sticker_logs_webhook_id",
+  EVENT_LOGS = "event_logs_webhook_id",
 }
 async function returnWebhook(
   client: Client,

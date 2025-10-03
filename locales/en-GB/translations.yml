@@ -286,6 +286,11 @@ log_config:
     description: The channel where sticker update logs will be sent.
     unset: Sticker Logs channel has been removed.
     set: "Sticker Logs channel has been set to {{channel}}."
+  event_logs_channel_id:
+    label: Set Event Logs Channel
+    description: The channel where event logs will be sent.
+    unset: Event Logs channel has been removed.
+    set: "Event Logs channel has been set to {{channel}}."
 mod_mail_log:
   initial: >
     # Mod-mail thread #{{thread_id}} with {{user.tag}} {{user.id}} started at
