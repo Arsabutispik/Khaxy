@@ -1,4 +1,16 @@
-const logTypes = ["message", "guild", "mod", "guild_member", "voice", "channel", "emoji", "role", "sticker", "event"];
+const logTypes = [
+  "message",
+  "guild",
+  "mod",
+  "guild_member",
+  "voice",
+  "channel",
+  "emoji",
+  "role",
+  "sticker",
+  "event",
+  "invite",
+];
 
 function generateSyncBlock(a, b) {
   return `  -- ${a} <-> ${b}

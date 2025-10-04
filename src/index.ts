@@ -31,6 +31,7 @@ const client = new Client({
     GatewayIntentBits.AutoModerationExecution,
     GatewayIntentBits.GuildExpressions,
     GatewayIntentBits.GuildScheduledEvents,
+    GatewayIntentBits.GuildInvites,
   ],
   partials: [Partials.Channel, Partials.Message, Partials.GuildMember, Partials.GuildScheduledEvent, Partials.User],
 });

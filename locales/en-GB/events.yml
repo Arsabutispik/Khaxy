@@ -482,6 +482,21 @@ interactionCreate:
   memberMissingPermissions: >-
     You don't have the required `{{permissions}}` permissions to use this
     command.
+inviteCreate:
+  embed:
+    title: Invite Created
+    description: |-
+      > **Code**: {{invite.code}}
+      > **Channel**: <#{{invite.channelId}}>
+      > **Expires At**: {{timestamp}}
+      > **Max Usage**: {{usage}}
+inviteDelete:
+  unknown_executor: Unknown Executor
+  embed:
+    title: Invite Deleted
+    description: |-
+      > **Code**: {{invite.code}}
+      > **Channel**: <#{{invite.channelId}}>
 messageBulkDelete:
   embed:
     title: "{{count}} Message(s) Deleted"

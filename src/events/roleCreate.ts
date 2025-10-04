@@ -50,7 +50,7 @@ export default {
       });
     }
     const webhook = await returnWebhook(role.client, logChannel, role.guild.id, {
-      id: guildConfig.role_logs_channel_id,
+      id: guildConfig.role_logs_webhook_id,
       type: WebhookType.ROLE_LOGS,
     });
     await webhook

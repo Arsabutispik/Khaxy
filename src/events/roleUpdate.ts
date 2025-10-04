@@ -30,7 +30,7 @@ export default {
       });
     }
     const webhook = await returnWebhook(newRole.client, logChannel, newRole.guild.id, {
-      id: guildConfig.role_logs_channel_id,
+      id: guildConfig.role_logs_webhook_id,
       type: WebhookType.ROLE_LOGS,
     });
     //Discord fires RoleUpdate twice if the position is changed alongside any other changes. We don't want to spam the logs with this.

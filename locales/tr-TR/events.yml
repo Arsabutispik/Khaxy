@@ -482,6 +482,21 @@ interactionCreate:
   memberMissingPermissions: >-
     Bu komutu kullanabilmek için gerekli `{{permissions}}` izinlerine sahip
     değilsiniz.
+inviteCreate:
+  embed:
+    title: Davet Oluşturuldu
+    description: |-
+      > **Kod**: {{invite.code}}
+      > **Kanal**: <#{{invite.channelId}}>
+      > **Geçerlilik Süresi**: {{timestamp}}
+      > **Maks Kullanım**: {{usage}}
+inviteDelete:
+  unknown_executor: Bilinmeyen Yetkili
+  embed:
+    title: Davet Silindi
+    description: |-
+      > **Kod**: {{invite.code}}
+      > **Kanal**: <#{{invite.channelId}}>
 messageBulkDelete:
   embed:
     title: "{{count}} Mesaj Silindi"

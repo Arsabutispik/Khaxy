@@ -34,8 +34,8 @@ export default {
       });
     }
     const webhook = await returnWebhook(newSticker.client, logChannel, newSticker.guild.id, {
-      id: guildConfig.role_logs_channel_id,
-      type: WebhookType.ROLE_LOGS,
+      id: guildConfig.sticker_logs_webhook_id,
+      type: WebhookType.STICKER_LOGS,
     });
     if (oldSticker.name !== newSticker.name) {
       embed.setTitle(t("name_change.embed.title")).setDescription(
