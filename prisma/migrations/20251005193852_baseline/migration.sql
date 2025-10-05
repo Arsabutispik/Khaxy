@@ -80,7 +80,7 @@ CREATE TABLE "public"."guilds" (
     "stage_logs_channel_id" BIGINT,
     "stage_logs_webhook_id" BIGINT,
     "soundboard_logs_channel_id" BIGINT,
-    "sounboard_logs_webhook_id" BIGINT,
+    "soundboard_logs_webhook_id" BIGINT,
     "thread_logs_channel_id" BIGINT,
     "thread_logs_webhook_id" BIGINT,
     "webhook_logs_channel_id" BIGINT,
@@ -188,7 +188,7 @@ AS $function$
 DECLARE
 log_types TEXT[] := ARRAY[
     'message', 'guild', 'mod', 'guild_member',
-    'voice', 'channel', 'emoji', 'role', 'sticker', 'poll', 'sounboard', 'stage', 'thread', 'webhook'
+    'voice', 'channel', 'emoji', 'role', 'sticker', 'poll', 'soundboard', 'stage', 'thread', 'webhook'
   ];
   i INT;
   j INT;
