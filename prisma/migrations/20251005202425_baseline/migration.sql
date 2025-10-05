@@ -179,6 +179,7 @@ CREATE UNIQUE INDEX "unique_punishments" ON "public"."punishments"("guild_id", "
 -- AddForeignKey
 ALTER TABLE "public"."mod_mail_messages" ADD CONSTRAINT "fk_mod_mail_thread" FOREIGN KEY ("channel_id") REFERENCES "public"."mod_mail_threads"("channel_id") ON DELETE CASCADE ON UPDATE NO ACTION;
 
+
 -- --- !START SHADOW_IGNORE
 -- Functions and triggers below are ignored in the shadow database
 CREATE OR REPLACE FUNCTION public.sync_log_webhook_ids()
