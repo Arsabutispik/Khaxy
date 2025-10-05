@@ -538,6 +538,13 @@ messageCreate:
     error_sending: An error occurred while attempting to send the message.
     reopened: "{{user}} replied to modmail thread, thread won't be closed. ({{closer}})"
     error_inserting: An error occurred while attempting to insert the message into the database.
+  poll_create:
+    embed:
+      title: Poll Created
+      description: |-
+        > **Expires At**: {{timestamp}}
+        > **Multi Select**: {{multi_select}}
+        > **Message**: {{message.url}}
 messageDelete:
   embed:
     title: Message Deleted
@@ -554,6 +561,34 @@ messageDelete:
       content: Message
       attachments: "{{count}} Attachment(s)"
   skipped_files: ⚠️ Skipped Large Files
+  poll_delete:
+    embed:
+      title: Poll Deleted
+      description: |-
+        > **Expired at**: {{timestamp}}
+        > **Multi Select**: {{multi_select}}
+        > **Finalized**: {{finalized}}
+        > **Channel**: <#{{message.channel.id}}>
+        > **Message ID**: {{message.id}}
+        > **Sent by**: <@{{message.author.id}}>
+messagePollVoteAdd:
+  embed:
+    title: Poll Votes Add
+    description: |-
+      > **Question**: {{question}}
+      > **Answer**: {{answer}} <@{{answerer}}>
+      > **Expired At**: {{timestamp}}
+      > **Multi Select**: {{multi_select}}
+      > **Message**: {{message.url}}
+messagePollVoteRemove:
+  embed:
+    title: Poll Votes Remove
+    description: |-
+      > **Question**: {{question}}
+      > **Answer**: {{answer}} <@{{answerer}}>
+      > **Expired At**: {{timestamp}}
+      > **Multi Select**: {{multi_select}}
+      > **Message**: {{message.url}}
 messageUpdate:
   message_edit: |-
     ***User edited their message.***
@@ -573,6 +608,13 @@ messageUpdate:
     fields:
       oldContent: Before
       newContent: After
+  poll_end:
+    embed:
+      title: Poll Ended
+      description: |-
+        > **Expired At**: {{timestamp}}
+        > **Multi Select**: {{multi_select}}
+        > **Message**: {{message.url}}
 roleCreate:
   unknown_executor: Unknown Executor
   embed:

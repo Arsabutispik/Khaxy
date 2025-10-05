@@ -538,6 +538,13 @@ messageCreate:
     error_sending: Mesaj göndermeye çalışırken bir hata oluştu.
     reopened: "{{user}} modmaile cevap verdi, konuşma kapanmayacak. ({{closer}})"
     error_inserting: Mesajı veritabanına eklemeye çalışırken bir hata oluştu.
+  poll_create:
+    embed:
+      title: Anket Oluşturuldu
+      description: |-
+        > **Sona Erme**: {{timestamp}}
+        > **Çoklu Seçme**: {{multi_select}}
+        > **Mesaj**: {{message.url}}
 messageDelete:
   embed:
     title: Mesaj Silindi
@@ -554,6 +561,34 @@ messageDelete:
       content: Mesaj
       attachments: "{{count}} Ek Dosya"
   skipped_files: ⚠️ Büyük Dosyalar Atlandı
+  poll_delete:
+    embed:
+      title: Anket Silindi
+      description: |-
+        > **Sona Erme**: {{timestamp}}
+        > **Çoklu Seçme**: {{multi_select}}
+        > **Sonuçlandırılmış**: {{finalized}}
+        > **Kanal**: <#{{message.channel.id}}>
+        > **Mesaj ID**: {{message.id}}
+        > **Oluşturan Kişi**: <@{{message.author.id}}>
+messagePollVoteAdd:
+  embed:
+    title: Anket Cevap Eklendi
+    description: |-
+      > **Soru**: {{question}}
+      > **Cevap**: {{answer}} <@{{answerer}}>
+      > **Sona Erme**: {{timestamp}}
+      > **Çoklu Seçme**: {{multi_select}}
+      > **Mesaj**: {{message.url}}
+messagePollVoteRemove:
+  embed:
+    title: Anket Cevap Kaldırıldı
+    description: |-
+      > **Soru**: {{question}}
+      > **Cevap**: {{answer}} <@{{answerer}}>
+      > **Sona Erme**: {{timestamp}}
+      > **Çoklu Seçme**: {{multi_select}}
+      > **Mesaj**: {{message.url}}
 messageUpdate:
   message_edit: |-
     ***Kullanıcı mesajını düzenledi.***
@@ -573,6 +608,13 @@ messageUpdate:
     fields:
       oldContent: Önceden
       newContent: Sonra
+  poll_end:
+    embed:
+      title: Anket Sona Erdi
+      description: |-
+        > **Sona Erme**: {{timestamp}}
+        > **Çoklu Seçme**: {{multi_select}}
+        > **Mesaj**: {{message.url}}
 roleCreate:
   unknown_executor: Bilinmeyen Yetkili
   embed:

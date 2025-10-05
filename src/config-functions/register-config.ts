@@ -120,7 +120,8 @@ export async function dynamicChannel(
     | "role_logs_channel_id"
     | "sticker_logs_channel_id"
     | "event_logs_channel_id"
-    | "invite_logs_channel_id",
+    | "invite_logs_channel_id"
+    | "poll_logs_channel_id",
   interaction: StringSelectMenuInteraction<"cached">,
   data: Guilds,
   t: TFunction,

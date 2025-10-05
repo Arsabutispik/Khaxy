@@ -296,6 +296,11 @@ log_config:
     description: The channel where invite logs will be sent.
     unset: Invite Logs channel has been removed.
     set: "Invite Logs channel has been set to {{channel}}."
+  poll_logs_channel_id:
+    label: Set Poll Logs Channel
+    description: The channel where poll logs will be sent.
+    unset: Poll Logs channel has been removed.
+    set: "Poll Logs channel has been set to {{channel}}."
 mod_mail_log:
   initial: >
     # Mod-mail thread #{{thread_id}} with {{user.tag}} {{user.id}} started at

@@ -75,6 +75,7 @@ export enum WebhookType {
   STICKER_LOGS = "sticker_logs_webhook_id",
   EVENT_LOGS = "event_logs_webhook_id",
   INVITE_LOGS = "invite_logs_webhook_id",
+  POLL_LOGS = "poll_logs_webhook_id",
 }
 async function returnWebhook(
   client: Client,

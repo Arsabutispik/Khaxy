@@ -218,10 +218,10 @@ IF a_channel_id = b_channel_id AND a_channel_id IS NOT NULL THEN
         INTO a_webhook_id, b_webhook_id
         USING NEW;
         IF a_webhook_id IS NULL AND b_webhook_id IS NOT NULL THEN
-          EXECUTE format('SELECT $1.%I_logs_webhook_id := %L', a, b_webhook_id)
+          EXECUTE format('SELECT $1.%I_logs_webhook_id = %L', a, b_webhook_id)
           USING NEW;
         ELSIF b_webhook_id IS NULL AND a_webhook_id IS NOT NULL THEN
-          EXECUTE format('SELECT $1.%I_logs_webhook_id := %L', b, a_webhook_id)
+          EXECUTE format('SELECT $1.%I_logs_webhook_id = %L', b, a_webhook_id)
           USING NEW;
 END IF;
 END IF;

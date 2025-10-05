@@ -1,5 +1,5 @@
 import { EventBase } from "@customTypes";
-import { ChannelType, EmbedBuilder, Events } from "discord.js";
+import { ChannelType, EmbedBuilder, Events, time, TimestampStyles } from "discord.js";
 import { getGuildConfig, getModMailThreadByUser, updateModMailMessage } from "@database";
 import { ModMailThreadStatus } from "@constants";
 import { returnWebhook, toStringId, WebhookType } from "@utils";
@@ -84,6 +84,57 @@ export default {
             channelId: logChannel.id,
           });
         });
+    }
+    if (
+      newMessage.inGuild() &&
+      oldMessage.poll?.resultsFinalized !== newMessage.poll?.resultsFinalized &&
+      newMessage.poll
+    ) {
+      const guildConfig = await getGuildConfig(newMessage.guild.id);
+      if (!guildConfig) return;
+      const t = newMessage.client.i18next.getFixedT(guildConfig.language, "events", "messageUpdate");
+      if (!guildConfig.poll_logs_channel_id) return;
+      const logChannel = newMessage.guild.channels.cache.get(toStringId(guildConfig.poll_logs_channel_id));
+      if (logChannel?.type !== ChannelType.GuildText) return;
+      const embed = new EmbedBuilder()
+        .setColor("Red")
+        .setTitle(t("poll_end.embed.title"))
+        .setDescription(
+          t("poll_end.embed.description", {
+            message: newMessage,
+            timestamp: time(newMessage.poll.expiresAt, TimestampStyles.LongDateTime),
+            multi_select: newMessage.poll.allowMultiselect
+              ? newMessage.client.allEmojis.get(newMessage.client.config.emojis.confirm.id)?.format
+              : newMessage.client.allEmojis.get(newMessage.client.config.emojis.reject.id)?.format,
+          }),
+        )
+        .setFields([
+          {
+            name: newMessage.poll.question.text,
+            value: newMessage.poll.answers
+              .map((answer, i) => {
+                return `${i}. ${answer.text} (${answer.voteCount})`;
+              })
+              .join("\n"),
+          },
+        ])
+        .setTimestamp()
+        .setFooter({
+          text: newMessage.author.username,
+          iconURL: newMessage.author.displayAvatarURL(),
+        });
+      const webhook = await returnWebhook(newMessage.client, logChannel, newMessage.guildId, {
+        id: guildConfig.poll_logs_webhook_id,
+        type: WebhookType.POLL_LOGS,
+      });
+      await webhook.send({ embeds: [embed] }).catch((error) => {
+        logger.log({
+          level: "error",
+          error,
+          message: `Failed to send pollFinalize embed in ${newMessage.guild.name} (${newMessage.guild.id})`,
+          channelId: logChannel.id,
+        });
+      });
     }
   },
 } satisfies EventBase<Events.MessageUpdate>;
