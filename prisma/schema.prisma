@@ -79,6 +79,16 @@ model guilds {
   event_logs_webhook_id        BigInt?
   invite_logs_channel_id       BigInt?
   invite_logs_webhook_id       BigInt?
+  poll_logs_channel_id         BigInt?
+  poll_logs_webhook_id         BigInt?
+  stage_logs_channel_id        BigInt?
+  stage_logs_webhook_id        BigInt?
+  soundboard_logs_channel_id   BigInt?
+  sounboard_logs_webhook_id    BigInt?
+  thread_logs_channel_id       BigInt?
+  thread_logs_webhook_id       BigInt?
+  webhook_logs_channel_id      BigInt?
+  webhook_logs_webhook_id      BigInt?
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
