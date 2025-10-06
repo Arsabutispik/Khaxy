@@ -31,74 +31,88 @@ export default {
       });
     }
     if (oldEvent.entityMetadata?.location !== newEvent.entityMetadata?.location) {
-      embed.setTitle(t("location_change.embed.title")).setDescription(
-        t("location_change.embed.title", {
-          event: newEvent,
-          old_location: oldEvent.entityMetadata?.location,
-          new_location: oldEvent.entityMetadata?.location,
-        }),
-      );
-      embeds.push(embed);
+      const embedClone = EmbedBuilder.from(embed)
+        .setTitle(t("location_change.embed.title"))
+        .setDescription(
+          t("location_change.embed.title", {
+            event: newEvent,
+            old_location: oldEvent.entityMetadata?.location,
+            new_location: oldEvent.entityMetadata?.location,
+          }),
+        );
+      embeds.push(embedClone);
     }
     if (oldEvent.description !== newEvent.description) {
-      embed.setTitle(t("description_change.embed.title")).setDescription(
-        t("description_change.embed.description", {
-          event: newEvent,
-          old_description: oldEvent.description,
-          new_description: newEvent.description,
-        }),
-      );
-      embeds.push(embed);
+      const embedClone = EmbedBuilder.from(embed)
+        .setTitle(t("description_change.embed.title"))
+        .setDescription(
+          t("description_change.embed.description", {
+            event: newEvent,
+            old_description: oldEvent.description,
+            new_description: newEvent.description,
+          }),
+        );
+      embeds.push(embedClone);
     }
     if (oldEvent.name !== newEvent.name) {
-      embed.setTitle(t("name_change.embed.title")).setDescription(
-        t("name_change.embed.description", {
-          event: newEvent,
-          old_name: oldEvent.name,
-          new_name: newEvent.name,
-        }),
-      );
-      embeds.push(embed);
+      const embedClone = EmbedBuilder.from(embed)
+        .setTitle(t("name_change.embed.title"))
+        .setDescription(
+          t("name_change.embed.description", {
+            event: newEvent,
+            old_name: oldEvent.name,
+            new_name: newEvent.name,
+          }),
+        );
+      embeds.push(embedClone);
     }
     if (oldEvent.scheduledStartAt !== newEvent.scheduledStartAt) {
-      embed.setTitle(t("start_time_change.embed.title")).setDescription(
-        t("start_time_change.embed.description", {
-          event: newEvent,
-          old_start_time: time(newEvent.scheduledStartAt!, TimestampStyles.LongDateTime),
-          new_start_time: time(newEvent.scheduledStartAt!, TimestampStyles.LongDateTime),
-        }),
-      );
-      embeds.push(embed);
+      const embedClone = EmbedBuilder.from(embed)
+        .setTitle(t("start_time_change.embed.title"))
+        .setDescription(
+          t("start_time_change.embed.description", {
+            event: newEvent,
+            old_start_time: time(newEvent.scheduledStartAt!, TimestampStyles.LongDateTime),
+            new_start_time: time(newEvent.scheduledStartAt!, TimestampStyles.LongDateTime),
+          }),
+        );
+      embeds.push(embedClone);
     }
     if (oldEvent.scheduledEndAt !== newEvent.scheduledEndAt) {
-      embed.setTitle(t("end_time_change.embed.title")).setDescription(
-        t("end_time_change.embed.description", {
-          event: newEvent,
-          old_end_time: time(oldEvent.scheduledEndAt!, TimestampStyles.LongDateTime),
-          new_end_time: time(newEvent.scheduledEndAt!, TimestampStyles.LongDateTime),
-        }),
-      );
-      embeds.push(embed);
+      const embedClone = EmbedBuilder.from(embed)
+        .setTitle(t("end_time_change.embed.title"))
+        .setDescription(
+          t("end_time_change.embed.description", {
+            event: newEvent,
+            old_end_time: time(oldEvent.scheduledEndAt!, TimestampStyles.LongDateTime),
+            new_end_time: time(newEvent.scheduledEndAt!, TimestampStyles.LongDateTime),
+          }),
+        );
+      embeds.push(embedClone);
     }
     if (oldEvent.status !== newEvent.status) {
-      embed.setTitle(t("status_change.embed.title")).setDescription(
-        t("status_change.embed.description", {
-          event: newEvent,
-          old_status: t(`status_change.status.${oldEvent.status}`),
-          new_status: t(`status_change.status.${newEvent.status}`),
-        }),
-      );
-      embeds.push(embed);
+      const embedClone = EmbedBuilder.from(embed)
+        .setTitle(t("status_change.embed.title"))
+        .setDescription(
+          t("status_change.embed.description", {
+            event: newEvent,
+            old_status: t(`status_change.status.${oldEvent.status}`),
+            new_status: t(`status_change.status.${newEvent.status}`),
+          }),
+        );
+      embeds.push(embedClone);
     }
     if (oldEvent.coverImageURL() !== newEvent.coverImageURL()) {
-      embed.setTitle(t("image_change.embed.title")).setDescription(
-        t("image_change.embed.description", {
-          event: newEvent,
-          old_image_url: newEvent.coverImageURL(),
-          new_image_url: newEvent.coverImageURL(),
-        }),
-      );
-      embeds.push(embed);
+      const embedClone = EmbedBuilder.from(embed)
+        .setTitle(t("image_change.embed.title"))
+        .setDescription(
+          t("image_change.embed.description", {
+            event: newEvent,
+            old_image_url: newEvent.coverImageURL(),
+            new_image_url: newEvent.coverImageURL(),
+          }),
+        );
+      embeds.push(embedClone);
     }
     if (embeds.length > 0) {
       const webhook = await returnWebhook(newEvent.client, logChannel, newEvent.guild.id, {

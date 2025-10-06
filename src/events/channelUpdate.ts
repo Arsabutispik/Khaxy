@@ -203,42 +203,48 @@ export default {
       newChannel.type === ChannelType.GuildForum &&
       oldChannel.defaultAutoArchiveDuration !== newChannel.defaultAutoArchiveDuration
     ) {
-      embed.setTitle(t("default_archive_duration_change.embed.title")).setDescription(
-        t("default_archive_duration_change.embed.description", {
-          channel: newChannel,
-          old_archive_duration: t(`default_archive_duration_change.time.${oldChannel.defaultAutoArchiveDuration}`),
-          new_archive_duration: t(`default_archive_duration_change.time.${newChannel.defaultAutoArchiveDuration}`),
-        }),
-      );
-      embeds.push(embed);
+      const embedClone = EmbedBuilder.from(embed)
+        .setTitle(t("default_archive_duration_change.embed.title"))
+        .setDescription(
+          t("default_archive_duration_change.embed.description", {
+            channel: newChannel,
+            old_archive_duration: t(`default_archive_duration_change.time.${oldChannel.defaultAutoArchiveDuration}`),
+            new_archive_duration: t(`default_archive_duration_change.time.${newChannel.defaultAutoArchiveDuration}`),
+          }),
+        );
+      embeds.push(embedClone);
     }
     if (
       oldChannel.type === ChannelType.GuildForum &&
       newChannel.type === ChannelType.GuildForum &&
       oldChannel.rateLimitPerUser !== newChannel.rateLimitPerUser
     ) {
-      embed.setTitle(t("forum_rate_limit_change.embed.title")).setDescription(
-        t("forum_rate_limit_change.embed.description", {
-          channel: newChannel,
-          old_rate_limit: `${oldChannel.rateLimitPerUser}s`,
-          new_rate_limit: `${newChannel.rateLimitPerUser}s`,
-        }),
-      );
-      embeds.push(embed);
+      const embedClone = EmbedBuilder.from(embed)
+        .setTitle(t("forum_rate_limit_change.embed.title"))
+        .setDescription(
+          t("forum_rate_limit_change.embed.description", {
+            channel: newChannel,
+            old_rate_limit: `${oldChannel.rateLimitPerUser}s`,
+            new_rate_limit: `${newChannel.rateLimitPerUser}s`,
+          }),
+        );
+      embeds.push(embedClone);
     }
     if (
       oldChannel.type === ChannelType.GuildForum &&
       newChannel.type === ChannelType.GuildForum &&
       oldChannel.defaultThreadRateLimitPerUser !== newChannel.defaultThreadRateLimitPerUser
     ) {
-      embed.setTitle(t("forum_default_thread_rate_limit_change.embed.title")).setDescription(
-        t("forum_default_thread_rate_limit_change.embed.description", {
-          channel: newChannel,
-          old_rate_limit: `${oldChannel.defaultThreadRateLimitPerUser}s`,
-          new_rate_limit: `${newChannel.defaultThreadRateLimitPerUser}s`,
-        }),
-      );
-      embeds.push(embed);
+      const embedClone = EmbedBuilder.from(embed)
+        .setTitle(t("forum_default_thread_rate_limit_change.embed.title"))
+        .setDescription(
+          t("forum_default_thread_rate_limit_change.embed.description", {
+            channel: newChannel,
+            old_rate_limit: `${oldChannel.defaultThreadRateLimitPerUser}s`,
+            new_rate_limit: `${newChannel.defaultThreadRateLimitPerUser}s`,
+          }),
+        );
+      embeds.push(embedClone);
     }
     if (
       oldChannel.type === ChannelType.GuildForum &&
@@ -247,32 +253,36 @@ export default {
     ) {
       const old_reaction_emoji = newChannel.guild.emojis.cache.get(oldChannel.defaultReactionEmoji?.id || "0");
       const new_reaction_emoji = newChannel.guild.emojis.cache.get(newChannel.defaultReactionEmoji?.id || "0");
-      embed.setTitle(t("forum_default_reaction_emoji_change.embed.title")).setDescription(
-        t("forum_default_reaction_emoji_change.embed.description", {
-          channel: newChannel,
-          old_reaction_emoji: old_reaction_emoji
-            ? old_reaction_emoji.toString()
-            : oldChannel.defaultReactionEmoji?.name || "N/A",
-          new_reaction_emoji: new_reaction_emoji
-            ? new_reaction_emoji.toString()
-            : newChannel.defaultReactionEmoji?.name || "N/A",
-        }),
-      );
-      embeds.push(embed);
+      const embedClone = EmbedBuilder.from(embed)
+        .setTitle(t("forum_default_reaction_emoji_change.embed.title"))
+        .setDescription(
+          t("forum_default_reaction_emoji_change.embed.description", {
+            channel: newChannel,
+            old_reaction_emoji: old_reaction_emoji
+              ? old_reaction_emoji.toString()
+              : oldChannel.defaultReactionEmoji?.name || "N/A",
+            new_reaction_emoji: new_reaction_emoji
+              ? new_reaction_emoji.toString()
+              : newChannel.defaultReactionEmoji?.name || "N/A",
+          }),
+        );
+      embeds.push(embedClone);
     }
     if (
       oldChannel.type === ChannelType.GuildForum &&
       newChannel.type === ChannelType.GuildForum &&
       oldChannel.defaultSortOrder !== newChannel.defaultSortOrder
     ) {
-      embed.setTitle(t("forum_default_sort_order_change.embed.title")).setDescription(
-        t("forum_default_sort_order_change.embed.description", {
-          channel: newChannel,
-          old_sort_order: t(`forum_default_sort_order_change.modes.${oldChannel.defaultSortOrder}`),
-          new_sort_order: t(`forum_default_sort_order_change.modes.${newChannel.defaultSortOrder}`),
-        }),
-      );
-      embeds.push(embed);
+      const embedClone = EmbedBuilder.from(embed)
+        .setTitle(t("forum_default_sort_order_change.embed.title"))
+        .setDescription(
+          t("forum_default_sort_order_change.embed.description", {
+            channel: newChannel,
+            old_sort_order: t(`forum_default_sort_order_change.modes.${oldChannel.defaultSortOrder}`),
+            new_sort_order: t(`forum_default_sort_order_change.modes.${newChannel.defaultSortOrder}`),
+          }),
+        );
+      embeds.push(embedClone);
     }
     if (
       oldChannel.type === ChannelType.GuildForum &&
@@ -280,8 +290,9 @@ export default {
       !isDeepStrictEqual(oldChannel.availableTags, newChannel.availableTags)
     ) {
       const diff = diffGuildForumTags(oldChannel.availableTags, newChannel.availableTags);
+      const embedClone = EmbedBuilder.from(embed);
       if (diff.added.length > 0) {
-        embed
+        embedClone
           .setColor("Green")
           .setTitle(t("forum_available_tags_change.added.embed.title"))
           .setDescription(
@@ -302,9 +313,9 @@ export default {
                 .join(", "),
             }),
           );
-        embeds.push(embed);
+        embeds.push(embedClone);
       } else if (diff.removed.length > 0) {
-        embed
+        embedClone
           .setColor("Red")
           .setTitle(t("forum_available_tags_change.removed.embed.title"))
           .setDescription(
@@ -325,7 +336,7 @@ export default {
                 .join(", "),
             }),
           );
-        embeds.push(embed);
+        embeds.push(embedClone);
       } else if (diff.updated.length > 0) {
         const descriptionLines: string[] = [];
 
@@ -367,11 +378,11 @@ export default {
           descriptionLines.push(""); // blank line between updates
         }
 
-        embed
+        embedClone
           .setColor("Yellow")
           .setTitle(t("forum_available_tags_change.updated.embed.title"))
           .setDescription(descriptionLines.join("\n"));
-        embeds.push(embed);
+        embeds.push(embedClone);
       }
     }
     if (
@@ -379,32 +390,36 @@ export default {
       newChannel.type === ChannelType.GuildForum &&
       oldChannel.defaultForumLayout !== newChannel.defaultForumLayout
     ) {
-      embed.setTitle(t("forum_default_forum_layout_change.embed.title")).setDescription(
-        t("forum_default_forum_layout_change.embed.description", {
-          channel: newChannel,
-          old_layout: t(`forum_default_forum_layout_change.layouts.${oldChannel.defaultForumLayout}`),
-          new_layout: t(`forum_default_forum_layout_change.layouts.${newChannel.defaultForumLayout}`),
-        }),
-      );
-      embeds.push(embed);
+      const embedClone = EmbedBuilder.from(embed)
+        .setTitle(t("forum_default_forum_layout_change.embed.title"))
+        .setDescription(
+          t("forum_default_forum_layout_change.embed.description", {
+            channel: newChannel,
+            old_layout: t(`forum_default_forum_layout_change.layouts.${oldChannel.defaultForumLayout}`),
+            new_layout: t(`forum_default_forum_layout_change.layouts.${newChannel.defaultForumLayout}`),
+          }),
+        );
+      embeds.push(embedClone);
     }
     if (
       oldChannel.type === ChannelType.GuildForum &&
       newChannel.type === ChannelType.GuildForum &&
       oldChannel.nsfw !== newChannel.nsfw
     ) {
-      embed.setTitle(t("forum_nsfw_change.embed.title")).setDescription(
-        t("forum_nsfw_change.embed.description", {
-          channel: newChannel,
-          old_nsfw: oldChannel.nsfw
-            ? oldChannel.client.allEmojis.get(oldChannel.client.config.emojis.confirm.id)?.format
-            : oldChannel.client.allEmojis.get(oldChannel.client.config.emojis.reject.id)?.format,
-          new_nsfw: newChannel.nsfw
-            ? newChannel.client.allEmojis.get(newChannel.client.config.emojis.confirm.id)?.format
-            : newChannel.client.allEmojis.get(newChannel.client.config.emojis.reject.id)?.format,
-        }),
-      );
-      embeds.push(embed);
+      const embedClone = EmbedBuilder.from(embed)
+        .setTitle(t("forum_nsfw_change.embed.title"))
+        .setDescription(
+          t("forum_nsfw_change.embed.description", {
+            channel: newChannel,
+            old_nsfw: oldChannel.nsfw
+              ? oldChannel.client.allEmojis.get(oldChannel.client.config.emojis.confirm.id)?.format
+              : oldChannel.client.allEmojis.get(oldChannel.client.config.emojis.reject.id)?.format,
+            new_nsfw: newChannel.nsfw
+              ? newChannel.client.allEmojis.get(newChannel.client.config.emojis.confirm.id)?.format
+              : newChannel.client.allEmojis.get(newChannel.client.config.emojis.reject.id)?.format,
+          }),
+        );
+      embeds.push(embedClone);
     }
     if (embeds.length > 0) {
       await webhook.send({ embeds }).catch((error) => {

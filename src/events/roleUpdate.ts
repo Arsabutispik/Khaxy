@@ -36,7 +36,7 @@ export default {
     //Discord fires RoleUpdate twice if the position is changed alongside any other changes. We don't want to spam the logs with this.
     if (oldRole.rawPosition !== newRole.rawPosition) return;
     if (oldRole.name !== newRole.name) {
-      embed
+      const embedClone = EmbedBuilder.from(embed)
         .setTitle(t("name_change.embed.title"))
         .setColor("Yellow")
         .setDescription(
@@ -46,10 +46,10 @@ export default {
             new_name: newRole.name,
           }),
         );
-      embeds.push(embed);
+      embeds.push(embedClone);
     }
     if (oldRole.color !== newRole.color) {
-      embed
+      const embedClone = EmbedBuilder.from(embed)
         .setColor("Yellow")
         .setTitle(t("color_change.embed.title"))
         .setDescription(
@@ -59,10 +59,10 @@ export default {
             new_color: `#${newRole.color.toString(16).padStart(6, "0")}`,
           }),
         );
-      embeds.push(embed);
+      embeds.push(embedClone);
     }
     if (oldRole.hoist !== newRole.hoist) {
-      embed
+      const embedClone = EmbedBuilder.from(embed)
         .setColor("Yellow")
         .setTitle(t("hoist_change.embed.title"))
         .setDescription(
@@ -76,10 +76,10 @@ export default {
               : newRole.client.allEmojis.get(newRole.client.config.emojis.reject.id)?.format,
           }),
         );
-      embeds.push(embed);
+      embeds.push(embedClone);
     }
     if (oldRole.mentionable !== newRole.mentionable) {
-      embed
+      const embedClone = EmbedBuilder.from(embed)
         .setColor("Yellow")
         .setTitle(t("mentionable_change.embed.title"))
         .setDescription(
@@ -93,10 +93,10 @@ export default {
               : newRole.client.allEmojis.get(newRole.client.config.emojis.reject.id)?.format,
           }),
         );
-      embeds.push(embed);
+      embeds.push(embedClone);
     }
     if (oldRole.permissions.toArray().sort().join(",") !== newRole.permissions.toArray().sort().join(",")) {
-      embed
+      const embedClone = EmbedBuilder.from(embed)
         .setColor("Yellow")
         .setTitle(t("permissions_change.embed.title"))
         .setDescription(
@@ -105,10 +105,10 @@ export default {
             changes: diffPermissions(newRole.client, oldRole, newRole, guildConfig.language),
           }),
         );
-      embeds.push(embed);
+      embeds.push(embedClone);
     }
     if (oldRole.icon !== newRole.icon) {
-      embed
+      const embedClone = EmbedBuilder.from(embed)
         .setColor("Yellow")
         .setTitle(t("icon_change.embed.title"))
         .setDescription(
@@ -118,7 +118,7 @@ export default {
             new_icon: newRole.iconURL() ?? "N/A",
           }),
         );
-      embeds.push(embed);
+      embeds.push(embedClone);
     }
     if (embeds.length > 0) {
       webhook.send({ embeds }).catch((error) => {

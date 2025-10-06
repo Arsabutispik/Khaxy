@@ -39,7 +39,7 @@ export default {
       });
     }
     const webhook = await returnWebhook(invite.client, logChannel, invite.guild.id, {
-      id: guildConfig.emoji_logs_webhook_id,
+      id: guildConfig.invite_logs_webhook_id,
       type: WebhookType.INVITE_LOGS,
     });
     await webhook.send({ embeds: [embed] }).catch((error) => {

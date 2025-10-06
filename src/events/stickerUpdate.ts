@@ -38,34 +38,40 @@ export default {
       type: WebhookType.STICKER_LOGS,
     });
     if (oldSticker.name !== newSticker.name) {
-      embed.setTitle(t("name_change.embed.title")).setDescription(
-        t("name_change.embed.description", {
-          sticker: newSticker,
-          old_name: oldSticker.name,
-          new_name: newSticker.name,
-        }),
-      );
-      embeds.push(embed);
+      const embedClone = EmbedBuilder.from(embed)
+        .setTitle(t("name_change.embed.title"))
+        .setDescription(
+          t("name_change.embed.description", {
+            sticker: newSticker,
+            old_name: oldSticker.name,
+            new_name: newSticker.name,
+          }),
+        );
+      embeds.push(embedClone);
     }
     if (oldSticker.description !== newSticker.description) {
-      embed.setTitle(t("description_change.embed.title")).setDescription(
-        t("description_change.embed.description", {
-          sticker: newSticker,
-          old_description: oldSticker.description,
-          new_description: newSticker.description,
-        }),
-      );
-      embeds.push(embed);
+      const embedClone = EmbedBuilder.from(embed)
+        .setTitle(t("description_change.embed.title"))
+        .setDescription(
+          t("description_change.embed.description", {
+            sticker: newSticker,
+            old_description: oldSticker.description,
+            new_description: newSticker.description,
+          }),
+        );
+      embeds.push(embedClone);
     }
     if (oldSticker.tags !== newSticker.tags) {
-      embed.setTitle(t("tags_change.embed.title")).setDescription(
-        t("tags_change.embed.description", {
-          sticker: newSticker,
-          old_tags: oldSticker.tags,
-          new_tags: newSticker.tags,
-        }),
-      );
-      embeds.push(embed);
+      const embedClone = EmbedBuilder.from(embed)
+        .setTitle(t("tags_change.embed.title"))
+        .setDescription(
+          t("tags_change.embed.description", {
+            sticker: newSticker,
+            old_tags: oldSticker.tags,
+            new_tags: newSticker.tags,
+          }),
+        );
+      embeds.push(embedClone);
     }
     if (embeds.length > 0) {
       webhook.send({ embeds }).catch((error) => {
