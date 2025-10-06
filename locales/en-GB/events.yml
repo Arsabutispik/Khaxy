@@ -689,6 +689,29 @@ roleUpdate:
         > **ID**: {{role.id}}
         > **Old Icon**: {{old_icon}}
         > **New Icon**: {{new_icon}}
+stageInstanceCreate:
+  unknown_executor: Unknown Executor
+  embed:
+    title: Stage Started
+    description: |-
+      > **Channel**: <#{{stage.channelId}}>
+      > **Topic**: {{stage.topic}}
+stageInstanceDelete:
+  unknown_executor: Unknown Executor
+  embed:
+    title: Stage Ended
+    description: |-
+      > **Channel**: <#{{stage.channelId}}>
+      > **Topic**: {{stage.topic}}
+stageInstanceUpdate:
+  unknown_executor: Unknown Executor
+  topic_change:
+    embed:
+      title: Stage Topic Changed
+      description: |-
+        > **Channel**: <#{{stage.channelId}}>
+        > **Old Topic**: {{old_topic}}
+        > **New Topic**: {{new_topic}}
 stickerCreate:
   unknown_executor: Unknown Executor
   embed:

@@ -93,6 +93,12 @@ export async function logConfig(interaction: ChatInputCommandInteraction<"cached
         description: t("poll_logs_channel_id.description"),
         emoji: "📊",
       },
+      {
+        label: t("stage_logs_channel_id.label"),
+        value: "stage_logs_channel_id",
+        description: t("stage_logs_channel_id.description"),
+        emoji: "🎙️",
+      },
     ]);
   const actionRow = new ActionRowBuilder<StringSelectMenuBuilder>().setComponents(selectMenu);
   const reply = await interaction.reply({
@@ -177,5 +183,11 @@ export async function logConfig(interaction: ChatInputCommandInteraction<"cached
       client.webhooks.delete(toStringId(guildConfig.poll_logs_webhook_id));
       await updateGuildConfig(interaction.guildId, { poll_logs_webhook_id: null });
       await dynamicChannel("poll_logs_channel_id", messageComponent, guildConfig, t);
+      break;
+    case "stage_logs_channel_id":
+      client.webhooks.delete(toStringId(guildConfig.stage_logs_webhook_id));
+      await updateGuildConfig(interaction.guildId, { stage_logs_webhook_id: null });
+      await dynamicChannel("stage_logs_channel_id", messageComponent, guildConfig, t);
+      break;
   }
 }

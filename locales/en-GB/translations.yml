@@ -301,6 +301,11 @@ log_config:
     description: The channel where poll logs will be sent.
     unset: Poll Logs channel has been removed.
     set: "Poll Logs channel has been set to {{channel}}."
+  stage_logs_channel_id:
+    label: Set Stage Logs Channel
+    description: The channel where stage logs will be sent.
+    unset: Stage Logs channel has been removed.
+    set: "Stage Logs channel has been set to {{channel}}."
 mod_mail_log:
   initial: >
     # Mod-mail thread #{{thread_id}} with {{user.tag}} {{user.id}} started at

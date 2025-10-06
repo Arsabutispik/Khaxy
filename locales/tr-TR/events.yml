@@ -689,6 +689,29 @@ roleUpdate:
         > **ID**: {{role.id}}
         > **Eski İkon**: {{old_icon}}
         > **Yeni İkon**: {{new_icon}}
+stageInstanceCreate:
+  unknown_executor: Bilinmeyen Yetkili
+  embed:
+    title: Sahne Başlatıldı
+    description: |-
+      > **Kanal**: <#{{stage.channelId}}>
+      > **Konu**: {{stage.topic}}
+stageInstanceDelete:
+  unknown_executor: Bilinmeyen Yetkili
+  embed:
+    title: Sahne Bitti
+    description: |-
+      > **Kanal**: <#{{stage.channelId}}>
+      > **Konu**: {{stage.topic}}
+stageInstanceUpdate:
+  unknown_executor: Bilinmeyen Yetkili
+  topic_change:
+    embed:
+      title: Sahne Konusu Değiştirildi
+      description: |-
+        > **Kanal**: <#{{stage.channelId}}>
+        > **Eski Konu**: {{old_topic}}
+        > **Yeni Konu**: {{new_topic}}
 stickerCreate:
   unknown_executor: Bilinmeyen Yetkili
   embed:
