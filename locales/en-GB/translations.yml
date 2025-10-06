@@ -311,6 +311,11 @@ log_config:
     description: The channel where soundboard logs will be sent.
     unset: Soundboard Logs channel has been removed.
     set: "Soundboard Logs channel has been set to {{channel}}."
+  thread_logs_channel_id:
+    label: Set Thread Logs Channel
+    description: The channel where thread logs will be sent.
+    unset: Thread Logs channel has been removed.
+    set: "Thread Logs channel has been set to {{channel}}."
 mod_mail_log:
   initial: >
     # Mod-mail thread #{{thread_id}} with {{user.tag}} {{user.id}} started at

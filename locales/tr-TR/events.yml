@@ -802,6 +802,97 @@ stickerUpdate:
         > **ID**: {{sticker.id}}
         > **Eski Etiketler**: {{old_tags}}
         > **Yeni Etiketler**: {{new_tags}}
+threadCreate:
+  thread_auto_archive_duration:
+    60: 1 Saat
+    1440: 1 Gün
+    4320: 3 Gün
+    10080: 1 Hafta
+  embed:
+    title: Alt Başlık Oluşturuldu
+    description: |-
+      > **Alt Başlık**: {{thread.name}} (<#{{thread.id}}>)
+      > **ID**: {{thread.id}}
+      > **Oluşturulduğu Kanal**: {{parent.name}} (<#{{parent.id}}>)
+      > **Varsayılan Arşiv Süresi**: {{auto_archive_duration}}
+      > **Oluşturulma Tarihi**: {{timestamp}}
+threadDelete:
+  unknown_executor: Bilinmeyen Yetkili
+  thread_auto_archive_duration:
+    60: 1 Saat
+    1440: 1 Gün
+    4320: 3 Gün
+    10080: 1 Hafta
+  embed:
+    title: Alt Başlık Silindi
+    description: |-
+      > **Alt Başlık**: {{thread.name}} (<#{{thread.id}}>)
+      > **ID**: {{thread.id}}
+      > **Oluşturulduğu Kanal**: {{parent.name}} (<#{{parent.id}}>)
+      > **Varsayılan Arşiv Süresi**: {{auto_archive_duration}}
+      > **Oluşturuldu**: {{timestamp}}
+threadUpdate:
+  unknown_executor: Bilinmeyen Yetkili
+  name_change:
+    embed:
+      title: Alt Başlık İsmi Değiştirildi
+      description: |-
+        > **Alt Başlık**: {{thread.name}} (<#{{thread.id}}>)
+        > **ID**: {{thread.id}}
+        > **Oluşturulduğu Kanal**: {{parent.name}} (<#{{parent.id}}>)
+        > **Eski İsim**: {{old_name}}
+        > **Yeni İsim**: {{new_name}}
+  archive:
+    embed:
+      title: Alt Başlık Arşivlendi
+      description: |-
+        > **Alt Başlık**: {{thread.name}} (<#{{thread.id}}>)
+        > **ID**: {{thread.id}}
+        > **Oluşturulduğu Kanal**: {{parent.name}} (<#{{parent.id}}>)
+  unarchive:
+    embed:
+      title: Alt Başlık Arşivden Çıkarıldı
+      description: |-
+        > **Alt Başlık**: {{thread.name}} (<#{{thread.id}}>)
+        > **ID**: {{thread.id}}
+        > **Oluşturulduğu Kanal**: {{parent.name}} (<#{{parent.id}}>)
+  lock:
+    embed:
+      title: Alt Başlık Kilitlendi
+      description: |-
+        > **Alt Başlık**: {{thread.name}} (<#{{thread.id}}>)
+        > **ID**: {{thread.id}}
+        > **Oluşturulduğu Kanal**: {{parent.name}} (<#{{parent.id}}>)
+  unlock:
+    embed:
+      title: Alt Başlık Kilidi Açıldı
+      description: |-
+        > **Alt Başlık**: {{thread.name}} (<#{{thread.id}}>)
+        > **ID**: {{thread.id}}
+        > **Oluşturulduğu Kanal**: {{parent.name}} (<#{{parent.id}}>)
+  auto_archive_duration:
+    60: 1 Saat
+    1440: 1 Gün
+    4320: 3 Gün
+    10080: 1 Hafta
+  auto_archive_duration_change:
+    embed:
+      title: Alt Başlık Varsayılan Arşiv Süresi Değiştirildi
+      description: |-
+        > **Alt Başlık**: {{thread.name}} (<#{{thread.id}}>)
+        > **ID**: {{thread.id}}
+        > **Oluşturulduğu Kanal**: {{parent.name}} (<#{{parent.id}}>)
+        > **Eski Arşiv Süresi**: {{old_duration}}
+        > **Yeni Arşiv Süresi**: {{new_duration}}
+  rate_limit_change:
+    embed:
+      title: Alt Başlık Mesaj Yavaş Mod Süresi Değiştirildi
+      description: |-
+        > **Alt Başlık**: {{thread.name}} (<#{{thread.id}}>)
+        > **ID**: {{thread.id}}
+        > **Oluşturulduğu Kanal**: {{parent.name}} (<#{{parent.id}}>)
+        > **Eski Süre**: {{old_rate_limit}}
+        > **Yeni Süre**: {{new_rate_limit}}
 voiceStateUpdate:
   unknown_executor: Bilinmeyen Yetkili
   join:

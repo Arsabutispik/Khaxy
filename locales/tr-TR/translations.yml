@@ -308,6 +308,11 @@ log_config:
     description: Soundboard üzerinde yapılan değişiklerin kaydedildiği kanal
     unset: Soundboard günlükleri kanalı kaldırıldı.
     set: "Soundboard Günlükleri kanalı {{channel}} olarak ayarlandı."
+  thread_logs_channel_id:
+    label: Alt Başlıklar Günlükleri Kanalını Ayarla
+    description: Alt Başlıklar üzerinde yapılan değişiklerin kaydedildiği kanal
+    unset: Alt Başlıklar günlükleri kanalı kaldırıldı.
+    set: "Alt Başlıklar Günlükleri kanalı {{channel}} olarak ayarlandı."
 mod_mail_log:
   initial: >-
     # {{user.tag}} ({{user.id}}) ile olan modmail konuşması #{{thread_id}}
