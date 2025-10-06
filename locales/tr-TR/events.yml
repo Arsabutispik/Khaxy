@@ -470,6 +470,52 @@ guildScheduledEventUserRemove:
       > **Kullanıcı ID**: {{user.id}}
       > **Etkinlik İsmi**: {{event.name}}
       > **Etkinlik ID**: {{event.id}}
+guildSoundboardSoundCreate:
+  embed:
+    title: Ses Panosu Oluşturuldu
+    description: |-
+      > **Ses Panosu**: {{soundboard.name}}
+      > **ID**: {{soundboard.id}}
+      > **Emoji**: {{soundboard.emoji}}
+      > **Ses**: %{{volume}}
+      > **Oluşturulma Tarihi**: {{timestamp}}
+guildSoundboardSoundDelete:
+  unknown_executor: Bilinmeyen Yetkili
+  embed:
+    title: Ses Panosu Silindi
+    description: |-
+      > **Ses Panosu**: {{soundboard.name}}
+      > **ID**: {{soundboard.id}}
+      > **Emoji**: {{soundboard.emoji}}
+      > **Ses**: %{{volume}}
+      > **Silinme Tarihi**: {{timestamp}}
+guildSoundboardSoundUpdate:
+  unknown_executor: Bilinmeyen Yetkili
+  no_previous_value: Önceki değer yok
+  no_emoji: Emoji yok
+  name_change:
+    embed:
+      title: Ses Panosu İsmi Değiştirildi
+      description: |-
+        > **ID**: {{soundboard.id}}
+        > **Eski İsim**: {{old_name}}
+        > **Yeni İsim**: {{new_name}}
+  emoji_change:
+    embed:
+      title: Ses Panosu Emojisi Değiştirildi
+      description: |-
+        > **Ses Panosu**: {{soundboard.name}}
+        > **ID**: {{soundboard.id}}
+        > **Eski Emoji**: {{old_emoji}}
+        > **Yeni Emoji**: {{new_emoji}}
+  volume_change:
+    embed:
+      title: Ses Panosu Sesi Değiştirildi
+      description: |-
+        > **Ses Panosu**: {{soundboard.name}}
+        > **ID**: {{soundboard.id}}
+        > **Eski Ses**: %{{old_volume}}
+        > **Yeni Ses**: %{{new_volume}}
 guildUpdate:
   unknown_executor: Bilinmeyen Yetkili
   name_change:

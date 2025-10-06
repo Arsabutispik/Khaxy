@@ -34,7 +34,14 @@ const client = new Client({
     GatewayIntentBits.GuildInvites,
     GatewayIntentBits.GuildMessagePolls,
   ],
-  partials: [Partials.Channel, Partials.Message, Partials.GuildMember, Partials.GuildScheduledEvent, Partials.User],
+  partials: [
+    Partials.Channel,
+    Partials.Message,
+    Partials.GuildMember,
+    Partials.GuildScheduledEvent,
+    Partials.User,
+    Partials.SoundboardSound,
+  ],
 });
 await initI18n();
 client.i18next = i18next;

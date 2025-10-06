@@ -306,6 +306,11 @@ log_config:
     description: The channel where stage logs will be sent.
     unset: Stage Logs channel has been removed.
     set: "Stage Logs channel has been set to {{channel}}."
+  soundboard_logs_channel_id:
+    label: Set Soundboard Logs Channel
+    description: The channel where soundboard logs will be sent.
+    unset: Soundboard Logs channel has been removed.
+    set: "Soundboard Logs channel has been set to {{channel}}."
 mod_mail_log:
   initial: >
     # Mod-mail thread #{{thread_id}} with {{user.tag}} {{user.id}} started at

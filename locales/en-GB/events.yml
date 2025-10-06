@@ -470,6 +470,51 @@ guildScheduledEventUserRemove:
       > **User ID**: {{user.id}}
       > **Event Name**: {{event.name}}
       > **Event ID**: {{event.id}}
+guildSoundboardSoundCreate:
+  embed:
+    title: Sound Created
+    description: |-
+      > **Name**: {{sound.name}}
+      > **ID**: {{sound.id}}
+      > **Emoji**: {{sound.emoji}}
+      > **Volume**: {{volume}}%
+      > **Created At**: {{timestamp}}
+guildSoundboardSoundDelete:
+  unknown_executor: Unknown Executor
+  embed:
+    title: Sound Deleted
+    description: |-
+      > **Name**: {{sound.name}}
+      > **ID**: {{sound.id}}
+      > **Emoji**: {{sound.emoji}}
+      > **Volume**: {{volume}}%
+      > **Deleted At**: {{timestamp}}
+guildSoundboardSoundUpdate:
+  unknown_executor: Unknown Executor
+  no_previous_value: No previous value
+  no_emoji: No emoji
+  volume_change:
+    embed:
+      title: Sound Volume Changed
+      description: |-
+        > **Name**: {{sound.name}}
+        > **ID**: {{sound.id}}
+        > **Old Volume**: {{old_volume}}%
+        > **New Volume**: {{new_volume}}%,
+  name_change:
+    embed:
+      title: Sound Name Changed
+      description: |-
+        > **ID**: {{sound.id}}
+        > **Old Name**: {{old_name}}
+        > **New Name**: {{new_name}}
+  emoji_change:
+    embed:
+      title: Sound Emoji Changed
+      description: |-
+        > **ID**: {{sound.id}}
+        > **Old Emoji**: {{old_emoji}}
+        > **New Emoji**: {{new_emoji}}
 guildUpdate:
   unknown_executor: Unknown Executor
   name_change:

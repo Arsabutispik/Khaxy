@@ -303,6 +303,11 @@ log_config:
     description: Sahne üzerinde yapılan değişiklerin kaydedildiği kanal
     unset: Sahne günlükleri kanalı kaldırıldı.
     set: "Sahne Günlükleri kanalı {{channel}} olarak ayarlandı."
+  soundboard_logs_channel_id:
+    label: Soundboard Günlükleri Kanalını Ayarla
+    description: Soundboard üzerinde yapılan değişiklerin kaydedildiği kanal
+    unset: Soundboard günlükleri kanalı kaldırıldı.
+    set: "Soundboard Günlükleri kanalı {{channel}} olarak ayarlandı."
 mod_mail_log:
   initial: >-
     # {{user.tag}} ({{user.id}}) ile olan modmail konuşması #{{thread_id}}
