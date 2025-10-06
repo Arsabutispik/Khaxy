@@ -534,12 +534,163 @@ guildSoundboardSoundUpdate:
         > **Yeni Ses**: %{{new_volume}}
 guildUpdate:
   unknown_executor: Bilinmeyen Yetkili
+  none: Yok
+  notification_levels:
+    0: Tüm Mesajlar
+    1: Sadece @bahsetmeler
+  explicit_content_filter_levels:
+    0: Devre Dışı
+    1: Rolü Olmayan Üyeler
+    2: Tüm Üyeler
+  mfa_levels:
+    0: Yok
+    1: Yükseltilmiş
+  verification_levels:
+    0: Yok
+    1: Düşük
+    2: Orta
+    3: Yüksek
+    4: Çok Yüksek
+  afk_channel_change:
+    embed:
+      title: Sunucu AFK Kanalı Değiştirildi
+      description: |-
+        > **Eski AFK Kanalı**: {{old_channel}}
+        > **Yeni AFK Kanalı**: {{new_channel}}
+  afk_timeout_change:
+    embed:
+      title: Sunucu AFK Zaman Aşımı Değiştirildi
+      description: |-
+        > **Eski AFK Zaman Aşımı**: {{old_timeout}}
+        > **Yeni AFK Zaman Aşımı**: {{new_timeout}}
+  banner_change:
+    embed:
+      title: Sunucu Banner'ı Değiştirildi
+      description: |-
+        > **Eski Banner**: {{old_banner}}
+        > **Yeni Banner**: {{new_banner}}
+  default_message_notifications_change:
+    embed:
+      title: Sunucu Varsayılan Mesaj Bildirimleri Değiştirildi
+      description: |-
+        > **Eski Seviye**: {{old_level}}
+        > **Yeni Seviye**: {{new_level}}
+  discovery_splash_change:
+    embed:
+      title: Sunucu Discovery Splash Değiştirildi
+      description: |-
+        > **Eski Discovery Splash**: {{old_discovery_splash}}
+        > **Yeni Discovery Splash**: {{new_discovery_splash}}
+  explicit_content_filter_change:
+    embed:
+      title: Sunucu Açık İçerik Filtresi Değiştirildi
+      description: |-
+        > **Eski Seviye**: {{old_level}}
+        > **Yeni Seviye**: {{new_level}}
+  features_change:
+    embed:
+      added: Eklendi
+      removed: Kaldırıldı
+      title: Sunucu Özellikleri Değiştirildi
+      description: |-
+        > **Eski Özellikler**: {{old_features}}
+        > **Yeni Özellikler**: {{new_features}}
+  icon_change:
+    embed:
+      title: Sunucu Simgesi Değiştirildi
+      description: |-
+        > **Eski Simgesi**: {{old_icon}}
+        > **Yeni Simgesi**: {{new_icon}}
+  mfa_level_change:
+    embed:
+      title: Sunucu MFA Seviyesi Değiştirildi
+      description: |-
+        > **Eski Seviye**: {{old_level}}
+        > **Yeni Seviye**: {{new_level}}
   name_change:
     embed:
       title: Sunucu Adı Değiştirildi
       description: |-
-        > **Eski Sunucu Adı**: {{old_name}}
-        > **Yeni Sunucu Adı**: {{new_name}}
+        > **Eski Ad**: {{old_name}}
+        > **Yeni Ad**: {{new_name}}
+  description_change:
+    embed:
+      title: Sunucu Açıklaması Değiştirildi
+      description: |-
+        > **Eski Açıklama**: {{old_description}}
+        > **Yeni Açıklama**: {{new_description}}
+  owner_change:
+    embed:
+      title: Sunucu Sahibi Değiştirildi
+      description: |-
+        > **Eski Sahip**: {{old_owner}}
+        > **Yeni Sahip**: {{new_owner}}
+  partnered_change:
+    embed:
+      title: Sunucu Partner Durumu Değiştirildi
+      description: |-
+        > **Eski Durum**: {{old_status}}
+        > **Yeni Durum**: {{new_status}}
+  preferred_locale_change:
+    embed:
+      title: Sunucu Tercih Edilen Dil Değiştirildi
+      description: |-
+        > **Eski Dil**: {{old_locale}}
+        > **Yeni Dil**: {{new_locale}}
+  premium_progress_bar_change:
+    embed:
+      title: Sunucu Boost İlerleme Çubuğu Değiştirildi
+      description: |-
+        > **Eski Durum**: {{old_progress_bar}}
+        > **Yeni Durum**: {{new_progress_bar}}
+  premium_subscription_count_change:
+    embed:
+      title: Sunucu Boost Sayısı Değiştirildi
+      description: |-
+        > **Eski Sayı**: {{old_count}}
+        > **Yeni Sayı**: {{new_count}}
+  premium_tier_change:
+    embed:
+      title: Sunucu Boost Seviyesi Değiştirildi
+      description: |-
+        > **Eski Seviye**: {{old_level}}
+        > **Yeni Seviye**: {{new_level}}
+  rules_channel_change:
+    embed:
+      title: Sunucu Kurallar Kanalı Değiştirildi
+      description: |-
+        > **Eski Kurallar Kanalı**: {{old_channel}}
+        > **Yeni Kurallar Kanalı**: {{new_channel}}
+  safety_alerts_channel_change:
+    embed:
+      title: Sunucu Güvenlik Uyarıları Kanalı Değiştirildi
+      description: |-
+        > **Eski Güvenlik Uyarıları Kanalı**: {{old_channel}}
+        > **Yeni Güvenlik Uyarıları Kanalı**: {{new_channel}}
+  splash_change:
+    embed:
+      title: Sunucu Splash Değiştirildi
+      description: |-
+        > **Eski Splash**: {{old_splash}}
+        > **Yeni Splash**: {{new_splash}}
+  system_channel_change:
+    embed:
+      title: Sunucu Sistem Kanalı Değiştirildi
+      description: |-
+        > **Eski Sistem Kanalı**: {{old_channel}}
+        > **Yeni Sistem Kanalı**: {{new_channel}}
+  vanity_url_code_change:
+    embed:
+      title: Sunucu Özel URL Değiştirildi
+      description: |-
+        > **Eski Özel URL**: {{old_code}}
+        > **Yeni Özel URL**: {{new_code}}
+  verification_level_change:
+    embed:
+      title: Sunucu Doğrulama Seviyesi Değiştirildi
+      description: |-
+        > **Eski Seviye**: {{old_level}}
+        > **Yeni Seviye**: {{new_level}}
 interactionCreate:
   memberMissingPermissions: >-
     Bu komutu kullanabilmek için gerekli `{{permissions}}` izinlerine sahip

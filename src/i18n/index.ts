@@ -9,7 +9,7 @@ export async function initI18n() {
       fallbackLng: "en-GB",
       lng: "en-GB",
       preload: ["en-GB", "tr-TR"],
-      ns: ["translations", "events", "permissions", "commands", "help"],
+      ns: ["translations", "events", "permissions", "commands", "help", "guild-features", "locales"],
       defaultNS: "translations",
       backend: {
         loadPath: "locales/{{lng}}/{{ns}}.yml",

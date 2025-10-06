@@ -322,7 +322,7 @@ log_config:
     unset: Webhook Logs channel has been removed.
     set: "Webhook Logs channel has been set to {{channel}}."
 mod_mail_log:
-  initial: >
+  initial: >-
     # Mod-mail thread #{{thread_id}} with {{user.tag}} {{user.id}} started at
     {{time}}. All times are in GMT.
   bot_to_user: "[BOT TO USER]"
@@ -343,7 +343,7 @@ check_expired_modmail_blacklists:
 check_punishments:
   embed:
     title: User Roles Updated
-    description: >-
+    description: |-
       > **User**: {{user.tag}} (<@{{user.id}}>)
       > **ID**: {{user.id}}
       > **Roles Removed**: {{removed_roles}}

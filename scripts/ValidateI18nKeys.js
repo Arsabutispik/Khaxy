@@ -22,19 +22,29 @@ function getKeys(obj, prefix = "") {
 // Safely read YAML file
 function safeReadYaml(filePath) {
   try {
-    return yaml.load(fs.readFileSync(filePath, "utf-8"));
+    if (!fs.existsSync(filePath)) return null;
+    const content = fs.readFileSync(filePath, "utf-8").trim();
+    if (!content) return {}; // treat empty file as empty object
+    return yaml.load(content);
   } catch (e) {
     console.error(chalk.red(`❌ Error reading or parsing: ${filePath}\n${e.message}`));
     return null;
   }
 }
 
-// Validate keys between base and another language
+// Validate keys and multi-line values between base and another language
 function validateKeys(baseLangFilePath, langFilePath, lang, file) {
   const baseObj = safeReadYaml(baseLangFilePath);
   const langObj = safeReadYaml(langFilePath);
 
-  if (!baseObj || !langObj) return null;
+  if (!baseObj) return null;
+
+  // Handle empty or unreadable translation file
+  if (!langObj || Object.keys(langObj).length === 0) {
+    console.warn(chalk.yellow(`⚠️  Empty translation file detected: ${langFilePath}`));
+    const baseKeys = getKeys(baseObj);
+    return { file, lang, missingKeys: baseKeys, extraKeys: [], multiLineDifferences: [] };
+  }
 
   const baseKeys = getKeys(baseObj);
   const langKeys = getKeys(langObj);
@@ -42,7 +52,23 @@ function validateKeys(baseLangFilePath, langFilePath, lang, file) {
   const missingKeys = baseKeys.filter((key) => !langKeys.includes(key));
   const extraKeys = langKeys.filter((key) => !baseKeys.includes(key));
 
-  return { file, lang, missingKeys, extraKeys };
+  // Check for multi-line differences
+  const multiLineDifferences = [];
+  baseKeys.forEach((key) => {
+    const baseValue = key.split(".").reduce((o, k) => o?.[k], baseObj);
+    const langValue = key.split(".").reduce((o, k) => o?.[k], langObj);
+
+    if (typeof baseValue === "string" && typeof langValue === "string") {
+      const baseLines = baseValue.split("\n").map((l) => l.trim());
+      const langLines = langValue.split("\n").map((l) => l.trim());
+
+      if (baseLines.length !== langLines.length) {
+        multiLineDifferences.push({ key, baseLines, langLines });
+      }
+    }
+  });
+
+  return { file, lang, missingKeys, extraKeys, multiLineDifferences };
 }
 
 // Get all YAML files in a directory
@@ -57,24 +83,42 @@ const otherLangDirs = fs.readdirSync(localesDir).filter((lang) => lang !== baseL
 let allIssues = [];
 let totalMissingKeys = 0;
 let totalExtraKeys = 0;
+let totalMultiLineDifferences = 0;
 
 otherLangDirs.forEach((lang) => {
   const langDir = path.join(localesDir, lang);
-  const langFiles = getAllYamlFiles(langDir);
+  const baseFiles = getAllYamlFiles(baseLangDir);
 
-  langFiles.forEach((file) => {
+  baseFiles.forEach((file) => {
     const baseLangFilePath = path.join(baseLangDir, file);
     const langFilePath = path.join(langDir, file);
 
-    if (fs.existsSync(baseLangFilePath)) {
-      const result = validateKeys(baseLangFilePath, langFilePath, lang, file);
-      if (result && (result.missingKeys.length > 0 || result.extraKeys.length > 0)) {
-        allIssues.push(result);
-        totalMissingKeys += result.missingKeys.length;
-        totalExtraKeys += result.extraKeys.length;
-      }
-    } else {
-      console.warn(chalk.yellow(`⚠️  Base file missing: ${baseLangFilePath}`));
+    // Handle missing translation file
+    if (!fs.existsSync(langFilePath)) {
+      console.error(chalk.red(`❌ Missing translation file: ${langFilePath}`));
+      const baseObj = safeReadYaml(baseLangFilePath);
+      const baseKeys = baseObj ? getKeys(baseObj) : [];
+      allIssues.push({
+        file,
+        lang,
+        missingKeys: baseKeys,
+        extraKeys: [],
+        multiLineDifferences: [],
+      });
+      totalMissingKeys += baseKeys.length;
+      return;
+    }
+
+    // Validate keys
+    const result = validateKeys(baseLangFilePath, langFilePath, lang, file);
+    if (
+      result &&
+      (result.missingKeys.length > 0 || result.extraKeys.length > 0 || result.multiLineDifferences.length > 0)
+    ) {
+      allIssues.push(result);
+      totalMissingKeys += result.missingKeys.length;
+      totalExtraKeys += result.extraKeys.length;
+      totalMultiLineDifferences += result.multiLineDifferences.length;
     }
   });
 });
@@ -83,11 +127,11 @@ otherLangDirs.forEach((lang) => {
 if (allIssues.length > 0) {
   console.error(chalk.red.bold(`\n🚨 Translation issues detected:`));
 
-  allIssues.forEach(({ lang, file, missingKeys, extraKeys }) => {
+  allIssues.forEach(({ lang, file, missingKeys, extraKeys, multiLineDifferences }) => {
     console.error(`\n🌍 ${chalk.blue.bold(lang)} ➜ ${chalk.cyan.bold(file)}`);
 
     if (missingKeys.length > 0) {
-      console.error(chalk.red(`  ❌  Missing keys (${missingKeys.length}):`));
+      console.error(chalk.red(`  ❌ Missing keys (${missingKeys.length}):`));
       missingKeys.forEach((key) => console.error(`    ${chalk.red.bold("- " + key)}`));
     }
 
@@ -95,14 +139,24 @@ if (allIssues.length > 0) {
       console.error(chalk.yellow(`  ⚠️ Extra keys (${extraKeys.length}):`));
       extraKeys.forEach((key) => console.error(`    ${chalk.yellow.bold("- " + key)}`));
     }
+
+    if (multiLineDifferences.length > 0) {
+      console.error(chalk.magenta(`  ⚠️ Multi-line differences (${multiLineDifferences.length}):`));
+      multiLineDifferences.forEach(({ key, baseLines, langLines }) => {
+        console.error(
+          chalk.magenta(`    - ${key}: base(${baseLines.length} lines) vs lang(${langLines.length} lines)`),
+        );
+      });
+    }
   });
 
   console.error(chalk.blue.bold(`\n📊 Summary:`));
-  console.error(chalk.red(`  ❌  Total missing keys: ${totalMissingKeys}`));
+  console.error(chalk.red(`  ❌ Total missing keys: ${totalMissingKeys}`));
   console.error(chalk.yellow(`  ⚠️ Total extra keys: ${totalExtraKeys}`));
+  console.error(chalk.magenta(`  ⚠️ Total multi-line differences: ${totalMultiLineDifferences}`));
 
   process.exit(1);
 } else {
-  console.log(chalk.green.bold("✅  All translation files are valid."));
+  console.log(chalk.green.bold("✅ All translation files are valid."));
   process.exit(0);
 }

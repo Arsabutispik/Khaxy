@@ -528,17 +528,169 @@ guildSoundboardSoundUpdate:
     embed:
       title: Sound Emoji Changed
       description: |-
+        > **Name**: {{sound.name}}
         > **ID**: {{sound.id}}
         > **Old Emoji**: {{old_emoji}}
         > **New Emoji**: {{new_emoji}}
 guildUpdate:
   unknown_executor: Unknown Executor
+  none: None
+  notification_levels:
+    0: All Messages
+    1: Only @mentions
+  explicit_content_filter_levels:
+    0: Disabled
+    1: Members Without Roles
+    2: All Members
+  mfa_levels:
+    0: None
+    1: Elevated
+  verification_levels:
+    0: None
+    1: Low
+    2: Medium
+    3: High
+    4: Very High
+  afk_channel_change:
+    embed:
+      title: Server AFK Channel Changed
+      description: |-
+        > **Old AFK Channel**: {{old_channel}}
+        > **New AFK Channel**: {{new_channel}}
+  afk_timeout_change:
+    embed:
+      title: Server AFK Timeout Changed
+      description: |-
+        > **Old AFK Timeout**: {{old_timeout}}
+        > **New AFK Timeout**: {{new_timeout}}
+  banner_change:
+    embed:
+      title: Server Banner Changed
+      description: |-
+        > **Old Banner**: {{old_banner}}
+        > **New Banner**: {{new_banner}}
+  default_message_notifications_change:
+    embed:
+      title: Server Default Message Notifications Changed
+      description: |-
+        > **Old Level**: {{old_level}}
+        > **New Level**: {{new_level}}
+  discovery_splash_change:
+    embed:
+      title: Server Discovery Splash Changed
+      description: |-
+        > **Old Discovery Splash**: {{old_discovery_splash}}
+        > **New Discovery Splash**: {{new_discovery_splash}}
+  explicit_content_filter_change:
+    embed:
+      title: Server Explicit Content Filter Changed
+      description: |-
+        > **Old Level**: {{old_level}}
+        > **New Level**: {{new_level}}
+  features_change:
+    embed:
+      added: Added
+      removed: Removed
+      title: Server Features Changed
+      description: |-
+        > **Old Features**: {{old_features}}
+        > **New Features**: {{new_features}}
+  icon_change:
+    embed:
+      title: Server Icon Changed
+      description: |-
+        > **Old Icon**: {{old_icon}}
+        > **New Icon**: {{new_icon}}
+  mfa_level_change:
+    embed:
+      title: Server MFA Level Changed
+      description: |-
+        > **Old Level**: {{old_level}}
+        > **New Level**: {{new_level}}
   name_change:
     embed:
       title: Server Name Changed
       description: |-
         > **Old Name**: {{old_name}}
         > **New Name**: {{new_name}}
+  description_change:
+    embed:
+      title: Server Description Changed
+      description: |-
+        > **Old Description**: {{old_description}}
+        > **New Description**: {{new_description}}
+  owner_change:
+    embed:
+      title: Server Owner Changed
+      description: |-
+        > **Old Owner**: {{old_owner}}
+        > **New Owner**: {{new_owner}}
+  partnered_change:
+    embed:
+      title: Server Partnered Status Changed
+      description: |-
+        > **Old Status**: {{old_status}}
+        > **New Status**: {{new_status}}
+  preferred_locale_change:
+    embed:
+      title: Server Preferred Locale Changed
+      description: |-
+        > **Old Locale**: {{old_locale}}
+        > **New Locale**: {{new_locale}}
+  premium_progress_bar_change:
+    embed:
+      title: Server Boost Progress Bar Changed
+      description: |-
+        > **Old Status**: {{old_progress_bar}}
+        > **New Status**: {{new_progress_bar}}
+  premium_subscription_count_change:
+    embed:
+      title: Server Boost Count Changed
+      description: |-
+        > **Old Count**: {{old_count}}
+        > **New Count**: {{new_count}}
+  premium_tier_change:
+    embed:
+      title: Server Boost Level Changed
+      description: |-
+        > **Old Level**: {{old_level}}
+        > **New Level**: {{new_level}}
+  rules_channel_change:
+    embed:
+      title: Server Rules Channel Changed
+      description: |-
+        > **Old Rules Channel**: {{old_channel}}
+        > **New Rules Channel**: {{new_channel}}
+  safety_alerts_channel_change:
+    embed:
+      title: Server Safety Alerts Channel Changed
+      description: |-
+        > **Old Safety Alerts Channel**: {{old_channel}}
+        > **New Safety Alerts Channel**: {{new_channel}}
+  splash_change:
+    embed:
+      title: Server Splash Changed
+      description: |-
+        > **Old Splash**: {{old_splash}}
+        > **New Splash**: {{new_splash}}
+  system_channel_change:
+    embed:
+      title: Server System Channel Changed
+      description: |-
+        > **Old System Channel**: {{old_channel}}
+        > **New System Channel**: {{new_channel}}
+  vanity_url_code_change:
+    embed:
+      title: Server Vanity URL Changed
+      description: |-
+        > **Old Vanity URL**: {{old_code}}
+        > **New Vanity URL**: {{new_code}}
+  verification_level_change:
+    embed:
+      title: Server Verification Level Changed
+      description: |-
+        > **Old Level**: {{old_level}}
+        > **New Level**: {{new_level}}
 interactionCreate:
   memberMissingPermissions: >-
     You don't have the required `{{permissions}}` permissions to use this
@@ -935,4 +1087,3 @@ voiceStateUpdate:
         > **ID**: {{user.id}}
         > **Old Channel**: {{oldChannel.name}} (<#{{oldChannel.id}}>)
         > **New Channel**: {{newChannel.name}} (<#{{newChannel.id}}>)
-        > **Moved At**: {{timestamp}}
