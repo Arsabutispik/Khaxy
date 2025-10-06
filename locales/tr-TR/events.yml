@@ -279,6 +279,22 @@ emojiUpdate:
         > **ID**: {{emoji.id}}
         > **Eski İsim**: {{old_name}}
         > **Yeni İsim**: {{new_name}}
+guildAuditLogEntryCreate:
+  unknown_executor: Bilinmeyen Yetkili
+  webhook_create:
+    embed:
+      title: Webhook Oluşturuldu
+      description: |-
+        > **İsim**: {{webhook.name}}
+        > **ID**: {{webhook.id}}
+        > **Kanal**: {{channel.name}} (<#{{channel.id}}>)
+  webhook_delete:
+    embed:
+      title: Webhook Deleted
+      description: |-
+        > **İsim**: {{webhook.name}}
+        > **ID**: {{webhook.id}}
+        > **Kanal**: {{channel.name}} (<#{{channel.id}}>)
 guildBanAdd:
   embed:
     title: Kullanıcı Sunucudan Yasaklandı

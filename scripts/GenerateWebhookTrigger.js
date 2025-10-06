@@ -10,6 +10,12 @@ const logTypes = [
   "sticker",
   "event",
   "invite",
+  "poll",
+  "thread",
+  "stage",
+  "soundboard",
+  "thread",
+  "webhook",
 ];
 
 function generateSyncBlock(a, b) {

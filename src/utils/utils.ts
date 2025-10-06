@@ -1,4 +1,13 @@
-import { ActivityType, Client, Guild, GuildForumTagEmoji, TextChannel } from "discord.js";
+import {
+  ActivityType,
+  Client,
+  Collection,
+  Guild,
+  GuildForumTagEmoji,
+  TextChannel,
+  Webhook,
+  WebhookType as DiscordWebhookType,
+} from "discord.js";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration.js";
 import "dayjs/locale/tr.js";
@@ -79,41 +88,41 @@ export enum WebhookType {
   STAGE_LOGS = "stage_logs_webhook_id",
   SOUNDBOARD_LOGS = "soundboard_logs_webhook_id",
   THREAD_LOGS = "thread_logs_webhook_id",
+  WEBHOOK_LOGS = "webhook_logs_webhook_id",
 }
 async function returnWebhook(
   client: Client,
   channel: TextChannel,
   guildId: string,
   webhookInfo: { id: bigint | null; type: WebhookType },
-): Promise<import("discord.js").Webhook> {
-  let webhook = client.webhooks.get(toStringId(webhookInfo.id));
+): Promise<Webhook<DiscordWebhookType.Incoming | DiscordWebhookType.ChannelFollower>> {
+  const webhooks = await channel
+    .fetchWebhooks()
+    .catch(() => new Collection<string, Webhook<DiscordWebhookType.Incoming | DiscordWebhookType.ChannelFollower>>());
+
+  const webhookIdStr = webhookInfo.id?.toString();
+  let webhook = webhookIdStr ? webhooks.get(webhookIdStr) : undefined;
+
   if (!webhook) {
-    const webhooks = await channel.fetchWebhooks().catch(() => null);
-    if (!webhooks?.size) {
-      webhook = await channel.createWebhook({
-        name: client.user!.username,
-        avatar: client.user!.displayAvatarURL(),
-      });
-      await updateGuildConfig(guildId, {
-        [webhookInfo.type]: BigInt(webhook.id),
-      });
-      client.webhooks.set(toStringId(webhookInfo.id), webhook);
-    } else {
-      webhook = webhooks.get(toStringId(webhookInfo.id));
-      if (!webhook) {
-        webhook = await channel.createWebhook({
-          name: client.user!.username,
-          avatar: client.user!.displayAvatarURL(),
-        });
-        await updateGuildConfig(guildId, {
-          [webhookInfo.type]: BigInt(webhook.id),
-        });
-      }
-      client.webhooks.set(toStringId(webhookInfo.id), webhook);
-    }
+    webhook = webhooks.find((w) => w.owner?.id === client.user?.id);
   }
+
+  if (!webhook) {
+    webhook = await channel.createWebhook({
+      name: client.user!.username,
+      avatar: client.user!.displayAvatarURL(),
+    });
+  }
+
+  if (!webhookInfo.id || webhook.id !== webhookInfo.id.toString()) {
+    await updateGuildConfig(guildId, { [webhookInfo.type]: BigInt(webhook.id) });
+  }
+
+  client.webhooks.set(webhook.id, webhook);
+
   return webhook;
 }
+
 interface ActivityMessage {
   type: ActivityType;
   message: string;

@@ -279,6 +279,22 @@ emojiUpdate:
         > **ID**: {{emoji.id}}
         > **Old Name**: {{old_name}}
         > **New Name**: {{new_name}}
+guildAuditLogEntryCreate:
+  unknown_executor: Unknown Executor
+  webhook_create:
+    embed:
+      title: Webhook Created
+      description: |-
+        > **Name**: {{webhook.name}}
+        > **ID**: {{webhook.id}}
+        > **Channel**: {{channel.name}} (<#{{channel.id}}>)
+  webhook_delete:
+    embed:
+      title: Webhook Deleted
+      description: |-
+        > **Name**: {{webhook.name}}
+        > **ID**: {{webhook.id}}
+        > **Channel**: {{channel.name}} (<#{{channel.id}}>)
 guildBanAdd:
   embed:
     title: User Banned From Server

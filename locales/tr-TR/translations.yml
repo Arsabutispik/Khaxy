@@ -313,6 +313,11 @@ log_config:
     description: Alt Başlıklar üzerinde yapılan değişiklerin kaydedildiği kanal
     unset: Alt Başlıklar günlükleri kanalı kaldırıldı.
     set: "Alt Başlıklar Günlükleri kanalı {{channel}} olarak ayarlandı."
+  webhook_logs_channel_id:
+    label: Webhook Günlükleri Kanalını Ayarla
+    description: Webhooklar üzerinde yapılan değişiklerin kaydedildiği kanal
+    unset: Webhook günlükleri kanalı kaldırıldı.
+    set: "Webhook Günlükleri kanalı {{channel}} olarak ayarlandı."
 mod_mail_log:
   initial: >-
     # {{user.tag}} ({{user.id}}) ile olan modmail konuşması #{{thread_id}}

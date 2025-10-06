@@ -316,6 +316,11 @@ log_config:
     description: The channel where thread logs will be sent.
     unset: Thread Logs channel has been removed.
     set: "Thread Logs channel has been set to {{channel}}."
+  webhook_logs_channel_id:
+    label: Set Webhook Logs Channel
+    description: The channel where webhook logs will be sent.
+    unset: Webhook Logs channel has been removed.
+    set: "Webhook Logs channel has been set to {{channel}}."
 mod_mail_log:
   initial: >
     # Mod-mail thread #{{thread_id}} with {{user.tag}} {{user.id}} started at
