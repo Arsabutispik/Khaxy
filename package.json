@@ -1,11 +1,12 @@
 {
   "name": "khaxyrewrite",
-  "version": "1.0.0",
+  "version": "0.8.0",
   "packageManager": "pnpm@10.11.1",
   "type": "module",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
+    "release": "standard-version",
     "deploy-commands": "tsc && tsc-alias && node --enable-source-maps dist/utils/deploy-commands.js",
     "remove-commands": "tsc && tsc-alias && node --enable-source-maps dist/utils/remove-commands.js",
     "start": "prisma migrate deploy && prisma generate && tsc && tsc-alias && node .",
@@ -41,6 +42,7 @@
     "globals": "^15.15.0",
     "prettier": "^3.6.2",
     "prisma": "^6.14.0",
+    "standard-version": "^9.5.0",
     "ts-node": "^10.9.2",
     "tsc-alias": "^1.8.16",
     "typescript": "^5.9.2",
