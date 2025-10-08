@@ -359,3 +359,8 @@ support:
     fields:
       support_server: Destek Sunucusu
       docs_site: Dokümantasyon Sitesi
+modmail-logs:
+  no_thread_found: "#{{logId}} ID'li mod mail konuşması bulunamadı."
+  thread_not_closed: "#{{logId}} ID'li mod mail konuşması kapatılmamış."
+  user_not_found: "Kullanıcı ID'si {{userId}} ile eşleşen bir kullanıcı bulunamadı."
+  no_messages_found: "#{{logId}} ID'li mod mail konuşması için mesaj bulunamadı."

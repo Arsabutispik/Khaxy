@@ -376,3 +376,8 @@ support:
     fields:
       support_server: Support Server
       docs_site: Documentation Site
+modmail-logs:
+  no_thread_found: "No thread found for ID #{{logId}}."
+  thread_not_closed: "Thread #{{logId}} is not closed."
+  user_not_found: "No user found for ID {{userId}}."
+  no_messages_found: "No messages found for thread ID #{{logId}}."
