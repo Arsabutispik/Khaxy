@@ -226,6 +226,20 @@ config:
       title: Log Settings
       fields:
         message_logs_channel: Message Logs Channel
+        guild_logs_channel: Guild Logs Channel
+        guild_member_logs_channel: Guild Member Logs Channel
+        channel_logs_channel: Channel Logs Channel
+        voice_logs_channel: Voice Logs Channel
+        emoji_logs_channel: Emoji Logs Channel
+        role_logs_channel: Role Logs Channel
+        sticker_logs_channel: Sticker Logs Channel
+        event_logs_channel_id: Event Logs Channel
+        invite_logs_channel: Invite Logs Channel
+        poll_logs_channel: Poll Logs Channel
+        stage_logs_channel_id: Stage Logs Channel
+        soundboard_logs_channel_id: Soundboard Logs Channel
+        thread_logs_channel_id: Thread Logs Channel
+        webhook_logs_channel_id: Webhook Logs Channel
 close:
   no_thread: This is not a mod mail thread.
   no_time: A time unit has not been provided.
@@ -362,3 +376,8 @@ support:
     fields:
       support_server: Support Server
       docs_site: Documentation Site
+modmail-logs:
+  no_thread_found: "No thread found for ID #{{logId}}."
+  thread_not_closed: "Thread #{{logId}} is not closed."
+  user_not_found: "No user found for ID {{userId}}."
+  no_messages_found: "No messages found for thread ID #{{logId}}."

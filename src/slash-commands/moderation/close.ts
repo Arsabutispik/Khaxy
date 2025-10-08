@@ -164,6 +164,8 @@ export default {
     } else {
       await updateModMailThread(interaction.channelId, {
         status: ModMailThreadStatus.CLOSED,
+        close_date: new Date(),
+        closer_id: BigInt(interaction.user.id),
       });
       const modmail_log_channel = interaction.guild.channels.cache.get(toStringId(guild_config.mod_mail_channel_id));
       const response = interaction.replied

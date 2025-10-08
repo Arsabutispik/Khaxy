@@ -134,7 +134,7 @@ export default {
         time: 1000 * 60 * 5,
       });
       collector?.on("collect", async (i) => {
-        const setting = i.values[0] as "register" | "welcome-leave" | "moderation" | "role" | "misc";
+        const setting = i.values[0] as "register" | "welcome-leave" | "moderation" | "role" | "misc" | "log";
         const embed = new EmbedBuilder().setColor("Random");
         const newSelectMenu = new StringSelectMenuBuilder(selectMenu.data).setOptions(
           ...selectMenu.options.map((o) => {
@@ -321,6 +321,81 @@ export default {
               {
                 name: t("embed.log.fields.message_logs_channel"),
                 value: guild_config.message_logs_channel_id ? `<#${guild_config.message_logs_channel_id}>` : t("none"),
+                inline: true,
+              },
+              {
+                name: t("embed.log.fields.guild_logs_channel"),
+                value: guild_config.guild_logs_channel_id ? `<#${guild_config.guild_logs_channel_id}>` : t("none"),
+                inline: true,
+              },
+              {
+                name: t("embed.log.fields.guild_member_logs_channel"),
+                value: guild_config.guild_member_logs_channel_id
+                  ? `<#${guild_config.guild_member_logs_channel_id}>`
+                  : t("none"),
+                inline: true,
+              },
+              {
+                name: t("embed.log.fields.channel_logs_channel"),
+                value: guild_config.channel_logs_channel_id ? `<#${guild_config.channel_logs_channel_id}>` : t("none"),
+                inline: true,
+              },
+              {
+                name: t("embed.log.fields.voice_logs_channel"),
+                value: guild_config.voice_logs_channel_id ? `<#${guild_config.voice_logs_channel_id}>` : t("none"),
+                inline: true,
+              },
+              {
+                name: t("embed.log.fields.emoji_logs_channel"),
+                value: guild_config.emoji_logs_channel_id ? `<#${guild_config.emoji_logs_channel_id}>` : t("none"),
+                inline: true,
+              },
+              {
+                name: t("embed.log.fields.role_logs_channel"),
+                value: guild_config.role_logs_channel_id ? `<#${guild_config.role_logs_channel_id}>` : t("none"),
+                inline: true,
+              },
+              {
+                name: t("embed.log.fields.sticker_logs_channel"),
+                value: guild_config.sticker_logs_channel_id ? `<#${guild_config.sticker_logs_channel_id}>` : t("none"),
+                inline: true,
+              },
+              {
+                name: t("embed.log.fields.event_logs_channel_id"),
+                value: guild_config.event_logs_channel_id ? `<#${guild_config.event_logs_channel_id}>` : t("none"),
+                inline: true,
+              },
+              {
+                name: t("embed.log.fields.invite_logs_channel"),
+                value: guild_config.invite_logs_channel_id ? `<#${guild_config.invite_logs_channel_id}>` : t("none"),
+                inline: true,
+              },
+              {
+                name: t("embed.log.fields.poll_logs_channel"),
+                value: guild_config.poll_logs_channel_id ? `<#${guild_config.poll_logs_channel_id}>` : t("none"),
+                inline: true,
+              },
+              {
+                name: t("embed.log.fields.stage_logs_channel_id"),
+                value: guild_config.stage_logs_channel_id ? `<#${guild_config.stage_logs_channel_id}>` : t("none"),
+                inline: true,
+              },
+              {
+                name: t("embed.log.fields.soundboard_logs_channel_id"),
+                value: guild_config.soundboard_logs_channel_id
+                  ? `<#${guild_config.soundboard_logs_channel_id}>`
+                  : t("none"),
+                inline: true,
+              },
+              {
+                name: t("embed.log.fields.thread_logs_channel_id"),
+                value: guild_config.thread_logs_channel_id ? `<#${guild_config.thread_logs_channel_id}>` : t("none"),
+                inline: true,
+              },
+              {
+                name: t("embed.log.fields.webhook_logs_channel_id"),
+                value: guild_config.webhook_logs_channel_id ? `<#${guild_config.webhook_logs_channel_id}>` : t("none"),
+                inline: true,
               },
             ]);
           actionRow.setComponents(newSelectMenu);
