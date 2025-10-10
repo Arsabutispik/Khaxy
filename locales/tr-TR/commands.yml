@@ -371,3 +371,11 @@ infractions:
   page_footer: "Sayfa {{current}}/{{total}}"
   infraction_case: "Vaka #{{case}}"
   infraction_details: "> **Tip:** {{type}}\n> **Sebep:** {{reason}}\n> **Yetkili:** {{moderator}}\n > **Tarih:** {{date}}"
+infraction-punishments:
+  duration_missing: Geçici cezalar için bir süre belirtmelisiniz.
+  no_mute_role: Susturma rolü bulunamadı. Ayarlar kısmından susturma rolünü güncelleyin.
+  mute_set: "{{threshold}} ceza için {{duration}} boyunca susturma ayarlandı."
+  kick_set: "{{threshold}} ceza için atma ayarlandı."
+  ban_set: "{{threshold}} ceza için yasaklama ayarlandı."
+  tempban_set: "{{threshold}} ceza için {{duration}} boyunca yasaklama ayarlandı."
+  removed: "{{threshold}} ceza için otomatik ceza kaldırıldı."

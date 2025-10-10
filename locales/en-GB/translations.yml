@@ -349,4 +349,23 @@ check_punishments:
       > **Roles Removed**: {{removed_roles}}
     added: Roles Added
 infractions_punishment:
+  no_mute_role: >-
+    The mute role is not set. Please set the mute role in the moderation config
+    to use this feature.
+  already_muted: The user is already muted.
+  no_permission: >-
+    I do not have permission to mute this user. Please check the bot's role and
+    permissions.
   reason: "Automatic punishment escalation (strike {{level}})"
+  database_error: >-
+    An error occurred while trying to add the infraction to the database. Please
+    try again later.
+  role_error: >-
+    An error occurred while trying to add/remove a role. Please check the bot's
+    permissions and try again.
+  mute_error: >-
+    An error occurred while trying to mute the user. Please check the bot's
+    permissions and try again.
+  message: >-
+    You have been muted in **{{guild}}** for **{{duration}}**. Reason:
+    ```{{reason}}```

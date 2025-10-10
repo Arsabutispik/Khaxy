@@ -25,10 +25,18 @@ export async function getActivePunishments(guildId: string, userId: string) {
     where: {
       guild_id: BigInt(guildId),
       user_id: BigInt(userId),
-      // Count infractions that haven't expired yet
-      expires_at: {
-        gt: new Date(),
-      },
+      OR: [
+        {
+          // Condition 1: The infraction is temporary and has not expired.
+          expires_at: {
+            gt: new Date(),
+          },
+        },
+        {
+          // Condition 2: The infraction is permanent (never expires).
+          expires_at: null,
+        },
+      ],
     },
   });
 }

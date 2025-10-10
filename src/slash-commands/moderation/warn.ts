@@ -126,6 +126,9 @@ export default {
         await interaction.reply({ content: result.message, flags: MessageFlagsBitField.Flags.Ephemeral });
       }
     }
-    await infractionsPunishment(interaction.guild, member, interaction.user);
+    const issue = await infractionsPunishment(interaction.guild, member, interaction.user);
+    if (issue) {
+      await interaction.followUp({ content: issue, flags: MessageFlagsBitField.Flags.Ephemeral });
+    }
   },
 } as SlashCommandBase;
