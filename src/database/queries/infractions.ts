@@ -20,7 +20,18 @@ export async function getUserInfractions(guildId: string, userId: string) {
     },
   });
 }
-
+export async function getActivePunishments(guildId: string, userId: string) {
+  return await prisma.infractions.count({
+    where: {
+      guild_id: BigInt(guildId),
+      user_id: BigInt(userId),
+      // Count infractions that haven't expired yet
+      expires_at: {
+        gt: new Date(),
+      },
+    },
+  });
+}
 export async function createInfraction(data: Omit<Prisma.infractionsCreateInput, "id">) {
   await prisma.infractions.create({
     data,
