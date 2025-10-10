@@ -381,3 +381,10 @@ modmail-logs:
   thread_not_closed: "Thread #{{logId}} is not closed."
   user_not_found: "No user found for ID {{userId}}."
   no_messages_found: "No messages found for thread ID #{{logId}}."
+infractions:
+  no_user: User not found.
+  no_infractions: "No infractions found for **{{user}}**."
+  infractions_for: "Infractions For **{{user}}**"
+  page_footer: "Page {{current}} of {{total}}"
+  infraction_case: "Case #{{case}}"
+  infraction_details: "> **Type**: {{type}}\n> **Reason**: {{reason}}\n> **Moderator**: {{moderator}}\n> **Date**: {{date}}"

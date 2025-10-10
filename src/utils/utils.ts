@@ -53,7 +53,7 @@ function missingPermissionsAsString(client: Client, missing: string[], language:
  * @param id - The bigint or string to convert.
  * @returns The string representation of the bigint or string.
  */
-function toStringId(id: bigint | string | null): string | "0" {
+function toStringId(id: bigint | string | null | undefined): string | "0" {
   if (!id) return "0";
   return id.toString();
 }
