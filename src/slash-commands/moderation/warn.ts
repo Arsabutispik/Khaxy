@@ -1,7 +1,7 @@
 import type { SlashCommandBase } from "@customTypes";
 import { InteractionContextType, MessageFlagsBitField, PermissionsBitField, SlashCommandBuilder } from "discord.js";
 import { logger } from "@lib";
-import { modLog, toStringId, addInfraction } from "@utils";
+import { modLog, toStringId, addInfraction, infractionsPunishment } from "@utils";
 import { getGuildConfig } from "@database";
 import { InfractionType } from "@constants";
 
@@ -125,6 +125,10 @@ export default {
       } else {
         await interaction.reply({ content: result.message, flags: MessageFlagsBitField.Flags.Ephemeral });
       }
+    }
+    const issue = await infractionsPunishment(interaction.guild, member, interaction.user);
+    if (issue) {
+      await interaction.followUp({ content: issue, flags: MessageFlagsBitField.Flags.Ephemeral });
     }
   },
 } as SlashCommandBase;

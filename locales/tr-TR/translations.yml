@@ -343,3 +343,25 @@ check_punishments:
       > **ID**: {{user.id}}
       > **Kaldırılan Roller**: {{removed_roles}}
     added: Eklenen Roller
+infractions_punishment:
+  reason: "Otomatik ceza artırımı (uyarı {{seviye}})"
+  no_mute_role: >-
+    Susturma rolü ayarlanmamış, lütfen bir tane ayarlayın ve tekrar deneyin.
+  already_muted: >-
+    Kullanıcı zaten susturulmuş, lütfen önce susturmayı kaldırın ve tekrar
+    deneyin.
+  no_permission: >-
+    Kullanıcıyı susturmak için yeterli iznim yok, lütfen yetkili rolünü kontrol
+    edin ve tekrar deneyin.
+  database_error: >-
+    Veritabanı hatası nedeniyle kullanıcıyı susturamadım, lütfen daha sonra
+    tekrar deneyin.
+  role_error: >-
+    Susturma rolünü kullanıcıya veremedim, lütfen yetkili rolünü ve botun
+    yetkilerini kontrol edin ve tekrar deneyin.
+  mute_error: >-
+    Kullanıcıyı susturamadım, lütfen yetkili rolünü ve botun yetkilerini
+    kontrol edin ve tekrar deneyin.
+  message: >-
+    **{{guild}}** sunucusunda **{{duration}}** boyunca susturuldunuz. Sebep:
+    ```{{reason}}```

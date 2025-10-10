@@ -388,3 +388,11 @@ infractions:
   page_footer: "Page {{current}} of {{total}}"
   infraction_case: "Case #{{case}}"
   infraction_details: "> **Type**: {{type}}\n> **Reason**: {{reason}}\n> **Moderator**: {{moderator}}\n> **Date**: {{date}}"
+infraction-punishments:
+  duration_missing: You must provide a duration for temporary punishments.
+  no_mute_role: Mute role not found. Please set a mute role in the config.
+  mute_set: "{{duration}} of mute will be given at {{threshold}} infractions."
+  kick_set: "User will be kicked at {{threshold}} infractions."
+  ban_set: "User will be banned at {{threshold}} infractions."
+  tempban_set: "{{duration}} ban will be given at {{threshold}} infractions."
+  removed: "Punishment for {{type}} at {{threshold}} infractions has been removed."

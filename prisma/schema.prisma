@@ -91,6 +91,14 @@ model guilds {
   webhook_logs_webhook_id      BigInt?
 }
 
+enum PunishmentAction {
+  WARN // Just logs an infraction
+  MUTE
+  KICK
+  TEMPBAN
+  BAN // Permanent Ban
+}
+
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model infractions {
   id           BigInt    @id @default(autoincrement())
@@ -104,6 +112,15 @@ model infractions {
   type         String
 
   @@unique(id)
+}
+
+model guild_punishment_config {
+  guild_id BigInt
+  level    Int // The infraction number (1, 2, 3, 4, 5)
+  action   PunishmentAction // The action to take (mute, kick, ban, etc.)
+  duration Int? // Optional duration in seconds for MUTE or TEMPBAN
+
+  @@id([guild_id, level]) // Composite key ensures each guild has only one rule per level
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
