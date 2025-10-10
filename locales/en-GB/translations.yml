@@ -348,3 +348,5 @@ check_punishments:
       > **ID**: {{user.id}}
       > **Roles Removed**: {{removed_roles}}
     added: Roles Added
+infractions_punishment:
+  reason: "Automatic punishment escalation (strike {{level}})"

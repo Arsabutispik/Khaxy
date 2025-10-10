@@ -343,3 +343,5 @@ check_punishments:
       > **ID**: {{user.id}}
       > **Kaldırılan Roller**: {{removed_roles}}
     added: Eklenen Roller
+infractions_punishment:
+  reason: "Otomatik ceza artırımı (uyarı {{seviye}})"
