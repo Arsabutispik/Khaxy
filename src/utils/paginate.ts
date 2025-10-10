@@ -47,7 +47,7 @@ export async function paginate(
     .setEmoji("✖️")
     .setStyle(ButtonStyle.Danger)
     .setDisabled(false);
-  const row = new ActionRowBuilder<ButtonBuilder>().addComponents([lastPage, nextPage, closePage, prevPage, firstPage]);
+  const row = new ActionRowBuilder<ButtonBuilder>().addComponents([prevPage, firstPage, closePage, lastPage, nextPage]);
   let page = 0;
   await message.reply({
     embeds: [pages[page]],

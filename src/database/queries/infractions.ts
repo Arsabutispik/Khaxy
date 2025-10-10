@@ -9,6 +9,18 @@ export async function getInfraction(guildId: string, caseId: number) {
   });
 }
 
+export async function getUserInfractions(guildId: string, userId: string) {
+  return prisma.infractions.findMany({
+    where: {
+      guild_id: BigInt(guildId),
+      user_id: BigInt(userId),
+    },
+    orderBy: {
+      case_id: "desc",
+    },
+  });
+}
+
 export async function createInfraction(data: Omit<Prisma.infractionsCreateInput, "id">) {
   await prisma.infractions.create({
     data,
