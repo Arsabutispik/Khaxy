@@ -101,14 +101,6 @@ export async function roleConfig(interaction: ChatInputCommandInteraction<"cache
     await reply.resource!.message!.edit({ content: t("timeout"), components: [] }).catch(() => null);
     return;
   }
-  if (!messageComponent.inCachedGuild()) {
-    await messageComponent.deferUpdate();
-    await messageComponent.editReply({
-      content: "Not cached, unexpected error",
-      components: [],
-    });
-    return;
-  }
   await messageComponent.deferUpdate();
   await dynamicRole(messageComponent.values[0] as RoleType, messageComponent, guildConfig, t);
 }

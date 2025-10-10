@@ -160,7 +160,7 @@ export default {
         .setDescription(
           t("poll_delete.embed.description", {
             message: message,
-            timestamp: time(message.poll.expiresAt, TimestampStyles.LongDateTime),
+            timestamp: time(message.poll.expiresAt!, TimestampStyles.LongDateTime),
             multi_select: message.poll.allowMultiselect
               ? message.client.allEmojis.get(message.client.config.emojis.confirm.id)?.format
               : message.client.allEmojis.get(message.client.config.emojis.reject.id)?.format,
@@ -171,7 +171,7 @@ export default {
         )
         .setFields([
           {
-            name: message.poll.question.text,
+            name: message.poll.question.text!,
             value: message.poll.answers
               .map((answer, i) => {
                 return `${i}. ${answer.text} ${message.poll?.resultsFinalized ? `(${answer.voteCount})` : ""}`;

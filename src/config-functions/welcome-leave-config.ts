@@ -70,14 +70,6 @@ export async function welcomeLeaveConfig(interaction: ChatInputCommandInteractio
     await reply.resource!.message!.edit({ content: t("timeout"), components: [] }).catch(() => null);
     return;
   }
-  if (!messageComponent.inCachedGuild()) {
-    await messageComponent.deferUpdate();
-    await messageComponent.editReply({
-      content: "Not cached, unexpected error",
-      components: [],
-    });
-    return;
-  }
   switch (messageComponent.values[0]) {
     case "join_channel":
       await dynamicChannel("join_channel_id", messageComponent, guildConfig, t);

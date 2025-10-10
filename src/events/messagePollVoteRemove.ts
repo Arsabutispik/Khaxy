@@ -24,7 +24,7 @@ export default {
           answerer: userId,
           question: pollAnswer.poll.question.text,
           answer: pollAnswer.text,
-          timestamp: time(pollAnswer.poll.expiresAt, TimestampStyles.LongDateTime),
+          timestamp: time(pollAnswer.poll.expiresAt!, TimestampStyles.LongDateTime),
           multi_select: pollAnswer.poll.allowMultiselect
             ? pollAnswer.client.allEmojis.get(pollAnswer.client.config.emojis.confirm.id)?.format
             : pollAnswer.client.allEmojis.get(pollAnswer.client.config.emojis.reject.id)?.format,

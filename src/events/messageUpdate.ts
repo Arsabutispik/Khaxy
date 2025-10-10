@@ -102,7 +102,7 @@ export default {
         .setDescription(
           t("poll_end.embed.description", {
             message: newMessage,
-            timestamp: time(newMessage.poll.expiresAt, TimestampStyles.LongDateTime),
+            timestamp: time(newMessage.poll.expiresAt!, TimestampStyles.LongDateTime),
             multi_select: newMessage.poll.allowMultiselect
               ? newMessage.client.allEmojis.get(newMessage.client.config.emojis.confirm.id)?.format
               : newMessage.client.allEmojis.get(newMessage.client.config.emojis.reject.id)?.format,
@@ -110,7 +110,7 @@ export default {
         )
         .setFields([
           {
-            name: newMessage.poll.question.text,
+            name: newMessage.poll.question.text!,
             value: newMessage.poll.answers
               .map((answer, i) => {
                 return `${i}. ${answer.text} (${answer.voteCount})`;

@@ -89,14 +89,6 @@ export async function moderationConfig(interaction: ChatInputCommandInteraction<
     await reply.resource!.message!.edit({ content: t("timeout"), components: [] }).catch(() => null);
     return;
   }
-  if (!messageComponent.inCachedGuild()) {
-    await messageComponent.deferUpdate();
-    await messageComponent.editReply({
-      content: "Not cached, unexpected error",
-      components: [],
-    });
-    return;
-  }
   switch (messageComponent.values[0]) {
     case "mod_log_channel":
       await dynamicChannel("mod_log_channel_id", messageComponent, guildConfig, t);
