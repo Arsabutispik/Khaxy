@@ -218,6 +218,20 @@ config:
       title: Günlük Ayarları
       fields:
         message_logs_channel: Mesaj Günlük Kanalı
+        guild_logs_channel: Sunucu Günlük Kanalı
+        guild_member_logs_channel: Üye Günlük Kanalı
+        channel_logs_channel: Kanal Günlük Kanalı
+        voice_logs_channel: Ses Günlük Kanalı
+        emoji_logs_channel: Emoji Günlük Kanalı
+        role_logs_channel: Rol Günlük Kanalı
+        sticker_logs_channel: Çıkartmalar Günlük Kanalı
+        event_logs_channel_id: Etkinlik Günlük Kanalı
+        invite_logs_channel: Davet Günlük Kanalı
+        poll_logs_channel: Anket Günlük Kanalı
+        stage_logs_channel_id: Sahne Günlük Kanalı
+        soundboard_logs_channel_id: Sesli Paneli Günlük Kanalı
+        thread_logs_channel_id: Konuşma Günlük Kanalı
+        webhook_logs_channel_id: Webhook Günlük Kanalı
 close:
   no_thread: Bu bir mod mail kanalı değil.
   no_time: Bir zaman birimi belirtilmedi.
@@ -345,3 +359,8 @@ support:
     fields:
       support_server: Destek Sunucusu
       docs_site: Dokümantasyon Sitesi
+modmail-logs:
+  no_thread_found: "#{{logId}} ID'li mod mail konuşması bulunamadı."
+  thread_not_closed: "#{{logId}} ID'li mod mail konuşması kapatılmamış."
+  user_not_found: "Kullanıcı ID'si {{userId}} ile eşleşen bir kullanıcı bulunamadı."
+  no_messages_found: "#{{logId}} ID'li mod mail konuşması için mesaj bulunamadı."
