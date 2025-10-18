@@ -11,7 +11,7 @@ import {
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration.js";
 import "dayjs/locale/tr.js";
-import { updateGuildConfig } from "@database";
+import { getGuildConfig, updateGuildConfig } from "@database";
 import relativeTime from "dayjs/plugin/relativeTime.js";
 import { logger } from "@lib";
 dayjs.extend(relativeTime);
@@ -91,44 +91,74 @@ export enum WebhookType {
   THREAD_LOGS = "thread_logs_webhook_id",
   WEBHOOK_LOGS = "webhook_logs_webhook_id",
 }
+// Assuming currentConfig is the full row from the 'guilds' table
+// and updateGuildConfig can take a partial object of updates.
+
 async function returnWebhook(
   client: Client,
   channel: TextChannel,
   guildId: string,
   webhookInfo: { id: bigint | null; type: WebhookType },
 ): Promise<Webhook<DiscordWebhookType.Incoming | DiscordWebhookType.ChannelFollower>> {
-  const cachedWebhook = webhookInfo.id ? client.webhooks.get(toStringId(webhookInfo.id)) : null;
-  if (cachedWebhook) return cachedWebhook;
-  const webhooks = await channel.fetchWebhooks().catch((error) => {
+  try {
+    const currentConfig = await getGuildConfig(guildId);
+    const webhooks = await channel
+      .fetchWebhooks()
+      .catch(() => new Collection<string, Webhook<DiscordWebhookType.Incoming | DiscordWebhookType.ChannelFollower>>());
+    const webhookIdStr = webhookInfo.id?.toString();
+    let webhook = webhookIdStr ? webhooks.get(webhookIdStr) : undefined;
+    let shouldCreateNew = false;
+
+    // Check for stale webhook ID scenario
+    if (webhookIdStr && !webhook) {
+      console.log(
+        `[Webhook Fix] Stale webhook ID detected (${webhookIdStr}) for ${webhookInfo.type}. Initiating synchronized cleanup.`,
+      );
+
+      // 1. Prepare the cleanup payload: find all log types pointing to the stale ID
+      const cleanupPayload: { [key: string]: null | bigint } = {};
+      const logTypeKeys = Object.values(WebhookType); // All webhook ID column keys
+
+      for (const key of logTypeKeys) {
+        // Check if the current log type's ID (stored in the DB) matches the deleted ID
+        const configValue = currentConfig![key];
+        if (configValue && configValue.toString() === webhookIdStr) {
+          cleanupPayload[key] = null; // Mark it for NULL
+        }
+      }
+
+      // 2. Execute the synchronized cleanup on the database
+      // This sets ALL log types that relied on the deleted ID to NULL.
+      await updateGuildConfig(guildId, cleanupPayload);
+
+      // 3. Signal to create a new webhook
+      shouldCreateNew = true;
+    }
+
+    // If we cleaned up, or if the ID was null originally, create the new webhook.
+    if (!webhook || shouldCreateNew) {
+      webhook = await channel.createWebhook({
+        name: `${client.user!.username} - Logs`, // A generic name since it's shared
+        avatar: client.user!.displayAvatarURL(),
+      });
+
+      // Update the database with the NEW webhook ID for the current log type.
+      // The SQL trigger will then propagate this new ID to all other types
+      // that share the same channel ID.
+      await updateGuildConfig(guildId, { [webhookInfo.type]: BigInt(webhook.id) });
+    }
+
+    client.webhooks.set(webhook.id, webhook);
+    return webhook;
+  } catch (error) {
     logger.log({
       level: "error",
       error,
-      message: `Failed to fetch webhooks for channel ${channel.id} in guild ${guildId}`,
+      message: `Failed to return or create webhook in guild ${guildId} for channel ${channel.id}`,
       channelId: channel.id,
     });
-    return new Collection<string, Webhook<DiscordWebhookType.Incoming | DiscordWebhookType.ChannelFollower>>();
-  });
-
-  const webhookIdStr = toStringId(webhookInfo.id);
-  // Prioritize finding the webhook by the stored ID for this specific type.
-  let webhook = webhookIdStr ? webhooks.get(webhookIdStr) : undefined;
-
-  // If the stored ID is null or invalid (webhook deleted), CREATE A NEW WEBHOOK.
-  // This ensures each log type gets its own, dedicated webhook.
-  if (!webhook) {
-    webhook = await channel.createWebhook({
-      name: `${client.user!.username} Logs`,
-      avatar: client.user!.displayAvatarURL(),
-    });
-    // We only need to update the config if the ID was null/invalid (creating a new one)
-    // or if the webhook was somehow found but the stored ID didn't match (unlikely in this revised logic).
-    await updateGuildConfig(guildId, { [webhookInfo.type]: BigInt(webhook.id) });
+    throw error; // Re-throw after logging
   }
-
-  // Update the client's local webhook cache.
-  client.webhooks.set(webhook.id, webhook);
-
-  return webhook;
 }
 
 interface ActivityMessage {

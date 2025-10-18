@@ -87,12 +87,32 @@ export class DiscordTransport extends Transport {
    * Sends log message to discord
    */
   private sendToDiscord = async (info: any) => {
+    const isError = info.level === "error" && info.stack;
+    let contentMessage = info.message;
+    let stackTrace = info.stack;
+
+    // 1. Prepare Content and Stack Trace
+    if (isError) {
+      // Discord content limit is 2000 characters. Truncate the stack if necessary.
+      const maxContentLength = 2000;
+
+      // We send the full stack trace in the 'content' field for maximum visibility.
+      // If it's too long, we truncate it and add a note.
+      if (stackTrace.length > maxContentLength) {
+        contentMessage = `**ERROR:** ${info.message}\n\n**Stack Trace (Truncated to ${maxContentLength} chars):**\n\`\`\`${stackTrace.substring(0, maxContentLength - 100)}...\`\`\``;
+      } else {
+        contentMessage = `**ERROR:** ${info.message}\n\n**Stack Trace:**\n\`\`\`${stackTrace}\`\`\``;
+      }
+    }
+
     const postBody = {
-      content: undefined as unknown as string,
+      // The main message content is set here, containing the stack or just the message
+      content: contentMessage,
       embeds: [
         {
-          // If a stack trace exists, make the description the main message
-          description: info.stack ? info.message : info.message,
+          // For errors, the description can be the primary message.
+          // For other levels, it's the full message.
+          description: isError ? info.message : info.message,
           color: DiscordTransport.COLORS[info.level],
           fields: [] as any[],
           timestamp: new Date().toISOString(),
@@ -100,38 +120,31 @@ export class DiscordTransport extends Transport {
       ],
     };
 
-    // Use info.stack (captured by format.errors) for the main content
-    if (info.level === "error" && info.stack) {
-      // Send the stack trace in the main content for maximum visibility
-      postBody.content = `**Error Stack Trace:**\n\`\`\`${info.stack}\`\`\``;
-    }
-
-    // Capture other metadata fields (excluding stack, error, and discord fields)
+    // 2. Add Metadata Fields (same as before, but safer)
+    // Ensure we don't try to add stack or error objects as fields
     const metaToDisplay = { ...info.metadata };
     delete metaToDisplay.stack;
     delete metaToDisplay.error;
     delete metaToDisplay.discord;
 
-    // Check if there's any remaining metadata to display in fields
     if (Object.keys(metaToDisplay).length > 0) {
       Object.keys(metaToDisplay).forEach((key) => {
         let value = metaToDisplay[key];
-        // Format complex objects nicely
         if (typeof value === "object" && value !== null) {
           value = util.inspect(value, { depth: 1, colors: false });
         }
 
-        // Discord field value limit is 1024 characters
         const valueString = String(value).substring(0, 1024);
 
         postBody.embeds[0].fields.push({
-          name: String(key).substring(0, 256), // Discord field name limit is 256
-          value: `\`\`\`json\n${valueString}\n\`\`\``,
+          name: String(key).substring(0, 256),
+          value: `\`\`\`json\n${valueString}\n\`\`\``, // Use markdown for cleaner display
           inline: false,
         });
       });
     }
 
+    // 3. Send Request (rest of the function is unchanged)
     const options = {
       url: this.getURL(),
       method: "POST",
@@ -148,7 +161,6 @@ export class DiscordTransport extends Transport {
         body: JSON.stringify(options.body),
       });
     } catch (err) {
-      // Note: This error means the webhook POST failed, not that the logging failed.
       console.error("Error sending to discord");
     }
   };
