@@ -62,7 +62,7 @@ export default {
     }
     if (guildConfig.guild_logs_channel_id) {
       // Don't log if the user was banned
-      if (await member.guild.bans.fetch(member.user.id)) return;
+      if (member.guild.bans.cache.has(member.user.id)) return;
       const logChannel = await member.guild.channels
         .fetch(toStringId(guildConfig.guild_logs_channel_id))
         .catch(() => null);
