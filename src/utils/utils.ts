@@ -13,6 +13,7 @@ import duration from "dayjs/plugin/duration.js";
 import "dayjs/locale/tr.js";
 import { updateGuildConfig } from "@database";
 import relativeTime from "dayjs/plugin/relativeTime.js";
+import { logger } from "@lib";
 dayjs.extend(relativeTime);
 
 /**
@@ -96,9 +97,17 @@ async function returnWebhook(
   guildId: string,
   webhookInfo: { id: bigint | null; type: WebhookType },
 ): Promise<Webhook<DiscordWebhookType.Incoming | DiscordWebhookType.ChannelFollower>> {
-  const webhooks = await channel
-    .fetchWebhooks()
-    .catch(() => new Collection<string, Webhook<DiscordWebhookType.Incoming | DiscordWebhookType.ChannelFollower>>());
+  const cachedWebhook = webhookInfo.id ? client.webhooks.get(toStringId(webhookInfo.id)) : null;
+  if (cachedWebhook) return cachedWebhook;
+  const webhooks = await channel.fetchWebhooks().catch((error) => {
+    logger.log({
+      level: "error",
+      error,
+      message: `Failed to fetch webhooks for channel ${channel.id} in guild ${guildId}`,
+      channelId: channel.id,
+    });
+    return new Collection<string, Webhook<DiscordWebhookType.Incoming | DiscordWebhookType.ChannelFollower>>();
+  });
 
   const webhookIdStr = toStringId(webhookInfo.id);
   // Prioritize finding the webhook by the stored ID for this specific type.
