@@ -362,6 +362,16 @@ infractions_punishment:
   mute_error: >-
     Kullanıcıyı susturamadım, lütfen yetkili rolünü ve botun yetkilerini
     kontrol edin ve tekrar deneyin.
-  message: >-
-    **{{guild}}** sunucusunda **{{duration}}** boyunca susturuldunuz. Sebep:
-    ```{{reason}}```
+  messages:
+    mute: >-
+          **{{guild}}** sunucusunda **{{duration}}** boyunca susturuldunuz. Sebep:
+          ```{{reason}}```
+    kick: >-
+          **{{guild}}** sunucusundan atıldınız. Sebep:
+          ```{{reason}}```
+    ban: >-
+          **{{guild}}** sunucusundan yasaklandınız. Sebep:
+          ```{{reason}}```
+    temp_ban: >-
+          **{{guild}}** sunucusundan **{{duration}}** boyunca yasaklandınız. Sebep:
+          ```{{reason}}```

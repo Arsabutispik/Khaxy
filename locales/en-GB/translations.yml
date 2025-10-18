@@ -366,6 +366,16 @@ infractions_punishment:
   mute_error: >-
     An error occurred while trying to mute the user. Please check the bot's
     permissions and try again.
-  message: >-
-    You have been muted in **{{guild}}** for **{{duration}}**. Reason:
-    ```{{reason}}```
+  messages:
+    mute: >-
+          You have been muted in **{{guild}}** for **{{duration}}**. Reason:
+          ```{{reason}}```
+    kick: >-
+          You have been kicked from **{{guild}}**. Reason:
+          ```{{reason}}```
+    ban: >-
+          You have been banned from **{{guild}}**. Reason:
+          ```{{reason}}```
+    temp_ban: >-
+          You have been temporarily banned from **{{guild}}** for
+          **{{duration}}**. Reason:```{{reason}}```

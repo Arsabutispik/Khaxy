@@ -97,7 +97,7 @@ export async function infractionsPunishment(guild: Guild, member: GuildMember, m
           .fromNow(true);
         await member
           .send(
-            t("message", {
+            t("messages.mute", {
               guild: guild.name,
               reason: t("reason", { level: activeInfractions }),
               duration: longDuration,
@@ -129,6 +129,9 @@ export async function infractionsPunishment(guild: Guild, member: GuildMember, m
       break;
     }
     case PunishmentAction.KICK: {
+      await member
+        .send(t("messages.kick", { guild: guild.name, reason: t("reason", { level: activeInfractions }) }))
+        .catch(() => null);
       try {
         await member.kick(t("reason", { level: activeInfractions }));
         const kickResult = await modLog(
@@ -154,6 +157,9 @@ export async function infractionsPunishment(guild: Guild, member: GuildMember, m
       break;
     }
     case PunishmentAction.BAN: {
+      await member
+        .send(t("messages.ban", { guild: guild.name, reason: t("reason", { level: activeInfractions }) }))
+        .catch(() => null);
       try {
         await member.ban({ reason: t("reason", { level: activeInfractions }) });
         const banResult = await modLog(
@@ -201,15 +207,15 @@ export async function infractionsPunishment(guild: Guild, member: GuildMember, m
         });
         return t("database_error");
       }
-      try {
-        await member.send(
-          t("message", {
-            guild,
+      await member
+        .send(
+          t("messages.temp_ban", {
+            guild: guild.name,
             reason: t("reason", { level: activeInfractions }),
             duration: longDuration,
           }),
-        );
-      } catch {}
+        )
+        .catch(() => null);
       try {
         await guild.members.ban(member.user, {
           reason: t("reason", { level: activeInfractions }),
