@@ -1,5 +1,6 @@
 import Transport from "winston-transport";
 import type { TransportStreamOptions } from "winston-transport";
+import * as util from "node:util";
 /* eslint-disable */
 
 export class DiscordTransport extends Transport {
@@ -64,7 +65,10 @@ export class DiscordTransport extends Transport {
    * @param callback Callback to winston to complete the log
    */
   log(info: any, callback: { (): void }) {
-    if ("discord" in info.metadata ? info.metadata.discord : true) {
+    // Check for existence of info.metadata.discord property
+    // The check is `info.metadata && 'discord' in info.metadata ? info.metadata.discord : true`
+    // which simplifies to checking if 'discord' is explicitly set to false in metadata.
+    if (!info.metadata || info.metadata.discord !== false) {
       setImmediate(() => {
         this.initialized
           .then(() => {
@@ -87,22 +91,43 @@ export class DiscordTransport extends Transport {
       content: undefined as unknown as string,
       embeds: [
         {
-          description: info.message,
+          // If a stack trace exists, make the description the main message
+          description: info.stack ? info.message : info.message,
           color: DiscordTransport.COLORS[info.level],
           fields: [] as any[],
           timestamp: new Date().toISOString(),
         },
       ],
     };
-    if (info.level === "error" && info.metadata.error && info.metadata.error.stack) {
-      postBody.content = `\`\`\`${info.metadata.error.stack}\`\`\``;
+
+    // Use info.stack (captured by format.errors) for the main content
+    if (info.level === "error" && info.stack) {
+      // Send the stack trace in the main content for maximum visibility
+      postBody.content = `**Error Stack Trace:**\n\`\`\`${info.stack}\`\`\``;
     }
 
-    if (info.metadata.meta) {
-      Object.keys(info.metadata.meta).forEach((key) => {
+    // Capture other metadata fields (excluding stack, error, and discord fields)
+    const metaToDisplay = { ...info.metadata };
+    delete metaToDisplay.stack;
+    delete metaToDisplay.error;
+    delete metaToDisplay.discord;
+
+    // Check if there's any remaining metadata to display in fields
+    if (Object.keys(metaToDisplay).length > 0) {
+      Object.keys(metaToDisplay).forEach((key) => {
+        let value = metaToDisplay[key];
+        // Format complex objects nicely
+        if (typeof value === "object" && value !== null) {
+          value = util.inspect(value, { depth: 1, colors: false });
+        }
+
+        // Discord field value limit is 1024 characters
+        const valueString = String(value).substring(0, 1024);
+
         postBody.embeds[0].fields.push({
-          name: key,
-          value: info.metadata.meta[key],
+          name: String(key).substring(0, 256), // Discord field name limit is 256
+          value: `\`\`\`json\n${valueString}\n\`\`\``,
+          inline: false,
         });
       });
     }
@@ -115,7 +140,6 @@ export class DiscordTransport extends Transport {
     };
 
     try {
-      // await request(options);
       await fetch(options.url, {
         method: "POST",
         headers: {
@@ -124,9 +148,15 @@ export class DiscordTransport extends Transport {
         body: JSON.stringify(options.body),
       });
     } catch (err) {
+      // Note: This error means the webhook POST failed, not that the logging failed.
       console.error("Error sending to discord");
     }
   };
+}
+
+interface DiscordTransportOptions extends TransportStreamOptions {
+  // Webhook obtained from Discord
+  webhook: string;
 }
 
 interface DiscordTransportOptions extends TransportStreamOptions {
