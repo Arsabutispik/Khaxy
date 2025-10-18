@@ -61,6 +61,14 @@ kick:
       bildirilmedi.
   clear_fail: Mesajlar temizlenirken hata oluştu.
   fail: Kullanıcı atılırken hata oluştu.
+  embed:
+      title: Kullanıcı Atıldı
+      description: |-
+        > **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)
+        > **ID**: {{user.id}}
+        > **Katılma Tarihi**: {{timestamp}}
+      fields:
+        reason: Sebep
 mute:
   no_reason: Susturmanın sebebi belirtilmedi.
   no_member: Kullanıcı bulunamadı. Kullanıcı hala sunucuda mı?
