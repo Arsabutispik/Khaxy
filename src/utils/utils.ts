@@ -100,24 +100,23 @@ async function returnWebhook(
     .fetchWebhooks()
     .catch(() => new Collection<string, Webhook<DiscordWebhookType.Incoming | DiscordWebhookType.ChannelFollower>>());
 
-  const webhookIdStr = webhookInfo.id?.toString();
+  const webhookIdStr = toStringId(webhookInfo.id);
+  // Prioritize finding the webhook by the stored ID for this specific type.
   let webhook = webhookIdStr ? webhooks.get(webhookIdStr) : undefined;
 
-  if (!webhook) {
-    webhook = webhooks.find((w) => w.owner?.id === client.user?.id);
-  }
-
+  // If the stored ID is null or invalid (webhook deleted), CREATE A NEW WEBHOOK.
+  // This ensures each log type gets its own, dedicated webhook.
   if (!webhook) {
     webhook = await channel.createWebhook({
-      name: client.user!.username,
+      name: `${client.user!.username} Logs`,
       avatar: client.user!.displayAvatarURL(),
     });
-  }
-
-  if (!webhookInfo.id || webhook.id !== webhookInfo.id.toString()) {
+    // We only need to update the config if the ID was null/invalid (creating a new one)
+    // or if the webhook was somehow found but the stored ID didn't match (unlikely in this revised logic).
     await updateGuildConfig(guildId, { [webhookInfo.type]: BigInt(webhook.id) });
   }
 
+  // Update the client's local webhook cache.
   client.webhooks.set(webhook.id, webhook);
 
   return webhook;
