@@ -21,8 +21,10 @@ const logTypes = [
 function generateSyncBlock(a, b) {
   return `  -- ${a} <-> ${b}
   IF NEW.${a}_logs_channel_id = NEW.${b}_logs_channel_id THEN
-    -- If A has a value (ID or NULL), B takes that value. A is the authority.
-    NEW.${b}_logs_webhook_id := NEW.${a}_logs_webhook_id;
+    -- *** CRITICAL GUARD: Only assign if the values are different ***
+    IF NEW.${b}_logs_webhook_id IS DISTINCT FROM NEW.${a}_logs_webhook_id THEN
+      NEW.${b}_logs_webhook_id := NEW.${a}_logs_webhook_id;
+    END IF;
   END IF;\n`;
 }
 
