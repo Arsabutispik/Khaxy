@@ -8,11 +8,14 @@ import * as util from "node:util";
 
 let transportsList: TransportStream | TransportStream[] = [
   new transports.Console({
+    // Direct 'error' level logs to stderr for PM2
+    stderrLevels: ['error'], 
     format: format.combine(
       format.timestamp({ format: "HH:mm:ss" }),
       format.colorize({ all: true }),
       format.printf((info) => {
-        const { timestamp, level, message, metadata = {} } = info;
+        // Use stack if it exists, otherwise use message
+        const { timestamp, level, message, stack, metadata = {} } = info;
 
         // Clone metadata so we don't mutate original
         const metaClone = _.cloneDeep(metadata) as Record<string, unknown>;
@@ -27,11 +30,15 @@ let transportsList: TransportStream | TransportStream[] = [
           metaString = "\n" + util.inspect(metaClone, { colors: true, depth: 3, compact: false });
         }
 
-        return `[${timestamp}] ${level}: ${message}${metaString}`;
+        // Print stack trace if exists, otherwise message
+        const mainContent = stack || message;
+
+        return `[${timestamp}] ${level}: ${mainContent}${metaString}`;
       }),
     ),
   }),
 ];
+
 if (Config.logging.file?.enabled) {
   transportsList.push(
     new transports.File({
@@ -41,7 +48,7 @@ if (Config.logging.file?.enabled) {
       format: format.combine(
         format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
         format.printf(({ timestamp, level, message, stack, ...meta }) => {
-          // Prepare metadata string if there's any metadata beyond message and stack
+          // Prepare metadata string
           const metaKeys = Object.keys(meta);
           let metaString = "";
           if (metaKeys.length > 0) {
@@ -58,6 +65,7 @@ if (Config.logging.file?.enabled) {
     }),
   );
 }
+
 if (Config.logging.webhook?.enabled) {
   if (!Config.logging.webhook.url) {
     throw new Error("Discord webhook URL is not set in the configuration.");
@@ -68,8 +76,11 @@ if (Config.logging.webhook?.enabled) {
     }),
   );
 }
+
 const logger = createLogger({
   transports: transportsList,
-  format: format.combine(format.metadata(), format.timestamp()),
+  // format.errors({ stack: true }) to ensure stack traces are captured
+  format: format.combine(format.metadata(), format.timestamp(), format.errors({ stack: true })),
 });
+
 export { logger };
