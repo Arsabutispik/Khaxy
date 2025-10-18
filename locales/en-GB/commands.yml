@@ -404,3 +404,11 @@ infraction-punishments:
   ban_set: "User will be banned at {{threshold}} infractions."
   tempban_set: "{{duration}} ban will be given at {{threshold}} infractions."
   removed: "Punishment for {{type}} at {{threshold}} infractions has been removed."
+roles:
+  user_not_found: "Member not found. Is the member still in the server?"
+  role_already_assigned: "The role **{{role}}** is already assigned to **{{user}}**."
+  role_add_error: "Error while adding the role. I may not have permission to do so."
+  role_added: "Role **{{role}}** has been added to **{{user}}**."
+  role_not_assigned: "The role **{{role}}** is not assigned to **{{user}}**."
+  role_remove_error: "Error while removing the role. I may not have permission to do so."
+  role_removed: "Role **{{role}}** has been removed from **{{user}}**."

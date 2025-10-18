@@ -387,3 +387,11 @@ infraction-punishments:
   ban_set: "{{threshold}} ceza için yasaklama ayarlandı."
   tempban_set: "{{threshold}} ceza için {{duration}} boyunca yasaklama ayarlandı."
   removed: "{{threshold}} ceza için otomatik ceza kaldırıldı."
+roles:
+  user_not_found: Kullanıcı bulunamadı. Kullanıcı hala sunucuda mı?
+  role_already_assigned: "**{{user}}** kullanıcısına **{{role}}** rolü zaten verilmiş."
+  role_add_error: "Rol eklenirken hata oluştu. İzinleri kontrol edin ve tekrar deneyin."
+  role_added: "**{{role}}** rolü başarıyla **{{user}}** kullanıcısına eklendi."
+  role_not_assigned: "**{{user}}** kullanıcısına **{{role}}** rolü verilmemiş."
+  role_remove_error: "Rol kaldırılırken hata oluştu. İzinleri kontrol edin ve tekrar deneyin."
+  role_removed: "**{{role}}** rolü başarıyla **{{user}}** kullanıcısından kaldırıldı."
