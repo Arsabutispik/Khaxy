@@ -61,6 +61,14 @@ kick:
       not be notified via DM.
   clear_fail: Failed to clear the messages.
   fail: Failed to kick the member.
+  embed:
+    title: User Kicked
+    description: |-
+      > **User**: {{user.tag}} (<@{{user.id}}>)
+      > **ID**: {{user.id}}
+      > **Joined At**: {{timestamp}}
+    fields:
+      reason: Reason
 mute:
   no_reason: No reason provided for muting.
   no_member: Member not found. Is the member still in the server?
