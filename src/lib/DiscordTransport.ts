@@ -1,5 +1,6 @@
 import Transport from "winston-transport";
 import type { TransportStreamOptions } from "winston-transport";
+import * as util from "node:util";
 /* eslint-disable */
 
 export class DiscordTransport extends Transport {
@@ -91,18 +92,18 @@ export class DiscordTransport extends Transport {
       embeds: [
         {
           // If a stack trace exists, make the description the main message
-          description: info.stack ? info.message : info.message, 
+          description: info.stack ? info.message : info.message,
           color: DiscordTransport.COLORS[info.level],
           fields: [] as any[],
           timestamp: new Date().toISOString(),
         },
       ],
     };
-    
+
     // Use info.stack (captured by format.errors) for the main content
     if (info.level === "error" && info.stack) {
       // Send the stack trace in the main content for maximum visibility
-      postBody.content = `**Error Stack Trace:**\n\`\`\`${info.stack}\`\`\``; 
+      postBody.content = `**Error Stack Trace:**\n\`\`\`${info.stack}\`\`\``;
     }
 
     // Capture other metadata fields (excluding stack, error, and discord fields)
@@ -113,22 +114,22 @@ export class DiscordTransport extends Transport {
 
     // Check if there's any remaining metadata to display in fields
     if (Object.keys(metaToDisplay).length > 0) {
-        Object.keys(metaToDisplay).forEach((key) => {
-            let value = metaToDisplay[key];
-            // Format complex objects nicely
-            if (typeof value === 'object' && value !== null) {
-                 value = util.inspect(value, { depth: 1, colors: false });
-            }
-            
-            // Discord field value limit is 1024 characters
-            const valueString = String(value).substring(0, 1024);
+      Object.keys(metaToDisplay).forEach((key) => {
+        let value = metaToDisplay[key];
+        // Format complex objects nicely
+        if (typeof value === "object" && value !== null) {
+          value = util.inspect(value, { depth: 1, colors: false });
+        }
 
-            postBody.embeds[0].fields.push({
-                name: String(key).substring(0, 256), // Discord field name limit is 256
-                value: `\`\`\`json\n${valueString}\n\`\`\``,
-                inline: false,
-            });
+        // Discord field value limit is 1024 characters
+        const valueString = String(value).substring(0, 1024);
+
+        postBody.embeds[0].fields.push({
+          name: String(key).substring(0, 256), // Discord field name limit is 256
+          value: `\`\`\`json\n${valueString}\n\`\`\``,
+          inline: false,
         });
+      });
     }
 
     const options = {
@@ -148,7 +149,7 @@ export class DiscordTransport extends Transport {
       });
     } catch (err) {
       // Note: This error means the webhook POST failed, not that the logging failed.
-      console.error("Error sending to discord"); 
+      console.error("Error sending to discord");
     }
   };
 }
