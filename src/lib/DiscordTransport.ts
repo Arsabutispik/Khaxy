@@ -87,17 +87,21 @@ export class DiscordTransport extends Transport {
    * Sends log message to discord
    */
   private sendToDiscord = async (info: any) => {
-    const isError = info.level === "error" && info.stack;
-    let contentMessage = info.message;
     let stackTrace = info.stack;
+
+    // Fallback check to find the stack trace inside the metadata
+    if (!stackTrace && info.metadata.error instanceof Error && info.metadata.error.stack) {
+      stackTrace = info.metadata.error.stack;
+    }
+
+    const isError = info.level === "error" && stackTrace;
+    let contentMessage = info.message;
 
     // 1. Prepare Content and Stack Trace
     if (isError) {
-      // Discord content limit is 2000 characters. Truncate the stack if necessary.
+      // Discord content limit is 2000 characters.
       const maxContentLength = 2000;
 
-      // We send the full stack trace in the 'content' field for maximum visibility.
-      // If it's too long, we truncate it and add a note.
       if (stackTrace.length > maxContentLength) {
         contentMessage = `**ERROR:** ${info.message}\n\n**Stack Trace (Truncated to ${maxContentLength} chars):**\n\`\`\`${stackTrace.substring(0, maxContentLength - 100)}...\`\`\``;
       } else {
@@ -106,12 +110,9 @@ export class DiscordTransport extends Transport {
     }
 
     const postBody = {
-      // The main message content is set here, containing the stack or just the message
       content: contentMessage,
       embeds: [
         {
-          // For errors, the description can be the primary message.
-          // For other levels, it's the full message.
           description: isError ? info.message : info.message,
           color: DiscordTransport.COLORS[info.level],
           fields: [] as any[],
@@ -120,10 +121,10 @@ export class DiscordTransport extends Transport {
       ],
     };
 
-    // 2. Add Metadata Fields (same as before, but safer)
-    // Ensure we don't try to add stack or error objects as fields
+    // 2. Add Metadata Fields (clean up metadata before display)
     const metaToDisplay = { ...info.metadata };
-    delete metaToDisplay.stack;
+
+    // Remove the error object since we've used it for the content
     delete metaToDisplay.error;
     delete metaToDisplay.discord;
 

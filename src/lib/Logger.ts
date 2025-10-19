@@ -9,17 +9,29 @@ import * as util from "node:util";
 let transportsList: TransportStream | TransportStream[] = [
   new transports.Console({
     // Direct 'error' level logs to stderr for PM2
-    stderrLevels: ['error'], 
+    stderrLevels: ["error"],
     format: format.combine(
       format.timestamp({ format: "HH:mm:ss" }),
       format.colorize({ all: true }),
       format.printf((info) => {
-        // Use stack if it exists, otherwise use message
-        const { timestamp, level, message, stack, metadata = {} } = info;
+        const { timestamp, level, message, metadata = {} } = info;
+
+        const meta = metadata as Record<string, unknown>;
+
+        let mainContent = message;
+        if (info.stack) {
+          mainContent = info.stack;
+        } else if (meta.error instanceof Error && meta.error.stack) {
+          mainContent = meta.error.stack;
+        }
 
         // Clone metadata so we don't mutate original
         const metaClone = _.cloneDeep(metadata) as Record<string, unknown>;
 
+        // Clean up metadata before inspection
+        if (metaClone.error) {
+          delete metaClone.error; // Already extracted/used for main content
+        }
         // Remove discord key if it exists
         if ("discord" in metaClone) {
           delete metaClone.discord;
@@ -30,9 +42,7 @@ let transportsList: TransportStream | TransportStream[] = [
           metaString = "\n" + util.inspect(metaClone, { colors: true, depth: 3, compact: false });
         }
 
-        // Print stack trace if exists, otherwise message
-        const mainContent = stack || message;
-
+        // Use mainContent which is stack or message
         return `[${timestamp}] ${level}: ${mainContent}${metaString}`;
       }),
     ),
@@ -48,16 +58,21 @@ if (Config.logging.file?.enabled) {
       format: format.combine(
         format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
         format.printf(({ timestamp, level, message, stack, ...meta }) => {
-          // Prepare metadata string
+          let mainMessage = stack || message;
+
+          // Check the metadata object for the nested error stack
+          if (!stack && meta.error instanceof Error && meta.error.stack) {
+            mainMessage = meta.error.stack;
+            // Remove the error object from metadata before logging it separately
+            delete meta.error;
+          }
+          // Prepare metadata string if there's any metadata beyond message and stack
           const metaKeys = Object.keys(meta);
           let metaString = "";
           if (metaKeys.length > 0) {
             // Pretty-print metadata using util.inspect for better readability
             metaString = "\nMetadata: " + util.inspect(meta, { depth: null, colors: false });
           }
-
-          // Print stack trace if exists, else message
-          const mainMessage = stack || message;
 
           return `${timestamp} [${level.toUpperCase()}] ${mainMessage}${metaString}`;
         }),
@@ -79,7 +94,6 @@ if (Config.logging.webhook?.enabled) {
 
 const logger = createLogger({
   transports: transportsList,
-  // format.errors({ stack: true }) to ensure stack traces are captured
   format: format.combine(format.metadata(), format.timestamp(), format.errors({ stack: true })),
 });
 
