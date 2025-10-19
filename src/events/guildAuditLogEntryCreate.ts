@@ -44,7 +44,7 @@ export default {
     }
     if (entry.action === AuditLogEvent.WebhookDelete) {
       // Clean up cached webhook if it exists
-      guild.client.webhooks.delete(entry.id);
+      guild.client.webhooks.delete((entry.target as Webhook).id);
       const targetChannel = getChannelFromTarget(guild, entry.target);
       const embed = new EmbedBuilder()
         .setColor("Red")

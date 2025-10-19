@@ -78,7 +78,13 @@ function getKeysForValue<T extends Record<string, unknown>, V>(obj: T, targetVal
 
   for (const key in obj) {
     if (Object.prototype.hasOwnProperty.call(obj, key)) {
-      if (obj[key] === targetValue) {
+      // Convert the config value to a string for comparison
+      const configValueAsString = String(obj[key]);
+
+      // Ensure the targetValue is also a string for a clean comparison
+      const targetValueAsString = String(targetValue);
+
+      if (configValueAsString === targetValueAsString) {
         keys.push(key);
       }
     }
@@ -86,6 +92,23 @@ function getKeysForValue<T extends Record<string, unknown>, V>(obj: T, targetVal
 
   return keys;
 }
+const CHANNEL_TO_WEBHOOK_MAP = {
+  // Config Key (Channel ID)       :  Target Key (Webhook ID)
+  message_logs_channel_id: "message_logs_webhook_id",
+  guild_logs_channel_id: "guild_logs_webhook_id",
+  guild_member_logs_channel_id: "guild_member_logs_webhook_id",
+  channel_logs_channel_id: "channel_logs_webhook_id",
+  voice_logs_channel_id: "voice_logs_webhook_id",
+  emoji_logs_channel_id: "emoji_logs_webhook_id",
+  role_logs_channel_id: "role_logs_webhook_id",
+  sticker_logs_channel_id: "sticker_logs_webhook_id",
+  event_logs_channel_id: "event_logs_webhook_id",
+  invite_logs_channel_id: "invite_logs_webhook_id",
+  poll_logs_channel_id: "poll_logs_webhook_id",
+  stage_logs_channel_id: "stage_logs_webhook_id",
+  thread_logs_channel_id: "thread_logs_webhook_id",
+  webhook_logs_channel_id: "webhook_logs_webhook_id",
+} as const;
 export enum WebhookType {
   MESSAGE_LOGS = "message_logs_webhook_id",
   GUILD_LOGS = "guild_logs_webhook_id",
@@ -106,7 +129,8 @@ export enum WebhookType {
 }
 // Assuming currentConfig is the full row from the 'guilds' table
 // and updateGuildConfig can take a partial object of updates.
-
+type ConfigKey = keyof typeof CHANNEL_TO_WEBHOOK_MAP;
+type WebhookKey = (typeof CHANNEL_TO_WEBHOOK_MAP)[ConfigKey];
 async function returnWebhook(
   client: Client,
   channel: TextChannel,
@@ -133,8 +157,20 @@ async function returnWebhook(
       // The SQL trigger will then propagate this new ID to all other types
       // that share the same channel ID.
       const update: Partial<Record<WebhookType, bigint>> = {};
-      for (const key of getKeysForValue(currentConfig as Record<string, unknown>, channel.id)) {
-        update[key as WebhookType] = BigInt(webhook.id);
+      const channelKeys = getKeysForValue(currentConfig as Record<string, unknown>, channel.id);
+
+      for (const channelKey of channelKeys) {
+        // Ensure the key is one that we expect to map
+        if (channelKey in CHANNEL_TO_WEBHOOK_MAP) {
+          // 2. Map the found channel key to the target webhook key
+          const webhookKey = CHANNEL_TO_WEBHOOK_MAP[channelKey as ConfigKey];
+
+          // 3. Update the correct webhook ID field with the new BigInt value
+          update[webhookKey as WebhookKey] = BigInt(webhook.id);
+
+          // Optional: If you also want to clear the old channel ID value, do this:
+          // update[channelKey as ConfigKey] = null;
+        }
       }
       await updateGuildConfig(guildId, update);
     }
