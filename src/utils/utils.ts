@@ -73,6 +73,19 @@ function trimString(str: string, maxLength = 100): string {
   const trimmed = str.slice(0, maxLength);
   return trimmed.slice(0, trimmed.lastIndexOf(" ")) + "...";
 }
+function getKeysForValue<T extends Record<string, unknown>, V>(obj: T, targetValue: V): (keyof T)[] {
+  const keys: (keyof T)[] = [];
+
+  for (const key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      if (obj[key] === targetValue) {
+        keys.push(key);
+      }
+    }
+  }
+
+  return keys;
+}
 export enum WebhookType {
   MESSAGE_LOGS = "message_logs_webhook_id",
   GUILD_LOGS = "guild_logs_webhook_id",
@@ -101,42 +114,16 @@ async function returnWebhook(
   webhookInfo: { id: bigint | null; type: WebhookType },
 ): Promise<Webhook<DiscordWebhookType.Incoming | DiscordWebhookType.ChannelFollower>> {
   try {
+    if (client.webhooks.has(toStringId(webhookInfo.id))) return client.webhooks.get(toStringId(webhookInfo.id))!;
     const currentConfig = await getGuildConfig(guildId);
     const webhooks = await channel
       .fetchWebhooks()
       .catch(() => new Collection<string, Webhook<DiscordWebhookType.Incoming | DiscordWebhookType.ChannelFollower>>());
     const webhookIdStr = webhookInfo.id?.toString();
     let webhook = webhookIdStr ? webhooks.get(webhookIdStr) : undefined;
-    let shouldCreateNew = false;
-
-    // Check for stale webhook ID scenario
-    if (webhookIdStr && !webhook) {
-      console.log(
-        `[Webhook Fix] Stale webhook ID detected (${webhookIdStr}) for ${webhookInfo.type}. Initiating synchronized cleanup.`,
-      );
-
-      // 1. Prepare the cleanup payload: find all log types pointing to the stale ID
-      const cleanupPayload: { [key: string]: null | bigint } = {};
-      const logTypeKeys = Object.values(WebhookType); // All webhook ID column keys
-
-      for (const key of logTypeKeys) {
-        // Check if the current log type's ID (stored in the DB) matches the deleted ID
-        const configValue = currentConfig![key];
-        if (configValue && configValue.toString() === webhookIdStr) {
-          cleanupPayload[key] = null; // Mark it for NULL
-        }
-      }
-
-      // 2. Execute the synchronized cleanup on the database
-      // This sets ALL log types that relied on the deleted ID to NULL.
-      await updateGuildConfig(guildId, cleanupPayload);
-
-      // 3. Signal to create a new webhook
-      shouldCreateNew = true;
-    }
 
     // If we cleaned up, or if the ID was null originally, create the new webhook.
-    if (!webhook || shouldCreateNew) {
+    if (!webhook) {
       webhook = await channel.createWebhook({
         name: `${client.user!.username} - Logs`, // A generic name since it's shared
         avatar: client.user!.displayAvatarURL(),
@@ -145,7 +132,11 @@ async function returnWebhook(
       // Update the database with the NEW webhook ID for the current log type.
       // The SQL trigger will then propagate this new ID to all other types
       // that share the same channel ID.
-      await updateGuildConfig(guildId, { [webhookInfo.type]: BigInt(webhook.id) });
+      const update: Partial<Record<WebhookType, bigint>> = {};
+      for (const key of getKeysForValue(currentConfig as Record<string, unknown>, channel.id)) {
+        update[key as WebhookType] = BigInt(webhook.id);
+      }
+      await updateGuildConfig(guildId, update);
     }
 
     client.webhooks.set(webhook.id, webhook);
