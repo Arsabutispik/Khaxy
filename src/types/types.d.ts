@@ -33,13 +33,6 @@ export interface EventBase<T extends keyof ClientEvents = keyof ClientEvents> {
   once?: boolean;
   execute: (...args: ClientEvents[T]) => Awaitable<void>;
 }
-export interface GuildConfig {
-  bumpLeaderboardChannel: string;
-  id: string;
-  language: string;
-  case_id: number;
-  mod_log_channel?: string;
-}
 
 export interface infractionParameters {
   guild: Guild;
@@ -47,4 +40,10 @@ export interface infractionParameters {
   moderator: Snowflake;
   type: InfractionType;
   reason: string;
+}
+
+declare module "fastify" {
+  interface FastifyInstance {
+    discord: import("discord.js").Client;
+  }
 }

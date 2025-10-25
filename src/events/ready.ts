@@ -78,6 +78,24 @@ export default {
         client.user!.setActivity(status.message, { type: status.type });
       }, 60000);
     }
+    if (client.config.api.enabled) {
+      logger.log({
+        level: "info",
+        message: `🚀 API: [api] section found and enabled. Starting Fastify server...`,
+        discord: false,
+      });
+
+      const { startAPIServer } = await import("../api/server.js");
+
+      // Pass the client and the API configuration to the server
+      await startAPIServer(client);
+    } else {
+      logger.log({
+        level: "warn",
+        message: `🚧 API: [api] section is disabled or missing. Skipping Fastify server startup.`,
+        discord: false,
+      });
+    }
     logger.log({
       level: "info",
       message: `Logged in as ${client.user!.tag}`,
