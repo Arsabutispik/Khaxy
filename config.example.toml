@@ -58,3 +58,19 @@ enabled = true
 # The file will be named "error.log"
 # You can change the file name here.
 filename = "error.log"
+
+# API Server Configuration for Dashboard Access
+[api]
+# Set to true to enable the Fastify API server for the dashboard.
+enabled = true
+
+# The host the Fastify server should listen on locally (e.g., "localhost" or "myapp.local")
+# This should point to where your dashboard is hosted.
+host = "http://localhost:3000"
+
+# The port the Fastify server should listen on locally (e.g., 3001)
+port = 3001
+
+# The API key required in the 'X-Internal-API-Key' header from the dashboard.
+# WARNING: Keep this key secure and secret!
+key = "YOUR_SECURE_INTERNAL_API_KEY_HERE"

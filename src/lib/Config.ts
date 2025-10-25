@@ -29,10 +29,17 @@ interface LoggingConfig {
     filename?: string;
   } | null;
 }
+interface APIConfig {
+  enabled: boolean;
+  host: string;
+  port: number;
+  key: string;
+}
 interface AppConfig {
   emojis: Record<string, EmojiConfig>;
   activity: {
     messages: ActivityMessage[];
   };
   logging: LoggingConfig;
+  api: APIConfig;
 }
