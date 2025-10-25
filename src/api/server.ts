@@ -42,7 +42,7 @@ export async function startAPIServer(client: Client) {
   // 3. Decorate and Register Routes
   app.decorate("discord", client);
   app.register(botRoutes);
-  const LISTEN_HOST = "127.0.0.1"; // Safe choice when behind a reverse proxy on the same machine
+  const LISTEN_HOST = "0.0.0.0"; // Safe choice when behind a reverse proxy on the same machine
   // 4. Start the server
   try {
     await app.listen({ host: LISTEN_HOST, port: API_PORT });
