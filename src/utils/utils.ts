@@ -108,6 +108,8 @@ const CHANNEL_TO_WEBHOOK_MAP = {
   stage_logs_channel_id: "stage_logs_webhook_id",
   thread_logs_channel_id: "thread_logs_webhook_id",
   webhook_logs_channel_id: "webhook_logs_webhook_id",
+  mod_logs_channel_id: "mod_logs_webhook_id",
+  soundboard_logs_channel_id: "soundboard_logs_webhook_id",
 } as const;
 export enum WebhookType {
   MESSAGE_LOGS = "message_logs_webhook_id",
@@ -140,9 +142,15 @@ async function returnWebhook(
   try {
     if (client.webhooks.has(toStringId(webhookInfo.id))) return client.webhooks.get(toStringId(webhookInfo.id))!;
     const currentConfig = await getGuildConfig(guildId);
-    const webhooks = await channel
-      .fetchWebhooks()
-      .catch(() => new Collection<string, Webhook<DiscordWebhookType.Incoming | DiscordWebhookType.ChannelFollower>>());
+    const webhooks = await channel.fetchWebhooks().catch((error) => {
+      logger.log({
+        level: "warn",
+        error,
+        message: `Failed to fetch webhooks for channel ${channel.id} in guild ${guildId}.`,
+        channelId: channel.id,
+      });
+      return new Collection<string, Webhook<DiscordWebhookType.Incoming | DiscordWebhookType.ChannelFollower>>();
+    });
     const webhookIdStr = webhookInfo.id?.toString();
     let webhook = webhookIdStr ? webhooks.get(webhookIdStr) : undefined;
 

@@ -161,7 +161,7 @@ export async function modLog(
 
   try {
     // Fetch the mod log channel and send the log message
-    const channel = await guild.channels.fetch(toStringId(guildConfig.mod_log_channel_id));
+    const channel = await guild.channels.fetch(toStringId(guildConfig.mod_logs_channel_id));
     if (channel && channel.type === ChannelType.GuildText) {
       const webhook = await returnWebhook(client, channel, guild.id, {
         id: guildConfig.mod_logs_webhook_id,
