@@ -91,7 +91,7 @@ export async function moderationConfig(interaction: ChatInputCommandInteraction<
   }
   switch (messageComponent.values[0]) {
     case "mod_log_channel":
-      await dynamicChannel("mod_log_channel_id", messageComponent, guildConfig, t);
+      await dynamicChannel("mod_logs_channel_id", messageComponent, guildConfig, t);
       break;
     case "staff_role":
       await messageComponent.deferUpdate();

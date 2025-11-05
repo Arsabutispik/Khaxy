@@ -34,7 +34,6 @@ model guilds {
   mute_get_all_roles           Boolean?
   join_channel_id              BigInt?
   register_join_channel_id     BigInt?
-  mod_log_channel_id           BigInt?
   colour_id_of_the_day         BigInt?
   leave_channel_id             BigInt?
   case_id                      Int      @default(1)

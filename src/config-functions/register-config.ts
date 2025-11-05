@@ -100,7 +100,7 @@ export async function dynamicChannel(
     | "register_channel_id"
     | "join_channel_id"
     | "leave_channel_id"
-    | "mod_log_channel_id"
+    | "mod_logs_channel_id"
     | "mod_mail_channel_id"
     | "bump_leaderboard_channel_id"
     | "message_logs_channel_id"
