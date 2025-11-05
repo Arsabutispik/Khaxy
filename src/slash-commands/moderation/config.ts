@@ -217,7 +217,7 @@ export default {
             .addFields(
               {
                 name: t("embed.moderation.fields.mod_log_channel"),
-                value: guild_config.mod_log_channel_id ? `<#${guild_config.mod_log_channel_id}>` : t("none"),
+                value: guild_config.mod_logs_channel_id ? `<#${guild_config.mod_logs_channel_id}>` : t("none"),
                 inline: true,
               },
               {

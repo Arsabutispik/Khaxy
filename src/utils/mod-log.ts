@@ -92,7 +92,7 @@ export async function modLog(
     }
   }
   // If mod log channel is not configured, exit the function
-  if (!guildConfig.mod_log_channel_id) return;
+  if (!guildConfig.mod_logs_channel_id) return;
 
   let message = `<t:${Math.floor(Date.now() / 1000)}> \`[${caseNumber}]\``;
 
@@ -176,7 +176,7 @@ export async function modLog(
       error: error,
     });
     try {
-      await updateGuildConfig(guild.id, { mod_log_channel_id: null });
+      await updateGuildConfig(guild.id, { mod_logs_channel_id: null });
       logger.log({
         level: "info",
         message: `Modlog channel ID deleted for ${guild.name} (${guild.id})`,
