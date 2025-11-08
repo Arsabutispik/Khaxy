@@ -1,14 +1,12 @@
 import {
   ActionRowBuilder,
   ChatInputCommandInteraction,
-  ComponentType,
-  MessageComponentInteraction,
   MessageFlagsBitField,
   StringSelectMenuBuilder,
 } from "discord.js";
 import { getGuildConfig, updateGuildConfig } from "@database";
-import { dynamicChannel } from "./register-config.js";
 import { toStringId } from "@utils";
+import { waitForMessageComponent, dynamicChannel } from "./utils.js";
 
 export async function logConfig(interaction: ChatInputCommandInteraction<"cached">) {
   const client = interaction.client;
@@ -119,25 +117,8 @@ export async function logConfig(interaction: ChatInputCommandInteraction<"cached
       },
     ]);
   const actionRow = new ActionRowBuilder<StringSelectMenuBuilder>().setComponents(selectMenu);
-  const reply = await interaction.reply({
-    content: t("initial"),
-    components: [actionRow],
-    flags: MessageFlagsBitField.Flags.Ephemeral,
-    withResponse: true,
-  });
-  const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id && i.customId === "log_config";
-  let messageComponent;
-  try {
-    messageComponent = await reply.resource!.message!.awaitMessageComponent({
-      filter,
-      time: 1000 * 60,
-      componentType: ComponentType.StringSelect,
-    });
-  } catch {
-    await reply.resource!.message!.edit({ content: t("timeout"), components: [] }).catch(() => null);
-    return;
-  }
-
+  const messageComponent = await waitForMessageComponent(interaction, actionRow, t, "log_config");
+  if (!messageComponent) return;
   switch (messageComponent.values[0]) {
     case "message_logs_channel_id":
       client.webhooks.delete(toStringId(guildConfig.message_logs_webhook_id));

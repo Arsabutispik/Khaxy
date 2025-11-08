@@ -10,11 +10,12 @@ import {
   StringSelectMenuInteraction,
 } from "discord.js";
 import type { guilds as Guilds } from "@prisma/client";
-import { dynamicChannel } from "./register-config.js";
-import { dynamicRole } from "./role-config.js";
+import { dynamicRole } from "./utils.js";
 import type { TFunction } from "i18next";
 import { toStringId } from "@utils";
 import { getGuildConfig, updateGuildConfig } from "@database";
+import { waitForMessageComponent, dynamicChannel } from "./utils.js";
+import { logger } from "@lib";
 
 export async function moderationConfig(interaction: ChatInputCommandInteraction<"cached">) {
   const client = interaction.client;
@@ -70,25 +71,8 @@ export async function moderationConfig(interaction: ChatInputCommandInteraction<
       },
     ]);
   const actionRow = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(selectMenu);
-  const reply = await interaction.reply({
-    content: t("initial"),
-    components: [actionRow],
-    flags: MessageFlagsBitField.Flags.Ephemeral,
-    withResponse: true,
-  });
-  const filter = (i: MessageComponentInteraction) =>
-    i.user.id === interaction.user.id && i.customId === "moderation_config";
-  let messageComponent;
-  try {
-    messageComponent = await reply.resource!.message!.awaitMessageComponent({
-      filter,
-      time: 1000 * 60 * 5,
-      componentType: ComponentType.StringSelect,
-    });
-  } catch {
-    await reply.resource!.message!.edit({ content: t("timeout"), components: [] }).catch(() => null);
-    return;
-  }
+  const messageComponent = await waitForMessageComponent(interaction, actionRow, t, "moderation_config");
+  if (!messageComponent) return;
   switch (messageComponent.values[0]) {
     case "mod_log_channel":
       await dynamicChannel("mod_logs_channel_id", messageComponent, guildConfig, t);
@@ -136,7 +120,7 @@ async function modMailChannel(interaction: StringSelectMenuInteraction<"cached">
         allow: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages],
       });
     }
-    const parent = await interaction.guild!.channels.create({
+    const parent = await interaction.guild.channels.create({
       name: "ModMail",
       type: ChannelType.GuildCategory,
       permissionOverwrites: permissions,
@@ -227,17 +211,22 @@ async function registerDayLimit(interaction: StringSelectMenuInteraction<"cached
   });
   const filter = (i: MessageComponentInteraction) =>
     i.user.id === interaction.user.id && i.customId === "register_day_limit";
-  let messageComponent;
-  try {
-    messageComponent = await reply.awaitMessageComponent({
+  const messageComponent = await reply
+    .awaitMessageComponent({
       filter,
       time: 1000 * 60 * 5,
       componentType: ComponentType.StringSelect,
+    })
+    .catch(async () => {
+      await reply.edit({ content: t("timeout"), components: [] });
+      logger.log({
+        level: "warn",
+        message: `User ${interaction.user.tag} (${interaction.user.id}) did not respond in time for register_day_limit in guild ${interaction.guild?.name} (${interaction.guildId})`,
+        discord: false,
+      });
+      return null;
     });
-  } catch {
-    await reply.edit({ content: t("timeout"), components: [] });
-    return;
-  }
+  if (!messageComponent) return;
   await updateGuildConfig(interaction.guildId, {
     days_to_kick: parseInt(messageComponent.values[0]),
   });
@@ -295,17 +284,22 @@ async function defaultExpiry(interaction: StringSelectMenuInteraction<"cached">,
   });
   const filter = (i: MessageComponentInteraction) =>
     i.user.id === interaction.user.id && i.customId === "default_expiry";
-  let messageComponent;
-  try {
-    messageComponent = await reply.awaitMessageComponent({
+  const messageComponent = await reply
+    .awaitMessageComponent({
       filter,
       time: 1000 * 60 * 5,
       componentType: ComponentType.StringSelect,
+    })
+    .catch(async () => {
+      await reply.edit({ content: t("timeout"), components: [] });
+      logger.log({
+        level: "warn",
+        message: `User ${interaction.user.tag} (${interaction.user.id}) did not respond in time for default_expiry in guild ${interaction.guild?.name} (${interaction.guildId})`,
+        discord: false,
+      });
+      return null;
     });
-  } catch {
-    await reply.edit({ content: t("timeout"), components: [] });
-    return;
-  }
+  if (!messageComponent) return;
   await updateGuildConfig(interaction.guildId, {
     default_expiry: parseInt(messageComponent.values[0]),
   });
