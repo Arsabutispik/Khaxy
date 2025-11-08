@@ -8,12 +8,11 @@ import {
   Snowflake,
   Webhook,
   WebhookType,
-  StringSelectMenuInteraction,
 } from "discord.js";
-import { i18n, TFunction } from "i18next";
+import { i18n } from "i18next";
 import { Config } from "@lib";
 import { InfractionType } from "@constants";
-import type { guilds as Guilds } from "@prisma/client";
+
 declare module "discord.js" {
   interface Client {
     slashCommands: Collection<string, SlashCommandBase>;
