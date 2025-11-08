@@ -1,12 +1,10 @@
 import {
   ActionRowBuilder,
   ChatInputCommandInteraction,
-  ComponentType,
-  MessageComponentInteraction,
   MessageFlagsBitField,
   StringSelectMenuBuilder,
 } from "discord.js";
-import { dynamicChannel, dynamicMessage } from "./register-config.js";
+import { dynamicChannel, dynamicMessage, waitForMessageComponent } from "./utils.js";
 import { getGuildConfig } from "@database";
 
 export async function welcomeLeaveConfig(interaction: ChatInputCommandInteraction<"cached">) {
@@ -51,25 +49,8 @@ export async function welcomeLeaveConfig(interaction: ChatInputCommandInteractio
       },
     ]);
   const actionRow = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(selectMenu);
-  const reply = await interaction.reply({
-    content: t("initial"),
-    components: [actionRow],
-    flags: MessageFlagsBitField.Flags.Ephemeral,
-    withResponse: true,
-  });
-  const filter = (i: MessageComponentInteraction) =>
-    i.user.id === interaction.user.id && i.customId === "welcome_leave_config";
-  let messageComponent;
-  try {
-    messageComponent = await reply.resource!.message!.awaitMessageComponent({
-      filter,
-      time: 1000 * 60 * 5,
-      componentType: ComponentType.StringSelect,
-    });
-  } catch {
-    await reply.resource!.message!.edit({ content: t("timeout"), components: [] }).catch(() => null);
-    return;
-  }
+  const messageComponent = await waitForMessageComponent(interaction, actionRow, t, "welcome_leave_config");
+  if (!messageComponent) return;
   switch (messageComponent.values[0]) {
     case "join_channel":
       await dynamicChannel("join_channel_id", messageComponent, guildConfig, t);

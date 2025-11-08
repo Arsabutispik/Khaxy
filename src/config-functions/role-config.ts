@@ -1,27 +1,12 @@
 import {
   ActionRowBuilder,
   ChatInputCommandInteraction,
-  ComponentType,
-  MessageComponentInteraction,
   MessageFlagsBitField,
-  RoleSelectMenuBuilder,
   StringSelectMenuBuilder,
-  StringSelectMenuInteraction,
 } from "discord.js";
-import type { guilds as Guilds } from "@prisma/client";
-import type { TFunction } from "i18next";
-import { toStringId } from "@utils";
-import { getGuildConfig, updateGuildConfig } from "@database";
-
-type RoleType =
-  | "member_role_id"
-  | "male_role_id"
-  | "female_role_id"
-  | "colour_id_of_the_day"
-  | "mute_role_id"
-  | "dj_role_id"
-  | "staff_role_id"
-  | "unverified_role_id";
+import { getGuildConfig } from "@database";
+import { dynamicRole, waitForMessageComponent } from "./utils.js";
+import { RoleType } from "@customTypes";
 
 export async function roleConfig(interaction: ChatInputCommandInteraction<"cached">) {
   const client = interaction.client;
@@ -83,89 +68,8 @@ export async function roleConfig(interaction: ChatInputCommandInteraction<"cache
       },
     ]);
   const actionRow = new ActionRowBuilder<StringSelectMenuBuilder>().setComponents(selectMenu);
-  const reply = await interaction.reply({
-    content: t("initial"),
-    components: [actionRow],
-    flags: MessageFlagsBitField.Flags.Ephemeral,
-    withResponse: true,
-  });
-  const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id && i.customId === "role_config";
-  let messageComponent;
-  try {
-    messageComponent = await reply.resource!.message!.awaitMessageComponent({
-      filter,
-      componentType: ComponentType.StringSelect,
-      time: 1000 * 60 * 5,
-    });
-  } catch {
-    await reply.resource!.message!.edit({ content: t("timeout"), components: [] }).catch(() => null);
-    return;
-  }
+  const messageComponent = await waitForMessageComponent(interaction, actionRow, t, "role_config");
+  if (!messageComponent) return;
   await messageComponent.deferUpdate();
   await dynamicRole(messageComponent.values[0] as RoleType, messageComponent, guildConfig, t);
-}
-
-export async function dynamicRole(
-  role: RoleType,
-  interaction: StringSelectMenuInteraction<"cached">,
-  data: Guilds,
-  t: TFunction,
-) {
-  const selectMenu = new RoleSelectMenuBuilder().setCustomId(role).setMaxValues(1).setMinValues(0);
-  if (data[role]) {
-    selectMenu.setDefaultRoles(toStringId(data[role]));
-  }
-  const action_row = new ActionRowBuilder<RoleSelectMenuBuilder>().setComponents(selectMenu);
-  const result = await interaction.editReply({
-    content: t("role_initial"),
-    components: [action_row],
-  });
-  const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id && i.customId === role;
-  let messageComponent;
-  try {
-    messageComponent = await result.awaitMessageComponent({
-      filter,
-      componentType: ComponentType.RoleSelect,
-      time: 1000 * 60 * 5,
-    });
-  } catch {
-    await result
-      .edit({
-        content: t("timeout"),
-        components: [],
-      })
-      .catch(() => null);
-    return;
-  }
-  await messageComponent.deferUpdate();
-  if (messageComponent.values.length === 0) {
-    await updateGuildConfig(messageComponent.guildId, {
-      [role]: null,
-    });
-    await messageComponent.editReply({
-      content: t(`${role}.unset`),
-      components: [],
-    });
-  } else {
-    if (
-      !["dj_role_id", "staff_role_id"].includes(messageComponent.values[0]) &&
-      messageComponent.guild!.members.me!.roles.highest.position <
-        messageComponent.guild.roles.cache.get(messageComponent.values[0])!.position
-    ) {
-      await messageComponent.editReply({
-        content: t("role_too_high"),
-        components: [],
-      });
-      return;
-    }
-    await updateGuildConfig(messageComponent.guildId, {
-      [role]: messageComponent.values[0],
-    });
-    await messageComponent.editReply({
-      content: t(`${role}.set`, {
-        role: messageComponent.guild!.roles.cache.get(messageComponent.values[0])!.toString(),
-      }),
-      components: [],
-    });
-  }
 }

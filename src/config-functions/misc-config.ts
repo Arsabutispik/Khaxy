@@ -9,8 +9,10 @@ import {
 import { getGuildConfig, updateGuildConfig } from "@database";
 import type { guilds as Guilds } from "@prisma/client";
 import type { TFunction } from "i18next";
-import { dynamicChannel, dynamicMessage } from "./register-config.js";
+import { dynamicChannel, dynamicMessage } from "./utils.js";
 import { localeFlags } from "@constants";
+import { waitForMessageComponent } from "./utils.js";
+import { logger } from "@lib";
 
 export async function miscConfig(interaction: ChatInputCommandInteraction<"cached">) {
   const client = interaction.client;
@@ -49,25 +51,8 @@ export async function miscConfig(interaction: ChatInputCommandInteraction<"cache
       },
     ]);
   const actionRow = new ActionRowBuilder<StringSelectMenuBuilder>().setComponents(selectMenu);
-  const reply = await interaction.reply({
-    content: t("initial"),
-    components: [actionRow],
-    flags: MessageFlagsBitField.Flags.Ephemeral,
-    withResponse: true,
-  });
-  const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id && i.customId === "misc_config";
-  let messageComponent;
-  try {
-    messageComponent = await reply.resource!.message!.awaitMessageComponent({
-      filter,
-      time: 1000 * 60,
-      componentType: ComponentType.StringSelect,
-    });
-  } catch {
-    await reply.resource!.message!.edit({ content: t("timeout"), components: [] }).catch(() => null);
-    return;
-  }
-
+  const messageComponent = await waitForMessageComponent(interaction, actionRow, t, "misc_config");
+  if (!messageComponent) return;
   switch (messageComponent.values[0]) {
     case "language":
       await messageComponent.deferUpdate();
@@ -115,17 +100,25 @@ async function languageConfig(interaction: MessageComponentInteraction, data: Gu
     components: [actionRow],
   });
   const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id && i.customId === "language";
-  let messageComponent;
-  try {
-    messageComponent = await result.awaitMessageComponent({
+  const messageComponent = await result
+    .awaitMessageComponent({
       filter,
-      time: 1000 * 60,
+      time: 1000 * 60 * 5,
       componentType: ComponentType.StringSelect,
+    })
+    .catch(async () => {
+      await interaction.editReply({
+        content: t("timeout"),
+        components: [],
+      });
+      logger.log({
+        level: "warn",
+        message: `User ${interaction.user.tag} (${interaction.user.id}) did not respond in time for language selection in guild ${interaction.guild?.name} (${interaction.guildId})`,
+        discord: false,
+      });
+      return null;
     });
-  } catch {
-    await interaction.editReply({ content: t("timeout"), components: [] });
-    return;
-  }
+  if (!messageComponent) return;
   if (!messageComponent.inCachedGuild()) {
     await messageComponent.deferUpdate();
     await messageComponent.editReply({
