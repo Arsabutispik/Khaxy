@@ -10,10 +10,11 @@ export default {
     if (!message.inGuild()) return;
     if (message.partial) return; // Ignore partial messages
     if (message.author.id === message.client.user.id) return; // Ignore messages sent by the bot itself
-    if (message.author.bot && !message.content.length) return; // Ignore bot messages without content
+    if (message.author.bot) return; // Ignore bot messages
     const guildConfig = await getGuildConfig(message.guild.id);
     if (!guildConfig) return;
-    if (message.content) {
+    if (message.content || message.attachments.size > 0) {
+      if (!guildConfig.message_logs_channel_id) return;
       const logChannel = await message.guild.channels
         .fetch(toStringId(guildConfig.message_logs_channel_id))
         .catch(() => null);
