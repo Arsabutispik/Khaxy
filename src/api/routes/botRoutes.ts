@@ -2,6 +2,7 @@ import { FastifyInstance } from "fastify";
 import { PermissionsBitField } from "discord.js";
 import { getGuildConfig, updateGuildConfig } from "@database";
 import { guilds } from "@prisma/client";
+import { logger } from "@lib";
 export async function botRoutes(fastify: FastifyInstance) {
   // 1. Endpoint for general bot info
   fastify.get("/api/bot/status", async () => {
@@ -28,7 +29,14 @@ export async function botRoutes(fastify: FastifyInstance) {
       reply.code(401).send({ error: "Missing userId query parameter" });
       return;
     }
-    const member = await guild.members.fetch(userId).catch(() => null);
+    const member = await guild.members.fetch(userId).catch(() => {
+      logger.log({
+        level: "warn",
+        message: `Failed to fetch member with ID ${userId} in guild ${guildId}`,
+        discord: false,
+      });
+      return null;
+    });
     if (!member) {
       reply.code(404).send({ error: "Member not found in guild" });
       return;
@@ -74,5 +82,19 @@ export async function botRoutes(fastify: FastifyInstance) {
       console.error("Error updating guild configuration:", error);
       reply.code(500).send({ error: "Failed to update guild configuration" });
     }
+  });
+  fastify.get("/api/bot/guild/:guildId", async (request, reply) => {
+    const client = fastify.discord;
+    const { guildId } = request.params as { guildId: string };
+    const guild = client.guilds.cache.get(guildId);
+    if (!guild) {
+      reply.code(404).send({ error: "Guild not found" });
+      return;
+    }
+    return {
+      id: guild.id,
+      name: guild.name,
+      memberCount: guild.memberCount,
+    };
   });
 }
