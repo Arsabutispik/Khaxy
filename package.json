@@ -5,6 +5,10 @@
   "type": "module",
   "description": "",
   "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Arsabutispik/Khaxy.git"
+  },
   "scripts": {
     "deploy-commands": "tsc && tsc-alias && node --enable-source-maps dist/utils/deploy-commands.js",
     "build": "prisma migrate deploy && prisma generate && tsc && tsc-alias",
