@@ -1,19 +1,17 @@
 {
   "name": "khaxyrewrite",
-  "version": "0.9.0",
+  "version": "0.11.0",
   "packageManager": "pnpm@10.11.1",
   "type": "module",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
     "deploy-commands": "tsc && tsc-alias && node --enable-source-maps dist/utils/deploy-commands.js",
-    "remove-commands": "tsc && tsc-alias && node --enable-source-maps dist/utils/remove-commands.js",
     "build": "prisma migrate deploy && prisma generate && tsc && tsc-alias",
     "start": "node --enable-source-maps .",
     "validate-translations": "node scripts/ValidateI18nKeys.js",
-    "generate-webhooks": "node scripts/GenerateWebhookTrigger.js",
-    "test": "vitest",
-    "dev": "prisma migrate dev && tsc && tsc-alias && node --enable-source-maps ."
+    "dev": "prisma migrate dev && tsc && tsc-alias && node --enable-source-maps .",
+    "release": "release-it"
   },
   "dependencies": {
     "@fastify/cors": "^11.1.0",
@@ -26,7 +24,7 @@
     "fastify": "^5.6.1",
     "i18next": "^25.5.3",
     "i18next-fs-backend": "^2.6.0",
-    "js-yaml": "^4.1.0",
+    "js-yaml": "4.1.1",
     "lodash": "^4.17.21",
     "string-progressbar": "^1.0.4",
     "toml": "^3.0.0",
@@ -35,6 +33,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.37.0",
+    "@release-it/conventional-changelog": "^10.0.2",
     "@types/lodash": "^4.17.20",
     "@typescript-eslint/eslint-plugin": "^8.46.0",
     "@typescript-eslint/parser": "^8.46.0",
@@ -44,6 +43,7 @@
     "globals": "^15.15.0",
     "prettier": "^3.6.2",
     "prisma": "^6.17.0",
+    "release-it": "^19.0.6",
     "ts-node": "^10.9.2",
     "tsc-alias": "^1.8.16",
     "typescript": "^5.9.3",
