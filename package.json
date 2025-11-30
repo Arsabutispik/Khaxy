@@ -1,6 +1,6 @@
 {
   "name": "khaxyrewrite",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "packageManager": "pnpm@10.11.1",
   "type": "module",
   "description": "",
