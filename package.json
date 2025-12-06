@@ -8,7 +8,8 @@
     "db:generate": "turbo run generate",
     "db:migrate": "pnpm -F @repo/database exec prisma migrate dev",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "type-check": "turbo run type-check"
+    "type-check": "turbo run type-check",
+    "postinstall": "turbo run generate"
   },
   "devDependencies": {
     "prettier": "^3.7.4",
