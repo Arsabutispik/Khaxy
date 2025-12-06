@@ -11,7 +11,8 @@
   },
   "scripts": {
     "deploy-commands": "tsc && tsc-alias && node --enable-source-maps dist/utils/deploy-commands.js",
-    "build": "prisma migrate deploy && prisma generate && tsc && tsc-alias",
+    "db:deploy": "pnpm -F @repo/database exec prisma migrate deploy",
+    "build": "pnpm run db:deploy && tsc && tsc-alias",
     "start": "node --enable-source-maps .",
     "validate-translations": "node scripts/ValidateI18nKeys.js",
     "dev": "tsc && tsc-alias && node --enable-source-maps .",
