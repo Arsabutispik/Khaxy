@@ -16,7 +16,8 @@
     "validate-translations": "node scripts/ValidateI18nKeys.js",
     "dev": "tsc && tsc-alias && node --enable-source-maps .",
     "release": "release-it",
-    "lint": "eslint "
+    "lint": "eslint ",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@fastify/cors": "^11.1.0",

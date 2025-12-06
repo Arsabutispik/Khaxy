@@ -48,7 +48,7 @@ jobs:
           version: '10.11.1'
       - run: pnpm install
       - run: pnpm db:generate
-      - run: pnpm tsc --noEmit
+      - run: pnpm type-check
 
   lint:
     name: ESLint

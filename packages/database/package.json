@@ -6,7 +6,8 @@
   "types": "index.ts",
   "scripts": {
     "generate": "prisma generate",
-    "db:push": "prisma db push"
+    "db:push": "prisma db push",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@prisma/client": "^6.19.0"
