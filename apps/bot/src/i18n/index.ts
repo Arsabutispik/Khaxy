@@ -1,7 +1,11 @@
 import i18next from "i18next";
 import FsBackend from "i18next-fs-backend/cjs";
 import { logger } from "src/lib/index.js";
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 export async function initI18n() {
   try {
     await i18next.use(FsBackend).init({
@@ -12,7 +16,7 @@ export async function initI18n() {
       ns: ["translations", "events", "permissions", "commands", "help", "guild-features", "locales"],
       defaultNS: "translations",
       backend: {
-        loadPath: "locales/{{lng}}/{{ns}}.yml",
+        loadPath: join(__dirname, "../../locales/{{lng}}/{{ns}}.json"),
       },
       interpolation: { escapeValue: false },
       load: "currentOnly",
