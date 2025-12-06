@@ -1,16 +1,45 @@
-/tmp
-/out-tsc
-/.idea
-/node_modules
+# --- Dependencies ---
+node_modules
+.pnpm-store
+
+# --- Environment Variables ---
+.env
+.env*.local
+.env.development.local
+.env.test.local
+.env.production.local
+!.env.example
+!.env.template
+config.toml
+
+# --- Next.js Build Output ---
+.next/
+out/
+build/
+dist/
+
+# --- TurboRepo Cache ---
+.turbo/
+
+# --- Logs ---
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-/.pnp
-.pnp.js
-.env
-.vscode/*
-/dist
-/logs
-/generated/prisma
-coverage/
-config.toml
+pnpm-debug.log*
+logs/
+*.log
+
+# --- IDEs & System ---
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# --- Prisma ---
+*.db
+*.sqlite
+*.sqlite-journal
+
+# --- Vercel ---
+.vercel

@@ -1,0 +1,56 @@
+{
+  "name": "khaxyrewrite",
+  "version": "0.12.0",
+  "packageManager": "pnpm@10.11.1",
+  "type": "module",
+  "description": "",
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Arsabutispik/Khaxy.git"
+  },
+  "scripts": {
+    "deploy-commands": "tsc && tsc-alias && node --enable-source-maps dist/utils/deploy-commands.js",
+    "build": "prisma migrate deploy && prisma generate && tsc && tsc-alias",
+    "start": "node --enable-source-maps .",
+    "validate-translations": "node scripts/ValidateI18nKeys.js",
+    "dev": "tsc && tsc-alias && node --enable-source-maps .",
+    "release": "release-it"
+  },
+  "dependencies": {
+    "@fastify/cors": "^11.1.0",
+    "@repo/database": "workspace:*",
+    "chalk": "^5.6.2",
+    "cron": "^3.5.0",
+    "dayjs": "^1.11.18",
+    "discord.js": "^14.23.2",
+    "dotenv": "^16.6.1",
+    "fastify": "^5.6.1",
+    "i18next": "^25.5.3",
+    "i18next-fs-backend": "^2.6.0",
+    "js-yaml": "4.1.1",
+    "lodash": "^4.17.21",
+    "string-progressbar": "^1.0.4",
+    "toml": "^3.0.0",
+    "winston": "^3.18.3",
+    "winston-transport": "^4.9.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.37.0",
+    "@release-it/conventional-changelog": "^10.0.2",
+    "@types/lodash": "^4.17.20",
+    "@typescript-eslint/eslint-plugin": "^8.46.0",
+    "@typescript-eslint/parser": "^8.46.0",
+    "eslint": "^9.37.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-jsonc": "^2.21.0",
+    "globals": "^15.15.0",
+    "prettier": "^3.6.2",
+    "release-it": "^19.0.6",
+    "ts-node": "^10.9.2",
+    "tsc-alias": "^1.8.16",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.0"
+  },
+  "private": true
+}
