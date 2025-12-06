@@ -1,7 +1,7 @@
 {
   "git": {
     "commitMessage": "chore: release v${version}",
-    "tagName": "v${version}",
+    "tagName": "bot-v${version}",
     "requireCleanWorkingDir": true
   },
   "npm": {
@@ -9,7 +9,7 @@
   },
   "github": {
     "release": true,
-    "releaseName": "v${version}"
+    "releaseName": "Bot v${version}"
   },
   "plugins": {
     "@release-it/conventional-changelog": {
