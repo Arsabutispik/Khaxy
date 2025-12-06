@@ -1,4 +1,4 @@
-import type { SlashCommandBase } from "@customTypes";
+import type { SlashCommandBase } from "src/types/index.js";
 import {
   ChannelType,
   EmbedBuilder,
@@ -10,11 +10,11 @@ import {
 import dayjs from "dayjs";
 import dayjsduration from "dayjs/plugin/duration.js";
 import relativeTime from "dayjs/plugin/relativeTime.js";
-import { logger } from "@lib";
+import { logger } from "src/lib/index.js";
 import "dayjs/locale/tr.js";
-import { toStringId, modLog, returnWebhook, WebhookType } from "@utils";
-import { createPunishment, getGuildConfig, getLatestPunishmentByUserAndType } from "@database";
-import { PunishmentType } from "@constants";
+import { toStringId, modLog, returnWebhook, WebhookType } from "src/utils/index.js";
+import { createPunishment, getGuildConfig, getLatestPunishmentByUserAndType } from "src/database/index.js";
+import { PunishmentType } from "src/constants/index.js";
 export default {
   memberPermissions: [PermissionsBitField.Flags.ManageRoles],
   clientPermissions: [PermissionsBitField.Flags.ManageRoles],

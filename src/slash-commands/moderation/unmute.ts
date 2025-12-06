@@ -1,9 +1,9 @@
-import type { SlashCommandBase } from "@customTypes";
+import type { SlashCommandBase } from "src/types/index.js";
 import { InteractionContextType, MessageFlagsBitField, PermissionsBitField, SlashCommandBuilder } from "discord.js";
-import { logger } from "@lib";
-import { modLog, toStringId } from "@utils";
-import { deletePunishment, getGuildConfig, getLatestPunishmentByUserAndType } from "@database";
-import { PunishmentType } from "@constants";
+import { logger } from "src/lib/index.js";
+import { modLog, toStringId } from "src/utils/index.js";
+import { deletePunishment, getGuildConfig, getLatestPunishmentByUserAndType } from "src/database/index.js";
+import { PunishmentType } from "src/constants/index.js";
 
 export default {
   memberPermissions: [PermissionsBitField.Flags.ManageRoles],

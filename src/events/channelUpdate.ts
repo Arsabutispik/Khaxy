@@ -1,4 +1,4 @@
-import { EventBase } from "@customTypes";
+import { EventBase } from "src/types/index.js";
 import {
   Events,
   ChannelType,
@@ -13,7 +13,7 @@ import {
   ForumChannel,
   MediaChannel,
 } from "discord.js";
-import { getGuildConfig } from "@database";
+import { getGuildConfig } from "src/database/index.js";
 import {
   diffGuildForumTags,
   diffPermissions,
@@ -22,8 +22,8 @@ import {
   returnWebhook,
   toStringId,
   WebhookType,
-} from "@utils";
-import { logger } from "@lib";
+} from "src/utils/index.js";
+import { logger } from "src/lib/index.js";
 import { isDeepStrictEqual } from "node:util";
 
 export default {

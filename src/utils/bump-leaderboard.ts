@@ -1,12 +1,12 @@
 import { ChannelType, Client, time, User } from "discord.js";
-import { toStringId } from "@utils";
+import { toStringId } from "src/utils/index.js";
 import {
   getBumpLeaderboard,
   getGuildConfig,
   getGuilds,
   resetBumpLeaderboard as resetBumpLeaderboardDatabase,
   updateGuildConfig,
-} from "@database";
+} from "src/database/index.js";
 
 export async function bumpLeaderboard(client: Client, guildId: string, lastBump?: User) {
   const guild = client.guilds.cache.get(guildId);

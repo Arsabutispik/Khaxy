@@ -1,8 +1,8 @@
-import { EventBase } from "@customTypes";
+import { EventBase } from "src/types/index.js";
 import { AuditLogEvent, ChannelType, EmbedBuilder, Events, time, TimestampStyles } from "discord.js";
-import { getGuildConfig, updateGuildConfig } from "@database";
-import { returnWebhook, toStringId, WebhookType } from "@utils";
-import { logger } from "@lib";
+import { getGuildConfig, updateGuildConfig } from "src/database/index.js";
+import { returnWebhook, toStringId, WebhookType } from "src/utils/index.js";
+import { logger } from "src/lib/index.js";
 import dayjs from "dayjs";
 
 export default {

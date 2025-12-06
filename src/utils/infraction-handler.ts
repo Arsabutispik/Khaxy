@@ -1,5 +1,5 @@
-import type { infractionParameters } from "@customTypes";
-import { createInfraction, getGuildConfig, deleteInfraction, updateInfraction } from "@database";
+import type { infractionParameters } from "src/types/index.js";
+import { createInfraction, getGuildConfig, deleteInfraction, updateInfraction } from "src/database/index.js";
 
 export async function addInfraction({ guild, member, reason, type, moderator }: infractionParameters) {
   const guildConfig = await getGuildConfig(guild.id);

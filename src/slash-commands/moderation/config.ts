@@ -1,4 +1,4 @@
-import type { SlashCommandBase } from "@customTypes";
+import type { SlashCommandBase } from "src/types/index.js";
 import {
   MessageFlagsBitField,
   PermissionsBitField,
@@ -17,9 +17,9 @@ import {
   registerConfig,
   roleConfig,
   welcomeLeaveConfig,
-} from "@configFunctions";
-import { getGuildConfig } from "@database";
-import { localeFlags } from "@constants";
+} from "src/config-functions/index.js";
+import { getGuildConfig } from "src/database/index.js";
+import { localeFlags } from "src/constants/index.js";
 
 export default {
   memberPermissions: [PermissionsBitField.Flags.Administrator],

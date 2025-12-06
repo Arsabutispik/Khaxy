@@ -14,7 +14,7 @@ import {
   TextChannel,
   User,
 } from "discord.js";
-import { toStringId } from "@utils";
+import { toStringId } from "src/utils/index.js";
 import dayjs from "dayjs";
 import {
   createModMailMessage,
@@ -26,10 +26,10 @@ import {
   getModMailThreads,
   getModMailThreadsByUser,
   updateModMailThread,
-} from "@database";
-import { ModMailMessageSentTo, ModMailMessageType, ModMailThreadStatus } from "@constants";
+} from "src/database/index.js";
+import { ModMailMessageSentTo, ModMailMessageType, ModMailThreadStatus } from "src/constants/index.js";
 import relativeTime from "dayjs/plugin/relativeTime.js";
-import { logger } from "@lib";
+import { logger } from "src/lib/index.js";
 import type { TFunction } from "i18next";
 
 /**

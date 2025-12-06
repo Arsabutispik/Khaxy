@@ -1,9 +1,16 @@
-import type { EventBase } from "@customTypes";
+import type { EventBase } from "src/types/index.js";
 import { AuditLogEvent, ChannelType, EmbedBuilder, Events } from "discord.js";
-import { addInfraction, formatDuration, modLog, returnWebhook, toStringId, WebhookType } from "@utils";
-import { logger } from "@lib";
-import { getGuildConfig } from "@database";
-import { InfractionType } from "@constants";
+import {
+  addInfraction,
+  formatDuration,
+  modLog,
+  returnWebhook,
+  toStringId,
+  WebhookType,
+} from "src/utils/index.js";
+import { logger } from "src/lib/index.js";
+import { getGuildConfig } from "src/database/index.js";
+import { InfractionType } from "src/constants/index.js";
 
 export default {
   name: Events.GuildBanAdd,

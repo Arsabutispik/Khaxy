@@ -1,5 +1,5 @@
 import { Client } from "discord.js";
-import { logger } from "@lib";
+import { logger } from "src/lib/index.js";
 
 export async function loadEmojis(
   client: Client,

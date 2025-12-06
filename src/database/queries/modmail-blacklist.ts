@@ -1,4 +1,4 @@
-import { prisma } from "@database";
+import { prisma } from "src/database/index.js";
 import type { modmail_blacklist } from "@prisma/client";
 
 export async function getModmailBlacklist(guildId: string) {

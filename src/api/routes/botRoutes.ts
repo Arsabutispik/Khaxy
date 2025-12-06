@@ -1,8 +1,8 @@
 import { FastifyInstance } from "fastify";
 import { PermissionsBitField } from "discord.js";
-import { getGuildConfig, updateGuildConfig } from "@database";
+import { getGuildConfig, updateGuildConfig } from "src/database/index.js";
 import { guilds } from "@prisma/client";
-import { logger } from "@lib";
+import { logger } from "src/lib/index.js";
 export async function botRoutes(fastify: FastifyInstance) {
   // 1. Endpoint for general bot info
   fastify.get("/api/bot/status", async () => {

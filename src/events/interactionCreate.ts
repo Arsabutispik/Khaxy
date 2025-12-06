@@ -1,9 +1,14 @@
-import type { EventBase } from "@customTypes";
+import type { EventBase } from "src/types/index.js";
 import { Events, Locale, MessageFlags, MessageFlagsBitField, ApplicationCommandOptionType } from "discord.js";
-import { missingPermissionsAsString } from "@utils";
-import { logger } from "@lib";
-import { createGuildConfig, createModMailMessage, getGuildConfig, getModMailThread } from "@database";
-import { ModMailMessageSentTo, ModMailMessageType } from "@constants";
+import { missingPermissionsAsString } from "src/utils/index.js";
+import { logger } from "src/lib/index.js";
+import {
+  createGuildConfig,
+  createModMailMessage,
+  getGuildConfig,
+  getModMailThread,
+} from "src/database/index.js";
+import { ModMailMessageSentTo, ModMailMessageType } from "src/constants/index.js";
 
 export default {
   name: Events.InteractionCreate,

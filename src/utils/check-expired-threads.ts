@@ -1,6 +1,6 @@
 import { ChannelType, Client } from "discord.js";
-import { modMailLog, toStringId } from "@utils";
-import { getExpiredModMailThreads, getGuildConfig } from "@database";
+import { modMailLog, toStringId } from "src/utils/index.js";
+import { getExpiredModMailThreads, getGuildConfig } from "src/database/index.js";
 
 export async function checkExpiredThreads(client: Client) {
   const threads = await getExpiredModMailThreads();

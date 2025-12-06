@@ -1,4 +1,4 @@
-import { prisma } from "@database";
+import { prisma } from "src/database/index.js";
 import { PunishmentAction } from "@prisma/client";
 export async function getGuildPunishmentConfig(guildId: string, level: number) {
   return await prisma.guild_punishment_config.findUnique({

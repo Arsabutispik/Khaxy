@@ -1,12 +1,12 @@
-import { createPunishment, getActivePunishments, getGuildConfig } from "@database";
-import { getGuildPunishmentConfig } from "@database";
+import { createPunishment, getActivePunishments, getGuildConfig } from "src/database/index.js";
+import { getGuildPunishmentConfig } from "src/database/index.js";
 import { PunishmentAction } from "@prisma/client";
 import { Guild, GuildMember, PermissionsBitField, User } from "discord.js";
 import { toStringId } from "./utils.js";
 import { modLog } from "./mod-log.js";
 import dayjs from "dayjs";
-import { logger } from "@lib";
-import { PunishmentType } from "@constants";
+import { logger } from "src/lib/index.js";
+import { PunishmentType } from "src/constants/index.js";
 import dayjsduration from "dayjs/plugin/duration.js";
 dayjs.extend(dayjsduration);
 export async function infractionsPunishment(guild: Guild, member: GuildMember, moderator: User) {

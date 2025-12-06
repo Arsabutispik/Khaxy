@@ -1,0 +1,158 @@
+{
+  "Header": {
+    "dashboard": "Kontrol Paneli",
+    "support": "Destek",
+    "invite": "Davet Et"
+  },
+  "UserNav": {
+    "login": "Giriş Yap",
+    "logout": "Çıkış Yap"
+  },
+  "ThemeSwitcher": {
+    "light": "Açık",
+    "dark": "Koyu",
+    "system": "Sistem"
+  },
+  "Dashboard": {
+    "invite": "Botu Sunucuya Davet Et",
+    "go_to_config": "Kontrol Paneline Git",
+    "add_config": "Sunucuya Ekle",
+    "dashboard": "Sunucu Kontrol Paneli",
+    "description": "Kontrol edebildiğin {count} sunucu gösteriliyor",
+    "server_dashboard_title": "{guildName} Sunucu Kontrol Paneli",
+    "server_dashboard_subtitle": "Burada sunucunuz için bot ayarlarını yapılandırabilirsiniz.",
+    "settings_menu_title": "Ayarlar",
+    "settings_category": {
+      "register_settings": "Kayıt Ayarları",
+      "welcome_settings": "Karşılama Ayarları",
+      "moderation_settings": "Moderasyon Ayarları",
+      "role_settings": "Rol Ayarları",
+      "misc_settings": "Çeşitli Ayarlar",
+      "log_settings": "Günlük Kaydı Ayarları"
+    },
+    "no_servers_manageable": "Botu davet edebileceğiniz veya yapılandırabileceğiniz yönetilen sunucu bulunamadı."
+  },
+  "AppSidebar": {
+    "register_settings": "Kayıt Ayarları",
+    "moderation_settings": "Moderasyon Ayarları",
+    "home": "Ana Sayfa",
+    "settings": "Ayarlar"
+  },
+  "RegisterConfigForm": {
+    "none_set": "Ayarlanmadı",
+    "save": "Ayarları Kaydet",
+    "saving": "Ayarlar Kaydediliyor...",
+    "select_channel": "Kanal Seçilmedi",
+    "save_success": "Kayıt ayarları başarıyla kaydedildi.",
+    "save_error": "Kayıt ayarları kaydedilirken bir hata oluştu.",
+    "edit_message": "Mesajı Düzenle",
+    "edit_message_title": "{title}nı Düzenle",
+    "save_message": "Kaydet",
+    "variable_tip": "İpucu: Değişkenleri görmek için <codeWrapper>'{'</codeWrapper> yazın.",
+    "join": {
+      "title": "Kayıt Karşılama Kanalı",
+      "description": "Bir kullanıcı sunucuya katıldığında mesajın gönderileceği kanal. Bu kayıt amaçlıdır.",
+      "label": "Kanal Seçin",
+      "current_value": "Mevcut Kanal: {value}"
+    },
+    "register": {
+      "title": "Kayıt Kanalı",
+      "description": "Sadece bu kanalda kayıt komutlarının kullanılmasına izin verilir.",
+      "label": "Kanal Seçin",
+      "current_value": "Mevcut Kanal: {value}"
+    },
+    "message": {
+      "title": "Kayıt Mesajı",
+      "description": "Kullanıcı sunucuya katıldığında gönderilecek kayıt mesajı.",
+      "label": "Mesaj İçeriği",
+      "current_value": "Mesaj Limiti:"
+    },
+    "unsaved_alert": {
+      "title": "Kaydedilmemiş değişiklikleriniz var",
+      "reset": "Sıfırla"
+    }
+  },
+  "ModerationConfigForm": {
+    "none_set": "Ayarlanmadı",
+    "save": "Ayarları Kaydet",
+    "saving": "Ayarlar Kaydediliyor...",
+    "select_channel": "Kanal Seçilmedi",
+    "select_role": "Rol Seçilmedi",
+    "number_placeholder": "Bir sayı girin",
+    "save_success": "Moderasyon ayarları başarıyla kaydedildi.",
+    "save_error": "Moderasyon ayarları kaydedilirken bir hata oluştu.",
+    "mod_logs_channel_id": {
+      "title": "Moderasyon Günlük Kanalı",
+      "description": "Moderasyon işlemlerinin kaydedileceği kanal.",
+      "label": "Kanal Seçin"
+    },
+    "staff_role_id": {
+      "title": "Yetkili Rolü",
+      "description": "Moderasyon komutlarını kullanmaya yetkili rol.",
+      "label": "Rol Seçin"
+    },
+    "mod_mail_channel_id": {
+      "title": "Mod Mail Kanalı",
+      "description": "Mod mail günlüklerinin gönderileceği kanal. Mod mailleri ayrıca bu kanalın bulunduğu üst kategori içinde de görünür.",
+      "label": "Kanal Seçin"
+    },
+    "mute_get_all_roles": {
+      "title": "Tüm Rolleri Alarak Sustur",
+      "description": "Kullanıcı susturulduğunda, kullanıcının sahip olduğu tüm roller alınır ve susturma rolü verilir. Devre dışı bırakılırsa, sadece susturma rolü eklenir.",
+      "label": "Etkinleştir"
+    },
+    "days_to_kick": {
+      "title": "Doğrulanmamış Kullanıcıları Atma Süresi",
+      "description": "Doğrulanmamış kullanıcıların sunucudan atılmadan önce bekleyeceği gün sayısı. 0 olarak ayarlanırsa, bu özellik devre dışı bırakılır.",
+      "label": "Günler"
+    },
+    "default_expiry": {
+      "title": "Uyarı Varsayılan Süresi",
+      "description": "Uyarılar için varsayılan sona erme süresi (gün cinsinden). 0 olarak ayarlanırsa, uyarılar süresiz olur.",
+      "label": "Günler"
+    },
+    "unsaved_alert": {
+      "title": "Kaydedilmemiş değişiklikleriniz var",
+      "reset": "Sıfırla"
+    }
+  },
+  "DiscordChannelSelect": {
+    "search_channels": "Kanal Ara"
+  },
+  "VariableTextarea": {
+    "suggestions": "Öneriler",
+    "user_mention": {
+      "label": "Kullanıcı Etiketi",
+      "detail": "Kullanıcıyı etiketler, örn. @Khaxy"
+    },
+    "username": {
+      "label": "Kullanıcı Adı",
+      "detail": "Kullanıcının görüntülenen adı, örn. Khaxy"
+    },
+    "server_name": {
+      "label": "Sunucu Adı",
+      "detail": "Sunucunun adı, örn. Benim Sunucum"
+    },
+    "member_count": {
+      "label": "Üye Sayısı",
+      "detail": "Sunucudaki toplam üye sayısı, örn. 150"
+    },
+    "join_position": {
+      "label": "Katılma Sırası",
+      "detail": "Kullanıcının sunucuya katılma sırası, örn. 149"
+    },
+    "created_at": {
+      "label": "Hesap Oluşturulma Tarihi",
+      "detail": "Hesabın oluşturulma tarihi, örn. 13 Mayıs 2015"
+    },
+    "created_ago": {
+      "label": "Hesap Yaşı",
+      "detail": "Hesabın oluşturulma süresi, örn. 3 yıl önce"
+    }
+  },
+  "MessagePreview": {
+    "preview_title": "Önizleme",
+    "bot_badge": "UYG",
+    "today_at": "Bugün saat {time}"
+  }
+}

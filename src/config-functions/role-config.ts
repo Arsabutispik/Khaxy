@@ -4,9 +4,9 @@ import {
   MessageFlagsBitField,
   StringSelectMenuBuilder,
 } from "discord.js";
-import { getGuildConfig } from "@database";
+import { getGuildConfig } from "src/database/index.js";
 import { dynamicRole, waitForMessageComponent } from "./utils.js";
-import { RoleType } from "@customTypes";
+import { RoleType } from "src/types/index.js";
 
 export async function roleConfig(interaction: ChatInputCommandInteraction<"cached">) {
   const client = interaction.client;

@@ -4,9 +4,9 @@ import "dayjs/locale/en.js";
 import "dayjs/locale/tr.js";
 import { ChannelType, Client, Guild, User } from "discord.js";
 import type { PartialUser } from "discord.js";
-import { logger } from "@lib";
-import { returnWebhook, toStringId, WebhookType } from "@utils";
-import { createGuildConfig, getGuildConfig, updateGuildConfig } from "@database";
+import { logger } from "src/lib/index.js";
+import { returnWebhook, toStringId, WebhookType } from "src/utils/index.js";
+import { createGuildConfig, getGuildConfig, updateGuildConfig } from "src/database/index.js";
 
 // Define the possible actions for the mod log
 type actions =

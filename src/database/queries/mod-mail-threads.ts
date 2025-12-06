@@ -1,6 +1,6 @@
-import { prisma } from "@database";
+import { prisma } from "src/database/index.js";
 import { Prisma } from "@prisma/client";
-import { ModMailThreadStatus } from "@constants";
+import { ModMailThreadStatus } from "src/constants/index.js";
 
 export async function getModMailThread(channelId: string, status?: ModMailThreadStatus) {
   return prisma.mod_mail_threads.findUnique({

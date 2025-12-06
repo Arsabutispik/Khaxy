@@ -1,11 +1,18 @@
-import type { EventBase } from "@customTypes";
+import type { EventBase } from "src/types/index.js";
 import { AuditLogEvent, ChannelType, EmbedBuilder, Events, PermissionsBitField } from "discord.js";
-import { replacePlaceholders, toStringId, modLog, returnWebhook, WebhookType, formatDuration } from "@utils";
+import {
+  replacePlaceholders,
+  toStringId,
+  modLog,
+  returnWebhook,
+  WebhookType,
+  formatDuration,
+} from "src/utils/index.js";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime.js";
-import { ModMailThreadStatus } from "@constants";
-import { getGuildConfig, getModMailThreadsByUser, updateModMailThread } from "@database";
-import { logger } from "@lib";
+import { ModMailThreadStatus } from "src/constants/index.js";
+import { getGuildConfig, getModMailThreadsByUser, updateModMailThread } from "src/database/index.js";
+import { logger } from "src/lib/index.js";
 
 export default {
   name: Events.GuildMemberRemove,

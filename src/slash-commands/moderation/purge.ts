@@ -1,4 +1,4 @@
-import { SlashCommandBase } from "@customTypes";
+import { SlashCommandBase } from "src/types/index.js";
 import {
   ChannelType,
   InteractionContextType,
@@ -6,8 +6,8 @@ import {
   PermissionsBitField,
   SlashCommandBuilder,
 } from "discord.js";
-import { getGuildConfig } from "@database";
-import { logger } from "@lib";
+import { getGuildConfig } from "src/database/index.js";
+import { logger } from "src/lib/index.js";
 
 export default {
   memberPermissions: [PermissionsBitField.Flags.ManageMessages],

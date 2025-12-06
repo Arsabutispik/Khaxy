@@ -1,6 +1,6 @@
 import { REST, Routes } from "discord.js";
 import "dotenv/config.js";
-import { logger } from "@lib";
+import { logger } from "src/lib/index.js";
 
 if (!process.env.TOKEN) {
   logger.error("❌ Token is not defined in the .env file", { discord: false });

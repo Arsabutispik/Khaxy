@@ -1,8 +1,8 @@
-import { EventBase } from "@customTypes";
+import { EventBase } from "src/types/index.js";
 import { ChannelType, EmbedBuilder, Events, time, TimestampStyles } from "discord.js";
-import { returnWebhook, toStringId, WebhookType } from "@utils";
-import { logger } from "@lib";
-import { getGuildConfig } from "@database";
+import { returnWebhook, toStringId, WebhookType } from "src/utils/index.js";
+import { logger } from "src/lib/index.js";
+import { getGuildConfig } from "src/database/index.js";
 
 export default {
   name: Events.MessagePollVoteAdd,

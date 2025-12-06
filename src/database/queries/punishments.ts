@@ -1,6 +1,6 @@
-import { prisma } from "@database";
+import { prisma } from "src/database/index.js";
 import { Prisma } from "@prisma/client";
-import { PunishmentType } from "@constants";
+import { PunishmentType } from "src/constants/index.js";
 
 export async function getPunishmentsByUser(guildId: string, userId: string) {
   return prisma.punishments.findMany({

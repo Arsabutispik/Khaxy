@@ -2,7 +2,7 @@ import fastify from "fastify";
 import cors from "@fastify/cors";
 import { botRoutes } from "./routes/botRoutes.js";
 import { Client } from "discord.js";
-import { logger } from "@lib"; // Use .js extension for ESM
+import { logger } from "src/lib/index.js"; // Use .js extension for ESM
 function bigIntReplacer(_key: string, value: unknown) {
   if (typeof value === "bigint") {
     // Convert BigInt to string before serialization

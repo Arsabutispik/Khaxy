@@ -1,9 +1,9 @@
 import { AuditLogEvent, ChannelType, EmbedBuilder, Events } from "discord.js";
-import { EventBase } from "@customTypes";
-import { getGuildConfig } from "@database";
-import { formatDuration, returnWebhook, toStringId, WebhookType } from "@utils";
+import { EventBase } from "src/types/index.js";
+import { getGuildConfig } from "src/database/index.js";
+import { formatDuration, returnWebhook, toStringId, WebhookType } from "src/utils/index.js";
 import dayjs from "dayjs";
-import { logger } from "@lib";
+import { logger } from "src/lib/index.js";
 import { isDeepStrictEqual } from "node:util";
 
 export default {

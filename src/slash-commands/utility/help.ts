@@ -1,6 +1,6 @@
-import { SlashCommandBase } from "@customTypes";
+import { SlashCommandBase } from "src/types/index.js";
 import { EmbedBuilder, MessageFlags, SlashCommandBuilder, Locale, InteractionContextType } from "discord.js";
-import { getGuildConfig } from "@database";
+import { getGuildConfig } from "src/database/index.js";
 
 export default {
   data: new SlashCommandBuilder()

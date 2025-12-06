@@ -1,4 +1,4 @@
-import { prisma } from "@database";
+import { prisma } from "src/database/index.js";
 import type { bump_leaderboard as BumpLeaderboard } from "@prisma/client";
 
 export async function getBumpLeaderboard(guildId: string) {

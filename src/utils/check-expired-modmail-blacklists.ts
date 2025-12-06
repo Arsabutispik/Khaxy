@@ -1,5 +1,9 @@
 import { Client } from "discord.js";
-import { getExpiredModmailBlacklists, getGuildConfig, removeExpiredModmailBlacklists } from "@database";
+import {
+  getExpiredModmailBlacklists,
+  getGuildConfig,
+  removeExpiredModmailBlacklists,
+} from "src/database/index.js";
 export async function CheckExpiredModmailBlacklists(client: Client) {
   const expiredBlacklists = await getExpiredModmailBlacklists();
   if (expiredBlacklists.length === 0) return;

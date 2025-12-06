@@ -1,8 +1,13 @@
-import type { SlashCommandBase } from "@customTypes";
+import type { SlashCommandBase } from "src/types/index.js";
 import { InteractionContextType, MessageFlags, PermissionsBitField, SlashCommandBuilder } from "discord.js";
-import { logger } from "@lib";
-import { createModMailMessage, getGuildConfig, getModMailThread, updateModMailThread } from "@database";
-import { ModMailMessageSentTo, ModMailMessageType } from "@constants";
+import { logger } from "src/lib/index.js";
+import {
+  createModMailMessage,
+  getGuildConfig,
+  getModMailThread,
+  updateModMailThread,
+} from "src/database/index.js";
+import { ModMailMessageSentTo, ModMailMessageType } from "src/constants/index.js";
 
 export default {
   memberPermissions: [PermissionsBitField.Flags.ManageMessages],

@@ -1,5 +1,5 @@
 import { InteractionContextType, MessageFlags, SlashCommandBuilder } from "discord.js";
-import type { SlashCommandBase } from "@customTypes";
+import type { SlashCommandBase } from "src/types/index.js";
 
 export default {
   data: new SlashCommandBuilder()

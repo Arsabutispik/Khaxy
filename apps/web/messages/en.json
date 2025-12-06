@@ -1,0 +1,155 @@
+{
+  "Header": {
+    "dashboard": "Dashboard",
+    "support": "Support",
+    "invite": "Invite"
+  },
+  "UserNav": {
+    "login": "Login",
+    "logout": "Log out"
+  },
+  "ThemeSwitcher": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "Dashboard": {
+    "invite": "Invite Bot to a server",
+    "go_to_config": "Go to Dashboard",
+    "add_config": "Add Bot to Server",
+    "dashboard": "Server Dashboard",
+    "description": "Showing {count, plural, =1 {one server} other {# servers}} you can administer.",
+    "server_dashboard_title": "{guildName} Server Dashboard",
+    "server_dashboard_subtitle": "Here you can configure the bot settings for your server.",
+    "settings_menu_title": "Settings",
+    "settings_category": {
+      "register_settings": "Registration Settings",
+      "welcome_settings": "Welcome Settings",
+      "moderation_settings": "Moderation Settings",
+      "role_settings": "Role Settings",
+      "misc_settings": "Miscellaneous Settings",
+      "log_settings": "Logging Settings"
+    },
+    "no_servers_manageable": "No managed servers found where you can invite or configure the bot."
+  },
+  "AppSidebar": {
+    "register_settings": "Register Settings",
+    "moderation_settings": "Moderation Settings",
+    "home": "Home",
+    "settings": "Settings"
+  },
+  "RegisterConfigForm": {
+    "none_set": "None Set",
+    "save": "Save Settings",
+    "saving": "Saving Settings...",
+    "select_channel": "No Channel Selected",
+    "save_success": "Registration settings saved successfully.",
+    "save_error": "An error occurred while saving registration settings.",
+    "edit_message": "Edit Message",
+    "edit_message_title": "Edit {title}",
+    "save_message": "Save",
+    "variable_tip": "Tip: Type <codeWrapper>'{'</codeWrapper> to see variables.",
+    "join": {
+      "title": "Register Join Channel",
+      "description": "The channel where a message will be sent when a user joins the server. This is for registration purposes.",
+      "label": "Select Channel"
+    },
+    "register": {
+      "title": "Register Channel",
+      "description": "Only allows registration commands to be used in this channel.",
+      "label": "Select Channel"
+    },
+    "message": {
+      "title": "Register Message",
+      "description": "The registration message that will be sent when a user joins the server.",
+      "label": "Message Content"
+    },
+    "unsaved_alert": {
+      "title": "You have unsaved changes",
+      "reset": "Reset"
+    }
+  },
+  "ModerationConfigForm": {
+    "none_set": "None Set",
+    "save": "Save Settings",
+    "saving": "Saving Settings...",
+    "select_channel": "No Channel Selected",
+    "select_role": "No Role Selected",
+    "number_placeholder": "Enter a number",
+    "save_success": "Moderation settings saved successfully.",
+    "save_error": "An error occurred while saving moderation settings.",
+    "mod_logs_channel_id": {
+      "title": "Moderation Log Channel",
+      "description": "The channel where moderation actions will be logged.",
+      "label": "Select Channel"
+    },
+    "staff_role_id": {
+      "title": "Staff Role",
+      "description": "The role that has permission to use moderation commands.",
+      "label": "Select Role"
+    },
+    "mod_mail_channel_id": {
+      "title": "Mod Mail Channel",
+      "description": "The channel where mod mail logs will be sent. The mod mails also show up in the same parent category as this channel.",
+      "label": "Select Channel"
+    },
+    "mute_get_all_roles": {
+      "title": "Mute Get All Roles",
+      "description": "When muting a user, the bot will remove all their roles and store them to restore later.",
+      "label": "Enable"
+    },
+    "days_to_kick": {
+      "title": "Days to Kick",
+      "description": "Number of days a user can go unverified before they are automatically kicked from the server. Set to 0 to disable automatic kicking.",
+      "label": "Days"
+    },
+    "default_expiry": {
+      "title": "Default Expiry for Warnings",
+      "description": "Number of days after which warnings expire by default. Set to 0 for no expiry.",
+      "label": "Days"
+    },
+    "unsaved_alert": {
+      "title": "You have unsaved changes",
+      "reset": "Reset"
+    }
+  },
+  "DiscordChannelSelect": {
+    "search_channels": "Search Channels"
+  },
+  "VariableTextarea": {
+    "suggestions": "Suggestions",
+    "user_mention": {
+      "label": "User Mention",
+      "detail": "Mention the user, e.g. @User"
+    },
+    "username": {
+      "label": "Username",
+      "detail": "The user's display name, e.g. Khaxy"
+    },
+    "server_name": {
+      "label": "Server Name",
+      "detail": "The server's name, e.g. My Server"
+    },
+    "member_count": {
+      "label": "Member Count",
+      "detail": "Total members in the server, e.g. 150"
+    },
+    "join_position": {
+      "label": "Join Position",
+      "detail": "User's join position in the server, e.g. 149"
+    },
+    "created_at": {
+      "label": "Account Created",
+      "detail": "Account creation date, e.g. March 13, 2015"
+    },
+    "created_ago": {
+      "label": "Account Age",
+      "detail": "Human-readable account age, e.g. 2 years ago"
+    }
+  },
+  "MessagePreview": {
+    "preview_title": "Preview",
+    "bot_badge": "APP",
+    "today_at": "Today at {time}"
+  }
+}

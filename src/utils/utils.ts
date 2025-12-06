@@ -11,9 +11,9 @@ import {
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration.js";
 import "dayjs/locale/tr.js";
-import { getGuildConfig, updateGuildConfig } from "@database";
+import { getGuildConfig, updateGuildConfig } from "src/database/index.js";
 import relativeTime from "dayjs/plugin/relativeTime.js";
-import { logger } from "@lib";
+import { logger } from "src/lib/index.js";
 dayjs.extend(relativeTime);
 
 /**

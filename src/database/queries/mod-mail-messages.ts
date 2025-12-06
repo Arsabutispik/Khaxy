@@ -1,4 +1,4 @@
-import { prisma } from "@database";
+import { prisma } from "src/database/index.js";
 import { Prisma } from "@prisma/client";
 
 export async function getModMailMessages(channelId: string) {

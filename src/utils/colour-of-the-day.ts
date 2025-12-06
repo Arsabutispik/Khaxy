@@ -1,9 +1,9 @@
 import { Client, Guild, PermissionsBitField } from "discord.js";
 import type { ColorResolvable } from "discord.js";
-import { ntc, toStringId } from "@utils";
+import { ntc, toStringId } from "src/utils/index.js";
 import dayjs from "dayjs";
-import { logger } from "@lib";
-import { getGuildConfig, getGuilds, updateCronJob, updateGuildConfig } from "@database";
+import { logger } from "src/lib/index.js";
+import { getGuildConfig, getGuilds, updateCronJob, updateGuildConfig } from "src/database/index.js";
 import type { guilds as Guilds } from "@prisma/client";
 export async function colorUpdate(client: Client) {
   // Fetch guild configurations from the database

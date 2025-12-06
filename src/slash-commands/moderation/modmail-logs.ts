@@ -1,9 +1,9 @@
-import { SlashCommandBase } from "@customTypes";
+import { SlashCommandBase } from "src/types/index.js";
 import { InteractionContextType, MessageFlags, PermissionsBitField, SlashCommandBuilder } from "discord.js";
-import { getGuildConfig, getModMailMessages, getModMailThreads } from "@database";
-import { modMailTextFile, toStringId } from "@utils";
+import { getGuildConfig, getModMailMessages, getModMailThreads } from "src/database/index.js";
+import { modMailTextFile, toStringId } from "src/utils/index.js";
 import dayjs from "dayjs";
-import { ModMailThreadStatus } from "@constants";
+import { ModMailThreadStatus } from "src/constants/index.js";
 
 export default {
   memberPermissions: [PermissionsBitField.Flags.ManageMessages],

@@ -16,11 +16,11 @@ import {
   TextInputStyle,
 } from "discord.js";
 import { TFunction } from "i18next";
-import { logger } from "@lib";
+import { logger } from "src/lib/index.js";
 import type { guilds as Guilds } from "@prisma/client";
-import { updateGuildConfig } from "@database";
-import { toStringId, trimString } from "@utils";
-import { DynamicChannelTypes, RoleType } from "@customTypes";
+import { updateGuildConfig } from "src/database/index.js";
+import { toStringId, trimString } from "src/utils/index.js";
+import { DynamicChannelTypes, RoleType } from "src/types/index.js";
 
 export async function waitForMessageComponent(
   interaction: ChatInputCommandInteraction<"cached">,

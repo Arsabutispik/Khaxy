@@ -4,8 +4,8 @@ import {
   MessageFlagsBitField,
   StringSelectMenuBuilder,
 } from "discord.js";
-import { getGuildConfig, updateGuildConfig } from "@database";
-import { toStringId } from "@utils";
+import { getGuildConfig, updateGuildConfig } from "src/database/index.js";
+import { toStringId } from "src/utils/index.js";
 import { waitForMessageComponent, dynamicChannel } from "./utils.js";
 
 export async function logConfig(interaction: ChatInputCommandInteraction<"cached">) {

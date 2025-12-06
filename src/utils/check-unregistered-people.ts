@@ -1,8 +1,8 @@
 import { Client, Guild, PermissionsBitField } from "discord.js";
 import dayjs from "dayjs";
-import { logger } from "@lib";
-import { toStringId, modLog } from "@utils";
-import { getGuildConfig, getGuilds, updateCronJob } from "@database";
+import { logger } from "src/lib/index.js";
+import { toStringId, modLog } from "src/utils/index.js";
+import { getGuildConfig, getGuilds, updateCronJob } from "src/database/index.js";
 import type { guilds as Guilds } from "@prisma/client";
 
 export async function unregisteredPeopleUpdate(client: Client) {

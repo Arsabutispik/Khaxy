@@ -1,4 +1,4 @@
-import { prisma } from "@database";
+import { prisma } from "src/database/index.js";
 import type { guilds as Guilds } from "@prisma/client";
 
 export async function getGuildConfig(guildId: string | null | undefined = null) {

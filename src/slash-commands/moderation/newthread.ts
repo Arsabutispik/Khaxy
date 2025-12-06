@@ -1,4 +1,4 @@
-import type { SlashCommandBase } from "@customTypes";
+import type { SlashCommandBase } from "src/types/index.js";
 import {
   ChannelType,
   InteractionContextType,
@@ -6,12 +6,17 @@ import {
   PermissionsBitField,
   SlashCommandBuilder,
 } from "discord.js";
-import { toStringId } from "@utils";
+import { toStringId } from "src/utils/index.js";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime.js";
-import { logger } from "@lib";
-import { ModMailMessageSentTo, ModMailMessageType, ModMailThreadStatus } from "@constants";
-import { createModMailMessage, createModMailThread, getGuildConfig, getModMailThreadByUser } from "@database";
+import { logger } from "src/lib/index.js";
+import { ModMailMessageSentTo, ModMailMessageType, ModMailThreadStatus } from "src/constants/index.js";
+import {
+  createModMailMessage,
+  createModMailThread,
+  getGuildConfig,
+  getModMailThreadByUser,
+} from "src/database/index.js";
 export default {
   memberPermissions: [PermissionsBitField.Flags.ManageMessages],
   clientPermissions: [PermissionsBitField.Flags.ManageChannels],

@@ -5,7 +5,7 @@ import {
   StringSelectMenuBuilder,
 } from "discord.js";
 import { dynamicChannel, dynamicMessage, waitForMessageComponent } from "./utils.js";
-import { getGuildConfig } from "@database";
+import { getGuildConfig } from "src/database/index.js";
 
 export async function welcomeLeaveConfig(interaction: ChatInputCommandInteraction<"cached">) {
   const client = interaction.client;

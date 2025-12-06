@@ -1,7 +1,11 @@
-import { logger } from "@lib";
-import { toStringId, specificGuildUnregisteredPeopleUpdate, specificGuildColorUpdate } from "@utils";
+import { logger } from "src/lib/index.js";
+import {
+  toStringId,
+  specificGuildUnregisteredPeopleUpdate,
+  specificGuildColorUpdate,
+} from "src/utils/index.js";
 import { Client } from "discord.js";
-import { getCronJobs } from "@database";
+import { getCronJobs } from "src/database/index.js";
 
 export async function recoverMissedCronjob(client: Client) {
   // Fetch all cron jobs from the database

@@ -1,10 +1,10 @@
-import type { EventBase } from "@customTypes";
+import type { EventBase } from "src/types/index.js";
 import { ChannelType, EmbedBuilder, Events, PermissionsBitField, time, TimestampStyles } from "discord.js";
-import { replacePlaceholders, returnWebhook, toStringId, WebhookType } from "@utils";
-import { logger } from "@lib";
+import { replacePlaceholders, returnWebhook, toStringId, WebhookType } from "src/utils/index.js";
+import { logger } from "src/lib/index.js";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime.js";
-import { getPunishmentsByUser, getGuildConfig } from "@database";
+import { getPunishmentsByUser, getGuildConfig } from "src/database/index.js";
 
 export default {
   name: Events.GuildMemberAdd,

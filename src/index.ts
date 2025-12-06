@@ -4,7 +4,7 @@ import path from "path";
 import fs from "fs";
 import { fileURLToPath, pathToFileURL } from "url";
 import i18next, { initI18n } from "./i18n/index.js";
-import { logger } from "@lib";
+import { logger } from "src/lib/index.js";
 import { CronJob } from "cron";
 import {
   CheckExpiredModmailBlacklists,
@@ -13,7 +13,7 @@ import {
   colorUpdate,
   RegisterSlashCommands,
   resetBumpLeaderboard,
-} from "@utils";
+} from "src/utils/index.js";
 
 dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
@@ -48,7 +48,7 @@ client.i18next = i18next;
 client.slashCommands = new Collection();
 client.allEmojis = new Collection();
 client.webhooks = new Collection();
-client.config = (await import("@lib")).Config;
+client.config = (await import("src/lib/index.js")).Config;
 await RegisterSlashCommands(client);
 const eventsPath = path.join(__dirname, "events");
 const eventFiles = fs.readdirSync(eventsPath).filter((file) => file.endsWith(".js"));

@@ -6,13 +6,13 @@ import {
   MessageFlagsBitField,
   StringSelectMenuBuilder,
 } from "discord.js";
-import { getGuildConfig, updateGuildConfig } from "@database";
+import { getGuildConfig, updateGuildConfig } from "src/database/index.js";
 import type { guilds as Guilds } from "@prisma/client";
 import type { TFunction } from "i18next";
 import { dynamicChannel, dynamicMessage } from "./utils.js";
-import { localeFlags } from "@constants";
+import { localeFlags } from "src/constants/index.js";
 import { waitForMessageComponent } from "./utils.js";
-import { logger } from "@lib";
+import { logger } from "src/lib/index.js";
 
 export async function miscConfig(interaction: ChatInputCommandInteraction<"cached">) {
   const client = interaction.client;

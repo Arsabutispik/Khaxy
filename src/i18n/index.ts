@@ -1,6 +1,6 @@
 import i18next from "i18next";
 import FsBackend from "i18next-fs-backend/cjs";
-import { logger } from "@lib";
+import { logger } from "src/lib/index.js";
 
 export async function initI18n() {
   try {

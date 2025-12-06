@@ -1,9 +1,9 @@
 import dayjs from "dayjs";
-import { logger } from "@lib";
+import { logger } from "src/lib/index.js";
 import { modLog, returnWebhook, toStringId, WebhookType } from "./index.js";
 import { ChannelType, Client, EmbedBuilder } from "discord.js";
-import { deleteExpiredPunishments, getExpiredPunishments, getGuildConfig } from "@database";
-import { PunishmentType } from "@constants";
+import { deleteExpiredPunishments, getExpiredPunishments, getGuildConfig } from "src/database/index.js";
+import { PunishmentType } from "src/constants/index.js";
 
 export async function checkPunishments(client: Client) {
   // Fetch punishments that have expired

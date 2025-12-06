@@ -1,4 +1,4 @@
-import { prisma } from "@database"; // Your initialized PrismaClient
+import { prisma } from "src/database/index.js"; // Your initialized PrismaClient
 import type { cronjobs as Cronjobs } from "@prisma/client";
 
 export async function getCronJobs(): Promise<Cronjobs[]> {

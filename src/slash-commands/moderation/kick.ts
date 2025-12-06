@@ -1,4 +1,4 @@
-import type { SlashCommandBase } from "@customTypes";
+import type { SlashCommandBase } from "src/types/index.js";
 import {
   ChannelType,
   EmbedBuilder,
@@ -9,10 +9,10 @@ import {
   time as formatted_time,
   TimestampStyles,
 } from "discord.js";
-import { logger } from "@lib";
-import { toStringId, addInfraction, modLog, returnWebhook, WebhookType } from "@utils";
-import { getGuildConfig } from "@database";
-import { InfractionType } from "@constants";
+import { logger } from "src/lib/index.js";
+import { toStringId, addInfraction, modLog, returnWebhook, WebhookType } from "src/utils/index.js";
+import { getGuildConfig } from "src/database/index.js";
+import { InfractionType } from "src/constants/index.js";
 
 export default {
   memberPermissions: [PermissionsBitField.Flags.KickMembers],

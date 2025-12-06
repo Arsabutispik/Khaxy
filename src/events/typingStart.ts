@@ -1,8 +1,8 @@
-import type { EventBase } from "@customTypes";
+import type { EventBase } from "src/types/index.js";
 import { ChannelType, Events } from "discord.js";
-import { toStringId } from "@utils";
-import { getModMailThreadByUser } from "@database";
-import { ModMailThreadStatus } from "@constants";
+import { toStringId } from "src/utils/index.js";
+import { getModMailThreadByUser } from "src/database/index.js";
+import { ModMailThreadStatus } from "src/constants/index.js";
 
 export default {
   name: Events.TypingStart,

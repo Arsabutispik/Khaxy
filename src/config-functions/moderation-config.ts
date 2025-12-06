@@ -12,10 +12,10 @@ import {
 import type { guilds as Guilds } from "@prisma/client";
 import { dynamicRole } from "./utils.js";
 import type { TFunction } from "i18next";
-import { toStringId } from "@utils";
-import { getGuildConfig, updateGuildConfig } from "@database";
+import { toStringId } from "src/utils/index.js";
+import { getGuildConfig, updateGuildConfig } from "src/database/index.js";
 import { waitForMessageComponent, dynamicChannel } from "./utils.js";
-import { logger } from "@lib";
+import { logger } from "src/lib/index.js";
 
 export async function moderationConfig(interaction: ChatInputCommandInteraction<"cached">) {
   const client = interaction.client;

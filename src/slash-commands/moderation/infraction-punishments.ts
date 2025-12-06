@@ -1,12 +1,12 @@
-import { SlashCommandBase } from "@customTypes";
+import { SlashCommandBase } from "src/types/index.js";
 import { MessageFlags, PermissionsBitField, SlashCommandBuilder } from "discord.js";
-import { deleteGuildPunishmentConfig, getGuildConfig } from "@database";
+import { deleteGuildPunishmentConfig, getGuildConfig } from "src/database/index.js";
 import dayjs from "dayjs";
 import { DurationUnitType } from "dayjs/plugin/duration.js";
-import { getGuildPunishmentConfig, setGuildPunishmentConfig } from "@database";
+import { getGuildPunishmentConfig, setGuildPunishmentConfig } from "src/database/index.js";
 import { PunishmentAction } from "@prisma/client";
 import dayjsduration from "dayjs/plugin/duration.js";
-import { toStringId } from "@utils";
+import { toStringId } from "src/utils/index.js";
 
 dayjs.extend(dayjsduration);
 export default {

@@ -1,7 +1,12 @@
 import { Events } from "discord.js";
-import type { EventBase } from "@customTypes";
-import { logger } from "@lib";
-import { loadEmojis, recoverMissedCronjob, replacePlaceholders, updateReloadableMessages } from "@utils";
+import type { EventBase } from "src/types/index.js";
+import { logger } from "src/lib/index.js";
+import {
+  loadEmojis,
+  recoverMissedCronjob,
+  replacePlaceholders,
+  updateReloadableMessages,
+} from "src/utils/index.js";
 export default {
   name: Events.ClientReady,
   once: true,

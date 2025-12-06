@@ -1,4 +1,4 @@
-import { EventBase } from "@customTypes";
+import { EventBase } from "src/types/index.js";
 import {
   AuditLogEvent,
   ChannelType,
@@ -8,9 +8,9 @@ import {
   time,
   TimestampStyles,
 } from "discord.js";
-import { getGuildConfig } from "@database";
-import { returnWebhook, toStringId, WebhookType } from "@utils";
-import { logger } from "@lib";
+import { getGuildConfig } from "src/database/index.js";
+import { returnWebhook, toStringId, WebhookType } from "src/utils/index.js";
+import { logger } from "src/lib/index.js";
 
 export default {
   name: Events.GuildScheduledEventCreate,

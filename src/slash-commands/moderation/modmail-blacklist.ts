@@ -1,4 +1,4 @@
-import { SlashCommandBase } from "@customTypes";
+import { SlashCommandBase } from "src/types/index.js";
 import {
   EmbedBuilder,
   InteractionContextType,
@@ -11,9 +11,9 @@ import {
   addToModmailBlacklist,
   removeFromModmailBlacklist,
   getModmailBlacklistByUser,
-} from "@database";
+} from "src/database/index.js";
 import dayjs from "dayjs";
-import { logger } from "@lib";
+import { logger } from "src/lib/index.js";
 import "dayjs/locale/en.js";
 import "dayjs/locale/tr.js";
 import relativeTime from "dayjs/plugin/relativeTime.js";

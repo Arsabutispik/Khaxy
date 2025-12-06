@@ -1,4 +1,4 @@
-import { SlashCommandBase } from "@customTypes";
+import { SlashCommandBase } from "src/types/index.js";
 import {
   EmbedBuilder,
   InteractionContextType,
@@ -8,9 +8,9 @@ import {
   time,
   TimestampStyles,
 } from "discord.js";
-import { getGuildConfig, getInfraction, getUserInfractions } from "@database";
-import { paginate, toStringId } from "@utils";
-import { InfractionType } from "@constants";
+import { getGuildConfig, getInfraction, getUserInfractions } from "src/database/index.js";
+import { paginate, toStringId } from "src/utils/index.js";
+import { InfractionType } from "src/constants/index.js";
 
 export default {
   memberPermissions: [PermissionsBitField.Flags.ModerateMembers],

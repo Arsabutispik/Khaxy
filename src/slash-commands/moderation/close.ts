@@ -1,5 +1,5 @@
-import type { SlashCommandBase } from "@customTypes";
-import { ModMailMessageSentTo, ModMailMessageType, ModMailThreadStatus } from "@constants";
+import type { SlashCommandBase } from "src/types/index.js";
+import { ModMailMessageSentTo, ModMailMessageType, ModMailThreadStatus } from "src/constants/index.js";
 import {
   ActionRowBuilder,
   ButtonBuilder,
@@ -17,9 +17,14 @@ import dayjs from "dayjs";
 import dayjsduration from "dayjs/plugin/duration.js";
 import relativeTime from "dayjs/plugin/relativeTime.js";
 import "dayjs/locale/tr.js";
-import { logger } from "@lib";
-import { modMailLog, toStringId } from "@utils";
-import { createModMailMessage, getGuildConfig, getModMailThread, updateModMailThread } from "@database";
+import { logger } from "src/lib/index.js";
+import { modMailLog, toStringId } from "src/utils/index.js";
+import {
+  createModMailMessage,
+  getGuildConfig,
+  getModMailThread,
+  updateModMailThread,
+} from "src/database/index.js";
 export default {
   memberPermissions: [PermissionsBitField.Flags.ModerateMembers],
   clientPermissions: [PermissionsBitField.Flags.ManageChannels],

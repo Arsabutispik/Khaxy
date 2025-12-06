@@ -10,8 +10,8 @@ import {
   WebhookType,
 } from "discord.js";
 import { i18n } from "i18next";
-import { Config } from "@lib";
-import { InfractionType } from "@constants";
+import { Config } from "src/lib/index.js";
+import { InfractionType } from "src/constants/index.js";
 
 declare module "discord.js" {
   interface Client {

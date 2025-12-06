@@ -1,9 +1,9 @@
-import { EventBase } from "@customTypes";
+import { EventBase } from "src/types/index.js";
 import { ChannelType, EmbedBuilder, Events, time, TimestampStyles } from "discord.js";
-import { getGuildConfig, getModMailThreadByUser, updateModMailMessage } from "@database";
-import { ModMailThreadStatus } from "@constants";
-import { returnWebhook, toStringId, WebhookType } from "@utils";
-import { logger } from "@lib";
+import { getGuildConfig, getModMailThreadByUser, updateModMailMessage } from "src/database/index.js";
+import { ModMailThreadStatus } from "src/constants/index.js";
+import { returnWebhook, toStringId, WebhookType } from "src/utils/index.js";
+import { logger } from "src/lib/index.js";
 
 export default {
   name: Events.MessageUpdate,

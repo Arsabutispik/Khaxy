@@ -1,6 +1,6 @@
-import type { EventBase } from "@customTypes";
+import type { EventBase } from "src/types/index.js";
 import { AutoModerationActionType, Events, User } from "discord.js";
-import { modLog } from "@utils";
+import { modLog } from "src/utils/index.js";
 import dayjs from "dayjs";
 
 export default {

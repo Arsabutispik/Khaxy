@@ -1,4 +1,4 @@
-import type { SlashCommandBase } from "@customTypes";
+import type { SlashCommandBase } from "src/types/index.js";
 import {
   ChannelType,
   EmbedBuilder,
@@ -7,9 +7,9 @@ import {
   PermissionsBitField,
   SlashCommandBuilder,
 } from "discord.js";
-import { logger } from "@lib";
-import { modLog, returnWebhook, toStringId, WebhookType } from "@utils";
-import { getGuildConfig } from "@database";
+import { logger } from "src/lib/index.js";
+import { modLog, returnWebhook, toStringId, WebhookType } from "src/utils/index.js";
+import { getGuildConfig } from "src/database/index.js";
 
 export default {
   memberPermissions: [PermissionsBitField.Flags.BanMembers],
