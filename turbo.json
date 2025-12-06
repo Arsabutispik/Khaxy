@@ -17,5 +17,27 @@
       "dependsOn": ["^build"],
       "outputs": []
     }
-  }
+  },
+  "globalPassThroughEnv": [
+    "NODE_ENV",
+    "VERCEL_URL",
+    "NEXTAUTH_SECRET",
+    "NEXTAUTH_URL",
+    "DISCORD_CLIENT_ID",
+    "DISCORD_CLIENT_SECRET",
+    "STACK_SECRET_SERVER_KEY",
+    "DATABASE_URL",
+    "POSTGRES_URL_NON_POOLING",
+    "DATABASE_URL_UNPOOLED",
+    "POSTGRES_URL_NO_SSL",
+    "PGHOST",
+    "POSTGRES_HOST",
+    "PGHOST_UNPOOLED",
+    "PGUSER",
+    "POSTGRES_USER",
+    "PGDATABASE",
+    "POSTGRES_DATABASE",
+    "PGPASSWORD",
+    "POSTGRES_PASSWORD"
+  ]
 }
