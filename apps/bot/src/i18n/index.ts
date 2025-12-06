@@ -16,7 +16,7 @@ export async function initI18n() {
       ns: ["translations", "events", "permissions", "commands", "help", "guild-features", "locales"],
       defaultNS: "translations",
       backend: {
-        loadPath: join(__dirname, "../../locales/{{lng}}/{{ns}}.json"),
+        loadPath: join(__dirname, "../../locales/{{lng}}/{{ns}}.yml"),
       },
       interpolation: { escapeValue: false },
       load: "currentOnly",
