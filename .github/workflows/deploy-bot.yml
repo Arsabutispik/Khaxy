@@ -9,6 +9,7 @@ on:
       - 'packages/**'
       - 'pnpm-lock.yaml'
       - 'ecosystem.config.js'
+  workflow_dispatch:
 
 jobs:
   deploy:
