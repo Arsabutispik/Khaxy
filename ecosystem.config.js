@@ -4,7 +4,7 @@ module.exports = {
       name: "khaxy-bot",
       script: "apps/bot/dist/index.js",
 
-      env_file: [".env"],
+      env_file: ".env",
 
       env: {
         NODE_ENV: "production",
