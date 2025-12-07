@@ -36,7 +36,7 @@ The Discord bot component of the Khaxy monorepo. A feature-rich moderation and u
 
 3. **Set up environment variables**
    
-   All environment variables are configured in a single `.env` file at the **root** of the monorepo. See the [root README](../../README.md#-environment-variables) for the full list of required variables.
+   All environment variables are configured in a single `.env` file at the **root** of the monorepo. See the [root README](../../README.md#%EF%B8%8F-environment-variables) for the full list of required variables.
    
    The bot uses these variables:
 

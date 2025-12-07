@@ -35,7 +35,7 @@ The web dashboard component of the Khaxy monorepo. A modern dashboard built with
 
 3. **Set up environment variables**
    
-   All environment variables are configured in a single `.env` file at the **root** of the monorepo. See the [root README](../../README.md#-environment-variables) for the full list of required variables.
+   All environment variables are configured in a single `.env` file at the **root** of the monorepo. See the [root README](../../README.md#%EF%B8%8F-environment-variables) for the full list of required variables.
    
    The web dashboard uses these variables:
 
