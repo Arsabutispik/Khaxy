@@ -34,12 +34,20 @@ The Discord bot component of the Khaxy monorepo. A feature-rich moderation and u
    pnpm install
    ```
 
-3. **Configure the database**
+3. **Set up environment variables**
    
-   Create a `.env` file in `packages/database/` with your PostgreSQL connection string:
-   ```env
-   DATABASE_URL="postgresql://user:password@localhost:5432/khaxy"
-   ```
+   All environment variables are configured in a single `.env` file at the **root** of the monorepo. See the [root README](../../README.md#-environment-variables) for the full list of required variables.
+   
+   The bot uses these variables:
+
+   | Variable           | Description                          |
+   |--------------------|--------------------------------------|
+   | `TOKEN`            | Discord bot token                    |
+   | `GUILD_ID`         | Guild ID for development/testing     |
+   | `CLIENT_ID`        | Discord application client ID        |
+   | `DOCS_URL`         | URL for bot documentation            |
+   | `DATABASE_URL`     | PostgreSQL connection string         |
+   | `INTERNAL_API_KEY` | Secret key for bot-web communication |
 
 4. **Run database migrations**
    ```bash
@@ -59,20 +67,12 @@ The Discord bot component of the Khaxy monorepo. A feature-rich moderation and u
    - Bot activity messages
    - Logging configuration (webhook, file, console)
 
-6. **Set up environment variables**
-   
-   Create a `.env` file in `apps/bot/` with:
-   ```env
-   TOKEN=your_discord_bot_token
-   CLIENT_ID=your_discord_application_client_id
-   ```
-
-7. **Deploy slash commands**
+6. **Deploy slash commands**
    ```bash
    pnpm run deploy-commands
    ```
 
-8. **Start the bot**
+7. **Start the bot**
    ```bash
    # Development mode
    pnpm run dev
@@ -139,15 +139,6 @@ The `config.toml` file contains bot-specific settings:
 - **Emojis** - Custom emoji IDs with fallbacks for servers without the emojis
 - **Activity** - Bot status messages that rotate automatically
 - **Logging** - Configure webhook, file, and console logging
-
-### Environment Variables
-
-| Variable    | Description                              | Required |
-|-------------|------------------------------------------|----------|
-| `TOKEN`     | Discord bot token                        | ✅        |
-| `CLIENT_ID` | Discord application client ID            | ✅        |
-| `DOCS_URL`  | URL for bot documentation                | ✅        |
-| `GUILD_ID`  | (Optional) Guild ID for testing commands | ❌        |
 
 ## 🌐 Localization
 

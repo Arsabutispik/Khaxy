@@ -33,31 +33,31 @@ The web dashboard component of the Khaxy monorepo. A modern dashboard built with
    pnpm install
    ```
 
-3. **Configure the database**
+3. **Set up environment variables**
    
-   Ensure the `.env` file in `packages/database/` has your PostgreSQL connection string:
-   ```env
-   DATABASE_URL="postgresql://user:password@localhost:5432/khaxy"
-   ```
+   All environment variables are configured in a single `.env` file at the **root** of the monorepo. See the [root README](../../README.md#-environment-variables) for the full list of required variables.
+   
+   The web dashboard uses these variables:
 
-4. **Set up environment variables**
+   | Variable                | Description                              |
+   |-------------------------|------------------------------------------|
+   | `BETTER_AUTH_SECRET`    | Secret key for Better Auth sessions      |
+   | `BETTER_AUTH_URL`       | Base URL of your web dashboard           |
+   | `DISCORD_CLIENT_ID`     | Discord application client ID            |
+   | `DISCORD_CLIENT_SECRET` | Discord OAuth2 client secret             |
+   | `DISCORD_BOT_TOKEN`     | Discord bot token (for API calls)        |
+   | `POSTGRES_URL`          | PostgreSQL connection string for web app |
+   | `FASTIFY_API_URL`       | URL of the bot's internal API            |
+   | `INTERNAL_API_KEY`      | Secret key for bot-web communication     |
+   | `DATABASE_URL`          | PostgreSQL connection string             |
+
+4. **Configure Discord OAuth**
    
-   Create a `.env.local` file in `apps/web/` with:
-   ```env
-   # Database
-   DATABASE_URL="postgresql://user:password@localhost:5432/khaxy"
-   
-   # Better Auth
-   BETTER_AUTH_SECRET=your_random_secret_key
-   BETTER_AUTH_URL=http://localhost:3000
-   
-   # Discord OAuth
-   DISCORD_CLIENT_ID=your_discord_application_client_id
-   DISCORD_CLIENT_SECRET=your_discord_application_client_secret
-   
-   # Bot API (internal communication)
-   BOT_API_URL=http://localhost:3001
-   ```
+   1. Go to the [Discord Developer Portal](https://discord.com/developers/applications)
+   2. Select your application (or create one)
+   3. Navigate to **OAuth2** settings
+   4. Add your redirect URL: `http://localhost:3000/api/auth/callback/discord`
+   5. Copy the **Client ID** and **Client Secret** to your root `.env`
 
 5. **Start the dashboard**
    ```bash
@@ -106,34 +106,13 @@ apps/web/
 
 ## 📜 Available Scripts
 
-| Command | Description |
-|---------|-------------|
-| `pnpm dev` | Start in development mode with Turbopack |
-| `pnpm build` | Build for production |
-| `pnpm start` | Start the production server |
-| `pnpm lint` | Run ESLint |
-| `pnpm type-check` | Run TypeScript type checking |
-
-## ⚙️ Configuration
-
-### Environment Variables
-
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `DATABASE_URL` | PostgreSQL connection string | ✅ |
-| `BETTER_AUTH_SECRET` | Secret key for Better Auth sessions | ✅ |
-| `BETTER_AUTH_URL` | Base URL of your dashboard | ✅ |
-| `DISCORD_CLIENT_ID` | Discord application client ID | ✅ |
-| `DISCORD_CLIENT_SECRET` | Discord application client secret | ✅ |
-| `BOT_API_URL` | URL of the bot's internal API | ✅ |
-
-### Discord OAuth Setup
-
-1. Go to the [Discord Developer Portal](https://discord.com/developers/applications)
-2. Select your application (or create one)
-3. Navigate to **OAuth2** settings
-4. Add your redirect URL: `http://localhost:3000/api/auth/callback/discord`
-5. Copy the **Client ID** and **Client Secret** to your `.env.local`
+| Command           | Description                              |
+|-------------------|------------------------------------------|
+| `pnpm dev`        | Start in development mode with Turbopack |
+| `pnpm build`      | Build for production                     |
+| `pnpm start`      | Start the production server              |
+| `pnpm lint`       | Run ESLint                               |
+| `pnpm type-check` | Run TypeScript type checking             |
 
 ## 🌐 Localization
 
