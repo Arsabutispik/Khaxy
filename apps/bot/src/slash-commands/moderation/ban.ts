@@ -138,7 +138,7 @@ export default {
     const reason = interaction.options.getString("reason") || t("no_reason");
     const duration = interaction.options.getNumber("duration");
     const time = interaction.options.getString("time");
-    const preserve = interaction.options.getBoolean("preserve") || false;
+    const preserve = interaction.options.getBoolean("preserve-messages") || false;
     if (duration && time) {
       const dayjsDuration = dayjs.duration(duration, time as dayjsduration.DurationUnitType);
       const longDuration = dayjs(dayjs().add(dayjsDuration))
