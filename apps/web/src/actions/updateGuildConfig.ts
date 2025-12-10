@@ -6,6 +6,10 @@ export async function updateConfig(
   guildId: string,
   data: Partial<Guilds>,
 ): Promise<Guilds> {
+  // Only allow guild IDs matching 17-19 digits (Discord snowflake format)
+  if (!/^\d{17,19}$/.test(guildId)) {
+    throw new Error("Invalid guildId format");
+  }
   const API_BASE_URL = process.env.FASTIFY_API_URL;
   const API_KEY = process.env.INTERNAL_API_KEY;
   const res = await fetch(`${API_BASE_URL}/api/guilds/${guildId}/settings`, {
