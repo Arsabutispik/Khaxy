@@ -16,7 +16,6 @@
     "start": "node --enable-source-maps .",
     "validate-translations": "node scripts/ValidateI18nKeys.js",
     "dev": "tsc && tsc-alias && node --enable-source-maps .",
-    "release": "release-it",
     "lint": "eslint ",
     "type-check": "tsc --noEmit"
   },
@@ -40,7 +39,6 @@
   },
   "devDependencies": {
     "@eslint/js": "^8.57.1",
-    "@release-it/conventional-changelog": "^10.0.2",
     "@types/lodash": "^4.17.20",
     "@typescript-eslint/eslint-plugin": "^8.46.0",
     "@typescript-eslint/parser": "^8.46.0",
@@ -49,7 +47,6 @@
     "eslint-plugin-jsonc": "^2.21.0",
     "globals": "^15.15.0",
     "prettier": "^3.6.2",
-    "release-it": "^19.0.6",
     "ts-node": "^10.9.2",
     "tsc-alias": "^1.8.16",
     "typescript": "^5.9.3",
