@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.2
+
+### Patch Changes
+
+- [`8b8b09f`](https://github.com/Arsabutispik/Khaxy/commit/8b8b09f888fe6fc991888243011bf13854f5d11c) Thanks [@Arsabutispik](https://github.com/Arsabutispik)! - Update to latest secure next package
+
 ## 1.0.1
 
 ### Patch Changes
