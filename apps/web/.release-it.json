@@ -1,5 +1,6 @@
 {
   "git": {
+    "commitsPath": ".",
     "commitMessage": "chore: release v${version}",
     "tagName": "web-v${version}",
     "requireCleanWorkingDir": true
@@ -9,7 +10,7 @@
   },
   "github": {
     "release": true,
-    "releaseName": "web v${version}"
+    "releaseName": "Web v${version}"
   },
   "plugins": {
     "@release-it/conventional-changelog": {
