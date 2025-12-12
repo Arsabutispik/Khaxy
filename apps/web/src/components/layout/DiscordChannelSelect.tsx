@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Hash, ChevronDown, Check, Search } from "lucide-react";
+import { Hash, ChevronDown, Check, Search, X } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -18,7 +18,7 @@ interface DiscordChannelSelectProps {
   label: string;
   value?: string;
   channels: APIChannel[];
-  onChange: (value: string) => void;
+  onChange: (value: string | undefined) => void;
   placeholder?: string;
 }
 
@@ -42,10 +42,10 @@ export function DiscordChannelSelect({
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <button
-          className="group flex items-center justify-center md:justify-center w-full md:w-auto px-3 py-2.5 bg-black hover:bg-zinc-900 border border-white/10 rounded-md transition-all text-gray-200 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          className="group flex items-center justify-between md:justify-center w-full md:w-auto px-3 py-2.5 bg-black hover:bg-zinc-900 border border-white/10 rounded-md transition-all text-gray-200 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
           aria-label={label}
         >
-          <span className="flex items-center gap-2 truncate">
+          <span className="flex items-center gap-2 truncate mr-2">
             {selectedChannel ? (
               <>
                 <Hash className="w-4 h-4 text-zinc-500 flex-shrink-0" />
@@ -57,7 +57,25 @@ export function DiscordChannelSelect({
               <span className="text-zinc-500">{placeholder}</span>
             )}
           </span>
-          <ChevronDown className="w-4 h-4 text-zinc-500 group-hover:text-white transition-colors flex-shrink-0 ml-2" />
+
+          <div className="flex items-center gap-1">
+            {/* Clear Button - Only shows when channel is selected */}
+            {selectedChannel && (
+              <span
+                role="button"
+                tabIndex={0}
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevents dialog from opening
+                  onChange(undefined);
+                }}
+                className="p-0.5 rounded-sm hover:bg-white/20 text-zinc-500 hover:text-red-400 transition-colors cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </span>
+            )}
+
+            <ChevronDown className="w-4 h-4 text-zinc-500 group-hover:text-white transition-colors flex-shrink-0" />
+          </div>
         </button>
       </DialogTrigger>
 

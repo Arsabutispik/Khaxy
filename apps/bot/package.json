@@ -15,7 +15,7 @@
     "build": "pnpm run db:deploy && tsc && tsc-alias",
     "start": "node --enable-source-maps .",
     "validate-translations": "node scripts/ValidateI18nKeys.js",
-    "dev": "tsc && tsc-alias && node --enable-source-maps .",
+    "dev": "tsc && tsc-alias && dotenv -e ../../.env -- node --enable-source-maps .",
     "lint": "eslint ",
     "type-check": "tsc --noEmit"
   },
@@ -42,6 +42,7 @@
     "@types/lodash": "^4.17.20",
     "@typescript-eslint/eslint-plugin": "^8.46.0",
     "@typescript-eslint/parser": "^8.46.0",
+    "dotenv-cli": "^11.0.0",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-jsonc": "^2.21.0",

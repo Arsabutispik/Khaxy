@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "private": true,
   "scripts": {
-    "dev": "wait-on tcp:3001 && next dev --turbopack",
+    "dev": "wait-on tcp:3001 && dotenv -e ../../.env -- next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",

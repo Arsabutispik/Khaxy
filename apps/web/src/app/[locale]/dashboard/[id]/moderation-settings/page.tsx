@@ -5,8 +5,6 @@ import {
   getGuildSettings,
 } from "@/utils/utils";
 import { ChannelType } from "discord-api-types/v10";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
 import { ModerationConfigForm } from "@/app/[locale]/dashboard/[id]/moderation-settings/ModerationConfigForm";
 
 type Props = {
@@ -37,6 +35,9 @@ export default async function ModerationConfigPage({ params }: Props) {
   const filteredChannels = guildChannels.channels.filter((channel) => {
     return channel.type === ChannelType.GuildText;
   });
+  const filteredRoles = guildRoles.roles.filter((role) => {
+    return role.name !== "@everyone";
+  });
   const guildId = await getGuildInfo((await params).id);
   if (!guildId) {
     return <div>Failed to load guild info.</div>;
@@ -46,7 +47,7 @@ export default async function ModerationConfigPage({ params }: Props) {
       initialConfig={serializedConfig}
       guildId={(await params).id}
       channels={filteredChannels}
-      roles={guildRoles.roles}
+      roles={filteredRoles}
     />
   );
 }

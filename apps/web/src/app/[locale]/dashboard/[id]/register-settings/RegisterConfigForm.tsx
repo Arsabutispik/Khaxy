@@ -130,7 +130,9 @@ export function RegisterConfigForm({
                     label={field.title}
                     channels={channels}
                     value={config[field.key] || undefined}
-                    onChange={(val) => handleFieldChange(field.key, val)}
+                    onChange={(val) =>
+                      handleFieldChange(field.key, val || null)
+                    }
                     placeholder="Select Channel"
                   />
                 )}
