@@ -1,5 +1,6 @@
 {
   "git": {
+    "commitsPath": ".",
     "commitMessage": "chore: release v${version}",
     "tagName": "bot-v${version}",
     "requireCleanWorkingDir": true
