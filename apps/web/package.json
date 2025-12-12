@@ -7,7 +7,7 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
-    "release": "release-it",
+    "release": "dotenv release-it --",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
