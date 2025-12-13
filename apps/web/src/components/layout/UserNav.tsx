@@ -8,14 +8,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { getTranslations } from "next-intl/server";
 import DiscordSignInButton from "@/components/layout/SignIn";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers.js";
 import DiscordSignOutButton from "@/components/layout/SignOut";
-import { authClient } from "@/lib/auth-client";
+import { getSessionWithAutoSync } from "@/lib/auth-sync";
+
 export async function UserNav() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const session = await getSessionWithAutoSync();
   const t = await getTranslations("UserNav");
   if (!session?.user) {
     return <DiscordSignInButton loginString={t("login")} />;

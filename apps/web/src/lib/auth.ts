@@ -19,11 +19,7 @@ export const auth = betterAuth({
       },
     },
   },
-  // --- THIS IS THE FIX ---
-  // Apply the SameSite=None fix from the GitHub issue.
-  // This tells the browser to send cookies during cross-site callbacks.
   plugins: [nextCookies()],
-  // -----------------------
 
   socialProviders: {
     discord: {
