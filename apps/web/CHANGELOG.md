@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.3
+
+### Patch Changes
+
+- [`bbeff14`](https://github.com/Arsabutispik/Khaxy/commit/bbeff1477ab5bddeb36a0950bd63fb617ca64ce4) Thanks [@Arsabutispik](https://github.com/Arsabutispik)! - Fix avatar being invalid by fetching data every 24h
+
 ## 1.0.2
 
 ### Patch Changes
