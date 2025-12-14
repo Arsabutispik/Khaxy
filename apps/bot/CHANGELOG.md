@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.0
+
+### Minor Changes
+
+- [#86](https://github.com/Arsabutispik/Khaxy/pull/86) [`a986e83`](https://github.com/Arsabutispik/Khaxy/commit/a986e836b2c4f9da09bcb56d2a8f49ec9ea1a1b3) Thanks [@Arsabutispik](https://github.com/Arsabutispik)! - Add api improvements and the ability to change bot nickname and avatar
+
+- [#86](https://github.com/Arsabutispik/Khaxy/pull/86) [`a986e83`](https://github.com/Arsabutispik/Khaxy/commit/a986e836b2c4f9da09bcb56d2a8f49ec9ea1a1b3) Thanks [@Arsabutispik](https://github.com/Arsabutispik)! - Add api improvements and the ability to change bot nickname and avatar
+
 ## 1.0.1
 
 ### Patch Changes
