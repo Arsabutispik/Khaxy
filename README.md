@@ -96,6 +96,7 @@ DATABASE_URL=postgres://user:password@localhost:5432/khaxy
 
 # --- Other ---
 NODE_ENV=development
+API_KEY_PBKDF2_SALT=your_salt_value
 ```
 
 ### Environment Variables Reference
@@ -116,6 +117,7 @@ NODE_ENV=development
 | `INTERNAL_API_KEY`      | Secret key for bot-web communication                                          | Bot, Web |
 | `DATABASE_URL`          | PostgreSQL connection string                                                  | Database |
 | `NODE_ENV`              | Environment mode (`development` or `production`)                              | All      |
+| `API_KEY_PBKDF2_SALT`   | Salt for API key hashing                                                      | Bot      |
 
 ## 📜 Available Scripts
 

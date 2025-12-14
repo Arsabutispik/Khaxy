@@ -10,71 +10,24 @@ export type CachedGuilds = {
   guilds: Guild[];
   timestamp: number;
 };
-export interface Guilds {
-  id: bigint;
-  mod_mail_channel_id: bigint | null;
-  dj_role_id: bigint | null;
-  days_to_kick: number;
-  default_expiry: number;
-  mod_mail_parent_channel_id: bigint | null;
-  register_channel_id: bigint | null;
-  member_role_id: bigint | null;
-  mute_role_id: bigint | null;
-  mute_get_all_roles: boolean | null;
-  join_channel_id: bigint | null;
-  register_join_channel_id: bigint | null;
-  colour_id_of_the_day: bigint | null;
-  leave_channel_id: bigint | null;
-  case_id: number;
-  staff_role_id: bigint | null;
-  male_role_id: bigint | null;
-  female_role_id: bigint | null;
-  register_channel_clear: boolean | null;
-  register_join_message: string | null;
-  colour_name_of_the_day: string | null;
-  join_message: string | null;
-  language: string;
-  leave_message: string | null;
-  mod_mail_message: string;
-  bump_leaderboard_channel_id: bigint | null;
-  last_bump_winner: string | null;
-  last_bump_winner_count: number | null;
-  last_bump_winner_total_count: number | null;
-  unverified_role_id: bigint | null;
-  message_logs_channel_id: bigint | null;
-  message_logs_webhook_id: bigint | null;
-  guild_logs_channel_id: bigint | null;
-  guild_logs_webhook_id: bigint | null;
-  mod_logs_channel_id: bigint | null;
-  mod_logs_webhook_id: bigint | null;
-  guild_member_logs_channel_id: bigint | null;
-  guild_member_logs_webhook_id: bigint | null;
-  channel_logs_channel_id: bigint | null;
-  channel_logs_webhook_id: bigint | null;
-  voice_logs_channel_id: bigint | null;
-  voice_logs_webhook_id: bigint | null;
-  voice_audit_leave_logs_id: bigint | null;
-  voice_audit_leave_logs_count: number;
-  voice_audit_move_logs_id: bigint | null;
-  voice_audit_move_logs_count: number;
-  emoji_logs_channel_id: bigint | null;
-  emoji_logs_webhook_id: bigint | null;
-  role_logs_channel_id: bigint | null;
-  role_logs_webhook_id: bigint | null;
-  sticker_logs_channel_id: bigint | null;
-  sticker_logs_webhook_id: bigint | null;
-  event_logs_channel_id: bigint | null;
-  event_logs_webhook_id: bigint | null;
-  invite_logs_channel_id: bigint | null;
-  invite_logs_webhook_id: bigint | null;
-  poll_logs_channel_id: bigint | null;
-  poll_logs_webhook_id: bigint | null;
-  stage_logs_channel_id: bigint | null;
-  stage_logs_webhook_id: bigint | null;
-  soundboard_logs_channel_id: bigint | null;
-  soundboard_logs_webhook_id: bigint | null;
-  thread_logs_channel_id: bigint | null;
-  thread_logs_webhook_id: bigint | null;
-  webhook_logs_channel_id: bigint | null;
-  webhook_logs_webhook_id: bigint | null;
+
+// Type for sanitized role from bot API
+export interface SafeRole {
+  id: string;
+  name: string;
+  color: number;
+  position: number;
+  hoist: boolean;
+  permissions: string;
 }
+
+// Type for sanitized channel from bot API
+export interface SafeChannel {
+  id: string;
+  name: string;
+  type: number;
+  parentId: string | null;
+}
+
+// Re-export guilds type from database package
+export type { guilds as Guilds } from "@repo/database";

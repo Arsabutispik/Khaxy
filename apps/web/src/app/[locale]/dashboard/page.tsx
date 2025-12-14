@@ -8,12 +8,24 @@ import { Guild } from "@/types/types";
 import {
   fetchBotGuilds,
   fetchUserGuilds,
+  getBotStatus,
   hasManageGuildPermission,
 } from "@/utils/utils";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers.js";
 
 export default async function DashboardPage() {
+  const status = await getBotStatus();
+  if (!status || status.status !== "online") {
+    return (
+      <div className="container mx-auto px-4 py-8 text-center">
+        <h1 className="text-4xl font-extrabold mb-4">Bot is Offline</h1>
+        <p className="text-lg text-muted-foreground">
+          The Discord bot is currently offline. Please try again later.
+        </p>
+      </div>
+    );
+  }
   const session = await auth.api.getSession({
     headers: await headers(),
   });
