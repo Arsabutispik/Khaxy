@@ -11,12 +11,12 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
-import { APIRole } from "discord-api-types/v10";
+import { SafeRole } from "@/types/types.js";
 
 interface DiscordRoleSelectProps {
   label: string;
   value?: string | null;
-  roles: APIRole[];
+  roles: SafeRole[];
   onChange: (value: string | undefined) => void;
   placeholder?: string;
 }

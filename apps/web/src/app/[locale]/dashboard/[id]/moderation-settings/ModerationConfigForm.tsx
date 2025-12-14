@@ -1,6 +1,5 @@
 "use client";
 
-import { APIChannel, APIRole } from "discord-api-types/v10";
 import React from "react";
 import { useTranslations } from "next-intl";
 import handleUnsavedChanges from "@/utils/HandleChangedSettings";
@@ -15,6 +14,7 @@ import { DiscordChannelSelect } from "@/components/layout/DiscordChannelSelect";
 import { DiscordRoleSelect } from "@/components/layout/DiscordRoleSelect";
 import Separator from "@/components/layout/Seperator";
 import { guilds as Guilds } from "@repo/database";
+import { SafeChannel, SafeRole } from "@/types/types.js";
 type ModerationConfig = Pick<
   Guilds,
   | "mod_logs_channel_id"
@@ -28,8 +28,8 @@ type ModerationConfig = Pick<
 interface ModerationConfigFormProps {
   initialConfig: ModerationConfig;
   guildId: string;
-  channels: APIChannel[];
-  roles: APIRole[];
+  channels: SafeChannel[];
+  roles: SafeRole[];
 }
 
 export function ModerationConfigForm({

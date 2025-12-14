@@ -4,6 +4,11 @@ import createNextIntlPlugin from "next-intl/plugin";
 const nextConfig: NextConfig = {
   /* config options here */
   transpilePackages: ["@repo/database"],
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "10mb", // Allow larger uploads for bot avatar images
+    },
+  },
   images: {
     remotePatterns: [
       {

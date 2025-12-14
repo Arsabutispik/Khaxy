@@ -16,11 +16,14 @@
     "start": "node --enable-source-maps .",
     "validate-translations": "node scripts/ValidateI18nKeys.js",
     "dev": "tsc && tsc-alias && dotenv -e ../../.env -- node --enable-source-maps .",
+    "dev:watch": "nodemon --watch src --ext ts,json --exec \"tsc && tsc-alias && dotenv -e ../../.env -- node --enable-source-maps .\"",
     "lint": "eslint ",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@fastify/cors": "^11.1.0",
+    "@fastify/helmet": "^13.0.2",
+    "@fastify/rate-limit": "^10.3.0",
     "@repo/database": "workspace:*",
     "chalk": "^5.6.2",
     "cron": "^3.5.0",

@@ -154,5 +154,32 @@
     "preview_title": "Önizleme",
     "bot_badge": "UYG",
     "today_at": "Bugün saat {time}"
+  },
+  "BotProfileForm": {
+    "validation": {
+      "image_type": "Lütfen geçerli bir resim dosyası yükleyin (JPEG, PNG, GIF).",
+      "image_size": "Resim boyutu 8 MB'dan küçük olmalıdır."
+    },
+    "success": "Bot profili başarıyla güncellendi.",
+    "error": "Bot profili güncellenirken bir hata oluştu.",
+    "card": {
+      "title": "Bot Görünümünü Özelleştir",
+      "description": "Bu sunucu için özel bir takma ad ve avatar ayarlayın. Varsayılan bot adını kullanmak için takma adı boş bırakın."
+    },
+    "labels": {
+      "avatar": "Sunucu Avatarı",
+      "nickname": "Bot Takma Adı"
+    },
+    "buttons": {
+      "change_avatar": "Avatar Yükle",
+      "reset": "Sıfırla",
+      "reset_to_default": "Varsayılana Sıfırla",
+      "saving": "Kaydediliyor...",
+      "save": "Değişiklikleri Kaydet"
+    },
+    "upload_avatar_hint": "Bu sunucu için özel bir bot avatarı yükleyin. Maksimum dosya boyutu: 8MB.",
+    "change_nickname_hint": "{length}/32 karakter. Varsayılan bot adını kullanmak için boş bırakın.",
+    "preview": "Önizleme",
+    "bot_badge": "UYG"
   }
 }

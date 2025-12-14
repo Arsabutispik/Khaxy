@@ -151,5 +151,32 @@
     "preview_title": "Preview",
     "bot_badge": "APP",
     "today_at": "Today at {time}"
+  },
+  "BotProfileForm": {
+    "validation": {
+      "image_type": "Please upload a valid image file (JPEG, PNG, GIF).",
+      "image_size": "Image size must be less than 8 MB."
+    },
+    "success": "Bot profile updated successfully.",
+    "error": "An error occurred while updating the bot profile.",
+    "card": {
+      "title": "Customize Bot Appearance",
+      "description": "Set a custom nickname and avatar for this server. Leave nickname empty to use the default bot name."
+    },
+    "labels": {
+      "avatar": "Server Avatar",
+      "nickname": "Bot Nickname"
+    },
+    "buttons": {
+      "change_avatar": "Upload Avatar",
+      "reset": "Reset",
+      "reset_to_default": "Reset to Default",
+      "saving": "Saving...",
+      "save": "Save Changes"
+    },
+    "upload_avatar_hint": "Upload a custom avatar for the bot in this server. Max file size: 8MB.",
+    "change_nickname_hint": "{length}/32 characters. Leave empty to use the default bot name.",
+    "preview": "Preview",
+    "bot_badge": "APP"
   }
 }

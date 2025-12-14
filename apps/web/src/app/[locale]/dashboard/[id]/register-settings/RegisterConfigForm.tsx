@@ -3,7 +3,6 @@
 import React from "react";
 import { useTranslations } from "next-intl";
 import { DiscordChannelSelect } from "@/components/layout/DiscordChannelSelect";
-import { APIChannel } from "discord-api-types/v10";
 import { Info } from "lucide-react";
 import {
   Popover,
@@ -14,6 +13,7 @@ import UnsavedChanges from "@/components/layout/UnsavedChanges";
 import MessageEditorModal from "@/components/layout/MessageEditorModal";
 import Separator from "@/components/layout/Seperator";
 import handleUnsavedChanges from "@/utils/HandleChangedSettings";
+import { SafeChannel } from "@/types/types.js";
 
 type RegisterConfig = {
   register_join_channel_id: string | null;
@@ -24,7 +24,7 @@ type RegisterConfig = {
 interface RegisterConfigFormProps {
   initialConfig: RegisterConfig;
   guildId: string;
-  channels: APIChannel[];
+  channels: SafeChannel[];
   guildName: string;
   memberCount: number;
   username: string;
