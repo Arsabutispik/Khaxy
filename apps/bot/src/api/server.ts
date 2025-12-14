@@ -5,8 +5,12 @@ import rateLimit from "@fastify/rate-limit";
 import { botRoutes } from "./routes/botRoutes.js";
 import { Client } from "discord.js";
 import { logger } from "src/lib/index.js";
-import { createHash, timingSafeEqual } from "crypto";
+import { timingSafeEqual, pbkdf2Sync } from "crypto";
 
+const API_KEY_PBKDF2_SALT = process.env.API_KEY_PBKDF2_SALT;
+if (!API_KEY_PBKDF2_SALT) {
+  throw new Error("Missing API_KEY_PBKDF2_SALT environment variable");
+}
 function bigIntReplacer(_key: string, value: unknown) {
   if (typeof value === "bigint") return value.toString();
   return value;
@@ -17,7 +21,7 @@ function customJsonSerializer(payload: unknown): string {
 }
 
 function hashString(input: string) {
-  return createHash("sha256").update(input).digest();
+  return pbkdf2Sync(input, API_KEY_PBKDF2_SALT as string, 310000, 32, "sha256");
 }
 
 function secureCompare(a: string, b: string) {
