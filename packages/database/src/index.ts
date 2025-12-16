@@ -4,7 +4,7 @@ export * from "@prisma/client";
 export * from "./client.js";
 export * from "./queries/guild.js";
 export * from "./queries/infraction.js";
-export * from "./queries/punishments.js";
+export * from "./queries/punishment.js";
 export * from "./queries/bumpLeaderboard.js";
 export * from "./queries/cronJob.js";
 export * from "./queries/modMail.js";
