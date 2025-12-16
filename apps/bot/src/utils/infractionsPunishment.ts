@@ -1,6 +1,6 @@
 import { createPunishment, getActivePunishments, getGuildConfig } from "src/database/index.js";
 import { getGuildPunishmentConfig } from "src/database/index.js";
-import { PunishmentAction } from "@repo/database";
+import { PunishmentAction } from "../../../../packages/database/src/index.js";
 import { Guild, GuildMember, PermissionsBitField, User } from "discord.js";
 import { toStringId } from "./utils.js";
 import { modLog } from "./mod-log.js";

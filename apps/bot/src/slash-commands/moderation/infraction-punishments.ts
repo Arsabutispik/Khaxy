@@ -4,7 +4,7 @@ import { deleteGuildPunishmentConfig, getGuildConfig } from "src/database/index.
 import dayjs from "dayjs";
 import { DurationUnitType } from "dayjs/plugin/duration.js";
 import { getGuildPunishmentConfig, setGuildPunishmentConfig } from "src/database/index.js";
-import { PunishmentAction } from "@repo/database";
+import { PunishmentAction } from "../../../../../packages/database/src/index.js";
 import dayjsduration from "dayjs/plugin/duration.js";
 import { toStringId } from "src/utils/index.js";
 
