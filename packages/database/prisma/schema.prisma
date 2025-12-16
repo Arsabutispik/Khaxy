@@ -7,173 +7,309 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model bump_leaderboard {
-  guild_id   BigInt
-  user_id    BigInt
-  bump_count Int    @default(1)
+// --------------------------------------------------------
+// CORE GUILD MODEL
+// --------------------------------------------------------
 
-  @@id([guild_id, user_id])
+model Guild {
+  id       String @id // Discord Guild ID
+  language String @default("en-GB") @db.VarChar(5)
+  caseId   Int    @default(1) @map("case_id")
+
+  // --- Configuration ---
+  daysToKick           Int      @default(0) @map("days_to_kick")
+  defaultExpiry        Int      @default(0) @map("default_expiry")
+  muteGetAllRoles      Boolean? @map("mute_get_all_roles")
+  registerChannelClear Boolean? @map("register_channel_clear")
+
+  // --- Roles ---
+  djRoleId         String? @map("dj_role_id")
+  staffRoleId      String? @map("staff_role_id")
+  memberRoleId     String? @map("member_role_id")
+  muteRoleId       String? @map("mute_role_id")
+  maleRoleId       String? @map("male_role_id")
+  femaleRoleId     String? @map("female_role_id")
+  unverifiedRoleId String? @map("unverified_role_id")
+
+  // --- Channels ---
+  modMailChannelId         String? @map("mod_mail_channel_id")
+  modMailParentChannelId   String? @map("mod_mail_parent_channel_id")
+  registerChannelId        String? @map("register_channel_id")
+  joinChannelId            String? @map("join_channel_id")
+  registerJoinChannelId    String? @map("register_join_channel_id")
+  leaveChannelId           String? @map("leave_channel_id")
+  bumpLeaderboardChannelId String? @map("bump_leaderboard_channel_id")
+
+  // --- Messages & Customization ---
+  joinMessage         String? @map("join_message")
+  leaveMessage        String? @map("leave_message")
+  registerJoinMessage String? @map("register_join_message")
+  modMailMessage      String  @default("Thank you for your message! Our mod team will reply to you here as soon as possible.") @map("mod_mail_message")
+
+  // --- Color of the Day ---
+  colourIdOfTheDay   String? @map("colour_id_of_the_day")
+  colourNameOfTheDay String? @map("colour_name_of_the_day")
+
+  // --- Bump Stats ---
+  lastBumpWinner           String? @map("last_bump_winner")
+  lastBumpWinnerCount      Int?    @map("last_bump_winner_count")
+  lastBumpWinnerTotalCount Int?    @map("last_bump_winner_total_count")
+
+  // --- RELATIONS ---
+  logConfig         GuildLogConfig?
+  infractions       Infraction[]
+  punishments       Punishment[]
+  punishmentConfigs GuildPunishmentConfig[]
+  bumpLeaderboard   BumpLeaderboard[]
+  modMailThreads    ModMailThread[]
+  modMailBlacklist  ModMailBlacklist[]
+
+  @@map("guilds")
 }
 
-model cronjobs {
-  id                       BigInt    @id
-  color_time               DateTime? @db.Timestamp(6)
-  unregistered_people_time DateTime? @db.Timestamp(6)
+// --------------------------------------------------------
+// GUILD LOG CONFIGURATION (Split from Guilds)
+// --------------------------------------------------------
+
+model GuildLogConfig {
+  guildId String @id @map("guild_id")
+  guild   Guild  @relation(fields: [guildId], references: [id], onDelete: Cascade)
+
+  // Message Logs
+  messageLogsChannelId String? @map("message_logs_channel_id")
+  messageLogsWebhookId String? @map("message_logs_webhook_id")
+
+  // Guild Logs
+  guildLogsChannelId String? @map("guild_logs_channel_id")
+  guildLogsWebhookId String? @map("guild_logs_webhook_id")
+
+  // Mod Logs
+  modLogsChannelId String? @map("mod_logs_channel_id")
+  modLogsWebhookId String? @map("mod_logs_webhook_id")
+
+  // Member Logs
+  guildMemberLogsChannelId String? @map("guild_member_logs_channel_id")
+  guildMemberLogsWebhookId String? @map("guild_member_logs_webhook_id")
+
+  // Channel Logs
+  channelLogsChannelId String? @map("channel_logs_channel_id")
+  channelLogsWebhookId String? @map("channel_logs_webhook_id")
+
+  // Voice Logs
+  voiceLogsChannelId String? @map("voice_logs_channel_id")
+  voiceLogsWebhookId String? @map("voice_logs_webhook_id")
+
+  // Voice Audit
+  voiceAuditLeaveLogsId    String? @map("voice_audit_leave_logs_id")
+  voiceAuditLeaveLogsCount Int     @default(0) @map("voice_audit_leave_logs_count")
+  voiceAuditMoveLogsId     String? @map("voice_audit_move_logs_id")
+  voiceAuditMoveLogsCount  Int     @default(0) @map("voice_audit_move_logs_count")
+
+  // Emoji Logs
+  emojiLogsChannelId String? @map("emoji_logs_channel_id")
+  emojiLogsWebhookId String? @map("emoji_logs_webhook_id")
+
+  // Role Logs
+  roleLogsChannelId String? @map("role_logs_channel_id")
+  roleLogsWebhookId String? @map("role_logs_webhook_id")
+
+  // Sticker Logs
+  stickerLogsChannelId String? @map("sticker_logs_channel_id")
+  stickerLogsWebhookId String? @map("sticker_logs_webhook_id")
+
+  // Event Logs
+  eventLogsChannelId String? @map("event_logs_channel_id")
+  eventLogsWebhookId String? @map("event_logs_webhook_id")
+
+  // Invite Logs
+  inviteLogsChannelId String? @map("invite_logs_channel_id")
+  inviteLogsWebhookId String? @map("invite_logs_webhook_id")
+
+  // Poll Logs
+  pollLogsChannelId String? @map("poll_logs_channel_id")
+  pollLogsWebhookId String? @map("poll_logs_webhook_id")
+
+  // Stage Logs
+  stageLogsChannelId String? @map("stage_logs_channel_id")
+  stageLogsWebhookId String? @map("stage_logs_webhook_id")
+
+  // Soundboard Logs
+  soundboardLogsChannelId String? @map("soundboard_logs_channel_id")
+  soundboardLogsWebhookId String? @map("soundboard_logs_webhook_id")
+
+  // Thread Logs
+  threadLogsChannelId String? @map("thread_logs_channel_id")
+  threadLogsWebhookId String? @map("thread_logs_webhook_id")
+
+  // Webhook Logs
+  webhookLogsChannelId String? @map("webhook_logs_channel_id")
+  webhookLogsWebhookId String? @map("webhook_logs_webhook_id")
+
+  @@map("guild_log_configs")
 }
 
-model guilds {
-  id                           BigInt   @id
-  mod_mail_channel_id          BigInt?
-  dj_role_id                   BigInt?
-  days_to_kick                 Int      @default(0)
-  default_expiry               Int      @default(0)
-  mod_mail_parent_channel_id   BigInt?
-  register_channel_id          BigInt?
-  member_role_id               BigInt?
-  mute_role_id                 BigInt?
-  mute_get_all_roles           Boolean?
-  join_channel_id              BigInt?
-  register_join_channel_id     BigInt?
-  colour_id_of_the_day         BigInt?
-  leave_channel_id             BigInt?
-  case_id                      Int      @default(1)
-  staff_role_id                BigInt?
-  male_role_id                 BigInt?
-  female_role_id               BigInt?
-  register_channel_clear       Boolean?
-  register_join_message        String?
-  colour_name_of_the_day       String?
-  join_message                 String?
-  language                     String   @default("en-GB") @db.VarChar(5)
-  leave_message                String?
-  mod_mail_message             String   @default("Thank you for your message! Our mod team will reply to you here as soon as possible.")
-  bump_leaderboard_channel_id  BigInt?
-  last_bump_winner             String?
-  last_bump_winner_count       Int?
-  last_bump_winner_total_count Int?
-  unverified_role_id           BigInt?
-  message_logs_channel_id      BigInt?
-  message_logs_webhook_id      BigInt?
-  guild_logs_channel_id        BigInt?
-  guild_logs_webhook_id        BigInt?
-  mod_logs_channel_id          BigInt?
-  mod_logs_webhook_id          BigInt?
-  guild_member_logs_channel_id BigInt?
-  guild_member_logs_webhook_id BigInt?
-  channel_logs_channel_id      BigInt?
-  channel_logs_webhook_id      BigInt?
-  voice_logs_channel_id        BigInt?
-  voice_logs_webhook_id        BigInt?
-  voice_audit_leave_logs_id    BigInt?
-  voice_audit_leave_logs_count Int      @default(0)
-  voice_audit_move_logs_id     BigInt?
-  voice_audit_move_logs_count  Int      @default(0)
-  emoji_logs_channel_id        BigInt?
-  emoji_logs_webhook_id        BigInt?
-  role_logs_channel_id         BigInt?
-  role_logs_webhook_id         BigInt?
-  sticker_logs_channel_id      BigInt?
-  sticker_logs_webhook_id      BigInt?
-  event_logs_channel_id        BigInt?
-  event_logs_webhook_id        BigInt?
-  invite_logs_channel_id       BigInt?
-  invite_logs_webhook_id       BigInt?
-  poll_logs_channel_id         BigInt?
-  poll_logs_webhook_id         BigInt?
-  stage_logs_channel_id        BigInt?
-  stage_logs_webhook_id        BigInt?
-  soundboard_logs_channel_id   BigInt?
-  soundboard_logs_webhook_id   BigInt?
-  thread_logs_channel_id       BigInt?
-  thread_logs_webhook_id       BigInt?
-  webhook_logs_channel_id      BigInt?
-  webhook_logs_webhook_id      BigInt?
+// --------------------------------------------------------
+// MODERATION & PUNISHMENTS
+// --------------------------------------------------------
+
+model Infraction {
+  // Composite Key: No separate "id" column
+  guildId String @map("guild_id")
+  caseId  Int    @map("case_id")
+
+  moderatorId String         @map("moderator_id")
+  userId      String         @map("user_id")
+  reason      String
+  type        InfractionType // Using Enum
+  createdAt   DateTime       @default(now()) @map("created_at") @db.Timestamp(6)
+  expiresAt   DateTime?      @map("expires_at") @db.Timestamp(6)
+
+  guild Guild @relation(fields: [guildId], references: [id], onDelete: Cascade)
+
+  @@id([guildId, caseId])
+  @@map("infractions")
 }
+
+model Punishment {
+  id            Int              @id @default(autoincrement()) // Added PK for management
+  guildId       String           @map("guild_id")
+  userId        String           @map("user_id")
+  staffId       String           @map("staff_id")
+  type          PunishmentAction // Using Enum
+  created_at    DateTime         @default(now()) @map("created_at") @db.Timestamp(6)
+  expiresAt     DateTime         @map("expires_at") @db.Timestamp(6)
+  previousRoles String[]         @map("previous_roles") // Native Array of Strings
+
+  guild Guild @relation(fields: [guildId], references: [id], onDelete: Cascade)
+
+  @@unique([guildId, userId, type], map: "unique_punishments")
+  @@map("punishments")
+}
+
+model GuildPunishmentConfig {
+  guildId  String           @map("guild_id")
+  level    Int
+  action   PunishmentAction
+  duration Int? // Duration in seconds
+
+  guild Guild @relation(fields: [guildId], references: [id], onDelete: Cascade)
+
+  @@id([guildId, level])
+  @@map("guild_punishment_config")
+}
+
+// --------------------------------------------------------
+// MODMAIL SYSTEM
+// --------------------------------------------------------
+
+model ModMailThread {
+  id        Int    @id @default(autoincrement())
+  guildId   String @map("guild_id")
+  userId    String @map("user_id")
+  channelId String @unique(map: "unique_channel_id") @map("channel_id")
+
+  status ModMailStatus @default(OPEN)
+
+  createdAt        DateTime  @default(now()) @map("created_at") @db.Timestamp(6)
+  closedAt         DateTime? @map("closed_at") @db.Timestamp(6)
+  scheduledCloseAt DateTime? @map("scheduled_close_at") @db.Timestamp(6)
+  closerId         String?   @map("closer_id")
+
+  guild    Guild            @relation(fields: [guildId], references: [id], onDelete: Cascade)
+  messages ModMailMessage[]
+
+  @@map("mod_mail_threads")
+}
+
+model ModMailMessage {
+  id        Int    @id @default(autoincrement())
+  threadId  String @map("channel_id") // References Thread.channelId
+  messageId String @map("message_id") // Discord Message ID
+
+  authorId   String            @map("author_id")
+  authorType ModMailAuthorType @map("author_type")
+
+  content String
+  sentTo  SentToType @map("sent_to")
+  sentAt  DateTime   @default(now()) @map("sent_at") @db.Timestamp(6)
+
+  thread ModMailThread @relation(fields: [threadId], references: [channelId], onDelete: Cascade, onUpdate: NoAction)
+
+  @@map("mod_mail_messages")
+}
+
+model ModMailBlacklist {
+  id          Int       @id @default(autoincrement())
+  guildId     String    @map("guild_id")
+  userId      String    @map("user_id")
+  moderatorId String    @map("moderator_id")
+  reason      String
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamp(6)
+  expiresAt   DateTime? @map("expires_at") @db.Timestamp(6)
+
+  guild Guild @relation(fields: [guildId], references: [id], onDelete: Cascade)
+
+  @@map("modmail_blacklist")
+}
+
+// --------------------------------------------------------
+// FEATURES & UTILS
+// --------------------------------------------------------
+
+model BumpLeaderboard {
+  guildId   String @map("guild_id")
+  userId    String @map("user_id")
+  bumpCount Int    @default(1) @map("bump_count")
+
+  guild Guild @relation(fields: [guildId], references: [id], onDelete: Cascade)
+
+  @@id([guildId, userId])
+  @@map("bump_leaderboard")
+}
+
+model CronJob {
+  id                     String    @id // Job ID
+  colorTime              DateTime? @map("color_time") @db.Timestamp(6)
+  unregisteredPeopleTime DateTime? @map("unregistered_people_time") @db.Timestamp(6)
+
+  @@map("cronjobs")
+}
+
+// --------------------------------------------------------
+// ENUMS
+// --------------------------------------------------------
 
 enum PunishmentAction {
-  WARN // Just logs an infraction
+  WARN
+  MUTE
+  TEMPBAN
+  KICK
+  BAN
+}
+
+enum InfractionType {
+  WARN
   MUTE
   KICK
+  BAN
   TEMPBAN
-  BAN // Permanent Ban
+  UNBAN
+  UNMUTE
+  NOTE
 }
 
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-model infractions {
-  id           BigInt    @id @default(autoincrement())
-  guild_id     BigInt
-  moderator_id BigInt
-  case_id      Int
-  user_id      BigInt
-  created_at   DateTime  @db.Timestamp(6)
-  expires_at   DateTime? @db.Timestamp(6)
-  reason       String
-  type         String
-
-  @@unique(id)
+enum ModMailStatus {
+  OPEN
+  CLOSED
 }
 
-model guild_punishment_config {
-  guild_id BigInt
-  level    Int // The infraction number (1, 2, 3, 4, 5)
-  action   PunishmentAction // The action to take (mute, kick, ban, etc.)
-  duration Int? // Optional duration in seconds for MUTE or TEMPBAN
-
-  @@id([guild_id, level]) // Composite key ensures each guild has only one rule per level
+enum ModMailAuthorType {
+  USER
+  STAFF
+  SYSTEM
 }
 
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-model mod_mail_messages {
-  id               BigInt           @id @default(autoincrement())
-  author_id        BigInt
-  sent_at          DateTime         @db.Timestamp(6)
-  message_id       BigInt
-  channel_id       BigInt
-  sent_to          String
-  author_type      String
-  content          String
-  mod_mail_threads mod_mail_threads @relation(fields: [channel_id], references: [channel_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_mod_mail_thread")
-}
-
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-model mod_mail_threads {
-  guild_id          BigInt
-  user_id           BigInt
-  channel_id        BigInt              @unique(map: "unique_channel_id")
-  close_date        DateTime?           @db.Timestamp(6)
-  created_at        DateTime            @db.Timestamp(6)
-  closed_at         DateTime?           @db.Timestamp(6)
-  status            String
-  closer_id         BigInt?
-  id                BigInt              @unique(map: "mod_mail_threads_pk") @default(autoincrement())
-  mod_mail_messages mod_mail_messages[]
-}
-
-model pgmigrations {
-  id     Int      @id @default(autoincrement())
-  name   String   @db.VarChar(255)
-  run_on DateTime @db.Timestamp(6)
-}
-
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-model punishments {
-  guild_id       BigInt
-  created_at     DateTime @db.Timestamp(6)
-  user_id        BigInt
-  expires_at     DateTime @db.Timestamp(6)
-  previous_roles BigInt[]
-  staff_id       BigInt
-  type           String
-
-  @@unique([guild_id, user_id, type], map: "unique_punishments")
-}
-
-model modmail_blacklist {
-  id           BigInt    @id @default(autoincrement())
-  guild_id     BigInt
-  user_id      BigInt
-  created_at   DateTime  @db.Timestamp(6)
-  expires_at   DateTime? @db.Timestamp(6)
-  reason       String
-  moderator_id BigInt
+enum SentToType {
+  USER
+  THREAD
 }
