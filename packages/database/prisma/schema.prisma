@@ -230,8 +230,8 @@ model ModMailMessage {
   authorType ModMailAuthorType @map("author_type")
 
   content String
-  sentTo  SentToType @map("sent_to")
-  sentAt  DateTime   @default(now()) @map("sent_at") @db.Timestamp(6)
+  sentTo  ModMailSentToType @map("sent_to")
+  sentAt  DateTime          @default(now()) @map("sent_at") @db.Timestamp(6)
 
   thread ModMailThread @relation(fields: [threadId], references: [channelId], onDelete: Cascade, onUpdate: NoAction)
 
@@ -309,7 +309,8 @@ enum ModMailAuthorType {
   SYSTEM
 }
 
-enum SentToType {
+enum ModMailSentToType {
   USER
   THREAD
+  COMMAND
 }

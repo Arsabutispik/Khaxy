@@ -1,62 +1,96 @@
 -- =====================================================================
--- STEP 1: SETUP ENUMS & NEW TABLES (Moved to Top)
+-- STEP 1: SETUP ENUMS (Wrapped in Safe Blocks)
 -- =====================================================================
 
--- CreateEnums
+DO $$ BEGIN
 CREATE TYPE "InfractionType" AS ENUM ('WARN', 'MUTE', 'KICK', 'BAN', 'TEMPBAN', 'UNBAN', 'UNMUTE', 'NOTE');
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
+
+DO $$ BEGIN
 CREATE TYPE "ModMailStatus" AS ENUM ('OPEN', 'CLOSED');
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
+
+DO $$ BEGIN
 CREATE TYPE "ModMailAuthorType" AS ENUM ('USER', 'STAFF', 'SYSTEM');
-CREATE TYPE "SentToType" AS ENUM ('USER', 'THREAD');
-CREATE TYPE "PunishmentAction" AS ENUM ('WARN', 'MUTE', 'KICK', 'TEMPBAN', 'BAN');
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
 
--- CreateTable: GuildLogConfigs (Created early so we can move data into it)
-CREATE TABLE "guild_log_configs" (
-                                     "guild_id" TEXT NOT NULL,
-                                     "message_logs_channel_id" TEXT,
-                                     "message_logs_webhook_id" TEXT,
-                                     "guild_logs_channel_id" TEXT,
-                                     "guild_logs_webhook_id" TEXT,
-                                     "mod_logs_channel_id" TEXT,
-                                     "mod_logs_webhook_id" TEXT,
-                                     "guild_member_logs_channel_id" TEXT,
-                                     "guild_member_logs_webhook_id" TEXT,
-                                     "channel_logs_channel_id" TEXT,
-                                     "channel_logs_webhook_id" TEXT,
-                                     "voice_logs_channel_id" TEXT,
-                                     "voice_logs_webhook_id" TEXT,
-                                     "voice_audit_leave_logs_id" TEXT,
-                                     "voice_audit_leave_logs_count" INTEGER NOT NULL DEFAULT 0,
-                                     "voice_audit_move_logs_id" TEXT,
-                                     "voice_audit_move_logs_count" INTEGER NOT NULL DEFAULT 0,
-                                     "emoji_logs_channel_id" TEXT,
-                                     "emoji_logs_webhook_id" TEXT,
-                                     "role_logs_channel_id" TEXT,
-                                     "role_logs_webhook_id" TEXT,
-                                     "sticker_logs_channel_id" TEXT,
-                                     "sticker_logs_webhook_id" TEXT,
-                                     "event_logs_channel_id" TEXT,
-                                     "event_logs_webhook_id" TEXT,
-                                     "invite_logs_channel_id" TEXT,
-                                     "invite_logs_webhook_id" TEXT,
-                                     "poll_logs_channel_id" TEXT,
-                                     "poll_logs_webhook_id" TEXT,
-                                     "stage_logs_channel_id" TEXT,
-                                     "stage_logs_webhook_id" TEXT,
-                                     "soundboard_logs_channel_id" TEXT,
-                                     "soundboard_logs_webhook_id" TEXT,
-                                     "thread_logs_channel_id" TEXT,
-                                     "thread_logs_webhook_id" TEXT,
-                                     "webhook_logs_channel_id" TEXT,
-                                     "webhook_logs_webhook_id" TEXT,
+DO $$ BEGIN
+    -- Note: We rename the type if it exists as the old name, then add the value
+    -- This handles the specific ModMail enum migration logic safely
+CREATE TYPE "ModMailSentType" AS ENUM ('USER', 'THREAD', 'COMMAND');
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
 
-                                     CONSTRAINT "guild_log_configs_pkey" PRIMARY KEY ("guild_id")
-);
+-- Handle legacy name if it exists (SentToType -> ModMailSentType)
+DO $$ BEGIN
+ALTER TYPE "SentToType" RENAME TO "ModMailSentType";
+EXCEPTION
+    WHEN undefined_object THEN null; -- If SentToType doesn't exist, ignore
+WHEN duplicate_object THEN null; -- If ModMailSentType already exists, ignore
+END $$;
+
+DO $$ BEGIN
+CREATE TYPE "PunishmentAction" AS ENUM ('WARN', 'MUTE', 'KICK', 'BAN', 'UNBAN', 'UNMUTE');
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
+
 
 -- =====================================================================
--- STEP 2: DATA RESCUE OPERATIONS (The Magic Part)
+-- STEP 2: CREATE NEW TABLES & RESCUE DATA
 -- =====================================================================
 
--- 2a. Move Logs from 'guilds' to 'guild_log_configs'
+-- CreateTable: GuildLogConfigs
+CREATE TABLE IF NOT EXISTS "guild_log_configs" (
+                                                   "guild_id" TEXT NOT NULL,
+                                                   "message_logs_channel_id" TEXT,
+                                                   "message_logs_webhook_id" TEXT,
+                                                   "guild_logs_channel_id" TEXT,
+                                                   "guild_logs_webhook_id" TEXT,
+                                                   "mod_logs_channel_id" TEXT,
+                                                   "mod_logs_webhook_id" TEXT,
+                                                   "guild_member_logs_channel_id" TEXT,
+                                                   "guild_member_logs_webhook_id" TEXT,
+                                                   "channel_logs_channel_id" TEXT,
+                                                   "channel_logs_webhook_id" TEXT,
+                                                   "voice_logs_channel_id" TEXT,
+                                                   "voice_logs_webhook_id" TEXT,
+                                                   "voice_audit_leave_logs_id" TEXT,
+                                                   "voice_audit_leave_logs_count" INTEGER NOT NULL DEFAULT 0,
+                                                   "voice_audit_move_logs_id" TEXT,
+                                                   "voice_audit_move_logs_count" INTEGER NOT NULL DEFAULT 0,
+                                                   "emoji_logs_channel_id" TEXT,
+                                                   "emoji_logs_webhook_id" TEXT,
+                                                   "role_logs_channel_id" TEXT,
+                                                   "role_logs_webhook_id" TEXT,
+                                                   "sticker_logs_channel_id" TEXT,
+                                                   "sticker_logs_webhook_id" TEXT,
+                                                   "event_logs_channel_id" TEXT,
+                                                   "event_logs_webhook_id" TEXT,
+                                                   "invite_logs_channel_id" TEXT,
+                                                   "invite_logs_webhook_id" TEXT,
+                                                   "poll_logs_channel_id" TEXT,
+                                                   "poll_logs_webhook_id" TEXT,
+                                                   "stage_logs_channel_id" TEXT,
+                                                   "stage_logs_webhook_id" TEXT,
+                                                   "soundboard_logs_channel_id" TEXT,
+                                                   "soundboard_logs_webhook_id" TEXT,
+                                                   "thread_logs_channel_id" TEXT,
+                                                   "thread_logs_webhook_id" TEXT,
+                                                   "webhook_logs_channel_id" TEXT,
+                                                   "webhook_logs_webhook_id" TEXT,
+                                                   CONSTRAINT "guild_log_configs_pkey" PRIMARY KEY ("guild_id")
+    );
+
+-- Move Logs from 'guilds' to 'guild_log_configs'
+-- We use INSERT ON CONFLICT DO NOTHING to allow re-running this script safely
 INSERT INTO "guild_log_configs" (
     "guild_id", "message_logs_channel_id", "message_logs_webhook_id", "guild_logs_channel_id", "guild_logs_webhook_id",
     "mod_logs_channel_id", "mod_logs_webhook_id", "guild_member_logs_channel_id", "guild_member_logs_webhook_id",
@@ -78,43 +112,41 @@ SELECT
     "invite_logs_channel_id"::text, "invite_logs_webhook_id"::text, "poll_logs_channel_id"::text, "poll_logs_webhook_id"::text,
     "stage_logs_channel_id"::text, "stage_logs_webhook_id"::text, "soundboard_logs_channel_id"::text, "soundboard_logs_webhook_id"::text,
     "thread_logs_channel_id"::text, "thread_logs_webhook_id"::text, "webhook_logs_channel_id"::text, "webhook_logs_webhook_id"::text
-FROM "guilds";
+FROM "guilds"
+    ON CONFLICT ("guild_id") DO NOTHING;
 
--- 2b. Move ModMail 'close_date' to 'scheduled_close_at' (Rename Prep)
--- If data exists in close_date, we ensure it's preserved by renaming the column later.
 
 -- =====================================================================
--- STEP 3: SAFE SCHEMA ALTERATIONS
+-- STEP 3: SCHEMA ALTERATIONS
 -- =====================================================================
 
--- Drop Constraints & Indexes first to avoid conflicts
-ALTER TABLE "mod_mail_messages" DROP CONSTRAINT "fk_mod_mail_thread";
+-- Drop Constraints & Indexes
+ALTER TABLE "mod_mail_messages" DROP CONSTRAINT IF EXISTS "fk_mod_mail_thread";
 DROP INDEX IF EXISTS "infractions_id_key";
 DROP INDEX IF EXISTS "mod_mail_threads_pk";
 
--- 3a. Update GUILDS Table (Now safe to drop logs)
-ALTER TABLE "guilds" DROP CONSTRAINT "guilds_pkey";
+-- 3a. Update GUILDS Table
+ALTER TABLE "guilds" DROP CONSTRAINT IF EXISTS "guilds_pkey";
 ALTER TABLE "guilds"
-DROP COLUMN "channel_logs_channel_id", DROP COLUMN "channel_logs_webhook_id",
-    DROP COLUMN "emoji_logs_channel_id", DROP COLUMN "emoji_logs_webhook_id",
-    DROP COLUMN "event_logs_channel_id", DROP COLUMN "event_logs_webhook_id",
-    DROP COLUMN "guild_logs_channel_id", DROP COLUMN "guild_logs_webhook_id",
-    DROP COLUMN "guild_member_logs_channel_id", DROP COLUMN "guild_member_logs_webhook_id",
-    DROP COLUMN "invite_logs_channel_id", DROP COLUMN "invite_logs_webhook_id",
-    DROP COLUMN "message_logs_channel_id", DROP COLUMN "message_logs_webhook_id",
-    DROP COLUMN "mod_logs_channel_id", DROP COLUMN "mod_logs_webhook_id",
-    DROP COLUMN "poll_logs_channel_id", DROP COLUMN "poll_logs_webhook_id",
-    DROP COLUMN "role_logs_channel_id", DROP COLUMN "role_logs_webhook_id",
-    DROP COLUMN "soundboard_logs_channel_id", DROP COLUMN "soundboard_logs_webhook_id",
-    DROP COLUMN "stage_logs_channel_id", DROP COLUMN "stage_logs_webhook_id",
-    DROP COLUMN "sticker_logs_channel_id", DROP COLUMN "sticker_logs_webhook_id",
-    DROP COLUMN "thread_logs_channel_id", DROP COLUMN "thread_logs_webhook_id",
-    DROP COLUMN "voice_audit_leave_logs_count", DROP COLUMN "voice_audit_leave_logs_id",
-    DROP COLUMN "voice_audit_move_logs_count", DROP COLUMN "voice_audit_move_logs_id",
-    DROP COLUMN "voice_logs_channel_id", DROP COLUMN "voice_logs_webhook_id",
-    DROP COLUMN "webhook_logs_channel_id", DROP COLUMN "webhook_logs_webhook_id";
+DROP COLUMN IF EXISTS "channel_logs_channel_id", DROP COLUMN IF EXISTS "channel_logs_webhook_id",
+    DROP COLUMN IF EXISTS "emoji_logs_channel_id", DROP COLUMN IF EXISTS "emoji_logs_webhook_id",
+    DROP COLUMN IF EXISTS "event_logs_channel_id", DROP COLUMN IF EXISTS "event_logs_webhook_id",
+    DROP COLUMN IF EXISTS "guild_logs_channel_id", DROP COLUMN IF EXISTS "guild_logs_webhook_id",
+    DROP COLUMN IF EXISTS "guild_member_logs_channel_id", DROP COLUMN IF EXISTS "guild_member_logs_webhook_id",
+    DROP COLUMN IF EXISTS "invite_logs_channel_id", DROP COLUMN IF EXISTS "invite_logs_webhook_id",
+    DROP COLUMN IF EXISTS "message_logs_channel_id", DROP COLUMN IF EXISTS "message_logs_webhook_id",
+    DROP COLUMN IF EXISTS "mod_logs_channel_id", DROP COLUMN IF EXISTS "mod_logs_webhook_id",
+    DROP COLUMN IF EXISTS "poll_logs_channel_id", DROP COLUMN IF EXISTS "poll_logs_webhook_id",
+    DROP COLUMN IF EXISTS "role_logs_channel_id", DROP COLUMN IF EXISTS "role_logs_webhook_id",
+    DROP COLUMN IF EXISTS "soundboard_logs_channel_id", DROP COLUMN IF EXISTS "soundboard_logs_webhook_id",
+    DROP COLUMN IF EXISTS "stage_logs_channel_id", DROP COLUMN IF EXISTS "stage_logs_webhook_id",
+    DROP COLUMN IF EXISTS "sticker_logs_channel_id", DROP COLUMN IF EXISTS "sticker_logs_webhook_id",
+    DROP COLUMN IF EXISTS "thread_logs_channel_id", DROP COLUMN IF EXISTS "thread_logs_webhook_id",
+    DROP COLUMN IF EXISTS "voice_audit_leave_logs_count", DROP COLUMN IF EXISTS "voice_audit_leave_logs_id",
+    DROP COLUMN IF EXISTS "voice_audit_move_logs_count", DROP COLUMN IF EXISTS "voice_audit_move_logs_id",
+    DROP COLUMN IF EXISTS "voice_logs_channel_id", DROP COLUMN IF EXISTS "voice_logs_webhook_id",
+    DROP COLUMN IF EXISTS "webhook_logs_channel_id", DROP COLUMN IF EXISTS "webhook_logs_webhook_id";
 
--- Convert IDs to Text (using explicit casting)
 ALTER TABLE "guilds" ALTER COLUMN "id" SET DATA TYPE TEXT USING "id"::TEXT;
 ALTER TABLE "guilds" ALTER COLUMN "mod_mail_channel_id" SET DATA TYPE TEXT USING "mod_mail_channel_id"::TEXT;
 ALTER TABLE "guilds" ALTER COLUMN "dj_role_id" SET DATA TYPE TEXT USING "dj_role_id"::TEXT;
@@ -131,97 +163,103 @@ ALTER TABLE "guilds" ALTER COLUMN "male_role_id" SET DATA TYPE TEXT USING "male_
 ALTER TABLE "guilds" ALTER COLUMN "female_role_id" SET DATA TYPE TEXT USING "female_role_id"::TEXT;
 ALTER TABLE "guilds" ALTER COLUMN "bump_leaderboard_channel_id" SET DATA TYPE TEXT USING "bump_leaderboard_channel_id"::TEXT;
 ALTER TABLE "guilds" ALTER COLUMN "unverified_role_id" SET DATA TYPE TEXT USING "unverified_role_id"::TEXT;
-ADD CONSTRAINT "guilds_pkey" PRIMARY KEY ("id");
 
--- 3b. Update INFRACTIONS Table (Convert String Type to Enum Type safely)
-ALTER TABLE "infractions" DROP CONSTRAINT "infractions_pkey";
-ALTER TABLE "infractions" DROP COLUMN "id"; -- Safe to drop random ID, we move to composite key
+ALTER TABLE "guilds" ADD CONSTRAINT "guilds_pkey" PRIMARY KEY ("id");
+
+-- 3b. Update INFRACTIONS Table
+ALTER TABLE "infractions" DROP CONSTRAINT IF EXISTS "infractions_pkey";
+ALTER TABLE "infractions" DROP COLUMN IF EXISTS "id";
 ALTER TABLE "infractions" ALTER COLUMN "guild_id" SET DATA TYPE TEXT USING "guild_id"::TEXT;
 ALTER TABLE "infractions" ALTER COLUMN "moderator_id" SET DATA TYPE TEXT USING "moderator_id"::TEXT;
 ALTER TABLE "infractions" ALTER COLUMN "user_id" SET DATA TYPE TEXT USING "user_id"::TEXT;
 ALTER TABLE "infractions" ALTER COLUMN "created_at" SET DEFAULT CURRENT_TIMESTAMP;
-
--- CASTING STRING TO ENUM (Prevents Data Loss)
 ALTER TABLE "infractions" ALTER COLUMN "type" TYPE "InfractionType" USING UPPER("type")::"InfractionType";
-
-ADD CONSTRAINT "infractions_pkey" PRIMARY KEY ("guild_id", "case_id");
+ALTER TABLE "infractions" ADD CONSTRAINT "infractions_pkey" PRIMARY KEY ("guild_id", "case_id");
 
 -- 3c. Update PUNISHMENTS Table
+ALTER TABLE "punishments" DROP CONSTRAINT IF EXISTS "punishments_pkey";
 ALTER TABLE "punishments" ALTER COLUMN "guild_id" SET DATA TYPE TEXT USING "guild_id"::TEXT;
 ALTER TABLE "punishments" ALTER COLUMN "user_id" SET DATA TYPE TEXT USING "user_id"::TEXT;
 ALTER TABLE "punishments" ALTER COLUMN "staff_id" SET DATA TYPE TEXT USING "staff_id"::TEXT;
 ALTER TABLE "punishments" ALTER COLUMN "created_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "punishments" ALTER COLUMN "previous_roles" SET DATA TYPE TEXT[] USING "previous_roles"::TEXT[];
-ALTER TABLE "punishments" ADD COLUMN "id" SERIAL NOT NULL; -- New ID for management
 
--- CASTING STRING TO ENUM
+-- FIX: We are ADDING the ID column here, so we must use ADD COLUMN, not ALTER
+ALTER TABLE "punishments" ADD COLUMN "id" INTEGER GENERATED BY DEFAULT AS IDENTITY;
+
 ALTER TABLE "punishments" ALTER COLUMN "type" TYPE "PunishmentAction" USING UPPER("type")::"PunishmentAction";
-
-ADD CONSTRAINT "punishments_pkey" PRIMARY KEY ("id");
+ALTER TABLE "punishments" ADD CONSTRAINT "punishments_pkey" PRIMARY KEY ("id");
 
 -- 3d. Update MOD_MAIL_MESSAGES
-ALTER TABLE "mod_mail_messages" DROP CONSTRAINT "mod_mail_messages_pkey";
-ALTER TABLE "mod_mail_messages" ALTER COLUMN "id" SET DATA TYPE SERIAL;
+ALTER TABLE "mod_mail_messages" DROP CONSTRAINT IF EXISTS "mod_mail_messages_pkey";
+
+-- FIX: Messages usually have an ID, so we ALTER it to ensure it's an Integer
+ALTER TABLE "mod_mail_messages" ALTER COLUMN "id" SET DATA TYPE INTEGER USING "id"::integer;
+-- Ensure it is auto-incrementing (Safe block in case it already is)
+
 ALTER TABLE "mod_mail_messages" ALTER COLUMN "author_id" SET DATA TYPE TEXT USING "author_id"::TEXT;
 ALTER TABLE "mod_mail_messages" ALTER COLUMN "sent_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "mod_mail_messages" ALTER COLUMN "message_id" SET DATA TYPE TEXT USING "message_id"::TEXT;
 ALTER TABLE "mod_mail_messages" ALTER COLUMN "channel_id" SET DATA TYPE TEXT USING "channel_id"::TEXT;
 
--- CASTING STRING TO ENUM
--- Note: Assuming old data "User" maps to 'USER', etc. UPPER() helps standardize.
-ALTER TABLE "mod_mail_messages" ALTER COLUMN "sent_to" TYPE "SentToType" USING UPPER("sent_to")::"SentToType";
+ALTER TABLE "mod_mail_messages" ALTER COLUMN "sent_to" TYPE "ModMailSentType" USING UPPER("sent_to")::"ModMailSentType";
 ALTER TABLE "mod_mail_messages" ALTER COLUMN "author_type" TYPE "ModMailAuthorType" USING UPPER("author_type")::"ModMailAuthorType";
-
-ADD CONSTRAINT "mod_mail_messages_pkey" PRIMARY KEY ("id");
+ALTER TABLE "mod_mail_messages" ADD CONSTRAINT "mod_mail_messages_pkey" PRIMARY KEY ("id");
 
 -- 3e. Update MOD_MAIL_THREADS
+ALTER TABLE "mod_mail_threads" DROP CONSTRAINT IF EXISTS "mod_mail_threads_pkey";
 ALTER TABLE "mod_mail_threads" ALTER COLUMN "guild_id" SET DATA TYPE TEXT USING "guild_id"::TEXT;
 ALTER TABLE "mod_mail_threads" ALTER COLUMN "user_id" SET DATA TYPE TEXT USING "user_id"::TEXT;
 ALTER TABLE "mod_mail_threads" ALTER COLUMN "channel_id" SET DATA TYPE TEXT USING "channel_id"::TEXT;
 ALTER TABLE "mod_mail_threads" ALTER COLUMN "closer_id" SET DATA TYPE TEXT USING "closer_id"::TEXT;
 ALTER TABLE "mod_mail_threads" ALTER COLUMN "created_at" SET DEFAULT CURRENT_TIMESTAMP;
-ALTER TABLE "mod_mail_threads" ALTER COLUMN "id" SET DATA TYPE SERIAL;
 
--- Rename close_date to scheduled_close_at (Preserves data)
+-- FIX: Threads usually have an ID, so we ALTER
+ALTER TABLE "mod_mail_threads" ALTER COLUMN "id" SET DATA TYPE INTEGER USING "id"::integer;
+
+DO $$ BEGIN
 ALTER TABLE "mod_mail_threads" RENAME COLUMN "close_date" TO "scheduled_close_at";
+EXCEPTION
+    WHEN undefined_column THEN null;
+END $$;
 
--- Add status column (Default OPEN)
--- If you had a status column before, use ALTER COLUMN ... TYPE ... USING ...
--- If not, just ADD COLUMN:
-ALTER TABLE "mod_mail_threads" DROP COLUMN "status", ADD COLUMN "status" "ModMailStatus" NOT NULL DEFAULT 'OPEN';
+ALTER TABLE "mod_mail_threads" DROP COLUMN IF EXISTS "status";
+ALTER TABLE "mod_mail_threads" ADD COLUMN "status" "ModMailStatus" NOT NULL DEFAULT 'OPEN';
+ALTER TABLE "mod_mail_threads" ADD CONSTRAINT "mod_mail_threads_pkey" PRIMARY KEY ("id");
 
-ADD CONSTRAINT "mod_mail_threads_pkey" PRIMARY KEY ("id");
-
--- 3f. Update Other Tables (Standard ID Updates)
-ALTER TABLE "bump_leaderboard" DROP CONSTRAINT "bump_leaderboard_pkey";
+-- 3f. Update Other Tables
+ALTER TABLE "bump_leaderboard" DROP CONSTRAINT IF EXISTS "bump_leaderboard_pkey";
 ALTER TABLE "bump_leaderboard" ALTER COLUMN "guild_id" SET DATA TYPE TEXT USING "guild_id"::TEXT;
 ALTER TABLE "bump_leaderboard" ALTER COLUMN "user_id" SET DATA TYPE TEXT USING "user_id"::TEXT;
-ADD CONSTRAINT "bump_leaderboard_pkey" PRIMARY KEY ("guild_id", "user_id");
+ALTER TABLE "bump_leaderboard" ADD CONSTRAINT "bump_leaderboard_pkey" PRIMARY KEY ("guild_id", "user_id");
 
-ALTER TABLE "cronjobs" DROP CONSTRAINT "cronjobs_pkey";
+ALTER TABLE "cronjobs" DROP CONSTRAINT IF EXISTS "cronjobs_pkey";
 ALTER TABLE "cronjobs" ALTER COLUMN "id" SET DATA TYPE TEXT USING "id"::TEXT;
-ADD CONSTRAINT "cronjobs_pkey" PRIMARY KEY ("id");
+ALTER TABLE "cronjobs" ADD CONSTRAINT "cronjobs_pkey" PRIMARY KEY ("id");
 
-ALTER TABLE "guild_punishment_config" DROP CONSTRAINT "guild_punishment_config_pkey";
+ALTER TABLE "guild_punishment_config" DROP CONSTRAINT IF EXISTS "guild_punishment_config_pkey";
 ALTER TABLE "guild_punishment_config" ALTER COLUMN "guild_id" SET DATA TYPE TEXT USING "guild_id"::TEXT;
-ADD CONSTRAINT "guild_punishment_config_pkey" PRIMARY KEY ("guild_id", "level");
+ALTER TABLE "guild_punishment_config" ADD CONSTRAINT "guild_punishment_config_pkey" PRIMARY KEY ("guild_id", "level");
 
-ALTER TABLE "modmail_blacklist" DROP CONSTRAINT "modmail_blacklist_pkey";
-ALTER TABLE "modmail_blacklist" ALTER COLUMN "id" SET DATA TYPE SERIAL;
+ALTER TABLE "modmail_blacklist" DROP CONSTRAINT IF EXISTS "modmail_blacklist_pkey";
+
+-- FIX: Blacklist is getting a NEW ID (previously composite), so use ADD COLUMN
+
 ALTER TABLE "modmail_blacklist" ALTER COLUMN "guild_id" SET DATA TYPE TEXT USING "guild_id"::TEXT;
 ALTER TABLE "modmail_blacklist" ALTER COLUMN "user_id" SET DATA TYPE TEXT USING "user_id"::TEXT;
 ALTER TABLE "modmail_blacklist" ALTER COLUMN "moderator_id" SET DATA TYPE TEXT USING "moderator_id"::TEXT;
 ALTER TABLE "modmail_blacklist" ALTER COLUMN "created_at" SET DEFAULT CURRENT_TIMESTAMP;
-ADD CONSTRAINT "modmail_blacklist_pkey" PRIMARY KEY ("id");
+ALTER TABLE "modmail_blacklist" ADD CONSTRAINT "modmail_blacklist_pkey" PRIMARY KEY ("id");
 
 -- Cleanup
 DROP TABLE IF EXISTS "pgmigrations";
 
 -- =====================================================================
--- STEP 4: RESTORE FOREIGN KEYS (Linking it all back together)
+-- STEP 4: RESTORE FOREIGN KEYS
 -- =====================================================================
 
-CREATE UNIQUE INDEX "unique_punishments" ON "punishments"("guild_id", "user_id", "type");
+CREATE UNIQUE INDEX IF NOT EXISTS "unique_punishments" ON "punishments"("guild_id", "user_id", "type");
+
 ALTER TABLE "guild_log_configs" ADD CONSTRAINT "guild_log_configs_guild_id_fkey" FOREIGN KEY ("guild_id") REFERENCES "guilds"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "infractions" ADD CONSTRAINT "infractions_guild_id_fkey" FOREIGN KEY ("guild_id") REFERENCES "guilds"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "punishments" ADD CONSTRAINT "punishments_guild_id_fkey" FOREIGN KEY ("guild_id") REFERENCES "guilds"("id") ON DELETE CASCADE ON UPDATE CASCADE;
