@@ -1,5 +1,4 @@
-import { prisma } from "apps/bot/src/database/index.js";
-import { Prisma, type Infraction, InfractionType } from "../index.js";
+import { Prisma, prisma, type Infraction, InfractionType } from "../index.js";
 
 /**
  * Gets a specific infraction using the composite key.

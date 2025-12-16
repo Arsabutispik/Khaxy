@@ -1,7 +1,6 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { GuildBasedChannel, PermissionsBitField, Role } from "discord.js";
-import { getGuildConfig, updateGuildConfig } from "src/database/index.js";
-import { guilds } from "@repo/database";
+import { getOrCreateGuild, updateGuildConfig, GuildWithLogs, updateGuildLogs, Prisma } from "@repo/database";
 import { logger } from "src/lib/index.js";
 
 // Validation schemas
@@ -120,7 +119,7 @@ export async function botRoutes(fastify: FastifyInstance) {
     async (request: FastifyRequest, reply: FastifyReply) => {
       try {
         const { guildId } = request.params as { guildId: string };
-        const guildConfig = await getGuildConfig(guildId);
+        const guildConfig = await getOrCreateGuild(guildId);
 
         if (!guildConfig) {
           return reply.code(404).send({ error: "Guild configuration not found" });
@@ -192,15 +191,25 @@ export async function botRoutes(fastify: FastifyInstance) {
     async (request: FastifyRequest, reply: FastifyReply) => {
       try {
         const { guildId } = request.params as { guildId: string };
-        const updateData = request.body as Partial<guilds>;
+        const body = request.body as Partial<GuildWithLogs>;
+        const coreData = { ...body };
+        const logConfig = coreData.logConfig;
+        delete coreData.logConfig;
+        delete (coreData as any).punishmentConfigs;
+        if (Object.keys(coreData).length > 0) {
+          await updateGuildConfig(guildId, coreData as Prisma.GuildUpdateInput);
+        }
+        if (logConfig) {
+          const cleanLogData = { ...logConfig };
 
-        const guildConfig = await getGuildConfig(guildId);
-        if (!guildConfig) {
-          return reply.code(404).send({ error: "Guild configuration not found" });
+          if ("guildId" in cleanLogData) {
+            delete (cleanLogData as { guildId?: string }).guildId;
+          }
+
+          await updateGuildLogs(guildId, cleanLogData);
         }
 
-        await updateGuildConfig(guildId, updateData);
-        return await getGuildConfig(guildId);
+        return await getOrCreateGuild(guildId);
       } catch (err) {
         logger.log({ level: "error", message: "Error updating guild configuration", error: err, discord: false });
         return reply.code(500).send({ error: "Failed to update guild configuration" });

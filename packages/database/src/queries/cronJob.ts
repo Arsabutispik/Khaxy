@@ -1,5 +1,4 @@
-import { prisma } from "apps/bot/src/database/index.js";
-import { Prisma, type CronJob } from "../index.js";
+import { Prisma, prisma, type CronJob } from "../index.js";
 
 export async function getAllCronJobs(): Promise<CronJob[]> {
   return prisma.cronJob.findMany();

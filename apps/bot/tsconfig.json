@@ -1,38 +1,25 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "target": "esnext",
-    "module": "ESNext",
-    "moduleResolution": "node",
-    "lib": ["dom", "esnext", "esnext.asynciterable"],
-    "skipLibCheck": true,
-    "sourceMap": true,
-    "inlineSources": true,
+    "target": "ESNext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "outDir": "./dist",
-    "removeComments": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "noImplicitThis": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": false,
-    "noFallthroughCasesInSwitch": true,
-    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "resolveJsonModule": true,
-    "baseUrl": ".",
     "paths": {
       "src/*": ["src/*"],
-      "@database": ["src/database/index.ts"],
-      "@constants": ["src/constants/index.ts"],
-      "@customTypes": ["src/types/index.ts"],
-      "@utils": ["src/utils/index.ts"],
-      "@lib": ["src/lib/index.ts"],
-      "@configFunctions": ["src/config-functions/index.ts"]
-    }
+      "@constants": ["src/constants/index.js"],
+      "@utils": ["src/utils/index.js"],
+      "@lib": ["src/lib/index.js"]
+    },
+
+    "typeRoots": ["../../node_modules/@types", "./node_modules/@types"]
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "coverage"]
+  "include": ["src", "src/types"],
+  "exclude": ["node_modules"]
 }

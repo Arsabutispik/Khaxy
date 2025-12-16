@@ -1,5 +1,4 @@
-import { prisma } from "apps/bot/src/database/index.js";
-import { Prisma } from "../index.js";
+import { Prisma, prisma } from "../index.js";
 
 export type GuildWithLogs = Prisma.GuildGetPayload<{
   include: { logConfig: true; punishmentConfigs: true };

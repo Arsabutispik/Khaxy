@@ -1,5 +1,5 @@
 channelCreate:
-  unknown_executor: Bilinmeyen Yetkili
+  unknownExecutor: Bilinmeyen Yetkili
   embed:
     title: Kanal Oluşturuldu
     description: |-
@@ -7,22 +7,22 @@ channelCreate:
       > **ID**: {{channel.id}}
       > **Kanal Türü**: {{channel_type}}
       > **Oluşturulma Tarihi**: {{timestamp}}
-  channel_types:
-    "0": Metin Kanalı
-    "1": DM Kanalı
-    "2": Ses Kanalı
-    "3": Grup DM Kanalı
-    "4": Kategori Kanalı
-    "5": Haber Kanalı
-    "10": Haber İleti Kanalı
-    "11": Genel İleti Kanalı
-    "12": Özel İleti Kanalı
-    "13": Sahne Kanalı
-    "14": Dizin Kanalı
-    "15": Forum Kanalı
-    "16": Medya Kanalı
+  channelTypes:
+    '0': Metin Kanalı
+    '1': DM Kanalı
+    '2': Ses Kanalı
+    '3': Grup DM Kanalı
+    '4': Kategori Kanalı
+    '5': Haber Kanalı
+    '10': Haber İleti Kanalı
+    '11': Genel İleti Kanalı
+    '12': Özel İleti Kanalı
+    '13': Sahne Kanalı
+    '14': Dizin Kanalı
+    '15': Forum Kanalı
+    '16': Medya Kanalı
 channelDelete:
-  unknown_executor: Bilinmeyen Yetkili
+  unknownExecutor: Bilinmeyen Yetkili
   embed:
     title: Kanal Silindi
     description: |-
@@ -30,37 +30,37 @@ channelDelete:
       > **ID**: {{channel.id}}
       > **Kanal Türü**: {{channel_type}}
       > **Silinme Tarihi**: {{timestamp}}
-  channel_types:
-    "0": Metin Kanalı
-    "1": DM Kanalı
-    "2": Ses Kanalı
-    "3": Grup DM Kanalı
-    "4": Kategori Kanalı
-    "5": Haber Kanalı
-    "10": Haber İleti Kanalı
-    "11": Genel İleti Kanalı
-    "12": Özel İleti Kanalı
-    "13": Sahne Kanalı
-    "14": Dizin Kanalı
-    "15": Forum Kanalı
-    "16": Medya Kanalı
+  channelTypes:
+    '0': Metin Kanalı
+    '1': DM Kanalı
+    '2': Ses Kanalı
+    '3': Grup DM Kanalı
+    '4': Kategori Kanalı
+    '5': Haber Kanalı
+    '10': Haber İleti Kanalı
+    '11': Genel İleti Kanalı
+    '12': Özel İleti Kanalı
+    '13': Sahne Kanalı
+    '14': Dizin Kanalı
+    '15': Forum Kanalı
+    '16': Medya Kanalı
 channelUpdate:
-  channel_types:
-    "0": Metin Kanalı
-    "1": DM Kanalı
-    "2": Ses Kanalı
-    "3": Grup DM Kanalı
-    "4": Kategori Kanalı
-    "5": Haber Kanalı
-    "10": Haber İleti Kanalı
-    "11": Genel İleti Kanalı
-    "12": Özel İleti Kanalı
-    "13": Sahne Kanalı
-    "14": Dizin Kanalı
-    "15": Forum Kanalı
-    "16": Medya Kanalı
-  unknown_executor: Bilinmeyen Yetkili
-  name_change:
+  channelTypes:
+    '0': Metin Kanalı
+    '1': DM Kanalı
+    '2': Ses Kanalı
+    '3': Grup DM Kanalı
+    '4': Kategori Kanalı
+    '5': Haber Kanalı
+    '10': Haber İleti Kanalı
+    '11': Genel İleti Kanalı
+    '12': Özel İleti Kanalı
+    '13': Sahne Kanalı
+    '14': Dizin Kanalı
+    '15': Forum Kanalı
+    '16': Medya Kanalı
+  unknownExecutor: Bilinmeyen Yetkili
+  nameChange:
     embed:
       title: Kanal Adı Değiştirildi
       description: |-
@@ -68,7 +68,7 @@ channelUpdate:
         > **ID**: {{channel.id}}
         > **Eski Kanal Adı**: {{old_name}}
         > **Yeni Kanal Adı**: {{new_name}}
-  topic_change:
+  topicChange:
     embed:
       title: Kanal Konusu Değiştirildi
       description: |-
@@ -76,7 +76,7 @@ channelUpdate:
         > **ID**: {{channel.id}}
         > **Eski Konu**: {{old_topic}}
         > **Yeni Konu**: {{new_topic}}
-  nsfw_change:
+  nsfwChange:
     embed:
       title: Kanal NSFW Durumu Değiştirildi
       description: |-
@@ -84,14 +84,14 @@ channelUpdate:
         > **ID**: {{channel.id}}
         > **Eski Durum**: {{old_nsfw}}
         > **Yeni Durum**: {{new_nsfw}}
-  permissions_change:
+  permissionsChange:
     embed:
       title: Kanal İzinleri Değiştirildi
       description: |-
         > **Kanal**: {{channel.name}} (<#{{channel.id}}>)
         > **ID**: {{channel.id}}
         > **Değiştirilen İzinler**: {{changes}}
-  type_change:
+  typeChange:
     embed:
       title: Kanal Tipi Değiştirildi
       description: |-
@@ -99,7 +99,7 @@ channelUpdate:
         > **ID**: {{channel.id}}
         > **Eski Tip**: {{old_type}}
         > **Yeni Tip**: {{new_type}}
-  bitrate_change:
+  bitrateChange:
     embed:
       title: Ses Kanalı Bithızı Değiştirildi
       description: |-
@@ -107,7 +107,7 @@ channelUpdate:
         > **ID**: {{channel.id}}
         > **Eski Bithızı**: {{old_bitrate}}
         > **Yeni Bithızı**: {{new_bitrate}}
-  user_limit_change:
+  userLimitChange:
     embed:
       title: Ses Kanalı Kullanıcı Limiti Değiştirildi
       description: |-
@@ -115,7 +115,7 @@ channelUpdate:
         > **ID**: {{channel.id}}
         > **Eski Kullanıcı Limiti**: {{old_user_limit}} kullanıcı
         > **Yeni Kullanıcı Limiti**: {{new_user_limit}} kullanıcı
-  rate_limit_change:
+  rateLimitChange:
     embed:
       title: Kanal Yavaş Mod Değiştirildi
       description: |-
@@ -123,7 +123,7 @@ channelUpdate:
         > **ID**: {{channel.id}}
         > **Eski Yavaş Mod Süresi**: {{old_rate_limit}}
         > **Yeni Yavaş Mod Süresi**: {{new_rate_limit}}
-  rtc_region_change:
+  rtcRegionChange:
     region:
       none: Otomatik
       brazil: Brezilya
@@ -145,10 +145,10 @@ channelUpdate:
         > **ID**: {{channel.id}}
         > **Eski RTC Bölgesi**: {{old_rtc_region}}
         > **Yeni RTC Bölgesi**: {{new_rtc_region}}
-  video_quality_mode_change:
+  videoQualityModeChange:
     modes:
-      0: Otomatik
-      1: Tam (720p)
+      '0': Otomatik
+      '1': Tam (720p)
     embed:
       title: Ses Kanalı Görüntü Kalitesi Değiştirildi
       description: |-
@@ -156,12 +156,12 @@ channelUpdate:
         > **ID**: {{channel.id}}
         > **Eski Görüntü Kalitesi**: {{old_video_quality_mode}}
         > **Yeni Görüntü Kalitesi**: {{new_video_quality_mode}}
-  default_archive_duration_change:
+  defaultArchiveDurationChange:
     time:
-      60: 1 Saat
-      1440: 1 Gün
-      4320: 3 Gün
-      10080: 1 Hafta
+      '60': 1 Saat
+      '1440': 1 Gün
+      '4320': 3 Gün
+      '10080': 1 Hafta
     embed:
       title: Forum Kanalı Varsayılan Arşiv Süresi Değişti
       description: |-
@@ -169,7 +169,7 @@ channelUpdate:
         > **ID**: {{channel.id}}
         > **Eski Varsayılan Arşiv Süresi**: {{old_archive_duration}}
         > **Yeni Varsayılan Arşiv Süresi**: {{new_archive_duration}}
-  forum_rate_limit_change:
+  forumRateLimitChange:
     embed:
       title: Forum Kanalı Gönderme Yavaş Mod Süresi Değiştirildi
       description: |-
@@ -177,7 +177,7 @@ channelUpdate:
         > **ID**: {{channel.id}}
         > **Eski Yavaş Mod Süresi**: {{old_rate_limit}}
         > **Yeni Yavaş Mod Süresi**: {{new_rate_limit}}
-  forum_default_thread_rate_limit_change:
+  forumDefaultThreadRateLimitChange:
     embed:
       title: Forum Kanalı Mesaj Yavaş Mod Süresi Değiştirildi
       description: |-
@@ -185,7 +185,7 @@ channelUpdate:
         > **ID**: {{channel.id}}
         > **Eski Yavaş Mod Süresi**: {{old_rate_limit}}
         > **Yeni Yavaş Mod Süresi**: {{new_rate_limit}}
-  forum_default_reaction_emoji_change:
+  forumDefaultReactionEmojiChange:
     embed:
       title: Forum Kanalı Varsayılan Tepki Değiştirildi
       description: |-
@@ -193,10 +193,10 @@ channelUpdate:
         > **ID**: {{channel.id}}
         > **Eski Tepki**: {{old_reaction_emoji}}
         > **Yeni Tepki**: {{new_reaction_emoji}}
-  forum_default_sort_order_change:
+  forumDefaultSortOrderChange:
     modes:
-      0: Son Etkinlik
-      1: Oluşturma Zamanı
+      '0': Son Etkinlik
+      '1': Oluşturma Zamanı
     embed:
       title: Forum Kanalı Sırlama Ölçütü Değiştirildi
       description: |-
@@ -204,7 +204,7 @@ channelUpdate:
         > **ID**: {{channel.id}}
         > **Eski Sıralama Ölçütü**: {{old_sort_order}}
         > **Yeni Sıralama Ölçütü**: {{new_sort_order}}
-  forum_available_tags_change:
+  forumAvailableTagsChange:
     added:
       embed:
         title: Forum Kanalı Etiket Eklendi
@@ -232,11 +232,11 @@ channelUpdate:
           > **İsim**: ~~{{old_tag_name}}~~ -> {{new_tag_name}}
           > **Moderatörlere Özel**: ~~{{old_tag_moderation_only}}~~ -> {{new_tag_moderation_only}}
           > **Emoji**: ~~{{old_tag_emoji}}~~ -> {{new_tag_emoji}}
-  forum_default_forum_layout_change:
+  forumDefaultForumLayoutChange:
     layouts:
-      0: Ayarlanmamış
-      1: Liste Görünümü
-      2: Galeri Görünümü
+      '0': Ayarlanmamış
+      '1': Liste Görünümü
+      '2': Galeri Görünümü
     embed:
       title: Forum Kanalı Varsayılan Düzen Değiştirildi
       description: |-
@@ -244,7 +244,7 @@ channelUpdate:
         > **ID**: {{channel.id}}
         > **Eski Düzen**: {{old_layout}}
         > **Yeni Düzen**: {{new_layout}},
-  forum_nsfw_change:
+  forumNsfwChange:
     embed:
       title: Forum Kanalı NSFW Durumu Değiştirildi
       description: |-
@@ -253,7 +253,7 @@ channelUpdate:
         > **Eski Durum**: {{old_nsfw}}
         > **Yeni Durum**: {{new_nsfw}}
 emojiCreate:
-  unknown_executor: Bilinmeyen Yetkili
+  unknownExecutor: Bilinmeyen Yetkili
   embed:
     title: Emoji Oluşturulfu
     description: |-
@@ -262,7 +262,7 @@ emojiCreate:
       > **Animasyon**: {{emoji_animated}}
       > **Oluşturulma Tarihi**: {{timestamp}}
 emojiDelete:
-  unknown_executor: Bilinmeyen Yetkili
+  unknownExecutor: Bilinmeyen Yetkili
   embed:
     title: Emoji Silindi
     description: |-
@@ -271,8 +271,8 @@ emojiDelete:
       > **Animasyon**: {{emoji_animated}}
       > **Silinme Tarihi**: {{timestamp}}
 emojiUpdate:
-  unknown_executor: Bilinmeyen Yetkili
-  name_change:
+  unknownExecutor: Bilinmeyen Yetkili
+  nameChange:
     embed:
       title: Emoji İsmi Değiştirildi
       description: |-
@@ -280,15 +280,15 @@ emojiUpdate:
         > **Eski İsim**: {{old_name}}
         > **Yeni İsim**: {{new_name}}
 guildAuditLogEntryCreate:
-  unknown_executor: Bilinmeyen Yetkili
-  webhook_create:
+  unknownExecutor: Bilinmeyen Yetkili
+  webhookCreate:
     embed:
       title: Webhook Oluşturuldu
       description: |-
         > **İsim**: {{webhook.name}}
         > **ID**: {{webhook.id}}
         > **Kanal**: {{channel.name}} (<#{{channel.id}}>)
-  webhook_delete:
+  webhookDelete:
     embed:
       title: Webhook Deleted
       description: |-
@@ -304,9 +304,9 @@ guildBanAdd:
       > **Katılma Tarihi**: {{timestamp}}
     fields:
       reason: Sebep
-  no_reason: Sebep belirtilmedi.
-  unknown_executor: Bilinmeyen Yetkili
-  never_joined: Kullanıcı bu sunucuya hiç katılmadı.
+  noReason: Sebep belirtilmedi.
+  unknownExecutor: Bilinmeyen Yetkili
+  neverJoined: Kullanıcı bu sunucuya hiç katılmadı.
 guildBanRemove:
   embed:
     title: Kullanıcının Sunucu Yasağı Kaldırıldı
@@ -324,11 +324,11 @@ guildMemberAdd:
       > **Hesap Yaşı**: {{timestamp}}
       > **Kullanıcı Sayısı**: {{member_count}}
 guildMemberRemove:
-  no_reason: Sebep belirtilmedi.
-  user_left: "**Kullanıcı {{guild}} sunucusundan ayrıldı**"
+  noReason: Sebep belirtilmedi.
+  userLeft: '**Kullanıcı {{guild}} sunucusundan ayrıldı**'
   embed:
     title: Kullanıcı Sunucudan Ayrıldı
-    title_kicked: Kullanıcı Sunucudan Atıldı
+    titleKicked: Kullanıcı Sunucudan Atıldı
     description: |-
       > **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)
       > **ID**: {{user.id}}
@@ -336,12 +336,12 @@ guildMemberRemove:
       > **Kullanıcı Sayısı**: {{member_count}}
     fields:
       reason: Sebep
-  never_joined: Kullanıcı bu sunucuya hiç katılmadı.
-  unknown_executor: Bilinmeyen Yetkili
+  neverJoined: Kullanıcı bu sunucuya hiç katılmadı.
+  unknownExecutor: Bilinmeyen Yetkili
 guildMemberUpdate:
-  unknown_executor: Bilinmeyen Yetkili
+  unknownExecutor: Bilinmeyen Yetkili
   timeout:
-    no_reason: Zaman aşımı için sebep belirtilmedi.
+    noReason: Zaman aşımı için sebep belirtilmedi.
     embed:
       title: Kullanıcı Zaman Aşımına Uğradı
       description: |-
@@ -350,24 +350,24 @@ guildMemberUpdate:
         > **Zaman Aşımı Tarihi**: {{timestamp}}
       fields:
         reason: Sebep
-  remove_timeout:
-    no_reason: Zaman aşımını kaldırmak için sebep belirtilmedi.
+  removeTimeout:
+    noReason: Zaman aşımını kaldırmak için sebep belirtilmedi.
     embed:
       title: Kullanıcının Zaman Aşımı Kaldırıldı
       description: |-
         > **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)
         > **ID**: {{user.id}}
         > **Zaman Aşımı Kaldırma Tarihi**: {{timestamp}}
-  roles_update:
+  rolesUpdate:
     embed:
-      title: "Kullanıcı Rolleri Değiştirildi"
+      title: Kullanıcı Rolleri Değiştirildi
       description: |-
         > **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)
         > **ID**: {{user.id}}
       added: Eklenen Roller
       removed: Kaldırılan Roller
-  nickname_change:
-    no_nickname: Takma Ad Yok.
+  nicknameChange:
+    noNickname: Takma Ad Yok.
     embed:
       title: Kullanıcın Takma Adı Değişti
       description: |-
@@ -376,8 +376,8 @@ guildMemberUpdate:
         > **Eski Takma Ad**: {{old_nickname}}
         > **Yeni Takma Ad**: {{new_nickname}}
 guildScheduledEventCreate:
-  unknown_executor: "Bilinmeyen Yetkili"
-  voice_channel:
+  unknownExecutor: Bilinmeyen Yetkili
+  voiceChannel:
     embed:
       title: Sunucu Etkinliği Oluşturuldu
       description: |-
@@ -386,7 +386,7 @@ guildScheduledEventCreate:
         > **Kanal**: {{event.channel.name}} (<#{{event.channel.id}}>)
         > **Açıklama**: {{event.description}}
         > **Başlama Tarihi**: {{scheduled_start_time}}
-  external_channel:
+  externalChannel:
     embed:
       title: Sunucu Etkinliği Oluşturuldu
       description: |-
@@ -397,7 +397,7 @@ guildScheduledEventCreate:
         > **Başlama Tarihi**: {{scheduled_start_time}}
         > **Bitiş Tarihi**: {{scheduled_end_time}}
 guildScheduledEventDelete:
-  voice_channel:
+  voiceChannel:
     embed:
       title: Sunucu Etkinliği Silindi
       description: |-
@@ -406,7 +406,7 @@ guildScheduledEventDelete:
         > **Kanal**: {{event.channel.name}} (<#{{event.channel.id}}>)
         > **Açıklama**: {{event.description}}
         > **Start Time**: {{scheduled_start_time}}
-  external_channel:
+  externalChannel:
     embed:
       title: Sunucu Etkinliği Silindi
       description: |-
@@ -417,7 +417,7 @@ guildScheduledEventDelete:
         > **Başlama Tarihi**: {{scheduled_start_time}}
         > **Bitiş Tarihi**: {{scheduled_end_time}}
 guildScheduledEventUpdate:
-  location_change:
+  locationChange:
     embed:
       title: Sunucu Etkinliği Lokasyon Değiştirildi
       description: |-
@@ -425,7 +425,7 @@ guildScheduledEventUpdate:
         > **ID**: {{event.id}}
         > **Eski Lokasyon**: {{old_location}}
         > **Yeni Lokasyon**: {{new_location}}
-  description_change:
+  descriptionChange:
     embed:
       title: Sunucu Etkinliği Açıklama Değiştirildi
       description: |-
@@ -433,7 +433,7 @@ guildScheduledEventUpdate:
         > **ID**: {{event.id}}
         > **Eski Açıklama**: {{old_description}}
         > **Yeni Açıklama**: {{new_description}}
-  name_change:
+  nameChange:
     embed:
       title: Sunucu Etkinliği İsim Değiştirildi
       description: |-
@@ -441,7 +441,7 @@ guildScheduledEventUpdate:
         > **ID**: {{event.id}}
         > **Eski İsim**: {{old_name}}
         > **Yeni İsim**: {{new_name}}
-  start_time_change:
+  startTimeChange:
     embed:
       title: Sunucu Etkinliği Başlama Tarihi Değiştirildi
       description: |-
@@ -449,7 +449,7 @@ guildScheduledEventUpdate:
         > **ID**: {{event.id}}
         > **Eski Başlangıç**: {{old_start_time}}
         > **Yeni Başlangıç**: {{new_start_time}}
-  end_time_change:
+  endTimeChange:
     embed:
       title: Sunucu Etkinliği Bitiş Tarihi Değiştirildi
       description: |-
@@ -457,12 +457,12 @@ guildScheduledEventUpdate:
         > **ID**: {{event.id}}
         > **Eski Bitiş**: {{old_end_time}}
         > **Yeni Bitiş**: {{new_end_time}}
-  status_change:
+  statusChange:
     status:
-      1: Planlanmış
-      2: Aktif
-      3: Tamamlanmış
-      4: İptal Edilmiş
+      '1': Planlanmış
+      '2': Aktif
+      '3': Tamamlanmış
+      '4': İptal Edilmiş
     embed:
       title: Sunucu Etkinliği Durumu Değiştirildi
       description: |-
@@ -496,7 +496,7 @@ guildSoundboardSoundCreate:
       > **Ses**: %{{volume}}
       > **Oluşturulma Tarihi**: {{timestamp}}
 guildSoundboardSoundDelete:
-  unknown_executor: Bilinmeyen Yetkili
+  unknownExecutor: Bilinmeyen Yetkili
   embed:
     title: Ses Panosu Silindi
     description: |-
@@ -506,17 +506,17 @@ guildSoundboardSoundDelete:
       > **Ses**: %{{volume}}
       > **Silinme Tarihi**: {{timestamp}}
 guildSoundboardSoundUpdate:
-  unknown_executor: Bilinmeyen Yetkili
-  no_previous_value: Önceki değer yok
-  no_emoji: Emoji yok
-  name_change:
+  unknownExecutor: Bilinmeyen Yetkili
+  noPreviousValue: Önceki değer yok
+  noEmoji: Emoji yok
+  nameChange:
     embed:
       title: Ses Panosu İsmi Değiştirildi
       description: |-
         > **ID**: {{soundboard.id}}
         > **Eski İsim**: {{old_name}}
         > **Yeni İsim**: {{new_name}}
-  emoji_change:
+  emojiChange:
     embed:
       title: Ses Panosu Emojisi Değiştirildi
       description: |-
@@ -524,7 +524,7 @@ guildSoundboardSoundUpdate:
         > **ID**: {{soundboard.id}}
         > **Eski Emoji**: {{old_emoji}}
         > **Yeni Emoji**: {{new_emoji}}
-  volume_change:
+  volumeChange:
     embed:
       title: Ses Panosu Sesi Değiştirildi
       description: |-
@@ -533,61 +533,61 @@ guildSoundboardSoundUpdate:
         > **Eski Ses**: %{{old_volume}}
         > **Yeni Ses**: %{{new_volume}}
 guildUpdate:
-  unknown_executor: Bilinmeyen Yetkili
+  unknownExecutor: Bilinmeyen Yetkili
   none: Yok
-  notification_levels:
-    0: Tüm Mesajlar
-    1: Sadece @bahsetmeler
-  explicit_content_filter_levels:
-    0: Devre Dışı
-    1: Rolü Olmayan Üyeler
-    2: Tüm Üyeler
-  mfa_levels:
-    0: Yok
-    1: Yükseltilmiş
-  verification_levels:
-    0: Yok
-    1: Düşük
-    2: Orta
-    3: Yüksek
-    4: Çok Yüksek
-  afk_channel_change:
+  notificationLevels:
+    '0': Tüm Mesajlar
+    '1': Sadece @bahsetmeler
+  explicitContentFilterLevels:
+    '0': Devre Dışı
+    '1': Rolü Olmayan Üyeler
+    '2': Tüm Üyeler
+  mfaLevels:
+    '0': Yok
+    '1': Yükseltilmiş
+  verificationLevels:
+    '0': Yok
+    '1': Düşük
+    '2': Orta
+    '3': Yüksek
+    '4': Çok Yüksek
+  afkChannelChange:
     embed:
       title: Sunucu AFK Kanalı Değiştirildi
       description: |-
         > **Eski AFK Kanalı**: {{old_channel}}
         > **Yeni AFK Kanalı**: {{new_channel}}
-  afk_timeout_change:
+  afkTimeoutChange:
     embed:
       title: Sunucu AFK Zaman Aşımı Değiştirildi
       description: |-
         > **Eski AFK Zaman Aşımı**: {{old_timeout}}
         > **Yeni AFK Zaman Aşımı**: {{new_timeout}}
-  banner_change:
+  bannerChange:
     embed:
       title: Sunucu Banner'ı Değiştirildi
       description: |-
         > **Eski Banner**: {{old_banner}}
         > **Yeni Banner**: {{new_banner}}
-  default_message_notifications_change:
+  defaultMessageNotificationsChange:
     embed:
       title: Sunucu Varsayılan Mesaj Bildirimleri Değiştirildi
       description: |-
         > **Eski Seviye**: {{old_level}}
         > **Yeni Seviye**: {{new_level}}
-  discovery_splash_change:
+  discoverySplashChange:
     embed:
       title: Sunucu Discovery Splash Değiştirildi
       description: |-
         > **Eski Discovery Splash**: {{old_discovery_splash}}
         > **Yeni Discovery Splash**: {{new_discovery_splash}}
-  explicit_content_filter_change:
+  explicitContentFilterChange:
     embed:
       title: Sunucu Açık İçerik Filtresi Değiştirildi
       description: |-
         > **Eski Seviye**: {{old_level}}
         > **Yeni Seviye**: {{new_level}}
-  features_change:
+  featuresChange:
     embed:
       added: Eklendi
       removed: Kaldırıldı
@@ -595,106 +595,104 @@ guildUpdate:
       description: |-
         > **Eski Özellikler**: {{old_features}}
         > **Yeni Özellikler**: {{new_features}}
-  icon_change:
+  iconChange:
     embed:
       title: Sunucu Simgesi Değiştirildi
       description: |-
         > **Eski Simgesi**: {{old_icon}}
         > **Yeni Simgesi**: {{new_icon}}
-  mfa_level_change:
+  mfaLevelChange:
     embed:
       title: Sunucu MFA Seviyesi Değiştirildi
       description: |-
         > **Eski Seviye**: {{old_level}}
         > **Yeni Seviye**: {{new_level}}
-  name_change:
+  nameChange:
     embed:
       title: Sunucu Adı Değiştirildi
       description: |-
         > **Eski Ad**: {{old_name}}
         > **Yeni Ad**: {{new_name}}
-  description_change:
+  descriptionChange:
     embed:
       title: Sunucu Açıklaması Değiştirildi
       description: |-
         > **Eski Açıklama**: {{old_description}}
         > **Yeni Açıklama**: {{new_description}}
-  owner_change:
+  ownerChange:
     embed:
       title: Sunucu Sahibi Değiştirildi
       description: |-
         > **Eski Sahip**: {{old_owner}}
         > **Yeni Sahip**: {{new_owner}}
-  partnered_change:
+  partneredChange:
     embed:
       title: Sunucu Partner Durumu Değiştirildi
       description: |-
         > **Eski Durum**: {{old_status}}
         > **Yeni Durum**: {{new_status}}
-  preferred_locale_change:
+  preferredLocaleChange:
     embed:
       title: Sunucu Tercih Edilen Dil Değiştirildi
       description: |-
         > **Eski Dil**: {{old_locale}}
         > **Yeni Dil**: {{new_locale}}
-  premium_progress_bar_change:
+  premiumProgressBarChange:
     embed:
       title: Sunucu Boost İlerleme Çubuğu Değiştirildi
       description: |-
         > **Eski Durum**: {{old_progress_bar}}
         > **Yeni Durum**: {{new_progress_bar}}
-  premium_subscription_count_change:
+  premiumSubscriptionCountChange:
     embed:
       title: Sunucu Boost Sayısı Değiştirildi
       description: |-
         > **Eski Sayı**: {{old_count}}
         > **Yeni Sayı**: {{new_count}}
-  premium_tier_change:
+  premiumTierChange:
     embed:
       title: Sunucu Boost Seviyesi Değiştirildi
       description: |-
         > **Eski Seviye**: {{old_level}}
         > **Yeni Seviye**: {{new_level}}
-  rules_channel_change:
+  rulesChannelChange:
     embed:
       title: Sunucu Kurallar Kanalı Değiştirildi
       description: |-
         > **Eski Kurallar Kanalı**: {{old_channel}}
         > **Yeni Kurallar Kanalı**: {{new_channel}}
-  safety_alerts_channel_change:
+  safetyAlertsChannelChange:
     embed:
       title: Sunucu Güvenlik Uyarıları Kanalı Değiştirildi
       description: |-
         > **Eski Güvenlik Uyarıları Kanalı**: {{old_channel}}
         > **Yeni Güvenlik Uyarıları Kanalı**: {{new_channel}}
-  splash_change:
+  splashChange:
     embed:
       title: Sunucu Splash Değiştirildi
       description: |-
         > **Eski Splash**: {{old_splash}}
         > **Yeni Splash**: {{new_splash}}
-  system_channel_change:
+  systemChannelChange:
     embed:
       title: Sunucu Sistem Kanalı Değiştirildi
       description: |-
         > **Eski Sistem Kanalı**: {{old_channel}}
         > **Yeni Sistem Kanalı**: {{new_channel}}
-  vanity_url_code_change:
+  vanityUrlCodeChange:
     embed:
       title: Sunucu Özel URL Değiştirildi
       description: |-
         > **Eski Özel URL**: {{old_code}}
         > **Yeni Özel URL**: {{new_code}}
-  verification_level_change:
+  verificationLevelChange:
     embed:
       title: Sunucu Doğrulama Seviyesi Değiştirildi
       description: |-
         > **Eski Seviye**: {{old_level}}
         > **Yeni Seviye**: {{new_level}}
 interactionCreate:
-  memberMissingPermissions: >-
-    Bu komutu kullanabilmek için gerekli `{{permissions}}` izinlerine sahip
-    değilsiniz.
+  memberMissingPermissions: Bu komutu kullanabilmek için gerekli `{{permissions}}` izinlerine sahip değilsiniz.
 inviteCreate:
   embed:
     title: Davet Oluşturuldu
@@ -704,7 +702,7 @@ inviteCreate:
       > **Geçerlilik Süresi**: {{timestamp}}
       > **Maks Kullanım**: {{usage}}
 inviteDelete:
-  unknown_executor: Bilinmeyen Yetkili
+  unknownExecutor: Bilinmeyen Yetkili
   embed:
     title: Davet Silindi
     description: |-
@@ -712,46 +710,35 @@ inviteDelete:
       > **Kanal**: <#{{invite.channelId}}>
 messageBulkDelete:
   embed:
-    title: "{{count}} Mesaj Silindi"
-    description: "> **Kanal**: {{message.channel.name}} (<#{{message.channel.id}}>)"
-  file_name: silinen_mesajlar.txt
-  message: >-
-    **Mesaj ID:** {{message.id}} **Kullanıcı:** {{message.author.tag}}
-    **İçerik:** {{message.content}}
+    title: '{{count}} Mesaj Silindi'
+    description: '> **Kanal**: {{message.channel.name}} (<#{{message.channel.id}}>)'
+  fileName: silinen_mesajlar.txt
+  message: '**Mesaj ID:** {{message.id}} **Kullanıcı:** {{message.author.tag}} **İçerik:** {{message.content}}'
 messageCreate:
-  mod_mail:
-    blacklisted: >-
-      {{guild}} sunucusunda mod mail kullanmanız yasaklandı. Yasaklanma
-      sebebiniz: **{{reason}}**. Yasaklanma süresinin kalkışı: **{{expires}}**.
+  modMail:
+    blacklisted: '{{guild}} sunucusunda mod mail kullanmanız yasaklandı. Yasaklanma sebebiniz: **{{reason}}**. Yasaklanma süresinin kalkışı: **{{expires}}**.'
     never: Asla
-    initial: >-
+    initial: |-
       `Hesap Yaşı:` **{{account_age}}**, `ID:` **{{user.id}}**
-
-      `Kullanıcı Adı:` **{{user.username}}** (<@{{user.id}}>), `Katılma Tarihi:`
-      **{{join_date}}**
-
+      `Kullanıcı Adı:` **{{user.username}}** (<@{{user.id}}>), `Katılma Tarihi:` **{{join_date}}**
       **»»----------------------------¤----------------------------««**
-    not_member: Sunucunun bir üyesi değilsiniz.
+    notMember: Sunucunun bir üyesi değilsiniz.
     confirm: Evet
     cancel: Hayır
-    confirm_title: Mod Mail Onaylama Düğmesi
-    confirm_description: >-
-      {{guild}} için mod mail konuşmasını onaylamak için aşağıdaki düğmeye
-      tıklayın veya konuşmayı iptal etmek için iptal düğmesine tıklayın.
+    confirmTitle: Mod Mail Onaylama Düğmesi
+    confirmDescription: '{{guild}} için mod mail konuşmasını onaylamak için aşağıdaki düğmeye tıklayın veya konuşmayı iptal etmek için iptal düğmesine tıklayın.'
     timeout: Cevap vermeniz için çok uzun süre bekledim. Mod mail konuşması iptal edildi.
-    cancelled_title: Mod Mail Konuşması İptal Edildi
-    cancelled_description: "{{guild}} için mod mail konuşması iptal edildi."
-    confirmed_title: Mod Mail Konuşması Onaylandı
-    confirmed_description: "{{guild}} için mod mail konuşması onaylandı ve konuşma başladı."
-    parent_channel_missing: >-
-      Üst kanal eksik. Modlar mod mail'in çalışması için üst kanalı
-      ayarlamalıdır.
-    channel_missing: Kanal eksik. Modlar mod mail'in çalışması için kanalı ayarlamalıdır.
-    topic: "{{user}} ile Mod Mail konuşması"
-    error_sending: Mesaj göndermeye çalışırken bir hata oluştu.
-    reopened: "{{user}} modmaile cevap verdi, konuşma kapanmayacak. ({{closer}})"
-    error_inserting: Mesajı veritabanına eklemeye çalışırken bir hata oluştu.
-  poll_create:
+    cancelledTitle: Mod Mail Konuşması İptal Edildi
+    cancelledDescription: '{{guild}} için mod mail konuşması iptal edildi.'
+    confirmedTitle: Mod Mail Konuşması Onaylandı
+    confirmedDescription: '{{guild}} için mod mail konuşması onaylandı ve konuşma başladı.'
+    parentChannelMissing: Üst kanal eksik. Modlar mod mail'in çalışması için üst kanalı ayarlamalıdır.
+    channelMissing: Kanal eksik. Modlar mod mail'in çalışması için kanalı ayarlamalıdır.
+    topic: '{{user}} ile Mod Mail konuşması'
+    errorSending: Mesaj göndermeye çalışırken bir hata oluştu.
+    reopened: '{{user}} modmaile cevap verdi, konuşma kapanmayacak. ({{closer}})'
+    errorInserting: Mesajı veritabanına eklemeye çalışırken bir hata oluştu.
+  pollCreate:
     embed:
       title: Anket Oluşturuldu
       description: |-
@@ -761,20 +748,16 @@ messageCreate:
 messageDelete:
   embed:
     title: Mesaj Silindi
-    description: >-
+    description: |-
       > **Kanal**: {{message.channel.name}} (<#{{message.channel.id}}>)
-
       > **Kullanıcı**: {{message.author.tag}} (<@{{message.author.id}}>)
-
-      > **Mesaj ID**:
-      [{{message.id}}](https://discord.com/channels/{{message.guild.id}}/{{message.channel.id}}/{{message.id}})
-
+      > **Mesaj ID**: [{{message.id}}](https://discord.com/channels/{{message.guild.id}}/{{message.channel.id}}/{{message.id}})
       > **Mesaj Oluşturulma Tarihi**: {{timestamp}}
     fields:
       content: Mesaj
-      attachments: "{{count}} Ek Dosya"
-  skipped_files: ⚠️ Büyük Dosyalar Atlandı
-  poll_delete:
+      attachments: '{{count}} Ek Dosya'
+  skippedFiles: ⚠️ Büyük Dosyalar Atlandı
+  pollDelete:
     embed:
       title: Anket Silindi
       description: |-
@@ -803,7 +786,7 @@ messagePollVoteRemove:
       > **Çoklu Seçme**: {{multi_select}}
       > **Mesaj**: {{message.url}}
 messageUpdate:
-  message_edit: |-
+  messageEdit: |-
     ***Kullanıcı mesajını düzenledi.***
     ```diff
     - {{oldContent}}
@@ -811,17 +794,14 @@ messageUpdate:
     ```
   embed:
     title: Mesaj Düzenlendi
-    description: >-
+    description: |-
       > **Kanal**: {{message.channel.name}} (<#{{message.channel.id}}>)
-
       > **Kullanıcı**: {{message.author.tag}} (<@{{message.author.id}}>)
-
-      > **Mesaj ID**:
-      [{{message.id}}](https://discord.com/channels/{{message.guild.id}}/{{message.channel.id}}/{{message.id}})
+      > **Mesaj ID**: [{{message.id}}](https://discord.com/channels/{{message.guild.id}}/{{message.channel.id}}/{{message.id}})
     fields:
       oldContent: Önceden
       newContent: Sonra
-  poll_end:
+  pollEnd:
     embed:
       title: Anket Sona Erdi
       description: |-
@@ -829,7 +809,7 @@ messageUpdate:
         > **Çoklu Seçme**: {{multi_select}}
         > **Mesaj**: {{message.url}}
 roleCreate:
-  unknown_executor: Bilinmeyen Yetkili
+  unknownExecutor: Bilinmeyen Yetkili
   embed:
     title: Rol Oluşturuldu
     description: |-
@@ -842,7 +822,7 @@ roleCreate:
       > **Oluşturulma Tarihi**: {{timestamp}}
       > **İzinler**: {{permissions}}
 roleDelete:
-  unknown_executor: Bilinmeyen Yetkili
+  unknownExecutor: Bilinmeyen Yetkili
   embed:
     title: Rol Silindi
     description: |-
@@ -855,15 +835,15 @@ roleDelete:
       > **Silinme Tarihi**: {{timestamp}}
       > **İzinler**: {{permissions}}
 roleUpdate:
-  unknown_executor: Bilinmeyen Yetkili
-  name_change:
+  unknownExecutor: Bilinmeyen Yetkili
+  nameChange:
     embed:
       title: Rol İsmi Değiştirildi
       description: |-
         > **ID**: {{role.id}}
         > **Eski İsim**: {{old_name}}
         > **Yeni İsim**: {{new_name}}
-  color_change:
+  colorChange:
     embed:
       title: Rol Rengi Değiştirildi
       description: |-
@@ -871,7 +851,7 @@ roleUpdate:
         > **ID**: {{role.id}}
         > **Eski Renk**: {{old_color}}
         > **Yeni Renk**: {{new_color}}
-  hoist_change:
+  hoistChange:
     embed:
       title: Rol Üyelerden Ayrı Gösterme Değiştirildi
       description: |-
@@ -879,7 +859,7 @@ roleUpdate:
         > **ID**: {{role.id}}
         > **Eski Üyelerden Ayrı Gösterme Durumu**: {{old_hoist}}
         > **Yeni Üyelerden Ayrı Gösterme Durumu**: {{new_hoist}}
-  mentionable_change:
+  mentionableChange:
     embed:
       title: Rol Etiketlenebilirlik Durumu Değiştirildi
       description: |-
@@ -887,14 +867,14 @@ roleUpdate:
         > **ID**: {{role.id}}
         > **Eski Etiketlenebilirlik Durumu**: {{old_mentionable}}
         > **Yeni Etiketlenebilirlik Durumu**: {{new_mentionable}}
-  permissions_change:
+  permissionsChange:
     embed:
       title: Rol İzinleri Değiştirildi
       description: |-
         > **Rol**: {{role.name}}
         > **ID**: {{role.id}}
         **Değişiklikler**: {{changes}}
-  icon_change:
+  iconChange:
     embed:
       title: Role İkonu Değiştirildi
       description: |-
@@ -903,22 +883,22 @@ roleUpdate:
         > **Eski İkon**: {{old_icon}}
         > **Yeni İkon**: {{new_icon}}
 stageInstanceCreate:
-  unknown_executor: Bilinmeyen Yetkili
+  unknownExecutor: Bilinmeyen Yetkili
   embed:
     title: Sahne Başlatıldı
     description: |-
       > **Kanal**: <#{{stage.channelId}}>
       > **Konu**: {{stage.topic}}
 stageInstanceDelete:
-  unknown_executor: Bilinmeyen Yetkili
+  unknownExecutor: Bilinmeyen Yetkili
   embed:
     title: Sahne Bitti
     description: |-
       > **Kanal**: <#{{stage.channelId}}>
       > **Konu**: {{stage.topic}}
 stageInstanceUpdate:
-  unknown_executor: Bilinmeyen Yetkili
-  topic_change:
+  unknownExecutor: Bilinmeyen Yetkili
+  topicChange:
     embed:
       title: Sahne Konusu Değiştirildi
       description: |-
@@ -926,7 +906,7 @@ stageInstanceUpdate:
         > **Eski Konu**: {{old_topic}}
         > **Yeni Konu**: {{new_topic}}
 stickerCreate:
-  unknown_executor: Bilinmeyen Yetkili
+  unknownExecutor: Bilinmeyen Yetkili
   embed:
     title: Çıkartma Eklendi
     description: |-
@@ -935,7 +915,7 @@ stickerCreate:
       > **Açıklama**: {{sticker.description}}
       > **Etiketler**: {{sticker.tags}}
 stickerDelete:
-  unknown_executor: Bilinmeyen Yetkili
+  unknownExecutor: Bilinmeyen Yetkili
   embed:
     title: Çıkartma Silindi
     description: |-
@@ -944,8 +924,8 @@ stickerDelete:
       > **Açıklama**: {{sticker.description}}
       > **Etiketler**: {{sticker.tags}}
 stickerUpdate:
-  unknown_executor: Bilinmeyen Yetkili
-  name_change:
+  unknownExecutor: Bilinmeyen Yetkili
+  nameChange:
     embed:
       title: Çıkartma İsmi Değiştirildi
       description: |-
@@ -953,7 +933,7 @@ stickerUpdate:
         > **ID**: {{sticker.id}}
         > **Eski İsim**: {{old_name}}
         > **Yeni İsim**: {{new_name}}
-  description_change:
+  descriptionChange:
     embed:
       title: Çıkartma Açıklaması Değiştirildi
       description: |-
@@ -961,7 +941,7 @@ stickerUpdate:
         > **ID**: {{sticker.id}}
         > **Eski Açıklama**: {{old_description}}
         > **Yeni Açıklama**: {{new_description}}
-  tags_change:
+  tagsChange:
     embed:
       title: Çıkartma Etiketleri Değiştirildi
       description: |-
@@ -970,11 +950,11 @@ stickerUpdate:
         > **Eski Etiketler**: {{old_tags}}
         > **Yeni Etiketler**: {{new_tags}}
 threadCreate:
-  thread_auto_archive_duration:
-    60: 1 Saat
-    1440: 1 Gün
-    4320: 3 Gün
-    10080: 1 Hafta
+  threadAutoArchiveDuration:
+    '60': 1 Saat
+    '1440': 1 Gün
+    '4320': 3 Gün
+    '10080': 1 Hafta
   embed:
     title: Alt Başlık Oluşturuldu
     description: |-
@@ -984,12 +964,12 @@ threadCreate:
       > **Varsayılan Arşiv Süresi**: {{auto_archive_duration}}
       > **Oluşturulma Tarihi**: {{timestamp}}
 threadDelete:
-  unknown_executor: Bilinmeyen Yetkili
-  thread_auto_archive_duration:
-    60: 1 Saat
-    1440: 1 Gün
-    4320: 3 Gün
-    10080: 1 Hafta
+  unknownExecutor: Bilinmeyen Yetkili
+  threadAutoArchiveDuration:
+    '60': 1 Saat
+    '1440': 1 Gün
+    '4320': 3 Gün
+    '10080': 1 Hafta
   embed:
     title: Alt Başlık Silindi
     description: |-
@@ -999,8 +979,8 @@ threadDelete:
       > **Varsayılan Arşiv Süresi**: {{auto_archive_duration}}
       > **Oluşturuldu**: {{timestamp}}
 threadUpdate:
-  unknown_executor: Bilinmeyen Yetkili
-  name_change:
+  unknownExecutor: Bilinmeyen Yetkili
+  nameChange:
     embed:
       title: Alt Başlık İsmi Değiştirildi
       description: |-
@@ -1037,12 +1017,12 @@ threadUpdate:
         > **Alt Başlık**: {{thread.name}} (<#{{thread.id}}>)
         > **ID**: {{thread.id}}
         > **Oluşturulduğu Kanal**: {{parent.name}} (<#{{parent.id}}>)
-  auto_archive_duration:
-    60: 1 Saat
-    1440: 1 Gün
-    4320: 3 Gün
-    10080: 1 Hafta
-  auto_archive_duration_change:
+  autoArchiveDuration:
+    '60': 1 Saat
+    '1440': 1 Gün
+    '4320': 3 Gün
+    '10080': 1 Hafta
+  autoArchiveDurationChange:
     embed:
       title: Alt Başlık Varsayılan Arşiv Süresi Değiştirildi
       description: |-
@@ -1051,7 +1031,7 @@ threadUpdate:
         > **Oluşturulduğu Kanal**: {{parent.name}} (<#{{parent.id}}>)
         > **Eski Arşiv Süresi**: {{old_duration}}
         > **Yeni Arşiv Süresi**: {{new_duration}}
-  rate_limit_change:
+  rateLimitChange:
     embed:
       title: Alt Başlık Mesaj Yavaş Mod Süresi Değiştirildi
       description: |-
@@ -1061,7 +1041,7 @@ threadUpdate:
         > **Eski Süre**: {{old_rate_limit}}
         > **Yeni Süre**: {{new_rate_limit}}
 voiceStateUpdate:
-  unknown_executor: Bilinmeyen Yetkili
+  unknownExecutor: Bilinmeyen Yetkili
   join:
     embed:
       title: Kullanıcı Sese Katıldı
@@ -1073,7 +1053,7 @@ voiceStateUpdate:
   leave:
     embed:
       title: Kullanıcı Sesten Ayrıldı
-      title_kicked: Kullanıcı Sesten Atıldı
+      titleKicked: Kullanıcı Sesten Atıldı
       description: |-
         > **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)
         > **ID**: {{user.id}}

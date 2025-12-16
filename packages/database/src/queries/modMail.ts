@@ -3,7 +3,7 @@ import {
   Prisma,
   ModMailStatus,
   ModMailAuthorType,
-  SentToType,
+  ModMailSentToType,
   type ModMailThread,
   type ModMailMessage,
   type ModMailBlacklist,
@@ -68,7 +68,7 @@ export async function createThread(
           content: initialMessageContent,
           authorId: userId,
           authorType: ModMailAuthorType.USER,
-          sentTo: SentToType.THREAD, // Goes to the staff channel
+          sentTo: ModMailSentToType.THREAD, // Goes to the staff channel
           messageId: "initial", // Placeholder ID since we don't have the Discord Msg ID yet
         },
       },
@@ -148,8 +148,8 @@ export async function addMessageToThread(
       messageId,
       sentTo:
         authorType === ModMailAuthorType.USER
-          ? SentToType.THREAD
-          : SentToType.USER,
+          ? ModMailSentToType.THREAD
+          : ModMailSentToType.USER,
     },
   });
 }

@@ -1,5 +1,4 @@
-import { prisma } from "apps/bot/src/database/index.js";
-import type { BumpLeaderboard } from "../index.js";
+import { BumpLeaderboard, prisma } from "../index.js";
 
 /**
  * Updates a user's bump count, creating the record if it doesn't exist.

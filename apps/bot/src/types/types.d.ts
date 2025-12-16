@@ -12,6 +12,7 @@ import {
 import { i18n } from "i18next";
 import { Config } from "src/lib/index.js";
 import { InfractionType } from "src/constants/index.js";
+import { GuildWithLogs } from "@repo/database";
 
 declare module "discord.js" {
   interface Client {
@@ -26,7 +27,7 @@ export interface SlashCommandBase {
   memberPermissions?: bigint[];
   clientPermissions?: bigint[];
   data?: SlashCommandBuilder;
-  execute(interaction: ChatInputCommandInteraction<"cached">): unknown;
+  execute(interaction: ChatInputCommandInteraction<"cached">, guildData: GuildWithLogs): unknown;
 }
 
 export interface EventBase<T extends keyof ClientEvents = keyof ClientEvents> {
@@ -73,11 +74,11 @@ export type DynamicChannelTypes =
   | "webhook_logs_channel_id";
 
 export type RoleType =
-  | "member_role_id"
-  | "male_role_id"
-  | "female_role_id"
-  | "colour_id_of_the_day"
-  | "mute_role_id"
-  | "dj_role_id"
-  | "staff_role_id"
-  | "unverified_role_id";
+  | "memberRoleId"
+  | "maleRoleId"
+  | "femaleRoleId"
+  | "colourIdOfTheDay"
+  | "muteRoleId"
+  | "djRoleId"
+  | "staffRoleId"
+  | "unverifiedRoleId";
