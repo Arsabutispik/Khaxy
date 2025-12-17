@@ -301,6 +301,7 @@ enum InfractionType {
 enum ModMailStatus {
   OPEN
   CLOSED
+  SUSPENDED
 }
 
 enum ModMailAuthorType {
