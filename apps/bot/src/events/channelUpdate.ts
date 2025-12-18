@@ -13,7 +13,6 @@ import {
   ForumChannel,
   MediaChannel,
   NonThreadGuildBasedChannel,
-  DMChannel,
 } from "discord.js";
 import { getOrCreateGuild, GuildWithLogs } from "@repo/database";
 import {
