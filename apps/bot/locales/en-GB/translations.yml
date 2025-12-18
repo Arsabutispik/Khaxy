@@ -90,7 +90,7 @@ registerConfig:
     description: Clears the channel after a user registers.
     unset: Register channel clearing is disabled.
     set: Register channel clearing is enabled.
-welcomeLeaveConfig:
+joinLeaveConfig:
   initial: Select the setting you want to update.
   timeout: Message timed out. Please run the command again.
   channelInitial: Select a channel below. If you want to remove the channel, press x and click elsewhere.

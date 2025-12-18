@@ -90,12 +90,12 @@ registerConfig:
     description: Kayıt kanalındaki mesajları temizler
     unset: Kayıt kanalı temizleme işlemi devre dışı bırakıldı.
     set: Kayıt kanalı temizleme işlemi etkinleştirildi.
-welcomeLeaveConfig:
+joinLeaveConfig:
   initial: Güncellemek istediğiniz ayarı seçin.
   timeout: Mesaj zaman aşımına uğradı. Lütfen komutu tekrar çalıştırın.
   channelInitial: Aşağıdaki kanallardan birini seçin. Kanalı kaldırmak istiyorsanız x'e basın ve başka bir yere basın
   roleInitial: Aşağıdaki rollerden birini seçin. Rolü kaldırmak istiyorsanız x'e basın ve başka bir yere basın
-  welcomeChannelId:
+  joinChannelId:
     label: Katılma Kanalını Ayarla
     description: Üye katıldığında gönderilen mesajın gönderildiği kanal
     unset: Katılma kanalı kaldırıldı.
@@ -105,7 +105,7 @@ welcomeLeaveConfig:
     description: Üye ayrıldığında gönderilen mesajın gönderildiği kanal
     unset: Ayrılma kanalı kaldırıldı.
     set: Ayrılma kanalı {{channel}} olarak ayarlandı.
-  welcomeMessage:
+  joinMessage:
     label: Katılma Mesajını Ayarla
     description: Üye katıldığında gönderilen mesaj
     unset: Katılma mesajı kaldırıldı.

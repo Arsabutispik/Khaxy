@@ -4,22 +4,22 @@ import { GuildWithLogs } from "@repo/database";
 
 export async function welcomeLeaveConfig(interaction: ChatInputCommandInteraction<"cached">, guildData: GuildWithLogs) {
   const client = interaction.client;
-  const t = client.i18next.getFixedT(guildData.language, null, "welcomeLeaveConfig");
+  const t = client.i18next.getFixedT(guildData.language, null, "joinLeaveConfig");
   const selectMenu = new StringSelectMenuBuilder()
-    .setCustomId("welcomeLeaveConfig")
+    .setCustomId("joinLeaveConfig")
     .setMinValues(1)
     .setMaxValues(1)
     .setOptions([
       {
-        label: t("welcomeChannelId.label"),
-        value: "welcomeChannelId",
-        description: t("welcomeChannelId.description"),
+        label: t("joinChannelId.label"),
+        value: "joinChannelId",
+        description: t("joinChannelId.description"),
         emoji: "👋",
       },
       {
-        label: t("welcomeMessage.label"),
-        value: "welcomeMessage",
-        description: t("welcomeMessage.description"),
+        label: t("joinMessage.label"),
+        value: "joinMessage",
+        description: t("joinMessage.description"),
         emoji: "📩",
       },
       {
@@ -36,14 +36,14 @@ export async function welcomeLeaveConfig(interaction: ChatInputCommandInteractio
       },
     ]);
   const actionRow = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(selectMenu);
-  const messageComponent = await waitForMessageComponent(interaction, actionRow, t, "welcome_leave_config");
+  const messageComponent = await waitForMessageComponent(interaction, actionRow, t, "joinLeaveConfig");
   if (!messageComponent) return;
   switch (messageComponent.values[0]) {
-    case "welcomeChannelId":
-      await dynamicChannel("welcomeChannelId", messageComponent, guildData, t);
+    case "joinChannelId":
+      await dynamicChannel("joinChannelId", messageComponent, guildData, t);
       break;
-    case "welcomeMessage":
-      await dynamicMessage("welcomeMessage", messageComponent, guildData, t);
+    case "joinMessage":
+      await dynamicMessage("joinMessage", messageComponent, guildData, t);
       break;
     case "leaveChannelId":
       await dynamicChannel("leaveChannelId", messageComponent, guildData, t);

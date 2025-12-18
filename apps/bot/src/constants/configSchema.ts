@@ -18,7 +18,7 @@ export const CONFIG_SCHEMA = {
     "webhookLogsChannelId",
   ],
   registerConfig: ["registerJoinChannelId", "registerChannelId", "registerJoinMessage"],
-  welcomeConfig: ["welcomeChannelId", "leaveChannelId", "welcomeMessage", "leaveMessage"],
+  welcomeConfig: ["joinChannelId", "leaveChannelId", "joinMessage", "leaveMessage"],
   root: [
     "modMailChannelId",
     "bumpLeaderboardChannelId",
