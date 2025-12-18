@@ -5,9 +5,8 @@ import {
   StringSelectMenuInteraction,
 } from "discord.js";
 import { GuildWithLogs, updateGuildConfig } from "@repo/database";
-import { dynamicChannel, dynamicMessage } from "./utils.js";
+import { dynamicChannel, dynamicMessage, waitForMessageComponent } from "./utils.js";
 import { localeFlags } from "src/constants/index.js";
-import { waitForMessageComponent } from "./utils.js";
 import { TFunction } from "i18next";
 
 export async function miscConfig(interaction: ChatInputCommandInteraction<"cached">, guildData: GuildWithLogs) {

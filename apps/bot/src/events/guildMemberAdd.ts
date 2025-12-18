@@ -1,38 +1,31 @@
 import type { EventBase } from "src/types/index.js";
 import { ChannelType, EmbedBuilder, Events, PermissionsBitField, time, TimestampStyles } from "discord.js";
-import { replacePlaceholders, returnWebhook, toStringId, WebhookType } from "src/utils/index.js";
+import { replacePlaceholders, returnWebhook, WebhookType } from "src/utils/index.js";
 import { logger } from "src/lib/index.js";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime.js";
-import { getPunishmentsByUser, getGuildConfig } from "src/database/index.js";
+import { getPunishmentsByUser, getOrCreateGuild } from "@repo/database";
 
 export default {
   name: Events.GuildMemberAdd,
   async execute(member) {
-    // Fetch guild data from the database
-    const guildConfig = await getGuildConfig(member.guild.id);
-
-    // If no guild data is found, exit the function
+    const guildConfig = await getOrCreateGuild(member.guild.id);
     if (!guildConfig) return;
 
-    // Fetch punishment data for the member from the database
     const punishments = await getPunishmentsByUser(member.guild.id, member.id);
 
-    // If punishment data exists and the mute role is present, assign the mute role to the member
-    if (punishments.length > 0 && guildConfig.mute_role_id) {
-      try {
-        await member.roles.add(toStringId(guildConfig.mute_role_id));
-      } catch (error) {
+    if (punishments.length > 0 && guildConfig.muteRoleId) {
+      await member.roles.add(guildConfig.muteRoleId).catch((error) => {
         logger.log({
           level: "error",
-          message: "Error assigning member role",
-          error: error,
+          error,
+          message: "Error reapplying mute role to member on join",
           meta: {
             guildID: member.guild.id,
             userID: member.id,
           },
         });
-      }
+      });
     }
     dayjs.extend(relativeTime);
     const replacements = {
@@ -45,74 +38,89 @@ export default {
       createdAgo: dayjs(member.user.createdAt).fromNow(),
     };
     // If a welcome message and channel are configured, send the welcome message to the channel
-    if (guildConfig.join_message && guildConfig.join_channel_id) {
-      const welcome_channel = await member.guild.channels
-        .fetch(toStringId(guildConfig.join_channel_id))
-        .catch(() => null);
-      if (welcome_channel?.type === ChannelType.GuildText) {
-        if (welcome_channel.permissionsFor(member.guild.members.me!)?.has(PermissionsBitField.Flags.SendMessages))
-          await welcome_channel.send(replacePlaceholders(guildConfig.join_message, replacements));
+    if (guildConfig.joinMessage && guildConfig.joinChannelId) {
+      const welcomeChannel = member.guild.channels.cache.get(guildConfig.joinChannelId);
+      if (
+        welcomeChannel?.type === ChannelType.GuildText &&
+        welcomeChannel.permissionsFor(member.guild.members.me!)?.has(PermissionsBitField.Flags.SendMessages)
+      ) {
+        await welcomeChannel.send(replacePlaceholders(guildConfig.joinMessage, replacements));
       }
     }
-
-    // If no register channel is configured, assign the member role if present and exit the function
-    if (!guildConfig.register_channel_id && guildConfig.member_role_id) {
-      await member.roles.add(toStringId(guildConfig.member_role_id)).catch(() => null);
+    // If the guild does not use the register system and a member role is configured, assign the member role to the member
+    if (!guildConfig.registerJoinMessage && guildConfig.memberRoleId) {
+      await member.roles.add(guildConfig.memberRoleId).catch((error) => {
+        logger.log({
+          level: "error",
+          error,
+          message: "Error assigning member role",
+          meta: {
+            guildID: member.guild.id,
+            userID: member.id,
+          },
+        });
+      });
     }
 
     // If a register welcome message and channel are configured, send the register welcome message to the channel
-    if (guildConfig.register_join_channel_id && guildConfig.register_join_message) {
-      const register_welcome_channel = await member.guild.channels
-        .fetch(toStringId(guildConfig.register_join_channel_id))
-        .catch(() => null);
-      if (register_welcome_channel?.type === ChannelType.GuildText) {
-        if (
-          register_welcome_channel.permissionsFor(member.guild.members.me!)?.has(PermissionsBitField.Flags.SendMessages)
-        )
-          await register_welcome_channel.send(replacePlaceholders(guildConfig.register_join_message, replacements));
+    if (guildConfig.registerJoinChannelId && guildConfig.registerJoinMessage) {
+      const registerWelcomeChannel = member.guild.channels.cache.get(guildConfig.registerJoinChannelId);
+      if (
+        registerWelcomeChannel?.type === ChannelType.GuildText &&
+        registerWelcomeChannel.permissionsFor(member.guild.members.me!)?.has(PermissionsBitField.Flags.SendMessages)
+      ) {
+        await registerWelcomeChannel.send(replacePlaceholders(guildConfig.registerJoinMessage, replacements));
         // If the guild set up an unverified role, assign it to the member
-        if (guildConfig.unverified_role_id) {
-          await member.roles.add(toStringId(guildConfig.unverified_role_id)).catch(() => null);
+        if (guildConfig.unverifiedRoleId) {
+          await member.roles.add(guildConfig.unverifiedRoleId).catch((error) => {
+            logger.log({
+              level: "error",
+              error,
+              message: "Error assigning unverified role",
+              meta: {
+                guildID: member.guild.id,
+                userID: member.id,
+              },
+            });
+          });
         }
       }
     }
-    if (guildConfig.guild_logs_channel_id) {
-      const channel = await member.guild.channels
-        .fetch(toStringId(guildConfig.guild_logs_channel_id))
-        .catch(() => null);
-      if (channel?.type === ChannelType.GuildText) {
-        const webhook = await returnWebhook(member.client, channel, member.guild.id, {
-          id: guildConfig.guild_logs_webhook_id,
-          type: WebhookType.GUILD_LOGS,
-        });
-        const t = member.client.i18next.getFixedT(guildConfig.language, "events", "guildMemberAdd");
-        const embed = new EmbedBuilder()
-          .setTitle(t("embed.title"))
-          .setColor("Green")
-          .setThumbnail(member.user.displayAvatarURL())
-          .setDescription(
-            t("embed.description", {
-              user: member.user,
-              timestamp: time(member.user.createdAt, TimestampStyles.RelativeTime),
-              member_count: member.guild.memberCount.toString(),
-            }),
-          )
-          .setTimestamp();
-        await webhook
-          .send({
-            embeds: [embed],
-            allowedMentions: { parse: [] }, // Prevent mentions in the log
-          })
-          .catch((error) => {
-            logger.log({
-              level: "error",
-              message: "Error sending guild member add log",
-              error: error,
-              guildId: member.guild.id,
-              userId: member.user.id,
-            });
+    if (guildConfig.logConfig?.guildLogsChannelId) {
+      const channel = member.guild.channels.cache.get(guildConfig.logConfig.guildLogsChannelId);
+      if (channel?.type !== ChannelType.GuildText) return;
+      const webhook = await returnWebhook(member.client, channel, member.guild.id, guildConfig, {
+        id: guildConfig.logConfig.guildLogsWebhookId,
+        type: WebhookType.GUILD_LOGS,
+      });
+      const t = member.client.i18next.getFixedT(guildConfig.language, "events", "guildMemberAdd");
+      const embed = new EmbedBuilder()
+        .setTitle(t("embed.title"))
+        .setColor("Green")
+        .setThumbnail(member.user.displayAvatarURL())
+        .setDescription(
+          t("embed.description", {
+            user: member.user,
+            timestamp: time(member.user.createdAt, TimestampStyles.RelativeTime),
+            member_count: member.guild.memberCount.toString(),
+          }),
+        )
+        .setTimestamp();
+      if (!webhook) return;
+      await webhook
+        .send({
+          embeds: [embed],
+          allowedMentions: { parse: [] }, // Prevent mentions in the log
+        })
+        .catch((error) => {
+          logger.log({
+            level: "error",
+            message: "Error sending guild member add log",
+            error: error,
+            guildId: member.guild.id,
+            userId: member.user.id,
           });
-      }
+        });
     }
   },
 } satisfies EventBase<Events.GuildMemberAdd>;

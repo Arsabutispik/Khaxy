@@ -16,3 +16,7 @@ export * from "./check-expired-modmail-blacklists.js";
 export * from "./changed-permissions.js";
 export * from "./changed-forumtags.js";
 export * from "./infractionsPunishment.js";
+export * from "./logGuildScheduledEvent.js";
+export * from "./logGuild.js";
+export * from "./logBan.js";
+export * from "./configHelper.js";

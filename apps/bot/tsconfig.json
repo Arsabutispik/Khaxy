@@ -11,12 +11,6 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "resolveJsonModule": true,
-    "paths": {
-      "src/*": ["src/*"],
-      "@constants": ["src/constants/index.js"],
-      "@utils": ["src/utils/index.js"],
-      "@lib": ["src/lib/index.js"]
-    },
 
     "typeRoots": ["../../node_modules/@types", "./node_modules/@types"]
   },

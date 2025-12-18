@@ -1,8 +1,7 @@
 import type { EventBase } from "src/types/index.js";
 import { AuditLogEvent, Events } from "discord.js";
-import { modLog } from "src/utils/index.js";
+import { modLog, logBanRemove } from "src/utils/index.js";
 import { getOrCreateGuild } from "@repo/database";
-import { logBanRemove } from "src/utils/logBan.js";
 
 export default {
   name: Events.GuildBanRemove,

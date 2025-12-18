@@ -1,6 +1,5 @@
-import { prisma } from "../client";
+import { prisma } from "../client.js";
 import {
-  Prisma,
   ModMailStatus,
   ModMailAuthorType,
   ModMailSentToType,
@@ -48,7 +47,23 @@ export async function getThreadByChannelId(
 }
 
 /**
- * Creates a brand new thread.
+ * Gets all threads belonging to a specific user in a guild.
+ */
+export async function getThreadsByUser(
+  guildId: string,
+  userId: string,
+): Promise<ModMailThread[]> {
+  return prisma.modMailThread.findMany({
+    where: {
+      guildId,
+      userId,
+    },
+    orderBy: { createdAt: "desc" },
+  });
+}
+
+/**
+ * Creates a brand-new thread.
  * Automatically inserts the first message ("Hello, I need help") to keep data clean.
  */
 export async function createThread(

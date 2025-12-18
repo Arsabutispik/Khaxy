@@ -17,11 +17,9 @@ import {
 } from "discord.js";
 import { logger } from "src/lib/index.js";
 import { GuildWithLogs, updateGuildConfig } from "@repo/database";
-import { trimString } from "src/utils/index.js";
+import { trimString, getCurrentValue, getUpdatePayload } from "src/utils/index.js";
 import { TFunction } from "i18next";
-import { DbConfigKey } from "src/constants/configSchema.js";
-import { getCurrentValue, getUpdatePayload } from "src/utils/configHelper.js";
-
+import { DbConfigKey } from "src/constants/index.js";
 export async function waitForMessageComponent(
   interaction: ChatInputCommandInteraction<"cached"> | StringSelectMenuInteraction<"cached">,
   actionRow: ActionRowBuilder<StringSelectMenuBuilder>,
