@@ -1,56 +1,63 @@
 import { EventBase } from "src/types/index.js";
-import { AuditLogEvent, ChannelType, EmbedBuilder, Events } from "discord.js";
-import { getGuildConfig } from "src/database/index.js";
-import { returnWebhook, toStringId, WebhookType } from "src/utils/index.js";
+import { AuditLogEvent, ChannelType, EmbedBuilder, Events, GuildEmoji } from "discord.js";
+import { getOrCreateGuild, GuildWithLogs } from "@repo/database";
+import { returnWebhook, sleep, WebhookType } from "src/utils/index.js";
 import { logger } from "src/lib/index.js";
 
 export default {
   name: Events.GuildEmojiUpdate,
   once: false,
   async execute(oldEmoji, newEmoji) {
-    const guildConfig = await getGuildConfig(newEmoji.guild.id);
+    const guildConfig = await getOrCreateGuild(newEmoji.guild.id);
     if (!guildConfig) return;
-    if (!guildConfig.emoji_logs_channel_id) return;
-    const logChannel = newEmoji.guild.channels.cache.get(toStringId(guildConfig.emoji_logs_channel_id));
-    if (logChannel?.type !== ChannelType.GuildText) return;
-    const auditLogs = await newEmoji.guild
-      .fetchAuditLogs({
-        limit: 1,
-        type: AuditLogEvent.EmojiUpdate,
-      })
-      .catch(() => null);
-    const logEntry = auditLogs?.entries.first();
-    const t = newEmoji.client.i18next.getFixedT(guildConfig.language, "events", "emojiUpdate");
-    const embed = new EmbedBuilder()
-      .setColor("Yellow")
-      .setThumbnail(newEmoji.animated ? newEmoji.imageURL({ extension: "gif" }) : newEmoji.imageURL())
-      .setTimestamp();
-    if (logEntry?.target.id === newEmoji.id) {
-      embed.setFooter({
-        text: logEntry.executor?.username ?? t("unknown_executor"),
-        iconURL: logEntry.executor?.displayAvatarURL() ?? undefined,
-      });
-    }
-    const webhook = await returnWebhook(newEmoji.client, logChannel, newEmoji.guild.id, {
-      id: guildConfig.emoji_logs_webhook_id,
-      type: WebhookType.EMOJI_LOGS,
-    });
-    if (oldEmoji.name !== newEmoji.name) {
-      embed.setTitle(t("name_change.embed.title")).setDescription(
-        t("name_change.embed.description", {
-          emoji: newEmoji,
-          old_name: oldEmoji.name,
-          new_name: newEmoji.name,
-        }),
-      );
-      await webhook.send({ embeds: [embed] }).catch((error) => {
-        logger.log({
-          level: "error",
-          error,
-          message: `Failed to send emojiCreate embed in ${newEmoji.guild.name} (${newEmoji.guild.id})`,
-          channelId: logChannel.id,
-        });
-      });
-    }
+    await logsEmojiUpdate(newEmoji, oldEmoji, guildConfig);
   },
 } satisfies EventBase<Events.GuildEmojiUpdate>;
+
+async function logsEmojiUpdate(oldEmoji: GuildEmoji, newEmoji: GuildEmoji, guildConfig: GuildWithLogs) {
+  if (!guildConfig.logConfig?.guildLogsChannelId) return;
+  const logChannel = newEmoji.guild.channels.cache.get(guildConfig.logConfig.guildLogsChannelId);
+  if (logChannel?.type !== ChannelType.GuildText) return;
+
+  await sleep(2000); // Wait for 2 seconds to ensure audit logs are updated
+
+  const auditLogs = await newEmoji.guild
+    .fetchAuditLogs({
+      limit: 1,
+      type: AuditLogEvent.EmojiUpdate,
+    })
+    .catch(() => null);
+  const logEntry = auditLogs?.entries.first();
+  const executor = logEntry && logEntry.target?.id === newEmoji.id ? logEntry.executor : null;
+  const t = newEmoji.client.i18next.getFixedT(guildConfig.language, "events", "emojiUpdate");
+  const embed = new EmbedBuilder()
+    .setColor("Yellow")
+    .setThumbnail(newEmoji.animated ? newEmoji.imageURL({ extension: "gif" }) : newEmoji.imageURL())
+    .setTimestamp()
+    .setFooter({
+      text: executor?.tag ?? t("unknown_executor"),
+      iconURL: executor?.displayAvatarURL() ?? undefined,
+    });
+  const webhook = await returnWebhook(newEmoji.client, logChannel, newEmoji.guild.id, guildConfig, {
+    id: guildConfig.logConfig.guildLogsWebhookId,
+    type: WebhookType.EMOJI_LOGS,
+  });
+  if (oldEmoji.name !== newEmoji.name) {
+    embed.setTitle(t("name_change.embed.title")).setDescription(
+      t("name_change.embed.description", {
+        emoji: newEmoji,
+        old_name: oldEmoji.name,
+        new_name: newEmoji.name,
+      }),
+    );
+    if (!webhook) return;
+    await webhook.send({ embeds: [embed] }).catch((error) => {
+      logger.log({
+        level: "error",
+        error,
+        message: `Failed to send emojiCreate embed in ${newEmoji.guild.name} (${newEmoji.guild.id})`,
+        channelId: logChannel.id,
+      });
+    });
+  }
+}

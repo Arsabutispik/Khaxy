@@ -7,7 +7,6 @@ import {
   Guild,
   Snowflake,
   Webhook,
-  WebhookType,
 } from "discord.js";
 import { i18n } from "i18next";
 import { Config } from "src/lib/index.js";
@@ -20,7 +19,7 @@ declare module "discord.js" {
     i18next: i18n;
     allEmojis: Collection<string, { name: string; format: string; id?: string }>;
     config: typeof Config;
-    webhooks: Collection<string, Webhook<WebhookType.Incoming | WebhookType.ChannelFollower> | undefined>;
+    webhooks: Collection<string, Webhook | undefined>;
   }
 }
 export interface SlashCommandBase {

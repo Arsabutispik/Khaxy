@@ -301,7 +301,6 @@ guildBanAdd:
     description: |-
       > **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)
       > **ID**: {{user.id}}
-      > **Katılma Tarihi**: {{timestamp}}
     fields:
       reason: Sebep
   noReason: Sebep belirtilmedi.

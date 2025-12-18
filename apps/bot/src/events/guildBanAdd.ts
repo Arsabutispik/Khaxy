@@ -1,27 +1,17 @@
 import type { EventBase } from "src/types/index.js";
-import { AuditLogEvent, ChannelType, EmbedBuilder, Events } from "discord.js";
-import {
-  addInfraction,
-  formatDuration,
-  modLog,
-  returnWebhook,
-  toStringId,
-  WebhookType,
-} from "src/utils/index.js";
-import { logger } from "src/lib/index.js";
-import { getGuildConfig } from "src/database/index.js";
-import { InfractionType } from "src/constants/index.js";
+import { AuditLogEvent, Events } from "discord.js";
+import { modLog, sleep } from "src/utils/index.js";
+import { getOrCreateGuild, InfractionType, createInfraction } from "@repo/database";
+import { logBanAdd } from "src/utils/logBan.js";
 
 export default {
   name: Events.GuildBanAdd,
   async execute(ban) {
-    // Get the guild data from the database
-    const guildConfig = await getGuildConfig(ban.guild.id);
-
-    // If no guild data is found, exit the function
+    const guildConfig = await getOrCreateGuild(ban.guild.id);
     if (!guildConfig) return;
 
-    const t = ban.client.i18next.getFixedT(guildConfig.language, "events", "guildBanAdd");
+    await sleep(2000); // Wait for 2 seconds to ensure audit logs are updated
+
     const auditLogs = await ban.guild
       .fetchAuditLogs({
         limit: 1,
@@ -30,6 +20,8 @@ export default {
       .catch(() => null);
     const logEntry = auditLogs?.entries.first();
     if (logEntry?.executor?.id === ban.client.user.id) return;
+
+    const t = ban.client.i18next.getFixedT(guildConfig.language, "events", "guildBanAdd");
     await modLog(
       {
         guild: ban.guild,
@@ -40,57 +32,20 @@ export default {
       },
       ban.client,
     );
-    await addInfraction({
+    await createInfraction(
+      ban.guild.id,
+      ban.user.id,
+      logEntry?.executor?.id || ban.client.user.id,
+      InfractionType.BAN,
+      ban.reason || logEntry?.reason || t("no_reason"),
+    );
+    await logBanAdd({
       guild: ban.guild,
-      member: ban.user.id,
-      type: InfractionType.BAN,
+      user: ban.user,
       reason: ban.reason || logEntry?.reason || t("no_reason"),
-      moderator: logEntry?.executor?.id || ban.client.user.id,
+      executor: logEntry?.executor ?? null,
+      guildConfig,
+      t,
     });
-
-    const logChannel = ban.guild.channels.cache.get(toStringId(guildConfig.guild_logs_channel_id));
-    if (logChannel?.type !== ChannelType.GuildText) return;
-    const webhook = await returnWebhook(ban.client, logChannel, ban.guild.id, {
-      id: guildConfig.guild_logs_webhook_id,
-      type: WebhookType.GUILD_LOGS,
-    });
-    const member = await ban.guild.members.fetch(ban.user.id).catch(() => null);
-    const embed = new EmbedBuilder()
-      .setTitle(t("embed.title"))
-      .setColor("Red")
-      .setThumbnail(ban.user.displayAvatarURL())
-      .setTimestamp()
-      .setDescription(
-        t("embed.description", {
-          user: ban.user,
-          timestamp:
-            member && member.joinedTimestamp
-              ? formatDuration(Date.now() - member.joinedTimestamp, guildConfig.language)
-              : t("never_joined"),
-        }),
-      )
-      .addFields([
-        {
-          name: t("embed.fields.reason"),
-          value: ban.reason || logEntry?.reason || t("no_reason"),
-        },
-      ])
-      .setFooter({
-        text: logEntry?.executor?.tag || t("unknown_executor"),
-        iconURL: logEntry?.executor?.displayAvatarURL() || undefined,
-      });
-    await webhook
-      .send({
-        embeds: [embed],
-        allowedMentions: { parse: [] }, // Prevent mentions in the log
-      })
-      .catch((error) => {
-        logger.log({
-          level: "error",
-          message: `Failed to send guildBanAdd embed in ${ban.guild.name} (${ban.guild.id})`,
-          error: error,
-          channelId: logChannel.id,
-        });
-      });
   },
 } satisfies EventBase<Events.GuildBanAdd>;

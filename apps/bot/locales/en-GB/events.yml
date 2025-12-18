@@ -301,7 +301,6 @@ guildBanAdd:
     description: |-
       > **User**: {{user.tag}} (<@{{user.id}}>)
       > **ID**: {{user.id}}
-      > **Stayed For**: {{timestamp}}
     fields:
       reason: Reason
   noReason: No reason provided.
