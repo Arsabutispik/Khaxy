@@ -1,8 +1,5 @@
 import { Client, Collection, GatewayIntentBits, Partials } from "discord.js";
 import dotenv from "dotenv";
-import path from "path";
-import fs from "fs";
-import { fileURLToPath, pathToFileURL } from "url";
 import i18next, { initI18n } from "./i18n/index.js";
 import { logger } from "src/lib/index.js";
 import { CronJob } from "cron";
@@ -14,10 +11,9 @@ import {
   RegisterSlashCommands,
   resetBumpLeaderboard,
 } from "src/utils/index.js";
+import { loadEvents } from "./utils/system/eventHandler.js";
 
 dotenv.config();
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const client = new Client({
   intents: [
@@ -49,19 +45,9 @@ client.slashCommands = new Collection();
 client.allEmojis = new Collection();
 client.webhooks = new Collection();
 client.config = (await import("src/lib/index.js")).Config;
-await RegisterSlashCommands(client);
-const eventsPath = path.join(__dirname, "events");
-const eventFiles = fs.readdirSync(eventsPath).filter((file) => file.endsWith(".js"));
 
-for (const file of eventFiles) {
-  const filePath = path.join(eventsPath, file);
-  const event = (await import(pathToFileURL(filePath).href)).default;
-  if (event.once) {
-    client.once(event.name, (...args) => event.execute(...args));
-  } else {
-    client.on(event.name, (...args) => event.execute(...args));
-  }
-}
+await RegisterSlashCommands(client);
+await loadEvents(client);
 
 await client.login(process.env.TOKEN).catch((error) => {
   logger.log({

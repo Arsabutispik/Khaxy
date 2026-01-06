@@ -1,0 +1,14 @@
+import { EventBase } from "@types";
+import { Events } from "discord.js";
+import { getOrCreateGuild } from "../../../../../../../../../var/home/ispik/WebstormProjects/Khaxy/packages/database/src/index.js";
+import { logsEmojiDelete } from "@utils";
+
+export default {
+  name: Events.GuildEmojiDelete,
+  once: false,
+  async execute(emoji) {
+    const guildConfig = await getOrCreateGuild(emoji.guild.id);
+    if (!guildConfig) return;
+    await logsEmojiDelete(emoji, guildConfig);
+  },
+} satisfies EventBase<Events.GuildEmojiDelete>;
