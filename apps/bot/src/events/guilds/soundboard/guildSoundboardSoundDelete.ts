@@ -1,5 +1,5 @@
 import { EventBase } from "@types";
-import {getOrCreateGuild} from "../../../../../../../../../../var/home/ispik/WebstormProjects/Khaxy/packages/database/src/index.js";
+import {getOrCreateGuild} from "../@repo/database";
 import { Events } from "discord.js";
 import { logSoundBoardSoundDelete } from "@utils";
 

@@ -4,7 +4,7 @@ import { replacePlaceholders, returnWebhook, WebhookType } from "@utils";
 import { logger } from "@lib";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime.js";
-import { getPunishmentsByUser, getOrCreateGuild } from "../../../../../../../../../var/home/ispik/WebstormProjects/Khaxy/packages/database/src/index.js";
+import { getPunishmentsByUser, getOrCreateGuild } from "@repo/database";
 
 export default {
   name: Events.GuildMemberAdd,

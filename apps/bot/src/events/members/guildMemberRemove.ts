@@ -3,7 +3,7 @@ import { AuditLogEvent, ChannelType, Events, PermissionsBitField } from "discord
 import { modLog, replacePlaceholders, sleep, logMemberLeave } from "@utils";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime.js";
-import { closeThread, getOrCreateGuild, getThreadsByUser } from "../../../../../../../../../var/home/ispik/WebstormProjects/Khaxy/packages/database/src/index.js";
+import { closeThread, getOrCreateGuild, getThreadsByUser } from "@repo/database";
 export default {
   name: Events.GuildMemberRemove,
   once: false,

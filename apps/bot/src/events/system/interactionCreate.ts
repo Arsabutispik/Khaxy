@@ -8,7 +8,7 @@ import {
   addMessageToThread,
   ModMailAuthorType,
   ModMailSentToType,
-} from "../../../../../../../../../var/home/ispik/WebstormProjects/Khaxy/packages/database/src/index.js";
+} from "@repo/database";
 
 export default {
   name: Events.InteractionCreate,

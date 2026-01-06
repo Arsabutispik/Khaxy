@@ -1,6 +1,6 @@
 import { Events } from "discord.js";
 import { EventBase } from "@types";
-import { getOrCreateGuild } from "../../../../../../../../../var/home/ispik/WebstormProjects/Khaxy/packages/database/src/index.js";
+import { getOrCreateGuild } from "@repo/database";
 import { logGuildUpdate } from "../../utils/logging/guilds/update.js";
 
 export default {

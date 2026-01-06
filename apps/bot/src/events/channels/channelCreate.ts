@@ -1,7 +1,5 @@
 import { EventBase } from "@types";
-import {
-  Events,
-} from "discord.js";
+import { Events } from "discord.js";
 import { getOrCreateGuild } from "@repo/database";
 import { logChannelCreate } from "@utils";
 

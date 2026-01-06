@@ -1,7 +1,7 @@
 import type { EventBase } from "@types";
 import { AuditLogEvent, Events } from "discord.js";
 import { modLog, sleep, logBanAdd } from "@utils";
-import { getOrCreateGuild, InfractionType, createInfraction } from "../../../../../../../../../var/home/ispik/WebstormProjects/Khaxy/packages/database/src/index.js";
+import { getOrCreateGuild, InfractionType, createInfraction } from "@repo/database";
 
 export default {
   name: Events.GuildBanAdd,
