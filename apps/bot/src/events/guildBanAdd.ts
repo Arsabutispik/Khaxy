@@ -1,6 +1,6 @@
-import type { EventBase } from "src/types/index.js";
+import type { EventBase } from "@types";
 import { AuditLogEvent, Events } from "discord.js";
-import { modLog, sleep, logBanAdd } from "src/utils/index.js";
+import { modLog, sleep, logBanAdd } from "@utils";
 import { getOrCreateGuild, InfractionType, createInfraction } from "@repo/database";
 
 export default {

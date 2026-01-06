@@ -1,7 +1,7 @@
-import type { EventBase } from "src/types/index.js";
+import type { EventBase } from "@types";
 import { ChannelType, EmbedBuilder, Events, PermissionsBitField, time, TimestampStyles } from "discord.js";
-import { replacePlaceholders, returnWebhook, WebhookType } from "src/utils/index.js";
-import { logger } from "src/lib/index.js";
+import { replacePlaceholders, returnWebhook, WebhookType } from "@utils";
+import { logger } from "@lib";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime.js";
 import { getPunishmentsByUser, getOrCreateGuild } from "@repo/database";

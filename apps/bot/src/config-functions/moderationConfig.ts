@@ -10,7 +10,7 @@ import {
 } from "discord.js";
 import { GuildWithLogs, updateGuildConfig } from "@repo/database";
 import { waitForMessageComponent, dynamicChannel, dynamicRole } from "./utils.js";
-import { logger } from "src/lib/Logger.js";
+import { logger } from "@lib";
 import { TFunction } from "i18next";
 
 export async function moderationConfig(interaction: ChatInputCommandInteraction<"cached">, guildData: GuildWithLogs) {

@@ -1,7 +1,7 @@
-import { EventBase } from "src/types/index.js";
+import { EventBase } from "@types";
 import { Events } from "discord.js";
 import { getOrCreateGuild } from "@repo/database";
-import { logScheduledEventDelete } from "src/utils/index.js";
+import { logScheduledEventDelete } from "@utils";
 
 export default {
   name: Events.GuildScheduledEventDelete,

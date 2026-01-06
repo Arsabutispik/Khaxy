@@ -1,7 +1,7 @@
-import type { EventBase } from "src/types/index.js";
+import type { EventBase } from "@types";
 import { Events } from "discord.js";
 import { getOrCreateGuild } from "@repo/database";
-import { logMemberUpdate } from "src/utils/index.js";
+import { logMemberUpdate } from "@utils";
 
 export default {
   name: Events.GuildMemberUpdate,

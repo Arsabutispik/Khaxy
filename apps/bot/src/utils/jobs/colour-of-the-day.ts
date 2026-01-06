@@ -4,7 +4,7 @@ import { ntc, toStringId } from "src/utils/index.js";
 import dayjs from "dayjs";
 import { logger } from "src/lib/index.js";
 import { getGuildConfig, getGuilds, updateCronJob, updateGuildConfig } from "src/database/index.js";
-import type { guilds as Guilds } from "@repo/database";
+import type { guilds as Guilds } from "../../../../var/home/ispik/WebstormProjects/Khaxy/packages/database/src/index.js";
 export async function colorUpdate(client: Client) {
   // Fetch guild configurations from the database
   const guilds = await getGuilds();

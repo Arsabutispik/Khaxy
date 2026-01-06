@@ -1,5 +1,5 @@
 import { CONFIG_SCHEMA, DbConfigKey, RelationName } from "src/constants/index.js";
-import { GuildWithLogs } from "@repo/database";
+import { GuildWithLogs } from "../../../../var/home/ispik/WebstormProjects/Khaxy/packages/database/src/index.js";
 
 // Helper to check if a key is in a specific array (Type Guard)
 function isKeyInGroup<K extends string>(key: string, group: readonly string[]): key is K {

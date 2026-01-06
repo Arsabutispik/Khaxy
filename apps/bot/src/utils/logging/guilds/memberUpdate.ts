@@ -1,68 +1,18 @@
+// Helper to fetch audit logs (only when not manual)
+import { LogActionOptions, LogMemberUpdateOptions, sendLogEmbed, modLog, returnWebhook, WebhookType } from "@utils";
 import {
   AuditLogEvent,
   ChannelType,
   EmbedBuilder,
+  Guild,
   GuildMember,
-  PartialGuildMember,
   PartialUser,
   time,
   TimestampStyles,
   User,
-  Webhook,
-  Guild,
 } from "discord.js";
-import type { GuildWithLogs } from "@repo/database";
-import type { TFunction } from "i18next";
-import { formatDuration, returnWebhook, WebhookType } from "src/utils/utils.js";
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime.js";
-import { logger } from "src/lib/index.js";
-import { modLog } from "src/utils/mod-log.js";
-dayjs.extend(relativeTime);
+import { TFunction } from "i18next";
 
-interface BaseLogOptions {
-  guildConfig: GuildWithLogs;
-  t: TFunction;
-}
-
-interface ManualLogOptions extends BaseLogOptions {
-  executor?: User | PartialUser | null;
-  reason?: string;
-}
-
-interface LogKickOptions extends ManualLogOptions {
-  member: GuildMember | PartialGuildMember;
-  isAKick?: boolean;
-}
-
-interface LogMemberUpdateOptions extends BaseLogOptions {
-  oldMember: GuildMember | PartialGuildMember;
-  newMember: GuildMember;
-}
-
-interface LogActionOptions extends ManualLogOptions {
-  member: GuildMember;
-  action: "timeout" | "removeTimeout" | "rolesUpdate" | "nicknameChange";
-  addedRoles?: string[];
-  removedRoles?: string[];
-  oldNickname?: string;
-  newNickname?: string;
-  timeoutUntil?: Date;
-}
-
-// Helper to send webhook embeds with error handling
-async function sendLogEmbed(webhook: Webhook, embeds: EmbedBuilder[], guild: Guild, channelId: string) {
-  await webhook.send({ embeds, allowedMentions: { parse: [] } }).catch((error) => {
-    logger.log({
-      level: "error",
-      message: `Failed to send embed in ${guild.name} (${guild.id})`,
-      error,
-      channelId,
-    });
-  });
-}
-
-// Helper to fetch audit logs (only when not manual)
 async function fetchAuditLog<T extends AuditLogEvent>(guild: Guild, type: T) {
   const auditLogs = await guild.fetchAuditLogs({ limit: 1, type }).catch(() => null);
   return auditLogs?.entries.first();
@@ -183,47 +133,6 @@ function buildNicknameChangeEmbed(
       text: executorInfo.executor?.tag || t("unknown_executor"),
       iconURL: executorInfo.executor?.displayAvatarURL() || undefined,
     });
-}
-
-export async function logMemberKick({ member, reason, executor, guildConfig, t, isAKick }: LogKickOptions) {
-  const channelId = guildConfig.logConfig?.guildLogsChannelId;
-  if (!channelId) return;
-  if (member.guild.bans.cache.has(member.user.id)) return;
-
-  const logChannel = member.guild.channels.cache.get(channelId);
-  if (logChannel?.type !== ChannelType.GuildText) return;
-
-  const webhook = await returnWebhook(member.client, logChannel, member.guild.id, guildConfig, {
-    id: guildConfig.logConfig?.guildLogsWebhookId,
-    type: WebhookType.GUILD_LOGS,
-  });
-  if (!webhook) return;
-
-  const embed = new EmbedBuilder()
-    .setTitle(isAKick ? t("embed.title_kicked") : t("embed.title"))
-    .setColor("Red")
-    .setThumbnail(member.user.displayAvatarURL())
-    .setDescription(
-      t("embed.description", {
-        user: member.user,
-        member_count: member.guild.memberCount.toString(),
-        timestamp: member.joinedTimestamp
-          ? formatDuration(Date.now() - member.joinedTimestamp, guildConfig.language)
-          : t("never_joined"),
-      }),
-    )
-    .setTimestamp();
-
-  if (isAKick) {
-    embed
-      .setFooter({
-        text: executor?.tag || t("unknown_executor"),
-        iconURL: executor?.displayAvatarURL(),
-      })
-      .addFields([{ name: t("embed.fields.reason"), value: reason || t("no_reason") }]);
-  }
-
-  await sendLogEmbed(webhook, [embed], member.guild, logChannel.id);
 }
 
 /**

@@ -1,6 +1,6 @@
 import { ActionRowBuilder, ChatInputCommandInteraction, StringSelectMenuBuilder } from "discord.js";
 import { dynamicRole, waitForMessageComponent } from "./utils.js";
-import { RoleType } from "src/types/index.js";
+import { RoleType } from "@types";
 import { GuildWithLogs } from "@repo/database";
 
 export async function roleConfig(interaction: ChatInputCommandInteraction<"cached">, guildData: GuildWithLogs) {

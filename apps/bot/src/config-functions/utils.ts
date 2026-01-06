@@ -15,11 +15,11 @@ import {
   TextInputBuilder,
   TextInputStyle,
 } from "discord.js";
-import { logger } from "src/lib/index.js";
+import { logger } from "@lib";
 import { GuildWithLogs, updateGuildConfig } from "@repo/database";
-import { trimString, getCurrentValue, getUpdatePayload } from "src/utils/index.js";
+import { trimString, getCurrentValue, getUpdatePayload } from "@utils";
 import { TFunction } from "i18next";
-import { DbConfigKey } from "src/constants/index.js";
+import { DbConfigKey } from "@constants";
 export async function waitForMessageComponent(
   interaction: ChatInputCommandInteraction<"cached"> | StringSelectMenuInteraction<"cached">,
   actionRow: ActionRowBuilder<StringSelectMenuBuilder>,

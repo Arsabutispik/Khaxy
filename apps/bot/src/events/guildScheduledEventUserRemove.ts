@@ -1,11 +1,7 @@
-import { EventBase } from "src/types/index.js";
-import { ChannelType, EmbedBuilder, Events, GuildScheduledEvent, User } from "discord.js";
+import { EventBase } from "@types";
+import { Events } from "discord.js";
 import { getOrCreateGuild } from "@repo/database";
-import { returnWebhook, WebhookType } from "src/utils/index.js";
-import { logger } from "src/lib/index.js";
-import { GuildWithLogs } from "@repo/database";
-import { TFunction } from "i18next";
-
+import { logScheduledEventUserRemove } from "@utils";
 export default {
   name: Events.GuildScheduledEventUserRemove,
   once: false,
@@ -19,39 +15,3 @@ export default {
     await logScheduledEventUserRemove(event, user, guildConfig, t);
   },
 } satisfies EventBase<Events.GuildScheduledEventUserRemove>;
-
-async function logScheduledEventUserRemove(
-  event: GuildScheduledEvent,
-  user: User,
-  guildConfig: GuildWithLogs,
-  t: TFunction,
-) {
-  if (!event.guild) return;
-  if (!guildConfig.logConfig?.eventLogsChannelId) return;
-  const logChannel = event.guild.channels.cache.get(guildConfig.logConfig.eventLogsChannelId);
-  if (logChannel?.type !== ChannelType.GuildText) return;
-  const embed = new EmbedBuilder()
-    .setColor("Red")
-    .setTitle(t("embed.title"))
-    .setDescription(
-      t("embed.description", {
-        event,
-        user,
-      }),
-    )
-    .setTimestamp()
-    .setThumbnail(user.displayAvatarURL() ?? event.coverImageURL() ?? event.guild.iconURL());
-  const webhook = await returnWebhook(event.client, logChannel, event.guild.id, guildConfig, {
-    id: guildConfig.logConfig?.eventLogsWebhookId,
-    type: WebhookType.EVENT_LOGS,
-  });
-  if (!webhook) return;
-  await webhook.send({ embeds: [embed] }).catch((error) => {
-    logger.log({
-      level: "error",
-      error,
-      message: `Failed to send guildScheduledEventUserRemove embed in ${event.guild?.name} (${event.guild?.id})`,
-      channelId: logChannel.id,
-    });
-  });
-}

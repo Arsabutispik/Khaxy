@@ -1,6 +1,6 @@
-import type { EventBase } from "src/types/index.js";
+import type { EventBase } from "@types";
 import { AuditLogEvent, ChannelType, Events, PermissionsBitField } from "discord.js";
-import { modLog, replacePlaceholders, sleep, logMemberKick } from "src/utils/index.js";
+import { modLog, replacePlaceholders, sleep, logMemberLeave } from "@utils";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime.js";
 import { closeThread, getOrCreateGuild, getThreadsByUser } from "@repo/database";
@@ -62,7 +62,7 @@ export default {
       );
     }
 
-    await logMemberKick({ member, reason: logEntry?.reason || t("no_reason"), executor, guildConfig, t, isAKick });
+    await logMemberLeave({ member, reason: logEntry?.reason || t("no_reason"), executor, guildConfig, t, isAKick });
 
     const threadRows = await getThreadsByUser(member.guild.id, member.user.id);
     for (const thread of threadRows) {

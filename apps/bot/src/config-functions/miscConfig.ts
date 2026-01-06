@@ -6,7 +6,7 @@ import {
 } from "discord.js";
 import { GuildWithLogs, updateGuildConfig } from "@repo/database";
 import { dynamicChannel, dynamicMessage, waitForMessageComponent } from "./utils.js";
-import { localeFlags } from "src/constants/index.js";
+import { localeFlags } from "@constants";
 import { TFunction } from "i18next";
 
 export async function miscConfig(interaction: ChatInputCommandInteraction<"cached">, guildData: GuildWithLogs) {

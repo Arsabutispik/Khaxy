@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import { logger } from "src/lib/index.js";
 import { toStringId, modLog } from "src/utils/index.js";
 import { getGuildConfig, getGuilds, updateCronJob } from "src/database/index.js";
-import type { guilds as Guilds } from "@repo/database";
+import type { guilds as Guilds } from "../../../../var/home/ispik/WebstormProjects/Khaxy/packages/database/src/index.js";
 
 export async function unregisteredPeopleUpdate(client: Client) {
   // Fetch guild configurations from the database

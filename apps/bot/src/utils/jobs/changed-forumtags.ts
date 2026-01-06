@@ -14,7 +14,7 @@ type TagChanges = {
   }[];
 };
 
-function diffGuildForumTags(oldTags: GuildForumTag[], newTags: GuildForumTag[]): TagChanges {
+export function diffGuildForumTags(oldTags: GuildForumTag[], newTags: GuildForumTag[]): TagChanges {
   const added = newTags.filter((n) => !oldTags.some((o) => o.id === n.id));
   const removed = oldTags.filter((o) => !newTags.some((n) => n.id === o.id));
   const updated: TagChanges["updated"] = [];
@@ -50,5 +50,3 @@ function diffGuildForumTags(oldTags: GuildForumTag[], newTags: GuildForumTag[]):
 
   return { added, removed, updated };
 }
-
-export { diffGuildForumTags };
