@@ -63,6 +63,21 @@ export async function getThreadsByUser(
 }
 
 /**
+ * Finds ANY open thread for a user.
+ * specific for DM events where we don't know the target guild yet.
+ */
+export async function findAnyOpenThread(
+  userId: string,
+): Promise<ModMailThread | null> {
+  return prisma.modMailThread.findFirst({
+    where: {
+      userId,
+      status: ModMailStatus.OPEN,
+    },
+  });
+}
+
+/**
  * Creates a brand-new thread.
  * Automatically inserts the first message ("Hello, I need help") to keep data clean.
  */
@@ -166,6 +181,20 @@ export async function addMessageToThread(
           ? ModMailSentToType.THREAD
           : ModMailSentToType.USER,
     },
+  });
+}
+
+/**
+ * Updates the content of a logged ModMail message.
+ * Uses updateMany because 'messageId' might not be unique in schema (though it should be in practice).
+ */
+export async function updateModMailMessage(
+  discordMessageId: string,
+  newContent: string,
+): Promise<void> {
+  await prisma.modMailMessage.updateMany({
+    where: { messageId: discordMessageId },
+    data: { content: newContent },
   });
 }
 
