@@ -53,7 +53,7 @@ export async function checkPunishments(client: Client) {
       const member = await guild.members.fetch(user.id).catch(() => null);
       if (!member) continue;
 
-      const muteRoleId = toStringId(guildConfig.mute_role_id);
+      const muteRoleId = guildConfig.muteRoleId;
 
       // 1. Calculate which roles to restore (that still exist in the guild)
       const rolesToRestore = punishment.previousRoles.filter(

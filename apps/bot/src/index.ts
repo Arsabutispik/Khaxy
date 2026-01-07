@@ -9,7 +9,6 @@ import {
   checkPunishments,
   colorUpdate,
   RegisterSlashCommands,
-  resetBumpLeaderboard,
 } from "src/utils/index.js";
 import { loadEvents } from "./utils/system/eventHandler.js";
 
@@ -85,12 +84,6 @@ CronJob.from({
       discord: false,
     });
   },
-  start: true,
-  timeZone: "UTC",
-});
-CronJob.from({
-  cronTime: "0 0 1 * *",
-  onTick: () => resetBumpLeaderboard(client),
   start: true,
   timeZone: "UTC",
 });

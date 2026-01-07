@@ -1,4 +1,4 @@
-import { prisma } from "../client";
+import { prisma } from "../client.js";
 import { Prisma, PunishmentAction, type Punishment } from "@prisma/client";
 
 /**
@@ -116,15 +116,15 @@ export async function deletePunishment(
 }
 
 /**
- * Bulk delete used by the Cron Job after it has processed the unmutes.
- * Accepts an array of Database IDs (Int) to be safe.
+ * Delete expired punishments (Bans/Mutes that have served their time).
+ * Called automatically after the punishment check verifies them.
  */
-export async function deletePunishmentsById(ids: number[]): Promise<void> {
-  if (ids.length === 0) return;
-
+export async function deleteExpiredPunishments(): Promise<void> {
   await prisma.punishment.deleteMany({
     where: {
-      id: { in: ids },
+      expiresAt: {
+        lt: new Date(), // "Less Than" now
+      },
     },
   });
 }

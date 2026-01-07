@@ -262,9 +262,8 @@ model BumpLeaderboard {
 }
 
 model CronJob {
-  id                     String    @id // Job ID
-  colorTime              DateTime? @map("color_time") @db.Timestamp(6)
-  unregisteredPeopleTime DateTime? @map("unregistered_people_time") @db.Timestamp(6)
+  id        String    @id // Job ID
+  colorTime DateTime? @map("color_time") @db.Timestamp(6)
 
   @@map("cronjobs")
 }

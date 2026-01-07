@@ -48,3 +48,12 @@ export async function deleteGuildConfig(guildId: string) {
     where: { id: guildId },
   });
 }
+
+export async function getGuildConfigs(): Promise<GuildWithLogs[]> {
+  return await prisma.guild.findMany({
+    include: {
+      logConfig: true,
+      punishmentConfigs: true,
+    },
+  });
+}

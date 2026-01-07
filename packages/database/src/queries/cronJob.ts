@@ -40,6 +40,27 @@ export async function saveCronJob(
 }
 
 /**
+ * Updates a cron job setting, creating the row if it doesn't exist.
+ */
+export async function updateCronJob(
+  guildId: string,
+  data: Prisma.CronJobUpdateInput,
+): Promise<CronJob> {
+  return prisma.cronJob.upsert({
+    where: { id: guildId },
+    // If updating, just apply the changes
+    update: data,
+    // If creating, we MUST ensure the object is valid.
+    // We spread 'data' but we must ensure it matches CreateInput structure.
+    // If your schema has other required fields, provide defaults here!
+    create: {
+      id: guildId,
+      ...(data as any), // 'any' is safer here than a direct type cast if you are sure data contains scalars
+    },
+  });
+}
+
+/**
  * Deletes a cron configuration entirely.
  */
 export async function deleteCronJob(guildId: string): Promise<void> {

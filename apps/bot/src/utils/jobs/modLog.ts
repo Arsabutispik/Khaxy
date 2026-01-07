@@ -4,9 +4,9 @@ import "dayjs/locale/en.js";
 import "dayjs/locale/tr.js";
 import { ChannelType, Client, Guild, User } from "discord.js";
 import type { PartialUser } from "discord.js";
-import { logger } from "src/lib/index.js";
-import { returnWebhook, toStringId, WebhookType } from "src/utils/index.js";
-import { createGuildConfig, getGuildConfig, updateGuildConfig } from "src/database/index.js";
+import { logger } from "@lib";
+import { returnWebhook, WebhookType } from "@utils";
+import { getOrCreateGuild, updateGuildConfig } from "@repo/database";
 
 // Define the possible actions for the mod log
 type actions =
@@ -35,49 +35,13 @@ export async function modLog(
 ) {
   const { guild, user, action, moderator, reason, duration, caseID } = data;
   // Fetch guild configuration from the database
-  let guildConfig = await getGuildConfig(guild.id);
-  // If no guild configuration is found, create a new one
-  if (!guildConfig) {
-    try {
-      logger.log({
-        level: "warning",
-        message: `No guild config found for ${guild.id}. Creating a new one.`,
-        discord: false,
-      });
-      await createGuildConfig(guild.id, {});
-      logger.log({
-        level: "info",
-        message: `Guild config for ${guild.id} created successfully.`,
-        discord: false,
-      });
-      guildConfig = await getGuildConfig(guild.id);
-      if (!guildConfig) {
-        logger.log({
-          level: "error",
-          message: `Failed to create guild config for ${guild.id}`,
-          discord: false,
-        });
-        return;
-      }
-    } catch (error) {
-      logger.log({
-        level: "error",
-        message: `Error creating guild config for ${guild.id}`,
-        error: error,
-        meta: {
-          guildID: guild.id,
-        },
-      });
-      return;
-    }
-  }
-  const lang = guildConfig.language || "en-GB";
-  const t = client.i18next.getFixedT(lang);
-  const caseNumber = caseID || guildConfig.case_id;
+  let guildConfig = await getOrCreateGuild(guild.id);
+  const t = client.i18next.getFixedT(guildConfig.language);
+  const caseNumber = caseID || guildConfig.caseId;
   // Update the case ID in the database if the action is not "CHANGES"
   if (action !== "CHANGES") {
     try {
-      await updateGuildConfig(guild.id, { case_id: caseNumber + 1 });
+      await updateGuildConfig(guild.id, { caseId: caseNumber + 1 });
     } catch (error) {
       logger.log({
         level: "error",
@@ -92,7 +56,7 @@ export async function modLog(
     }
   }
   // If mod log channel is not configured, exit the function
-  if (!guildConfig.mod_logs_channel_id) return;
+  if (!guildConfig.logConfig?.modLogsChannelId) return;
 
   let message = `<t:${Math.floor(Date.now() / 1000)}> \`[${caseNumber}]\``;
 
@@ -115,14 +79,19 @@ export async function modLog(
       message += t("mod_log.kick", { moderator, user, reason });
       break;
     case "MUTE":
-      message += t("mod_log.mute", { moderator, user, reason, duration: dayjs(duration).locale(lang).fromNow(true) });
+      message += t("mod_log.mute", {
+        moderator,
+        user,
+        reason,
+        duration: dayjs(duration).locale(guildConfig.language).fromNow(true),
+      });
       break;
     case "TIMED_BAN":
       message += t("mod_log.timed_ban", {
         moderator,
         user,
         reason,
-        duration: dayjs(duration).locale(lang).fromNow(true),
+        duration: dayjs(duration).locale(guildConfig.language).fromNow(true),
         emoji: client.allEmojis.get(client.config.emojis.ban.id)?.format,
       });
       break;
@@ -143,7 +112,7 @@ export async function modLog(
         moderator,
         user,
         reason,
-        duration: dayjs(duration).locale(lang).fromNow(true),
+        duration: dayjs(duration).locale(guildConfig.language).fromNow(true),
       });
       break;
     case "TIMEOUT":
@@ -151,7 +120,7 @@ export async function modLog(
         moderator,
         user,
         reason,
-        duration: dayjs(duration).locale(lang).fromNow(true),
+        duration: dayjs(duration).locale(guildConfig.language).fromNow(true),
       });
       break;
     case "UNMUTE":
@@ -159,36 +128,19 @@ export async function modLog(
       break;
   }
 
-  try {
-    // Fetch the mod log channel and send the log message
-    const channel = await guild.channels.fetch(toStringId(guildConfig.mod_logs_channel_id));
-    if (channel && channel.type === ChannelType.GuildText) {
-      const webhook = await returnWebhook(client, channel, guild.id, {
-        id: guildConfig.mod_logs_webhook_id,
-        type: WebhookType.MOD_LOGS,
-      });
-      await webhook.send({ content: message });
-    }
-  } catch (error) {
-    logger.log({
-      level: "error",
-      message: `Modlog channel for ${guild.name} (${guild.id}) not found. Deleting the modlog channel id from the database...`,
-      error: error,
+  const channel = guild.channels.cache.get(guildConfig.logConfig.modLogsChannelId);
+  if (channel && channel.type === ChannelType.GuildText) {
+    const webhook = await returnWebhook(client, channel, guild.id, guildConfig, {
+      id: guildConfig.logConfig.modLogsWebhookId,
+      type: WebhookType.MOD_LOGS,
     });
-    try {
-      await updateGuildConfig(guild.id, { mod_logs_channel_id: null });
-      logger.log({
-        level: "info",
-        message: `Modlog channel ID deleted for ${guild.name} (${guild.id})`,
-        discord: false,
+    if (webhook)
+      await webhook.send({ content: message }).catch((error) => {
+        logger.log({
+          level: "error",
+          message: `Error sending mod log webhook in ${guild.name} (${guild.id})`,
+          error: error,
+        });
       });
-    } catch (error) {
-      logger.log({
-        level: "error",
-        message: `Error deleting modlog channel ID for ${guild.name} (${guild.id})`,
-        error: error,
-      });
-    }
-    return { message: t("mod_log.function_errors.channel_not_found"), type: "ERROR" };
   }
 }

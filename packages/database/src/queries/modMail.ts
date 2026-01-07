@@ -127,22 +127,41 @@ export async function closeThread(
 }
 
 /**
- * Schedules a thread to close in the future (e.g., "Closing in 15 minutes due to inactivity").
+ * Get all threads that are currently OPEN but are scheduled to close
+ * at a time that has already passed.
+ */
+export async function getExpiredThreads() {
+  return prisma.modMailThread.findMany({
+    where: {
+      status: ModMailStatus.OPEN, // Only look at active threads
+      scheduledCloseAt: {
+        not: null, // Must actually have a schedule set
+        lt: new Date(), // "Less Than" now (time is in the past)
+      },
+    },
+  });
+}
+// packages/database/src/modmail.ts
+
+/**
+ * Schedules a thread to close.
  */
 export async function scheduleThreadClose(
   channelId: string,
   closeDate: Date,
+  closerId: string,
 ): Promise<ModMailThread> {
   return prisma.modMailThread.update({
     where: { channelId },
     data: {
       scheduledCloseAt: closeDate,
+      closerId: closerId,
     },
   });
 }
 
 /**
- * Cancels a scheduled close (e.g., User replied, so we keep it open).
+ * Cancels a scheduled close.
  */
 export async function cancelScheduledClose(
   channelId: string,
@@ -151,6 +170,7 @@ export async function cancelScheduledClose(
     where: { channelId },
     data: {
       scheduledCloseAt: null,
+      closerId: null,
     },
   });
 }
@@ -262,6 +282,44 @@ export async function unblacklistUser(
     where: {
       guildId,
       userId,
+    },
+  });
+}
+
+/**
+ * Gets a list of blacklisted users.
+ * Optional: Pass a guildId to filter by guild, otherwise returns ALL entries.
+ */
+export async function getBlacklistedUsers(guildId?: string) {
+  return prisma.modMailBlacklist.findMany({
+    where: guildId ? { guildId } : undefined, // If guildId is missing, fetch all
+    orderBy: { createdAt: "desc" },
+  });
+}
+
+/**
+ * Prunes (deletes) users whose ban has EXPIRED.
+ * Call this function on a schedule (e.g., every hour/day).
+ */
+export async function removeExpiredBlacklists() {
+  return prisma.modMailBlacklist.deleteMany({
+    where: {
+      expiresAt: {
+        not: null, // Only check entries that HAVE an expiry date
+        lt: new Date(), // "lt" = Less Than (Time is in the past)
+      },
+    },
+  });
+}
+
+/**
+ * DANGEROUS: Removes ALL blacklisted users for a specific guild.
+ * Use this only if resetting a guild's data.
+ */
+export async function clearGuildBlacklist(guildId: string) {
+  return prisma.modMailBlacklist.deleteMany({
+    where: {
+      guildId,
     },
   });
 }
