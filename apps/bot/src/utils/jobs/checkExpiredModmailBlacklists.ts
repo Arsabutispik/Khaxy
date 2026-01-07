@@ -1,16 +1,12 @@
 import { Client } from "discord.js";
-import {
-  getExpiredModmailBlacklists,
-  getGuildConfig,
-  removeExpiredModmailBlacklists,
-} from "src/database/index.js";
+import { getBlacklistedUsers, getOrCreateGuild, removeExpiredModmailBlacklists } from "@repo/database";
 export async function CheckExpiredModmailBlacklists(client: Client) {
-  const expiredBlacklists = await getExpiredModmailBlacklists();
+  const expiredBlacklists = await getBlacklistedUsers();
   if (expiredBlacklists.length === 0) return;
   for (const blacklist of expiredBlacklists) {
     const guild = client.guilds.cache.get(blacklist.guild_id.toString());
     if (!guild) continue;
-    const guildConfig = await getGuildConfig(guild.id);
+    const guildConfig = await getOrCreateGuild(guild.id);
     if (!guildConfig) continue;
     const t = client.i18next.getFixedT(guildConfig.language, null, "check_expired_modmail_blacklists");
     const user = await guild.members.fetch(blacklist.user_id.toString()).catch(() => null);

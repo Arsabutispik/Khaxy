@@ -1,28 +1,28 @@
 import { Client, Guild, PermissionsBitField } from "discord.js";
 import type { ColorResolvable } from "discord.js";
-import { ntc, toStringId } from "src/utils/index.js";
+import { ntc } from "@utils";
 import dayjs from "dayjs";
-import { logger } from "src/lib/index.js";
-import { getGuildConfig, getGuilds, updateCronJob, updateGuildConfig } from "src/database/index.js";
-import type { guilds as Guilds } from "../../../../var/home/ispik/WebstormProjects/Khaxy/packages/database/src/index.js";
+import { logger } from "@lib";
+import { getOrCreateGuild, getGuildConfigs, GuildWithLogs, updateGuildConfig, updateCronJob } from "@repo/database";
+
 export async function colorUpdate(client: Client) {
   // Fetch guild configurations from the database
-  const guilds = await getGuilds();
-  for (const guild_data of guilds) {
-    const guild = client.guilds.cache.get(toStringId(guild_data.id));
+  const guilds = await getGuildConfigs();
+  for (const guildData of guilds) {
+    const guild = client.guilds.cache.get(guildData.id);
     if (!guild) continue;
-    await proccesColorUpdate(guild, guild_data);
+    await proccesColorUpdate(guild, guildData);
   }
 }
 
 export async function specificGuildColorUpdate(client: Client, guildId: string) {
   // Fetch guild configuration for the specific guild
-  const guildConfig = await getGuildConfig(guildId);
+  const guildConfig = await getOrCreateGuild(guildId);
   if (!guildConfig) {
     logger.warn(`Guild config for ${guildId} not found.`);
     return;
   }
-  const guild = client.guilds.cache.get(toStringId(guildConfig.id));
+  const guild = client.guilds.cache.get(guildConfig.id);
   if (!guild) {
     logger.warn(`Guild ${guildConfig.id} not found.`);
     return;
@@ -30,8 +30,8 @@ export async function specificGuildColorUpdate(client: Client, guildId: string) 
   await proccesColorUpdate(guild, guildConfig);
 }
 
-async function proccesColorUpdate(guild: Guild, config: Guilds) {
-  const { colour_id_of_the_day, colour_name_of_the_day, id } = config;
+async function proccesColorUpdate(guild: Guild, config: GuildWithLogs) {
+  const { colourIdOfTheDay, colourNameOfTheDay, id } = config;
   if (!guild.members.me) {
     logger.warn(`Bot is not in guild ${id}.`);
     return;
@@ -41,10 +41,10 @@ async function proccesColorUpdate(guild: Guild, config: Guilds) {
     logger.warn(`Bot doesn't have permission to manage roles in guild ${id}.`);
     return;
   }
-  if (!colour_id_of_the_day) return;
-  const role = guild.roles.cache.get(toStringId(colour_id_of_the_day));
+  if (!colourIdOfTheDay) return;
+  const role = guild.roles.cache.get(colourIdOfTheDay);
   if (!role) {
-    logger.warn(`Role ${colour_id_of_the_day} not found in guild ${id}.`);
+    logger.warn(`Role ${colourIdOfTheDay} not found in guild ${id}.`);
     return;
   }
   // Check if the bot's highest role is higher than the target role
@@ -52,7 +52,7 @@ async function proccesColorUpdate(guild: Guild, config: Guilds) {
     logger.warn(`Bot's highest role is lower than the target role in guild ${id}.`);
     return;
   }
-  const name = role.name.replace(colour_name_of_the_day || "", "");
+  const name = role.name.replace(colourNameOfTheDay || "", "");
   // Generate a random color
   const x = Math.round(0xffffff * Math.random()).toString(16);
   const y = 6 - x.length;
@@ -64,7 +64,7 @@ async function proccesColorUpdate(guild: Guild, config: Guilds) {
   try {
     // Update the color name in the database
     await updateGuildConfig(guild.id, {
-      colour_name_of_the_day: colorName as string,
+      colourNameOfTheDay: colorName as string,
     });
     // Edit the role with the new color and name
     await role.edit({
@@ -74,7 +74,7 @@ async function proccesColorUpdate(guild: Guild, config: Guilds) {
     });
     // Update the color change time in the database
     await updateCronJob(guild.id, {
-      color_time: dayjs().add(1, "day").toDate(),
+      colorTime: dayjs().add(1, "day").toDate(),
     });
   } catch (error) {
     logger.log({
