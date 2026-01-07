@@ -1,4 +1,3 @@
-export * from "./bump-leaderboard.js";
 export * from "./changed-forumtags.js";
 export * from "./changed-permissions.js";
 export * from "./check-expired-modmail-blacklists.js";

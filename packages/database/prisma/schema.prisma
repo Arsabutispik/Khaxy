@@ -32,13 +32,12 @@ model Guild {
   unverifiedRoleId String? @map("unverified_role_id")
 
   // --- Channels ---
-  modMailChannelId         String? @map("mod_mail_channel_id")
-  modMailParentChannelId   String? @map("mod_mail_parent_channel_id")
-  registerChannelId        String? @map("register_channel_id")
-  joinChannelId            String? @map("join_channel_id")
-  registerJoinChannelId    String? @map("register_join_channel_id")
-  leaveChannelId           String? @map("leave_channel_id")
-  bumpLeaderboardChannelId String? @map("bump_leaderboard_channel_id")
+  modMailChannelId       String? @map("mod_mail_channel_id")
+  modMailParentChannelId String? @map("mod_mail_parent_channel_id")
+  registerChannelId      String? @map("register_channel_id")
+  joinChannelId          String? @map("join_channel_id")
+  registerJoinChannelId  String? @map("register_join_channel_id")
+  leaveChannelId         String? @map("leave_channel_id")
 
   // --- Messages & Customization ---
   joinMessage         String? @map("join_message")
@@ -49,11 +48,6 @@ model Guild {
   // --- Color of the Day ---
   colourIdOfTheDay   String? @map("colour_id_of_the_day")
   colourNameOfTheDay String? @map("colour_name_of_the_day")
-
-  // --- Bump Stats ---
-  lastBumpWinner           String? @map("last_bump_winner")
-  lastBumpWinnerCount      Int?    @map("last_bump_winner_count")
-  lastBumpWinnerTotalCount Int?    @map("last_bump_winner_total_count")
 
   // --- RELATIONS ---
   logConfig         GuildLogConfig?
