@@ -47,10 +47,12 @@ export interface LogActionOptions extends ManualLogOptions {
 }
 
 export * from "./auditLogs/index.js";
+export * from "./invites/index.js";
 export * from "./scheduledEvents/index.js";
 export * from "./soundboardEvents/index.js";
 export * from "./banAdd.js";
 export * from "./banRemove.js";
 export * from "./memberKick.js";
 export * from "./memberUpdate.js";
+export * from "./update.js";
 export * from "./utils.js";

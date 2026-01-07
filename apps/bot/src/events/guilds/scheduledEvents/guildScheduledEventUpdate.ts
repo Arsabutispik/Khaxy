@@ -1,6 +1,6 @@
 import { EventBase } from "@types";
 import { Events } from "discord.js";
-import { getOrCreateGuild } from "../@repo/database";
+import { getOrCreateGuild } from "@repo/database";
 import { logScheduledEventUpdate } from "@utils";
 
 export default {

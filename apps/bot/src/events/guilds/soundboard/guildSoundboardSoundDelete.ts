@@ -1,5 +1,5 @@
 import { EventBase } from "@types";
-import {getOrCreateGuild} from "../@repo/database";
+import {getOrCreateGuild} from "@repo/database";
 import { Events } from "discord.js";
 import { logSoundBoardSoundDelete } from "@utils";
 
