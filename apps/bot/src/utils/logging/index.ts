@@ -4,3 +4,5 @@ export * from "./emojis/index.js"
 export * from "./stickers/index.js"
 export * from "./stage-instances/index.js";
 export * from "./threads/index.js";
+export * from "./voice/index.js";
+export * from "./messages/index.js";
