@@ -1,5 +1,5 @@
 import { EventBase } from "@types";
-import { ChannelType, EmbedBuilder, Events, InviteGuild, time, TimestampStyles } from "discord.js";
+import { Events, InviteGuild } from "discord.js";
 import { getOrCreateGuild } from "@repo/database";
 import { logInviteCreate } from "@utils";
 export default {
