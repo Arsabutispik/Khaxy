@@ -1,26 +1,28 @@
-import { createPunishment, getActivePunishments, getGuildConfig } from "src/database/index.js";
-import { getGuildPunishmentConfig } from "src/database/index.js";
-import { PunishmentAction } from "@repo/database";
+import { PunishmentAction, getOrCreateGuild, getUserInfractions, createPunishment } from "@repo/database";
 import { Guild, GuildMember, PermissionsBitField, User } from "discord.js";
-import { toStringId } from "src/utils/common/utils.js";
-import { modLog } from "src/utils/jobs/modLog.js";
+import { modLog } from "@utils";
 import dayjs from "dayjs";
 import { logger } from "src/lib/index.js";
-import { PunishmentType } from "src/constants/index.js";
 import dayjsduration from "dayjs/plugin/duration.js";
 dayjs.extend(dayjsduration);
 export async function infractionsPunishment(guild: Guild, member: GuildMember, moderator: User) {
-  const guildConfig = await getGuildConfig(guild.id);
+  const guildConfig = await getOrCreateGuild(guild.id);
   if (!guildConfig) return "Guild not registered in database";
   const t = guild.client.i18next.getFixedT(guildConfig.language, null, "infractions_punishment");
-  const activeInfractions = await getActivePunishments(guild.id, member.id);
-  const punishment = await getGuildPunishmentConfig(guild.id, activeInfractions);
+  const infractions = await getUserInfractions(guild.id, member.id);
+  const activeInfractions = infractions.filter((infraction) =>
+    infraction.expiresAt ? infraction.expiresAt.getTime() > new Date().getTime() : true,
+  );
+  // We sort configs descending to easily find the "highest applicable" level
+  const sortedConfigs = guildConfig.punishmentConfigs.sort((a, b) => b.level - a.level);
+
+  const punishment = sortedConfigs.find((config) => activeInfractions.length >= config.level);
   if (!punishment) return null;
   switch (punishment.action) {
     case PunishmentAction.MUTE: {
       try {
-        if (!guildConfig.mute_role_id) return t("no_mute_role");
-        const muteRole = guild.roles.cache.get(toStringId(guildConfig.mute_role_id));
+        if (!guildConfig.muteRoleId) return t("no_mute_role");
+        const muteRole = guild.roles.cache.get(guildConfig.muteRoleId);
         if (!muteRole) return t("no_mute_role");
         if (member.roles.cache.has(muteRole.id)) return t("already_muted");
         if (!guild.members.me?.permissions.has(PermissionsBitField.Flags.ManageRoles)) {
@@ -30,17 +32,17 @@ export async function infractionsPunishment(guild: Guild, member: GuildMember, m
           .filter((role) => role.id !== guild.id)
           .filter((role) => role.id !== guild.roles.premiumSubscriberRole?.id)
           .filter((role) => role.position < guild.members.me!.roles.highest.position)
-          .map((role) => BigInt(role.id));
-        if (guildConfig.mute_get_all_roles) {
+          .map((role) => role.id);
+        if (guildConfig.muteGetAllRoles) {
           try {
-            await createPunishment(guild.id, {
-              user_id: BigInt(member.id),
-              type: PunishmentType.MUTE,
-              staff_id: BigInt(moderator.id),
-              expires_at: new Date(Date.now() + punishment.duration! * 1000),
-              created_at: new Date(),
-              previous_roles: filteredRoles,
-            });
+            await createPunishment(
+              guild.id,
+              member.id,
+              moderator.id,
+              PunishmentAction.MUTE,
+              new Date(Date.now() + punishment.duration! * 1000),
+              filteredRoles,
+            );
           } catch (error) {
             logger.error({
               message: `Error while putting punishments to database for user ${member.user.username} from guild ${guild.name}`,
@@ -63,13 +65,13 @@ export async function infractionsPunishment(guild: Guild, member: GuildMember, m
           }
         } else {
           try {
-            await createPunishment(guild.id, {
-              user_id: BigInt(member.id),
-              type: PunishmentType.MUTE,
-              staff_id: BigInt(moderator.id),
-              expires_at: new Date(Date.now() + punishment.duration! * 1000),
-              created_at: new Date(),
-            });
+            await createPunishment(
+              guild.id,
+              member.id,
+              moderator.id,
+              PunishmentAction.MUTE,
+              new Date(Date.now() + punishment.duration! * 1000),
+            );
           } catch (error) {
             logger.error({
               message: `Error while putting punishments to database for user ${member.user.username} from guild ${guild.name}`,
@@ -191,13 +193,13 @@ export async function infractionsPunishment(guild: Guild, member: GuildMember, m
         .fromNow(true);
 
       try {
-        await createPunishment(guild.id, {
-          type: PunishmentType.BAN,
-          created_at: new Date(),
-          expires_at: new Date(Date.now() + dayjsDuration.asMilliseconds()),
-          user_id: BigInt(member.id),
-          staff_id: BigInt(moderator.id),
-        });
+        await createPunishment(
+          guild.id,
+          member.id,
+          moderator.id,
+          PunishmentAction.MUTE,
+          new Date(Date.now() + dayjsDuration.asMilliseconds()),
+        );
       } catch (error) {
         logger.error({
           message: `Error while inserting punishment/infraction for user ${member.user.username} from guild ${guild.name}`,
@@ -237,7 +239,7 @@ export async function infractionsPunishment(guild: Guild, member: GuildMember, m
           moderator,
           reason: t("reason", { level: activeInfractions }),
           duration: dayjs(Date.now() + dayjsDuration.asMilliseconds()),
-          caseID: guildConfig.case_id,
+          caseID: guildConfig.caseId,
         },
         guild.client,
       );

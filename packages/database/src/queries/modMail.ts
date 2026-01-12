@@ -35,6 +35,16 @@ export async function getOpenThread(
   });
 }
 
+export async function getModMailThreads(
+  guildId: string,
+): Promise<ModMailThread[] | null> {
+  return prisma.modMailThread.findMany({
+    where: {
+      guildId,
+    },
+  });
+}
+
 /**
  * Gets a thread by its Channel ID (The most common lookup in Discord events).
  */
@@ -47,15 +57,13 @@ export async function getThreadByChannelId(
 }
 
 /**
- * Gets all threads belonging to a specific user in a guild.
+ * Gets all threads belonging to a specific user
  */
 export async function getThreadsByUser(
-  guildId: string,
   userId: string,
 ): Promise<ModMailThread[]> {
   return prisma.modMailThread.findMany({
     where: {
-      guildId,
       userId,
     },
     orderBy: { createdAt: "desc" },
@@ -187,6 +195,7 @@ export async function addMessageToThread(
   content: string,
   authorId: string,
   authorType: ModMailAuthorType,
+  sentTo: ModMailSentToType,
   messageId: string,
 ): Promise<ModMailMessage> {
   return prisma.modMailMessage.create({
@@ -196,10 +205,7 @@ export async function addMessageToThread(
       authorId,
       authorType,
       messageId,
-      sentTo:
-        authorType === ModMailAuthorType.USER
-          ? ModMailSentToType.THREAD
-          : ModMailSentToType.USER,
+      sentTo,
     },
   });
 }
@@ -238,11 +244,8 @@ export async function getThreadMessages(
  * Checks if a user is currently banned from using ModMail.
  * Handles expiry logic automatically.
  */
-export async function isBlacklisted(
-  guildId: string,
-  userId: string,
-): Promise<boolean> {
-  const entry = await prisma.modMailBlacklist.findFirst({
+export async function getBlacklistedUser(guildId: string, userId: string) {
+  return await prisma.modMailBlacklist.findFirst({
     where: {
       guildId,
       userId,
@@ -252,7 +255,6 @@ export async function isBlacklisted(
       ],
     },
   });
-  return !!entry; // Returns true if entry exists, false otherwise
 }
 
 export async function blacklistUser(

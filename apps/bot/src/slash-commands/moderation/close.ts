@@ -1,225 +1,184 @@
-import type { SlashCommandBase } from "src/types/index.js";
-import { ModMailMessageSentTo, ModMailMessageType, ModMailThreadStatus } from "src/constants/index.js";
+import type { SlashCommandBase } from "@types";
 import {
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
   ChannelType,
   ComponentType,
-  MessageComponentInteraction,
   PermissionsBitField,
   SlashCommandBuilder,
-  MessageFlagsBitField,
   InteractionContextType,
-  Message,
+  ChatInputCommandInteraction,
 } from "discord.js";
 import dayjs from "dayjs";
-import dayjsduration from "dayjs/plugin/duration.js";
+import duration from "dayjs/plugin/duration.js";
 import relativeTime from "dayjs/plugin/relativeTime.js";
-import "dayjs/locale/tr.js";
-import { logger } from "src/lib/index.js";
-import { modMailLog, toStringId } from "src/utils/index.js";
+import { logger, modMailLog } from "@lib";
 import {
-  createModMailMessage,
-  getGuildConfig,
-  getModMailThread,
-  updateModMailThread,
-} from "src/database/index.js";
+  getThreadByChannelId,
+  scheduleThreadClose,
+  addMessageToThread,
+  ModMailAuthorType,
+  ModMailSentToType,
+  closeThread,
+} from "@repo/database";
+
+dayjs.extend(duration);
+dayjs.extend(relativeTime);
+
 export default {
   memberPermissions: [PermissionsBitField.Flags.ModerateMembers],
   clientPermissions: [PermissionsBitField.Flags.ManageChannels],
   data: new SlashCommandBuilder()
     .setName("close")
-    .setNameLocalizations({
-      tr: "kapat",
-    })
+    .setNameLocalizations({ tr: "kapat" })
     .setDescription("Close the mod mail thread")
-    .setDescriptionLocalizations({
-      tr: "Mod mail kanalını kapat",
-    })
     .setContexts(InteractionContextType.Guild)
     .setDefaultMemberPermissions(PermissionsBitField.Flags.ModerateMembers)
-    .addNumberOption((option) =>
-      option
-        .setName("duration")
-        .setNameLocalizations({
-          tr: "süre",
-        })
-        .setDescription("Duration of the ban (only numbers 1-99)")
-        .setDescriptionLocalizations({
-          tr: "Yasaklanma süresi (sadece sayılar 1-99)",
-        })
-        .setMinValue(1)
-        .setMaxValue(99)
-        .setRequired(false),
-    )
-    .addStringOption((option) =>
-      option
+    .addNumberOption((opt) => opt.setName("duration").setMinValue(1).setMaxValue(99))
+    .addStringOption((opt) =>
+      opt
         .setName("time")
-        .setNameLocalizations({
-          tr: "vakit",
-        })
-        .setDescription("Time unit of the ban duration")
-        .setDescriptionLocalizations({
-          tr: "Yasaklanma süresinin birimi",
-        })
-        .setRequired(false)
         .addChoices(
-          { name: "Second(s)", value: "second", name_localizations: { tr: "Saniye" } },
-          { name: "Minute(s)", value: "minute", name_localizations: { tr: "Dakika" } },
-          { name: "Hour(s)", value: "hour", name_localizations: { tr: "Saat" } },
-          { name: "Day(s)", value: "day", name_localizations: { tr: "Gün" } },
-          { name: "Week(s)", value: "week", name_localizations: { tr: "Hafta" } },
+          { name: "Minute(s)", value: "minute" },
+          { name: "Hour(s)", value: "hour" },
+          { name: "Day(s)", value: "day" },
         ),
     ),
-  async execute(interaction) {
-    const client = interaction.client;
-    const guild_config = await getGuildConfig(interaction.guildId);
-    if (!guild_config) {
-      await interaction.reply({
-        content: "Guild not found in the database. Please contact the bot developers as this shouldn't happen.",
-        flags: MessageFlagsBitField.Flags.Ephemeral,
-      });
+
+  async execute(interaction: ChatInputCommandInteraction, guildConfig) {
+    const { client, channel, channelId, user: moderator } = interaction;
+    const t = client.i18next.getFixedT(guildConfig.language, "commands", "close");
+
+    if (channel?.type !== ChannelType.GuildText) return interaction.reply(t("notTextChannel"));
+
+    const thread = await getThreadByChannelId(channelId);
+    if (!thread) return interaction.reply(t("noThread"));
+
+    // 1. Handle Existing Scheduled Close (Interruption)
+    if (thread.scheduledCloseAt) {
+      const confirmed = await handleExistingSchedule(interaction, thread.scheduledCloseAt, t, guildConfig.language);
+      if (!confirmed) return; // User rejected or timed out
+    }
+
+    const durationVal = interaction.options.getNumber("duration");
+    const unit = interaction.options.getString("time");
+
+    // 2. Scheduled Close Flow
+    if (durationVal || unit) {
+      if (!durationVal || !unit) return interaction.reply(t("missingDurationOrUnit"));
+
+      const closeDate = dayjs().add(dayjs.duration(durationVal, unit as any));
+      const longDuration = closeDate.locale(guildConfig.language || "en").fromNow(true);
+
+      try {
+        await scheduleThreadClose(channelId, closeDate.toDate(), moderator.id);
+
+        const content = t("closeDuration", { duration: longDuration });
+        await interaction.reply({ content });
+
+        await addMessageToThread(
+          channelId,
+          content,
+          moderator.id,
+          ModMailAuthorType.SYSTEM,
+          ModMailSentToType.THREAD,
+          interaction.id,
+        );
+      } catch (error) {
+        logger.error({ message: "Error scheduling close", error });
+        await interaction.reply(t("databaseError"));
+      }
       return;
     }
-    const t = client.i18next.getFixedT(guild_config.language, "commands", "close");
-    if (interaction.channel?.type !== ChannelType.GuildText) return interaction.reply(t("not_text_channel"));
-    const mod_mail_thread = await getModMailThread(interaction.channelId);
-    if (!mod_mail_thread) return interaction.reply(t("no_thread"));
-    if (mod_mail_thread.close_date) {
-      const close_date = dayjs(mod_mail_thread.close_date)
-        .locale(guild_config.language || "en")
-        .fromNow(true);
-      const acceptButton = new ButtonBuilder()
-        .setCustomId("accept")
-        .setLabel(t("accept"))
-        .setStyle(ButtonStyle.Success);
-      const rejectButton = new ButtonBuilder().setCustomId("reject").setLabel(t("reject")).setStyle(ButtonStyle.Danger);
-      const row = new ActionRowBuilder<ButtonBuilder>().addComponents(acceptButton, rejectButton);
-      const message = await interaction.reply({
-        content: t("thread_close_date", { date: close_date }),
-        components: [row],
-        withResponse: true,
-      });
-      const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id;
-      let component;
-      try {
-        component = await message.resource!.message!.awaitMessageComponent({
-          filter,
-          time: 60000,
-          componentType: ComponentType.Button,
-        });
-      } catch {
-        await interaction.editReply({ content: t("timeout"), components: [] });
-      }
-      if (!component) return;
-      if (component.customId === "reject") {
-        await interaction.editReply({ content: t("thread_close_date_rejected"), components: [] });
-        return;
-      } else {
-        await interaction.editReply({ content: t("thread_close_date_accepted"), components: [] });
-      }
-    }
-    const duration = interaction.options.getNumber("duration");
-    const time = interaction.options.getString("time");
-    if (duration && !time) return interaction.reply(t("no_time"));
-    if (time && !duration) return interaction.reply(t("no_duration"));
-    if (duration && time) {
-      dayjs.extend(dayjsduration);
-      dayjs.extend(relativeTime);
-      const dayjs_duration = dayjs.duration(duration, time as dayjsduration.DurationUnitType);
-      const long_duration = dayjs(dayjs().add(dayjs_duration))
-        .locale(guild_config.language || "en")
-        .fromNow(true);
-      try {
-        const response = interaction.replied
-          ? await interaction.followUp({
-              content: t("close_duration", { duration: long_duration }),
-              withResponse: true,
-            })
-          : await interaction.reply({
-              content: t("close_duration", { duration: long_duration }),
-              withResponse: true,
-            });
-        await updateModMailThread(interaction.channelId, {
-          close_date: dayjs().add(dayjs_duration).toDate(),
-          closer_id: BigInt(interaction.user.id),
-        });
-        let responseId;
-        if (response instanceof Message) {
-          responseId = response.id;
-        } else {
-          responseId = response.resource?.message?.id;
-        }
-        await createModMailMessage(interaction.channelId, {
-          author_id: BigInt(interaction.user.id),
-          sent_at: new Date(),
-          author_type: ModMailMessageType.CLIENT,
-          sent_to: ModMailMessageSentTo.THREAD,
-          content: t("close_duration", { duration: long_duration }),
-          message_id: BigInt(responseId || 0),
-        });
-      } catch (e) {
-        await interaction.reply(t("error"));
-        logger.error({
-          message: e.message,
-          stack: e.stack,
-        });
-      }
-    } else {
-      await updateModMailThread(interaction.channelId, {
-        status: ModMailThreadStatus.CLOSED,
-        close_date: new Date(),
-        closer_id: BigInt(interaction.user.id),
-      });
-      const modmail_log_channel = interaction.guild.channels.cache.get(toStringId(guild_config.mod_mail_channel_id));
-      const response = interaction.replied
-        ? await interaction.followUp({
-            content: t("close"),
-            withResponse: true,
-          })
-        : await interaction.reply({
-            content: t("close"),
-            withResponse: true,
-          });
-      try {
-        const message = await interaction.guild.members.cache
-          .get(toStringId(mod_mail_thread.user_id))
-          ?.send(t("thread_closed_dm", { guild: interaction.guild!.name }));
-        let responseId;
-        if (response instanceof Message) {
-          responseId = response.id;
-        } else {
-          responseId = response.resource?.message?.id;
-        }
-        await createModMailMessage(interaction.channelId, {
-          author_id: BigInt(interaction.user.id),
-          sent_at: new Date(),
-          author_type: ModMailMessageType.CLIENT,
-          sent_to: ModMailMessageSentTo.THREAD,
-          content: t("close"),
-          message_id: BigInt(responseId || 0),
-        });
-        await createModMailMessage(interaction.channelId, {
-          author_id: BigInt(interaction.user.id),
-          sent_at: new Date(),
-          author_type: ModMailMessageType.CLIENT,
-          sent_to: ModMailMessageSentTo.USER,
-          content: t("thread_closed_dm", { guild: interaction.guild!.name }),
-          message_id: BigInt(message?.id || 0),
-        });
-      } catch (error) {
-        logger.log({
-          message: "Failed to send DM to user or when creating mod mail message.",
-          level: "warn",
-          error,
-        });
-      }
-      if (modmail_log_channel) {
-        const user = await client.users.fetch(toStringId(mod_mail_thread.user_id)).catch(() => null);
-        await modMailLog(client, interaction.channel!, user, interaction.user);
-      }
-      await interaction.channel!.delete();
-    }
+
+    // 3. Immediate Close Flow
+    await performImmediateClose(interaction, thread, guildConfig, t);
   },
 } as SlashCommandBase;
+
+/**
+ * Handles the confirmation buttons if a thread is already scheduled to close.
+ */
+async function handleExistingSchedule(
+  interaction: ChatInputCommandInteraction,
+  date: Date,
+  t: any,
+  lang: string,
+): Promise<boolean> {
+  const timeStr = dayjs(date)
+    .locale(lang || "en")
+    .fromNow(true);
+
+  const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
+    new ButtonBuilder().setCustomId("accept").setLabel(t("accept")).setStyle(ButtonStyle.Success),
+    new ButtonBuilder().setCustomId("reject").setLabel(t("reject")).setStyle(ButtonStyle.Danger),
+  );
+
+  const response = await interaction.reply({
+    content: t("threadCloseDate", { date: timeStr }),
+    components: [row],
+    withResponse: true,
+  });
+
+  try {
+    const component = await response.resource!.message!.awaitMessageComponent({
+      filter: (i) => i.user.id === interaction.user.id,
+      time: 30000,
+      componentType: ComponentType.Button,
+    });
+
+    if (component.customId === "reject") {
+      await component.update({ content: t("threadCloseDateRejected"), components: [] });
+      return false;
+    }
+
+    await component.update({ content: t("threadCloseDateAccepted"), components: [] });
+    return true;
+  } catch {
+    await interaction.editReply({ content: t("timeout"), components: [] });
+    return false;
+  }
+}
+
+/**
+ * Finalizes the thread: logs, DMs the user, and deletes the channel.
+ */
+async function performImmediateClose(interaction: ChatInputCommandInteraction, thread: any, config: any, t: any) {
+  const { guild, channel, channelId, user: moderator, client } = interaction;
+
+  try {
+    await closeThread(channelId, moderator.id);
+
+    const replyContent = t("close");
+    if (interaction.replied || interaction.deferred) await interaction.followUp(replyContent);
+    else await interaction.reply(replyContent);
+
+    // DM the user
+    const targetUser = await client.users.fetch(thread.userId).catch(() => null);
+    if (targetUser) {
+      await targetUser.send(t("threadCloseDm", { guild: guild!.name })).catch(() => null);
+    }
+
+    // System Log entry
+    await addMessageToThread(
+      channelId,
+      replyContent,
+      moderator.id,
+      ModMailAuthorType.SYSTEM,
+      ModMailSentToType.THREAD,
+      interaction.id,
+    );
+
+    // ModMail Log (The modular logic we refactored earlier)
+    if (config.modMailChannelId) {
+      await modMailLog(client, channel as any, targetUser, moderator);
+    }
+
+    // Delete Channel
+    await channel?.delete().catch((err) => logger.error({ message: "Failed to delete modmail channel", error: err }));
+  } catch (error) {
+    logger.error({ message: "Error during immediate close", error });
+    if (!interaction.replied) await interaction.reply(t("error"));
+  }
+}
