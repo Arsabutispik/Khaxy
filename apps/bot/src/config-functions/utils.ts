@@ -16,7 +16,7 @@ import {
   TextInputStyle,
 } from "discord.js";
 import { logger } from "@lib";
-import { GuildWithLogs, updateGuildConfig } from "@repo/database";
+import { GuildWithLogs, updateGuildLogs } from "@repo/database";
 import { trimString, getCurrentValue, getUpdatePayload } from "@utils";
 import { TFunction } from "i18next";
 import { DbConfigKey } from "@constants";
@@ -99,7 +99,7 @@ export async function dynamicChannel(
 
   // 2. Update Database Safely
   const payload = getUpdatePayload(dbKey, newValue);
-  await updateGuildConfig(messageComponent.guildId, payload);
+  await updateGuildLogs(messageComponent.guildId, payload);
 
   // 3. Reply
   const responseKey = newValue ? "set" : "unset";
@@ -159,7 +159,7 @@ export async function dynamicMessage(
   }
 
   const payload = getUpdatePayload(dbKey, finalValue);
-  await updateGuildConfig(messageComponent.guildId, payload);
+  await updateGuildLogs(messageComponent.guildId, payload);
 
   await messageComponent.editReply({ content: t(`${dbKey}.set`), components: [] });
 }
@@ -205,7 +205,7 @@ export async function dynamicRole(
   if (!newValue) {
     // Unset
     const payload = getUpdatePayload(dbKey, null);
-    await updateGuildConfig(messageComponent.guildId, payload);
+    await updateGuildLogs(messageComponent.guildId, payload);
     await messageComponent.editReply({ content: t(`${dbKey}.unset`), components: [] });
   } else {
     // Hierarchy Check
@@ -221,7 +221,7 @@ export async function dynamicRole(
 
     // Set
     const payload = getUpdatePayload(dbKey, newValue);
-    await updateGuildConfig(messageComponent.guildId, payload);
+    await updateGuildLogs(messageComponent.guildId, payload);
 
     await messageComponent.editReply({
       content: t(`${dbKey}.set`, {
