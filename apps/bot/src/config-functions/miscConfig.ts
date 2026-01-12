@@ -30,12 +30,6 @@ export async function miscConfig(interaction: ChatInputCommandInteraction<"cache
         description: t("modMailMessage.description"),
         emoji: "📬",
       },
-      {
-        label: t("bumpLeaderboardChannelId.label"),
-        value: "bumpLeaderboardChannelId",
-        description: t("bumpLeaderboardChannelId.description"),
-        emoji: "📊",
-      },
     ]);
   const actionRow = new ActionRowBuilder<StringSelectMenuBuilder>().setComponents(selectMenu);
   const messageComponent = await waitForMessageComponent(interaction, actionRow, t, "miscConfig");

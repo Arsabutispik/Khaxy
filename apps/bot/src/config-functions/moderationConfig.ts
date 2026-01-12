@@ -2,15 +2,12 @@ import {
   ActionRowBuilder,
   ChannelType,
   ChatInputCommandInteraction,
-  ComponentType,
-  MessageComponentInteraction,
   PermissionsBitField,
   StringSelectMenuBuilder,
   StringSelectMenuInteraction,
 } from "discord.js";
 import { GuildWithLogs, updateGuildConfig } from "@repo/database";
 import { waitForMessageComponent, dynamicChannel, dynamicRole } from "./utils.js";
-import { logger } from "@lib";
 import { TFunction } from "i18next";
 
 export async function moderationConfig(interaction: ChatInputCommandInteraction<"cached">, guildData: GuildWithLogs) {
@@ -44,12 +41,6 @@ export async function moderationConfig(interaction: ChatInputCommandInteraction<
         value: "muteGetAllRoles",
         description: t("muteGetAllRoles.description"),
         emoji: "🔇",
-      },
-      {
-        label: t("registerDayLimit.label"),
-        value: "registerDayLimit",
-        description: t("registerDayLimit.description"),
-        emoji: "📅",
       },
       {
         label: t("defaultExpiry.label"),
