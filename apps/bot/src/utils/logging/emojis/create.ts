@@ -38,7 +38,7 @@ export async function logEmojiCreate(emoji: GuildEmoji, guildConfig: GuildWithLo
       iconURL: executor?.displayAvatarURL() ?? undefined,
     });
   const webhook = await returnWebhook(emoji.client, logChannel, emoji.guild.id, guildConfig, {
-    id: logChannel.id,
+    id: guildConfig.logConfig?.emojiLogsWebhookId,
     type: WebhookType.EMOJI_LOGS,
   });
   if (!webhook) return;
