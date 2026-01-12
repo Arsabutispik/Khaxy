@@ -1,7 +1,6 @@
 import { CONFIG_SCHEMA, DbConfigKey, RelationName } from "@constants";
-import { GuildWithLogs } from "@repo/database";
+import { GuildWithLogs, prisma, updateGuildLogs } from "@repo/database";
 
-// Helper to check if a key is in a specific array (Type Guard)
 function isKeyInGroup<K extends string>(key: string, group: readonly string[]): key is K {
   return group.includes(key);
 }
@@ -27,19 +26,21 @@ export function getCurrentValue(data: GuildWithLogs, key: DbConfigKey): string |
   return (nestedData as unknown as Record<string, string | null>)[key] ?? null;
 }
 
-export function getUpdatePayload(key: DbConfigKey, value: string | null) {
+export async function updateConfig(guildId: string, key: DbConfigKey, value: string | null) {
   const relation = getRelation(key);
 
-  if (relation === "root") {
-    return { [key]: value };
+  switch (relation) {
+    case "logConfig":
+      // Use the existing updateGuildLogs function
+      return updateGuildLogs(guildId, { [key]: value });
+    case "registerConfig":
+    case "welcomeConfig":
+    case "root":
+    default:
+      // These fields are on the Guild model
+      return prisma.guild.update({
+        where: { id: guildId },
+        data: { [key]: value },
+      });
   }
-
-  return {
-    [relation]: {
-      upsert: {
-        create: { [key]: value },
-        update: { [key]: value },
-      },
-    },
-  };
 }
