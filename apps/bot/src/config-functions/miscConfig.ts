@@ -47,6 +47,7 @@ export async function miscConfig(interaction: ChatInputCommandInteraction<"cache
 }
 
 async function languageConfig(interaction: StringSelectMenuInteraction<"cached">, data: GuildWithLogs, t: TFunction) {
+  await interaction.deferUpdate();
   const client = interaction.client;
   const selectMenu = new StringSelectMenuBuilder()
     .setCustomId("language")
