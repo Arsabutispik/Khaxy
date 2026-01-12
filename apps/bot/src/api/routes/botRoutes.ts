@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { GuildBasedChannel, PermissionsBitField, Role } from "discord.js";
 import { getOrCreateGuild, updateGuildConfig, GuildWithLogs, updateGuildLogs, Prisma } from "@repo/database";
-import { logger } from "src/lib/index.js";
+import { logger } from "@lib";
 
 // Validation schemas
 const guildIdParamSchema = {

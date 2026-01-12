@@ -93,6 +93,7 @@ export default {
             interaction.user.id,
             ModMailAuthorType.STAFF,
             ModMailSentToType.COMMAND,
+            interaction.id,
           );
         }
         logger.log({

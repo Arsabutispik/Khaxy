@@ -20,8 +20,8 @@ function getFilesRecursively(dir: string, fileList: string[] = []): string[] {
     if (stat.isDirectory()) {
       getFilesRecursively(filePath, fileList);
     } else {
-      // Only load .js or .ts files (ignore maps or config files)
-      if (file.endsWith(".js") || file.endsWith(".ts")) {
+      // Only load .js files (ignore .d.ts, maps, or other files)
+      if (file.endsWith(".js") && !file.endsWith(".d.js")) {
         fileList.push(filePath);
       }
     }
@@ -37,7 +37,11 @@ export async function loadEvents(client: Client) {
   // 1. Get all files from subfolders
   const eventFiles = getFilesRecursively(eventsPath);
 
-  logger.info(`Loading ${eventFiles.length} events...`);
+  logger.log({
+    level: "info",
+    message: `[Event Handler] Found ${eventFiles.length} event file(s) to load.`,
+    discord: false,
+  });
 
   for (const filePath of eventFiles) {
     try {

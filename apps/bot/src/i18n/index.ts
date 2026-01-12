@@ -1,6 +1,6 @@
 import i18next from "i18next";
-import FsBackend from "i18next-fs-backend/cjs";
-import { logger } from "src/lib/index.js";
+import FsBackend from "i18next-fs-backend/esm";
+import { logger } from "@lib";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 
@@ -30,7 +30,8 @@ export async function initI18n() {
   } catch (err) {
     logger.log({
       level: "error",
-      message: err,
+      message: "Error initializing i18next.",
+      error: err,
       discord: false,
     });
   }

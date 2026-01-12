@@ -3,7 +3,7 @@ import "dotenv/config.js";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath, pathToFileURL } from "url";
-import { logger } from "src/lib/index.js";
+import { logger } from "@lib";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -41,7 +41,7 @@ async function registerCommands(...dirs: string[]) {
 }
 
 // Load commands from the folder
-await registerCommands("../slash-commands");
+await registerCommands("../../slash-commands");
 
 if (!process.env.TOKEN) {
   logger.error("❌ Token is not defined in the .env file", { discord: false });

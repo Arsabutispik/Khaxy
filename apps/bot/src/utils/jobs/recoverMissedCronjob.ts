@@ -1,4 +1,4 @@
-import { logger } from "src/lib/index.js";
+import { logger } from "@lib";
 import { specificGuildColorUpdate } from "@utils";
 import { Client } from "discord.js";
 import { getAllCronJobs } from "@repo/database";

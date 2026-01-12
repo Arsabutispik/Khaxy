@@ -1,6 +1,6 @@
 import type { EventBase } from "@types";
 import { Events } from "discord.js";
-import { modMailMessage } from "@utils";
+import { modMailMessage } from "@lib";
 import { getOrCreateGuild } from "@repo/database";
 import { logPollCreate } from "@utils";
 

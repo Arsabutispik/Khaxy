@@ -22,11 +22,9 @@ export default async function RegisterConfigPage({ params }: Props) {
     return <div>Failed to load guild channels.</div>;
   }
   const serializedConfig = {
-    register_join_channel_id:
-      guildConfig.settings.register_join_channel_id?.toString() ?? null,
-    register_channel_id:
-      guildConfig.settings.register_channel_id?.toString() ?? null,
-    register_join_message: guildConfig.settings.register_join_message,
+    registerJoinChannelId: guildConfig.settings.registerJoinChannelId,
+    registerChannelId: guildConfig.settings.registerChannelId,
+    registerJoinMessage: guildConfig.settings.registerJoinMessage,
   };
   const filteredChannels = guildChannels.channels.filter((channel) => {
     return channel.type === ChannelType.GuildText;

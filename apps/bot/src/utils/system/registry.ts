@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath, pathToFileURL } from "url";
-import { logger } from "src/lib/index.js";
+import { logger } from "@lib";
 import { Client } from "discord.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 
 export async function RegisterSlashCommands(client: Client) {
   //Change the path to the folder where your slash commands are stored
-  const foldersPath = path.join(__dirname, "../slash-commands");
+  const foldersPath = path.join(__dirname, "../../slash-commands");
   const commandFolders = fs.readdirSync(foldersPath);
 
   for (const folder of commandFolders) {

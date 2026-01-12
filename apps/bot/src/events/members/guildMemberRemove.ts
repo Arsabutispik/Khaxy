@@ -64,7 +64,7 @@ export default {
 
     await logMemberLeave({ member, reason: logEntry?.reason || t("no_reason"), executor, guildConfig, t, isAKick });
 
-    const threadRows = await getThreadsByUser(member.guild.id, member.user.id);
+    const threadRows = await getThreadsByUser(member.user.id);
     for (const thread of threadRows) {
       await closeThread(thread.channelId, member.client.user!.id);
       const channel = member.guild.channels.cache.get(thread.channelId);

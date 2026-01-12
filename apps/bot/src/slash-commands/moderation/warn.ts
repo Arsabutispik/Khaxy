@@ -1,9 +1,8 @@
-import type { SlashCommandBase } from "src/types/index.js";
+import type { SlashCommandBase } from "@types";
 import { InteractionContextType, MessageFlagsBitField, PermissionsBitField, SlashCommandBuilder } from "discord.js";
-import { logger } from "src/lib/index.js";
-import { modLog, toStringId, addInfraction, infractionsPunishment } from "src/utils/index.js";
-import { getGuildConfig } from "src/database/index.js";
-import { InfractionType } from "src/constants/index.js";
+import { logger } from "@lib";
+import { modLog, infractionsPunishment } from "@utils";
+import { createInfraction, InfractionType } from "@repo/database";
 
 export default {
   memberPermissions: [PermissionsBitField.Flags.ModerateMembers],
@@ -42,48 +41,34 @@ export default {
         })
         .setRequired(true),
     ),
-  async execute(interaction) {
+  async execute(interaction, guildConfig) {
     const client = interaction.client;
-    const guildConfig = await getGuildConfig(interaction.guildId);
-    if (!guildConfig) {
-      await interaction.reply({
-        content: "This server is not registered in the database. This shouldn't happen, please contact developers",
-        flags: MessageFlagsBitField.Flags.Ephemeral,
-      });
-      return;
-    }
     const t = client.i18next.getFixedT(guildConfig.language, "commands", "warn");
     const member = interaction.options.getMember("user");
     if (!member) {
-      await interaction.reply({ content: t("no_member"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t("noMember"), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
     if (member.id === interaction.user.id) {
-      await interaction.reply({ content: t("self_warn"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t("selfWarn"), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
     if (member.user.bot) {
-      await interaction.reply({ content: t("bot_warn"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t("botWarn"), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
     if (
       member.permissions.has(PermissionsBitField.Flags.ManageGuild) ||
-      member.roles.cache.has(toStringId(guildConfig.staff_role_id))
+      (guildConfig.staffRoleId && member.roles.cache.has(guildConfig.staffRoleId))
     ) {
-      await interaction.reply({ content: t("staff_warn"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t("staffWarn"), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
     const reason = interaction.options.getString("reason", true);
     try {
-      await addInfraction({
-        guild: interaction.guild,
-        member: member.id,
-        reason: reason,
-        moderator: interaction.user.id,
-        type: InfractionType.WARN,
-      });
+      await createInfraction(interaction.guildId, member.id, interaction.user.id, InfractionType.WARN, reason);
     } catch (error) {
-      await interaction.reply(t("database_error"));
+      await interaction.reply(t("databaseError"));
       logger.error({
         message: "An error occurred while warning a user",
         error,
@@ -96,15 +81,15 @@ export default {
       await interaction.reply(
         t("success", {
           user: member.user.tag,
-          case: guildConfig.case_id,
+          case: guildConfig.caseId,
           confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
         }),
       );
     } catch {
       await interaction.reply(
-        t("dm_error", {
+        t("dmError", {
           user: member.user.tag,
-          case: guildConfig.case_id,
+          case: guildConfig.caseId,
           confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
         }),
       );

@@ -1,5 +1,4 @@
 export * from "./configHelper.js";
-export * from "./deploy-commands.js";
-export * from "./load-emojis.js";
+export * from "./loadEmojis.js";
 export * from "./registry.js";
-export * from "./remove-commands.js";
+export * from "./eventHandler.js";

@@ -1,7 +1,7 @@
 import { EventBase } from "@types";
 import { Events } from "discord.js";
 import { getOrCreateGuild } from "@repo/database";
-import logMessageBulkDelete from "src/utils/logging/messages/bulkDelete.js";
+import { logMessageBulkDelete } from "@utils";
 
 export default {
   name: Events.MessageBulkDelete,

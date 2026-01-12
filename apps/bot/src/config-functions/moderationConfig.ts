@@ -75,9 +75,6 @@ export async function moderationConfig(interaction: ChatInputCommandInteraction<
     case "muteGetAllRoles":
       await muteGetAllRoles(messageComponent, guildData, t);
       break;
-    case "registerDayLimit":
-      await registerDayLimit(messageComponent, guildData, t);
-      break;
     case "defaultExpiry":
       await defaultExpiry(messageComponent, guildData, t);
       break;
@@ -124,7 +121,7 @@ async function modMailChannel(interaction: StringSelectMenuInteraction<"cached">
     });
     await interaction.deferUpdate();
     await interaction.editReply({
-      content: t("mod_mail_channel.set", { channel: child.toString() }),
+      content: t("modMailChannel.set", { channel: child.toString() }),
       components: [],
     });
   }
@@ -146,125 +143,56 @@ async function muteGetAllRoles(interaction: StringSelectMenuInteraction<"cached"
     });
     await interaction.deferUpdate();
     await interaction.editReply({
-      content: t("mute_get_all_roles.true"),
+      content: t("muteGetAllRoles.true"),
       components: [],
     });
   }
 }
 
-async function registerDayLimit(interaction: StringSelectMenuInteraction<"cached">, data: GuildWithLogs, t: TFunction) {
-  const stringSelect = new StringSelectMenuBuilder()
-    .setCustomId("register_day_limit")
-    .setMinValues(1)
-    .setMaxValues(1)
-    .setOptions([
-      {
-        label: t("register_day_limit.label_zero"),
-        value: "0",
-        description: t("register_day_limit.description_zero"),
-        emoji: "❌",
-        default: data.daysToKick === 0,
-      },
-      {
-        label: t("register_day_limit.label_one"),
-        value: "1",
-        description: t("register_day_limit.description_one"),
-        emoji: "1️⃣",
-        default: data.daysToKick === 1,
-      },
-      {
-        label: t("register_day_limit.label_three"),
-        value: "3",
-        description: t("register_day_limit.description_three"),
-        emoji: "3️⃣",
-        default: data.daysToKick === 3,
-      },
-      {
-        label: t("register_day_limit.label_seven"),
-        value: "7",
-        description: t("register_day_limit.description_seven"),
-        emoji: "7️⃣",
-        default: data.daysToKick === 7,
-      },
-    ]);
-  const actionRow = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(stringSelect);
-  await interaction.deferUpdate();
-  const reply = await interaction.editReply({
-    content: t("register_day_limit.initial"),
-    components: [actionRow],
-  });
-  const filter = (i: MessageComponentInteraction) =>
-    i.user.id === interaction.user.id && i.customId === "register_day_limit";
-  const messageComponent = await reply
-    .awaitMessageComponent({
-      filter,
-      time: 1000 * 60 * 5,
-      componentType: ComponentType.StringSelect,
-    })
-    .catch(async () => {
-      await reply.edit({ content: t("timeout"), components: [] });
-      logger.log({
-        level: "warn",
-        message: `User ${interaction.user.tag} (${interaction.user.id}) did not respond in time for register_day_limit in guild ${interaction.guild?.name} (${interaction.guildId})`,
-        discord: false,
-      });
-      return null;
-    });
-  if (!messageComponent) return;
-  await updateGuildConfig(interaction.guildId, {
-    daysToKick: parseInt(messageComponent.values[0]),
-  });
-  await messageComponent.deferUpdate();
-  await messageComponent.editReply({
-    content: t("register_day_limit.success", { days: messageComponent.values[0] }),
-    components: [],
-  });
-}
-
 async function defaultExpiry(interaction: StringSelectMenuInteraction<"cached">, data: GuildWithLogs, t: TFunction) {
   const stringSelect = new StringSelectMenuBuilder()
-    .setCustomId("default_expiry")
+    .setCustomId("defaultExpiry")
     .setMinValues(1)
     .setMaxValues(1)
     .setOptions([
       {
-        label: t("default_expiry.label_zero"),
+        label: t("defaultExpiry.labelZero"),
         value: "0",
-        description: t("default_expiry.description_zero"),
+        description: t("defaultExpiry.descriptionZero"),
         emoji: "❌",
         default: data.defaultExpiry === 0,
       },
       {
-        label: t("default_expiry.label_seven"),
+        label: t("defaultExpiry.labelSeven"),
         value: "7",
-        description: t("default_expiry.description_seven"),
+        description: t("defaultExpiry.descriptionSeven"),
         emoji: "7️⃣",
         default: data.defaultExpiry === 7,
       },
       {
-        label: t("default_expiry.label_fourteen"),
+        label: t("defaultExpiry.labelFourteen"),
         value: "14",
-        description: t("default_expiry.description_fourteen"),
+        description: t("defaultExpiry.descriptionFourteen"),
         emoji: "📅",
         default: data.defaultExpiry === 14,
       },
       {
-        label: t("default_expiry.label_thirty"),
+        label: t("defaultExpiry.labelThirty"),
         value: "30",
-        description: t("default_expiry.description_thirty"),
+        description: t("defaultExpiry.descriptionThirty"),
         emoji: "📅",
         default: data.defaultExpiry === 30,
       },
     ]);
   const actionRow = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(stringSelect);
-  const messageComponent = await waitForMessageComponent(interaction, actionRow, t, "misc_config");
+  const messageComponent = await waitForMessageComponent(interaction, actionRow, t, "defaultExpiry");
   if (!messageComponent) return;
   await updateGuildConfig(interaction.guildId, {
     defaultExpiry: parseInt(messageComponent.values[0]),
   });
   await messageComponent.deferUpdate();
   await messageComponent.editReply({
-    content: t("default_expiry.success", { days: messageComponent.values[0] }),
+    content: t("defaultExpiry.success", { days: messageComponent.values[0] }),
     components: [],
   });
 }

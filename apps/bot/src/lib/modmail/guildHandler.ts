@@ -1,6 +1,6 @@
 import { Message } from "discord.js";
 import { getOrCreateGuild, addMessageToThread, ModMailAuthorType, ModMailSentToType } from "@repo/database";
-import { logger } from "src/lib/index.js";
+import { logger } from "@lib";
 
 export async function handleStaffReply(message: Message) {
   const config = await getOrCreateGuild(message.guildId!);

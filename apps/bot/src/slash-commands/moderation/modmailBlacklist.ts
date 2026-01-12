@@ -1,4 +1,4 @@
-import { SlashCommandBase } from "src/types/index.js";
+import { SlashCommandBase } from "@types";
 import {
   EmbedBuilder,
   InteractionContextType,
@@ -6,14 +6,9 @@ import {
   PermissionsBitField,
   SlashCommandBuilder,
 } from "discord.js";
-import {
-  getGuildConfig,
-  addToModmailBlacklist,
-  removeFromModmailBlacklist,
-  getModmailBlacklistByUser,
-} from "src/database/index.js";
+import { blacklistUser, unblacklistUser, getBlacklistedUser } from "@repo/database";
 import dayjs from "dayjs";
-import { logger } from "src/lib/index.js";
+import { logger } from "@lib";
 import "dayjs/locale/en.js";
 import "dayjs/locale/tr.js";
 import relativeTime from "dayjs/plugin/relativeTime.js";
@@ -145,15 +140,7 @@ export default {
             .setRequired(true),
         ),
     ),
-  async execute(interaction) {
-    const guildConfig = await getGuildConfig(interaction.guildId);
-    if (!guildConfig) {
-      await interaction.reply({
-        content: "This server is not registered in the database. This shouldn't happen, please contact developers",
-        flags: MessageFlagsBitField.Flags.Ephemeral,
-      });
-      return;
-    }
+  async execute(interaction, guildConfig) {
     const t = interaction.client.i18next.getFixedT(guildConfig.language, "commands", "modmail-blacklist");
     const subcommand = interaction.options.getSubcommand(true);
     if (subcommand === "add") {
@@ -163,46 +150,51 @@ export default {
       const time = interaction.options.getString("time");
       if (user.id === interaction.user.id) {
         await interaction.reply({
-          content: t("cannot_blacklist_self"),
+          content: t("cannotBlacklistSelf"),
           flags: MessageFlagsBitField.Flags.Ephemeral,
         });
         return;
       }
       if (user.bot) {
         await interaction.reply({
-          content: t("cannot_blacklist_bot"),
+          content: t("cannotBlacklistBot"),
           flags: MessageFlagsBitField.Flags.Ephemeral,
         });
         return;
       }
       if (duration && !time) {
         await interaction.reply({
-          content: t("duration_without_time"),
+          content: t("durationWithoutTime"),
           flags: MessageFlagsBitField.Flags.Ephemeral,
         });
         return;
       }
       if (!duration && time) {
         await interaction.reply({
-          content: t("time_without_duration"),
+          content: t("timeWithoutDuration"),
+          flags: MessageFlagsBitField.Flags.Ephemeral,
+        });
+        return;
+      }
+      if (!duration || !time) {
+        await interaction.reply({
+          content: t("permanentBlacklistWarning"),
           flags: MessageFlagsBitField.Flags.Ephemeral,
         });
         return;
       }
       try {
-        await addToModmailBlacklist(interaction.guildId, user.id, {
+        await blacklistUser(
+          interaction.guildId,
+          user.id,
+          interaction.user.id,
           reason,
-          created_at: dayjs().toDate(),
-          expires_at:
-            duration && time
-              ? dayjs()
-                  .add(duration, time as dayjs.ManipulateType)
-                  .toDate()
-              : null,
-          moderator_id: BigInt(interaction.user.id),
-        });
+          dayjs()
+            .add(duration, time as dayjs.ManipulateType)
+            .toDate(),
+        );
         await interaction.reply({
-          content: t("blacklist_success", {
+          content: t("blacklistSuccess", {
             confirm: interaction.client.allEmojis.get(interaction.client.config.emojis.confirm.id)?.format,
             user: user.toString(),
             reason,
@@ -222,23 +214,23 @@ export default {
           error,
         });
         await interaction.reply({
-          content: t("blacklist_error"),
+          content: t("blacklistError"),
           flags: MessageFlagsBitField.Flags.Ephemeral,
         });
       }
     } else if (subcommand === "remove") {
       const user = interaction.options.getUser("user", true);
       try {
-        const result = await removeFromModmailBlacklist(interaction.guildId, user.id);
+        const result = await unblacklistUser(interaction.guildId, user.id);
         if (result.count === 0) {
           await interaction.reply({
-            content: t("blacklist_remove.not_found", { user: user.toString() }),
+            content: t("blacklistRemove.notFound", { user: user.toString() }),
             flags: MessageFlagsBitField.Flags.Ephemeral,
           });
           return;
         }
         await interaction.reply({
-          content: t("blacklist_remove.success", {
+          content: t("blacklistRemove.success", {
             confirm: interaction.client.allEmojis.get(interaction.client.config.emojis.confirm.id)?.format,
             user: user.toString(),
           }),
@@ -251,45 +243,45 @@ export default {
           error,
         });
         await interaction.reply({
-          content: t("blacklist_remove.error"),
+          content: t("blacklistRemove.error"),
           flags: MessageFlagsBitField.Flags.Ephemeral,
         });
       }
     } else if (subcommand === "get") {
       const user = interaction.options.getUser("user", true);
-      const blacklist = await getModmailBlacklistByUser(interaction.guildId, user.id);
+      const blacklist = await getBlacklistedUser(interaction.guildId, user.id);
       if (!blacklist) {
         await interaction.reply({
-          content: t("blacklist_get.not_found", { user: user.toString() }),
+          content: t("blacklistGet.notFound", { user: user.toString() }),
           flags: MessageFlagsBitField.Flags.Ephemeral,
         });
         return;
       }
       const embed = new EmbedBuilder()
-        .setTitle(t("blacklist_get.embed.title", { user: user.username }))
+        .setTitle(t("blacklistGet.embed.title", { user: user.username }))
         .setAuthor({ name: interaction.guild.name, iconURL: interaction.guild.iconURL() || undefined })
         .setColor("Random")
         .addFields([
           {
-            name: t("blacklist_get.embed.fields.reason"),
+            name: t("blacklistGet.embed.fields.reason"),
             value: blacklist.reason,
             inline: true,
           },
           {
-            name: t("blacklist_get.embed.fields.created_at"),
-            value: dayjs(blacklist.created_at).format("YYYY-MM-DD HH:mm:ss"),
+            name: t("blacklistGet.embed.fields.createdAt"),
+            value: dayjs(blacklist.createdAt).format("YYYY-MM-DD HH:mm:ss"),
             inline: true,
           },
           {
-            name: t("blacklist_get.embed.fields.expires_at"),
-            value: blacklist.expires_at
-              ? dayjs(blacklist.expires_at).format("YYYY-MM-DD HH:mm:ss")
+            name: t("blacklistGet.embed.fields.expiresAt"),
+            value: blacklist.expiresAt
+              ? dayjs(blacklist.expiresAt).format("YYYY-MM-DD HH:mm:ss")
               : interaction.client.allEmojis.get(interaction.client.config.emojis.infinity.id)!.format,
             inline: true,
           },
           {
-            name: t("blacklist_get.embed.fields.moderator"),
-            value: `<@${blacklist.moderator_id}>`,
+            name: t("blacklistGet.embed.fields.moderator"),
+            value: `<@${blacklist.moderatorId}>`,
             inline: true,
           },
         ]);

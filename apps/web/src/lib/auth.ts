@@ -6,7 +6,7 @@ const database = new Pool({
   connectionString: process.env.POSTGRES_URL,
 });
 
-export const auth = betterAuth({
+export const auth: ReturnType<typeof betterAuth> = betterAuth({
   // @ts-ignore
   database: database,
   advanced: {

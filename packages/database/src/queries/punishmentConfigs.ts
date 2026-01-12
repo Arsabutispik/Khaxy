@@ -1,4 +1,4 @@
-import { prisma } from "apps/bot/src/database/index.js";
+import { prisma } from "../index.js";
 import type { GuildPunishmentConfig, PunishmentAction } from "../index.js";
 
 /**

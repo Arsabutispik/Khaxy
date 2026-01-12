@@ -1,16 +1,16 @@
 import { Client, Collection, GatewayIntentBits, Partials } from "discord.js";
 import dotenv from "dotenv";
 import i18next, { initI18n } from "./i18n/index.js";
-import { logger } from "src/lib/index.js";
+import { logger } from "@lib";
 import { CronJob } from "cron";
 import {
+  loadEvents,
   CheckExpiredModmailBlacklists,
   checkExpiredThreads,
   checkPunishments,
   colorUpdate,
   RegisterSlashCommands,
-} from "src/utils/index.js";
-import { loadEvents } from "./utils/system/eventHandler.js";
+} from "@utils";
 
 dotenv.config();
 
@@ -43,7 +43,7 @@ client.i18next = i18next;
 client.slashCommands = new Collection();
 client.allEmojis = new Collection();
 client.webhooks = new Collection();
-client.config = (await import("src/lib/index.js")).Config;
+client.config = (await import("@lib")).Config;
 
 await RegisterSlashCommands(client);
 await loadEvents(client);

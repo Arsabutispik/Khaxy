@@ -2,7 +2,7 @@ import { PunishmentAction, getOrCreateGuild, getUserInfractions, createPunishmen
 import { Guild, GuildMember, PermissionsBitField, User } from "discord.js";
 import { modLog } from "@utils";
 import dayjs from "dayjs";
-import { logger } from "src/lib/index.js";
+import { logger } from "@lib";
 import dayjsduration from "dayjs/plugin/duration.js";
 dayjs.extend(dayjsduration);
 export async function infractionsPunishment(guild: Guild, member: GuildMember, moderator: User) {

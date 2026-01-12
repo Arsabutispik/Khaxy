@@ -4,7 +4,7 @@ import duration from "dayjs/plugin/duration.js";
 import "dayjs/locale/tr.js";
 import { updateGuildConfig } from "@repo/database";
 import relativeTime from "dayjs/plugin/relativeTime.js";
-import { logger } from "src/lib/index.js";
+import { logger } from "@lib";
 import { GuildWithLogs } from "@repo/database";
 dayjs.extend(relativeTime);
 

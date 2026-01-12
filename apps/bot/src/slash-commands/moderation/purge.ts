@@ -1,4 +1,4 @@
-import { SlashCommandBase } from "src/types/index.js";
+import { SlashCommandBase } from "@types";
 import {
   ChannelType,
   InteractionContextType,
@@ -6,8 +6,7 @@ import {
   PermissionsBitField,
   SlashCommandBuilder,
 } from "discord.js";
-import { getGuildConfig } from "src/database/index.js";
-import { logger } from "src/lib/index.js";
+import { logger } from "@lib";
 
 export default {
   memberPermissions: [PermissionsBitField.Flags.ManageMessages],
@@ -109,14 +108,7 @@ export default {
             .setMaxValue(100),
         ),
     ),
-  execute: async (interaction) => {
-    const guildConfig = await getGuildConfig(interaction.guildId);
-    if (!guildConfig) {
-      return interaction.reply({
-        content: "Guild configuration not found.",
-        flags: MessageFlags.Ephemeral,
-      });
-    }
+  execute: async (interaction, guildConfig) => {
     const t = interaction.client.i18next.getFixedT(guildConfig.language, "commands", "purge");
     if (interaction.channel?.type !== ChannelType.GuildText) {
       return interaction.reply({

@@ -11,7 +11,7 @@ import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration.js";
 import relativeTime from "dayjs/plugin/relativeTime.js";
 import { modLog, logBanAdd } from "@utils";
-import { logger } from "src/lib/index.js";
+import { logger } from "@lib";
 import { createPunishment, PunishmentAction, createInfraction, InfractionType, GuildWithLogs } from "@repo/database";
 import { TFunction } from "i18next";
 

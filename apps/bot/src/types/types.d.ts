@@ -2,6 +2,8 @@ import {
   ChatInputCommandInteraction,
   Collection,
   SlashCommandBuilder,
+  SlashCommandSubcommandsOnlyBuilder,
+  SlashCommandOptionsOnlyBuilder,
   ClientEvents,
   Awaitable,
   Guild,
@@ -9,9 +11,8 @@ import {
   Webhook,
 } from "discord.js";
 import { i18n } from "i18next";
-import { Config } from "src/lib/index.js";
-import { InfractionType } from "src/constants/index.js";
-import { GuildWithLogs } from "@repo/database";
+import { Config } from "@lib";
+import { GuildWithLogs, InfractionType } from "@repo/database";
 
 declare module "discord.js" {
   interface Client {
@@ -25,7 +26,7 @@ declare module "discord.js" {
 export interface SlashCommandBase {
   memberPermissions?: bigint[];
   clientPermissions?: bigint[];
-  data?: SlashCommandBuilder;
+  data?: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder | SlashCommandOptionsOnlyBuilder;
   execute(interaction: ChatInputCommandInteraction<"cached">, guildData: GuildWithLogs): unknown;
 }
 
@@ -49,28 +50,28 @@ declare module "fastify" {
   }
 }
 export type DynamicChannelTypes =
-  | "register_join_channel_id"
-  | "register_channel_id"
-  | "join_channel_id"
-  | "leave_channel_id"
-  | "mod_logs_channel_id"
-  | "mod_mail_channel_id"
-  | "bump_leaderboard_channel_id"
-  | "message_logs_channel_id"
-  | "guild_member_logs_channel_id"
-  | "guild_logs_channel_id"
-  | "voice_logs_channel_id"
-  | "channel_logs_channel_id"
-  | "emoji_logs_channel_id"
-  | "role_logs_channel_id"
-  | "sticker_logs_channel_id"
-  | "event_logs_channel_id"
-  | "invite_logs_channel_id"
-  | "poll_logs_channel_id"
-  | "stage_logs_channel_id"
-  | "soundboard_logs_channel_id"
-  | "thread_logs_channel_id"
-  | "webhook_logs_channel_id";
+  | "registerJoinChannelId"
+  | "registerChannelId"
+  | "joinChannelId"
+  | "leaveChannelId"
+  | "modLogsChannelId"
+  | "modMailChannelId"
+  | "bumpLeaderboardChannelId"
+  | "messageLogsChannelId"
+  | "guildMemberLogsChannelId"
+  | "guildLogsChannelId"
+  | "voiceLogsChannelId"
+  | "channelLogsChannelId"
+  | "emojiLogsChannelId"
+  | "roleLogsChannelId"
+  | "stickerLogsChannelId"
+  | "eventLogsChannelId"
+  | "inviteLogsChannelId"
+  | "pollLogsChannelId"
+  | "stageLogsChannelId"
+  | "soundboardLogsChannelId"
+  | "threadLogsChannelId"
+  | "webhookLogsChannelId";
 
 export type RoleType =
   | "memberRoleId"

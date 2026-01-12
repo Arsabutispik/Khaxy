@@ -1,7 +1,7 @@
 import { EventBase } from "@types";
 import { Events } from "discord.js";
 import { getOrCreateGuild } from "@repo/database";
-import { logStickerUpdate } from "src/utils/logging/stickers/update.js";
+import { logStickerUpdate } from "@utils";
 
 export default {
   name: Events.GuildStickerUpdate,

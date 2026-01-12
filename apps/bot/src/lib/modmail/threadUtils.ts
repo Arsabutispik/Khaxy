@@ -7,7 +7,7 @@ import {
   ModMailAuthorType,
   ModMailSentToType,
 } from "@repo/database";
-import { logger } from "src/lib/index.js";
+import { logger } from "@lib";
 import dayjs from "dayjs";
 
 export async function setupNewThread(message: Message, guild: any, promptToEdit: Message) {

@@ -21,7 +21,6 @@ export const CONFIG_SCHEMA = {
   welcomeConfig: ["joinChannelId", "leaveChannelId", "joinMessage", "leaveMessage"],
   root: [
     "modMailChannelId",
-    "bumpLeaderboardChannelId",
     "modMailMessage",
     "djRoleId",
     "staffRoleId",

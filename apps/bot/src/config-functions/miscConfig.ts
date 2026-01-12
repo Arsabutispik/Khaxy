@@ -48,8 +48,6 @@ export async function miscConfig(interaction: ChatInputCommandInteraction<"cache
     case "modMailMessage":
       await dynamicMessage("modMailMessage", messageComponent, guildData, t);
       break;
-    case "bumpLeaderboardChannelId":
-      await dynamicChannel("bumpLeaderboardChannelId", messageComponent, guildData, t);
   }
 }
 

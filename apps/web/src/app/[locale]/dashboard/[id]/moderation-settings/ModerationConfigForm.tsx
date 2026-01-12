@@ -13,17 +13,16 @@ import { Info } from "lucide-react";
 import { DiscordChannelSelect } from "@/components/layout/DiscordChannelSelect";
 import { DiscordRoleSelect } from "@/components/layout/DiscordRoleSelect";
 import Separator from "@/components/layout/Seperator";
-import { guilds as Guilds } from "@repo/database";
+import { GuildWithLogs } from "@repo/database";
 import { SafeChannel, SafeRole } from "@/types/types.js";
 type ModerationConfig = Pick<
-  Guilds,
-  | "mod_logs_channel_id"
-  | "staff_role_id"
-  | "mod_mail_channel_id"
-  | "mute_get_all_roles"
-  | "days_to_kick"
-  | "default_expiry"
->;
+  GuildWithLogs,
+  "staffRoleId" | "modMailChannelId" | "muteGetAllRoles" | "defaultExpiry"
+> & {
+  modLogsChannelId:
+    | NonNullable<GuildWithLogs["logConfig"]>["modLogsChannelId"]
+    | null;
+};
 
 interface ModerationConfigFormProps {
   initialConfig: ModerationConfig;
@@ -53,42 +52,35 @@ export function ModerationConfigForm({
     type: "channel" | "role" | "number" | "checkbox";
   }> = [
     {
-      key: "mod_logs_channel_id",
+      key: "modLogsChannelId",
       title: t("mod_logs_channel_id.title"),
       label: t("mod_logs_channel_id.label"),
       description: t("mod_logs_channel_id.description"),
       type: "channel",
     },
     {
-      key: "staff_role_id",
+      key: "staffRoleId",
       title: t("staff_role_id.title"),
       label: t("staff_role_id.label"),
       description: t("staff_role_id.description"),
       type: "role",
     },
     {
-      key: "mod_mail_channel_id",
+      key: "modMailChannelId",
       title: t("mod_mail_channel_id.title"),
       label: t("mod_mail_channel_id.label"),
       description: t("mod_mail_channel_id.description"),
       type: "channel",
     },
     {
-      key: "mute_get_all_roles",
+      key: "muteGetAllRoles",
       title: t("mute_get_all_roles.title"),
       label: t("mute_get_all_roles.label"),
       description: t("mute_get_all_roles.description"),
       type: "checkbox",
     },
     {
-      key: "days_to_kick",
-      title: t("days_to_kick.title"),
-      label: t("days_to_kick.label"),
-      description: t("days_to_kick.description"),
-      type: "number",
-    },
-    {
-      key: "default_expiry",
+      key: "defaultExpiry",
       title: t("default_expiry.title"),
       label: t("default_expiry.label"),
       description: t("default_expiry.description"),
@@ -122,10 +114,7 @@ export function ModerationConfigForm({
                 </h3>
                 <Popover>
                   <PopoverTrigger asChild>
-                    <button
-                      type="button"
-                      className="flex-shrink-0 outline-none"
-                    >
+                    <button type="button" className="shrink-0 outline-none">
                       <Info className="w-4 h-4 text-zinc-500 hover:text-zinc-300 transition-colors" />
                       <span className="sr-only">Info</span>
                     </button>
@@ -141,7 +130,7 @@ export function ModerationConfigForm({
               </div>
 
               {/* Right: Dynamic Component */}
-              <div className="w-full md:w-[320px] flex-shrink-0 flex justify-start md:justify-end">
+              <div className="w-full md:w-[320px] shrink-0 flex justify-start md:justify-end">
                 {field.type === "channel" && (
                   <DiscordChannelSelect
                     label={field.title}

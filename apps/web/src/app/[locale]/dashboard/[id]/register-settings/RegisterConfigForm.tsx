@@ -16,9 +16,9 @@ import handleUnsavedChanges from "@/utils/HandleChangedSettings";
 import { SafeChannel } from "@/types/types.js";
 
 type RegisterConfig = {
-  register_join_channel_id: string | null;
-  register_channel_id: string | null;
-  register_join_message: string | null;
+  registerJoinChannelId: string | null;
+  registerChannelId: string | null;
+  registerJoinMessage: string | null;
 };
 
 interface RegisterConfigFormProps {
@@ -54,21 +54,21 @@ export function RegisterConfigForm({
     label: string;
   }> = [
     {
-      key: "register_join_channel_id",
+      key: "registerJoinChannelId",
       title: t("join.title"),
       description: t("join.description"),
       type: "channel",
       label: t("join.label"),
     },
     {
-      key: "register_channel_id",
+      key: "registerChannelId",
       title: t("register.title"),
       description: t("register.description"),
       type: "channel",
       label: t("register.label"),
     },
     {
-      key: "register_join_message",
+      key: "registerJoinMessage",
       title: t("message.title"),
       description: t("message.description"),
       type: "message",
@@ -105,10 +105,7 @@ export function RegisterConfigForm({
 
                 <Popover>
                   <PopoverTrigger asChild>
-                    <button
-                      type="button"
-                      className="flex-shrink-0 outline-none"
-                    >
+                    <button type="button" className="shrink-0 outline-none">
                       <Info className="w-4 h-4 text-zinc-500 hover:text-zinc-300 transition-colors" />
                       <span className="sr-only">Info</span>
                     </button>
@@ -124,7 +121,7 @@ export function RegisterConfigForm({
               </div>
 
               {/* Right: Dynamic Component */}
-              <div className="w-full md:w-[320px] flex-shrink-0 flex justify-start md:justify-end">
+              <div className="w-full md:w-[320px] shrink-0 flex justify-start md:justify-end">
                 {field.type === "channel" && (
                   <DiscordChannelSelect
                     label={field.title}

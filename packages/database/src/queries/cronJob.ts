@@ -9,7 +9,6 @@ export async function getActiveCronJobs(): Promise<CronJob[]> {
     where: {
       OR: [
         { colorTime: { not: null } },
-        { unregisteredPeopleTime: { not: null } },
       ],
     },
   });

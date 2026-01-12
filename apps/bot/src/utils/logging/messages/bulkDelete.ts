@@ -11,7 +11,7 @@ import { GuildWithLogs } from "@repo/database";
 import { returnWebhook, WebhookType } from "@utils";
 import { logger } from "@lib";
 
-export default async function logMessageBulkDelete(
+export async function logMessageBulkDelete(
   messages: ReadonlyCollection<string, Message<true> | PartialMessage<true>>,
   guild: Guild,
   guildConfig: GuildWithLogs,

@@ -1,4 +1,4 @@
-import type { SlashCommandBase } from "src/types/index.js";
+import type { SlashCommandBase } from "@types";
 import {
   ChannelType,
   InteractionContextType,
@@ -6,17 +6,17 @@ import {
   PermissionsBitField,
   SlashCommandBuilder,
 } from "discord.js";
-import { toStringId } from "src/utils/index.js";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime.js";
-import { logger } from "src/lib/index.js";
-import { ModMailMessageSentTo, ModMailMessageType, ModMailThreadStatus } from "src/constants/index.js";
+import { logger } from "@lib";
 import {
-  createModMailMessage,
-  createModMailThread,
-  getGuildConfig,
-  getModMailThreadByUser,
-} from "src/database/index.js";
+  createThread,
+  addMessageToThread,
+  getOpenThread,
+  ModMailStatus,
+  ModMailAuthorType,
+  ModMailSentToType,
+} from "@repo/database";
 export default {
   memberPermissions: [PermissionsBitField.Flags.ManageMessages],
   clientPermissions: [PermissionsBitField.Flags.ManageChannels],
@@ -55,15 +55,9 @@ export default {
         })
         .setRequired(true),
     ),
-  async execute(interaction) {
+  async execute(interaction, guildConfig) {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
     const user = interaction.options.getUser("user", true);
-    const guildConfig = await getGuildConfig(interaction.guildId);
-    if (!guildConfig) {
-      return interaction.editReply({
-        content: "This server is not configured yet.",
-      });
-    }
     const t = interaction.client.i18next.getFixedT(guildConfig.language, "commands", "newthread");
     const member = interaction.guild.members.cache.get(user.id);
     if (!member) {
@@ -71,7 +65,9 @@ export default {
         content: t("user_not_in_guild"),
       });
     }
-    const modmailChannel = interaction.guild.channels.cache.get(toStringId(guildConfig.mod_mail_channel_id));
+    const modmailChannel = guildConfig.modMailChannelId
+      ? interaction.guild.channels.cache.get(guildConfig.modMailChannelId)
+      : undefined;
     if (!modmailChannel) {
       return interaction.editReply({
         content: t("no_modmail_channel"),
@@ -82,12 +78,12 @@ export default {
         content: t("modmail_channel_not_text"),
       });
     }
-    if (modmailChannel.parent?.id !== toStringId(guildConfig.mod_mail_parent_channel_id)) {
+    if (modmailChannel.parent?.id !== guildConfig.modMailParentChannelId) {
       return interaction.editReply({
         content: t("modmail_channel_not_in_parent"),
       });
     }
-    const modMailThread = await getModMailThreadByUser(user.id, ModMailThreadStatus.OPEN);
+    const modMailThread = await getOpenThread(interaction.guildId, user.id);
     if (modMailThread) {
       return interaction.editReply({
         content: t("thread_already_exists"),
@@ -95,9 +91,9 @@ export default {
     }
     const permissionOverwrites = [{ id: interaction.guild.id, deny: [PermissionsBitField.Flags.ViewChannel] }];
 
-    if (interaction.guild.roles.cache.has(toStringId(guildConfig.staff_role_id))) {
+    if (guildConfig.staffRoleId && interaction.guild.roles.cache.has(guildConfig.staffRoleId)) {
       permissionOverwrites.push({
-        id: toStringId(guildConfig.staff_role_id)!,
+        id: guildConfig.staffRoleId,
         // @ts-expect-error - This is a valid permission bitfield
         allow: [PermissionsBitField.Flags.ViewChannel],
       });
@@ -105,7 +101,7 @@ export default {
     const channel = await interaction.guild.channels
       .create({
         name: Math.random().toString(36).slice(2),
-        parent: toStringId(guildConfig.mod_mail_parent_channel_id),
+        parent: guildConfig.modMailParentChannelId,
         type: ChannelType.GuildText,
         topic: t("topic", { user: user.tag }),
         permissionOverwrites: permissionOverwrites,
@@ -150,39 +146,34 @@ export default {
       `${t("created_by", { user: interaction.user.tag })} \`1\` **[${interaction.user.tag}]:** ${message}`,
     );
     try {
-      await createModMailThread(interaction.guildId, {
-        user_id: BigInt(user.id),
-        created_at: dayjs().toDate(),
-        channel_id: BigInt(channel.id),
-        status: ModMailThreadStatus.OPEN,
-      });
-      await createModMailMessage(channel.id, {
-        author_id: BigInt(interaction.user.id),
-        sent_at: dm.createdAt,
-        message_id: BigInt(dm.id),
-        sent_to: ModMailMessageSentTo.USER,
-        author_type: ModMailMessageType.STAFF,
-        content: message,
-      });
-      await createModMailMessage(channel.id, {
-        author_id: BigInt(interaction.client.user.id),
-        sent_at: botMessage.createdAt,
-        message_id: BigInt(botMessage.id),
-        sent_to: ModMailMessageSentTo.THREAD,
-        author_type: ModMailMessageType.CLIENT,
-        content: botMessage.content,
-      });
+      await createThread(interaction.guildId, user.id, channel.id, message);
+      await addMessageToThread(
+        channel.id,
+        message,
+        interaction.user.id,
+        ModMailAuthorType.STAFF,
+        ModMailSentToType.USER,
+        dm.id,
+      );
+      await addMessageToThread(
+        channel.id,
+        botMessage.content,
+        interaction.client.user.id,
+        ModMailAuthorType.SYSTEM,
+        ModMailSentToType.THREAD,
+        botMessage.id,
+      );
       await interaction.editReply({
         content: t("thread_created", { channel: channel.toString() }),
       });
-      await createModMailMessage(channel.id, {
-        author_id: BigInt(interaction.user.id),
-        sent_at: new Date(),
-        author_type: ModMailMessageType.CLIENT,
-        sent_to: ModMailMessageSentTo.THREAD,
-        content: t("thread_created", { channel: channel.toString() }),
-        message_id: BigInt(interaction.id),
-      });
+      await addMessageToThread(
+        channel.id,
+        t("thread_created", { channel: channel.toString() }),
+        interaction.user.id,
+        ModMailAuthorType.SYSTEM,
+        ModMailSentToType.THREAD,
+        interaction.id,
+      );
     } catch (e) {
       logger.log({
         level: "error",

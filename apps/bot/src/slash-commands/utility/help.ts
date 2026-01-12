@@ -1,6 +1,5 @@
-import { SlashCommandBase } from "src/types/index.js";
+import { SlashCommandBase } from "@types";
 import { EmbedBuilder, MessageFlags, SlashCommandBuilder, Locale, InteractionContextType } from "discord.js";
-import { getGuildConfig } from "src/database/index.js";
 
 export default {
   data: new SlashCommandBuilder()
@@ -25,40 +24,32 @@ export default {
         })
         .setRequired(true),
     ),
-  async execute(interaction) {
-    const guild_config = await getGuildConfig(interaction.guildId);
-    if (!guild_config) {
-      await interaction.reply({
-        content: "Guild configuration not found. Please try again later.",
-        flags: MessageFlags.Ephemeral,
-      });
-      return;
-    }
-    const t = interaction.client.i18next.getFixedT(guild_config.language, "commands", "help");
-    const helpt = interaction.client.i18next.getFixedT(guild_config.language, "help");
-    const command_name = interaction.options.getString("command", true);
-    let command_collection;
+  async execute(interaction, guildConfig) {
+    const t = interaction.client.i18next.getFixedT(guildConfig.language, "commands", "help");
+    const helpt = interaction.client.i18next.getFixedT(guildConfig.language, "help");
+    const commandName = interaction.options.getString("command", true);
+    let commandCollection;
     if (process.env.NODE_ENV === "development") {
-      command_collection =
+      commandCollection =
         interaction.client.application.commands.cache.size > 0
           ? interaction.client.application.commands.cache
           : await interaction.client.application.commands
               .fetch({ guildId: process.env.GUILD_ID, withLocalizations: true })
               .catch(() => null);
     } else {
-      command_collection =
+      commandCollection =
         interaction.client.application.commands.cache.size > 0
           ? interaction.client.application.commands.cache
           : await interaction.client.application.commands.fetch({ withLocalizations: true });
     }
-    const command = command_collection?.find(
+    const command = commandCollection?.find(
       (cmd) =>
-        cmd.name === command_name ||
-        cmd.nameLocalizations?.[guild_config.language.split("-")[0] as Locale] === command_name,
+        cmd.name === commandName ||
+        cmd.nameLocalizations?.[guildConfig.language.split("-")[0] as Locale] === commandName,
     );
     if (!command) {
       await interaction.reply({
-        content: t("command_not_found", { command: command_name }),
+        content: t("commandNotFound", { command: commandName }),
         flags: MessageFlags.Ephemeral,
       });
       return;
@@ -71,7 +62,7 @@ export default {
         text: t("footer"),
       })
       .addFields({
-        name: t("command_usage"),
+        name: t("commandUsage"),
         value: helpt(`${command.name}.usage`, { command }),
       })
       .addFields({

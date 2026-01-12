@@ -1,5 +1,5 @@
 import { InteractionContextType, MessageFlags, SlashCommandBuilder } from "discord.js";
-import type { SlashCommandBase } from "src/types/index.js";
+import type { SlashCommandBase } from "@types";
 
 export default {
   data: new SlashCommandBuilder()
@@ -12,7 +12,7 @@ export default {
     .setDescriptionLocalizations({
       tr: "Botun gecikmesini kontrol et",
     }),
-  async execute(interaction) {
+  async execute(interaction, guildConfig) {
     await interaction.reply({
       content: `🏓 Pong! Websocket Latency is ${interaction.client.ws.ping}ms\nAPI Latency is ${Date.now() - interaction.createdTimestamp}ms`,
       flags: MessageFlags.Ephemeral,

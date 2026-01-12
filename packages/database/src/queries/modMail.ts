@@ -278,9 +278,9 @@ export async function blacklistUser(
 export async function unblacklistUser(
   guildId: string,
   userId: string,
-): Promise<void> {
+)  {
   // We use deleteMany just in case there are accidental duplicate entries
-  await prisma.modMailBlacklist.deleteMany({
+  return  prisma.modMailBlacklist.deleteMany({
     where: {
       guildId,
       userId,

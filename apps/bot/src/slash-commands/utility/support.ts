@@ -1,7 +1,6 @@
-import { SlashCommandBase } from "src/types/index.js";
+import { SlashCommandBase } from "@types";
 import { EmbedBuilder, InteractionContextType, MessageFlags, SlashCommandBuilder } from "discord.js";
-import { getGuildConfig } from "src/database/index.js";
-import { logger } from "src/lib/index.js";
+import { logger } from "@lib";
 
 export default {
   data: new SlashCommandBuilder()
@@ -14,20 +13,12 @@ export default {
       tr: "Bot için destek linkleri",
     })
     .setContexts(InteractionContextType.Guild),
-  async execute(interaction) {
-    const guildConfig = await getGuildConfig(interaction.guildId);
-    if (!guildConfig) {
-      await interaction.reply({
-        content: "This server is not registered in the database. This shouldn't happen, please contact developers",
-        flags: MessageFlags.Ephemeral,
-      });
-      return;
-    }
+  async execute(interaction, guildConfig) {
     const t = interaction.client.i18next.getFixedT(guildConfig.language, "commands", "support");
     const devGuild = interaction.client.guilds.cache.get(process.env.GUILD_ID!);
     if (!devGuild) {
       await interaction.reply({
-        content: t("guild_not_found"),
+        content: t("guildNotFound"),
         flags: MessageFlags.Ephemeral,
       });
       return;
@@ -41,11 +32,11 @@ export default {
         .setTitle(t("embed.title"))
         .setFields([
           {
-            name: t("embed.fields.support_server"),
+            name: t("embed.fields.supportServer"),
             value: invite.url,
           },
           {
-            name: t("embed.fields.docs_site"),
+            name: t("embed.fields.docsSite"),
             value: `https://docs.khaxy.net/${guildConfig.language.split("-")[0]}/`,
           },
         ]);

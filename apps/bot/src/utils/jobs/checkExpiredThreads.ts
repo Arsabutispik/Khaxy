@@ -1,5 +1,5 @@
 import { ChannelType, Client, User } from "discord.js";
-import { modMailLog } from "@utils";
+import { modMailLog } from "@lib";
 import { getExpiredThreads, getOrCreateGuild, closeThread } from "@repo/database";
 
 export async function checkExpiredThreads(client: Client) {
