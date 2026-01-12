@@ -1,4 +1,4 @@
-import type { SlashCommandBase } from "src/types/index.js";
+import type { SlashCommandBase } from "@types";
 import {
   ChannelType,
   EmbedBuilder,
@@ -7,9 +7,8 @@ import {
   PermissionsBitField,
   SlashCommandBuilder,
 } from "discord.js";
-import { logger } from "src/lib/index.js";
-import { returnWebhook, toStringId, WebhookType } from "src/utils/index.js";
-import { getGuildConfig } from "src/database/index.js";
+import { logger } from "@lib";
+import { returnWebhook, WebhookType } from "@utils";
 
 export default {
   memberPermissions: [PermissionsBitField.Flags.ManageRoles],
@@ -72,16 +71,8 @@ export default {
           },
         ),
     ),
-  async execute(interaction) {
+  async execute(interaction, guildConfig) {
     const client = interaction.client;
-    const guildConfig = await getGuildConfig(interaction.guildId);
-    if (!guildConfig) {
-      await interaction.reply({
-        content: "This server is not registered in the database. This shouldn't happen, please contact developers",
-        flags: MessageFlagsBitField.Flags.Ephemeral,
-      });
-      return;
-    }
     const t = client.i18next.getFixedT(guildConfig.language || "en", "commands", "register");
     const member = interaction.options.getMember("user");
     if (!member) {
@@ -89,8 +80,10 @@ export default {
       return;
     }
     const gender = interaction.options.getString("gender", true);
-    const registerChannel = interaction.guild.channels.cache.get(toStringId(guildConfig.register_channel_id));
-    if (!guildConfig.register_channel_id || !registerChannel) {
+    const registerChannel = guildConfig.registerChannelId
+      ? interaction.guild.channels.cache.get(guildConfig.registerChannelId)
+      : undefined;
+    if (!guildConfig.registerChannelId || !registerChannel) {
       await interaction.reply({ content: t("no_register_channel"), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
@@ -101,30 +94,30 @@ export default {
       });
       return;
     }
-    if (!guildConfig.member_role_id || !interaction.guild.roles.cache.has(toStringId(guildConfig.member_role_id))) {
+    if (!guildConfig.memberRoleId || !interaction.guild.roles.cache.has(guildConfig.memberRoleId)) {
       await interaction.reply({ content: t("no_member_role"), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
-    if (member.roles.cache.has(toStringId(guildConfig.member_role_id))) {
+    if (member.roles.cache.has(guildConfig.memberRoleId)) {
       await interaction.reply({ content: t("already_registered"), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
     const rolesToAdd = [
-      ...member.roles.cache.map((role) => role.id).filter((id) => id !== toStringId(guildConfig.unverified_role_id)),
-      toStringId(guildConfig.member_role_id),
+      ...member.roles.cache.map((role) => role.id).filter((id) => id !== guildConfig.unverifiedRoleId),
+      guildConfig.memberRoleId,
     ];
     let added_roles = "";
-    const check = member.roles.cache.has(toStringId(guildConfig.unverified_role_id));
+    const check = guildConfig.unverifiedRoleId ? member.roles.cache.has(guildConfig.unverifiedRoleId) : false;
     switch (gender) {
       case "male":
-        if (!guildConfig.male_role_id || !interaction.guild.roles.cache.has(toStringId(guildConfig.male_role_id))) {
+        if (!guildConfig.maleRoleId || !interaction.guild.roles.cache.has(guildConfig.maleRoleId)) {
           await interaction.reply({ content: t("no_male_role"), flags: MessageFlagsBitField.Flags.Ephemeral });
           return;
         }
         try {
-          rolesToAdd.push(toStringId(guildConfig.male_role_id));
+          rolesToAdd.push(guildConfig.maleRoleId);
           await member.roles.set(rolesToAdd);
-          added_roles = `<@&${guildConfig.male_role_id}>, <@&${guildConfig.member_role_id}>`;
+          added_roles = `<@&${guildConfig.maleRoleId}>, <@&${guildConfig.memberRoleId}>`;
           await interaction.reply({
             content: t("success", {
               user: member.toString(),
@@ -132,28 +125,28 @@ export default {
             }),
             flags: MessageFlagsBitField.Flags.Ephemeral,
           });
-        } catch (e) {
+        } catch (error: any) {
           await interaction.reply({
-            content: t("error", { error: e.message }),
+            content: t("error", { error: error.message }),
             flags: MessageFlagsBitField.Flags.Ephemeral,
           });
           logger.error({
             message: `Error while registering user ${member.user.tag} from guild ${interaction.guild.name}`,
-            error: e,
+            error,
             guild: interaction.guild.id,
             user: interaction.user.id,
           });
         }
         break;
       case "female":
-        if (!guildConfig.female_role_id || !interaction.guild.roles.cache.has(toStringId(guildConfig.female_role_id))) {
+        if (!guildConfig.femaleRoleId || !interaction.guild.roles.cache.has(guildConfig.femaleRoleId)) {
           await interaction.reply({ content: t("no_female_role"), flags: MessageFlagsBitField.Flags.Ephemeral });
           return;
         }
         try {
-          rolesToAdd.push(toStringId(guildConfig.female_role_id));
+          rolesToAdd.push(guildConfig.femaleRoleId);
           await member.roles.set(rolesToAdd);
-          added_roles = `<@&${guildConfig.female_role_id}>, <@&${guildConfig.member_role_id}>`;
+          added_roles = `<@&${guildConfig.femaleRoleId}>, <@&${guildConfig.memberRoleId}>`;
           await interaction.reply({
             content: t("success", {
               user: member.toString(),
@@ -161,7 +154,7 @@ export default {
             }),
             flags: MessageFlagsBitField.Flags.Ephemeral,
           });
-        } catch (e) {
+        } catch (e: any) {
           await interaction.reply({
             content: t("error", { error: e.message }),
             flags: MessageFlagsBitField.Flags.Ephemeral,
@@ -177,7 +170,7 @@ export default {
       case "other":
         try {
           await member.roles.set(rolesToAdd);
-          added_roles = `<@&${guildConfig.member_role_id}>`;
+          added_roles = `<@&${guildConfig.memberRoleId}>`;
           await interaction.reply({
             content: t("success", {
               user: member.toString(),
@@ -185,7 +178,7 @@ export default {
             }),
             flags: MessageFlagsBitField.Flags.Ephemeral,
           });
-        } catch (e) {
+        } catch (e: any) {
           await interaction.reply({
             content: t("error", { error: e.message }),
             flags: MessageFlagsBitField.Flags.Ephemeral,
@@ -202,7 +195,9 @@ export default {
         await interaction.reply(t("not_valid"));
         break;
     }
-    const logChannel = interaction.guild.channels.cache.get(toStringId(guildConfig.guild_member_logs_channel_id));
+    const logChannel = guildConfig.logConfig?.guildMemberLogsChannelId
+      ? interaction.guild.channels.cache.get(guildConfig.logConfig.guildMemberLogsChannelId)
+      : undefined;
     if (logChannel?.type !== ChannelType.GuildText) return;
     const embed = new EmbedBuilder()
       .setTitle(t("roles_update.embed.title"))
@@ -217,15 +212,16 @@ export default {
     let description = t("roles_update.embed.description", { user: member.user, added_roles });
 
     if (check) {
-      description += `\n> **${t("roles_update.embed.removed")}**: <@&${guildConfig.unverified_role_id}>`;
+      description += `\n> **${t("roles_update.embed.removed")}**: <@&${guildConfig.unverifiedRoleId}>`;
     }
 
     embed.setDescription(description);
 
-    const webhook = await returnWebhook(client, logChannel, interaction.guildId, {
-      id: guildConfig.guild_member_logs_webhook_id,
+    const webhook = await returnWebhook(client, logChannel, interaction.guildId, guildConfig, {
+      id: guildConfig.logConfig?.guildMemberLogsWebhookId,
       type: WebhookType.GUILD_MEMBER_LOGS,
     });
+    if (!webhook) return;
     await webhook.send({ embeds: [embed] }).catch((error) => {
       logger.log({
         level: "error",

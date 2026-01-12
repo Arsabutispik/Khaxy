@@ -1,4 +1,4 @@
-import type { SlashCommandBase } from "src/types/index.js";
+import type { SlashCommandBase } from "@types";
 import {
   ChannelType,
   EmbedBuilder,
@@ -10,11 +10,10 @@ import {
 import dayjs from "dayjs";
 import dayjsduration from "dayjs/plugin/duration.js";
 import relativeTime from "dayjs/plugin/relativeTime.js";
-import { logger } from "src/lib/index.js";
+import { logger } from "@lib";
 import "dayjs/locale/tr.js";
-import { toStringId, modLog, returnWebhook, WebhookType } from "src/utils/index.js";
-import { createPunishment, getGuildConfig, getLatestPunishmentByUserAndType } from "src/database/index.js";
-import { PunishmentType } from "src/constants/index.js";
+import { modLog, returnWebhook, WebhookType } from "@utils";
+import { createPunishment, getPunishment, PunishmentAction } from "@repo/database";
 export default {
   memberPermissions: [PermissionsBitField.Flags.ManageRoles],
   clientPermissions: [PermissionsBitField.Flags.ManageRoles],
@@ -85,66 +84,58 @@ export default {
           tr: "Kullanıcının susturulma sebebi",
         }),
     ),
-  async execute(interaction) {
+  async execute(interaction, guildConfig) {
     dayjs.extend(dayjsduration);
     dayjs.extend(relativeTime);
     const client = interaction.client;
-    const guildConfig = await getGuildConfig(interaction.guildId);
-    if (!guildConfig) {
-      await interaction.reply({
-        content: "This server is not registered in the database. This shouldn't happen, please contact developers",
-        flags: MessageFlagsBitField.Flags.Ephemeral,
-      });
-      return;
-    }
     const t = client.i18next.getFixedT(guildConfig.language, "commands", "mute");
     const member = interaction.options.getMember("user");
     if (!member) {
-      await interaction.reply({ content: t("no_user"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t("noUser"), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
     if (member.user.bot) {
-      await interaction.reply({ content: t("cant_mute_bot"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t("cantMuteBot"), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
     if (member.id === interaction.user.id) {
-      await interaction.reply({ content: t("cant_mute_yourself"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t("cantMuteYourself"), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
     if (
       member.permissions.has(PermissionsBitField.Flags.ManageRoles) ||
-      member.roles.cache.has(toStringId(guildConfig.staff_role_id))
+      (guildConfig.staffRoleId && member.roles.cache.has(guildConfig.staffRoleId))
     ) {
-      await interaction.reply({ content: t("cant_mute_mod"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t("cantMuteMod"), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
     if (member.roles.highest.position >= interaction.member.roles.highest.position) {
-      await interaction.reply({ content: t("cant_mute_higher"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t("cantMuteHigher"), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
-    const muteRole = interaction.guild.roles.cache.get(toStringId(guildConfig.mute_role_id));
+    const muteRole = guildConfig.muteRoleId ? interaction.guild.roles.cache.get(guildConfig.muteRoleId) : undefined;
     if (!muteRole) {
-      await interaction.reply({ content: t("no_mute_role"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t("noMuteRole"), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
-    const punishment = await getLatestPunishmentByUserAndType(interaction.guildId, member.id, PunishmentType.MUTE);
+    const punishment = await getPunishment(interaction.guildId, member.id, PunishmentAction.MUTE);
 
     if (member.roles.cache.has(muteRole.id) && punishment) {
-      await interaction.reply({ content: t("already_muted"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t("alreadyMuted"), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     } else if (member.roles.cache.has(muteRole.id) && !punishment) {
       await interaction.reply({
-        content: t("already_muted_no_punishment"),
+        content: t("alreadyMutedNoPunishment"),
         flags: MessageFlagsBitField.Flags.Ephemeral,
       });
       await member.roles.remove(muteRole);
       return;
     } else if (!member.roles.cache.has(muteRole.id) && punishment) {
-      await interaction.reply({ content: t("not_muted"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t("notMuted"), flags: MessageFlagsBitField.Flags.Ephemeral });
       await member.roles.add(muteRole);
       return;
     }
-    const reason = interaction.options.getString("reason") || t("no_reason");
+    const reason = interaction.options.getString("reason") || t("noReason");
     const duration = dayjs.duration(
       interaction.options.getNumber("duration", true),
       interaction.options.getString("time", true) as dayjsduration.DurationUnitType,
@@ -156,17 +147,17 @@ export default {
       .filter((role) => role.id !== interaction.guild!.id)
       .filter((role) => role.id !== interaction.guild!.roles.premiumSubscriberRole?.id)
       .filter((role) => role.position < interaction.guild!.members.me!.roles.highest.position)
-      .map((role) => BigInt(role.id));
-    if (guildConfig.mute_get_all_roles) {
+      .map((role) => role.id);
+    if (guildConfig.muteGetAllRoles) {
       try {
-        await createPunishment(interaction.guildId, {
-          user_id: BigInt(member.id),
-          type: PunishmentType.MUTE,
-          staff_id: BigInt(interaction.user.id),
-          expires_at: new Date(Date.now() + duration.asMilliseconds()),
-          created_at: new Date(),
-          previous_roles: filteredRoles,
-        });
+        await createPunishment(
+          interaction.guildId,
+          member.id,
+          interaction.user.id,
+          PunishmentAction.MUTE,
+          new Date(Date.now() + duration.asMilliseconds()),
+          filteredRoles,
+        );
       } catch (error) {
         await interaction.reply({ content: t("database_error"), flags: MessageFlagsBitField.Flags.Ephemeral });
         logger.error({
@@ -191,13 +182,13 @@ export default {
       }
     } else {
       try {
-        await createPunishment(interaction.guildId, {
-          user_id: BigInt(member.id),
-          type: PunishmentType.MUTE,
-          staff_id: BigInt(interaction.user.id),
-          expires_at: new Date(Date.now() + duration.asMilliseconds()),
-          created_at: new Date(),
-        });
+        await createPunishment(
+          interaction.guildId,
+          member.id,
+          interaction.user.id,
+          PunishmentAction.MUTE,
+          new Date(Date.now() + duration.asMilliseconds()),
+        );
       } catch (error) {
         await interaction.reply({ content: t("database_error"), flags: MessageFlagsBitField.Flags.Ephemeral });
         logger.error({
@@ -228,7 +219,7 @@ export default {
           user: member.user.tag,
           duration: longDuration,
           confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
-          case: guildConfig.case_id,
+          case: guildConfig.caseId,
         }),
       });
     } catch {
@@ -236,7 +227,7 @@ export default {
         content: t("message.fail", {
           user: member.user.tag,
           duration: longDuration,
-          case: guildConfig.case_id,
+          case: guildConfig.caseId,
           confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
         }),
       });
@@ -259,7 +250,9 @@ export default {
         await interaction.reply(result.message);
       }
     }
-    const logChannel = member.guild.channels.cache.get(toStringId(guildConfig.guild_member_logs_channel_id));
+    const logChannel = guildConfig.logConfig?.guildMemberLogsChannelId
+      ? member.guild.channels.cache.get(guildConfig.logConfig.guildMemberLogsChannelId)
+      : undefined;
     if (logChannel?.type !== ChannelType.GuildText) return;
     const embed = new EmbedBuilder().setTitle(t("embed.title")).setColor("Yellow").setTimestamp();
     let description = t("embed.description", {
@@ -278,10 +271,11 @@ export default {
         iconURL: interaction.user.displayAvatarURL(),
       });
     }
-    const webhook = await returnWebhook(client, logChannel, member.guild.id, {
-      id: guildConfig.guild_member_logs_channel_id,
+    const webhook = await returnWebhook(client, logChannel, member.guild.id, guildConfig, {
+      id: guildConfig.logConfig?.guildMemberLogsWebhookId,
       type: WebhookType.GUILD_MEMBER_LOGS,
     });
+    if (!webhook) return;
     await webhook.send({ embeds: [embed] });
   },
 } as SlashCommandBase;

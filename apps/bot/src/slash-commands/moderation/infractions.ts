@@ -1,4 +1,4 @@
-import { SlashCommandBase } from "src/types/index.js";
+import { SlashCommandBase } from "@types";
 import {
   EmbedBuilder,
   InteractionContextType,
@@ -8,9 +8,8 @@ import {
   time,
   TimestampStyles,
 } from "discord.js";
-import { getGuildConfig, getInfraction, getUserInfractions } from "src/database/index.js";
-import { paginate, toStringId } from "src/utils/index.js";
-import { InfractionType } from "src/constants/index.js";
+import { getInfraction, getUserInfractions, InfractionType } from "@repo/database";
+import { paginate } from "@utils";
 
 export default {
   memberPermissions: [PermissionsBitField.Flags.ModerateMembers],
@@ -94,37 +93,33 @@ export default {
         });
       return sub;
     }),
-  async execute(interaction) {
-    const guildConfig = await getGuildConfig(interaction.guildId);
-    if (!guildConfig) {
-      return interaction.reply({ content: "Guild configuration not found.", flags: MessageFlags.Ephemeral });
-    }
+  async execute(interaction, guildConfig) {
     const t = interaction.client.i18next.getFixedT(guildConfig.language, "commands", "infractions");
     const subcommand = interaction.options.getSubcommand();
     if (subcommand === "case") {
       const caseId = interaction.options.getInteger("id", true);
       const infraction = await getInfraction(interaction.guildId, caseId);
-      const user = await interaction.client.users.fetch(toStringId(infraction?.user_id)).catch(() => null);
+      if (!infraction) {
+        return interaction.reply({ content: t("no_infraction", { case: caseId }), flags: MessageFlags.Ephemeral });
+      }
+      const user = await interaction.client.users.fetch(infraction.userId).catch(() => null);
       if (!user) {
         return interaction.reply({ content: t("no_user"), flags: MessageFlags.Ephemeral });
-      }
-      if (!infraction || infraction.user_id !== BigInt(user.id)) {
-        return interaction.reply({ content: t("no_infraction", { case: caseId }), flags: MessageFlags.Ephemeral });
       }
       const embed = new EmbedBuilder()
         .setAuthor({
           name: user.tag,
           iconURL: user.displayAvatarURL(),
         })
-        .setTitle(t("infraction_case", { case: infraction.case_id }))
+        .setTitle(t("infraction_case", { case: infraction.caseId }))
         .setColor("Random")
         .setTimestamp()
         .setDescription(
           t("infraction_details", {
             type: infraction.type,
             reason: infraction.reason || t("no_reason"),
-            moderator: `<@${infraction.moderator_id}>`,
-            date: time(infraction.created_at, TimestampStyles.LongDateTime),
+            moderator: `<@${infraction.moderatorId}>`,
+            date: time(infraction.createdAt, TimestampStyles.LongDateTime),
           }),
         );
       return interaction.reply({ embeds: [embed] });
@@ -158,12 +153,12 @@ export default {
           .setTimestamp();
         chunk.forEach((infraction) => {
           embed.addFields({
-            name: t("infraction_case", { case: infraction.case_id }),
+            name: t("infraction_case", { case: infraction.caseId }),
             value: t("infraction_details", {
               type: infraction.type,
               reason: infraction.reason || t("no_reason"),
-              moderator: `<@${infraction.moderator_id}>`,
-              date: time(infraction.created_at, TimestampStyles.LongDateTime),
+              moderator: `<@${infraction.moderatorId}>`,
+              date: time(infraction.createdAt, TimestampStyles.LongDateTime),
             }),
           });
         });

@@ -1,5 +1,5 @@
 channelCreate:
-  unknown_executor: Unknown Executor
+  unknownExecutor: Unknown Executor
   embed:
     title: Channel Created
     description: |-
@@ -7,22 +7,22 @@ channelCreate:
       > **ID**: {{channel.id}}
       > **Type**: {{channel_type}}
       > **Created At**: {{timestamp}}
-  channel_types:
-    "0": Text Channel
-    "1": DM Channel
-    "2": Voice Channel
-    "3": Group DM Channel
-    "4": Category Channel
-    "5": News Channel
-    "10": News Thread Channel
-    "11": Public Thread Channel
-    "12": Private Thread Channel
-    "13": Stage Channel
-    "14": Directory Channel
-    "15": Forum Channel
-    "16": Media Channel
+  channelTypes:
+    '0': Text Channel
+    '1': DM Channel
+    '2': Voice Channel
+    '3': Group DM Channel
+    '4': Category Channel
+    '5': News Channel
+    '10': News Thread Channel
+    '11': Public Thread Channel
+    '12': Private Thread Channel
+    '13': Stage Channel
+    '14': Directory Channel
+    '15': Forum Channel
+    '16': Media Channel
 channelDelete:
-  unknown_executor: Unknown Executor
+  unknownExecutor: Unknown Executor
   embed:
     title: Channel Deleted
     description: |-
@@ -30,37 +30,37 @@ channelDelete:
       > **ID**: {{channel.id}}
       > **Type**: {{channel_type}}
       > **Deleted At**: {{timestamp}}
-  channel_types:
-    "0": Text Channel
-    "1": DM Channel
-    "2": Voice Channel
-    "3": Group DM Channel
-    "4": Category Channel
-    "5": News Channel
-    "10": News Thread Channel
-    "11": Public Thread Channel
-    "12": Private Thread Channel
-    "13": Stage Channel
-    "14": Directory Channel
-    "15": Forum Channel
-    "16": Media Channel
+  channelTypes:
+    '0': Text Channel
+    '1': DM Channel
+    '2': Voice Channel
+    '3': Group DM Channel
+    '4': Category Channel
+    '5': News Channel
+    '10': News Thread Channel
+    '11': Public Thread Channel
+    '12': Private Thread Channel
+    '13': Stage Channel
+    '14': Directory Channel
+    '15': Forum Channel
+    '16': Media Channel
 channelUpdate:
-  channel_types:
-    "0": Text Channel
-    "1": DM Channel
-    "2": Voice Channel
-    "3": Group DM Channel
-    "4": Category Channel
-    "5": News Channel
-    "10": News Thread Channel
-    "11": Public Thread Channel
-    "12": Private Thread Channel
-    "13": Stage Channel
-    "14": Directory Channel
-    "15": Forum Channel
-    "16": Media Channel
-  unknown_executor: Unknown Executor
-  name_change:
+  channelTypes:
+    '0': Text Channel
+    '1': DM Channel
+    '2': Voice Channel
+    '3': Group DM Channel
+    '4': Category Channel
+    '5': News Channel
+    '10': News Thread Channel
+    '11': Public Thread Channel
+    '12': Private Thread Channel
+    '13': Stage Channel
+    '14': Directory Channel
+    '15': Forum Channel
+    '16': Media Channel
+  unknownExecutor: Unknown Executor
+  nameChange:
     embed:
       title: Channel Name Changed
       description: |-
@@ -68,7 +68,7 @@ channelUpdate:
         > **ID**: {{channel.id}}
         > **Old Name**: {{old_name}}
         > **New Name**: {{new_name}}
-  topic_change:
+  topicChange:
     embed:
       title: Channel Topic Changed
       description: |-
@@ -76,7 +76,7 @@ channelUpdate:
         > **ID**: {{channel.id}}
         > **Old Topic**: {{old_topic}}
         > **New Topic**: {{new_topic}}
-  nsfw_change:
+  nsfwChange:
     embed:
       title: Channel NSFW Status Changed
       description: |-
@@ -84,14 +84,14 @@ channelUpdate:
         > **ID**: {{channel.id}}
         > **Old Status**: {{old_nsfw}}
         > **New Status**: {{new_nsfw}}
-  permissions_change:
+  permissionsChange:
     embed:
       title: Channel Permission Overwrites Changed
       description: |-
         > **Channel**: {{channel.name}} (<#{{channel.id}}>)
         > **ID**: {{channel.id}}
         > **Changes**: {{changes}}
-  type_change:
+  typeChange:
     embed:
       title: Channel Type Changed
       description: |-
@@ -99,7 +99,7 @@ channelUpdate:
         > **ID**: {{channel.id}}
         > **Old Type**: {{old_type}}
         > **New Type**: {{new_type}}
-  bitrate_change:
+  bitrateChange:
     embed:
       title: Voice Channel Bitrate Changed
       description: |-
@@ -107,7 +107,7 @@ channelUpdate:
         > **ID**: {{channel.id}}
         > **Old Bitrate**: {{old_bitrate}}
         > **New Bitrate**: {{new_bitrate}}
-  user_limit_change:
+  userLimitChange:
     embed:
       title: Channel User Limit Changed
       description: |-
@@ -115,7 +115,7 @@ channelUpdate:
         > **ID**: {{channel.id}}
         > **Old User Limit**: {{old_user_limit}} users
         > **New User Limit**: {{new_user_limit}} users
-  rate_limit_change:
+  rateLimitChange:
     embed:
       title: Channel Rate Limit Changed
       description: |-
@@ -123,7 +123,7 @@ channelUpdate:
         > **ID**: {{channel.id}}
         > **Old Rate Limit**: {{old_rate_limit}}
         > **New Rate Limit**: {{new_rate_limit}}
-  rtc_region_change:
+  rtcRegionChange:
     region:
       none: Auto
       brazil: Brazil
@@ -145,10 +145,10 @@ channelUpdate:
         > **ID**: {{channel.id}}
         > **Old RTC Region**: {{old_rtc_region}}
         > **New RTC Region**: {{new_rtc_region}}
-  video_quality_mode_change:
+  videoQualityModeChange:
     modes:
-      0: Auto
-      1: Full (720p)
+      '0': Auto
+      '1': Full (720p)
     embed:
       title: Voice Channel Video Quality Mode Changed
       description: |-
@@ -156,12 +156,12 @@ channelUpdate:
         > **ID**: {{channel.id}}
         > **Old Video Quality Mode**: {{old_video_quality_mode}}
         > **New Video Quality Mode**: {{new_video_quality_mode}}
-  default_archive_duration_change:
+  defaultArchiveDurationChange:
     time:
-      60: 1 Hour
-      1440: 1 Day
-      4320: 3 Days
-      10080: 1 Week
+      '60': 1 Hour
+      '1440': 1 Day
+      '4320': 3 Days
+      '10080': 1 Week
     embed:
       title: Forum Channel Default Archive Duration Changed
       description: |-
@@ -169,7 +169,7 @@ channelUpdate:
         > **ID**: {{channel.id}}
         > **Old Default Archive Duration**: {{old_archive_duration}}
         > **New Default Archive Duration**: {{new_archive_duration}}
-  forum_rate_limit_change:
+  forumRateLimitChange:
     embed:
       title: Forum Channel Rate Limit Changed
       description: |-
@@ -177,7 +177,7 @@ channelUpdate:
         > **ID**: {{channel.id}}
         > **Old Rate Limit**: {{old_rate_limit}}
         > **New Rate Limit**: {{new_rate_limit}}
-  forum_default_thread_rate_limit_change:
+  forumDefaultThreadRateLimitChange:
     embed:
       title: Forum Channel Default Thread Rate Limit Changed
       description: |-
@@ -185,7 +185,7 @@ channelUpdate:
         > **ID**: {{channel.id}}
         > **Old Rate Limit**: {{old_rate_limit}}
         > **New Rate Limit**: {{new_rate_limit}}
-  forum_default_reaction_emoji_change:
+  forumDefaultReactionEmojiChange:
     embed:
       title: Forum Channel Default Reaction Emoji Changed
       description: |-
@@ -193,10 +193,10 @@ channelUpdate:
         > **ID**: {{channel.id}}
         > **Old Reaction Emoji**: {{old_reaction_emoji}}
         > **New Reaction Emoji**: {{new_reaction_emoji}}
-  forum_default_sort_order_change:
+  forumDefaultSortOrderChange:
     modes:
-      0: Latest Activity
-      1: Creation Date
+      '0': Latest Activity
+      '1': Creation Date
     embed:
       title: Forum Default Sort Order Changed
       description: |-
@@ -204,7 +204,7 @@ channelUpdate:
         > **ID**: {{channel.id}}
         > **Old Sort Order**: {{old_sort_order}}
         > **New Sort Order**: {{new_sort_order}}
-  forum_available_tags_change:
+  forumAvailableTagsChange:
     added:
       embed:
         title: Forum Channel Available Tags Added
@@ -232,11 +232,11 @@ channelUpdate:
           > **Name**: ~~{{old_tag_name}}~~ -> {{new_tag_name}}
           > **Moderation Only**: ~~{{old_tag_moderation_only}}~~ -> {{new_tag_moderation_only}}
           > **Emoji**: ~~{{old_tag_emoji}}~~ -> {{new_tag_emoji}}
-  forum_default_forum_layout_change:
+  forumDefaultForumLayoutChange:
     layouts:
-      0: Not Set
-      1: List View
-      2: Gallery View
+      '0': Not Set
+      '1': List View
+      '2': Gallery View
     embed:
       title: Forum Channel Default Forum Layout Changed
       description: |-
@@ -244,7 +244,7 @@ channelUpdate:
         > **ID**: {{channel.id}}
         > **Old Default Forum Layout**: {{old_layout}}
         > **New Default Forum Layout**: {{new_layout}},
-  forum_nsfw_change:
+  forumNsfwChange:
     embed:
       title: Forum Channel NSFW Status Changed
       description: |-
@@ -253,7 +253,7 @@ channelUpdate:
         > **Old Status**: {{old_nsfw}}
         > **New Status**: {{new_nsfw}}
 emojiCreate:
-  unknown_executor: Unknown Executor
+  unknownExecutor: Unknown Executor
   embed:
     title: Emoji Created
     description: |-
@@ -262,7 +262,7 @@ emojiCreate:
       > **Animated**: {{emoji_animated}}
       > **Created At**: {{timestamp}}
 emojiDelete:
-  unknown_executor: Unknown Executor
+  unknownExecutor: Unknown Executor
   embed:
     title: Emoji Deleted
     description: |-
@@ -271,8 +271,8 @@ emojiDelete:
       > **Animated**: {{emoji_animated}}
       > **Deleted At**: {{timestamp}}
 emojiUpdate:
-  unknown_executor: Unknown Executor
-  name_change:
+  unknownExecutor: Unknown Executor
+  nameChange:
     embed:
       title: Emoji Name Changed
       description: |-
@@ -280,15 +280,15 @@ emojiUpdate:
         > **Old Name**: {{old_name}}
         > **New Name**: {{new_name}}
 guildAuditLogEntryCreate:
-  unknown_executor: Unknown Executor
-  webhook_create:
+  unknownExecutor: Unknown Executor
+  webhookCreate:
     embed:
       title: Webhook Created
       description: |-
         > **Name**: {{webhook.name}}
         > **ID**: {{webhook.id}}
         > **Channel**: {{channel.name}} (<#{{channel.id}}>)
-  webhook_delete:
+  webhookDelete:
     embed:
       title: Webhook Deleted
       description: |-
@@ -301,12 +301,11 @@ guildBanAdd:
     description: |-
       > **User**: {{user.tag}} (<@{{user.id}}>)
       > **ID**: {{user.id}}
-      > **Stayed For**: {{timestamp}}
     fields:
       reason: Reason
-  no_reason: No reason provided.
-  unknown_executor: Unknown Executor
-  never_joined: User never joined the server.
+  noReason: No reason provided.
+  unknownExecutor: Unknown Executor
+  neverJoined: User never joined the server.
 guildBanRemove:
   embed:
     title: User Unbanned From Server
@@ -324,11 +323,11 @@ guildMemberAdd:
       > **Account Age**: {{timestamp}}
       > **Member Count**: {{member_count}}
 guildMemberRemove:
-  no_reason: No reason provided.
-  user_left: "**User has left {{guild}}**"
+  noReason: No reason provided.
+  userLeft: '**User has left {{guild}}**'
   embed:
     title: User Left Server
-    title_kicked: User Kicked From Server
+    titleKicked: User Kicked From Server
     description: |-
       > **User**: {{user.tag}} (<@{{user.id}}>)
       > **ID**: {{user.id}}
@@ -336,12 +335,12 @@ guildMemberRemove:
       > **Member Count**: {{member_count}}
     fields:
       reason: Reason
-  never_joined: User never joined the server.
-  unknown_executor: Unknown Executor
+  neverJoined: User never joined the server.
+  unknownExecutor: Unknown Executor
 guildMemberUpdate:
-  unknown_executor: Unknown Executor
+  unknownExecutor: Unknown Executor
   timeout:
-    no_reason: No reason provided for timeout.
+    noReason: No reason provided for timeout.
     embed:
       title: User Timed Out
       description: |-
@@ -350,15 +349,15 @@ guildMemberUpdate:
         > **Timeout Until**: {{timestamp}}
       fields:
         reason: Reason
-  remove_timeout:
-    no_reason: No reason provided for removing timeout.
+  removeTimeout:
+    noReason: No reason provided for removing timeout.
     embed:
       title: User Timeout Removed
       description: |-
         > **User**: {{user.tag}} (<@{{user.id}}>)
         > **ID**: {{user.id}}
         > **Timeout Removed At**: {{timestamp}}
-  roles_update:
+  rolesUpdate:
     embed:
       title: User Roles Updated
       description: |-
@@ -366,8 +365,8 @@ guildMemberUpdate:
         > **ID**: {{user.id}}
       added: Roles Added
       removed: Roles Removed
-  nickname_change:
-    no_nickname: No Nickname
+  nicknameChange:
+    noNickname: No Nickname
     embed:
       title: User Nickname Changed
       description: |-
@@ -376,8 +375,8 @@ guildMemberUpdate:
         > **Old Nickname**: {{old_nickname}}
         > **New Nickname**: {{new_nickname}}
 guildScheduledEventCreate:
-  unknown_executor: "Unknown Executor"
-  voice_channel:
+  unknownExecutor: Unknown Executor
+  voiceChannel:
     embed:
       title: Guild Scheduled Event Created
       description: |-
@@ -386,7 +385,7 @@ guildScheduledEventCreate:
         > **Channel**: {{event.channel.name}} (<#{{event.channel.id}}>)
         > **Description**: {{event.description}}
         > **Start Time**: {{scheduled_start_time}}
-  external_channel:
+  externalChannel:
     embed:
       title: Guild Scheduled Event Created
       description: |-
@@ -397,7 +396,7 @@ guildScheduledEventCreate:
         > **Start Time**: {{scheduled_start_time}}
         > **End Time**: {{scheduled_end_time}}
 guildScheduledEventDelete:
-  voice_channel:
+  voiceChannel:
     embed:
       title: Guild Scheduled Event Deleted
       description: |-
@@ -406,7 +405,7 @@ guildScheduledEventDelete:
         > **Channel**: {{event.channel.name}} (<#{{event.channel.id}}>)
         > **Description**: {{event.description}}
         > **Start Time**: {{scheduled_start_time}}
-  external_channel:
+  externalChannel:
     embed:
       title: Guild Scheduled Event Deleted
       description: |-
@@ -417,7 +416,7 @@ guildScheduledEventDelete:
         > **Start Time**: {{scheduled_start_time}}
         > **End Time**: {{scheduled_end_time}}
 guildScheduledEventUpdate:
-  location_change:
+  locationChange:
     embed:
       title: Guild Scheduled Event Location Changed
       description: |-
@@ -425,7 +424,7 @@ guildScheduledEventUpdate:
         > **ID**: {{event.id}}
         > **Old Location**: {{old_location}}
         > **New Location**: {{new_location}}
-  description_change:
+  descriptionChange:
     embed:
       title: Guild Scheduled Event Description Changed
       description: |-
@@ -433,7 +432,7 @@ guildScheduledEventUpdate:
         > **ID**: {{event.id}}
         > **Old Description**: {{old_description}}
         > **New Description**: {{new_description}}
-  name_change:
+  nameChange:
     embed:
       title: Guild Scheduled Event Name Changed
       description: |-
@@ -441,7 +440,7 @@ guildScheduledEventUpdate:
         > **ID**: {{event.id}}
         > **Old Name**: {{old_name}}
         > **New Name**: {{new_name}}
-  start_time_change:
+  startTimeChange:
     embed:
       title: Guild Scheduled Event Start Time Changed
       description: |-
@@ -449,7 +448,7 @@ guildScheduledEventUpdate:
         > **ID**: {{event.id}}
         > **Old Start**: {{old_start_time}}
         > **New Start**: {{new_start_time}}
-  end_time_change:
+  endTimeChange:
     embed:
       title: Guild Scheduled Event End Time Changed
       description: |-
@@ -457,12 +456,12 @@ guildScheduledEventUpdate:
         > **ID**: {{event.id}}
         > **Old End**: {{old_end_time}}
         > **New End**: {{new_end_time}}
-  status_change:
+  statusChange:
     status:
-      1: Scheduled
-      2: Active
-      3: Completed
-      4: Canceled
+      '1': Scheduled
+      '2': Active
+      '3': Completed
+      '4': Canceled
     embed:
       title: Guild Scheduled Event Status Changed
       description: |-
@@ -496,7 +495,7 @@ guildSoundboardSoundCreate:
       > **Volume**: {{volume}}%
       > **Created At**: {{timestamp}}
 guildSoundboardSoundDelete:
-  unknown_executor: Unknown Executor
+  unknownExecutor: Unknown Executor
   embed:
     title: Sound Deleted
     description: |-
@@ -506,10 +505,10 @@ guildSoundboardSoundDelete:
       > **Volume**: {{volume}}%
       > **Deleted At**: {{timestamp}}
 guildSoundboardSoundUpdate:
-  unknown_executor: Unknown Executor
-  no_previous_value: No previous value
-  no_emoji: No emoji
-  volume_change:
+  unknownExecutor: Unknown Executor
+  noPreviousValue: No previous value
+  noEmoji: No emoji
+  volumeChange:
     embed:
       title: Sound Volume Changed
       description: |-
@@ -517,14 +516,14 @@ guildSoundboardSoundUpdate:
         > **ID**: {{sound.id}}
         > **Old Volume**: {{old_volume}}%
         > **New Volume**: {{new_volume}}%,
-  name_change:
+  nameChange:
     embed:
       title: Sound Name Changed
       description: |-
         > **ID**: {{sound.id}}
         > **Old Name**: {{old_name}}
         > **New Name**: {{new_name}}
-  emoji_change:
+  emojiChange:
     embed:
       title: Sound Emoji Changed
       description: |-
@@ -533,61 +532,61 @@ guildSoundboardSoundUpdate:
         > **Old Emoji**: {{old_emoji}}
         > **New Emoji**: {{new_emoji}}
 guildUpdate:
-  unknown_executor: Unknown Executor
+  unknownExecutor: Unknown Executor
   none: None
-  notification_levels:
-    0: All Messages
-    1: Only @mentions
-  explicit_content_filter_levels:
-    0: Disabled
-    1: Members Without Roles
-    2: All Members
-  mfa_levels:
-    0: None
-    1: Elevated
-  verification_levels:
-    0: None
-    1: Low
-    2: Medium
-    3: High
-    4: Very High
-  afk_channel_change:
+  notificationLevels:
+    '0': All Messages
+    '1': Only @mentions
+  explicitContentFilterLevels:
+    '0': Disabled
+    '1': Members Without Roles
+    '2': All Members
+  mfaLevels:
+    '0': None
+    '1': Elevated
+  verificationLevels:
+    '0': None
+    '1': Low
+    '2': Medium
+    '3': High
+    '4': Very High
+  afkChannelChange:
     embed:
       title: Server AFK Channel Changed
       description: |-
         > **Old AFK Channel**: {{old_channel}}
         > **New AFK Channel**: {{new_channel}}
-  afk_timeout_change:
+  afkTimeoutChange:
     embed:
       title: Server AFK Timeout Changed
       description: |-
         > **Old AFK Timeout**: {{old_timeout}}
         > **New AFK Timeout**: {{new_timeout}}
-  banner_change:
+  bannerChange:
     embed:
       title: Server Banner Changed
       description: |-
         > **Old Banner**: {{old_banner}}
         > **New Banner**: {{new_banner}}
-  default_message_notifications_change:
+  defaultMessageNotificationsChange:
     embed:
       title: Server Default Message Notifications Changed
       description: |-
         > **Old Level**: {{old_level}}
         > **New Level**: {{new_level}}
-  discovery_splash_change:
+  discoverySplashChange:
     embed:
       title: Server Discovery Splash Changed
       description: |-
         > **Old Discovery Splash**: {{old_discovery_splash}}
         > **New Discovery Splash**: {{new_discovery_splash}}
-  explicit_content_filter_change:
+  explicitContentFilterChange:
     embed:
       title: Server Explicit Content Filter Changed
       description: |-
         > **Old Level**: {{old_level}}
         > **New Level**: {{new_level}}
-  features_change:
+  featuresChange:
     embed:
       added: Added
       removed: Removed
@@ -595,106 +594,104 @@ guildUpdate:
       description: |-
         > **Old Features**: {{old_features}}
         > **New Features**: {{new_features}}
-  icon_change:
+  iconChange:
     embed:
       title: Server Icon Changed
       description: |-
         > **Old Icon**: {{old_icon}}
         > **New Icon**: {{new_icon}}
-  mfa_level_change:
+  mfaLevelChange:
     embed:
       title: Server MFA Level Changed
       description: |-
         > **Old Level**: {{old_level}}
         > **New Level**: {{new_level}}
-  name_change:
+  nameChange:
     embed:
       title: Server Name Changed
       description: |-
         > **Old Name**: {{old_name}}
         > **New Name**: {{new_name}}
-  description_change:
+  descriptionChange:
     embed:
       title: Server Description Changed
       description: |-
         > **Old Description**: {{old_description}}
         > **New Description**: {{new_description}}
-  owner_change:
+  ownerChange:
     embed:
       title: Server Owner Changed
       description: |-
         > **Old Owner**: {{old_owner}}
         > **New Owner**: {{new_owner}}
-  partnered_change:
+  partneredChange:
     embed:
       title: Server Partnered Status Changed
       description: |-
         > **Old Status**: {{old_status}}
         > **New Status**: {{new_status}}
-  preferred_locale_change:
+  preferredLocaleChange:
     embed:
       title: Server Preferred Locale Changed
       description: |-
         > **Old Locale**: {{old_locale}}
         > **New Locale**: {{new_locale}}
-  premium_progress_bar_change:
+  premiumProgressBarChange:
     embed:
       title: Server Boost Progress Bar Changed
       description: |-
         > **Old Status**: {{old_progress_bar}}
         > **New Status**: {{new_progress_bar}}
-  premium_subscription_count_change:
+  premiumSubscriptionCountChange:
     embed:
       title: Server Boost Count Changed
       description: |-
         > **Old Count**: {{old_count}}
         > **New Count**: {{new_count}}
-  premium_tier_change:
+  premiumTierChange:
     embed:
       title: Server Boost Level Changed
       description: |-
         > **Old Level**: {{old_level}}
         > **New Level**: {{new_level}}
-  rules_channel_change:
+  rulesChannelChange:
     embed:
       title: Server Rules Channel Changed
       description: |-
         > **Old Rules Channel**: {{old_channel}}
         > **New Rules Channel**: {{new_channel}}
-  safety_alerts_channel_change:
+  safetyAlertsChannelChange:
     embed:
       title: Server Safety Alerts Channel Changed
       description: |-
         > **Old Safety Alerts Channel**: {{old_channel}}
         > **New Safety Alerts Channel**: {{new_channel}}
-  splash_change:
+  splashChange:
     embed:
       title: Server Splash Changed
       description: |-
         > **Old Splash**: {{old_splash}}
         > **New Splash**: {{new_splash}}
-  system_channel_change:
+  systemChannelChange:
     embed:
       title: Server System Channel Changed
       description: |-
         > **Old System Channel**: {{old_channel}}
         > **New System Channel**: {{new_channel}}
-  vanity_url_code_change:
+  vanityUrlCodeChange:
     embed:
       title: Server Vanity URL Changed
       description: |-
         > **Old Vanity URL**: {{old_code}}
         > **New Vanity URL**: {{new_code}}
-  verification_level_change:
+  verificationLevelChange:
     embed:
       title: Server Verification Level Changed
       description: |-
         > **Old Level**: {{old_level}}
         > **New Level**: {{new_level}}
 interactionCreate:
-  memberMissingPermissions: >-
-    You don't have the required `{{permissions}}` permissions to use this
-    command.
+  memberMissingPermissions: You don't have the required `{{permissions}}` permissions to use this command.
 inviteCreate:
   embed:
     title: Invite Created
@@ -704,7 +701,7 @@ inviteCreate:
       > **Expires At**: {{timestamp}}
       > **Max Usage**: {{usage}}
 inviteDelete:
-  unknown_executor: Unknown Executor
+  unknownExecutor: Unknown Executor
   embed:
     title: Invite Deleted
     description: |-
@@ -712,46 +709,35 @@ inviteDelete:
       > **Channel**: <#{{invite.channelId}}>
 messageBulkDelete:
   embed:
-    title: "{{count}} Message(s) Deleted"
-    description: "> **Channel**: {{message.channel.name}} (<#{{message.channel.id}}>)"
-  file_name: deleted_messages.txt
-  message: >-
-    **Message ID:** {{message.id}} **Author:** {{message.author.tag}}
-    **Content:** {{message.content}}
+    title: '{{count}} Message(s) Deleted'
+    description: '> **Channel**: {{message.channel.name}} (<#{{message.channel.id}}>)'
+  fileName: deleted_messages.txt
+  message: '**Message ID:** {{message.id}} **Author:** {{message.author.tag}} **Content:** {{message.content}}'
 messageCreate:
-  mod_mail:
-    blacklisted: >-
-      You are blacklisted from using mod mail in {{guild}}. Your blacklist
-      reason is: **{{reason}}**. Your blacklist expires on: **{{expires}}**.
+  modMail:
+    blacklisted: 'You are blacklisted from using mod mail in {{guild}}. Your blacklist reason is: **{{reason}}**. Your blacklist expires on: **{{expires}}**.'
     never: Never
-    initial: >-
+    initial: |-
       `Account Age:` **{{account_age}}**, `ID:` **{{user.id}}**
-
-      `Username:` **{{user.username}}** (<@{{user.id}}>), `Join Date:`
-      **{{join_date}}**
-
+      `Username:` **{{user.username}}** (<@{{user.id}}>), `Join Date:` **{{join_date}}**
       **»»----------------------------¤----------------------------««**
-    not_member: You are not a member of the server.
-    confirm: "Yes"
-    cancel: "No"
-    confirm_title: Confirm Mod Mail Thread Button
-    confirm_description: >-
-      Click the button below to confirm the mod mail thread for {{guild}}, or
-      click the cancel button to cancel the thread.
+    notMember: You are not a member of the server.
+    confirm: 'Yes'
+    cancel: 'No'
+    confirmTitle: Confirm Mod Mail Thread Button
+    confirmDescription: Click the button below to confirm the mod mail thread for {{guild}}, or click the cancel button to cancel the thread.
     timeout: You took too long to respond. The mod mail thread has been cancelled.
-    cancelled_title: Mod Mail Thread Cancelled
-    cancelled_description: "The mod mail thread for {{guild}} has been cancelled."
-    confirmed_title: Mod Mail Thread Confirmed
-    confirmed_description: The mod mail thread for {{guild}} has been confirmed and the conversation has begun.
-    parent_channel_missing: >-
-      Parent channel is missing. Moderators need to set the parent channel for
-      the mod mail to work.
-    channel_missing: Channel is missing. Moderators need to set the channel for the mod mail to work.
-    topic: "Mod Mail conversation with {{user}}"
-    error_sending: An error occurred while attempting to send the message.
-    reopened: "{{user}} replied to modmail thread, thread won't be closed. ({{closer}})"
-    error_inserting: An error occurred while attempting to insert the message into the database.
-  poll_create:
+    cancelledTitle: Mod Mail Thread Cancelled
+    cancelledDescription: The mod mail thread for {{guild}} has been cancelled.
+    confirmedTitle: Mod Mail Thread Confirmed
+    confirmedDescription: The mod mail thread for {{guild}} has been confirmed and the conversation has begun.
+    parentChannelMissing: Parent channel is missing. Moderators need to set the parent channel for the mod mail to work.
+    channelMissing: Channel is missing. Moderators need to set the channel for the mod mail to work.
+    topic: Mod Mail conversation with {{user}}
+    errorSending: An error occurred while attempting to send the message.
+    reopened: '{{user}} replied to modmail thread, thread won''t be closed. ({{closer}})'
+    errorInserting: An error occurred while attempting to insert the message into the database.
+  pollCreate:
     embed:
       title: Poll Created
       description: |-
@@ -761,20 +747,16 @@ messageCreate:
 messageDelete:
   embed:
     title: Message Deleted
-    description: >-
+    description: |-
       > **Channel**: {{message.channel.name}} (<#{{message.channel.id}}>)
-
       > **Author**: {{message.author.tag}} (<@{{message.author.id}}>)
-
-      > **Message ID**:
-      [{{message.id}}](https://discord.com/channels/{{message.guild.id}}/{{message.channel.id}}/{{message.id}})
-
+      > **Message ID**: [{{message.id}}](https://discord.com/channels/{{message.guild.id}}/{{message.channel.id}}/{{message.id}})
       > **Created At**: {{timestamp}}
     fields:
       content: Message
-      attachments: "{{count}} Attachment(s)"
-  skipped_files: ⚠️ Skipped Large Files
-  poll_delete:
+      attachments: '{{count}} Attachment(s)'
+  skippedFiles: ⚠️ Skipped Large Files
+  pollDelete:
     embed:
       title: Poll Deleted
       description: |-
@@ -803,7 +785,7 @@ messagePollVoteRemove:
       > **Multi Select**: {{multi_select}}
       > **Message**: {{message.url}}
 messageUpdate:
-  message_edit: |-
+  messageEdit: |-
     ***User edited their message.***
     ```diff
     - {{oldContent}}
@@ -811,17 +793,14 @@ messageUpdate:
     ```
   embed:
     title: Message Edited
-    description: >-
+    description: |-
       > **Channel**: {{message.channel.name}} (<#{{message.channel.id}}>)
-
       > **Author**: {{message.author.tag}} (<@{{message.author.id}}>)
-
-      > **Message ID**:
-      [{{message.id}}](https://discord.com/channels/{{message.guild.id}}/{{message.channel.id}}/{{message.id}})
+      > **Message ID**: [{{message.id}}](https://discord.com/channels/{{message.guild.id}}/{{message.channel.id}}/{{message.id}})
     fields:
       oldContent: Before
       newContent: After
-  poll_end:
+  pollEnd:
     embed:
       title: Poll Ended
       description: |-
@@ -829,7 +808,7 @@ messageUpdate:
         > **Multi Select**: {{multi_select}}
         > **Message**: {{message.url}}
 roleCreate:
-  unknown_executor: Unknown Executor
+  unknownExecutor: Unknown Executor
   embed:
     title: Role Created
     description: |-
@@ -842,7 +821,7 @@ roleCreate:
       > **Created At**: {{timestamp}}
       > **Permissions**: {{permissions}}
 roleDelete:
-  unknown_executor: Unknown Executor
+  unknownExecutor: Unknown Executor
   embed:
     title: Role Deleted
     description: |-
@@ -855,15 +834,15 @@ roleDelete:
       > **Deleted At**: {{timestamp}}
       > **Permissions**: {{permissions}}
 roleUpdate:
-  unknown_executor: Unknown Executor
-  name_change:
+  unknownExecutor: Unknown Executor
+  nameChange:
     embed:
       title: Role Name Changed
       description: |-
         > **ID**: {{role.id}}
         > **Old Name**: {{old_name}}
         > **New Name**: {{new_name}}
-  color_change:
+  colorChange:
     embed:
       title: Role Color Changed
       description: |-
@@ -871,7 +850,7 @@ roleUpdate:
         > **ID**: {{role.id}}
         > **Old Color**: {{old_color}}
         > **New Color**: {{new_color}}
-  hoist_change:
+  hoistChange:
     embed:
       title: Role Hoisted Changed
       description: |-
@@ -879,7 +858,7 @@ roleUpdate:
         > **ID**: {{role.id}}
         > **Old Hoist Status**: {{old_hoist}}
         > **New Hoist Status**: {{new_hoist}}
-  mentionable_change:
+  mentionableChange:
     embed:
       title: Role Mentionable Changed
       description: |-
@@ -887,14 +866,14 @@ roleUpdate:
         > **ID**: {{role.id}}
         > **Old Mentionable Status**: {{old_mentionable}}
         > **New Mentionable Status**: {{new_mentionable}}
-  permissions_change:
+  permissionsChange:
     embed:
       title: Role Permissions Changed
       description: |-
         > **Role**: {{role.name}}
         > **ID**: {{role.id}}
         **Changes**: {{changes}}
-  icon_change:
+  iconChange:
     embed:
       title: Role Icon Changed
       description: |-
@@ -903,22 +882,22 @@ roleUpdate:
         > **Old Icon**: {{old_icon}}
         > **New Icon**: {{new_icon}}
 stageInstanceCreate:
-  unknown_executor: Unknown Executor
+  unknownExecutor: Unknown Executor
   embed:
     title: Stage Started
     description: |-
       > **Channel**: <#{{stage.channelId}}>
       > **Topic**: {{stage.topic}}
 stageInstanceDelete:
-  unknown_executor: Unknown Executor
+  unknownExecutor: Unknown Executor
   embed:
     title: Stage Ended
     description: |-
       > **Channel**: <#{{stage.channelId}}>
       > **Topic**: {{stage.topic}}
 stageInstanceUpdate:
-  unknown_executor: Unknown Executor
-  topic_change:
+  unknownExecutor: Unknown Executor
+  topicChange:
     embed:
       title: Stage Topic Changed
       description: |-
@@ -926,7 +905,7 @@ stageInstanceUpdate:
         > **Old Topic**: {{old_topic}}
         > **New Topic**: {{new_topic}}
 stickerCreate:
-  unknown_executor: Unknown Executor
+  unknownExecutor: Unknown Executor
   embed:
     title: Sticker Created
     description: |-
@@ -935,7 +914,7 @@ stickerCreate:
       > **Description**: {{sticker.description}}
       > **Tags**: {{sticker.tags}}
 stickerDelete:
-  unknown_executor: Unknown Executor
+  unknownExecutor: Unknown Executor
   embed:
     title: Sticker Deleted
     description: |-
@@ -944,8 +923,8 @@ stickerDelete:
       > **Description**: {{sticker.description}}
       > **Tags**: {{sticker.tags}}
 stickerUpdate:
-  unknown_executor: Unknown Executor
-  name_change:
+  unknownExecutor: Unknown Executor
+  nameChange:
     embed:
       title: Sticker Name Changed
       description: |-
@@ -953,7 +932,7 @@ stickerUpdate:
         > **ID**: {{sticker.id}}
         > **Old Name**: {{old_name}}
         > **New Name**: {{new_name}}
-  description_change:
+  descriptionChange:
     embed:
       title: Sticker Description Changed
       description: |-
@@ -961,7 +940,7 @@ stickerUpdate:
         > **ID**: {{sticker.id}}
         > **Old Description**: {{old_description}}
         > **New Description**: {{new_description}}
-  tags_change:
+  tagsChange:
     embed:
       title: Sticker Tags Changed
       description: |-
@@ -970,11 +949,11 @@ stickerUpdate:
         > **Old Tags**: {{old_tags}}
         > **New Tags**: {{new_tags}}
 threadCreate:
-  thread_auto_archive_duration:
-    60: 1 Hour
-    1440: 1 Day
-    4320: 3 Days
-    10080: 1 Week
+  threadAutoArchiveDuration:
+    '60': 1 Hour
+    '1440': 1 Day
+    '4320': 3 Days
+    '10080': 1 Week
   embed:
     title: Thread Created
     description: |-
@@ -984,12 +963,12 @@ threadCreate:
       > **Auto Archive Duration**: {{auto_archive_duration}}
       > **Created At**: {{timestamp}}
 threadDelete:
-  unknown_executor: Unknown Executor
-  thread_auto_archive_duration:
-    60: 1 Hour
-    1440: 1 Day
-    4320: 3 Days
-    10080: 1 Week
+  unknownExecutor: Unknown Executor
+  threadAutoArchiveDuration:
+    '60': 1 Hour
+    '1440': 1 Day
+    '4320': 3 Days
+    '10080': 1 Week
   embed:
     title: Thread Deleted
     description: |-
@@ -999,8 +978,8 @@ threadDelete:
       > **Auto Archive Duration**: {{auto_archive_duration}}
       > **Created**: {{timestamp}}
 threadUpdate:
-  unknown_executor: Unknown Executor
-  name_change:
+  unknownExecutor: Unknown Executor
+  nameChange:
     embed:
       title: Thread Name Changed
       description: |-
@@ -1037,12 +1016,12 @@ threadUpdate:
         > **Thread**: {{thread.name}} (<#{{thread.id}}>)
         > **ID**: {{thread.id}}
         > **Parent Channel**: {{parent.name}} (<#{{parent.id}}>)
-  auto_archive_duration:
-    60: 1 Hour
-    1440: 1 Day
-    4320: 3 Days
-    10080: 1 Week
-  auto_archive_duration_change:
+  autoArchiveDuration:
+    '60': 1 Hour
+    '1440': 1 Day
+    '4320': 3 Days
+    '10080': 1 Week
+  autoArchiveDurationChange:
     embed:
       title: Thread Auto Archive Duration Changed
       description: |-
@@ -1051,7 +1030,7 @@ threadUpdate:
         > **Parent Channel**: {{parent.name}} (<#{{parent.id}}>)
         > **Old Auto Archive Duration**: {{old_duration}}
         > **New Auto Archive Duration**: {{new_duration}}
-  rate_limit_change:
+  rateLimitChange:
     embed:
       title: Thread Rate Limit Changed
       description: |-
@@ -1061,7 +1040,7 @@ threadUpdate:
         > **Old Rate Limit**: {{old_rate_limit}}
         > **New Rate Limit**: {{new_rate_limit}}
 voiceStateUpdate:
-  unknown_executor: Unknown Executor
+  unknownExecutor: Unknown Executor
   join:
     embed:
       title: User Joined Voice Channel
@@ -1073,7 +1052,7 @@ voiceStateUpdate:
   leave:
     embed:
       title: User Left Voice Channel
-      title_kicked: User Kicked from Voice Channel
+      titleKicked: User Kicked from Voice Channel
       description: |-
         > **User**: {{user.tag}} (<@{{user.id}}>)
         > **ID**: {{user.id}}

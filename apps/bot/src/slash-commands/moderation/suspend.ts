@@ -1,13 +1,14 @@
-import type { SlashCommandBase } from "src/types/index.js";
+import type { SlashCommandBase } from "@types";
 import { InteractionContextType, MessageFlags, PermissionsBitField, SlashCommandBuilder } from "discord.js";
-import { logger } from "src/lib/index.js";
-import { ModMailMessageSentTo, ModMailMessageType, ModMailThreadStatus } from "src/constants/index.js";
+import { logger } from "@lib";
 import {
-  createModMailMessage,
-  getGuildConfig,
-  getModMailThread,
-  updateModMailThread,
-} from "src/database/index.js";
+  addMessageToThread,
+  getThreadByChannelId,
+  ModMailStatus,
+  ModMailAuthorType,
+  ModMailSentToType,
+} from "@repo/database";
+import { prisma } from "@repo/database";
 export default {
   memberPermissions: [PermissionsBitField.Flags.ManageMessages],
   data: new SlashCommandBuilder()
@@ -21,45 +22,39 @@ export default {
     })
     .setContexts(InteractionContextType.Guild)
     .setDefaultMemberPermissions(PermissionsBitField.Flags.ManageMessages),
-  async execute(interaction) {
-    const guildConfig = await getGuildConfig(interaction.guildId);
-    if (!guildConfig) {
-      return interaction.reply({
-        content: "This server is not registered in the database. This shouldn't happen, please contact developers",
-        flags: MessageFlags.Ephemeral,
-      });
-    }
+  async execute(interaction, guildConfig) {
     const t = interaction.client.i18next.getFixedT(guildConfig.language, "commands", "suspend");
-    const modMailThread = await getModMailThread(interaction.channelId);
+    const modMailThread = await getThreadByChannelId(interaction.channelId);
     if (!modMailThread) {
       return interaction.reply({
         content: t("no_thread"),
         flags: MessageFlags.Ephemeral,
       });
     }
-    if (modMailThread.status === ModMailThreadStatus.SUSPENDED) {
+    if (modMailThread.status === ModMailStatus.SUSPENDED) {
       return interaction.reply({
         content: t("already_suspended"),
         flags: MessageFlags.Ephemeral,
       });
     }
     try {
-      await updateModMailThread(interaction.channelId, {
-        status: ModMailThreadStatus.SUSPENDED,
+      await prisma.modMailThread.update({
+        where: { channelId: interaction.channelId },
+        data: { status: ModMailStatus.SUSPENDED },
       });
       const response = await interaction.reply({
         content: t("suspended"),
         flags: MessageFlags.Ephemeral,
         withResponse: true,
       });
-      await createModMailMessage(interaction.channelId, {
-        author_id: BigInt(interaction.user.id),
-        sent_at: new Date(),
-        author_type: ModMailMessageType.CLIENT,
-        sent_to: ModMailMessageSentTo.THREAD,
-        content: t("suspended"),
-        message_id: BigInt(response.resource?.message?.id || 0),
-      });
+      await addMessageToThread(
+        interaction.channelId,
+        t("suspended"),
+        interaction.user.id,
+        ModMailAuthorType.STAFF,
+        ModMailSentToType.THREAD,
+        response.resource?.message?.id || "0",
+      );
     } catch (error) {
       logger.log({
         level: "error",

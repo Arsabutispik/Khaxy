@@ -15,15 +15,13 @@ import {
   TextInputBuilder,
   TextInputStyle,
 } from "discord.js";
+import { logger } from "@lib";
+import { GuildWithLogs, updateGuildConfig } from "@repo/database";
+import { trimString, getCurrentValue, getUpdatePayload } from "@utils";
 import { TFunction } from "i18next";
-import { logger } from "src/lib/index.js";
-import type { guilds as Guilds } from "@repo/database";
-import { updateGuildConfig } from "src/database/index.js";
-import { toStringId, trimString } from "src/utils/index.js";
-import { DynamicChannelTypes, RoleType } from "src/types/index.js";
-
+import { DbConfigKey } from "@constants";
 export async function waitForMessageComponent(
-  interaction: ChatInputCommandInteraction<"cached">,
+  interaction: ChatInputCommandInteraction<"cached"> | StringSelectMenuInteraction<"cached">,
   actionRow: ActionRowBuilder<StringSelectMenuBuilder>,
   t: TFunction,
   customId: string,
@@ -33,6 +31,7 @@ export async function waitForMessageComponent(
     components: [actionRow],
     flags: MessageFlagsBitField.Flags.Ephemeral,
   });
+
   const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id && i.customId === customId;
 
   return await interactionCallbackResponse
@@ -42,10 +41,8 @@ export async function waitForMessageComponent(
       componentType: ComponentType.StringSelect,
     })
     .catch(async () => {
-      await interaction.editReply({
-        content: t("timeout"),
-        components: [],
-      });
+      await interaction.editReply({ content: t("timeout"), components: [] });
+
       logger.log({
         level: "warn",
         message: `User ${interaction.user.tag} (${interaction.user.id}) did not respond in time for ${customId} in guild ${interaction.guild?.name} (${interaction.guildId})`,
@@ -54,27 +51,37 @@ export async function waitForMessageComponent(
       return null;
     });
 }
+
+// --- Dynamic Channel ---
 export async function dynamicChannel(
-  channel: DynamicChannelTypes,
+  dbKey: DbConfigKey, // Pass the DB Column Name (camelCase)
   interaction: StringSelectMenuInteraction<"cached">,
-  data: Guilds,
+  data: GuildWithLogs,
   t: TFunction,
 ) {
   await interaction.deferUpdate();
+
   const selectMenu = new ChannelSelectMenuBuilder()
-    .setCustomId(channel)
+    .setCustomId(dbKey)
     .setMaxValues(1)
     .setMinValues(0)
     .setChannelTypes(ChannelType.GuildText);
-  if (data[channel]) {
-    selectMenu.setDefaultChannels(toStringId(data[channel]));
+
+  // 1. Get Default Value Safely
+  const currentId = getCurrentValue(data, dbKey);
+  if (currentId) {
+    selectMenu.setDefaultChannels(currentId);
   }
+
   const actionRow = new ActionRowBuilder<ChannelSelectMenuBuilder>().setComponents(selectMenu);
+
   const result = await interaction.editReply({
     content: t("channel_initial"),
     components: [actionRow],
   });
-  const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id && i.customId === channel;
+
+  const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id && i.customId === dbKey;
+
   let messageComponent;
   try {
     messageComponent = await result.awaitMessageComponent({
@@ -83,99 +90,103 @@ export async function dynamicChannel(
       time: 1000 * 60 * 5,
     });
   } catch {
-    await result.edit({
-      content: t("timeout"),
-      components: [],
-    });
+    await result.edit({ content: t("timeout"), components: [] });
     return;
   }
-  await messageComponent.deferUpdate();
-  if (messageComponent.values.length === 0) {
-    await updateGuildConfig(messageComponent.guildId, {
-      [channel]: null,
-    });
-    await messageComponent.editReply({
-      content: t(`${channel}.unset`),
-      components: [],
-    });
-  } else {
-    await updateGuildConfig(messageComponent.guildId, {
-      [channel]: messageComponent.values[0],
-    });
-    await messageComponent.editReply({
-      content: t(`${channel}.set`, {
-        channel: messageComponent.guild.channels.cache.get(messageComponent.values[0])!.toString(),
-      }),
-      components: [],
-    });
-  }
-}
 
-export async function dynamicMessage(
-  message: "register_join_message" | "join_message" | "leave_message" | "mod_mail_message",
-  interaction: StringSelectMenuInteraction<"cached">,
-  data: Guilds,
-  t: TFunction,
-) {
-  const textComponent = new TextInputBuilder()
-    .setCustomId(message)
-    .setMaxLength(1500)
-    .setRequired(true)
-    .setStyle(TextInputStyle.Paragraph);
-  if (data[message]) {
-    textComponent.setPlaceholder(trimString(data[message], 97));
-  }
-  const labelBuilder = new LabelBuilder().setLabel(t(`${message}.label`)).setTextInputComponent(textComponent);
-  const modal = new ModalBuilder()
-    .setCustomId(message)
-    .setTitle(t(`${message}.title`))
-    .addLabelComponents(labelBuilder);
-  await interaction.showModal(modal);
-  const filter = (i: ModalSubmitInteraction) => i.user.id === interaction.user.id && i.customId === message;
-  let messageComponent;
-  try {
-    messageComponent = await interaction.awaitModalSubmit({
-      filter,
-      time: 1000 * 60 * 5,
-    });
-  } catch {
-    await interaction.editReply({
-      content: t("timeout"),
-      components: [],
-    });
-    return;
-  }
   await messageComponent.deferUpdate();
-  const defaultValueMap = {
-    mod_mail_message: "Thank you for your message! Our mod team will reply to you here as soon as possible.",
-    [message]: null,
-  };
-  const input = messageComponent.fields.getTextInputValue(message);
-  const defaults = input === "" ? defaultValueMap[message] : input;
-  await updateGuildConfig(messageComponent.guildId, {
-    [message]: defaults,
-  });
+  const newValue = messageComponent.values[0] || null;
+
+  // 2. Update Database Safely
+  const payload = getUpdatePayload(dbKey, newValue);
+  await updateGuildConfig(messageComponent.guildId, payload);
+
+  // 3. Reply
+  const responseKey = newValue ? "set" : "unset";
   await messageComponent.editReply({
-    content: t(`${message}.set`),
+    // Ensure translation keys match DB keys: "messageLogsChannelId.set"
+    content: t(`${dbKey}.${responseKey}`, {
+      channel: newValue ? `<#${newValue}>` : "Unknown",
+    }),
     components: [],
   });
 }
-export async function dynamicRole(
-  role: RoleType,
+
+// --- Dynamic Message ---
+export async function dynamicMessage(
+  dbKey: DbConfigKey,
   interaction: StringSelectMenuInteraction<"cached">,
-  data: Guilds,
+  data: GuildWithLogs,
   t: TFunction,
 ) {
-  const selectMenu = new RoleSelectMenuBuilder().setCustomId(role).setMaxValues(1).setMinValues(0);
-  if (data[role]) {
-    selectMenu.setDefaultRoles(toStringId(data[role]));
+  const textComponent = new TextInputBuilder().setCustomId(dbKey).setMaxLength(1500).setStyle(TextInputStyle.Paragraph);
+
+  const currentText = getCurrentValue(data, dbKey);
+  if (currentText) {
+    textComponent.setPlaceholder(trimString(currentText, 97));
+    textComponent.setValue(currentText);
   }
-  const action_row = new ActionRowBuilder<RoleSelectMenuBuilder>().setComponents(selectMenu);
+
+  const labelBuilder = new LabelBuilder().setLabel(t(`${dbKey}.label`)).setTextInputComponent(textComponent);
+  const modal = new ModalBuilder()
+    .setCustomId(dbKey)
+    .setTitle(t(`${dbKey}.title`))
+    .addLabelComponents(labelBuilder);
+
+  await interaction.showModal(modal);
+
+  const filter = (i: ModalSubmitInteraction) => i.user.id === interaction.user.id && i.customId === dbKey;
+
+  let messageComponent;
+  try {
+    messageComponent = await interaction.awaitModalSubmit({ filter, time: 1000 * 60 * 5 });
+  } catch {
+    await interaction.editReply({ content: t("timeout"), components: [] });
+    return;
+  }
+
+  await messageComponent.deferUpdate();
+
+  const input = messageComponent.fields.getTextInputValue(dbKey);
+  let finalValue: string | null = input;
+
+  if (input === "") {
+    if (dbKey === "modMailMessage") {
+      finalValue = "Thank you for your message! Our mod team will reply to you here as soon as possible.";
+    } else {
+      finalValue = null;
+    }
+  }
+
+  const payload = getUpdatePayload(dbKey, finalValue);
+  await updateGuildConfig(messageComponent.guildId, payload);
+
+  await messageComponent.editReply({ content: t(`${dbKey}.set`), components: [] });
+}
+
+export async function dynamicRole(
+  dbKey: DbConfigKey,
+  interaction: StringSelectMenuInteraction<"cached">,
+  data: GuildWithLogs,
+  t: TFunction,
+) {
+  const selectMenu = new RoleSelectMenuBuilder().setCustomId(dbKey).setMaxValues(1).setMinValues(0);
+
+  // 1. Get Default Value
+  const currentId = getCurrentValue(data, dbKey);
+  if (currentId) {
+    selectMenu.setDefaultRoles(currentId);
+  }
+
+  const actionRow = new ActionRowBuilder<RoleSelectMenuBuilder>().setComponents(selectMenu);
+
   const result = await interaction.editReply({
     content: t("role_initial"),
-    components: [action_row],
+    components: [actionRow],
   });
-  const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id && i.customId === role;
+
+  const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id && i.customId === dbKey;
+
   let messageComponent;
   try {
     messageComponent = await result.awaitMessageComponent({
@@ -184,41 +195,37 @@ export async function dynamicRole(
       time: 1000 * 60 * 5,
     });
   } catch {
-    await result
-      .edit({
-        content: t("timeout"),
-        components: [],
-      })
-      .catch(() => null);
+    await result.edit({ content: t("timeout"), components: [] }).catch(() => null);
     return;
   }
+
   await messageComponent.deferUpdate();
-  if (messageComponent.values.length === 0) {
-    await updateGuildConfig(messageComponent.guildId, {
-      [role]: null,
-    });
-    await messageComponent.editReply({
-      content: t(`${role}.unset`),
-      components: [],
-    });
+  const newValue = messageComponent.values[0] || null;
+
+  if (!newValue) {
+    // Unset
+    const payload = getUpdatePayload(dbKey, null);
+    await updateGuildConfig(messageComponent.guildId, payload);
+    await messageComponent.editReply({ content: t(`${dbKey}.unset`), components: [] });
   } else {
-    if (
-      !["dj_role_id", "staff_role_id"].includes(messageComponent.values[0]) &&
-      messageComponent.guild!.members.me!.roles.highest.position <
-        messageComponent.guild.roles.cache.get(messageComponent.values[0])!.position
-    ) {
-      await messageComponent.editReply({
-        content: t("role_too_high"),
-        components: [],
-      });
+    // Hierarchy Check
+    // If we're setting DJ/Staff roles, we might not care about hierarchy, but for managed roles we do.
+    const isSpecialRole = ["djRoleId", "staffRoleId"].includes(dbKey);
+    const targetRole = messageComponent.guild.roles.cache.get(newValue);
+    const myRole = messageComponent.guild.members.me?.roles.highest;
+
+    if (!isSpecialRole && targetRole && myRole && myRole.position < targetRole.position) {
+      await messageComponent.editReply({ content: t("role_too_high"), components: [] });
       return;
     }
-    await updateGuildConfig(messageComponent.guildId, {
-      [role]: messageComponent.values[0],
-    });
+
+    // Set
+    const payload = getUpdatePayload(dbKey, newValue);
+    await updateGuildConfig(messageComponent.guildId, payload);
+
     await messageComponent.editReply({
-      content: t(`${role}.set`, {
-        role: messageComponent.guild!.roles.cache.get(messageComponent.values[0])!.toString(),
+      content: t(`${dbKey}.set`, {
+        role: targetRole?.toString() ?? "Unknown Role",
       }),
       components: [],
     });

@@ -1,371 +1,161 @@
-import type { SlashCommandBase } from "src/types/index.js";
+import type { SlashCommandBase } from "@types";
 import {
-  ChannelType,
-  EmbedBuilder,
   InteractionContextType,
   MessageFlagsBitField,
   PermissionsBitField,
   SlashCommandBuilder,
-  time as formatted_time,
-  TimestampStyles,
+  ChatInputCommandInteraction,
+  User,
 } from "discord.js";
 import dayjs from "dayjs";
-import dayjsduration from "dayjs/plugin/duration.js";
+import duration from "dayjs/plugin/duration.js";
 import relativeTime from "dayjs/plugin/relativeTime.js";
-import { modLog, toStringId, addInfraction, returnWebhook, WebhookType } from "src/utils/index.js";
-import "dayjs/locale/tr.js";
-import { logger } from "src/lib/index.js";
-import { createPunishment, getGuildConfig } from "src/database/index.js";
-import { InfractionType, PunishmentType } from "src/constants/index.js";
+import { modLog, logBanAdd } from "@utils";
+import { logger } from "@lib";
+import { createPunishment, PunishmentAction, createInfraction, InfractionType, GuildWithLogs } from "@repo/database";
+import { TFunction } from "i18next";
+
+dayjs.extend(duration);
+dayjs.extend(relativeTime);
 
 export default {
   memberPermissions: [PermissionsBitField.Flags.BanMembers],
   clientPermissions: [PermissionsBitField.Flags.BanMembers],
   data: new SlashCommandBuilder()
     .setName("ban")
-    .setNameLocalizations({
-      tr: "yasakla",
-    })
+    .setNameLocalizations({ tr: "yasakla" })
     .setDescription("Ban a user from the server.")
-    .setDescriptionLocalizations({
-      tr: "Sunucudan bir kullanıcıyı yasaklar.",
-    })
     .setContexts(InteractionContextType.Guild)
     .setDefaultMemberPermissions(PermissionsBitField.Flags.BanMembers)
-    .addUserOption((option) =>
-      option
-        .setName("user")
-        .setNameLocalizations({
-          tr: "kullanıcı",
-        })
-        .setDescription("The user to ban.")
-        .setDescriptionLocalizations({
-          tr: "Yasaklanacak kullanıcı.",
-        })
-        .setRequired(true),
-    )
-    .addBooleanOption((option) =>
-      option
-        .setName("preserve-messages")
-        .setNameLocalizations({
-          tr: "mesajları-koru",
-        })
-        .setDescription("If true, the user's last 7 days of messages will not be deleted.")
-        .setDescriptionLocalizations({
-          tr: "Eğer seçiliyse, kullanıcının son 7 gün içindeki mesajları silinmeyecek.",
-        }),
-    )
-    .addStringOption((option) =>
-      option
-        .setName("reason")
-        .setNameLocalizations({
-          tr: "sebep",
-        })
-        .setDescription("The reason for the ban.")
-        .setDescriptionLocalizations({
-          tr: "Yasaklama sebebi.",
-        }),
-    )
-    .addNumberOption((option) =>
-      option
-        .setName("duration")
-        .setNameLocalizations({
-          tr: "süre",
-        })
-        .setDescription("Duration of the ban (only numbers 1-99)")
-        .setDescriptionLocalizations({
-          tr: "Yasaklanma süresi (sadece sayılar 1-99)",
-        })
-        .setMinValue(1)
-        .setMaxValue(99)
-        .setRequired(false),
-    )
-    .addStringOption((option) =>
-      option
+    .addUserOption((opt) => opt.setName("user").setRequired(true))
+    .addBooleanOption((opt) => opt.setName("preserve-messages"))
+    .addStringOption((opt) => opt.setName("reason"))
+    .addNumberOption((opt) => opt.setName("duration"))
+    .addStringOption((opt) =>
+      opt
         .setName("time")
-        .setNameLocalizations({
-          tr: "vakit",
-        })
-        .setDescription("Time unit of the ban duration")
-        .setDescriptionLocalizations({
-          tr: "Yasaklanma süresinin birimi",
-        })
-        .setRequired(false)
         .setChoices(
-          { name: "Second(s)", value: "second", name_localizations: { tr: "Saniye" } },
-          { name: "Minute(s)", value: "minute", name_localizations: { tr: "Dakika" } },
-          { name: "Hour(s)", value: "hour", name_localizations: { tr: "Saat" } },
-          { name: "Day(s)", value: "day", name_localizations: { tr: "Gün" } },
-          { name: "Week(s)", value: "week", name_localizations: { tr: "Hafta" } },
+          { name: "Minute(s)", value: "minute" },
+          { name: "Hour(s)", value: "hour" },
+          { name: "Day(s)", value: "day" },
         ),
     ),
-  async execute(interaction) {
-    dayjs.extend(dayjsduration);
-    dayjs.extend(relativeTime);
-    const client = interaction.client;
-    const guildConfig = await getGuildConfig(interaction.guildId);
-    if (!guildConfig) {
-      await interaction.reply({
-        content: "This server is not registered in the database. This shouldn't happen, please contact developers",
-        flags: MessageFlagsBitField.Flags.Ephemeral,
-      });
-      return;
-    }
+
+  async execute(interaction, guildConfig) {
+    const { client, guild, user: moderator } = interaction;
+    if (!guild || !guildConfig) return;
+
     const t = client.i18next.getFixedT(guildConfig.language || "en", "commands", "ban");
-    const user = interaction.options.getUser("user", true);
-    if (user.id === interaction.user.id) {
-      await interaction.reply({ content: t("cant_ban_self"), flags: MessageFlagsBitField.Flags.Ephemeral });
-      return;
-    }
-    if (user.bot) {
-      await interaction.reply({ content: t("cant_ban_bot"), flags: MessageFlagsBitField.Flags.Ephemeral });
-      return;
-    }
-    const member = interaction.guild!.members.cache.get(user.id);
-    if (
-      member &&
-      (member.permissions.has(PermissionsBitField.Flags.BanMembers) ||
-        member.roles.cache.has(toStringId(guildConfig.staff_role_id)))
-    ) {
-      await interaction.reply({ content: t("cant_ban_mod"), flags: MessageFlagsBitField.Flags.Ephemeral });
-      return;
-    }
-    if (member && member.roles.highest.position >= interaction.member.roles.highest.position) {
-      await interaction.reply({ content: t("cant_ban_higher"), flags: MessageFlagsBitField.Flags.Ephemeral });
-      return;
-    }
+    const targetUser = interaction.options.getUser("user", true);
+
+    // 1. Validation
+    const validationError = validateBan(interaction, targetUser, guildConfig, t);
+    if (validationError)
+      return interaction.reply({ content: validationError, flags: MessageFlagsBitField.Flags.Ephemeral });
+
     await interaction.deferReply();
-    const reason = interaction.options.getString("reason") || t("no_reason");
-    const duration = interaction.options.getNumber("duration");
-    const time = interaction.options.getString("time");
+
+    // 2. Data Preparation
+    const reason = interaction.options.getString("reason") || t("noReason");
+    const durationVal = interaction.options.getNumber("duration");
+    const unit = interaction.options.getString("time");
     const preserve = interaction.options.getBoolean("preserve-messages") || false;
-    if (duration && time) {
-      const dayjsDuration = dayjs.duration(duration, time as dayjsduration.DurationUnitType);
-      const longDuration = dayjs(dayjs().add(dayjsDuration))
-        .locale(guildConfig.language || "en")
-        .fromNow(true);
 
-      try {
-        await createPunishment(interaction.guildId, {
-          type: PunishmentType.BAN,
-          created_at: new Date(),
-          expires_at: new Date(Date.now() + dayjsDuration.asMilliseconds()),
-          user_id: BigInt(user.id),
-          staff_id: BigInt(interaction.user.id),
-        });
-        await addInfraction({
-          guild: interaction.guild!,
-          member: user.id,
-          reason,
-          type: InfractionType.BAN,
-          moderator: interaction.user.id,
-        });
-      } catch (error) {
-        await interaction.editReply(t("database_error"));
-        logger.error({
-          message: `Error while inserting punishment/infraction for user ${user.tag} from guild ${interaction.guild!.name}`,
-          error,
-          guild: `${interaction.guild.name} (${interaction.guild.id})`,
-          user: `${interaction.user.tag} (${interaction.user.id})`,
-        });
-        return;
-      }
-      try {
-        if (member) {
-          await user.send(
-            t("message.dm.duration", {
-              guild: interaction.guild!.name,
-              reason,
-              duration: longDuration,
-            }),
-          );
-          await interaction.editReply({
-            content: t("message.success.duration", {
-              user: user.tag,
-              duration: longDuration,
-              case: guildConfig.case_id,
-              confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
-            }),
-          });
-        } else {
-          await interaction.editReply({
-            content: t("message.success.duration_no_member", {
-              user: user.tag,
-              duration: longDuration,
-              case: guildConfig.case_id,
-              confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
-            }),
-          });
-        }
-      } catch {
-        await interaction.editReply({
-          content: t("message.fail.duration", {
-            user: user.tag,
-            duration: longDuration,
-            case: guildConfig.case_id,
-            confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
-          }),
-        });
-      }
-      try {
-        await interaction.guild!.members.ban(user, { reason, deleteMessageSeconds: preserve ? 0 : 604800 });
-      } catch (error) {
-        await interaction.editReply(t("failed_to_ban", { user: user.tag }));
-        logger.error({
-          message: `Error while banning user ${user.tag} from guild ${interaction.guild!.name}`,
-          error,
-          guild: `${interaction.guild.name} (${interaction.guild.id})`,
-          user: `${interaction.user.tag} (${interaction.user.id})`,
-        });
-      }
-      const reply = await modLog(
-        {
-          guild: interaction.guild!,
-          user,
-          action: "TIMED_BAN",
-          moderator: interaction.user,
-          reason,
-          duration: dayjs(Date.now() + dayjsDuration.asMilliseconds()),
-          caseID: guildConfig.case_id,
-        },
-        client,
-      );
-      if (reply) {
-        if (interaction.replied) {
-          await interaction.followUp(reply.message);
-        } else {
-          await interaction.reply(reply.message);
-        }
-      }
-    } else {
-      try {
-        await addInfraction({
-          guild: interaction.guild,
-          member: user.id,
-          reason,
-          type: InfractionType.BAN,
-          moderator: interaction.user.id,
-        });
-      } catch (e) {
-        await interaction.editReply(t("database_error"));
-        logger.error({
-          message: `Error while inserting infraction for user ${user.tag} from guild ${interaction.guild!.name}`,
-          error: e,
-          guild: `${interaction.guild.name} (${interaction.guild.id})`,
-          user: `${interaction.user.tag} (${interaction.user.id})`,
-        });
-        return;
-      }
-      try {
-        if (member) {
-          await user.send(t("message.dm.permanent", { guild: interaction.guild!.name, reason }));
+    const expiresAt =
+      durationVal && unit ? new Date(Date.now() + dayjs.duration(durationVal, unit as any).asMilliseconds()) : null;
 
-          await interaction.editReply({
-            content: t("message.success.permanent", {
-              user: user.tag,
-              case: guildConfig.case_id,
-              confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
-            }),
-          });
-        } else {
-          await interaction.editReply({
-            content: t("message.success.permanent_no_member", {
-              user: user.tag,
-              case: guildConfig.case_id,
-              confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
-            }),
-          });
-        }
-      } catch {
-        await interaction.editReply({
-          content: t("message.fail.permanent", {
-            user: user.tag,
-            case: guildConfig.case_id,
-            confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
-          }),
-        });
+    const longDuration = expiresAt
+      ? dayjs(expiresAt)
+          .locale(guildConfig.language || "en")
+          .fromNow(true)
+      : null;
+
+    // 3. Database Persistence
+    try {
+      await createInfraction(guild.id, targetUser.id, moderator.id, InfractionType.BAN, reason);
+      if (expiresAt) {
+        await createPunishment(guild.id, targetUser.id, moderator.id, PunishmentAction.BAN, expiresAt);
       }
-      try {
-        await interaction.guild!.members.ban(user, { reason, deleteMessageSeconds: preserve ? 0 : 604800 });
-      } catch (error) {
-        await interaction.editReply(t("failed_to_ban", { user: user.tag }));
-        logger.error({
-          message: `Error while banning user ${user.tag} from guild ${interaction.guild!.name}`,
-          error,
-          guild: `${interaction.guild.name} (${interaction.guild.id})`,
-          user: `${interaction.user.tag} (${interaction.user.id})`,
-        });
-      }
-      const reply = await modLog(
-        {
-          guild: interaction.guild!,
-          user,
-          action: "BAN",
-          moderator: interaction.user,
-          reason,
-          caseID: guildConfig.case_id,
-        },
-        client,
-      );
-      if (reply) {
-        if (interaction.replied) {
-          await interaction.followUp(reply.message);
-        } else {
-          await interaction.reply(reply.message);
-        }
-      }
+    } catch (error) {
+      logger.error({ message: "Database error during ban", error });
+      return interaction.editReply(t("databaseError"));
     }
-    if (guildConfig.guild_logs_channel_id) {
-      const channel = await interaction.guild.channels
-        .fetch(toStringId(guildConfig.guild_logs_channel_id))
-        .catch(() => null);
-      if (channel?.type === ChannelType.GuildText) {
-        const webhook = await returnWebhook(interaction.client, channel, interaction.guild.id, {
-          id: guildConfig.guild_logs_webhook_id,
-          type: WebhookType.GUILD_LOGS,
-        });
-        const member = await interaction.guild.members.fetch(user.id).catch(() => null);
-        const embed = new EmbedBuilder()
-          .setTitle(t("embed.title"))
-          .setColor("Red")
-          .setThumbnail(user.displayAvatarURL())
-          .setDescription(
-            t("embed.description", {
-              user: user,
-              timestamp:
-                member && member.joinedAt
-                  ? formatted_time(member.joinedAt, TimestampStyles.RelativeTime)
-                  : t("never_joined"),
-            }),
-          )
-          .addFields([
-            {
-              name: t("embed.fields.reason"),
-              value: reason,
-            },
-          ])
-          .setFooter({
-            text: interaction.user.tag,
-            iconURL: interaction.user.displayAvatarURL(),
-          })
-          .setTimestamp();
-        await webhook
-          .send({
-            embeds: [embed],
-            allowedMentions: { parse: [] }, // Prevent mentions in the log
-          })
-          .catch((error) => {
-            logger.log({
-              level: "error",
-              message: "Error sending ban log",
-              error: error,
-              meta: {
-                guildID: interaction.guild.id,
-                userID: interaction.user.id,
-              },
-            });
-          });
+
+    // 4. Notification & Ban Execution
+    const isTimed = !!expiresAt;
+    const hasMember = guild.members.cache.has(targetUser.id);
+
+    // Dynamic key generation for: successPermanent, successDuration, successDurationNoMember, etc.
+    const typeKey = isTimed ? "Duration" : "Permanent";
+    const memberSuffix = hasMember ? "" : "NoMember";
+    const successKey = `message.success.${typeKey.toLowerCase()}${memberSuffix}`;
+    const dmKey = `message.dm.${typeKey.toLowerCase()}`;
+
+    // Attempt DM
+    if (hasMember) {
+      await targetUser.send(t(dmKey, { guild: guild.name, reason, duration: longDuration })).catch(() => null);
+    }
+
+    try {
+      await guild.members.ban(targetUser, { reason, deleteMessageSeconds: preserve ? 0 : 604800 });
+
+      await interaction.editReply({
+        content: t(successKey, {
+          user: targetUser.tag,
+          duration: longDuration,
+          case: guildConfig.caseId,
+          confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
+        }),
+      });
+
+      // 5. Logging
+      const logReply = await modLog(
+        {
+          guild,
+          user: targetUser,
+          moderator,
+          reason,
+          action: isTimed ? "TIMED_BAN" : "BAN",
+          duration: expiresAt ? dayjs(expiresAt) : undefined,
+          caseID: guildConfig.caseId,
+        },
+        client,
+      );
+
+      if (logReply) await interaction.followUp(logReply.message);
+
+      if (guildConfig.logConfig?.guildLogsChannelId) {
+        await logBanAdd({ guild, user: targetUser, reason, guildConfig, t });
       }
+    } catch (error) {
+      logger.error({ message: "Execution error in ban", error });
+      await interaction.editReply(t("failedToBan", { user: targetUser.tag }));
     }
   },
 } as SlashCommandBase;
+
+/**
+ * Validates if the target can be banned.
+ */
+function validateBan(
+  interaction: ChatInputCommandInteraction,
+  target: User,
+  config: GuildWithLogs,
+  t: TFunction,
+): string | null {
+  if (target.id === interaction.user.id) return t("cantBanSelf");
+  if (target.bot) return t("cantBanBot");
+
+  const member = interaction.guild!.members.cache.get(target.id);
+  if (member) {
+    const isStaff =
+      member.permissions.has(PermissionsBitField.Flags.BanMembers) ||
+      (config.staffRoleId && member.roles.cache.has(config.staffRoleId));
+    if (isStaff) return t("cantBanMod");
+
+    const modMember = interaction.member as any;
+    if (member.roles.highest.position >= modMember.roles.highest.position) return t("cantBanHigher");
+  }
+
+  return null;
+}

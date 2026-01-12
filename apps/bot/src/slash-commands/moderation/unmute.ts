@@ -1,9 +1,8 @@
-import type { SlashCommandBase } from "src/types/index.js";
+import type { SlashCommandBase } from "@types";
 import { InteractionContextType, MessageFlagsBitField, PermissionsBitField, SlashCommandBuilder } from "discord.js";
-import { logger } from "src/lib/index.js";
-import { modLog, toStringId } from "src/utils/index.js";
-import { deletePunishment, getGuildConfig, getLatestPunishmentByUserAndType } from "src/database/index.js";
-import { PunishmentType } from "src/constants/index.js";
+import { logger } from "@lib";
+import { modLog } from "@utils";
+import { deletePunishment, getPunishment, PunishmentAction } from "@repo/database";
 
 export default {
   memberPermissions: [PermissionsBitField.Flags.ManageRoles],
@@ -42,41 +41,33 @@ export default {
           tr: "Kullanıcının susturmasının kaldırılma sebebi",
         }),
     ),
-  async execute(interaction) {
+  async execute(interaction, guildConfig) {
     const client = interaction.client;
-    const guildConfig = await getGuildConfig(interaction.guildId);
-    if (!guildConfig) {
-      await interaction.reply({
-        content: "This server is not registered in the database. This shouldn't happen, please contact developers",
-        flags: MessageFlagsBitField.Flags.Ephemeral,
-      });
-      return;
-    }
     const t = client.i18next.getFixedT(guildConfig.language, "commands", "unmute");
     const member = interaction.options.getMember("user");
     if (!member) {
       await interaction.reply({ content: t("no_member"), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
-    if (!interaction.guild.roles.cache.has(toStringId(guildConfig.mute_role_id))) {
+    if (!guildConfig.muteRoleId || !interaction.guild.roles.cache.has(guildConfig.muteRoleId)) {
       await interaction.reply({ content: t("no_mute_role"), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
     const reason = interaction.options.getString("reason") || t("no_reason");
-    const punishment = await getLatestPunishmentByUserAndType(interaction.guildId, member.id, PunishmentType.MUTE);
+    const punishment = await getPunishment(interaction.guildId, member.id, PunishmentAction.MUTE);
 
-    if (!punishment && member.roles.cache.has(toStringId(guildConfig.mute_role_id))) {
+    if (!punishment && member.roles.cache.has(guildConfig.muteRoleId)) {
       await interaction.reply({ content: t("muted_no_punishment"), flags: MessageFlagsBitField.Flags.Ephemeral });
-      await member.roles.remove(toStringId(guildConfig.mute_role_id));
+      await member.roles.remove(guildConfig.muteRoleId);
       return;
     }
     if (!punishment) {
       await interaction.reply({ content: t("not_muted"), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
-    if (guildConfig.mute_get_all_roles) {
+    if (guildConfig.muteGetAllRoles) {
       try {
-        await member.roles.set(punishment.previous_roles.map((id) => toStringId(id)));
+        await member.roles.set(punishment.previousRoles);
       } catch (error) {
         await interaction.reply({ content: t("previous_roles_error"), flags: MessageFlagsBitField.Flags.Ephemeral });
         logger.error({
@@ -88,7 +79,7 @@ export default {
       }
     }
     try {
-      await deletePunishment(interaction.guildId, member.id, PunishmentType.MUTE);
+      await deletePunishment(interaction.guildId, member.id, PunishmentAction.MUTE);
     } catch (error) {
       await interaction.reply({ content: t("database_error"), flags: MessageFlagsBitField.Flags.Ephemeral });
       logger.error({
@@ -99,7 +90,7 @@ export default {
       return;
     }
     try {
-      await member.roles.remove(toStringId(guildConfig.mute_role_id));
+      await member.roles.remove(guildConfig.muteRoleId);
     } catch (error) {
       await interaction.reply({ content: t("role_error"), flags: MessageFlagsBitField.Flags.Ephemeral });
       logger.error({
@@ -115,7 +106,7 @@ export default {
         t("success", {
           user: member.user.tag,
           confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
-          case: guildConfig.case_id,
+          case: guildConfig.caseId,
         }),
       );
     } catch {

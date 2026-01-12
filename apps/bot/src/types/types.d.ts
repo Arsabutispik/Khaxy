@@ -2,16 +2,17 @@ import {
   ChatInputCommandInteraction,
   Collection,
   SlashCommandBuilder,
+  SlashCommandSubcommandsOnlyBuilder,
+  SlashCommandOptionsOnlyBuilder,
   ClientEvents,
   Awaitable,
   Guild,
   Snowflake,
   Webhook,
-  WebhookType,
 } from "discord.js";
 import { i18n } from "i18next";
-import { Config } from "src/lib/index.js";
-import { InfractionType } from "src/constants/index.js";
+import { Config } from "@lib";
+import { GuildWithLogs, InfractionType } from "@repo/database";
 
 declare module "discord.js" {
   interface Client {
@@ -19,14 +20,14 @@ declare module "discord.js" {
     i18next: i18n;
     allEmojis: Collection<string, { name: string; format: string; id?: string }>;
     config: typeof Config;
-    webhooks: Collection<string, Webhook<WebhookType.Incoming | WebhookType.ChannelFollower> | undefined>;
+    webhooks: Collection<string, Webhook | undefined>;
   }
 }
 export interface SlashCommandBase {
   memberPermissions?: bigint[];
   clientPermissions?: bigint[];
-  data?: SlashCommandBuilder;
-  execute(interaction: ChatInputCommandInteraction<"cached">): unknown;
+  data?: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder | SlashCommandOptionsOnlyBuilder;
+  execute(interaction: ChatInputCommandInteraction<"cached">, guildData: GuildWithLogs): unknown;
 }
 
 export interface EventBase<T extends keyof ClientEvents = keyof ClientEvents> {
@@ -49,35 +50,35 @@ declare module "fastify" {
   }
 }
 export type DynamicChannelTypes =
-  | "register_join_channel_id"
-  | "register_channel_id"
-  | "join_channel_id"
-  | "leave_channel_id"
-  | "mod_logs_channel_id"
-  | "mod_mail_channel_id"
-  | "bump_leaderboard_channel_id"
-  | "message_logs_channel_id"
-  | "guild_member_logs_channel_id"
-  | "guild_logs_channel_id"
-  | "voice_logs_channel_id"
-  | "channel_logs_channel_id"
-  | "emoji_logs_channel_id"
-  | "role_logs_channel_id"
-  | "sticker_logs_channel_id"
-  | "event_logs_channel_id"
-  | "invite_logs_channel_id"
-  | "poll_logs_channel_id"
-  | "stage_logs_channel_id"
-  | "soundboard_logs_channel_id"
-  | "thread_logs_channel_id"
-  | "webhook_logs_channel_id";
+  | "registerJoinChannelId"
+  | "registerChannelId"
+  | "joinChannelId"
+  | "leaveChannelId"
+  | "modLogsChannelId"
+  | "modMailChannelId"
+  | "bumpLeaderboardChannelId"
+  | "messageLogsChannelId"
+  | "guildMemberLogsChannelId"
+  | "guildLogsChannelId"
+  | "voiceLogsChannelId"
+  | "channelLogsChannelId"
+  | "emojiLogsChannelId"
+  | "roleLogsChannelId"
+  | "stickerLogsChannelId"
+  | "eventLogsChannelId"
+  | "inviteLogsChannelId"
+  | "pollLogsChannelId"
+  | "stageLogsChannelId"
+  | "soundboardLogsChannelId"
+  | "threadLogsChannelId"
+  | "webhookLogsChannelId";
 
 export type RoleType =
-  | "member_role_id"
-  | "male_role_id"
-  | "female_role_id"
-  | "colour_id_of_the_day"
-  | "mute_role_id"
-  | "dj_role_id"
-  | "staff_role_id"
-  | "unverified_role_id";
+  | "memberRoleId"
+  | "maleRoleId"
+  | "femaleRoleId"
+  | "colourIdOfTheDay"
+  | "muteRoleId"
+  | "djRoleId"
+  | "staffRoleId"
+  | "unverifiedRoleId";

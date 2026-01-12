@@ -1,5 +1,5 @@
 import { CachedGuilds, Guild, SafeChannel, SafeRole } from "@/types/types";
-import { guilds as Guilds } from "@repo/database";
+import { GuildWithLogs } from "@repo/database";
 
 const USER_GUILD_CACHE = new Map<string, CachedGuilds>();
 const CACHE_DURATION_MS = 10 * 60 * 1000; // 10 minutes (600 seconds)
@@ -173,7 +173,7 @@ export async function fetchBotGuilds(botToken: string): Promise<Guild[]> {
 }
 export async function getGuildSettings(
   guildId: string,
-): Promise<{ guildId: string; settings: Guilds } | null> {
+): Promise<{ guildId: string; settings: GuildWithLogs } | null> {
   return botApiFetch(`/api/guilds/${guildId}/settings`);
 }
 
@@ -203,25 +203,35 @@ export async function getGuildInfo(guildId: string): Promise<{
 export async function updateBotProfile(
   guildId: string,
   data: { nickname?: string | null; avatar?: string | null },
-): Promise<{ success: boolean; nickname: string | null; avatar: string | null } | null> {
+): Promise<{
+  success: boolean;
+  nickname: string | null;
+  avatar: string | null;
+} | null> {
   if (!API_BASE_URL || !API_KEY) {
     console.error("[API Client] Missing API configuration");
     return null;
   }
 
   try {
-    const res = await fetch(`${API_BASE_URL}/api/bot/guild/${guildId}/profile`, {
-      method: "POST",
-      headers: {
-        "x-internal-api-key": API_KEY,
-        "Content-Type": "application/json",
+    const res = await fetch(
+      `${API_BASE_URL}/api/bot/guild/${guildId}/profile`,
+      {
+        method: "POST",
+        headers: {
+          "x-internal-api-key": API_KEY,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       },
-      body: JSON.stringify(data),
-    });
+    );
 
     if (!res.ok) {
       const errorText = await res.text();
-      console.error(`[API Client] updateBotProfile failed (${res.status}):`, errorText);
+      console.error(
+        `[API Client] updateBotProfile failed (${res.status}):`,
+        errorText,
+      );
       return null;
     }
 

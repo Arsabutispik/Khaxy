@@ -8,13 +8,13 @@ export class DiscordTransport extends Transport {
   private readonly webhook: string;
 
   //Discord webhook id
-  private id: string;
+  private id: string | undefined;
 
   //Discord webhook token
-  private token: string;
+  private token: string | undefined;
 
   //Initialization promise resolved when the webhook is parsed
-  private initialized: Promise<void>;
+  private initialized: Promise<void> | undefined;
 
   //Available colors for the embed
   private static COLORS: { [key: string]: number } = {
@@ -68,15 +68,13 @@ export class DiscordTransport extends Transport {
     // Check for existence of info.metadata.discord property
     // The check is `info.metadata && 'discord' in info.metadata ? info.metadata.discord : true`
     // which simplifies to checking if 'discord' is explicitly set to false in metadata.
-    if (!info.metadata || info.metadata.discord !== false) {
+    if (!info.metadata || (info.metadata.discord !== false && this.initialized)) {
       setImmediate(() => {
-        this.initialized
-          .then(() => {
-            this.sendToDiscord(info).then(() => {});
-          })
-          .catch((err) => {
-            console.log("Error sending message to discord", err);
-          });
+        this.initialized!.then(() => {
+          this.sendToDiscord(info).then(() => {});
+        }).catch((err) => {
+          console.log("Error sending message to discord", err);
+        });
       });
     }
 

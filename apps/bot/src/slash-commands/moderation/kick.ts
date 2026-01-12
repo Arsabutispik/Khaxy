@@ -1,4 +1,4 @@
-import type { SlashCommandBase } from "src/types/index.js";
+import type { SlashCommandBase } from "@types";
 import {
   ChannelType,
   EmbedBuilder,
@@ -9,10 +9,9 @@ import {
   time as formatted_time,
   TimestampStyles,
 } from "discord.js";
-import { logger } from "src/lib/index.js";
-import { toStringId, addInfraction, modLog, returnWebhook, WebhookType } from "src/utils/index.js";
-import { getGuildConfig } from "src/database/index.js";
-import { InfractionType } from "src/constants/index.js";
+import { logger } from "@lib";
+import { modLog, returnWebhook, WebhookType } from "@utils";
+import { createInfraction, InfractionType } from "@repo/database";
 
 export default {
   memberPermissions: [PermissionsBitField.Flags.KickMembers],
@@ -62,16 +61,8 @@ export default {
           tr: "Kullanıcının en fazla 7 günlük mesajlarını temizler",
         }),
     ),
-  async execute(interaction) {
+  async execute(interaction, guildConfig) {
     const client = interaction.client;
-    const guildConfig = await getGuildConfig(interaction.guildId);
-    if (!guildConfig) {
-      await interaction.reply({
-        content: "This server is not registered in the database. This shouldn't happen, please contact developers",
-        flags: MessageFlagsBitField.Flags.Ephemeral,
-      });
-      return;
-    }
     const t = client.i18next.getFixedT(guildConfig.language || "en", "commands", "kick");
 
     const member = interaction.options.getMember("user");
@@ -95,7 +86,7 @@ export default {
     }
     if (
       member.permissions.has(PermissionsBitField.Flags.KickMembers) ||
-      member.roles.cache.has(toStringId(guildConfig.staff_role_id))
+      (guildConfig.staffRoleId && member.roles.cache.has(guildConfig.staffRoleId))
     ) {
       await interaction.reply(t("cant_kick_mod"));
       return;
@@ -104,13 +95,7 @@ export default {
       await interaction.reply(t("cant_kick"));
       return;
     }
-    await addInfraction({
-      guild: interaction.guild,
-      member: member.id,
-      reason,
-      type: InfractionType.KICK,
-      moderator: interaction.user.id,
-    });
+    await createInfraction(interaction.guildId, member.id, interaction.user.id, InfractionType.KICK, reason);
     try {
       await member.send(
         t("message.dm", {
@@ -122,7 +107,7 @@ export default {
       await interaction.reply(
         t("message.success", {
           user: member.user.tag,
-          case: guildConfig.case_id,
+          case: guildConfig.caseId,
           confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
         }),
       );
@@ -130,7 +115,7 @@ export default {
       await interaction.reply(
         t("message.fail", {
           user: member.user.tag,
-          case: guildConfig.case_id,
+          case: guildConfig.caseId,
           confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
         }),
       );
@@ -172,13 +157,14 @@ export default {
         await interaction.reply(reply.message);
       }
     }
-    if (guildConfig.guild_logs_channel_id) {
-      const channel = interaction.guild.channels.cache.get(toStringId(guildConfig.guild_logs_channel_id));
+    if (guildConfig.logConfig?.guildLogsChannelId) {
+      const channel = interaction.guild.channels.cache.get(guildConfig.logConfig.guildLogsChannelId);
       if (channel?.type === ChannelType.GuildText) {
-        const webhook = await returnWebhook(interaction.client, channel, interaction.guild.id, {
-          id: guildConfig.guild_logs_webhook_id,
+        const webhook = await returnWebhook(interaction.client, channel, interaction.guild.id, guildConfig, {
+          id: guildConfig.logConfig.guildLogsWebhookId,
           type: WebhookType.GUILD_LOGS,
         });
+        if (!webhook) return;
         const embed = new EmbedBuilder()
           .setTitle(t("embed.title"))
           .setColor("Red")

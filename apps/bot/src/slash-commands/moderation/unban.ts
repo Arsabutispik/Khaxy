@@ -1,4 +1,4 @@
-import type { SlashCommandBase } from "src/types/index.js";
+import type { SlashCommandBase } from "@types";
 import {
   ChannelType,
   EmbedBuilder,
@@ -7,9 +7,8 @@ import {
   PermissionsBitField,
   SlashCommandBuilder,
 } from "discord.js";
-import { logger } from "src/lib/index.js";
-import { modLog, returnWebhook, toStringId, WebhookType } from "src/utils/index.js";
-import { getGuildConfig } from "src/database/index.js";
+import { logger } from "@lib";
+import { modLog, returnWebhook, WebhookType } from "@utils";
 
 export default {
   memberPermissions: [PermissionsBitField.Flags.BanMembers],
@@ -48,16 +47,8 @@ export default {
           tr: "Kullanıcının yasağının kaldırılma sebebi",
         }),
     ),
-  async execute(interaction) {
+  async execute(interaction, guildConfig) {
     const client = interaction.client;
-    const guildConfig = await getGuildConfig(interaction.guildId);
-    if (!guildConfig) {
-      await interaction.reply({
-        content: "This server is not registered in the database. This shouldn't happen, please contact developers",
-        flags: MessageFlagsBitField.Flags.Ephemeral,
-      });
-      return;
-    }
     const t = client.i18next.getFixedT(guildConfig.language, "commands", "unban");
     const user = interaction.options.getUser("user", true);
     if (!user) {
@@ -79,11 +70,11 @@ export default {
         content: t("success", {
           user: user.tag,
           confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
-          case: guildConfig.case_id,
+          case: guildConfig.caseId,
         }),
         flags: MessageFlagsBitField.Flags.Ephemeral,
       });
-    } catch (error) {
+    } catch (error: any) {
       await interaction.reply({
         content: t("error", { error: error.message }),
         flags: MessageFlagsBitField.Flags.Ephemeral,
@@ -95,15 +86,16 @@ export default {
         user: interaction.user.id,
       });
     }
-    if (guildConfig.guild_logs_channel_id) {
+    if (guildConfig.logConfig?.guildLogsChannelId) {
       const channel = await interaction.guild.channels
-        .fetch(toStringId(guildConfig.guild_logs_channel_id))
+        .fetch(guildConfig.logConfig.guildLogsChannelId)
         .catch(() => null);
       if (channel?.type === ChannelType.GuildText) {
-        const webhook = await returnWebhook(interaction.client, channel, interaction.guild.id, {
-          id: guildConfig.guild_logs_webhook_id,
+        const webhook = await returnWebhook(interaction.client, channel, interaction.guild.id, guildConfig, {
+          id: guildConfig.logConfig.guildLogsWebhookId,
           type: WebhookType.GUILD_LOGS,
         });
+        if (!webhook) return;
         const embed = new EmbedBuilder()
           .setTitle(t("embed.title"))
           .setColor("Green")

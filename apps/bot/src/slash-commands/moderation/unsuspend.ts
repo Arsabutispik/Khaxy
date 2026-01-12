@@ -1,15 +1,15 @@
-import { SlashCommandBase } from "src/types/index.js";
+import { SlashCommandBase } from "@types";
 import { InteractionContextType, MessageFlags, PermissionsBitField, SlashCommandBuilder } from "discord.js";
 import {
-  createModMailMessage,
-  getGuildConfig,
-  getModMailThread,
-  getModMailThreadsByUser,
-  updateModMailThread,
-} from "src/database/index.js";
-import { ModMailMessageSentTo, ModMailMessageType, ModMailThreadStatus } from "src/constants/index.js";
-import { toStringId } from "src/utils/index.js";
-import { logger } from "src/lib/index.js";
+  addMessageToThread,
+  getThreadByChannelId,
+  getThreadsByUser,
+  ModMailStatus,
+  ModMailAuthorType,
+  ModMailSentToType,
+  prisma,
+} from "@repo/database";
+import { logger } from "@lib";
 
 export default {
   memberPermissions: [PermissionsBitField.Flags.ManageMessages],
@@ -24,52 +24,45 @@ export default {
     })
     .setContexts(InteractionContextType.Guild)
     .setDefaultMemberPermissions(PermissionsBitField.Flags.ManageMessages),
-  async execute(interaction) {
-    const guildConfig = await getGuildConfig(interaction.guildId);
-    if (!guildConfig) {
-      await interaction.reply({
-        content: "This server is not registered in the database. This shouldn't happen, please contact developers.",
-        flags: MessageFlags.Ephemeral,
-      });
-      return;
-    }
+  async execute(interaction, guildConfig) {
     const t = interaction.client.i18next.getFixedT(guildConfig.language, "commands", "unsuspend");
-    const thread = await getModMailThread(interaction.channelId);
+    const thread = await getThreadByChannelId(interaction.channelId);
     if (!thread) {
       await interaction.reply({
-        content: t("no_thread"),
+        content: t("noThread"),
         flags: MessageFlags.Ephemeral,
       });
       return;
     }
-    if (thread.status !== ModMailThreadStatus.SUSPENDED) {
+    if (thread.status !== ModMailStatus.SUSPENDED) {
       await interaction.reply({
-        content: t("not_suspended"),
+        content: t("notSuspended"),
         flags: MessageFlags.Ephemeral,
       });
       return;
     }
-    const userThreads = await getModMailThreadsByUser(toStringId(thread.user_id));
-    if (userThreads.some((thread) => thread.status === ModMailThreadStatus.OPEN)) {
+    const userThreads = await getThreadsByUser(thread.userId);
+    if (userThreads.some((t) => t.status === ModMailStatus.OPEN)) {
       await interaction.reply({
-        content: t("user_has_open_threads"),
+        content: t("userHasOpenThreads"),
         flags: MessageFlags.Ephemeral,
       });
       return;
     }
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
     try {
-      await updateModMailThread(toStringId(interaction.channelId), {
-        status: ModMailThreadStatus.OPEN,
+      await prisma.modMailThread.update({
+        where: { channelId: interaction.channelId },
+        data: { status: ModMailStatus.OPEN },
       });
-      await createModMailMessage(interaction.channelId, {
-        author_id: BigInt(interaction.user.id),
-        sent_at: new Date(),
-        author_type: ModMailMessageType.CLIENT,
-        sent_to: ModMailMessageSentTo.THREAD,
-        content: t("unsuspended"),
-        message_id: BigInt(interaction.id),
-      });
+      await addMessageToThread(
+        interaction.channelId,
+        t("unsuspended"),
+        interaction.user.id,
+        ModMailAuthorType.STAFF,
+        ModMailSentToType.THREAD,
+        interaction.id,
+      );
       await interaction.editReply(t("unsuspended"));
     } catch (error) {
       logger.log({

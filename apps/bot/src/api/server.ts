@@ -4,7 +4,7 @@ import helmet from "@fastify/helmet";
 import rateLimit from "@fastify/rate-limit";
 import { botRoutes } from "./routes/botRoutes.js";
 import { Client } from "discord.js";
-import { logger } from "src/lib/index.js";
+import { logger } from "@lib";
 import { timingSafeEqual, pbkdf2Sync } from "crypto";
 
 const API_KEY_PBKDF2_SALT = process.env.API_KEY_PBKDF2_SALT;

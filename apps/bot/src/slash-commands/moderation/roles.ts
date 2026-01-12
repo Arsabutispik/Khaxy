@@ -1,7 +1,6 @@
-import { SlashCommandBase } from "src/types/index.js";
+import { SlashCommandBase } from "@types";
 import { MessageFlags, PermissionsBitField, SlashCommandBuilder } from "discord.js";
-import { getGuildConfig } from "src/database/index.js";
-import { logger } from "src/lib/index.js";
+import { logger } from "@lib";
 
 export default {
   memberPermissions: [PermissionsBitField.Flags.ManageRoles],
@@ -85,16 +84,7 @@ export default {
             .setRequired(true),
         ),
     ),
-  async execute(interaction) {
-    const guildConfig = await getGuildConfig(interaction.guildId);
-    if (!guildConfig) {
-      await interaction.reply({
-        content: "Guild configuration not found.",
-        flags: MessageFlags.Ephemeral,
-      });
-      return;
-    }
-
+  async execute(interaction, guildConfig) {
     const t = interaction.client.i18next.getFixedT(guildConfig.language, "commands", "roles");
 
     const subcommand = interaction.options.getSubcommand();

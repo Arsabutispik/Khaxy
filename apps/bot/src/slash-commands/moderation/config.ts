@@ -1,11 +1,10 @@
-import type { SlashCommandBase } from "src/types/index.js";
+import type { SlashCommandBase } from "@types";
 import {
   MessageFlagsBitField,
   PermissionsBitField,
   SlashCommandBuilder,
   ActionRowBuilder,
   StringSelectMenuBuilder,
-  MessageComponentInteraction,
   ComponentType,
   EmbedBuilder,
   InteractionContextType,
@@ -17,414 +16,219 @@ import {
   registerConfig,
   roleConfig,
   welcomeLeaveConfig,
-} from "src/config-functions/index.js";
-import { getGuildConfig } from "src/database/index.js";
-import { localeFlags } from "src/constants/index.js";
+} from "../../config-functions/index.js";
+import { localeFlags } from "@constants";
 
 export default {
   memberPermissions: [PermissionsBitField.Flags.Administrator],
   data: new SlashCommandBuilder()
     .setName("config")
-    .setNameLocalizations({
-      tr: "ayarlar",
-    })
+    .setNameLocalizations({ tr: "ayarlar" })
     .setDescription("Configure your server's settings.")
-    .setDescriptionLocalizations({
-      tr: "Sunucunuzun ayarlarını yapılandırın.",
-    })
     .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator)
     .setContexts(InteractionContextType.Guild)
     .addStringOption((option) =>
       option
         .setName("setting")
-        .setNameLocalizations({
-          tr: "ayar",
-        })
-        .setDescription("The setting you want to configure. Leave empty to see all settings.")
-        .setDescriptionLocalizations({
-          tr: "Yapılandırmak istediğiniz ayar. Tüm ayarları görmek için boş bırakın.",
-        })
+        .setDescription("The setting category you want to configure.")
         .setRequired(false)
         .addChoices(
-          {
-            name: "Register Settings",
-            value: "register",
-            name_localizations: {
-              tr: "Kayıt Ayarları",
-            },
-          },
-          {
-            name: "Welcome-Leave Settings",
-            value: "welcome-leave",
-            name_localizations: {
-              tr: "Gelen-Giden Ayarları",
-            },
-          },
-          {
-            name: "Moderation Settings",
-            value: "moderation",
-            name_localizations: {
-              tr: "Moderasyon Ayarları",
-            },
-          },
-          {
-            name: "Role Settings",
-            value: "role",
-            name_localizations: {
-              tr: "Rol Ayarları",
-            },
-          },
-          {
-            name: "Miscellaneous Settings",
-            value: "misc",
-            name_localizations: {
-              tr: "Diğer Ayarlar",
-            },
-          },
-          {
-            name: "Log Settings",
-            value: "log",
-            name_localizations: {
-              tr: "Günlük Ayarları",
-            },
-          },
+          { name: "Register", value: "register" },
+          { name: "Welcome-Leave", value: "welcomeLeave" },
+          { name: "Moderation", value: "moderation" },
+          { name: "Role", value: "role" },
+          { name: "Misc", value: "misc" },
+          { name: "Log", value: "log" },
         ),
     ),
-  async execute(interaction) {
-    const client = interaction.client;
-    const guild_config = await getGuildConfig(interaction.guildId);
-    if (!guild_config) {
-      await interaction.reply({
-        content: "This server is not registered in the database. This shouldn't happen, please contact developers",
+  async execute(interaction, guildConfig) {
+    const { client } = interaction;
+
+    if (!guildConfig) {
+      return interaction.reply({
+        content: "This server is not registered in the database.",
         flags: MessageFlagsBitField.Flags.Ephemeral,
       });
-      return;
     }
-    const t = client.i18next.getFixedT(guild_config.language, "commands", "config");
-    const setting = interaction.options.getString("setting") as
+
+    const t = client.i18next.getFixedT(guildConfig.language, "commands", "config");
+    const settingOption = interaction.options.getString("setting") as
       | "register"
-      | "welcome-leave"
+      | "welcomeLeave"
       | "moderation"
       | "role"
       | "misc"
       | "log"
-      | undefined;
-    if (!setting) {
-      const selectMenu = new StringSelectMenuBuilder()
-        .setCustomId("config")
-        .setOptions(
-          { label: t("select_menu.moderation"), value: "moderation", emoji: "⚖️" },
-          { label: t("select_menu.register"), value: "register", emoji: "📝" },
-          { label: t("select_menu.welcome_leave"), value: "welcome-leave", emoji: "👋" },
-          { label: t("select_menu.role"), value: "role", emoji: "🔒" },
-          { label: t("select_menu.misc"), value: "misc", emoji: "🔧" },
-          { label: t("select_menu.log"), value: "log", emoji: "📜" },
+      | null;
+
+    // Direct routing if an option was selected in the Slash Command
+    if (settingOption) {
+      switch (settingOption) {
+        case "role":
+          return await roleConfig(interaction, guildConfig);
+        case "register":
+          return await registerConfig(interaction, guildConfig);
+        case "welcomeLeave":
+          return await welcomeLeaveConfig(interaction, guildConfig);
+        case "moderation":
+          return await moderationConfig(interaction, guildConfig);
+        case "misc":
+          return await miscConfig(interaction, guildConfig);
+        case "log":
+          return await logConfig(interaction, guildConfig);
+      }
+    }
+
+    const selectMenu = new StringSelectMenuBuilder()
+      .setCustomId("configSelector")
+      .setOptions(
+        { label: t("selectMenu.moderation"), value: "moderation", emoji: "⚖️" },
+        { label: t("selectMenu.register"), value: "register", emoji: "📝" },
+        { label: t("selectMenu.welcomeLeave"), value: "welcomeLeave", emoji: "👋" },
+        { label: t("selectMenu.role"), value: "role", emoji: "🔒" },
+        { label: t("selectMenu.misc"), value: "misc", emoji: "🔧" },
+        { label: t("selectMenu.log"), value: "log", emoji: "📜" },
+      );
+
+    const actionRow = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(selectMenu);
+
+    const response = await interaction.reply({
+      content: t("noSetting"),
+      flags: MessageFlagsBitField.Flags.Ephemeral,
+      withResponse: true,
+      components: [actionRow],
+    });
+
+    const collector = response.resource?.message?.createMessageComponentCollector({
+      filter: (i) => i.customId === "configSelector" && i.user.id === interaction.user.id,
+      componentType: ComponentType.StringSelect,
+      time: 300_000,
+    });
+
+    collector?.on("collect", async (i) => {
+      const selected = i.values[0];
+      const embed = new EmbedBuilder().setColor("Random");
+      const docsUrl = process.env.DOCS_URL || "https://docs.khaxy.net";
+      const check = (val: any) =>
+        val
+          ? client.allEmojis.get(client.config.emojis.confirm.id)!.format
+          : client.allEmojis.get(client.config.emojis.reject.id)!.format;
+
+      // Update UI state
+      selectMenu.setOptions(
+        selectMenu.options.map((opt) => {
+          opt.setDefault(opt.data.value === selected);
+          return opt;
+        }),
+      );
+
+      if (selected === "register") {
+        embed
+          .setTitle(t("embed.register.title"))
+          .setURL(`${docsUrl}/${guildConfig.language.split("-")[0]}/configuration/register-settings`)
+          .addFields(
+            {
+              name: t("embed.register.fields.registerJoinChannel"),
+              value: guildConfig.registerJoinChannelId ? `<#${guildConfig.registerJoinChannelId}>` : t("none"),
+              inline: true,
+            },
+            {
+              name: t("embed.register.fields.registerChannel"),
+              value: guildConfig.registerChannelId ? `<#${guildConfig.registerChannelId}>` : t("none"),
+              inline: true,
+            },
+            {
+              name: t("embed.register.fields.registerJoinMessage"),
+              value: check(guildConfig.registerJoinMessage),
+              inline: true,
+            },
+            {
+              name: t("embed.register.fields.registerChannelClear"),
+              value: check(guildConfig.registerChannelClear),
+              inline: true,
+            },
+          );
+      } else if (selected === "welcomeLeave") {
+        embed.setTitle(t("embed.welcomeLeave.title")).addFields(
+          {
+            name: t("embed.welcomeLeave.fields.welcomeChannel"),
+            value: guildConfig.joinChannelId ? `<#${guildConfig.joinChannelId}>` : t("none"),
+            inline: true,
+          },
+          {
+            name: t("embed.welcomeLeave.fields.welcomeMessage"),
+            value: check(guildConfig.joinMessage),
+            inline: true,
+          },
+          {
+            name: t("embed.welcomeLeave.fields.leaveChannel"),
+            value: guildConfig.leaveChannelId ? `<#${guildConfig.leaveChannelId}>` : t("none"),
+            inline: true,
+          },
+          { name: t("embed.welcomeLeave.fields.leaveMessage"), value: check(guildConfig.leaveMessage), inline: true },
         );
-      const actionRow = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(selectMenu);
-      const reply = await interaction.reply({
-        content: t("no_setting"),
-        flags: MessageFlagsBitField.Flags.Ephemeral,
-        withResponse: true,
-        components: [actionRow],
-      });
-      const filter = (i: MessageComponentInteraction) => i.customId === "config" && i.user.id === interaction.user.id;
-      const collector = reply.resource!.message!.createMessageComponentCollector({
-        filter,
-        componentType: ComponentType.StringSelect,
-        time: 1000 * 60 * 5,
-      });
-      collector?.on("collect", async (i) => {
-        const setting = i.values[0] as "register" | "welcome-leave" | "moderation" | "role" | "misc" | "log";
-        const embed = new EmbedBuilder().setColor("Random");
-        const newSelectMenu = new StringSelectMenuBuilder(selectMenu.data).setOptions(
-          ...selectMenu.options.map((o) => {
-            if (o.data.value !== setting && o.data.default) o.setDefault(false);
-            if (o.data.value === setting) o.setDefault(true);
-            return o;
-          }),
+      } else if (selected === "moderation") {
+        embed.setTitle(t("embed.moderation.title")).addFields(
+          {
+            name: t("embed.moderation.fields.modLogChannel"),
+            value: guildConfig.logConfig?.modLogsChannelId ? `<#${guildConfig.logConfig.modLogsChannelId}>` : t("none"),
+            inline: true,
+          },
+          {
+            name: t("embed.moderation.fields.staffRole"),
+            value: guildConfig.staffRoleId ? `<@&${guildConfig.staffRoleId}>` : t("none"),
+            inline: true,
+          },
+          {
+            name: t("embed.moderation.fields.muteGetAllRoles"),
+            value: check(guildConfig.muteGetAllRoles),
+            inline: true,
+          },
+          {
+            name: t("embed.moderation.fields.registerDayLimit"),
+            value: guildConfig.daysToKick.toString(),
+            inline: true,
+          },
         );
-        const docs_url = process.env.DOCS_URL || "https://docs.khaxy.net";
-        if (setting === "register") {
-          embed
-            .setTitle(t("embed.register.title"))
-            .setURL(`${docs_url}/${guild_config.language.split("-")[0]}/configuration/register-settings`)
-            .addFields(
-              {
-                name: t("embed.register.fields.register_join_channel"),
-                value: guild_config.register_join_channel_id
-                  ? `<#${guild_config.register_join_channel_id}>`
-                  : t("none"),
-                inline: true,
-              },
-              {
-                name: t("embed.register.fields.register_channel"),
-                value: guild_config.register_channel_id ? `<#${guild_config.register_channel_id}>` : t("none"),
-                inline: true,
-              },
-              {
-                name: t("embed.register.fields.register_join_message"),
-                value: guild_config.register_join_message
-                  ? client.allEmojis.get(client.config.emojis.confirm.id)!.format
-                  : client.allEmojis.get(client.config.emojis.reject.id)!.format,
-                inline: true,
-              },
-              {
-                name: t("embed.register.fields.register_channel_clear"),
-                value: guild_config.register_channel_clear
-                  ? client.allEmojis.get(client.config.emojis.confirm.id)!.format
-                  : client.allEmojis.get(client.config.emojis.reject.id)!.format,
-                inline: true,
-              },
-            );
-          actionRow.setComponents(newSelectMenu);
-          await i.update({ embeds: [embed], components: [actionRow] });
-        } else if (setting === "welcome-leave") {
-          embed
-            .setTitle(t("embed.welcome_leave.title"))
-            .setURL(`${docs_url}/${guild_config.language.split("-")[0]}/configuration/welcome-leave-settings`)
-            .addFields(
-              {
-                name: t("embed.welcome_leave.fields.welcome_channel"),
-                value: guild_config.join_channel_id ? `<#${guild_config.join_channel_id}>` : t("none"),
-                inline: true,
-              },
-              {
-                name: t("embed.welcome_leave.fields.welcome_message"),
-                value: guild_config.join_message
-                  ? client.allEmojis.get(client.config.emojis.confirm.id)!.format
-                  : client.allEmojis.get(client.config.emojis.reject.id)!.format,
-                inline: true,
-              },
-              {
-                name: t("embed.welcome_leave.fields.leave_channel"),
-                value: guild_config.leave_channel_id ? `<#${guild_config.leave_channel_id}>` : t("none"),
-                inline: true,
-              },
-              {
-                name: t("embed.welcome_leave.fields.leave_message"),
-                value: guild_config.leave_message
-                  ? client.allEmojis.get(client.config.emojis.confirm.id)!.format
-                  : client.allEmojis.get(client.config.emojis.reject.id)!.format,
-                inline: true,
-              },
-            );
-          actionRow.setComponents(newSelectMenu);
-          await i.update({ embeds: [embed], components: [actionRow] });
-        } else if (setting === "moderation") {
-          embed
-            .setTitle(t("embed.moderation.title"))
-            .setURL(`${docs_url}/${guild_config.language.split("-")[0]}/configuration/moderation-settings`)
-            .addFields(
-              {
-                name: t("embed.moderation.fields.mod_log_channel"),
-                value: guild_config.mod_logs_channel_id ? `<#${guild_config.mod_logs_channel_id}>` : t("none"),
-                inline: true,
-              },
-              {
-                name: t("embed.moderation.fields.staff_role"),
-                value: guild_config.staff_role_id ? `<@&${guild_config.staff_role_id}>` : t("none"),
-                inline: true,
-              },
-              {
-                name: t("embed.moderation.fields.mod_mail_channel"),
-                value: guild_config.mod_mail_channel_id ? `<#${guild_config.mod_mail_channel_id}>` : t("none"),
-                inline: true,
-              },
-              {
-                name: t("embed.moderation.fields.mute_get_all_roles"),
-                value: guild_config.mute_get_all_roles
-                  ? client.allEmojis.get(client.config.emojis.confirm.id)!.format
-                  : client.allEmojis.get(client.config.emojis.reject.id)!.format,
-                inline: true,
-              },
-              {
-                name: t("embed.moderation.fields.register_day_limit"),
-                value: guild_config.days_to_kick.toString(),
-                inline: true,
-              },
-              {
-                name: t("embed.moderation.fields.default_expiry"),
-                value: guild_config.default_expiry.toString(),
-                inline: true,
-              },
-            );
-          actionRow.setComponents(newSelectMenu);
-          await i.update({ embeds: [embed], components: [actionRow] });
-        } else if (setting === "role") {
-          embed
-            .setTitle(t("embed.role.title"))
-            .setURL(`${docs_url}/${guild_config.language.split("-")[0]}/configuration/role-settings`)
-            .addFields(
-              {
-                name: t("embed.role.fields.color_of_the_day"),
-                value: guild_config.colour_id_of_the_day ? `<@&${guild_config.colour_id_of_the_day}>` : t("none"),
-                inline: true,
-              },
-              {
-                name: t("embed.role.fields.dj_role"),
-                value: guild_config.dj_role_id ? `<@&${guild_config.dj_role_id}>` : t("none"),
-                inline: true,
-              },
-              {
-                name: t("embed.role.fields.member_role"),
-                value: guild_config.member_role_id ? `<@&${guild_config.member_role_id}>` : t("none"),
-                inline: true,
-              },
-              {
-                name: t("embed.role.fields.unverified_role"),
-                value: guild_config.unverified_role_id ? `<@&${guild_config.unverified_role_id}>` : t("none"),
-                inline: true,
-              },
-              {
-                name: t("embed.role.fields.male_role"),
-                value: guild_config.male_role_id ? `<@&${guild_config.male_role_id}>` : t("none"),
-                inline: true,
-              },
-              {
-                name: t("embed.role.fields.female_role"),
-                value: guild_config.female_role_id ? `<@&${guild_config.female_role_id}>` : t("none"),
-                inline: true,
-              },
-              {
-                name: t("embed.role.fields.mute_role"),
-                value: guild_config.mute_role_id ? `<@&${guild_config.mute_role_id}>` : t("none"),
-                inline: true,
-              },
-            );
-          actionRow.setComponents(newSelectMenu);
-          await i.update({ embeds: [embed], components: [actionRow] });
-        } else if (setting === "misc") {
-          embed
-            .setTitle(t("embed.misc.title"))
-            .setURL(`${docs_url}/${guild_config.language.split("-")[0]}/configuration/miscellaneous-settings`)
-            .addFields(
-              {
-                name: t("embed.misc.fields.language"),
-                value: localeFlags[guild_config.language],
-                inline: true,
-              },
-              {
-                name: t("embed.misc.fields.mod_mail_message"),
-                value: guild_config.mod_mail_message
-                  ? client.allEmojis.get(client.config.emojis.confirm.id)!.format
-                  : client.allEmojis.get(client.config.emojis.reject.id)!.format,
-                inline: true,
-              },
-            );
-          actionRow.setComponents(newSelectMenu);
-          await i.update({ embeds: [embed], components: [actionRow] });
-        } else if (setting === "log") {
-          embed
-            .setTitle(t("embed.log.title"))
-            .setURL(`${docs_url}/${guild_config.language.split("-")[0]}/configuration/log-settings`)
-            .addFields([
-              {
-                name: t("embed.log.fields.message_logs_channel"),
-                value: guild_config.message_logs_channel_id ? `<#${guild_config.message_logs_channel_id}>` : t("none"),
-                inline: true,
-              },
-              {
-                name: t("embed.log.fields.guild_logs_channel"),
-                value: guild_config.guild_logs_channel_id ? `<#${guild_config.guild_logs_channel_id}>` : t("none"),
-                inline: true,
-              },
-              {
-                name: t("embed.log.fields.guild_member_logs_channel"),
-                value: guild_config.guild_member_logs_channel_id
-                  ? `<#${guild_config.guild_member_logs_channel_id}>`
-                  : t("none"),
-                inline: true,
-              },
-              {
-                name: t("embed.log.fields.channel_logs_channel"),
-                value: guild_config.channel_logs_channel_id ? `<#${guild_config.channel_logs_channel_id}>` : t("none"),
-                inline: true,
-              },
-              {
-                name: t("embed.log.fields.voice_logs_channel"),
-                value: guild_config.voice_logs_channel_id ? `<#${guild_config.voice_logs_channel_id}>` : t("none"),
-                inline: true,
-              },
-              {
-                name: t("embed.log.fields.emoji_logs_channel"),
-                value: guild_config.emoji_logs_channel_id ? `<#${guild_config.emoji_logs_channel_id}>` : t("none"),
-                inline: true,
-              },
-              {
-                name: t("embed.log.fields.role_logs_channel"),
-                value: guild_config.role_logs_channel_id ? `<#${guild_config.role_logs_channel_id}>` : t("none"),
-                inline: true,
-              },
-              {
-                name: t("embed.log.fields.sticker_logs_channel"),
-                value: guild_config.sticker_logs_channel_id ? `<#${guild_config.sticker_logs_channel_id}>` : t("none"),
-                inline: true,
-              },
-              {
-                name: t("embed.log.fields.event_logs_channel_id"),
-                value: guild_config.event_logs_channel_id ? `<#${guild_config.event_logs_channel_id}>` : t("none"),
-                inline: true,
-              },
-              {
-                name: t("embed.log.fields.invite_logs_channel"),
-                value: guild_config.invite_logs_channel_id ? `<#${guild_config.invite_logs_channel_id}>` : t("none"),
-                inline: true,
-              },
-              {
-                name: t("embed.log.fields.poll_logs_channel"),
-                value: guild_config.poll_logs_channel_id ? `<#${guild_config.poll_logs_channel_id}>` : t("none"),
-                inline: true,
-              },
-              {
-                name: t("embed.log.fields.stage_logs_channel_id"),
-                value: guild_config.stage_logs_channel_id ? `<#${guild_config.stage_logs_channel_id}>` : t("none"),
-                inline: true,
-              },
-              {
-                name: t("embed.log.fields.soundboard_logs_channel_id"),
-                value: guild_config.soundboard_logs_channel_id
-                  ? `<#${guild_config.soundboard_logs_channel_id}>`
-                  : t("none"),
-                inline: true,
-              },
-              {
-                name: t("embed.log.fields.thread_logs_channel_id"),
-                value: guild_config.thread_logs_channel_id ? `<#${guild_config.thread_logs_channel_id}>` : t("none"),
-                inline: true,
-              },
-              {
-                name: t("embed.log.fields.webhook_logs_channel_id"),
-                value: guild_config.webhook_logs_channel_id ? `<#${guild_config.webhook_logs_channel_id}>` : t("none"),
-                inline: true,
-              },
-            ]);
-          actionRow.setComponents(newSelectMenu);
-          await i.update({ embeds: [embed], components: [actionRow] });
-        }
-        collector?.on("end", () => {
-          interaction.editReply({ content: t("times_up"), components: [] });
+      } else if (selected === "log") {
+        embed.setTitle(t("embed.log.title")).addFields(
+          {
+            name: t("embed.log.fields.messageLogsChannel"),
+            value: guildConfig.logConfig?.messageLogsChannelId
+              ? `<#${guildConfig.logConfig.messageLogsChannelId}>`
+              : t("none"),
+            inline: true,
+          },
+          {
+            name: t("embed.log.fields.guildLogsChannel"),
+            value: guildConfig.logConfig?.guildLogsChannelId
+              ? `<#${guildConfig.logConfig.guildLogsChannelId}>`
+              : t("none"),
+            inline: true,
+          },
+        );
+      } else if (selected === "misc") {
+        embed.setTitle(t("embed.misc.title")).addFields(
+          {
+            name: t("embed.misc.fields.language"),
+            value: localeFlags[guildConfig.language] || guildConfig.language,
+            inline: true,
+          },
+          { name: t("embed.misc.fields.modMailMessage"), value: check(guildConfig.modMailMessage), inline: true },
+        );
+      } else if (selected === "role") {
+        embed.setTitle(t("embed.role.title")).addFields({
+          name: t("embed.role.fields.colorOfTheDay"),
+          value: guildConfig.colourIdOfTheDay ? `<@&${guildConfig.colourIdOfTheDay}>` : t("none"),
+          inline: true,
         });
-      });
-    }
-    switch (setting) {
-      case "role":
-        await roleConfig(interaction);
-        break;
-      case "register":
-        await registerConfig(interaction);
-        break;
-      case "welcome-leave":
-        await welcomeLeaveConfig(interaction);
-        break;
-      case "moderation":
-        await moderationConfig(interaction);
-        break;
-      case "misc":
-        await miscConfig(interaction);
-        break;
-      case "log":
-        await logConfig(interaction);
-        break;
-    }
+      }
+
+      await i.update({ embeds: [embed], components: [actionRow] });
+    });
+
+    collector?.on("end", () => {
+      interaction.editReply({ components: [] }).catch(() => null);
+    });
   },
 } as SlashCommandBase;

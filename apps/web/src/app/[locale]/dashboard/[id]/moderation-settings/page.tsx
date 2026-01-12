@@ -25,12 +25,11 @@ export default async function ModerationConfigPage({ params }: Props) {
     return <div>Failed to load guild roles.</div>;
   }
   const serializedConfig = {
-    mod_logs_channel_id: guildConfig.settings.mod_logs_channel_id,
-    staff_role_id: guildConfig.settings.staff_role_id,
-    mod_mail_channel_id: guildConfig.settings.mod_mail_channel_id,
-    mute_get_all_roles: guildConfig.settings.mute_get_all_roles,
-    days_to_kick: guildConfig.settings.days_to_kick,
-    default_expiry: guildConfig.settings.default_expiry,
+    modLogsChannelId: guildConfig.settings.logConfig?.modLogsChannelId ?? null,
+    staffRoleId: guildConfig.settings.staffRoleId,
+    modMailChannelId: guildConfig.settings.modMailChannelId,
+    muteGetAllRoles: guildConfig.settings.muteGetAllRoles,
+    defaultExpiry: guildConfig.settings.defaultExpiry,
   };
   const filteredChannels = guildChannels.channels.filter((channel) => {
     return channel.type === ChannelType.GuildText;
