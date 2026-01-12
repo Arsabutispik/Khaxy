@@ -77,24 +77,26 @@ export default {
         });
         return;
       }
+    } else {
+      // Remove mute role first before deleting from database
+      try {
+        await member.roles.remove(guildConfig.muteRoleId);
+      } catch (error) {
+        await interaction.reply({ content: t("roleError"), flags: MessageFlagsBitField.Flags.Ephemeral });
+        logger.error({
+          message: "An error occurred while removing the mute role from a user",
+          error,
+          guild: interaction.guild.id,
+        });
+        return;
+      }
     }
     try {
       await deletePunishment(interaction.guildId, member.id, PunishmentAction.MUTE);
     } catch (error) {
-      await interaction.reply({ content: t("database_error"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t("databaseError"), flags: MessageFlagsBitField.Flags.Ephemeral });
       logger.error({
         message: "An error occurred while unmuting a user",
-        error,
-        guild: interaction.guild.id,
-      });
-      return;
-    }
-    try {
-      await member.roles.remove(guildConfig.muteRoleId);
-    } catch (error) {
-      await interaction.reply({ content: t("role_error"), flags: MessageFlagsBitField.Flags.Ephemeral });
-      logger.error({
-        message: "An error occurred while removing the mute role from a user",
         error,
         guild: interaction.guild.id,
       });
@@ -110,7 +112,7 @@ export default {
         }),
       );
     } catch {
-      await interaction.reply(t("dm_error", { user: member.user.tag }));
+      await interaction.reply(t("dmError", { user: member.user.tag }));
     }
     const result = await modLog(
       {

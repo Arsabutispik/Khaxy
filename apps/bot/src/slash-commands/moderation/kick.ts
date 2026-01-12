@@ -3,7 +3,6 @@ import {
   ChannelType,
   EmbedBuilder,
   InteractionContextType,
-  MessageFlagsBitField,
   PermissionsBitField,
   SlashCommandBuilder,
   time as formatted_time,
@@ -96,6 +95,42 @@ export default {
       return;
     }
     await createInfraction(interaction.guildId, member.id, interaction.user.id, InfractionType.KICK, reason);
+
+    // Attempt to kick or softban first before replying
+    let kickSuccess = false;
+    if (clear) {
+      try {
+        await member.ban({ reason: `Softban- ${reason}`, deleteMessageSeconds: 604800 });
+        await interaction.guild.members.unban(member, "softban");
+        kickSuccess = true;
+      } catch (error) {
+        logger.error({
+          message: `Error while banning user ${member.user.tag} from guild ${interaction.guild.name}`,
+          error,
+          guild: `${interaction.guild.name} (${interaction.guild.id})`,
+          user: `${interaction.user.tag} (${interaction.user.id})`,
+        });
+      }
+    } else {
+      try {
+        await member.kick(reason);
+        kickSuccess = true;
+      } catch (error) {
+        logger.error({
+          message: `Error while kicking user ${member.user.tag} from guild ${interaction.guild.name}`,
+          error,
+          guild: interaction.guild.id,
+          user: interaction.user.id,
+        });
+      }
+    }
+
+    if (!kickSuccess) {
+      await interaction.reply(clear ? t("clearFail") : t("fail"));
+      return;
+    }
+
+    // Now send success messages
     try {
       await member.send(
         t("message.dm", {
@@ -119,32 +154,6 @@ export default {
           confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
         }),
       );
-    }
-    if (clear) {
-      try {
-        await member.ban({ reason: `Softban- ${reason}`, deleteMessageSeconds: 604800 });
-        await interaction.guild.members.unban(member, "softban");
-      } catch (error) {
-        await interaction.reply(t("clear_fail"));
-        logger.error({
-          message: `Error while banning user ${member.user.tag} from guild ${interaction.guild.name}`,
-          error,
-          guild: `${interaction.guild.name} (${interaction.guild.id})`,
-          user: `${interaction.user.tag} (${interaction.user.id})`,
-        });
-      }
-    } else {
-      try {
-        await member.kick(reason);
-      } catch (error) {
-        await interaction.reply(t("fail"));
-        logger.error({
-          message: `Error while kicking user ${member.user.tag} from guild ${interaction.guild.name}`,
-          error,
-          guild: interaction.guild.id,
-          user: interaction.user.id,
-        });
-      }
     }
     const reply = await modLog(
       { guild: interaction.guild, action: "KICK", user: member.user, moderator: interaction.user, reason: reason },
@@ -175,7 +184,7 @@ export default {
               timestamp:
                 member && member.joinedAt
                   ? formatted_time(member.joinedAt, TimestampStyles.RelativeTime)
-                  : t("never_joined"),
+                  : t("neverJoined"),
             }),
           )
           .addFields([

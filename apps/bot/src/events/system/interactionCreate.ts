@@ -72,7 +72,7 @@ export default {
       }
       try {
         // Execute the command
-        command.execute(interaction, guildData);
+        await command.execute(interaction, guildData);
         // If the command is used in a mod mail thread keep track of the command execution
         const modMailThread = await getThreadByChannelId(interaction.channelId);
         if (modMailThread) {

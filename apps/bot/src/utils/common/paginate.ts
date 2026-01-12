@@ -6,7 +6,6 @@ import {
   ChatInputCommandInteraction,
   ComponentType,
   EmbedBuilder,
-  MessageFlags,
 } from "discord.js";
 
 /**
@@ -68,27 +67,26 @@ export async function paginate(
   });
   collector.on("collect", async (button) => {
     if (button.customId === "close") return collector.stop();
+
+    await button.deferUpdate();
+
     if (button.customId === "prev") {
       if (pages.length < 2) {
-        await button.reply({ content: "No page available", flags: MessageFlags.Ephemeral });
         return;
       }
       page = page > 0 ? --page : pages.length - 1;
     } else if (button.customId === "next") {
       if (pages.length < 2) {
-        await button.reply({ content: "No page available", flags: MessageFlags.Ephemeral });
         return;
       }
       page = page + 1 < pages.length ? ++page : 0;
     } else if (button.customId === "first") {
       if (pages.length < 2) {
-        await button.reply({ content: "No page available", flags: MessageFlags.Ephemeral });
         return;
       }
       page = 0;
     } else if (button.customId === "last") {
       if (pages.length < 2) {
-        await button.reply({ content: "No page available", flags: MessageFlags.Ephemeral });
         return;
       }
       page = pages.length - 1;

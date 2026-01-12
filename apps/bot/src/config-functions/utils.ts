@@ -179,7 +179,7 @@ export async function dynamicRole(
   const actionRow = new ActionRowBuilder<RoleSelectMenuBuilder>().setComponents(selectMenu);
 
   const result = await interaction.editReply({
-    content: t("role_initial"),
+    content: t("roleInitial"),
     components: [actionRow],
   });
 
@@ -212,7 +212,7 @@ export async function dynamicRole(
     const myRole = messageComponent.guild.members.me?.roles.highest;
 
     if (!isSpecialRole && targetRole && myRole && myRole.position < targetRole.position) {
-      await messageComponent.editReply({ content: t("role_too_high"), components: [] });
+      await messageComponent.editReply({ content: t("roleTooHigh"), components: [] });
       return;
     }
 

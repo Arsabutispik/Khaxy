@@ -3,6 +3,8 @@ import {
   ChatInputCommandInteraction,
   StringSelectMenuBuilder,
   StringSelectMenuInteraction,
+  MessageComponentInteraction,
+  ComponentType,
 } from "discord.js";
 import { GuildWithLogs, updateGuildConfig } from "@repo/database";
 import { dynamicMessage, waitForMessageComponent } from "./utils.js";
@@ -67,11 +69,37 @@ async function languageConfig(interaction: StringSelectMenuInteraction<"cached">
       },
     ]);
   const actionRow = new ActionRowBuilder<StringSelectMenuBuilder>().setComponents(selectMenu);
-  const messageComponent = await waitForMessageComponent(interaction, actionRow, t, "language");
-  if (!messageComponent) return;
-  await updateGuildConfig(messageComponent.guildId, {
-    language: messageComponent.values[0],
+
+  const result = await interaction.editReply({
+    content: t("channelInitial"),
+    components: [actionRow],
   });
+
+  const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id && i.customId === "language";
+
+  let messageComponent;
+  try {
+    messageComponent = await result.awaitMessageComponent({
+      filter,
+      componentType: ComponentType.StringSelect,
+      time: 1000 * 60 * 5,
+    });
+  } catch {
+    await result.edit({ content: t("timeout"), components: [] });
+    return;
+  }
+
+  await messageComponent.deferUpdate();
+  const newValue = messageComponent.values[0] || null;
+
+  if (!newValue) return;
+
+  // 2. Update Database Safely
+  await updateGuildConfig(messageComponent.guildId, {
+    language: newValue,
+  });
+
+  // 3. Reply
   const new_t = client.i18next.getFixedT(messageComponent.values[0], null, "miscConfig");
   await messageComponent.editReply({
     content: new_t("language.set", { language: localeFlags[messageComponent.values[0]] }),

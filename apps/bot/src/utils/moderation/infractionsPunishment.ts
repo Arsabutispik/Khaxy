@@ -197,7 +197,7 @@ export async function infractionsPunishment(guild: Guild, member: GuildMember, m
           guild.id,
           member.id,
           moderator.id,
-          PunishmentAction.MUTE,
+          PunishmentAction.BAN,
           new Date(Date.now() + dayjsDuration.asMilliseconds()),
         );
       } catch (error) {
