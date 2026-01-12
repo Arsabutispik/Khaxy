@@ -55,7 +55,7 @@ export async function roleConfig(interaction: ChatInputCommandInteraction<"cache
       },
     ]);
   const actionRow = new ActionRowBuilder<StringSelectMenuBuilder>().setComponents(selectMenu);
-  const messageComponent = await waitForMessageComponent(interaction, actionRow, t, "role_config");
+  const messageComponent = await waitForMessageComponent(interaction, actionRow, t, "roleConfig");
   if (!messageComponent) return;
   await messageComponent.deferUpdate();
   await dynamicRole(messageComponent.values[0] as RoleType, messageComponent, guildData, t);

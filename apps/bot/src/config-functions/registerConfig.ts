@@ -42,7 +42,7 @@ export async function registerConfig(interaction: ChatInputCommandInteraction<"c
       },
     ]);
   const actionRow = new ActionRowBuilder<StringSelectMenuBuilder>().setComponents(selectMenu);
-  const messageComponent = await waitForMessageComponent(interaction, actionRow, t, "register_config");
+  const messageComponent = await waitForMessageComponent(interaction, actionRow, t, "registerConfig");
   if (!messageComponent) return;
   switch (messageComponent.values[0]) {
     case "registerJoinChannelId":

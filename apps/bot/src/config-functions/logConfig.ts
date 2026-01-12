@@ -103,7 +103,7 @@ export async function logConfig(interaction: ChatInputCommandInteraction<"cached
       },
     ]);
   const actionRow = new ActionRowBuilder<StringSelectMenuBuilder>().setComponents(selectMenu);
-  const messageComponent = await waitForMessageComponent(interaction, actionRow, t, "log_config");
+  const messageComponent = await waitForMessageComponent(interaction, actionRow, t, "logConfig");
   if (!messageComponent) return;
   switch (messageComponent.values[0]) {
     case "messageLogsChannelId":

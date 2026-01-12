@@ -38,7 +38,7 @@ export async function miscConfig(interaction: ChatInputCommandInteraction<"cache
       },
     ]);
   const actionRow = new ActionRowBuilder<StringSelectMenuBuilder>().setComponents(selectMenu);
-  const messageComponent = await waitForMessageComponent(interaction, actionRow, t, "misc_config");
+  const messageComponent = await waitForMessageComponent(interaction, actionRow, t, "miscConfig");
   if (!messageComponent) return;
   switch (messageComponent.values[0]) {
     case "language":
