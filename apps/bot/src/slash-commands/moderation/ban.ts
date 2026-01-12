@@ -149,7 +149,8 @@ function validateBan(
   const member = interaction.guild!.members.cache.get(target.id);
   if (member) {
     const isStaff =
-      member.permissions.has(PermissionsBitField.Flags.BanMembers) || member.roles.cache.has(config.staffRoleId!);
+      member.permissions.has(PermissionsBitField.Flags.BanMembers) ||
+      (config.staffRoleId && member.roles.cache.has(config.staffRoleId));
     if (isStaff) return t("cantBanMod");
 
     const modMember = interaction.member as any;
