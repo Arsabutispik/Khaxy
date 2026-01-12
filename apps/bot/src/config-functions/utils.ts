@@ -76,7 +76,7 @@ export async function dynamicChannel(
   const actionRow = new ActionRowBuilder<ChannelSelectMenuBuilder>().setComponents(selectMenu);
 
   const result = await interaction.editReply({
-    content: t("channel_initial"),
+    content: t("channelInitial"),
     components: [actionRow],
   });
 

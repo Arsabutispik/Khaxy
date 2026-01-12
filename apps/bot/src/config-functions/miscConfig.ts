@@ -5,7 +5,7 @@ import {
   StringSelectMenuInteraction,
 } from "discord.js";
 import { GuildWithLogs, updateGuildConfig } from "@repo/database";
-import { dynamicChannel, dynamicMessage, waitForMessageComponent } from "./utils.js";
+import { dynamicMessage, waitForMessageComponent } from "./utils.js";
 import { localeFlags } from "@constants";
 import { TFunction } from "i18next";
 
@@ -42,7 +42,6 @@ export async function miscConfig(interaction: ChatInputCommandInteraction<"cache
   if (!messageComponent) return;
   switch (messageComponent.values[0]) {
     case "language":
-      await messageComponent.deferUpdate();
       await languageConfig(messageComponent, guildData, t);
       break;
     case "modMailMessage":
@@ -76,11 +75,10 @@ async function languageConfig(interaction: StringSelectMenuInteraction<"cached">
   const actionRow = new ActionRowBuilder<StringSelectMenuBuilder>().setComponents(selectMenu);
   const messageComponent = await waitForMessageComponent(interaction, actionRow, t, "language");
   if (!messageComponent) return;
-  await messageComponent.deferUpdate();
   await updateGuildConfig(messageComponent.guildId, {
     language: messageComponent.values[0],
   });
-  const new_t = client.i18next.getFixedT(messageComponent.values[0], null, "misc_config");
+  const new_t = client.i18next.getFixedT(messageComponent.values[0], null, "miscConfig");
   await messageComponent.editReply({
     content: new_t("language.set", { language: localeFlags[messageComponent.values[0]] }),
     components: [],
