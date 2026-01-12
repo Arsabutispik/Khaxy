@@ -58,7 +58,15 @@ export default {
     // 1. Handle Existing Scheduled Close (Interruption)
     if (thread.scheduledCloseAt) {
       const confirmed = await handleExistingSchedule(interaction, thread.scheduledCloseAt, t, guildConfig.language);
-      if (!confirmed) return; // User rejected or timed out
+      if (!confirmed) {
+        const cancelMessage = t("cancelled");
+        if (!interaction.deferred && !interaction.replied) {
+          await interaction.reply({ content: cancelMessage, ephemeral: true });
+        } else {
+          await interaction.followUp({ content: cancelMessage, ephemeral: true });
+        }
+        return; // User rejected or timed out
+      }
     }
 
     const durationVal = interaction.options.getNumber("duration");
