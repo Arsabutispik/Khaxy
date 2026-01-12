@@ -33,7 +33,7 @@ export default {
     const t = interaction.client.i18next.getFixedT(guildConfig.language, "commands", "modmail-logs");
     const logId = interaction.options.getInteger("log-id", true);
     const threads = await getModMailThreads(interaction.guildId);
-    const thread = threads?.find((t) => Number(t.id) === logId);
+    const thread = threads?.find((thread) => Number(thread.id) === logId);
     if (!thread) {
       return interaction.editReply({ content: t("noThreadFound", { logId }) });
     }
