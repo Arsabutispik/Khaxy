@@ -52,7 +52,7 @@ export async function modLog(
           oldCaseNumber: caseNumber,
         },
       });
-      return { message: t("mod_log.function_errors.case_id_error"), type: "ERROR" };
+      return { message: t("modLog.functionErrors.caseIdError"), type: "ERROR" };
     }
   }
   // If mod log channel is not configured, exit the function
@@ -65,10 +65,10 @@ export async function modLog(
   // Construct the log message based on the action
   switch (action) {
     case "WARNING":
-      message += t("mod_log.warning", { moderator, user, reason });
+      message += t("modLog.warning", { moderator, user, reason });
       break;
     case "BAN":
-      message += t("mod_log.ban", {
+      message += t("modLog.ban", {
         moderator,
         user,
         reason,
@@ -76,10 +76,10 @@ export async function modLog(
       });
       break;
     case "KICK":
-      message += t("mod_log.kick", { moderator, user, reason });
+      message += t("modLog.kick", { moderator, user, reason });
       break;
     case "MUTE":
-      message += t("mod_log.mute", {
+      message += t("modLog.mute", {
         moderator,
         user,
         reason,
@@ -87,7 +87,7 @@ export async function modLog(
       });
       break;
     case "TIMED_BAN":
-      message += t("mod_log.timed_ban", {
+      message += t("modLog.timedBan", {
         moderator,
         user,
         reason,
@@ -96,7 +96,7 @@ export async function modLog(
       });
       break;
     case "CHANGES":
-      message += t("mod_log.changes", {
+      message += t("modLog.changes", {
         moderator,
         user,
         reason,
@@ -105,10 +105,10 @@ export async function modLog(
       });
       break;
     case "UNBAN":
-      message += t("mod_log.unban", { moderator, user, reason });
+      message += t("modLog.unban", { moderator, user, reason });
       break;
     case "BAN_EXPIRED":
-      message += t("mod_log.ban_expired", {
+      message += t("modLog.banExpired", {
         moderator,
         user,
         reason,
@@ -116,7 +116,7 @@ export async function modLog(
       });
       break;
     case "TIMEOUT":
-      message += t("mod_log.timeout", {
+      message += t("modLog.timeout", {
         moderator,
         user,
         reason,
@@ -124,7 +124,7 @@ export async function modLog(
       });
       break;
     case "UNMUTE":
-      message += t("mod_log.unmute", { moderator, user, reason });
+      message += t("modLog.unmute", { moderator, user, reason });
       break;
   }
 
