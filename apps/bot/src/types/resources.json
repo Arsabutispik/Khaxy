@@ -1,0 +1,1966 @@
+{
+  "commands": {
+    "ban": {
+      "expired": "Ban has expired.",
+      "cantBanSelf": "You can't ban yourself.",
+      "cantBanBot": "You can't ban a bot.",
+      "cantBanMod": "You can't ban a moderator.",
+      "cantBanHigher": "You can't ban a user with a higher role than you.",
+      "noReason": "No reason provided.",
+      "databaseError": "Critical error while updating the database. The developers have been notified. The command has been cancelled.",
+      "message": {
+        "dm": {
+          "duration": "You have been banned from **{{guild}}** for **{{duration}}**. Reason:```{{reason}}```",
+          "permanent": "You have been permanently banned from **{{guild}}**. Reason:```{{reason}}```"
+        },
+        "success": {
+          "duration": "{{confirm}} **{{user}}** has been banned for **{{duration}}** (Case #{{case}}). The user has been notified via DM.",
+          "permanent": "{{confirm}} **{{user}}** has been permanently banned (Case #{{case}}). The user has been notified via DM.",
+          "durationNoMember": "{{confirm}} **{{user}}** has been banned for **{{duration}}** (Case #{{case}}).",
+          "permanentNoMember": "{{confirm}} **{{user}}** has been permanently banned (Case #{{case}})."
+        },
+        "fail": {
+          "duration": "{{confirm}} **{{user}}** has been banned for **{{duration}}** (Case #{{case}}). The user could not be notified via DM.",
+          "permanent": "{{confirm}} **{{user}}** has been permanently banned (Case #{{case}}). The user could not be notified via DM."
+        }
+      },
+      "embed": {
+        "title": "User Banned",
+        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Joined At**: {{timestamp}}",
+        "fields": {
+          "reason": "Reason"
+        }
+      },
+      "neverJoined": "User never joined the server."
+    },
+    "kick": {
+      "noReason": "No reason provided for kicking.",
+      "cantKickYourself": "You can't kick yourself.",
+      "noMember": "Member not found in the server.",
+      "cantKickBot": "You can't kick a bot.",
+      "cantKickHigher": "You can't kick a user with a higher role than you.",
+      "cantKickMod": "You can't kick a moderator.",
+      "cantKick": "This user can't be kicked.",
+      "message": {
+        "dm": "You have been kicked from **{{guild}}**. Reason:```{{reason}}```",
+        "success": "{{confirm}} **{{user}}** has been kicked (Case #{{case}}). The user has been notified via DM.",
+        "fail": "{{confirm}} **{{user}}** has been kicked (Case #{{case}}). The user could not be notified via DM."
+      },
+      "clearFail": "Failed to clear the messages.",
+      "fail": "Failed to kick the member.",
+      "embed": {
+        "title": "User Kicked",
+        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Joined At**: {{timestamp}}",
+        "fields": {
+          "reason": "Reason"
+        }
+      }
+    },
+    "mute": {
+      "noReason": "No reason provided for muting.",
+      "noMember": "Member not found. Is the member still in the server?",
+      "noMuteRole": "Mute role not found.",
+      "alreadyMuted": "User is already muted.",
+      "alreadyMutedNoPunishments": "User is already muted but no punishments found. Removing the role.",
+      "notMuted": "A punishment was found, but the user is not muted. Adding the role.",
+      "cantMuteYourself": "You can't mute yourself.",
+      "cantMuteHigher": "You can't mute a user with a higher role than you.",
+      "cantMuteBot": "You can't mute a bot.",
+      "cantMuteMod": "You can't mute a moderator.",
+      "message": {
+        "dm": "You have been muted in **{{guild}}** for **{{duration}}**. Reason:```{{reason}}```",
+        "success": "{{confirm}} **{{user}}** has been muted for **{{duration}}** (Case #{{case}}). The user has been notified via DM.",
+        "fail": "{{confirm}} **{{user}}** has been muted for **{{duration}}** (Case #{{case}}). The user could not be notified via DM."
+      },
+      "databaseError": "Critical error while updating the database. The developers have been notified. The command has been cancelled.",
+      "roleError": "Error while removing or adding roles. I may not have permission to do so. Please check the role permissions. The command has been cancelled.",
+      "embed": {
+        "title": "User Roles Changed",
+        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Roles Added**: {{added_roles}}",
+        "removed": "Roles Removed"
+      }
+    },
+    "register": {
+      "noMember": "Member not found. Is the member still in the server?",
+      "noRegisterChannel": "Register channel not found. Please update the register channel in the settings.",
+      "wrongChannel": "You can only register in <#{{channel}}>",
+      "noMemberRole": "Member role not found. Please update the member role in the settings.",
+      "alreadyRegistered": "User is already registered.",
+      "noMaleRole": "Male role not found. Please update the male role in the settings.",
+      "success": "{{confirm}} **{{user}}** has been registered.",
+      "error": "Error while registering the user. {{error}}",
+      "noFemaleRole": "Female role not found. Please update the female role in the settings.",
+      "notValid": "The option you provided is not valid. Please provide a valid option.",
+      "rolesUpdate": {
+        "embed": {
+          "title": "Roles Updated",
+          "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Roles Added**: {{added_roles}}",
+          "removed": "Roles Removed"
+        }
+      }
+    },
+    "unban": {
+      "noReason": "No reason provided for unbanning.",
+      "noUser": "User not found.",
+      "notBanned": "User is not banned.",
+      "success": "{{confirm}} **{{user}}** has been unbanned (Case #{{case}}).",
+      "error": "Error while unbanning the user. {{error}}",
+      "embed": {
+        "title": "User Unbanned",
+        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
+        "fields": {
+          "reason": "Reason"
+        }
+      }
+    },
+    "unmute": {
+      "noMember": "Member not found. Is the member still in the server?",
+      "noReason": "No reason provided for unmuting.",
+      "noMuteRole": "Mute role not found. Please update the mute role in the settings.",
+      "previousRolesError": "Failed to reassign previous roles. The following roles couldn't be added:```{{roles}}```",
+      "notMuted": "User is not muted. If they appear to be, please remove the role manually. Lost roles cannot be restored automatically.",
+      "mutedNoPunishments": "User is muted but no punishments found. Removing the role. Lost roles cannot be restored automatically.",
+      "success": "{{confirm}} **{{user}}** has been unmuted (Case #{{case}}). The user has been notified via DM.",
+      "databaseError": "Critical error while updating the database. The developers have been notified. The command has been cancelled.",
+      "roleError": "Error while removing the role. The role may have been deleted or I may not have permission to remove it.",
+      "dmError": "{{confirm}} **{{user}}** has been unmuted (Case #{{case}}). The user could not be notified via DM.",
+      "dm": "You have been unmuted in **{{guild}}**."
+    },
+    "warn": {
+      "noMember": "Member not found. Is the member still in the server?",
+      "selfWarn": "You can't warn yourself.",
+      "botWarn": "You can't warn a bot.",
+      "staffWarn": "You can't warn a staff member.",
+      "databaseError": "Critical error while updating the database. The developers have been notified. The command has been cancelled.",
+      "dm": "You have been warned in **{{guild}}**. Reason:```{{reason}}```",
+      "success": "{{confirm}} **{{user}}** has been warned (Case #{{case}}). The user has been notified via DM.",
+      "dmError": "{{confirm}} **{{user}}** has been warned (Case #{{case}}). The user could not be notified via DM."
+    },
+    "config": {
+      "selectMenu": {
+        "moderation": "Moderation Settings",
+        "register": "Register Settings",
+        "welcomeLeave": "Welcome/Leave Settings",
+        "role": "Role Settings",
+        "misc": "Miscellaneous Settings",
+        "log": "Log Settings"
+      },
+      "noSetting": "Use the menu below to navigate the settings. Each title can be clicked to view the documentation.",
+      "none": "N/A",
+      "timesUp": "Time's up! You can no longer view the settings.",
+      "embed": {
+        "register": {
+          "title": "Register Settings",
+          "fields": {
+            "registerJoinChannel": "Register Join Channel",
+            "registerChannel": "Register Channel",
+            "registerJoinMessage": "Register Join Message",
+            "registerChannelClear": "Clear Register Channel"
+          }
+        },
+        "welcomeLeave": {
+          "title": "Welcome/Leave Settings",
+          "fields": {
+            "welcomeChannel": "Welcome Channel",
+            "welcomeMessage": "Welcome Message",
+            "leaveChannel": "Leave Channel",
+            "leaveMessage": "Leave Message"
+          }
+        },
+        "moderation": {
+          "title": "Moderation Settings",
+          "fields": {
+            "modLogChannel": "Moderation Log Channel",
+            "staffRole": "Staff Role",
+            "modMailChannel": "Mod Mail Channel",
+            "muteGetAllRoles": "Mute Get All Roles",
+            "registerDayLimit": "Register Day Limit",
+            "defaultExpiry": "Default Expiry"
+          }
+        },
+        "role": {
+          "title": "Role Settings",
+          "fields": {
+            "colorOfTheDay": "Colour of the Day",
+            "djRole": "DJ Role",
+            "memberRole": "Member Role",
+            "unverifiedRole": "Unverified Role",
+            "maleRole": "Male Role",
+            "femaleRole": "Female Role",
+            "muteRole": "Mute Role"
+          }
+        },
+        "misc": {
+          "title": "Miscellaneous Settings",
+          "fields": {
+            "language": "Language",
+            "modMailMessage": "Mod Mail Message"
+          }
+        },
+        "log": {
+          "title": "Log Settings",
+          "fields": {
+            "messageLogsChannel": "Message Logs Channel",
+            "guildLogsChannel": "Guild Logs Channel",
+            "guildMemberLogsChannel": "Guild Member Logs Channel",
+            "channelLogsChannel": "Channel Logs Channel",
+            "voiceLogsChannel": "Voice Logs Channel",
+            "emojiLogsChannel": "Emoji Logs Channel",
+            "roleLogsChannel": "Role Logs Channel",
+            "stickerLogsChannel": "Sticker Logs Channel",
+            "eventLogsChannelId": "Event Logs Channel",
+            "inviteLogsChannel": "Invite Logs Channel",
+            "pollLogsChannel": "Poll Logs Channel",
+            "stageLogsChannelId": "Stage Logs Channel",
+            "soundboardLogsChannelId": "Soundboard Logs Channel",
+            "threadLogsChannelId": "Thread Logs Channel",
+            "webhookLogsChannelId": "Webhook Logs Channel"
+          }
+        }
+      }
+    },
+    "close": {
+      "noThread": "This is not a mod mail thread.",
+      "noTime": "A time unit has not been provided.",
+      "noDuration": "A duration has not been provided.",
+      "error": "Error while closing the thread.",
+      "closeDuration": "Thread will be closed in **{{duration}}**.",
+      "close": "Thread is being closed...",
+      "threadClosedDm": "Your thread in {{guild}} has been closed.",
+      "threadCloseDate": "Thread is scheduled to be closed on **{{date}}**. Would you like to override this?",
+      "accept": "Override",
+      "reject": "Cancel",
+      "timeout": "Timed out. The thread will be closed on **{{date}}**.",
+      "threadCloseDateRejected": "Thread will be closed on **{{date}}**.",
+      "threadCloseDateAccepted": "Continuing override..."
+    },
+    "reply": {
+      "noThread": "This is not a mod mail thread.",
+      "memberNotFound": "Member not found. Is the member still in the server?",
+      "error": "An error occurred while accessing the database.",
+      "success": "Message has been sent to the user.",
+      "suspended": "This mod mail thread has been suspended. Unsuspend the thread to reply.",
+      "noRole": "No Role",
+      "anonymous": "Anonymous"
+    },
+    "newthread": {
+      "userNotInGuild": "The user is not a member of the server.",
+      "noModmailChannel": "Mod mail channel not found. Update the mod mail channel with the /config command.",
+      "modmailChannelNotText": "Mod mail channel is not a text channel. Update the mod mail channel in the channel settings.",
+      "modmailChannelNotInParent": "Mod mail channel is not in the same parent as the mod mail thread. Put the mod mail channel in the same parent as the mod mail thread or update the mod mail channel with the /config command.",
+      "threadAlreadyExists": "A thread already exists for this user. Close the thread or suspend before creating a new one.",
+      "topic": "Mod Mail conversation with {{user}}",
+      "channelCreateFailed": "Could not create the channel.",
+      "initial": "`Account Age:` **{{account_age}}**, `ID:` **{{user.id}}**\n`Username:` **{{user.username}}** (<@{{user.id}}>), `Join Date:` **{{join_date}}**\n**»»----------------------------¤----------------------------««**",
+      "message": "A thread with the `{{guild}}` has been created. **[{{user}}]:** {{message}}",
+      "dmFail": "Failed to send a DM to the user.",
+      "createdBy": "`Created by {{user}}`",
+      "dbError": "Failed database query. Mod mail thread is dropped.",
+      "messageSendFailed": "Message couldn't be delivered to thread. Mod mail thread is closed.",
+      "threadCreated": "Thread has been created."
+    },
+    "suspend": {
+      "noThread": "This is not a mod mail thread.",
+      "alreadySuspended": "This mod mail thread is already suspended.",
+      "suspended": "This mod mail thread has been suspended. You can no longer reply to the user.",
+      "error": "An error occurred while suspending the thread. Developers have been notified."
+    },
+    "close-cancel": {
+      "noThread": "This is not a mod mail thread.",
+      "notClosing": "This mod mail thread is not marked for close.",
+      "cancelled": "The closing of this mod mail thread has been cancelled.",
+      "error": "An error occurred while cancelling the close. Developers have been notified."
+    },
+    "unsuspend": {
+      "noThread": "This is not a mod mail thread.",
+      "notSuspended": "This mod mail thread is not suspended.",
+      "userHasOpenThreads": "User has a open thread. You can't unsuspend this thread.",
+      "unsuspended": "This mod mail thread has been unsuspended. You can now reply to the user.",
+      "error": "An error occurred while unsuspending the thread. Developers have been notified."
+    },
+    "help": {
+      "commandUsage": "Command Usage",
+      "permissions": "Permissions",
+      "examples": "Examples",
+      "commandNotFound": "Command not found.",
+      "commandHelpNotFound": "Help for this command is not available.",
+      "footer": "<param> are required parameters, [param] are optional parameters."
+    },
+    "modmail-blacklist": {
+      "noReason": "No reason provided for blacklisting.",
+      "cannotBlacklistSelf": "You cannot blacklist yourself.",
+      "cannotBlacklistBot": "You cannot blacklist a bot.",
+      "durationWithoutTime": "You must provide a time unit for the duration.",
+      "timeWithoutDuration": "You must provide a duration for the time unit.",
+      "blacklistSuccess": "{{confirm}} **{{user}}** has been blacklisted for **{{duration}}** with reason: ```{{reason}}```",
+      "blacklistError": "An error occurred while blacklisting the user. Developers have been notified.",
+      "blacklistRemove": {
+        "notFound": "Blacklist entry for {{user}} not found. This means the user is not blacklisted.",
+        "success": "{{confirm}} {{user}} has been removed from the blacklist.",
+        "error": "An error occurred while removing the user from the blacklist. Developers have been notified."
+      },
+      "blacklistGet": {
+        "notFound": "Blacklist entry for {{user}} not found. This means the user is not blacklisted.",
+        "embed": {
+          "title": "Blacklist Entry for {{user}}",
+          "fields": {
+            "reason": "Reason",
+            "duration": "Duration",
+            "createdAt": "Blacklisted At",
+            "expiresAt": "Expires At",
+            "moderator": "Responsible Moderator"
+          }
+        }
+      }
+    },
+    "purge": {
+      "notTextChannel": "This command can only be used in text channels.",
+      "any": {
+        "success": "{{confirm}} Successfully deleted **{{count}}** messages.",
+        "error": "An error occurred while deleting the messages. Please try again later."
+      },
+      "bots": {
+        "success": "{{confirm}} Successfully deleted **{{count}}** messages from bots.",
+        "error": "An error occurred while deleting the bot messages. Please try again later."
+      },
+      "user": {
+        "success": "{{confirm}} Successfully deleted **{{count}}** messages from **{{user}}**.",
+        "error": "An error occurred while deleting the messages from the user. Please try again later."
+      }
+    },
+    "support": {
+      "guildNotFound": "Dev Guild not found cannot create invite.",
+      "error": "An error occurred while creating the invite. Please try again later.",
+      "embed": {
+        "title": "Support Links",
+        "fields": {
+          "supportServer": "Support Server",
+          "docsSite": "Documentation Site"
+        }
+      }
+    },
+    "modmail-logs": {
+      "noThreadFound": "No thread found for ID #{{logId}}.",
+      "threadNotClosed": "Thread #{{logId}} is not closed.",
+      "userNotFound": "No user found for ID {{userId}}.",
+      "noMessagesFound": "No messages found for thread ID #{{logId}}."
+    },
+    "infractions": {
+      "noUser": "User not found.",
+      "noInfractions": "No infractions found for **{{user}}**.",
+      "infractionsFor": "Infractions For **{{user}}**",
+      "pageFooter": "Page {{current}} of {{total}}",
+      "infractionCase": "Case #{{case}}",
+      "infractionDetails": "> **Type**: {{type}}\n> **Reason**: {{reason}}\n> **Moderator**: {{moderator}}\n> **Date**: {{date}}"
+    },
+    "infraction-punishments": {
+      "durationMissing": "You must provide a duration for temporary punishments.",
+      "noMuteRole": "Mute role not found. Please set a mute role in the config.",
+      "muteSet": "{{duration}} of mute will be given at {{threshold}} infractions.",
+      "kickSet": "User will be kicked at {{threshold}} infractions.",
+      "banSet": "User will be banned at {{threshold}} infractions.",
+      "tempbanSet": "{{duration}} ban will be given at {{threshold}} infractions.",
+      "removed": "Punishment for {{type}} at {{threshold}} infractions has been removed."
+    },
+    "roles": {
+      "userNotFound": "Member not found. Is the member still in the server?",
+      "roleAlreadyAssigned": "The role **{{role}}** is already assigned to **{{user}}**.",
+      "roleAddError": "Error while adding the role. I may not have permission to do so.",
+      "roleAdded": "Role **{{role}}** has been added to **{{user}}**.",
+      "roleNotAssigned": "The role **{{role}}** is not assigned to **{{user}}**.",
+      "roleRemoveError": "Error while removing the role. I may not have permission to do so.",
+      "roleRemoved": "Role **{{role}}** has been removed from **{{user}}**."
+    }
+  },
+  "events": {
+    "channelCreate": {
+      "unknownExecutor": "Unknown Executor",
+      "embed": {
+        "title": "Channel Created",
+        "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Type**: {{channel_type}}\n> **Created At**: {{timestamp}}"
+      },
+      "channelTypes": {
+        "0": "Text Channel",
+        "1": "DM Channel",
+        "2": "Voice Channel",
+        "3": "Group DM Channel",
+        "4": "Category Channel",
+        "5": "News Channel",
+        "10": "News Thread Channel",
+        "11": "Public Thread Channel",
+        "12": "Private Thread Channel",
+        "13": "Stage Channel",
+        "14": "Directory Channel",
+        "15": "Forum Channel",
+        "16": "Media Channel"
+      }
+    },
+    "channelDelete": {
+      "unknownExecutor": "Unknown Executor",
+      "embed": {
+        "title": "Channel Deleted",
+        "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Type**: {{channel_type}}\n> **Deleted At**: {{timestamp}}"
+      },
+      "channelTypes": {
+        "0": "Text Channel",
+        "1": "DM Channel",
+        "2": "Voice Channel",
+        "3": "Group DM Channel",
+        "4": "Category Channel",
+        "5": "News Channel",
+        "10": "News Thread Channel",
+        "11": "Public Thread Channel",
+        "12": "Private Thread Channel",
+        "13": "Stage Channel",
+        "14": "Directory Channel",
+        "15": "Forum Channel",
+        "16": "Media Channel"
+      }
+    },
+    "channelUpdate": {
+      "channelTypes": {
+        "0": "Text Channel",
+        "1": "DM Channel",
+        "2": "Voice Channel",
+        "3": "Group DM Channel",
+        "4": "Category Channel",
+        "5": "News Channel",
+        "10": "News Thread Channel",
+        "11": "Public Thread Channel",
+        "12": "Private Thread Channel",
+        "13": "Stage Channel",
+        "14": "Directory Channel",
+        "15": "Forum Channel",
+        "16": "Media Channel"
+      },
+      "unknownExecutor": "Unknown Executor",
+      "nameChange": {
+        "embed": {
+          "title": "Channel Name Changed",
+          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}"
+        }
+      },
+      "topicChange": {
+        "embed": {
+          "title": "Channel Topic Changed",
+          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Topic**: {{old_topic}}\n> **New Topic**: {{new_topic}}"
+        }
+      },
+      "nsfwChange": {
+        "embed": {
+          "title": "Channel NSFW Status Changed",
+          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Status**: {{old_nsfw}}\n> **New Status**: {{new_nsfw}}"
+        }
+      },
+      "permissionsChange": {
+        "embed": {
+          "title": "Channel Permission Overwrites Changed",
+          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Changes**: {{changes}}"
+        }
+      },
+      "typeChange": {
+        "embed": {
+          "title": "Channel Type Changed",
+          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Type**: {{old_type}}\n> **New Type**: {{new_type}}"
+        }
+      },
+      "bitrateChange": {
+        "embed": {
+          "title": "Voice Channel Bitrate Changed",
+          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Bitrate**: {{old_bitrate}}\n> **New Bitrate**: {{new_bitrate}}"
+        }
+      },
+      "userLimitChange": {
+        "embed": {
+          "title": "Channel User Limit Changed",
+          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old User Limit**: {{old_user_limit}} users\n> **New User Limit**: {{new_user_limit}} users"
+        }
+      },
+      "rateLimitChange": {
+        "embed": {
+          "title": "Channel Rate Limit Changed",
+          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Rate Limit**: {{old_rate_limit}}\n> **New Rate Limit**: {{new_rate_limit}}"
+        }
+      },
+      "rtcRegionChange": {
+        "region": {
+          "none": "Auto",
+          "brazil": "Brazil",
+          "hongkong": "Hong Kong",
+          "india": "India",
+          "japan": "Japan",
+          "rotterdam": "Rotterdam",
+          "singapore": "Singapore",
+          "southafrica": "South Africa",
+          "sydney": "Sydney",
+          "us-central": "US Central",
+          "us-east": "US East",
+          "us-south": "US South",
+          "us-west": "US West"
+        },
+        "embed": {
+          "title": "Voice Channel RTC Region Changed",
+          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old RTC Region**: {{old_rtc_region}}\n> **New RTC Region**: {{new_rtc_region}}"
+        }
+      },
+      "videoQualityModeChange": {
+        "modes": {
+          "0": "Auto",
+          "1": "Full (720p)"
+        },
+        "embed": {
+          "title": "Voice Channel Video Quality Mode Changed",
+          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Video Quality Mode**: {{old_video_quality_mode}}\n> **New Video Quality Mode**: {{new_video_quality_mode}}"
+        }
+      },
+      "defaultArchiveDurationChange": {
+        "time": {
+          "60": "1 Hour",
+          "1440": "1 Day",
+          "4320": "3 Days",
+          "10080": "1 Week"
+        },
+        "embed": {
+          "title": "Forum Channel Default Archive Duration Changed",
+          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Default Archive Duration**: {{old_archive_duration}}\n> **New Default Archive Duration**: {{new_archive_duration}}"
+        }
+      },
+      "forumRateLimitChange": {
+        "embed": {
+          "title": "Forum Channel Rate Limit Changed",
+          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Rate Limit**: {{old_rate_limit}}\n> **New Rate Limit**: {{new_rate_limit}}"
+        }
+      },
+      "forumDefaultThreadRateLimitChange": {
+        "embed": {
+          "title": "Forum Channel Default Thread Rate Limit Changed",
+          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Rate Limit**: {{old_rate_limit}}\n> **New Rate Limit**: {{new_rate_limit}}"
+        }
+      },
+      "forumDefaultReactionEmojiChange": {
+        "embed": {
+          "title": "Forum Channel Default Reaction Emoji Changed",
+          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Reaction Emoji**: {{old_reaction_emoji}}\n> **New Reaction Emoji**: {{new_reaction_emoji}}"
+        }
+      },
+      "forumDefaultSortOrderChange": {
+        "modes": {
+          "0": "Latest Activity",
+          "1": "Creation Date"
+        },
+        "embed": {
+          "title": "Forum Default Sort Order Changed",
+          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Sort Order**: {{old_sort_order}}\n> **New Sort Order**: {{new_sort_order}}"
+        }
+      },
+      "forumAvailableTagsChange": {
+        "added": {
+          "embed": {
+            "title": "Forum Channel Available Tags Added",
+            "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Name**: {{tag_name}}\n> **Moderation Only**: {{tag_moderation_only}}\n> **Emoji**: {{tag_emoji}}"
+          }
+        },
+        "removed": {
+          "embed": {
+            "title": "Forum Channel Available Tags Removed",
+            "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}  \n> **Name**: {{tag_name}}\n> **Moderation Only**: {{tag_moderation_only}}\n> **Emoji**: {{tag_emoji}}"
+          }
+        },
+        "updated": {
+          "embed": {
+            "title": "Forum Channel Available Tags Updated",
+            "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Name**: ~~{{old_tag_name}}~~ -> {{new_tag_name}}\n> **Moderation Only**: ~~{{old_tag_moderation_only}}~~ -> {{new_tag_moderation_only}}\n> **Emoji**: ~~{{old_tag_emoji}}~~ -> {{new_tag_emoji}}"
+          }
+        }
+      },
+      "forumDefaultForumLayoutChange": {
+        "layouts": {
+          "0": "Not Set",
+          "1": "List View",
+          "2": "Gallery View"
+        },
+        "embed": {
+          "title": "Forum Channel Default Forum Layout Changed",
+          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Default Forum Layout**: {{old_layout}}\n> **New Default Forum Layout**: {{new_layout}},"
+        }
+      },
+      "forumNsfwChange": {
+        "embed": {
+          "title": "Forum Channel NSFW Status Changed",
+          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Status**: {{old_nsfw}}\n> **New Status**: {{new_nsfw}}"
+        }
+      }
+    },
+    "emojiCreate": {
+      "unknownExecutor": "Unknown Executor",
+      "embed": {
+        "title": "Emoji Created",
+        "description": "> **Emoji**: {{emoji.name}}\n> **ID**: {{emoji.id}}\n> **Animated**: {{emoji_animated}}\n> **Created At**: {{timestamp}}"
+      }
+    },
+    "emojiDelete": {
+      "unknownExecutor": "Unknown Executor",
+      "embed": {
+        "title": "Emoji Deleted",
+        "description": "> **Emoji**: {{emoji.name}}\n> **ID**: {{emoji.id}}\n> **Animated**: {{emoji_animated}}\n> **Deleted At**: {{timestamp}}"
+      }
+    },
+    "emojiUpdate": {
+      "unknownExecutor": "Unknown Executor",
+      "nameChange": {
+        "embed": {
+          "title": "Emoji Name Changed",
+          "description": "> **ID**: {{emoji.id}}\n> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}"
+        }
+      }
+    },
+    "guildAuditLogEntryCreate": {
+      "unknownExecutor": "Unknown Executor",
+      "webhookCreate": {
+        "embed": {
+          "title": "Webhook Created",
+          "description": "> **Name**: {{webhook.name}}\n> **ID**: {{webhook.id}}\n> **Channel**: {{channel.name}} (<#{{channel.id}}>)"
+        }
+      },
+      "webhookDelete": {
+        "embed": {
+          "title": "Webhook Deleted",
+          "description": "> **Name**: {{webhook.name}}\n> **ID**: {{webhook.id}}\n> **Channel**: {{channel.name}} (<#{{channel.id}}>)"
+        }
+      }
+    },
+    "guildBanAdd": {
+      "embed": {
+        "title": "User Banned From Server",
+        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
+        "fields": {
+          "reason": "Reason"
+        }
+      },
+      "noReason": "No reason provided.",
+      "unknownExecutor": "Unknown Executor",
+      "neverJoined": "User never joined the server."
+    },
+    "guildBanRemove": {
+      "embed": {
+        "title": "User Unbanned From Server",
+        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
+        "fields": {
+          "reason": "Reason"
+        }
+      }
+    },
+    "guildMemberAdd": {
+      "embed": {
+        "title": "User Joined Server",
+        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Account Age**: {{timestamp}}\n> **Member Count**: {{member_count}}"
+      }
+    },
+    "guildMemberRemove": {
+      "noReason": "No reason provided.",
+      "userLeft": "**User has left {{guild}}**",
+      "embed": {
+        "title": "User Left Server",
+        "titleKicked": "User Kicked From Server",
+        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Joined For**: {{timestamp}}\n> **Member Count**: {{member_count}}",
+        "fields": {
+          "reason": "Reason"
+        }
+      },
+      "neverJoined": "User never joined the server.",
+      "unknownExecutor": "Unknown Executor"
+    },
+    "guildMemberUpdate": {
+      "unknownExecutor": "Unknown Executor",
+      "timeout": {
+        "noReason": "No reason provided for timeout.",
+        "embed": {
+          "title": "User Timed Out",
+          "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Timeout Until**: {{timestamp}}",
+          "fields": {
+            "reason": "Reason"
+          }
+        }
+      },
+      "removeTimeout": {
+        "noReason": "No reason provided for removing timeout.",
+        "embed": {
+          "title": "User Timeout Removed",
+          "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Timeout Removed At**: {{timestamp}}"
+        }
+      },
+      "rolesUpdate": {
+        "embed": {
+          "title": "User Roles Updated",
+          "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
+          "added": "Roles Added",
+          "removed": "Roles Removed"
+        }
+      },
+      "nicknameChange": {
+        "noNickname": "No Nickname",
+        "embed": {
+          "title": "User Nickname Changed",
+          "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Old Nickname**: {{old_nickname}}\n> **New Nickname**: {{new_nickname}}"
+        }
+      }
+    },
+    "guildScheduledEventCreate": {
+      "unknownExecutor": "Unknown Executor",
+      "voiceChannel": {
+        "embed": {
+          "title": "Guild Scheduled Event Created",
+          "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Channel**: {{event.channel.name}} (<#{{event.channel.id}}>)\n> **Description**: {{event.description}}\n> **Start Time**: {{scheduled_start_time}}"
+        }
+      },
+      "externalChannel": {
+        "embed": {
+          "title": "Guild Scheduled Event Created",
+          "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Location**: {{event.entityMetadata.location}}\n> **Description**: {{event.description}}\n> **Start Time**: {{scheduled_start_time}}\n> **End Time**: {{scheduled_end_time}}"
+        }
+      }
+    },
+    "guildScheduledEventDelete": {
+      "voiceChannel": {
+        "embed": {
+          "title": "Guild Scheduled Event Deleted",
+          "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Channel**: {{event.channel.name}} (<#{{event.channel.id}}>)\n> **Description**: {{event.description}}\n> **Start Time**: {{scheduled_start_time}}"
+        }
+      },
+      "externalChannel": {
+        "embed": {
+          "title": "Guild Scheduled Event Deleted",
+          "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Location**: {{event.entityMetadata.location}}\n> **Description**: {{event.description}}\n> **Start Time**: {{scheduled_start_time}}\n> **End Time**: {{scheduled_end_time}}"
+        }
+      }
+    },
+    "guildScheduledEventUpdate": {
+      "locationChange": {
+        "embed": {
+          "title": "Guild Scheduled Event Location Changed",
+          "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Old Location**: {{old_location}}\n> **New Location**: {{new_location}}"
+        }
+      },
+      "descriptionChange": {
+        "embed": {
+          "title": "Guild Scheduled Event Description Changed",
+          "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Old Description**: {{old_description}}\n> **New Description**: {{new_description}}"
+        }
+      },
+      "nameChange": {
+        "embed": {
+          "title": "Guild Scheduled Event Name Changed",
+          "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}"
+        }
+      },
+      "startTimeChange": {
+        "embed": {
+          "title": "Guild Scheduled Event Start Time Changed",
+          "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Old Start**: {{old_start_time}}\n> **New Start**: {{new_start_time}}"
+        }
+      },
+      "endTimeChange": {
+        "embed": {
+          "title": "Guild Scheduled Event End Time Changed",
+          "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Old End**: {{old_end_time}}\n> **New End**: {{new_end_time}}"
+        }
+      },
+      "statusChange": {
+        "status": {
+          "1": "Scheduled",
+          "2": "Active",
+          "3": "Completed",
+          "4": "Canceled"
+        },
+        "embed": {
+          "title": "Guild Scheduled Event Status Changed",
+          "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Old Status**: {{old_status}}\n> **New Status**: {{new_status}}"
+        }
+      }
+    },
+    "guildScheduledEventUserAdd": {
+      "embed": {
+        "title": "User Subscribed To Event",
+        "description": "> **User**: {{user.username}} (<@{{user.id}}>)\n> **User ID**: {{user.id}}\n> **Event Name**: {{event.name}}\n> **Event ID**: {{event.id}}"
+      }
+    },
+    "guildScheduledEventUserRemove": {
+      "embed": {
+        "title": "User Unsubscribed From Event",
+        "description": "> **User**: {{user.username}} (<@{{user.id}}>)\n> **User ID**: {{user.id}}\n> **Event Name**: {{event.name}}\n> **Event ID**: {{event.id}}"
+      }
+    },
+    "guildSoundboardSoundCreate": {
+      "embed": {
+        "title": "Sound Created",
+        "description": "> **Name**: {{sound.name}}\n> **ID**: {{sound.id}}\n> **Emoji**: {{sound.emoji}}\n> **Volume**: {{volume}}%\n> **Created At**: {{timestamp}}"
+      }
+    },
+    "guildSoundboardSoundDelete": {
+      "unknownExecutor": "Unknown Executor",
+      "embed": {
+        "title": "Sound Deleted",
+        "description": "> **Name**: {{sound.name}}\n> **ID**: {{sound.id}}\n> **Emoji**: {{sound.emoji}}\n> **Volume**: {{volume}}%\n> **Deleted At**: {{timestamp}}"
+      }
+    },
+    "guildSoundboardSoundUpdate": {
+      "unknownExecutor": "Unknown Executor",
+      "noPreviousValue": "No previous value",
+      "noEmoji": "No emoji",
+      "volumeChange": {
+        "embed": {
+          "title": "Sound Volume Changed",
+          "description": "> **Name**: {{sound.name}}\n> **ID**: {{sound.id}}\n> **Old Volume**: {{old_volume}}%\n> **New Volume**: {{new_volume}}%,"
+        }
+      },
+      "nameChange": {
+        "embed": {
+          "title": "Sound Name Changed",
+          "description": "> **ID**: {{sound.id}}\n> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}"
+        }
+      },
+      "emojiChange": {
+        "embed": {
+          "title": "Sound Emoji Changed",
+          "description": "> **Name**: {{sound.name}}\n> **ID**: {{sound.id}}\n> **Old Emoji**: {{old_emoji}}\n> **New Emoji**: {{new_emoji}}"
+        }
+      }
+    },
+    "guildUpdate": {
+      "unknownExecutor": "Unknown Executor",
+      "none": "None",
+      "notificationLevels": {
+        "0": "All Messages",
+        "1": "Only @mentions"
+      },
+      "explicitContentFilterLevels": {
+        "0": "Disabled",
+        "1": "Members Without Roles",
+        "2": "All Members"
+      },
+      "mfaLevels": {
+        "0": "None",
+        "1": "Elevated"
+      },
+      "verificationLevels": {
+        "0": "None",
+        "1": "Low",
+        "2": "Medium",
+        "3": "High",
+        "4": "Very High"
+      },
+      "afkChannelChange": {
+        "embed": {
+          "title": "Server AFK Channel Changed",
+          "description": "> **Old AFK Channel**: {{old_channel}}\n> **New AFK Channel**: {{new_channel}}"
+        }
+      },
+      "afkTimeoutChange": {
+        "embed": {
+          "title": "Server AFK Timeout Changed",
+          "description": "> **Old AFK Timeout**: {{old_timeout}}\n> **New AFK Timeout**: {{new_timeout}}"
+        }
+      },
+      "bannerChange": {
+        "embed": {
+          "title": "Server Banner Changed",
+          "description": "> **Old Banner**: {{old_banner}}\n> **New Banner**: {{new_banner}}"
+        }
+      },
+      "defaultMessageNotificationsChange": {
+        "embed": {
+          "title": "Server Default Message Notifications Changed",
+          "description": "> **Old Level**: {{old_level}}\n> **New Level**: {{new_level}}"
+        }
+      },
+      "discoverySplashChange": {
+        "embed": {
+          "title": "Server Discovery Splash Changed",
+          "description": "> **Old Discovery Splash**: {{old_discovery_splash}}\n> **New Discovery Splash**: {{new_discovery_splash}}"
+        }
+      },
+      "explicitContentFilterChange": {
+        "embed": {
+          "title": "Server Explicit Content Filter Changed",
+          "description": "> **Old Level**: {{old_level}}\n> **New Level**: {{new_level}}"
+        }
+      },
+      "featuresChange": {
+        "embed": {
+          "added": "Added",
+          "removed": "Removed",
+          "title": "Server Features Changed",
+          "description": "> **Old Features**: {{old_features}}\n> **New Features**: {{new_features}}"
+        }
+      },
+      "iconChange": {
+        "embed": {
+          "title": "Server Icon Changed",
+          "description": "> **Old Icon**: {{old_icon}}\n> **New Icon**: {{new_icon}}"
+        }
+      },
+      "mfaLevelChange": {
+        "embed": {
+          "title": "Server MFA Level Changed",
+          "description": "> **Old Level**: {{old_level}}\n> **New Level**: {{new_level}}"
+        }
+      },
+      "nameChange": {
+        "embed": {
+          "title": "Server Name Changed",
+          "description": "> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}"
+        }
+      },
+      "descriptionChange": {
+        "embed": {
+          "title": "Server Description Changed",
+          "description": "> **Old Description**: {{old_description}}\n> **New Description**: {{new_description}}"
+        }
+      },
+      "ownerChange": {
+        "embed": {
+          "title": "Server Owner Changed",
+          "description": "> **Old Owner**: {{old_owner}}\n> **New Owner**: {{new_owner}}"
+        }
+      },
+      "partneredChange": {
+        "embed": {
+          "title": "Server Partnered Status Changed",
+          "description": "> **Old Status**: {{old_status}}\n> **New Status**: {{new_status}}"
+        }
+      },
+      "preferredLocaleChange": {
+        "embed": {
+          "title": "Server Preferred Locale Changed",
+          "description": "> **Old Locale**: {{old_locale}}\n> **New Locale**: {{new_locale}}"
+        }
+      },
+      "premiumProgressBarChange": {
+        "embed": {
+          "title": "Server Boost Progress Bar Changed",
+          "description": "> **Old Status**: {{old_progress_bar}}\n> **New Status**: {{new_progress_bar}}"
+        }
+      },
+      "premiumSubscriptionCountChange": {
+        "embed": {
+          "title": "Server Boost Count Changed",
+          "description": "> **Old Count**: {{old_count}}\n> **New Count**: {{new_count}}"
+        }
+      },
+      "premiumTierChange": {
+        "embed": {
+          "title": "Server Boost Level Changed",
+          "description": "> **Old Level**: {{old_level}}\n> **New Level**: {{new_level}}"
+        }
+      },
+      "rulesChannelChange": {
+        "embed": {
+          "title": "Server Rules Channel Changed",
+          "description": "> **Old Rules Channel**: {{old_channel}}\n> **New Rules Channel**: {{new_channel}}"
+        }
+      },
+      "safetyAlertsChannelChange": {
+        "embed": {
+          "title": "Server Safety Alerts Channel Changed",
+          "description": "> **Old Safety Alerts Channel**: {{old_channel}}\n> **New Safety Alerts Channel**: {{new_channel}}"
+        }
+      },
+      "splashChange": {
+        "embed": {
+          "title": "Server Splash Changed",
+          "description": "> **Old Splash**: {{old_splash}}\n> **New Splash**: {{new_splash}}"
+        }
+      },
+      "systemChannelChange": {
+        "embed": {
+          "title": "Server System Channel Changed",
+          "description": "> **Old System Channel**: {{old_channel}}\n> **New System Channel**: {{new_channel}}"
+        }
+      },
+      "vanityUrlCodeChange": {
+        "embed": {
+          "title": "Server Vanity URL Changed",
+          "description": "> **Old Vanity URL**: {{old_code}}\n> **New Vanity URL**: {{new_code}}"
+        }
+      },
+      "verificationLevelChange": {
+        "embed": {
+          "title": "Server Verification Level Changed",
+          "description": "> **Old Level**: {{old_level}}\n> **New Level**: {{new_level}}"
+        }
+      }
+    },
+    "interactionCreate": {
+      "memberMissingPermissions": "You don't have the required `{{permissions}}` permissions to use this command."
+    },
+    "inviteCreate": {
+      "embed": {
+        "title": "Invite Created",
+        "description": "> **Code**: {{invite.code}}\n> **Channel**: <#{{invite.channelId}}>\n> **Expires At**: {{timestamp}}\n> **Max Usage**: {{usage}}"
+      }
+    },
+    "inviteDelete": {
+      "unknownExecutor": "Unknown Executor",
+      "embed": {
+        "title": "Invite Deleted",
+        "description": "> **Code**: {{invite.code}}\n> **Channel**: <#{{invite.channelId}}>"
+      }
+    },
+    "messageBulkDelete": {
+      "embed": {
+        "title": "{{count}} Message(s) Deleted",
+        "description": "> **Channel**: {{message.channel.name}} (<#{{message.channel.id}}>)"
+      },
+      "fileName": "deleted_messages.txt",
+      "message": "**Message ID:** {{message.id}} **Author:** {{message.author.tag}} **Content:** {{message.content}}"
+    },
+    "messageCreate": {
+      "modMail": {
+        "blacklisted": "You are blacklisted from using mod mail in {{guild}}. Your blacklist reason is: **{{reason}}**. Your blacklist expires on: **{{expires}}**.",
+        "never": "Never",
+        "initial": "`Account Age:` **{{account_age}}**, `ID:` **{{user.id}}**\n`Username:` **{{user.username}}** (<@{{user.id}}>), `Join Date:` **{{join_date}}**\n**»»----------------------------¤----------------------------««**",
+        "notMember": "You are not a member of the server.",
+        "confirm": "Yes",
+        "cancel": "No",
+        "confirmTitle": "Confirm Mod Mail Thread Button",
+        "confirmDescription": "Click the button below to confirm the mod mail thread for {{guild}}, or click the cancel button to cancel the thread.",
+        "timeout": "You took too long to respond. The mod mail thread has been cancelled.",
+        "cancelledTitle": "Mod Mail Thread Cancelled",
+        "cancelledDescription": "The mod mail thread for {{guild}} has been cancelled.",
+        "confirmedTitle": "Mod Mail Thread Confirmed",
+        "confirmedDescription": "The mod mail thread for {{guild}} has been confirmed and the conversation has begun.",
+        "parentChannelMissing": "Parent channel is missing. Moderators need to set the parent channel for the mod mail to work.",
+        "channelMissing": "Channel is missing. Moderators need to set the channel for the mod mail to work.",
+        "topic": "Mod Mail conversation with {{user}}",
+        "errorSending": "An error occurred while attempting to send the message.",
+        "reopened": "{{user}} replied to modmail thread, thread won't be closed. ({{closer}})",
+        "errorInserting": "An error occurred while attempting to insert the message into the database."
+      },
+      "pollCreate": {
+        "embed": {
+          "title": "Poll Created",
+          "description": "> **Expires At**: {{timestamp}}\n> **Multi Select**: {{multi_select}}\n> **Message**: {{message.url}}"
+        }
+      }
+    },
+    "messageDelete": {
+      "embed": {
+        "title": "Message Deleted",
+        "description": "> **Channel**: {{message.channel.name}} (<#{{message.channel.id}}>)\n> **Author**: {{message.author.tag}} (<@{{message.author.id}}>)\n> **Message ID**: [{{message.id}}](https://discord.com/channels/{{message.guild.id}}/{{message.channel.id}}/{{message.id}})\n> **Created At**: {{timestamp}}",
+        "fields": {
+          "content": "Message",
+          "attachments": "{{count}} Attachment(s)"
+        }
+      },
+      "skippedFiles": "⚠️ Skipped Large Files",
+      "pollDelete": {
+        "embed": {
+          "title": "Poll Deleted",
+          "description": "> **Expired at**: {{timestamp}}\n> **Multi Select**: {{multi_select}}\n> **Finalized**: {{finalized}}\n> **Channel**: <#{{message.channel.id}}>\n> **Message ID**: {{message.id}}\n> **Sent by**: <@{{message.author.id}}>"
+        }
+      }
+    },
+    "messagePollVoteAdd": {
+      "embed": {
+        "title": "Poll Votes Add",
+        "description": "> **Question**: {{question}}\n> **Answer**: {{answer}} <@{{answerer}}>\n> **Expired At**: {{timestamp}}\n> **Multi Select**: {{multi_select}}\n> **Message**: {{message.url}}"
+      }
+    },
+    "messagePollVoteRemove": {
+      "embed": {
+        "title": "Poll Votes Remove",
+        "description": "> **Question**: {{question}}\n> **Answer**: {{answer}} <@{{answerer}}>\n> **Expired At**: {{timestamp}}\n> **Multi Select**: {{multi_select}}\n> **Message**: {{message.url}}"
+      }
+    },
+    "messageUpdate": {
+      "messageEdit": "***User edited their message.***\n```diff\n- {{oldContent}}\n+ {{newContent}}\n```",
+      "embed": {
+        "title": "Message Edited",
+        "description": "> **Channel**: {{message.channel.name}} (<#{{message.channel.id}}>)\n> **Author**: {{message.author.tag}} (<@{{message.author.id}}>)\n> **Message ID**: [{{message.id}}](https://discord.com/channels/{{message.guild.id}}/{{message.channel.id}}/{{message.id}})",
+        "fields": {
+          "oldContent": "Before",
+          "newContent": "After"
+        }
+      },
+      "pollEnd": {
+        "embed": {
+          "title": "Poll Ended",
+          "description": "> **Expired At**: {{timestamp}}\n> **Multi Select**: {{multi_select}}\n> **Message**: {{message.url}}"
+        }
+      }
+    },
+    "roleCreate": {
+      "unknownExecutor": "Unknown Executor",
+      "embed": {
+        "title": "Role Created",
+        "description": "> **Role**: {{role.name}}\n> **ID**: {{role.id}}\n> **Color**: {{role_color}}\n> **Hoisted**: {{role_hoist}}\n> **Mentionable**: {{role_mentionable}}\n> **Position**: {{role.position}}\n> **Created At**: {{timestamp}}\n> **Permissions**: {{permissions}}"
+      }
+    },
+    "roleDelete": {
+      "unknownExecutor": "Unknown Executor",
+      "embed": {
+        "title": "Role Deleted",
+        "description": "> **Role**: {{role.name}}\n> **ID**: {{role.id}}\n> **Color**: {{role_color}}\n> **Hoisted**: {{role_hoist}}\n> **Mentionable**: {{role_mentionable}}\n> **Position**: {{role.position}}\n> **Deleted At**: {{timestamp}}\n> **Permissions**: {{permissions}}"
+      }
+    },
+    "roleUpdate": {
+      "unknownExecutor": "Unknown Executor",
+      "nameChange": {
+        "embed": {
+          "title": "Role Name Changed",
+          "description": "> **ID**: {{role.id}}\n> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}"
+        }
+      },
+      "colorChange": {
+        "embed": {
+          "title": "Role Color Changed",
+          "description": "> **Role**: {{role.name}}\n> **ID**: {{role.id}}\n> **Old Color**: {{old_color}}\n> **New Color**: {{new_color}}"
+        }
+      },
+      "hoistChange": {
+        "embed": {
+          "title": "Role Hoisted Changed",
+          "description": "> **Role**: {{role.name}}\n> **ID**: {{role.id}}\n> **Old Hoist Status**: {{old_hoist}}\n> **New Hoist Status**: {{new_hoist}}"
+        }
+      },
+      "mentionableChange": {
+        "embed": {
+          "title": "Role Mentionable Changed",
+          "description": "> **Role**: {{role.name}}\n> **ID**: {{role.id}}\n> **Old Mentionable Status**: {{old_mentionable}}\n> **New Mentionable Status**: {{new_mentionable}}"
+        }
+      },
+      "permissionsChange": {
+        "embed": {
+          "title": "Role Permissions Changed",
+          "description": "> **Role**: {{role.name}}\n> **ID**: {{role.id}}\n**Changes**: {{changes}}"
+        }
+      },
+      "iconChange": {
+        "embed": {
+          "title": "Role Icon Changed",
+          "description": "> **Role**: {{role.name}}\n> **ID**: {{role.id}}\n> **Old Icon**: {{old_icon}}\n> **New Icon**: {{new_icon}}"
+        }
+      }
+    },
+    "stageInstanceCreate": {
+      "unknownExecutor": "Unknown Executor",
+      "embed": {
+        "title": "Stage Started",
+        "description": "> **Channel**: <#{{stage.channelId}}>\n> **Topic**: {{stage.topic}}"
+      }
+    },
+    "stageInstanceDelete": {
+      "unknownExecutor": "Unknown Executor",
+      "embed": {
+        "title": "Stage Ended",
+        "description": "> **Channel**: <#{{stage.channelId}}>\n> **Topic**: {{stage.topic}}"
+      }
+    },
+    "stageInstanceUpdate": {
+      "unknownExecutor": "Unknown Executor",
+      "topicChange": {
+        "embed": {
+          "title": "Stage Topic Changed",
+          "description": "> **Channel**: <#{{stage.channelId}}>\n> **Old Topic**: {{old_topic}}\n> **New Topic**: {{new_topic}}"
+        }
+      }
+    },
+    "stickerCreate": {
+      "unknownExecutor": "Unknown Executor",
+      "embed": {
+        "title": "Sticker Created",
+        "description": "> **Name**: {{sticker.name}}\n> **ID**: {{sticker.id}}\n> **Description**: {{sticker.description}}\n> **Tags**: {{sticker.tags}}"
+      }
+    },
+    "stickerDelete": {
+      "unknownExecutor": "Unknown Executor",
+      "embed": {
+        "title": "Sticker Deleted",
+        "description": "> **Name**: {{sticker.name}}\n> **ID**: {{sticker.id}}\n> **Description**: {{sticker.description}}\n> **Tags**: {{sticker.tags}}"
+      }
+    },
+    "stickerUpdate": {
+      "unknownExecutor": "Unknown Executor",
+      "nameChange": {
+        "embed": {
+          "title": "Sticker Name Changed",
+          "description": "> **Name**: {{sticker.name}}\n> **ID**: {{sticker.id}}\n> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}"
+        }
+      },
+      "descriptionChange": {
+        "embed": {
+          "title": "Sticker Description Changed",
+          "description": "> **Name**: {{sticker.name}}\n> **ID**: {{sticker.id}}\n> **Old Description**: {{old_description}}\n> **New Description**: {{new_description}}"
+        }
+      },
+      "tagsChange": {
+        "embed": {
+          "title": "Sticker Tags Changed",
+          "description": "> **Name**: {{sticker.name}}\n> **ID**: {{sticker.id}}\n> **Old Tags**: {{old_tags}}\n> **New Tags**: {{new_tags}}"
+        }
+      }
+    },
+    "threadCreate": {
+      "threadAutoArchiveDuration": {
+        "60": "1 Hour",
+        "1440": "1 Day",
+        "4320": "3 Days",
+        "10080": "1 Week"
+      },
+      "embed": {
+        "title": "Thread Created",
+        "description": "> **Thread**: {{thread.name}} (<#{{thread.id}}>)\n> **ID**: {{thread.id}}\n> **Parent Channel**: {{parent.name}} (<#{{parent.id}}>)\n> **Auto Archive Duration**: {{auto_archive_duration}}\n> **Created At**: {{timestamp}}"
+      }
+    },
+    "threadDelete": {
+      "unknownExecutor": "Unknown Executor",
+      "threadAutoArchiveDuration": {
+        "60": "1 Hour",
+        "1440": "1 Day",
+        "4320": "3 Days",
+        "10080": "1 Week"
+      },
+      "embed": {
+        "title": "Thread Deleted",
+        "description": "> **Thread**: {{thread.name}} (<#{{thread.id}}>)\n> **ID**: {{thread.id}}\n> **Parent Channel**: {{parent.name}} (<#{{parent.id}}>)\n> **Auto Archive Duration**: {{auto_archive_duration}}\n> **Created**: {{timestamp}}"
+      }
+    },
+    "threadUpdate": {
+      "unknownExecutor": "Unknown Executor",
+      "nameChange": {
+        "embed": {
+          "title": "Thread Name Changed",
+          "description": "> **Thread**: {{thread.name}} (<#{{thread.id}}>)\n> **ID**: {{thread.id}}\n> **Parent Channel**: {{parent.name}} (<#{{parent.id}}>)\n> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}"
+        }
+      },
+      "archive": {
+        "embed": {
+          "title": "Thread Archived",
+          "description": "> **Thread**: {{thread.name}} (<#{{thread.id}}>)\n> **ID**: {{thread.id}}\n> **Parent Channel**: {{parent.name}} (<#{{parent.id}}>)"
+        }
+      },
+      "unarchive": {
+        "embed": {
+          "title": "Thread Unarchived",
+          "description": "> **Thread**: {{thread.name}} (<#{{thread.id}}>)\n> **ID**: {{thread.id}}\n> **Parent Channel**: {{parent.name}} (<#{{parent.id}}>)"
+        }
+      },
+      "lock": {
+        "embed": {
+          "title": "Thread Locked",
+          "description": "> **Thread**: {{thread.name}} (<#{{thread.id}}>)\n> **ID**: {{thread.id}}\n> **Parent Channel**: {{parent.name}} (<#{{parent.id}}>)"
+        }
+      },
+      "unlock": {
+        "embed": {
+          "title": "Thread Unlocked",
+          "description": "> **Thread**: {{thread.name}} (<#{{thread.id}}>)\n> **ID**: {{thread.id}}\n> **Parent Channel**: {{parent.name}} (<#{{parent.id}}>)"
+        }
+      },
+      "autoArchiveDuration": {
+        "60": "1 Hour",
+        "1440": "1 Day",
+        "4320": "3 Days",
+        "10080": "1 Week"
+      },
+      "autoArchiveDurationChange": {
+        "embed": {
+          "title": "Thread Auto Archive Duration Changed",
+          "description": "> **Thread**: {{thread.name}} (<#{{thread.id}}>)\n> **ID**: {{thread.id}}\n> **Parent Channel**: {{parent.name}} (<#{{parent.id}}>)\n> **Old Auto Archive Duration**: {{old_duration}}\n> **New Auto Archive Duration**: {{new_duration}}"
+        }
+      },
+      "rateLimitChange": {
+        "embed": {
+          "title": "Thread Rate Limit Changed",
+          "description": "> **Thread**: {{thread.name}} (<#{{thread.id}}>)\n> **ID**: {{thread.id}}\n> **Parent Channel**: {{parent.name}} (<#{{parent.id}}>)\n> **Old Rate Limit**: {{old_rate_limit}}\n> **New Rate Limit**: {{new_rate_limit}}"
+        }
+      }
+    },
+    "voiceStateUpdate": {
+      "unknownExecutor": "Unknown Executor",
+      "join": {
+        "embed": {
+          "title": "User Joined Voice Channel",
+          "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **Joined At**: {{timestamp}}"
+        }
+      },
+      "leave": {
+        "embed": {
+          "title": "User Left Voice Channel",
+          "titleKicked": "User Kicked from Voice Channel",
+          "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **Left At**: {{timestamp}}"
+        }
+      },
+      "move": {
+        "embed": {
+          "title": "User Moved Voice Channel",
+          "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Old Channel**: {{oldChannel.name}} (<#{{oldChannel.id}}>)\n> **New Channel**: {{newChannel.name}} (<#{{newChannel.id}}>)"
+        }
+      }
+    }
+  },
+  "guild-features": {
+    "ANIMATED_BANNER": "Animated Banner",
+    "ANIMATED_ICON": "Animated Icon",
+    "APPLICATION_COMMAND_PERMISSIONS_V2": "Legacy Command Permissions",
+    "AUTO_MODERATION": "Auto Moderation",
+    "BANNER": "Banner",
+    "COMMUNITY": "Community",
+    "CREATOR_MONETIZABLE_PROVISIONAL": "Monetization (Provisional)",
+    "CREATOR_STORE_PAGE": "Role Subscription Promo Page",
+    "DEVELOPER_SUPPORT_SERVER": "Developer Support Server",
+    "DISCOVERABLE": "Discoverable",
+    "ENHANCED_ROLE_COLORS": "Enhanced Role Colors",
+    "FEATURABLE": "Featurable",
+    "HAS_DIRECTORY_ENTRY": "Directory Entry",
+    "HUB": "Student Hub",
+    "INVITES_DISABLED": "Invites Disabled",
+    "INVITE_SPLASH": "Invite Splash",
+    "LINKED_TO_HUB": "Linked to Student Hub",
+    "MEMBER_VERIFICATION_GATE_ENABLED": "Membership Screening",
+    "MONETIZATION_ENABLED": "Monetization",
+    "MORE_SOUNDBOARD": "More Soundboard Slots",
+    "MORE_STICKERS": "More Sticker Slots",
+    "NEWS": "News Channels",
+    "PARTNERED": "Partnered",
+    "PREVIEW_ENABLED": "Preview Enabled",
+    "PRIVATE_THREADS": "Private Threads",
+    "RAID_ALERTS_DISABLED": "Raid Alerts Disabled",
+    "RELAY_ENABLED": "Relay Enabled",
+    "ROLE_ICONS": "Role Icons",
+    "ROLE_SUBSCRIPTIONS_AVAILABLE_FOR_PURCHASE": "Role Subscriptions Available",
+    "ROLE_SUBSCRIPTIONS_ENABLED": "Role Subscriptions Enabled",
+    "SOUNDBOARD": "Soundboard",
+    "TICKETED_EVENTS_ENABLED": "Ticketed Events",
+    "VANITY_URL": "Vanity URL",
+    "VERIFIED": "Verified",
+    "VIP_REGIONS": "VIP Regions",
+    "WELCOME_SCREEN_ENABLED": "Welcome Screen"
+  },
+  "help": {
+    "ban": {
+      "title": "Ban User",
+      "description": "Bans the user from the server. With or without a given time.",
+      "usage": "Usage: </{{command.name}}:{{command.id}}> `<user> [reason] [duration] [time]`",
+      "permissions": [
+        "User Permissions: `Ban Members`",
+        "Bot Permissions: `Ban Members`"
+      ],
+      "examples": [
+        "`/ban user:@user` - Bans the user indefinitely.",
+        "`/ban user:@user duration:1 time:Day(s)` - Bans the user for 1 day.",
+        "`/ban user:@user reason:Spamming duration:1 time:Week(s)` - Bans the user for 1 week with a reason."
+      ]
+    },
+    "close": {
+      "title": "Close a Modmail Thread",
+      "description": "Closes the current modmail thread, preventing further messages. Must be used in a modmail channel.",
+      "usage": "Usage: </{{command.name}}:{{command.id}}>",
+      "permissions": [
+        "User Permissions: `Manage Messages`",
+        "Bot Permissions: `Manage Channels`"
+      ]
+    },
+    "close-cancel": {
+      "title": "Cancel Close",
+      "description": "Cancels the close action for a modmail thread, allowing further messages to be sent.",
+      "usage": "Usage: </{{command.name}}:{{command.id}}>",
+      "permissions": [
+        "User Permissions: `Manage Messages`"
+      ]
+    },
+    "config": {
+      "title": "Configure Server Settings",
+      "description": "Allows you to configure various settings for the server, such as modmail channels, welcome messages, and more.",
+      "usage": "Usage: </{{command.name}}:{{command.id}}> `[setting]`",
+      "permissions": [
+        "User Permissions: `Administrator`"
+      ],
+      "examples": [
+        "`/config setting:Moderation Settings` - Configures moderation settings for the server.",
+        "`/config setting:Welcome-Leave Settings` - Configures the welcome-leave settings for the server."
+      ]
+    },
+    "kick": {
+      "title": "Kick User",
+      "description": "Kicks the user from the server with the option to clear their messages.",
+      "usage": "Usage: </{{command.name}}:{{command.id}}> `<user> [reason] [clear]`",
+      "permissions": [
+        "User Permissions: `Kick Members`",
+        "Bot Permissions: `Kick Members`"
+      ],
+      "examples": [
+        "`/kick user:@user` - Kicks the user from the server.",
+        "`/kick user:@user reason:Spamming` - Kicks the user with a reason.",
+        "`/kick user:@user clear:True` - Kicks the user and clears their messages."
+      ]
+    },
+    "modmail-blacklist": {
+      "title": "Manage Modmail Blacklist",
+      "description": "Add or remove users from the modmail blacklist, preventing them from starting new threads. You can also view the current blacklist of a user.",
+      "usage": "Usage: </{{command.name}}:{{command.id}}> (add/remove/get) `<user> [reason] [duration] [time]`",
+      "permissions": [
+        "User Permissions: `Manage Messages`"
+      ],
+      "examples": [
+        "`/modmail-blacklist add user:@user reason:Spamming` - Adds the user to the modmail blacklist with a reason.",
+        "`/modmail-blacklist remove user:@user` - Removes the user from the modmail blacklist.",
+        "`/modmail-blacklist get user:@user` - Retrieves the current modmail blacklist status for the user."
+      ]
+    },
+    "mute": {
+      "title": "Mute User",
+      "description": "Mutes the user in the server, preventing them from sending messages.",
+      "usage": "Usage: </{{command.name}}:{{command.id}}> `<user> <duration> <time> [reason]`",
+      "permissions": [
+        "User Permissions: `Manage Roles`",
+        "Bot Permissions: `Manage Roles`"
+      ],
+      "examples": [
+        "`/mute user:@user` - Mutes the user indefinitely.",
+        "`/mute user:@user duration:1 time:Day(s)` - Mutes the user for 1 day.",
+        "`/mute user:@user reason:Spamming duration:1 time:Hour(s)` - Mutes the user for 1 hour with a reason."
+      ]
+    },
+    "newthread": {
+      "title": "Start a New Modmail Thread",
+      "description": "Starts a new modmail thread with the specified user, allowing for private communication.",
+      "usage": "Usage: </{{command.name}}:{{command.id}}> `<user> <message>`",
+      "permissions": [
+        "User Permissions: `Manage Messages`",
+        "Bot Permissions: `Send Messages`"
+      ],
+      "examples": [
+        "`/newthread user:@user message:Hello!` - Starts a new modmail thread with the user and sends a message."
+      ]
+    },
+    "register": {
+      "title": "Register User",
+      "description": "Helps you manually verify a user with gender specific roles or not.",
+      "usage": "Usage: </{{command.name}}:{{command.id}}> `<user> <gender>`",
+      "permissions": [
+        "User Permissions: `Manage Roles`",
+        "Bot Permissions: `Manage Roles`"
+      ],
+      "examples": [
+        "`/register user:@user gender:Other 🧑` - Registers the user with just the member role."
+      ]
+    },
+    "reply": {
+      "title": "Reply to a Modmail Thread",
+      "description": "Replies to the current modmail thread, allowing for continued communication with the user.",
+      "usage": "Usage: </{{command.name}}:{{command.id}}> `<message>`",
+      "permissions": [
+        "User Permissions: `Manage Messages`"
+      ],
+      "examples": [
+        "`/reply message:Hello!` - Replies to the current modmail thread with a message."
+      ]
+    },
+    "suspend": {
+      "title": "Suspend Modmail Thread",
+      "description": "Suspends the current modmail thread, preventing further messages until resumed.",
+      "usage": "Usage: </{{command.name}}:{{command.id}}>",
+      "permissions": [
+        "User Permissions: `Manage Messages`"
+      ]
+    },
+    "unban": {
+      "title": "Unban User",
+      "description": "Unbans a user from the server, allowing them to rejoin.",
+      "usage": "Usage: </{{command.name}}:{{command.id}}> `<user> [reason]`",
+      "permissions": [
+        "User Permissions: `Ban Members`",
+        "Bot Permissions: `Ban Members`"
+      ],
+      "examples": [
+        "`/unban user:@user` - Unbans the user from the server.",
+        "`/unban user:@user reason:Appealed` - Unbans the user with a reason."
+      ]
+    },
+    "unmute": {
+      "title": "Unmute User",
+      "description": "Unmutes a user in the server, allowing them to send messages again.",
+      "usage": "Usage: </{{command.name}}:{{command.id}}> `<user>`",
+      "permissions": [
+        "User Permissions: `Manage Roles`",
+        "Bot Permissions: `Manage Roles`"
+      ],
+      "examples": [
+        "`/unmute user:@user` - Unmutes the user in the server."
+      ]
+    },
+    "unsuspend": {
+      "title": "Unsuspend Modmail Thread",
+      "description": "Unsuspends the current modmail thread, allowing further messages to be sent.",
+      "usage": "Usage: </{{command.name}}:{{command.id}}>",
+      "permissions": [
+        "User Permissions: `Manage Messages`"
+      ]
+    },
+    "warn": {
+      "title": "Warn User",
+      "description": "Issues a warning to the user, which can be tracked for moderation purposes.",
+      "usage": "Usage: </{{command.name}}:{{command.id}}> `<user> <reason>`",
+      "permissions": [
+        "User Permissions: `Moderate Members`"
+      ],
+      "examples": [
+        "`/warn user:@user reason:Inappropriate behavior` - Issues a warning to the user."
+      ]
+    },
+    "help": {
+      "title": "Help",
+      "description": "Provides information about the available commands and how to use them.",
+      "usage": "Usage: </{{command.name}}:{{command.id}}> `<command>`",
+      "examples": [
+        "`/help command:ban` - Displays help information for the ban command.",
+        "`/help command:mute` - Displays help information for the mute command."
+      ]
+    },
+    "ping": {
+      "title": "Ping",
+      "description": "Checks the bot's latency and responsiveness.",
+      "usage": "Usage: </{{command.name}}:{{command.id}}>"
+    }
+  },
+  "locales": {
+    "bg": "Bulgarian",
+    "zh-CN": "Chinese (Simplified)",
+    "zh-TW": "Chinese (Traditional)",
+    "hr": "Croatian",
+    "cs": "Czech",
+    "da": "Danish",
+    "nl": "Dutch",
+    "en-GB": "English (UK)",
+    "en-US": "English (US)",
+    "fi": "Finnish",
+    "fr": "French",
+    "de": "German",
+    "el": "Greek",
+    "hi": "Hindi",
+    "hu": "Hungarian",
+    "id": "Indonesian",
+    "it": "Italian",
+    "ja": "Japanese",
+    "ko": "Korean",
+    "lt": "Lithuanian",
+    "no": "Norwegian",
+    "pl": "Polish",
+    "pt-BR": "Portuguese (Brazil)",
+    "ro": "Romanian",
+    "ru": "Russian",
+    "es-ES": "Spanish (Spain)",
+    "es-419": "Spanish (LATAM)",
+    "sv-SE": "Swedish",
+    "th": "Thai",
+    "tr": "Turkish",
+    "uk": "Ukrainian",
+    "vi": "Vietnamese"
+  },
+  "permissions": {
+    "permissions": {
+      "CreateInstantInvite": "Create Instant Invite",
+      "KickMembers": "Kick Members",
+      "BanMembers": "Ban Members",
+      "Administrator": "Administrator",
+      "ManageChannels": "Manage Channels",
+      "ManageGuild": "Manage Server",
+      "AddReactions": "Add Reactions",
+      "ViewAuditLog": "View Audit Log",
+      "PrioritySpeaker": "Priority Speaker",
+      "Stream": "Stream",
+      "ViewChannel": "View Channel",
+      "SendMessages": "Send Messages",
+      "SendTTSMessages": "Send Text-to-Speech Messages",
+      "ManageMessages": "Manage Messages",
+      "EmbedLinks": "Embed Links",
+      "AttachFiles": "Attach Files",
+      "ReadMessageHistory": "Read Message History",
+      "MentionEveryone": "Mention Everyone",
+      "UseExternalEmojis": "Use External Emojis",
+      "ViewGuildInsights": "View Server Insights",
+      "Connect": "Connect",
+      "Speak": "Speak",
+      "MuteMembers": "Mute Members",
+      "DeafenMembers": "Deafen Members",
+      "MoveMembers": "Move Members",
+      "UseVAD": "Use Voice Activity",
+      "ChangeNickname": "Change Nickname",
+      "ManageNicknames": "Manage Nicknames",
+      "ManageRoles": "Manage Roles",
+      "ManageWebhooks": "Manage Webhooks",
+      "ManageEmojisAndStickers": "Manage Emojis and Stickers",
+      "UseApplicationCommands": "Use Application Commands",
+      "RequestToSpeak": "Request to Speak",
+      "ManageEvents": "Manage Events",
+      "ManageThreads": "Manage Threads",
+      "CreatePublicThreads": "Create Public Threads",
+      "CreatePrivateThreads": "Create Private Threads",
+      "UseExternalStickers": "Use External Stickers",
+      "SendMessagesInThreads": "Send Messages in Threads",
+      "UseEmbeddedActivities": "Use Embedded Activities",
+      "ModerateMembers": "Moderate Members"
+    },
+    "allowed": "Allowed",
+    "denied": "Denied",
+    "unset": "Unset",
+    "overwriteAdded": "Overwrite added",
+    "overwriteRemoved": "Overwrite removed"
+  },
+  "translations": {
+    "ping": "This command was run by {{interaction.user.username}}, who joined on {{interaction.member.joinedAt}}.",
+    "modLog": {
+      "warning": "⚠️ **{{user.username}}** has been warned by **{{moderator.username}}**. Reason:```{{reason}}```",
+      "ban": "{{emoji}}  **{{user.username}}** has been banned by **{{moderator.username}}**. Reason:```{{reason}}```",
+      "kick": "👢  **{{user.username}}** has been kicked by **{{moderator.username}}**. Reason:```{{reason}}```",
+      "mute": "🔇  **{{user.username}}** has been muted by **{{moderator.username}}** for **{{duration}}**. Reason:```{{reason}}```",
+      "timedBan": "{{emoji}}  **{{user.username}}** has been banned by **{{moderator.username}}** for **{{duration}}**. Reason:```{{reason}}```",
+      "changeWarn": "<t:{{time}}> `[{{case}}]` ✏️ Case #{{case}}, has been modified by **{{moderator.username}}**. Reason:```{{reason}}```",
+      "unban": "🔓 User (`{{user.id}}`) has been unbanned by **{{moderator.username}}**. Reason:```{{reason}}```",
+      "banExpired": "🔓 User (`{{user.id}}`) has been automatically unbanned by **{{moderator.username}}** after **{{duration}}**. Reason:```{{reason}}```",
+      "timeout": "🔇 **{{user.username}}** has been timed out by **{{moderator.username}}** for **{{duration}}**. Reason:```{{reason}}```",
+      "unmute": "🔊  **{{user.username}}** has been unmuted by **{{moderator.username}}**. Reason:```{{reason}}```",
+      "functionErrors": {
+        "noGuildConfig": "Guild config not found, creating one. This stops the mod_log_operation. To disable this warning, change the \"Function Warnings\" setting.",
+        "channelError": "An error occurred while trying to send the message. This is likely due to the channel being deleted or the bot not having permission to send messages. Please check the channel and try again. This error removes the mod log channel ID from the guild config.",
+        "caseIdError": "An error occurred while trying to increment the case ID. This is likely a database error on our side. This may cause duplicate case IDs. Please report this to the bot developers.",
+        "noModlogChannel": "No mod log channel is set in the guild config. Please set one to enable mod logs."
+      }
+    },
+    "bumpLeaderboard": {
+      "initial": "This month's bump leaderboard:\n\n",
+      "lastBump": "Last bump was made {{time}} by {{user}}.",
+      "lastWinner": "Last month's winner: {{user}} with `{{count}}` bump out of **{{total_bumps}}** bumps.",
+      "messageNotSentByBot": "There are messages in the bump leaderboard channel that were not sent by the bot. Please remove them to avoid errors."
+    },
+    "unregisteredPeople": {
+      "kickMessage": "You failed to register in the **{{server}}** server within **{{days}}** days. You have been kicked from the server.",
+      "initial": "Member failed to register within {{days}} days."
+    },
+    "roleConfig": {
+      "initial": "Select the setting you want to update.",
+      "timeout": "Message timed out. Please run the command again.",
+      "roleInitial": "Select a role below. If you want to remove the role, press x and click elsewhere.",
+      "roleTooHigh": "The role you selected is too high. Please select a role that is lower than the bot's role.",
+      "memberRoleId": {
+        "label": "Set Member Role",
+        "description": "The role given when a member registers.",
+        "unset": "Member role has been removed.",
+        "set": "Member role has been set to {{role}}."
+      },
+      "unverifiedRoleId": {
+        "label": "Set Unverified Role",
+        "description": "The role given when a member joins the server if the registration module is enabled.",
+        "unset": "Unverified role has been removed.",
+        "set": "Unverified role has been set to {{role}}."
+      },
+      "maleRoleId": {
+        "label": "Set Male Role",
+        "description": "The role given when a member registers as male.",
+        "unset": "Male role has been removed.",
+        "set": "Male role has been set to {{role}}."
+      },
+      "femaleRoleId": {
+        "label": "Set Female Role",
+        "description": "The role given when a member registers as female",
+        "unset": "Female role has been removed.",
+        "set": "Female role has been set to {{role}}."
+      },
+      "colourIdOfTheDay": {
+        "label": "Set Colour of the Day Role",
+        "description": "A role that changes every day.",
+        "unset": "Colour of the Day role has been removed.",
+        "set": "Colour of the Day role has been set to {{role}}."
+      },
+      "muteRoleId": {
+        "label": "Set Mute Role",
+        "description": "The role given when a member is muted.",
+        "unset": "Mute role has been removed.",
+        "set": "Mute role has been set to {{role}}."
+      },
+      "djRoleId": {
+        "label": "Set DJ Role",
+        "description": "A role that bypasses the music command restrictions.",
+        "unset": "DJ role has been removed.",
+        "set": "DJ role has been set to {{role}}."
+      }
+    },
+    "registerConfig": {
+      "initial": "Select the setting you want to update.",
+      "timeout": "Message timed out. Please run the command again.",
+      "channelInitial": "Select a channel below. If you want to remove the channel, press x and click elsewhere.",
+      "registerJoinChannelId": {
+        "label": "Set Register Join Channel",
+        "description": "The channel where the register message will be sent.",
+        "unset": "Register join channel has been removed.",
+        "set": "Register join channel has been set to {{channel}}."
+      },
+      "registerChannelId": {
+        "label": "Set Register Channel",
+        "description": "The channel where the register command will be used.",
+        "unset": "Register channel has been removed.",
+        "set": "Register channel has been set to {{channel}}."
+      },
+      "registerJoinMessage": {
+        "label": "Set Register Message",
+        "description": "The message that will be sent when a member joins the server.",
+        "unset": "Register message has been removed.",
+        "set": "Register message has been set.",
+        "title": "Set Register Message"
+      },
+      "registerClearChannel": {
+        "label": "Set Register Clear Channel",
+        "description": "Clears the channel after a user registers.",
+        "unset": "Register channel clearing is disabled.",
+        "set": "Register channel clearing is enabled."
+      }
+    },
+    "joinLeaveConfig": {
+      "initial": "Select the setting you want to update.",
+      "timeout": "Message timed out. Please run the command again.",
+      "channelInitial": "Select a channel below. If you want to remove the channel, press x and click elsewhere.",
+      "roleInitial": "Select a role below. If you want to remove the role, press x and click elsewhere.",
+      "joinChannelId": {
+        "label": "Set Welcome Channel",
+        "description": "The channel where the welcome message will be sent.",
+        "unset": "Welcome channel has been removed.",
+        "set": "Welcome channel has been set to {{channel}}."
+      },
+      "leaveChannelId": {
+        "label": "Set Leave Channel",
+        "description": "The channel where the leave message will be sent.",
+        "unset": "Leave channel has been removed.",
+        "set": "Leave channel has been set to {{channel}}."
+      },
+      "joinMessage": {
+        "label": "Set Welcome Message",
+        "description": "The message that will be sent when a member joins the server.",
+        "unset": "Welcome message has been removed.",
+        "set": "Welcome message has been set.",
+        "title": "Set Welcome Message"
+      },
+      "leaveMessage": {
+        "label": "Set Leave Message",
+        "description": "The message that will be sent when a member leaves the server.",
+        "unset": "Leave message has been removed.",
+        "set": "Leave message has been set.",
+        "title": "Set Leave Message"
+      }
+    },
+    "moderationConfig": {
+      "initial": "Select the setting you want to update.",
+      "timeout": "Message timed out. Please run the command again.",
+      "channelInitial": "Select a channel below. If you want to remove the channel, press x and click elsewhere.",
+      "roleInitial": "Select a role below. If you want to remove the role, press x and click elsewhere.",
+      "roleTooHigh": "The role you selected is too high. Please select a role that is lower than the bot's role.",
+      "modLogsChannelId": {
+        "label": "Set Mod Log Channel",
+        "description": "The channel where the moderation logs will be sent.",
+        "unset": "Mod log channel has been removed.",
+        "set": "Mod log channel has been set to {{channel}}."
+      },
+      "staffRoleId": {
+        "initial": "Select a role below. If you want to remove the role, press x and click elsewhere.",
+        "label": "Set Staff Role",
+        "description": "The role required to use moderation commands.",
+        "unset": "Staff role has been removed.",
+        "set": "Staff role has been set to {{role}}."
+      },
+      "modMailChannel": {
+        "label": "Set Mod-Mail Channel",
+        "description": "The channel where the mod-mail will be sent.",
+        "unset": "Mod-mail channel has been removed.",
+        "set": "Mod-mail channel has been set to {{channel}}."
+      },
+      "muteGetAllRoles": {
+        "label": "Mute Get All Roles",
+        "description": "Gives all roles to the muted user.",
+        "false": "Mute get all roles is disabled.",
+        "true": "Mute get all roles is enabled."
+      },
+      "registerDayLimit": {
+        "label": "Set Register Day Limit",
+        "description": "The number of days a user has to register.",
+        "labelZero": "Disable Register Day Limit",
+        "descriptionZero": "Disables the register day limit.",
+        "labelOne": "Set Register Day Limit 1 Day",
+        "descriptionOne": "Sets the register day limit to 1 day.",
+        "labelThree": "Set Register Day Limit 3 Days",
+        "descriptionThree": "Sets the register day limit to 3 days.",
+        "labelSeven": "Set Register Day Limit 7 Days",
+        "descriptionSeven": "Sets the register day limit to 7 days.",
+        "initial": "Select the one you want to set.",
+        "success": "Register day limit has been set to {{days}} days."
+      },
+      "defaultExpiry": {
+        "label": "Set Default Expiry",
+        "description": "The default expiry for infractions.",
+        "labelZero": "Disable Default Expiry",
+        "descriptionZero": "Disables the default expiry.",
+        "labelSeven": "Set Default Expiry 7 Days",
+        "descriptionSeven": "Sets the default expiry to 7 days.",
+        "labelFourteen": "Set Default Expiry 14 Days",
+        "descriptionFourteen": "Sets the default expiry to 14 days.",
+        "labelThirty": "Set Default Expiry 30 Days",
+        "descriptionThirty": "Sets the default expiry to 30 days.",
+        "initial": "Select the one you want to set.",
+        "success": "Default expiry has been set to {{days}} days."
+      }
+    },
+    "miscConfig": {
+      "initial": "Select the setting you want to update.",
+      "timeout": "Message timed out. Please run the command again.",
+      "channelInitial": "Select a channel below. If you want to remove the channel, press x and click elsewhere.",
+      "language": {
+        "label": "Set Language",
+        "description": "The language the bot will use.",
+        "set": "Language has been set to {{language}}.",
+        "initial": "Select the language you want to set."
+      },
+      "modMailMessage": {
+        "title": "Set Mod-Mail Message",
+        "label": "Set Mod-Mail Message",
+        "set": "Mod-mail message has been set.",
+        "description": "The message that will be sent by the bot when a user sends a mod-mail."
+      },
+      "bumpLeaderboardChannelId": {
+        "label": "Set Bump Leaderboard Channel",
+        "description": "The channel where the bump leaderboard will be sent.",
+        "unset": "Bump leaderboard channel has been removed.",
+        "set": "Bump leaderboard channel has been set to {{channel}}."
+      }
+    },
+    "logConfig": {
+      "initial": "Select the setting you want to update.",
+      "timeout": "Message timed out. Please run the command again.",
+      "channelInitial": "Select a channel below. If you want to remove the channel, press x and click elsewhere.",
+      "messageLogsChannelId": {
+        "label": "Set Message Logs Channel",
+        "description": "The channel where; message delete, message update, bulk delete logs will be sent.",
+        "unset": "Message Logs channel has been removed.",
+        "set": "Message Logs channel has been set to {{channel}}."
+      },
+      "guildMemberLogsChannelId": {
+        "label": "Set Member Logs Channel",
+        "description": "The channel where member update logs will be sent.",
+        "unset": "Member Logs channel has been removed.",
+        "set": "Member Logs channel has been set to {{channel}}."
+      },
+      "guildLogsChannelId": {
+        "label": "Set Guild Logs Channel",
+        "description": "The channel where guild update logs will be sent.",
+        "unset": "Guild Logs channel has been removed.",
+        "set": "Guild Logs channel has been set to {{channel}}."
+      },
+      "voiceLogsChannelId": {
+        "label": "Set Voice Logs Channel",
+        "description": "The channel where voice update logs will be sent.",
+        "unset": "Voice Logs channel has been removed.",
+        "set": "Voice Logs channel has been set to {{channel}}."
+      },
+      "channelLogsChannelId": {
+        "label": "Set Channel Logs Channel",
+        "description": "The channel where channel update logs will be sent.",
+        "unset": "Channel Logs channel has been removed.",
+        "set": "Channel Logs channel has been set to {{channel}}."
+      },
+      "emojiLogsChannelId": {
+        "label": "Set Emoji Logs Channel",
+        "description": "The channel where emoji update logs will be sent.",
+        "unset": "Emoji Logs channel has been removed.",
+        "set": "Emoji Logs channel has been set to {{channel}}."
+      },
+      "roleLogsChannelId": {
+        "label": "Set Role Logs Channel",
+        "description": "The channel where role update logs will be sent.",
+        "unset": "Role Logs channel has been removed.",
+        "set": "Role Logs channel has been set to {{channel}}."
+      },
+      "stickerLogsChannelId": {
+        "label": "Set Sticker Logs Channel",
+        "description": "The channel where sticker update logs will be sent.",
+        "unset": "Sticker Logs channel has been removed.",
+        "set": "Sticker Logs channel has been set to {{channel}}."
+      },
+      "eventLogsChannelId": {
+        "label": "Set Event Logs Channel",
+        "description": "The channel where event logs will be sent.",
+        "unset": "Event Logs channel has been removed.",
+        "set": "Event Logs channel has been set to {{channel}}."
+      },
+      "inviteLogsChannelId": {
+        "label": "Set Invite Logs Channel",
+        "description": "The channel where invite logs will be sent.",
+        "unset": "Invite Logs channel has been removed.",
+        "set": "Invite Logs channel has been set to {{channel}}."
+      },
+      "pollLogsChannelId": {
+        "label": "Set Poll Logs Channel",
+        "description": "The channel where poll logs will be sent.",
+        "unset": "Poll Logs channel has been removed.",
+        "set": "Poll Logs channel has been set to {{channel}}."
+      },
+      "stageLogsChannelId": {
+        "label": "Set Stage Logs Channel",
+        "description": "The channel where stage logs will be sent.",
+        "unset": "Stage Logs channel has been removed.",
+        "set": "Stage Logs channel has been set to {{channel}}."
+      },
+      "soundboardLogsChannelId": {
+        "label": "Set Soundboard Logs Channel",
+        "description": "The channel where soundboard logs will be sent.",
+        "unset": "Soundboard Logs channel has been removed.",
+        "set": "Soundboard Logs channel has been set to {{channel}}."
+      },
+      "threadLogsChannelId": {
+        "label": "Set Thread Logs Channel",
+        "description": "The channel where thread logs will be sent.",
+        "unset": "Thread Logs channel has been removed.",
+        "set": "Thread Logs channel has been set to {{channel}}."
+      },
+      "webhookLogsChannelId": {
+        "label": "Set Webhook Logs Channel",
+        "description": "The channel where webhook logs will be sent.",
+        "unset": "Webhook Logs channel has been removed.",
+        "set": "Webhook Logs channel has been set to {{channel}}."
+      }
+    },
+    "modMailLog": {
+      "initial": "# Mod-mail thread #{{thread_id}} with {{user.tag}} {{user.id}} started at {{time}}. All times are in GMT.",
+      "botToUser": "[BOT TO USER]",
+      "command": "[COMMAND]",
+      "toUser": "[TO USER]",
+      "fromUser": "[FROM USER]",
+      "toThread": "[CHAT]",
+      "closeMessage": "Mod-mail thread #{{thread_id}} with {{user.tag}} ({{user.id}}) was closed by {{closer.tag}}.\n**{{messages.user}}** messages from the user, **{{messages.staff}}** messages to the user, and **{{messages.internal}}** internal chat messages.",
+      "preparingClose": "Thread is being closed...",
+      "threadClosedDm": "Your thread in {{guild}} has been closed."
+    },
+    "checkExpiredModmailBlacklists": {
+      "expiredModmailBlacklistNotification": "🔔 Modmail blacklist for **{{guild}}** expired"
+    },
+    "checkPunishments": {
+      "embed": {
+        "title": "User Roles Updated",
+        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Roles Removed**: {{removed_roles}}",
+        "added": "Roles Added"
+      }
+    },
+    "infractionsPunishment": {
+      "noMuteRole": "The mute role is not set. Please set the mute role in the moderation config to use this feature.",
+      "alreadyMuted": "The user is already muted.",
+      "noPermission": "I do not have permission to mute this user. Please check the bot's role and permissions.",
+      "reason": "Automatic punishment escalation (strike {{level}})",
+      "databaseError": "An error occurred while trying to add the infraction to the database. Please try again later.",
+      "roleError": "An error occurred while trying to add/remove a role. Please check the bot's permissions and try again.",
+      "muteError": "An error occurred while trying to mute the user. Please check the bot's permissions and try again.",
+      "messages": {
+        "mute": "You have been muted in **{{guild}}** for **{{duration}}**. Reason: ```{{reason}}```",
+        "kick": "You have been kicked from **{{guild}}**. Reason: ```{{reason}}```",
+        "ban": "You have been banned from **{{guild}}**. Reason: ```{{reason}}```",
+        "tempBan": "You have been temporarily banned from **{{guild}}** for **{{duration}}**. Reason:```{{reason}}```"
+      }
+    }
+  }
+}
