@@ -1,0 +1,927 @@
+{
+  "channelCreate": {
+    "unknownExecutor": "Bilinmeyen Yetkili",
+    "embed": {
+      "title": "Kanal Oluşturuldu",
+      "description": "> **Kanal**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Kanal Türü**: {{channel_type}}\n> **Oluşturulma Tarihi**: {{timestamp}}"
+    },
+    "channelTypes": {
+      "0": "Metin Kanalı",
+      "1": "DM Kanalı",
+      "2": "Ses Kanalı",
+      "3": "Grup DM Kanalı",
+      "4": "Kategori Kanalı",
+      "5": "Haber Kanalı",
+      "10": "Haber İleti Kanalı",
+      "11": "Genel İleti Kanalı",
+      "12": "Özel İleti Kanalı",
+      "13": "Sahne Kanalı",
+      "14": "Dizin Kanalı",
+      "15": "Forum Kanalı",
+      "16": "Medya Kanalı"
+    }
+  },
+  "channelDelete": {
+    "unknownExecutor": "Bilinmeyen Yetkili",
+    "embed": {
+      "title": "Kanal Silindi",
+      "description": "> **Kanal**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Kanal Türü**: {{channel_type}}\n> **Silinme Tarihi**: {{timestamp}}"
+    },
+    "channelTypes": {
+      "0": "Metin Kanalı",
+      "1": "DM Kanalı",
+      "2": "Ses Kanalı",
+      "3": "Grup DM Kanalı",
+      "4": "Kategori Kanalı",
+      "5": "Haber Kanalı",
+      "10": "Haber İleti Kanalı",
+      "11": "Genel İleti Kanalı",
+      "12": "Özel İleti Kanalı",
+      "13": "Sahne Kanalı",
+      "14": "Dizin Kanalı",
+      "15": "Forum Kanalı",
+      "16": "Medya Kanalı"
+    }
+  },
+  "channelUpdate": {
+    "channelTypes": {
+      "0": "Metin Kanalı",
+      "1": "DM Kanalı",
+      "2": "Ses Kanalı",
+      "3": "Grup DM Kanalı",
+      "4": "Kategori Kanalı",
+      "5": "Haber Kanalı",
+      "10": "Haber İleti Kanalı",
+      "11": "Genel İleti Kanalı",
+      "12": "Özel İleti Kanalı",
+      "13": "Sahne Kanalı",
+      "14": "Dizin Kanalı",
+      "15": "Forum Kanalı",
+      "16": "Medya Kanalı"
+    },
+    "unknownExecutor": "Bilinmeyen Yetkili",
+    "nameChange": {
+      "embed": {
+        "title": "Kanal Adı Değiştirildi",
+        "description": "> **Kanal**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Eski Kanal Adı**: {{old_name}}\n> **Yeni Kanal Adı**: {{new_name}}"
+      }
+    },
+    "topicChange": {
+      "embed": {
+        "title": "Kanal Konusu Değiştirildi",
+        "description": "> **Kanal**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Eski Konu**: {{old_topic}}\n> **Yeni Konu**: {{new_topic}}"
+      }
+    },
+    "nsfwChange": {
+      "embed": {
+        "title": "Kanal NSFW Durumu Değiştirildi",
+        "description": "> **Kanal**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Eski Durum**: {{old_nsfw}}\n> **Yeni Durum**: {{new_nsfw}}"
+      }
+    },
+    "permissionsChange": {
+      "embed": {
+        "title": "Kanal İzinleri Değiştirildi",
+        "description": "> **Kanal**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Değiştirilen İzinler**: {{changes}}"
+      }
+    },
+    "typeChange": {
+      "embed": {
+        "title": "Kanal Tipi Değiştirildi",
+        "description": "> **Kanal**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Eski Tip**: {{old_type}}\n> **Yeni Tip**: {{new_type}}"
+      }
+    },
+    "bitrateChange": {
+      "embed": {
+        "title": "Ses Kanalı Bithızı Değiştirildi",
+        "description": "> **Kanal**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Eski Bithızı**: {{old_bitrate}}\n> **Yeni Bithızı**: {{new_bitrate}}"
+      }
+    },
+    "userLimitChange": {
+      "embed": {
+        "title": "Ses Kanalı Kullanıcı Limiti Değiştirildi",
+        "description": "> **Kanal**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Eski Kullanıcı Limiti**: {{old_user_limit}} kullanıcı\n> **Yeni Kullanıcı Limiti**: {{new_user_limit}} kullanıcı"
+      }
+    },
+    "rateLimitChange": {
+      "embed": {
+        "title": "Kanal Yavaş Mod Değiştirildi",
+        "description": "> **Kanal**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Eski Yavaş Mod Süresi**: {{old_rate_limit}}\n> **Yeni Yavaş Mod Süresi**: {{new_rate_limit}}"
+      }
+    },
+    "rtcRegionChange": {
+      "region": {
+        "none": "Otomatik",
+        "brazil": "Brezilya",
+        "hongkong": "Hong Kong",
+        "india": "Hindistan",
+        "japan": "Japonya",
+        "rotterdam": "Rotterdam",
+        "singapore": "Singapur",
+        "southafrica": "Güney Afrika",
+        "sydney": "Sidney",
+        "us-central": "Merkez ABD",
+        "us-east": "Doğu ABD",
+        "us-south": "Güney ABD",
+        "us-west": "Batı ABD"
+      },
+      "embed": {
+        "title": "Ses Kanalı RTC Bölgesi Değiştirildi",
+        "description": "> **Kanal**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Eski RTC Bölgesi**: {{old_rtc_region}}\n> **Yeni RTC Bölgesi**: {{new_rtc_region}}"
+      }
+    },
+    "videoQualityModeChange": {
+      "modes": {
+        "0": "Otomatik",
+        "1": "Tam (720p)"
+      },
+      "embed": {
+        "title": "Ses Kanalı Görüntü Kalitesi Değiştirildi",
+        "description": "> **Kanal**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Eski Görüntü Kalitesi**: {{old_video_quality_mode}}\n> **Yeni Görüntü Kalitesi**: {{new_video_quality_mode}}"
+      }
+    },
+    "defaultArchiveDurationChange": {
+      "time": {
+        "60": "1 Saat",
+        "1440": "1 Gün",
+        "4320": "3 Gün",
+        "10080": "1 Hafta"
+      },
+      "embed": {
+        "title": "Forum Kanalı Varsayılan Arşiv Süresi Değişti",
+        "description": "> **Kanal**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Eski Varsayılan Arşiv Süresi**: {{old_archive_duration}}\n> **Yeni Varsayılan Arşiv Süresi**: {{new_archive_duration}}"
+      }
+    },
+    "forumRateLimitChange": {
+      "embed": {
+        "title": "Forum Kanalı Gönderme Yavaş Mod Süresi Değiştirildi",
+        "description": "> **Kanal**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Eski Yavaş Mod Süresi**: {{old_rate_limit}}\n> **Yeni Yavaş Mod Süresi**: {{new_rate_limit}}"
+      }
+    },
+    "forumDefaultThreadRateLimitChange": {
+      "embed": {
+        "title": "Forum Kanalı Mesaj Yavaş Mod Süresi Değiştirildi",
+        "description": "> **Kanal**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Eski Yavaş Mod Süresi**: {{old_rate_limit}}\n> **Yeni Yavaş Mod Süresi**: {{new_rate_limit}}"
+      }
+    },
+    "forumDefaultReactionEmojiChange": {
+      "embed": {
+        "title": "Forum Kanalı Varsayılan Tepki Değiştirildi",
+        "description": "> **Kanal**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Eski Tepki**: {{old_reaction_emoji}}\n> **Yeni Tepki**: {{new_reaction_emoji}}"
+      }
+    },
+    "forumDefaultSortOrderChange": {
+      "modes": {
+        "0": "Son Etkinlik",
+        "1": "Oluşturma Zamanı"
+      },
+      "embed": {
+        "title": "Forum Kanalı Sırlama Ölçütü Değiştirildi",
+        "description": "> **Kanal**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Eski Sıralama Ölçütü**: {{old_sort_order}}\n> **Yeni Sıralama Ölçütü**: {{new_sort_order}}"
+      }
+    },
+    "forumAvailableTagsChange": {
+      "added": {
+        "embed": {
+          "title": "Forum Kanalı Etiket Eklendi",
+          "description": "> **Kanal**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **İsim**: {{tag_name}}\n> **Moderatörlere Özel**: {{tag_moderation_only}}\n> **Emoji**: {{tag_emoji}}"
+        }
+      },
+      "removed": {
+        "embed": {
+          "title": "Forum Kanalı Etiket Silindi",
+          "description": "> **Kanal**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **İsim**: {{tag_name}}\n> **Moderatörlere Özel**: {{tag_moderation_only}}\n> **Emoji**: {{tag_emoji}}"
+        }
+      },
+      "updated": {
+        "embed": {
+          "title": "Forum Kanalı Etiket Güncellendi",
+          "description": "> **Kanal**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **İsim**: ~~{{old_tag_name}}~~ -> {{new_tag_name}}\n> **Moderatörlere Özel**: ~~{{old_tag_moderation_only}}~~ -> {{new_tag_moderation_only}}\n> **Emoji**: ~~{{old_tag_emoji}}~~ -> {{new_tag_emoji}}"
+        }
+      }
+    },
+    "forumDefaultForumLayoutChange": {
+      "layouts": {
+        "0": "Ayarlanmamış",
+        "1": "Liste Görünümü",
+        "2": "Galeri Görünümü"
+      },
+      "embed": {
+        "title": "Forum Kanalı Varsayılan Düzen Değiştirildi",
+        "description": "> **Kanal**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Eski Düzen**: {{old_layout}}\n> **Yeni Düzen**: {{new_layout}},"
+      }
+    },
+    "forumNsfwChange": {
+      "embed": {
+        "title": "Forum Kanalı NSFW Durumu Değiştirildi",
+        "description": "> **Kanal**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Eski Durum**: {{old_nsfw}}\n> **Yeni Durum**: {{new_nsfw}}"
+      }
+    }
+  },
+  "emojiCreate": {
+    "unknownExecutor": "Bilinmeyen Yetkili",
+    "embed": {
+      "title": "Emoji Oluşturulfu",
+      "description": "> **Emoji**: {{emoji.name}}\n> **ID**: {{emoji.id}}\n> **Animasyon**: {{emoji_animated}}\n> **Oluşturulma Tarihi**: {{timestamp}}"
+    }
+  },
+  "emojiDelete": {
+    "unknownExecutor": "Bilinmeyen Yetkili",
+    "embed": {
+      "title": "Emoji Silindi",
+      "description": "> **Emoji**: {{emoji.name}}\n> **ID**: {{emoji.id}}\n> **Animasyon**: {{emoji_animated}}\n> **Silinme Tarihi**: {{timestamp}}"
+    }
+  },
+  "emojiUpdate": {
+    "unknownExecutor": "Bilinmeyen Yetkili",
+    "nameChange": {
+      "embed": {
+        "title": "Emoji İsmi Değiştirildi",
+        "description": "> **ID**: {{emoji.id}}\n> **Eski İsim**: {{old_name}}\n> **Yeni İsim**: {{new_name}}"
+      }
+    }
+  },
+  "guildAuditLogEntryCreate": {
+    "unknownExecutor": "Bilinmeyen Yetkili",
+    "webhookCreate": {
+      "embed": {
+        "title": "Webhook Oluşturuldu",
+        "description": "> **İsim**: {{webhook.name}}\n> **ID**: {{webhook.id}}\n> **Kanal**: {{channel.name}} (<#{{channel.id}}>)"
+      }
+    },
+    "webhookDelete": {
+      "embed": {
+        "title": "Webhook Deleted",
+        "description": "> **İsim**: {{webhook.name}}\n> **ID**: {{webhook.id}}\n> **Kanal**: {{channel.name}} (<#{{channel.id}}>)"
+      }
+    }
+  },
+  "guildBanAdd": {
+    "embed": {
+      "title": "Kullanıcı Sunucudan Yasaklandı",
+      "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
+      "fields": {
+        "reason": "Sebep"
+      }
+    },
+    "noReason": "Sebep belirtilmedi.",
+    "unknownExecutor": "Bilinmeyen Yetkili",
+    "neverJoined": "Kullanıcı bu sunucuya hiç katılmadı."
+  },
+  "guildBanRemove": {
+    "embed": {
+      "title": "Kullanıcının Sunucu Yasağı Kaldırıldı",
+      "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
+      "fields": {
+        "reason": "Sebep"
+      }
+    }
+  },
+  "guildMemberAdd": {
+    "embed": {
+      "title": "Kullanıcı Sunucuya Katıldı",
+      "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Hesap Yaşı**: {{timestamp}}\n> **Kullanıcı Sayısı**: {{member_count}}"
+    }
+  },
+  "guildMemberRemove": {
+    "noReason": "Sebep belirtilmedi.",
+    "userLeft": "**Kullanıcı {{guild}} sunucusundan ayrıldı**",
+    "embed": {
+      "title": "Kullanıcı Sunucudan Ayrıldı",
+      "titleKicked": "Kullanıcı Sunucudan Atıldı",
+      "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Katılma Tarihi**: {{timestamp}}\n> **Kullanıcı Sayısı**: {{member_count}}",
+      "fields": {
+        "reason": "Sebep"
+      }
+    },
+    "neverJoined": "Kullanıcı bu sunucuya hiç katılmadı.",
+    "unknownExecutor": "Bilinmeyen Yetkili"
+  },
+  "guildMemberUpdate": {
+    "unknownExecutor": "Bilinmeyen Yetkili",
+    "timeout": {
+      "noReason": "Zaman aşımı için sebep belirtilmedi.",
+      "embed": {
+        "title": "Kullanıcı Zaman Aşımına Uğradı",
+        "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Zaman Aşımı Tarihi**: {{timestamp}}",
+        "fields": {
+          "reason": "Sebep"
+        }
+      }
+    },
+    "removeTimeout": {
+      "noReason": "Zaman aşımını kaldırmak için sebep belirtilmedi.",
+      "embed": {
+        "title": "Kullanıcının Zaman Aşımı Kaldırıldı",
+        "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Zaman Aşımı Kaldırma Tarihi**: {{timestamp}}"
+      }
+    },
+    "rolesUpdate": {
+      "embed": {
+        "title": "Kullanıcı Rolleri Değiştirildi",
+        "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
+        "added": "Eklenen Roller",
+        "removed": "Kaldırılan Roller"
+      }
+    },
+    "nicknameChange": {
+      "noNickname": "Takma Ad Yok.",
+      "embed": {
+        "title": "Kullanıcın Takma Adı Değişti",
+        "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Eski Takma Ad**: {{old_nickname}}\n> **Yeni Takma Ad**: {{new_nickname}}"
+      }
+    }
+  },
+  "guildScheduledEventCreate": {
+    "unknownExecutor": "Bilinmeyen Yetkili",
+    "voiceChannel": {
+      "embed": {
+        "title": "Sunucu Etkinliği Oluşturuldu",
+        "description": "> **İsim**: {{event.name}}\n> **ID**: {{event.id}}\n> **Kanal**: {{event.channel.name}} (<#{{event.channel.id}}>)\n> **Açıklama**: {{event.description}}\n> **Başlama Tarihi**: {{scheduled_start_time}}"
+      }
+    },
+    "externalChannel": {
+      "embed": {
+        "title": "Sunucu Etkinliği Oluşturuldu",
+        "description": "> **İsim**: {{event.name}}\n> **ID**: {{event.id}}\n> **Lokasyon**: {{event.entityMetadata.location}}\n> **Açıklama**: {{event.description}}\n> **Başlama Tarihi**: {{scheduled_start_time}}\n> **Bitiş Tarihi**: {{scheduled_end_time}}"
+      }
+    }
+  },
+  "guildScheduledEventDelete": {
+    "voiceChannel": {
+      "embed": {
+        "title": "Sunucu Etkinliği Silindi",
+        "description": "> **İsim**: {{event.name}}\n> **ID**: {{event.id}}\n> **Kanal**: {{event.channel.name}} (<#{{event.channel.id}}>)\n> **Açıklama**: {{event.description}}\n> **Start Time**: {{scheduled_start_time}}"
+      }
+    },
+    "externalChannel": {
+      "embed": {
+        "title": "Sunucu Etkinliği Silindi",
+        "description": "> **İsim**: {{event.name}}\n> **ID**: {{event.id}}\n> **Lokasyon**: {{event.entityMetadata.location}}\n> **Açıklama**: {{event.description}}\n> **Başlama Tarihi**: {{scheduled_start_time}}\n> **Bitiş Tarihi**: {{scheduled_end_time}}"
+      }
+    }
+  },
+  "guildScheduledEventUpdate": {
+    "locationChange": {
+      "embed": {
+        "title": "Sunucu Etkinliği Lokasyon Değiştirildi",
+        "description": "> **İsim**: {{event.name}}\n> **ID**: {{event.id}}\n> **Eski Lokasyon**: {{old_location}}\n> **Yeni Lokasyon**: {{new_location}}"
+      }
+    },
+    "descriptionChange": {
+      "embed": {
+        "title": "Sunucu Etkinliği Açıklama Değiştirildi",
+        "description": "> **İsim**: {{event.name}}\n> **ID**: {{event.id}}\n> **Eski Açıklama**: {{old_description}}\n> **Yeni Açıklama**: {{new_description}}"
+      }
+    },
+    "nameChange": {
+      "embed": {
+        "title": "Sunucu Etkinliği İsim Değiştirildi",
+        "description": "> **İsim**: {{event.name}}\n> **ID**: {{event.id}}\n> **Eski İsim**: {{old_name}}\n> **Yeni İsim**: {{new_name}}"
+      }
+    },
+    "startTimeChange": {
+      "embed": {
+        "title": "Sunucu Etkinliği Başlama Tarihi Değiştirildi",
+        "description": "> **İsim**: {{event.name}}\n> **ID**: {{event.id}}\n> **Eski Başlangıç**: {{old_start_time}}\n> **Yeni Başlangıç**: {{new_start_time}}"
+      }
+    },
+    "endTimeChange": {
+      "embed": {
+        "title": "Sunucu Etkinliği Bitiş Tarihi Değiştirildi",
+        "description": "> **İsim**: {{event.name}}\n> **ID**: {{event.id}}\n> **Eski Bitiş**: {{old_end_time}}\n> **Yeni Bitiş**: {{new_end_time}}"
+      }
+    },
+    "statusChange": {
+      "status": {
+        "1": "Planlanmış",
+        "2": "Aktif",
+        "3": "Tamamlanmış",
+        "4": "İptal Edilmiş"
+      },
+      "embed": {
+        "title": "Sunucu Etkinliği Durumu Değiştirildi",
+        "description": "> **İsim**: {{event.name}}\n> **ID**: {{event.id}}\n> **Eski Durum**: {{old_status}}\n> **Yeni Durum**: {{new_status}}"
+      }
+    }
+  },
+  "guildScheduledEventUserAdd": {
+    "embed": {
+      "title": "Kullanıcı Etkinliğe katıldı",
+      "description": "> **Kullanıcı**: {{user.username}} (<@{{user.id}}>)\n> **Kullanıcı ID**: {{user.id}}\n> **Etkinlik İsmi**: {{event.name}}\n> **Etkinlik ID**: {{event.id}}"
+    }
+  },
+  "guildScheduledEventUserRemove": {
+    "embed": {
+      "title": "Kullanıcı Etkinlikten Ayrıldı",
+      "description": "> **Kullanıcı**: {{user.username}} (<@{{user.id}}>)\n> **Kullanıcı ID**: {{user.id}}\n> **Etkinlik İsmi**: {{event.name}}\n> **Etkinlik ID**: {{event.id}}"
+    }
+  },
+  "guildSoundboardSoundCreate": {
+    "embed": {
+      "title": "Ses Panosu Oluşturuldu",
+      "description": "> **Ses Panosu**: {{soundboard.name}}\n> **ID**: {{soundboard.id}}\n> **Emoji**: {{soundboard.emoji}}\n> **Ses**: %{{volume}}\n> **Oluşturulma Tarihi**: {{timestamp}}"
+    }
+  },
+  "guildSoundboardSoundDelete": {
+    "unknownExecutor": "Bilinmeyen Yetkili",
+    "embed": {
+      "title": "Ses Panosu Silindi",
+      "description": "> **Ses Panosu**: {{soundboard.name}}\n> **ID**: {{soundboard.id}}\n> **Emoji**: {{soundboard.emoji}}\n> **Ses**: %{{volume}}\n> **Silinme Tarihi**: {{timestamp}}"
+    }
+  },
+  "guildSoundboardSoundUpdate": {
+    "unknownExecutor": "Bilinmeyen Yetkili",
+    "noPreviousValue": "Önceki değer yok",
+    "noEmoji": "Emoji yok",
+    "nameChange": {
+      "embed": {
+        "title": "Ses Panosu İsmi Değiştirildi",
+        "description": "> **ID**: {{soundboard.id}}\n> **Eski İsim**: {{old_name}}\n> **Yeni İsim**: {{new_name}}"
+      }
+    },
+    "emojiChange": {
+      "embed": {
+        "title": "Ses Panosu Emojisi Değiştirildi",
+        "description": "> **Ses Panosu**: {{soundboard.name}}\n> **ID**: {{soundboard.id}}\n> **Eski Emoji**: {{old_emoji}}\n> **Yeni Emoji**: {{new_emoji}}"
+      }
+    },
+    "volumeChange": {
+      "embed": {
+        "title": "Ses Panosu Sesi Değiştirildi",
+        "description": "> **Ses Panosu**: {{soundboard.name}}\n> **ID**: {{soundboard.id}}\n> **Eski Ses**: %{{old_volume}}\n> **Yeni Ses**: %{{new_volume}}"
+      }
+    }
+  },
+  "guildUpdate": {
+    "unknownExecutor": "Bilinmeyen Yetkili",
+    "none": "Yok",
+    "notificationLevels": {
+      "0": "Tüm Mesajlar",
+      "1": "Sadece @bahsetmeler"
+    },
+    "explicitContentFilterLevels": {
+      "0": "Devre Dışı",
+      "1": "Rolü Olmayan Üyeler",
+      "2": "Tüm Üyeler"
+    },
+    "mfaLevels": {
+      "0": "Yok",
+      "1": "Yükseltilmiş"
+    },
+    "verificationLevels": {
+      "0": "Yok",
+      "1": "Düşük",
+      "2": "Orta",
+      "3": "Yüksek",
+      "4": "Çok Yüksek"
+    },
+    "afkChannelChange": {
+      "embed": {
+        "title": "Sunucu AFK Kanalı Değiştirildi",
+        "description": "> **Eski AFK Kanalı**: {{old_channel}}\n> **Yeni AFK Kanalı**: {{new_channel}}"
+      }
+    },
+    "afkTimeoutChange": {
+      "embed": {
+        "title": "Sunucu AFK Zaman Aşımı Değiştirildi",
+        "description": "> **Eski AFK Zaman Aşımı**: {{old_timeout}}\n> **Yeni AFK Zaman Aşımı**: {{new_timeout}}"
+      }
+    },
+    "bannerChange": {
+      "embed": {
+        "title": "Sunucu Banner'ı Değiştirildi",
+        "description": "> **Eski Banner**: {{old_banner}}\n> **Yeni Banner**: {{new_banner}}"
+      }
+    },
+    "defaultMessageNotificationsChange": {
+      "embed": {
+        "title": "Sunucu Varsayılan Mesaj Bildirimleri Değiştirildi",
+        "description": "> **Eski Seviye**: {{old_level}}\n> **Yeni Seviye**: {{new_level}}"
+      }
+    },
+    "discoverySplashChange": {
+      "embed": {
+        "title": "Sunucu Discovery Splash Değiştirildi",
+        "description": "> **Eski Discovery Splash**: {{old_discovery_splash}}\n> **Yeni Discovery Splash**: {{new_discovery_splash}}"
+      }
+    },
+    "explicitContentFilterChange": {
+      "embed": {
+        "title": "Sunucu Açık İçerik Filtresi Değiştirildi",
+        "description": "> **Eski Seviye**: {{old_level}}\n> **Yeni Seviye**: {{new_level}}"
+      }
+    },
+    "featuresChange": {
+      "embed": {
+        "added": "Eklendi",
+        "removed": "Kaldırıldı",
+        "title": "Sunucu Özellikleri Değiştirildi",
+        "description": "> **Eski Özellikler**: {{old_features}}\n> **Yeni Özellikler**: {{new_features}}"
+      }
+    },
+    "iconChange": {
+      "embed": {
+        "title": "Sunucu Simgesi Değiştirildi",
+        "description": "> **Eski Simgesi**: {{old_icon}}\n> **Yeni Simgesi**: {{new_icon}}"
+      }
+    },
+    "mfaLevelChange": {
+      "embed": {
+        "title": "Sunucu MFA Seviyesi Değiştirildi",
+        "description": "> **Eski Seviye**: {{old_level}}\n> **Yeni Seviye**: {{new_level}}"
+      }
+    },
+    "nameChange": {
+      "embed": {
+        "title": "Sunucu Adı Değiştirildi",
+        "description": "> **Eski Ad**: {{old_name}}\n> **Yeni Ad**: {{new_name}}"
+      }
+    },
+    "descriptionChange": {
+      "embed": {
+        "title": "Sunucu Açıklaması Değiştirildi",
+        "description": "> **Eski Açıklama**: {{old_description}}\n> **Yeni Açıklama**: {{new_description}}"
+      }
+    },
+    "ownerChange": {
+      "embed": {
+        "title": "Sunucu Sahibi Değiştirildi",
+        "description": "> **Eski Sahip**: {{old_owner}}\n> **Yeni Sahip**: {{new_owner}}"
+      }
+    },
+    "partneredChange": {
+      "embed": {
+        "title": "Sunucu Partner Durumu Değiştirildi",
+        "description": "> **Eski Durum**: {{old_status}}\n> **Yeni Durum**: {{new_status}}"
+      }
+    },
+    "preferredLocaleChange": {
+      "embed": {
+        "title": "Sunucu Tercih Edilen Dil Değiştirildi",
+        "description": "> **Eski Dil**: {{old_locale}}\n> **Yeni Dil**: {{new_locale}}"
+      }
+    },
+    "premiumProgressBarChange": {
+      "embed": {
+        "title": "Sunucu Boost İlerleme Çubuğu Değiştirildi",
+        "description": "> **Eski Durum**: {{old_progress_bar}}\n> **Yeni Durum**: {{new_progress_bar}}"
+      }
+    },
+    "premiumSubscriptionCountChange": {
+      "embed": {
+        "title": "Sunucu Boost Sayısı Değiştirildi",
+        "description": "> **Eski Sayı**: {{old_count}}\n> **Yeni Sayı**: {{new_count}}"
+      }
+    },
+    "premiumTierChange": {
+      "embed": {
+        "title": "Sunucu Boost Seviyesi Değiştirildi",
+        "description": "> **Eski Seviye**: {{old_level}}\n> **Yeni Seviye**: {{new_level}}"
+      }
+    },
+    "rulesChannelChange": {
+      "embed": {
+        "title": "Sunucu Kurallar Kanalı Değiştirildi",
+        "description": "> **Eski Kurallar Kanalı**: {{old_channel}}\n> **Yeni Kurallar Kanalı**: {{new_channel}}"
+      }
+    },
+    "safetyAlertsChannelChange": {
+      "embed": {
+        "title": "Sunucu Güvenlik Uyarıları Kanalı Değiştirildi",
+        "description": "> **Eski Güvenlik Uyarıları Kanalı**: {{old_channel}}\n> **Yeni Güvenlik Uyarıları Kanalı**: {{new_channel}}"
+      }
+    },
+    "splashChange": {
+      "embed": {
+        "title": "Sunucu Splash Değiştirildi",
+        "description": "> **Eski Splash**: {{old_splash}}\n> **Yeni Splash**: {{new_splash}}"
+      }
+    },
+    "systemChannelChange": {
+      "embed": {
+        "title": "Sunucu Sistem Kanalı Değiştirildi",
+        "description": "> **Eski Sistem Kanalı**: {{old_channel}}\n> **Yeni Sistem Kanalı**: {{new_channel}}"
+      }
+    },
+    "vanityUrlCodeChange": {
+      "embed": {
+        "title": "Sunucu Özel URL Değiştirildi",
+        "description": "> **Eski Özel URL**: {{old_code}}\n> **Yeni Özel URL**: {{new_code}}"
+      }
+    },
+    "verificationLevelChange": {
+      "embed": {
+        "title": "Sunucu Doğrulama Seviyesi Değiştirildi",
+        "description": "> **Eski Seviye**: {{old_level}}\n> **Yeni Seviye**: {{new_level}}"
+      }
+    }
+  },
+  "interactionCreate": {
+    "memberMissingPermissions": "Bu komutu kullanabilmek için gerekli `{{permissions}}` izinlerine sahip değilsiniz."
+  },
+  "inviteCreate": {
+    "embed": {
+      "title": "Davet Oluşturuldu",
+      "description": "> **Kod**: {{invite.code}}\n> **Kanal**: <#{{invite.channelId}}>\n> **Geçerlilik Süresi**: {{timestamp}}\n> **Maks Kullanım**: {{usage}}"
+    }
+  },
+  "inviteDelete": {
+    "unknownExecutor": "Bilinmeyen Yetkili",
+    "embed": {
+      "title": "Davet Silindi",
+      "description": "> **Kod**: {{invite.code}}\n> **Kanal**: <#{{invite.channelId}}>"
+    }
+  },
+  "messageBulkDelete": {
+    "embed": {
+      "title": "{{count}} Mesaj Silindi",
+      "description": "> **Kanal**: {{message.channel.name}} (<#{{message.channel.id}}>)"
+    },
+    "fileName": "silinen_mesajlar.txt",
+    "message": "**Mesaj ID:** {{message.id}} **Kullanıcı:** {{message.author.tag}} **İçerik:** {{message.content}}"
+  },
+  "messageCreate": {
+    "modMail": {
+      "blacklisted": "{{guild}} sunucusunda mod mail kullanmanız yasaklandı. Yasaklanma sebebiniz: **{{reason}}**. Yasaklanma süresinin kalkışı: **{{expires}}**.",
+      "never": "Asla",
+      "initial": "`Hesap Yaşı:` **{{account_age}}**, `ID:` **{{user.id}}**\n`Kullanıcı Adı:` **{{user.username}}** (<@{{user.id}}>), `Katılma Tarihi:` **{{join_date}}**\n**»»----------------------------¤----------------------------««**",
+      "notMember": "Sunucunun bir üyesi değilsiniz.",
+      "confirm": "Evet",
+      "cancel": "Hayır",
+      "confirmTitle": "Mod Mail Onaylama Düğmesi",
+      "confirmDescription": "{{guild}} için mod mail konuşmasını onaylamak için aşağıdaki düğmeye tıklayın veya konuşmayı iptal etmek için iptal düğmesine tıklayın.",
+      "timeout": "Cevap vermeniz için çok uzun süre bekledim. Mod mail konuşması iptal edildi.",
+      "cancelledTitle": "Mod Mail Konuşması İptal Edildi",
+      "cancelledDescription": "{{guild}} için mod mail konuşması iptal edildi.",
+      "confirmedTitle": "Mod Mail Konuşması Onaylandı",
+      "confirmedDescription": "{{guild}} için mod mail konuşması onaylandı ve konuşma başladı.",
+      "parentChannelMissing": "Üst kanal eksik. Modlar mod mail'in çalışması için üst kanalı ayarlamalıdır.",
+      "channelMissing": "Kanal eksik. Modlar mod mail'in çalışması için kanalı ayarlamalıdır.",
+      "topic": "{{user}} ile Mod Mail konuşması",
+      "errorSending": "Mesaj göndermeye çalışırken bir hata oluştu.",
+      "reopened": "{{user}} modmaile cevap verdi, konuşma kapanmayacak. ({{closer}})",
+      "errorInserting": "Mesajı veritabanına eklemeye çalışırken bir hata oluştu."
+    },
+    "pollCreate": {
+      "embed": {
+        "title": "Anket Oluşturuldu",
+        "description": "> **Sona Erme**: {{timestamp}}\n> **Çoklu Seçme**: {{multi_select}}\n> **Mesaj**: {{message.url}}"
+      }
+    }
+  },
+  "messageDelete": {
+    "embed": {
+      "title": "Mesaj Silindi",
+      "description": "> **Kanal**: {{message.channel.name}} (<#{{message.channel.id}}>)\n> **Kullanıcı**: {{message.author.tag}} (<@{{message.author.id}}>)\n> **Mesaj ID**: [{{message.id}}](https://discord.com/channels/{{message.guild.id}}/{{message.channel.id}}/{{message.id}})\n> **Mesaj Oluşturulma Tarihi**: {{timestamp}}",
+      "fields": {
+        "content": "Mesaj",
+        "attachments": "{{count}} Ek Dosya"
+      }
+    },
+    "skippedFiles": "⚠️ Büyük Dosyalar Atlandı",
+    "pollDelete": {
+      "embed": {
+        "title": "Anket Silindi",
+        "description": "> **Sona Erme**: {{timestamp}}\n> **Çoklu Seçme**: {{multi_select}}\n> **Sonuçlandırılmış**: {{finalized}}\n> **Kanal**: <#{{message.channel.id}}>\n> **Mesaj ID**: {{message.id}}\n> **Oluşturan Kişi**: <@{{message.author.id}}>"
+      }
+    }
+  },
+  "messagePollVoteAdd": {
+    "embed": {
+      "title": "Anket Cevap Eklendi",
+      "description": "> **Soru**: {{question}}\n> **Cevap**: {{answer}} <@{{answerer}}>\n> **Sona Erme**: {{timestamp}}\n> **Çoklu Seçme**: {{multi_select}}\n> **Mesaj**: {{message.url}}"
+    }
+  },
+  "messagePollVoteRemove": {
+    "embed": {
+      "title": "Anket Cevap Kaldırıldı",
+      "description": "> **Soru**: {{question}}\n> **Cevap**: {{answer}} <@{{answerer}}>\n> **Sona Erme**: {{timestamp}}\n> **Çoklu Seçme**: {{multi_select}}\n> **Mesaj**: {{message.url}}"
+    }
+  },
+  "messageUpdate": {
+    "messageEdit": "***Kullanıcı mesajını düzenledi.***\n```diff\n- {{oldContent}}\n+ {{newContent}}\n```",
+    "embed": {
+      "title": "Mesaj Düzenlendi",
+      "description": "> **Kanal**: {{message.channel.name}} (<#{{message.channel.id}}>)\n> **Kullanıcı**: {{message.author.tag}} (<@{{message.author.id}}>)\n> **Mesaj ID**: [{{message.id}}](https://discord.com/channels/{{message.guild.id}}/{{message.channel.id}}/{{message.id}})",
+      "fields": {
+        "oldContent": "Önceden",
+        "newContent": "Sonra"
+      }
+    },
+    "pollEnd": {
+      "embed": {
+        "title": "Anket Sona Erdi",
+        "description": "> **Sona Erme**: {{timestamp}}\n> **Çoklu Seçme**: {{multi_select}}\n> **Mesaj**: {{message.url}}"
+      }
+    }
+  },
+  "roleCreate": {
+    "unknownExecutor": "Bilinmeyen Yetkili",
+    "embed": {
+      "title": "Rol Oluşturuldu",
+      "description": "> **Rol**: {{role.name}}\n> **ID**: {{role.id}}\n> **Renk**: {{role_color}}\n> **Üyelerden Ayrı Göster**: {{role_hoist}}\n> **Etiketlenebilir**: {{role_mentionable}}\n> **Pozisyon**: {{role.position}}\n> **Oluşturulma Tarihi**: {{timestamp}}\n> **İzinler**: {{permissions}}"
+    }
+  },
+  "roleDelete": {
+    "unknownExecutor": "Bilinmeyen Yetkili",
+    "embed": {
+      "title": "Rol Silindi",
+      "description": "> **Rol**: {{role.name}}\n> **ID**: {{role.id}}\n> **Renk**: {{role_color}}\n> **Üyelerden Ayrı Göster**: {{role_hoist}}\n> **Etiketlenebilir**: {{role_mentionable}}\n> **Pozisyon**: {{role.position}}\n> **Silinme Tarihi**: {{timestamp}}\n> **İzinler**: {{permissions}}"
+    }
+  },
+  "roleUpdate": {
+    "unknownExecutor": "Bilinmeyen Yetkili",
+    "nameChange": {
+      "embed": {
+        "title": "Rol İsmi Değiştirildi",
+        "description": "> **ID**: {{role.id}}\n> **Eski İsim**: {{old_name}}\n> **Yeni İsim**: {{new_name}}"
+      }
+    },
+    "colorChange": {
+      "embed": {
+        "title": "Rol Rengi Değiştirildi",
+        "description": "> **Rol**: {{role.name}}\n> **ID**: {{role.id}}\n> **Eski Renk**: {{old_color}}\n> **Yeni Renk**: {{new_color}}"
+      }
+    },
+    "hoistChange": {
+      "embed": {
+        "title": "Rol Üyelerden Ayrı Gösterme Değiştirildi",
+        "description": "> **Rol**: {{role.name}}\n> **ID**: {{role.id}}\n> **Eski Üyelerden Ayrı Gösterme Durumu**: {{old_hoist}}\n> **Yeni Üyelerden Ayrı Gösterme Durumu**: {{new_hoist}}"
+      }
+    },
+    "mentionableChange": {
+      "embed": {
+        "title": "Rol Etiketlenebilirlik Durumu Değiştirildi",
+        "description": "> **Rol**: {{role.name}}\n> **ID**: {{role.id}}\n> **Eski Etiketlenebilirlik Durumu**: {{old_mentionable}}\n> **Yeni Etiketlenebilirlik Durumu**: {{new_mentionable}}"
+      }
+    },
+    "permissionsChange": {
+      "embed": {
+        "title": "Rol İzinleri Değiştirildi",
+        "description": "> **Rol**: {{role.name}}\n> **ID**: {{role.id}}\n**Değişiklikler**: {{changes}}"
+      }
+    },
+    "iconChange": {
+      "embed": {
+        "title": "Role İkonu Değiştirildi",
+        "description": "> **Rol**: {{role.name}}\n> **ID**: {{role.id}}\n> **Eski İkon**: {{old_icon}}\n> **Yeni İkon**: {{new_icon}}"
+      }
+    }
+  },
+  "stageInstanceCreate": {
+    "unknownExecutor": "Bilinmeyen Yetkili",
+    "embed": {
+      "title": "Sahne Başlatıldı",
+      "description": "> **Kanal**: <#{{stage.channelId}}>\n> **Konu**: {{stage.topic}}"
+    }
+  },
+  "stageInstanceDelete": {
+    "unknownExecutor": "Bilinmeyen Yetkili",
+    "embed": {
+      "title": "Sahne Bitti",
+      "description": "> **Kanal**: <#{{stage.channelId}}>\n> **Konu**: {{stage.topic}}"
+    }
+  },
+  "stageInstanceUpdate": {
+    "unknownExecutor": "Bilinmeyen Yetkili",
+    "topicChange": {
+      "embed": {
+        "title": "Sahne Konusu Değiştirildi",
+        "description": "> **Kanal**: <#{{stage.channelId}}>\n> **Eski Konu**: {{old_topic}}\n> **Yeni Konu**: {{new_topic}}"
+      }
+    }
+  },
+  "stickerCreate": {
+    "unknownExecutor": "Bilinmeyen Yetkili",
+    "embed": {
+      "title": "Çıkartma Eklendi",
+      "description": "> **Çıkartma**: {{sticker.name}}\n> **ID**: {{sticker.id}}\n> **Açıklama**: {{sticker.description}}\n> **Etiketler**: {{sticker.tags}}"
+    }
+  },
+  "stickerDelete": {
+    "unknownExecutor": "Bilinmeyen Yetkili",
+    "embed": {
+      "title": "Çıkartma Silindi",
+      "description": "> **Çıkartma**: {{sticker.name}}\n> **ID**: {{sticker.id}}\n> **Açıklama**: {{sticker.description}}\n> **Etiketler**: {{sticker.tags}}"
+    }
+  },
+  "stickerUpdate": {
+    "unknownExecutor": "Bilinmeyen Yetkili",
+    "nameChange": {
+      "embed": {
+        "title": "Çıkartma İsmi Değiştirildi",
+        "description": "> **Çıkartma**: {{sticker.name}}\n> **ID**: {{sticker.id}}\n> **Eski İsim**: {{old_name}}\n> **Yeni İsim**: {{new_name}}"
+      }
+    },
+    "descriptionChange": {
+      "embed": {
+        "title": "Çıkartma Açıklaması Değiştirildi",
+        "description": "> **Çıkartma**: {{sticker.name}}\n> **ID**: {{sticker.id}}\n> **Eski Açıklama**: {{old_description}}\n> **Yeni Açıklama**: {{new_description}}"
+      }
+    },
+    "tagsChange": {
+      "embed": {
+        "title": "Çıkartma Etiketleri Değiştirildi",
+        "description": "> **Çıkartma**: {{sticker.name}}\n> **ID**: {{sticker.id}}\n> **Eski Etiketler**: {{old_tags}}\n> **Yeni Etiketler**: {{new_tags}}"
+      }
+    }
+  },
+  "threadCreate": {
+    "threadAutoArchiveDuration": {
+      "60": "1 Saat",
+      "1440": "1 Gün",
+      "4320": "3 Gün",
+      "10080": "1 Hafta"
+    },
+    "embed": {
+      "title": "Alt Başlık Oluşturuldu",
+      "description": "> **Alt Başlık**: {{thread.name}} (<#{{thread.id}}>)\n> **ID**: {{thread.id}}\n> **Oluşturulduğu Kanal**: {{parent.name}} (<#{{parent.id}}>)\n> **Varsayılan Arşiv Süresi**: {{auto_archive_duration}}\n> **Oluşturulma Tarihi**: {{timestamp}}"
+    }
+  },
+  "threadDelete": {
+    "unknownExecutor": "Bilinmeyen Yetkili",
+    "threadAutoArchiveDuration": {
+      "60": "1 Saat",
+      "1440": "1 Gün",
+      "4320": "3 Gün",
+      "10080": "1 Hafta"
+    },
+    "embed": {
+      "title": "Alt Başlık Silindi",
+      "description": "> **Alt Başlık**: {{thread.name}} (<#{{thread.id}}>)\n> **ID**: {{thread.id}}\n> **Oluşturulduğu Kanal**: {{parent.name}} (<#{{parent.id}}>)\n> **Varsayılan Arşiv Süresi**: {{auto_archive_duration}}\n> **Oluşturuldu**: {{timestamp}}"
+    }
+  },
+  "threadUpdate": {
+    "unknownExecutor": "Bilinmeyen Yetkili",
+    "nameChange": {
+      "embed": {
+        "title": "Alt Başlık İsmi Değiştirildi",
+        "description": "> **Alt Başlık**: {{thread.name}} (<#{{thread.id}}>)\n> **ID**: {{thread.id}}\n> **Oluşturulduğu Kanal**: {{parent.name}} (<#{{parent.id}}>)\n> **Eski İsim**: {{old_name}}\n> **Yeni İsim**: {{new_name}}"
+      }
+    },
+    "archive": {
+      "embed": {
+        "title": "Alt Başlık Arşivlendi",
+        "description": "> **Alt Başlık**: {{thread.name}} (<#{{thread.id}}>)\n> **ID**: {{thread.id}}\n> **Oluşturulduğu Kanal**: {{parent.name}} (<#{{parent.id}}>)"
+      }
+    },
+    "unarchive": {
+      "embed": {
+        "title": "Alt Başlık Arşivden Çıkarıldı",
+        "description": "> **Alt Başlık**: {{thread.name}} (<#{{thread.id}}>)\n> **ID**: {{thread.id}}\n> **Oluşturulduğu Kanal**: {{parent.name}} (<#{{parent.id}}>)"
+      }
+    },
+    "lock": {
+      "embed": {
+        "title": "Alt Başlık Kilitlendi",
+        "description": "> **Alt Başlık**: {{thread.name}} (<#{{thread.id}}>)\n> **ID**: {{thread.id}}\n> **Oluşturulduğu Kanal**: {{parent.name}} (<#{{parent.id}}>)"
+      }
+    },
+    "unlock": {
+      "embed": {
+        "title": "Alt Başlık Kilidi Açıldı",
+        "description": "> **Alt Başlık**: {{thread.name}} (<#{{thread.id}}>)\n> **ID**: {{thread.id}}\n> **Oluşturulduğu Kanal**: {{parent.name}} (<#{{parent.id}}>)"
+      }
+    },
+    "autoArchiveDuration": {
+      "60": "1 Saat",
+      "1440": "1 Gün",
+      "4320": "3 Gün",
+      "10080": "1 Hafta"
+    },
+    "autoArchiveDurationChange": {
+      "embed": {
+        "title": "Alt Başlık Varsayılan Arşiv Süresi Değiştirildi",
+        "description": "> **Alt Başlık**: {{thread.name}} (<#{{thread.id}}>)\n> **ID**: {{thread.id}}\n> **Oluşturulduğu Kanal**: {{parent.name}} (<#{{parent.id}}>)\n> **Eski Arşiv Süresi**: {{old_duration}}\n> **Yeni Arşiv Süresi**: {{new_duration}}"
+      }
+    },
+    "rateLimitChange": {
+      "embed": {
+        "title": "Alt Başlık Mesaj Yavaş Mod Süresi Değiştirildi",
+        "description": "> **Alt Başlık**: {{thread.name}} (<#{{thread.id}}>)\n> **ID**: {{thread.id}}\n> **Oluşturulduğu Kanal**: {{parent.name}} (<#{{parent.id}}>)\n> **Eski Süre**: {{old_rate_limit}}\n> **Yeni Süre**: {{new_rate_limit}}"
+      }
+    }
+  },
+  "voiceStateUpdate": {
+    "unknownExecutor": "Bilinmeyen Yetkili",
+    "join": {
+      "embed": {
+        "title": "Kullanıcı Sese Katıldı",
+        "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Ses Kanalı**: {{channel.name}} (<#{{channel.id}}>)\n> **Katılma Tarihi**: {{timestamp}}"
+      }
+    },
+    "leave": {
+      "embed": {
+        "title": "Kullanıcı Sesten Ayrıldı",
+        "titleKicked": "Kullanıcı Sesten Atıldı",
+        "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Ses Kanalı**: {{channel.name}} (<#{{channel.id}}>)\n> **Ayrılma Tarihi**: {{timestamp}}"
+      }
+    },
+    "move": {
+      "embed": {
+        "title": "Kullanıcı Ses Kanalını Değiştirdi",
+        "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Eski Ses Kanalı**: {{oldChannel.name}} (<#{{oldChannel.id}}>)\n> **Yeni Ses Kanalı**: {{newChannel.name}} (<#{{newChannel.id}}>)"
+      }
+    }
+  }
+}

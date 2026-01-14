@@ -1,0 +1,368 @@
+{
+  "ban": {
+    "expired": "Ban has expired.",
+    "cantBanSelf": "You can't ban yourself.",
+    "cantBanBot": "You can't ban a bot.",
+    "cantBanMod": "You can't ban a moderator.",
+    "cantBanHigher": "You can't ban a user with a higher role than you.",
+    "noReason": "No reason provided.",
+    "databaseError": "Critical error while updating the database. The developers have been notified. The command has been cancelled.",
+    "errors": {
+      "banFailed": "Failed to ban {{user}}. Ensure my role is higher than the user's role and I have ban permissions."
+    },
+    "message": {
+      "dm": {
+        "duration": "You have been banned from **{{guild}}** for **{{duration}}**. Reason:```{{reason}}```",
+        "permanent": "You have been permanently banned from **{{guild}}**. Reason:```{{reason}}```"
+      },
+      "success": {
+        "duration": "{{confirm}} **{{user}}** has been banned for **{{duration}}** (Case #{{case}}). The user has been notified via DM.",
+        "permanent": "{{confirm}} **{{user}}** has been permanently banned (Case #{{case}}). The user has been notified via DM.",
+        "durationNoMember": "{{confirm}} **{{user}}** has been banned for **{{duration}}** (Case #{{case}}).",
+        "permanentNoMember": "{{confirm}} **{{user}}** has been permanently banned (Case #{{case}})."
+      },
+      "fail": {
+        "duration": "{{confirm}} **{{user}}** has been banned for **{{duration}}** (Case #{{case}}). The user could not be notified via DM.",
+        "permanent": "{{confirm}} **{{user}}** has been permanently banned (Case #{{case}}). The user could not be notified via DM."
+      }
+    }
+  },
+  "kick": {
+    "noReason": "No reason provided for kicking.",
+    "cantKickYourself": "You can't kick yourself.",
+    "noMember": "Member not found in the server.",
+    "cantKickBot": "You can't kick a bot.",
+    "cantKickHigher": "You can't kick a user with a higher role than you.",
+    "cantKickMod": "You can't kick a moderator.",
+    "cantKick": "This user can't be kicked.",
+    "message": {
+      "dm": "You have been kicked from **{{guild}}**. Reason:```{{reason}}```",
+      "success": "{{confirm}} **{{user}}** has been kicked (Case #{{case}}). The user has been notified via DM.",
+      "fail": "{{confirm}} **{{user}}** has been kicked (Case #{{case}}). The user could not be notified via DM."
+    },
+    "clearFail": "Failed to clear the messages.",
+    "fail": "Failed to kick the member.",
+    "embed": {
+      "title": "User Kicked",
+      "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Joined At**: {{timestamp}}",
+      "fields": {
+        "reason": "Reason"
+      }
+    }
+  },
+  "mute": {
+    "noReason": "No reason provided for muting.",
+    "noMember": "Member not found. Is the member still in the server?",
+    "noMuteRole": "Mute role not found.",
+    "alreadyMuted": "User is already muted.",
+    "alreadyMutedNoPunishments": "User is already muted but no punishments found. Removing the role.",
+    "notMuted": "A punishment was found, but the user is not muted. Adding the role.",
+    "cantMuteYourself": "You can't mute yourself.",
+    "cantMuteHigher": "You can't mute a user with a higher role than you.",
+    "cantMuteBot": "You can't mute a bot.",
+    "cantMuteMod": "You can't mute a moderator.",
+    "message": {
+      "dm": "You have been muted in **{{guild}}** for **{{duration}}**. Reason:```{{reason}}```",
+      "success": "{{confirm}} **{{user}}** has been muted for **{{duration}}** (Case #{{case}}). The user has been notified via DM.",
+      "fail": "{{confirm}} **{{user}}** has been muted for **{{duration}}** (Case #{{case}}). The user could not be notified via DM."
+    },
+    "databaseError": "Critical error while updating the database. The developers have been notified. The command has been cancelled.",
+    "roleError": "Error while removing or adding roles. I may not have permission to do so. Please check the role permissions. The command has been cancelled.",
+    "embed": {
+      "title": "User Roles Changed",
+      "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Roles Added**: {{added_roles}}",
+      "removed": "Roles Removed"
+    }
+  },
+  "register": {
+    "noMember": "Member not found. Is the member still in the server?",
+    "noRegisterChannel": "Register channel not found. Please update the register channel in the settings.",
+    "wrongChannel": "You can only register in <#{{channel}}>",
+    "noMemberRole": "Member role not found. Please update the member role in the settings.",
+    "alreadyRegistered": "User is already registered.",
+    "noMaleRole": "Male role not found. Please update the male role in the settings.",
+    "success": "{{confirm}} **{{user}}** has been registered.",
+    "error": "Error while registering the user. {{error}}",
+    "noFemaleRole": "Female role not found. Please update the female role in the settings.",
+    "notValid": "The option you provided is not valid. Please provide a valid option.",
+    "rolesUpdate": {
+      "embed": {
+        "title": "Roles Updated",
+        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Roles Added**: {{added_roles}}",
+        "removed": "Roles Removed"
+      }
+    }
+  },
+  "unban": {
+    "noReason": "No reason provided for unbanning.",
+    "noUser": "User not found.",
+    "notBanned": "User is not banned.",
+    "success": "{{confirm}} **{{user}}** has been unbanned (Case #{{case}}).",
+    "error": "Error while unbanning the user. {{error}}",
+    "embed": {
+      "title": "User Unbanned",
+      "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
+      "fields": {
+        "reason": "Reason"
+      }
+    }
+  },
+  "unmute": {
+    "noMember": "Member not found. Is the member still in the server?",
+    "noReason": "No reason provided for unmuting.",
+    "noMuteRole": "Mute role not found. Please update the mute role in the settings.",
+    "previousRolesError": "Failed to reassign previous roles. The following roles couldn't be added:```{{roles}}```",
+    "notMuted": "User is not muted. If they appear to be, please remove the role manually. Lost roles cannot be restored automatically.",
+    "mutedNoPunishments": "User is muted but no punishments found. Removing the role. Lost roles cannot be restored automatically.",
+    "success": "{{confirm}} **{{user}}** has been unmuted (Case #{{case}}). The user has been notified via DM.",
+    "databaseError": "Critical error while updating the database. The developers have been notified. The command has been cancelled.",
+    "roleError": "Error while removing the role. The role may have been deleted or I may not have permission to remove it.",
+    "dmError": "{{confirm}} **{{user}}** has been unmuted (Case #{{case}}). The user could not be notified via DM.",
+    "dm": "You have been unmuted in **{{guild}}**."
+  },
+  "warn": {
+    "noMember": "Member not found. Is the member still in the server?",
+    "selfWarn": "You can't warn yourself.",
+    "botWarn": "You can't warn a bot.",
+    "staffWarn": "You can't warn a staff member.",
+    "databaseError": "Critical error while updating the database. The developers have been notified. The command has been cancelled.",
+    "dm": "You have been warned in **{{guild}}**. Reason:```{{reason}}```",
+    "success": "{{confirm}} **{{user}}** has been warned (Case #{{case}}). The user has been notified via DM.",
+    "dmError": "{{confirm}} **{{user}}** has been warned (Case #{{case}}). The user could not be notified via DM."
+  },
+  "config": {
+    "selectMenu": {
+      "moderation": "Moderation Settings",
+      "register": "Register Settings",
+      "welcomeLeave": "Welcome/Leave Settings",
+      "role": "Role Settings",
+      "misc": "Miscellaneous Settings",
+      "log": "Log Settings"
+    },
+    "noSetting": "Use the menu below to navigate the settings. Each title can be clicked to view the documentation.",
+    "none": "N/A",
+    "timesUp": "Time's up! You can no longer view the settings.",
+    "embed": {
+      "register": {
+        "title": "Register Settings",
+        "fields": {
+          "registerJoinChannel": "Register Join Channel",
+          "registerChannel": "Register Channel",
+          "registerJoinMessage": "Register Join Message",
+          "registerChannelClear": "Clear Register Channel"
+        }
+      },
+      "welcomeLeave": {
+        "title": "Welcome/Leave Settings",
+        "fields": {
+          "welcomeChannel": "Welcome Channel",
+          "welcomeMessage": "Welcome Message",
+          "leaveChannel": "Leave Channel",
+          "leaveMessage": "Leave Message"
+        }
+      },
+      "moderation": {
+        "title": "Moderation Settings",
+        "fields": {
+          "modLogChannel": "Moderation Log Channel",
+          "staffRole": "Staff Role",
+          "modMailChannel": "Mod Mail Channel",
+          "muteGetAllRoles": "Mute Get All Roles",
+          "registerDayLimit": "Register Day Limit",
+          "defaultExpiry": "Default Expiry"
+        }
+      },
+      "role": {
+        "title": "Role Settings",
+        "fields": {
+          "colorOfTheDay": "Colour of the Day",
+          "djRole": "DJ Role",
+          "memberRole": "Member Role",
+          "unverifiedRole": "Unverified Role",
+          "maleRole": "Male Role",
+          "femaleRole": "Female Role",
+          "muteRole": "Mute Role"
+        }
+      },
+      "misc": {
+        "title": "Miscellaneous Settings",
+        "fields": {
+          "language": "Language",
+          "modMailMessage": "Mod Mail Message"
+        }
+      },
+      "log": {
+        "title": "Log Settings",
+        "fields": {
+          "messageLogsChannel": "Message Logs Channel",
+          "guildLogsChannel": "Guild Logs Channel",
+          "guildMemberLogsChannel": "Guild Member Logs Channel",
+          "channelLogsChannel": "Channel Logs Channel",
+          "voiceLogsChannel": "Voice Logs Channel",
+          "emojiLogsChannel": "Emoji Logs Channel",
+          "roleLogsChannel": "Role Logs Channel",
+          "stickerLogsChannel": "Sticker Logs Channel",
+          "eventLogsChannelId": "Event Logs Channel",
+          "inviteLogsChannel": "Invite Logs Channel",
+          "pollLogsChannel": "Poll Logs Channel",
+          "stageLogsChannelId": "Stage Logs Channel",
+          "soundboardLogsChannelId": "Soundboard Logs Channel",
+          "threadLogsChannelId": "Thread Logs Channel",
+          "webhookLogsChannelId": "Webhook Logs Channel"
+        }
+      }
+    }
+  },
+  "close": {
+    "noThread": "This is not a mod mail thread.",
+    "noTime": "A time unit has not been provided.",
+    "noDuration": "A duration has not been provided.",
+    "error": "Error while closing the thread.",
+    "closeDuration": "Thread will be closed in **{{duration}}**.",
+    "close": "Thread is being closed...",
+    "threadClosedDm": "Your thread in {{guild}} has been closed.",
+    "threadCloseDate": "Thread is scheduled to be closed on **{{date}}**. Would you like to override this?",
+    "accept": "Override",
+    "reject": "Cancel",
+    "timeout": "Timed out. The thread will be closed on **{{date}}**.",
+    "threadCloseDateRejected": "Thread will be closed on **{{date}}**.",
+    "threadCloseDateAccepted": "Continuing override..."
+  },
+  "reply": {
+    "noThread": "This is not a mod mail thread.",
+    "memberNotFound": "Member not found. Is the member still in the server?",
+    "error": "An error occurred while accessing the database.",
+    "success": "Message has been sent to the user.",
+    "suspended": "This mod mail thread has been suspended. Unsuspend the thread to reply.",
+    "noRole": "No Role",
+    "anonymous": "Anonymous"
+  },
+  "newthread": {
+    "userNotInGuild": "The user is not a member of the server.",
+    "noModmailChannel": "Mod mail channel not found. Update the mod mail channel with the /config command.",
+    "modmailChannelNotText": "Mod mail channel is not a text channel. Update the mod mail channel in the channel settings.",
+    "modmailChannelNotInParent": "Mod mail channel is not in the same parent as the mod mail thread. Put the mod mail channel in the same parent as the mod mail thread or update the mod mail channel with the /config command.",
+    "threadAlreadyExists": "A thread already exists for this user. Close the thread or suspend before creating a new one.",
+    "topic": "Mod Mail conversation with {{user}}",
+    "channelCreateFailed": "Could not create the channel.",
+    "initial": "`Account Age:` **{{account_age}}**, `ID:` **{{user.id}}**\n`Username:` **{{user.username}}** (<@{{user.id}}>), `Join Date:` **{{join_date}}**\n**»»----------------------------¤----------------------------««**",
+    "message": "A thread with the `{{guild}}` has been created. **[{{user}}]:** {{message}}",
+    "dmFail": "Failed to send a DM to the user.",
+    "createdBy": "`Created by {{user}}`",
+    "dbError": "Failed database query. Mod mail thread is dropped.",
+    "messageSendFailed": "Message couldn't be delivered to thread. Mod mail thread is closed.",
+    "threadCreated": "Thread has been created."
+  },
+  "suspend": {
+    "noThread": "This is not a mod mail thread.",
+    "alreadySuspended": "This mod mail thread is already suspended.",
+    "suspended": "This mod mail thread has been suspended. You can no longer reply to the user.",
+    "error": "An error occurred while suspending the thread. Developers have been notified."
+  },
+  "close-cancel": {
+    "noThread": "This is not a mod mail thread.",
+    "notClosing": "This mod mail thread is not marked for close.",
+    "cancelled": "The closing of this mod mail thread has been cancelled.",
+    "error": "An error occurred while cancelling the close. Developers have been notified."
+  },
+  "unsuspend": {
+    "noThread": "This is not a mod mail thread.",
+    "notSuspended": "This mod mail thread is not suspended.",
+    "userHasOpenThreads": "User has a open thread. You can't unsuspend this thread.",
+    "unsuspended": "This mod mail thread has been unsuspended. You can now reply to the user.",
+    "error": "An error occurred while unsuspending the thread. Developers have been notified."
+  },
+  "help": {
+    "commandUsage": "Command Usage",
+    "permissions": "Permissions",
+    "examples": "Examples",
+    "commandNotFound": "Command not found.",
+    "commandHelpNotFound": "Help for this command is not available.",
+    "footer": "<param> are required parameters, [param] are optional parameters."
+  },
+  "modmail-blacklist": {
+    "noReason": "No reason provided for blacklisting.",
+    "cannotBlacklistSelf": "You cannot blacklist yourself.",
+    "cannotBlacklistBot": "You cannot blacklist a bot.",
+    "durationWithoutTime": "You must provide a time unit for the duration.",
+    "timeWithoutDuration": "You must provide a duration for the time unit.",
+    "blacklistSuccess": "{{confirm}} **{{user}}** has been blacklisted for **{{duration}}** with reason: ```{{reason}}```",
+    "blacklistError": "An error occurred while blacklisting the user. Developers have been notified.",
+    "blacklistRemove": {
+      "notFound": "Blacklist entry for {{user}} not found. This means the user is not blacklisted.",
+      "success": "{{confirm}} {{user}} has been removed from the blacklist.",
+      "error": "An error occurred while removing the user from the blacklist. Developers have been notified."
+    },
+    "blacklistGet": {
+      "notFound": "Blacklist entry for {{user}} not found. This means the user is not blacklisted.",
+      "embed": {
+        "title": "Blacklist Entry for {{user}}",
+        "fields": {
+          "reason": "Reason",
+          "duration": "Duration",
+          "createdAt": "Blacklisted At",
+          "expiresAt": "Expires At",
+          "moderator": "Responsible Moderator"
+        }
+      }
+    }
+  },
+  "purge": {
+    "notTextChannel": "This command can only be used in text channels.",
+    "any": {
+      "success": "{{confirm}} Successfully deleted **{{count}}** messages.",
+      "error": "An error occurred while deleting the messages. Please try again later."
+    },
+    "bots": {
+      "success": "{{confirm}} Successfully deleted **{{count}}** messages from bots.",
+      "error": "An error occurred while deleting the bot messages. Please try again later."
+    },
+    "user": {
+      "success": "{{confirm}} Successfully deleted **{{count}}** messages from **{{user}}**.",
+      "error": "An error occurred while deleting the messages from the user. Please try again later."
+    }
+  },
+  "support": {
+    "guildNotFound": "Dev Guild not found cannot create invite.",
+    "error": "An error occurred while creating the invite. Please try again later.",
+    "embed": {
+      "title": "Support Links",
+      "fields": {
+        "supportServer": "Support Server",
+        "docsSite": "Documentation Site"
+      }
+    }
+  },
+  "modmail-logs": {
+    "noThreadFound": "No thread found for ID #{{logId}}.",
+    "threadNotClosed": "Thread #{{logId}} is not closed.",
+    "userNotFound": "No user found for ID {{userId}}.",
+    "noMessagesFound": "No messages found for thread ID #{{logId}}."
+  },
+  "infractions": {
+    "noUser": "User not found.",
+    "noInfractions": "No infractions found for **{{user}}**.",
+    "infractionsFor": "Infractions For **{{user}}**",
+    "pageFooter": "Page {{current}} of {{total}}",
+    "infractionCase": "Case #{{case}}",
+    "infractionDetails": "> **Type**: {{type}}\n> **Reason**: {{reason}}\n> **Moderator**: {{moderator}}\n> **Date**: {{date}}"
+  },
+  "infraction-punishments": {
+    "durationMissing": "You must provide a duration for temporary punishments.",
+    "noMuteRole": "Mute role not found. Please set a mute role in the config.",
+    "muteSet": "{{duration}} of mute will be given at {{threshold}} infractions.",
+    "kickSet": "User will be kicked at {{threshold}} infractions.",
+    "banSet": "User will be banned at {{threshold}} infractions.",
+    "tempbanSet": "{{duration}} ban will be given at {{threshold}} infractions.",
+    "removed": "Punishment for {{type}} at {{threshold}} infractions has been removed."
+  },
+  "roles": {
+    "userNotFound": "Member not found. Is the member still in the server?",
+    "roleAlreadyAssigned": "The role **{{role}}** is already assigned to **{{user}}**.",
+    "roleAddError": "Error while adding the role. I may not have permission to do so.",
+    "roleAdded": "Role **{{role}}** has been added to **{{user}}**.",
+    "roleNotAssigned": "The role **{{role}}** is not assigned to **{{user}}**.",
+    "roleRemoveError": "Error while removing the role. I may not have permission to do so.",
+    "roleRemoved": "Role **{{role}}** has been removed from **{{user}}**."
+  }
+}

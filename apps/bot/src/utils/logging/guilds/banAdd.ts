@@ -2,7 +2,7 @@ import { ChannelType, EmbedBuilder } from "discord.js";
 import { LogBanOptions, returnWebhook, WebhookType } from "@utils";
 import { logger } from "@lib";
 
-export async function logBanAdd({ guild, user, reason, executor, guildConfig, t }: LogBanOptions) {
+export async function logBanAdd({ guild, user, reason, executor, guildConfig }: LogBanOptions) {
   if (!guildConfig.logConfig?.guildLogsChannelId) return;
 
   const logChannel = guild.channels.cache.get(guildConfig.logConfig.guildLogsChannelId);
@@ -13,16 +13,16 @@ export async function logBanAdd({ guild, user, reason, executor, guildConfig, t 
     type: WebhookType.GUILD_LOGS,
   });
   if (!webhook) return;
-
+  const t = guild.client.i18next.getFixedT(guildConfig.language, "loggers", "banAdd");
   const embed = new EmbedBuilder()
-    .setTitle(t("embed.title"))
+    .setTitle(t(($) => $.embed.title))
     .setColor("Red")
     .setThumbnail(user.displayAvatarURL())
     .setTimestamp()
-    .setDescription(t("embed.description", { user }))
-    .addFields([{ name: t("embed.fields.reason"), value: reason }])
+    .setDescription(t(($) => $.embed.description, { user }))
+    .addFields([{ name: t(($) => $.embed.fields.reason), value: reason }])
     .setFooter({
-      text: executor?.tag || t("unknown_executor"),
+      text: executor?.tag || t(($) => $.unknownExecutor),
       iconURL: executor?.displayAvatarURL() || undefined,
     });
 

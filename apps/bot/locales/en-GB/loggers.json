@@ -1,0 +1,12 @@
+{
+  "banAdd": {
+    "embed": {
+      "title": "User Banned",
+      "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n>",
+      "fields": {
+        "reason": "Reason"
+      }
+    },
+    "unknownExecutor": "Unknown Executor"
+  }
+}

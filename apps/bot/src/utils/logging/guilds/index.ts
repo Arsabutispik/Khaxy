@@ -8,7 +8,6 @@ export interface LogBanOptions {
   reason: string;
   executor?: User | PartialUser | null;
   guildConfig: GuildWithLogs;
-  t: TFunction;
 }
 interface BaseLogOptions {
   guildConfig: GuildWithLogs;

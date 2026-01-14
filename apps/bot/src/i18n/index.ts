@@ -13,10 +13,10 @@ export async function initI18n() {
       fallbackLng: "en-GB",
       lng: "en-GB",
       preload: ["en-GB", "tr-TR"],
-      ns: ["translations", "events", "permissions", "commands", "help", "guild-features", "locales"],
+      ns: ["translations", "events", "permissions", "commands", "help", "guild-features", "locales", "loggers"],
       defaultNS: "translations",
       backend: {
-        loadPath: join(__dirname, "../../locales/{{lng}}/{{ns}}.yml"),
+        loadPath: join(__dirname, "../../locales/{{lng}}/{{ns}}.json"),
       },
       interpolation: { escapeValue: false },
       load: "currentOnly",
