@@ -6,7 +6,12 @@ interface ExecutorInfo {
   reason?: string | null;
 }
 
-export function buildTimeoutEmbed(member: GuildMember, timeoutUntil: Date, info: ExecutorInfo, t: TFunction) {
+export function buildTimeoutEmbed(
+  member: GuildMember,
+  timeoutUntil: Date,
+  info: ExecutorInfo,
+  t: TFunction<"loggers", "memberLogs">,
+) {
   return new EmbedBuilder()
     .setTitle(t(($) => $.timeout.embed.title))
     .setColor("Yellow")
@@ -21,24 +26,28 @@ export function buildTimeoutEmbed(member: GuildMember, timeoutUntil: Date, info:
     .addFields([
       {
         name: t(($) => $.timeout.embed.fields.reason),
-        value: info.reason || t(($) => $.timeout.no_reason),
+        value: info.reason || t(($) => $.timeout.noReason),
       },
     ])
     .setFooter({
-      text: info.executor?.tag || t(($) => $.unknown_executor),
+      text: info.executor?.tag || t(($) => $.unknownExecutor),
       iconURL: info.executor?.displayAvatarURL() || undefined,
     });
 }
 
-export function buildRemoveTimeoutEmbed(member: GuildMember, info: ExecutorInfo, t: TFunction) {
+export function buildRemoveTimeoutEmbed(
+  member: GuildMember,
+  info: ExecutorInfo,
+  t: TFunction<"loggers", "memberLogs">,
+) {
   return new EmbedBuilder()
-    .setTitle(t(($) => $.remove_timeout.embed.title))
+    .setTitle(t(($) => $.removeTimeout.embed.title))
     .setColor("Green")
-    .setDescription(t(($) => $.remove_timeout.embed.description, { user: member.user }))
+    .setDescription(t(($) => $.removeTimeout.embed.description, { user: member.user }))
     .setThumbnail(member.user.displayAvatarURL())
     .setTimestamp()
     .setFooter({
-      text: info.executor?.tag || t(($) => $.unknown_executor),
+      text: info.executor?.tag || t(($) => $.unknownExecutor),
       iconURL: info.executor?.displayAvatarURL() || undefined,
     });
 }
@@ -48,25 +57,25 @@ export function buildRolesUpdateEmbed(
   addedRoles: string[],
   removedRoles: string[],
   info: ExecutorInfo,
-  t: TFunction,
+  t: TFunction<"loggers", "memberLogs">,
 ) {
-  let description = t(($) => $.roles_update.embed.description, { user: member.user });
+  let description = t(($) => $.rolesUpdate.embed.description, { user: member.user });
 
   if (addedRoles.length > 0) {
-    description += `\n> **${t(($) => $.roles_update.embed.added)}**: ${addedRoles.join(", ")}`;
+    description += `\n> **${t(($) => $.rolesUpdate.embed.added)}**: ${addedRoles.join(", ")}`;
   }
   if (removedRoles.length > 0) {
-    description += `\n> **${t(($) => $.roles_update.embed.removed)}**: ${removedRoles.join(", ")}`;
+    description += `\n> **${t(($) => $.rolesUpdate.embed.removed)}**: ${removedRoles.join(", ")}`;
   }
 
   return new EmbedBuilder()
-    .setTitle(t(($) => $.roles_update.embed.title))
+    .setTitle(t(($) => $.rolesUpdate.embed.title))
     .setColor("Yellow")
     .setThumbnail(member.user.displayAvatarURL())
     .setDescription(description)
     .setTimestamp()
     .setFooter({
-      text: info.executor?.tag || t(($) => $.unknown_executor),
+      text: info.executor?.tag || t(($) => $.unknownExecutor),
       iconURL: info.executor?.displayAvatarURL() || undefined,
     });
 }
@@ -76,22 +85,22 @@ export function buildNicknameChangeEmbed(
   oldNickname: string,
   newNickname: string,
   info: ExecutorInfo,
-  t: TFunction,
+  t: TFunction<"loggers", "memberLogs">,
 ) {
   return new EmbedBuilder()
-    .setTitle(t(($) => $.nickname_change.embed.title))
+    .setTitle(t(($) => $.nicknameChange.embed.title))
     .setColor("Blue")
     .setDescription(
-      t(($) => $.nickname_change.embed.description, {
+      t(($) => $.nicknameChange.embed.description, {
         user: member.user,
-        old_nickname: oldNickname || t("nickname_change.no_nickname"),
-        new_nickname: newNickname || t("nickname_change.no_nickname"),
+        old_nickname: oldNickname || t(($) => $.nicknameChange.noNickname),
+        new_nickname: newNickname || t(($) => $.nicknameChange.noNickname),
       }),
     )
     .setThumbnail(member.user.displayAvatarURL())
     .setTimestamp()
     .setFooter({
-      text: info.executor?.tag || t(($) => $.unknown_executor),
+      text: info.executor?.tag || t(($) => $.unknownExecutor),
       iconURL: info.executor?.displayAvatarURL() || undefined,
     });
 }

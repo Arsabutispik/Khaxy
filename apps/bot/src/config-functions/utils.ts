@@ -179,7 +179,7 @@ export async function dynamicMessage(
 }
 
 export async function dynamicRole(
-  dbKey: Extract<DbConfigKey, `${string}RoleId`>,
+  dbKey: Extract<DbConfigKey, `${string}RoleId`> | "colourIdOfTheDay",
   interaction: StringSelectMenuInteraction<"cached">,
   data: GuildWithLogs,
 ) {

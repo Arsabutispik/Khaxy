@@ -36,20 +36,20 @@ export async function welcomeLeaveConfig(interaction: ChatInputCommandInteractio
       },
     ]);
   const actionRow = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(selectMenu);
-  const messageComponent = await waitForMessageComponent(interaction, actionRow, t, "joinLeaveConfig");
+  const messageComponent = await waitForMessageComponent(interaction, actionRow, guildData.language, "joinLeaveConfig");
   if (!messageComponent) return;
   switch (messageComponent.values[0]) {
     case "joinChannelId":
-      await dynamicChannel("joinChannelId", messageComponent, guildData, t);
+      await dynamicChannel("joinChannelId", messageComponent, guildData);
       break;
     case "joinMessage":
-      await dynamicMessage("joinMessage", messageComponent, guildData, t);
+      await dynamicMessage("joinMessage", messageComponent, guildData);
       break;
     case "leaveChannelId":
-      await dynamicChannel("leaveChannelId", messageComponent, guildData, t);
+      await dynamicChannel("leaveChannelId", messageComponent, guildData);
       break;
     case "leaveMessage":
-      await dynamicMessage("leaveMessage", messageComponent, guildData, t);
+      await dynamicMessage("leaveMessage", messageComponent, guildData);
       break;
   }
 }

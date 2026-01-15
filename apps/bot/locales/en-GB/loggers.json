@@ -1,23 +1,220 @@
 {
-  "banAdd": {
-    "embed": {
-      "title": "User Banned",
-      "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n>",
-      "fields": {
-        "reason": "Reason"
-      }
-    },
-    "unknownExecutor": "Unknown Executor"
-  },
-  "banRemove": {
-    "embed": {
-      "title": "User Unbanned From Server",
-      "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
-      "fields": {
-        "reason": "Reason"
-      }
-    },
+  "guildBanEvents": {
     "unknownExecutor": "Unknown Executor",
-    "noReason": "No reason provided"
+    "noReason": "No reason provided",
+    "banAdd": {
+      "embed": {
+        "title": "User Banned",
+        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n>",
+        "fields": {
+          "reason": "Reason"
+        }
+      }
+    },
+    "banRemove": {
+      "embed": {
+        "title": "User Unbanned From Server",
+        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
+        "fields": {
+          "reason": "Reason"
+        }
+      }
+    }
+  },
+  "memberEvents": {
+    "unknownExecutor": "Unknown Executor",
+    "memberUpdate": {
+      "timeout": {
+        "noReason": "No reason provided for timeout.",
+        "embed": {
+          "title": "User Timed Out",
+          "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Timeout Until**: {{timestamp}}",
+          "fields": {
+            "reason": "Reason"
+          }
+        }
+      },
+      "removeTimeout": {
+        "noReason": "No reason provided for removing timeout.",
+        "embed": {
+          "title": "User Timeout Removed",
+          "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}"
+        }
+      },
+      "rolesUpdate": {
+        "embed": {
+          "title": "User Roles Updated",
+          "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
+          "added": "Roles Added",
+          "removed": "Roles Removed"
+        }
+      },
+      "nicknameChange": {
+        "noNickname": "No Nickname",
+        "embed": {
+          "title": "User Nickname Changed",
+          "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Old Nickname**: {{old_nickname}}\n> **New Nickname**: {{new_nickname}}"
+        }
+      }
+    }
+  },
+  "channelEvents": {
+    "unknownExecutor": "Unknown Executor",
+    "channelTypes": {
+      "0": "Text Channel",
+      "1": "DM Channel",
+      "2": "Voice Channel",
+      "3": "Group DM Channel",
+      "4": "Category Channel",
+      "5": "News Channel",
+      "10": "News Thread Channel",
+      "11": "Public Thread Channel",
+      "12": "Private Thread Channel",
+      "13": "Stage Channel",
+      "14": "Directory Channel",
+      "15": "Forum Channel",
+      "16": "Media Channel"
+    },
+    "channelCreate": {
+      "embed": {
+        "title": "Channel Created",
+        "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Type**: {{channel_type}}\n> **Created At**: {{timestamp}}"
+      }
+    }
+  },
+  "guildAuditLogEvents": {
+    "unknownExecutor": "Unknown Executor",
+    "guildAuditLogEntryCreate": {
+      "webhookCreate": {
+        "embed": {
+          "title": "Webhook Created",
+          "description": "> **Name**: {{webhook.name}}\n> **ID**: {{webhook.id}}\n> **Channel**: {{channel.name}} (<#{{channel.id}}>)"
+        }
+      },
+      "webhookDelete": {
+        "embed": {
+          "title": "Webhook Deleted",
+          "description": "> **Name**: {{webhook.name}}\n> **ID**: {{webhook.id}}\n> **Channel**: {{channel.name}} (<#{{channel.id}}>)"
+        }
+      }
+    }
+  },
+  "guildSoundboardEvents": {
+    "unknownExecutor": "Unknown Executor",
+    "guildSoundboardSoundCreate": {
+      "embed": {
+        "title": "Sound Created",
+        "description": "> **Name**: {{sound.name}}\n> **ID**: {{sound.soundId}}\n> **Emoji**: {{sound.emoji}}\n> **Volume**: {{volume}}%\n> **Created At**: {{timestamp}}"
+      }
+    },
+    "guildSoundboardSoundDelete": {
+      "embed": {
+        "title": "Sound Deleted",
+        "description": "> **Name**: {{sound.name}}\n> **ID**: {{sound.soundId}}\n> **Emoji**: {{sound.emoji}}\n> **Volume**: {{volume}}%\n> **Deleted At**: {{timestamp}}"
+      }
+    },
+    "guildSoundboardSoundUpdate": {
+      "noPreviousValue": "No previous value",
+      "noEmoji": "No emoji",
+      "volumeChange": {
+        "embed": {
+          "title": "Sound Volume Changed",
+          "description": "> **Name**: {{sound.name}}\n> **ID**: {{sound.soundId}}\n> **Old Volume**: {{old_volume}}%\n> **New Volume**: {{new_volume}}%,"
+        }
+      },
+      "nameChange": {
+        "embed": {
+          "title": "Sound Name Changed",
+          "description": "> **ID**: {{sound.id}}\n> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}"
+        }
+      },
+      "emojiChange": {
+        "embed": {
+          "title": "Sound Emoji Changed",
+          "description": "> **Name**: {{sound.name}}\n> **ID**: {{sound.id}}\n> **Old Emoji**: {{old_emoji}}\n> **New Emoji**: {{new_emoji}}"
+        }
+      }
+    }
+  },
+  "emojiEvents": {
+    "unknownExecutor": "Unknown Executor",
+    "emojiCreate": {
+      "embed": {
+        "title": "Emoji Created",
+        "description": "> **Emoji**: {{emoji.name}}\n> **ID**: {{emoji.id}}\n> **Animated**: {{emoji_animated}}\n> **Created At**: {{timestamp}}"
+      }
+    },
+    "emojiDelete": {
+      "embed": {
+        "title": "Emoji Deleted",
+        "description": "> **Emoji**: {{emoji.name}}\n> **ID**: {{emoji.id}}\n> **Animated**: {{emoji_animated}}\n> **Deleted At**: {{timestamp}}"
+      }
+    },
+    "emojiUpdate": {
+      "nameChange": {
+        "embed": {
+          "title": "Emoji Name Changed",
+          "description": "> **ID**: {{emoji.id}}\n> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}"
+        }
+      }
+    }
+  },
+  "stickerEvents": {
+    "unknownExecutor": "Unknown Executor",
+    "stickerCreate": {
+      "embed": {
+        "title": "Sticker Created",
+        "description": "> **Name**: {{sticker.name}}\n> **ID**: {{sticker.id}}\n> **Description**: {{sticker.description}}\n> **Tags**: {{sticker.tags}}"
+      }
+    },
+    "stickerDelete": {
+      "embed": {
+        "title": "Sticker Deleted",
+        "description": "> **Name**: {{sticker.name}}\n> **ID**: {{sticker.id}}\n> **Description**: {{sticker.description}}\n> **Tags**: {{sticker.tags}}"
+      }
+    },
+    "stickerUpdate": {
+      "nameChange": {
+        "embed": {
+          "title": "Sticker Name Changed",
+          "description": "> **Name**: {{sticker.name}}\n> **ID**: {{sticker.id}}\n> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}"
+        }
+      },
+      "descriptionChange": {
+        "embed": {
+          "title": "Sticker Description Changed",
+          "description": "> **Name**: {{sticker.name}}\n> **ID**: {{sticker.id}}\n> **Old Description**: {{old_description}}\n> **New Description**: {{new_description}}"
+        }
+      },
+      "tagsChange": {
+        "embed": {
+          "title": "Sticker Tags Changed",
+          "description": "> **Name**: {{sticker.name}}\n> **ID**: {{sticker.id}}\n> **Old Tags**: {{old_tags}}\n> **New Tags**: {{new_tags}}"
+        }
+      }
+    }
+  },
+  "stageInstanceEvents": {
+    "unknownExecutor": "Unknown Executor",
+    "stageInstanceCreate": {
+      "embed": {
+        "title": "Stage Started",
+        "description": "> **Channel**: <#{{stage.channelId}}>\n> **Topic**: {{stage.topic}}"
+      }
+    },
+    "stageInstanceDelete": {
+      "embed": {
+        "title": "Stage Ended",
+        "description": "> **Channel**: <#{{stage.channelId}}>\n> **Topic**: {{stage.topic}}"
+      }
+    },
+    "stageInstanceUpdate": {
+      "topicChange": {
+        "embed": {
+          "title": "Stage Topic Changed",
+          "description": "> **Channel**: <#{{stage.channelId}}>\n> **Old Topic**: {{old_topic}}\n> **New Topic**: {{new_topic}}"
+        }
+      }
+    }
   }
 }

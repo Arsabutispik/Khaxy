@@ -32,7 +32,6 @@ export async function logMemberAction({
   member,
   action,
   guildConfig,
-  t,
   executor,
   reason,
   addedRoles = [],
@@ -56,7 +55,7 @@ export async function logMemberAction({
 
   const info = { executor: executor ?? null, reason };
   let embed: EmbedBuilder | null = null;
-
+  const t = logChannel.client.i18next.getFixedT(guildConfig.language, "loggers", "memberLogs");
   switch (action) {
     case "timeout":
       embed = Embeds.buildTimeoutEmbed(member, timeoutUntil!, info, t);
@@ -66,7 +65,7 @@ export async function logMemberAction({
           moderator: executor ?? null,
           guild: member.guild,
           user: member.user,
-          reason: reason || t(($) => $.timeout.no_reason),
+          reason: reason || t(($) => $.timeout.noReason),
         },
         member.client,
       );
@@ -88,7 +87,7 @@ export async function logMemberAction({
 }
 
 // --- MAIN 2: Handle Automatic Event Updates ---
-export async function logMemberUpdate({ oldMember, newMember, guildConfig, t }: LogMemberUpdateOptions) {
+export async function logMemberUpdate({ oldMember, newMember, guildConfig }: LogMemberUpdateOptions) {
   const channelId = guildConfig.logConfig?.guildMemberLogsChannelId;
   if (!channelId) return;
 
@@ -97,7 +96,7 @@ export async function logMemberUpdate({ oldMember, newMember, guildConfig, t }: 
 
   const fetchedOldMember = oldMember.partial ? await oldMember.fetch() : oldMember;
   const embeds: EmbedBuilder[] = [];
-
+  const t = logChannel.client.i18next.getFixedT(guildConfig.language, "loggers", "memberLogs");
   // A. TIMEOUT ADDED
   if (newMember.isCommunicationDisabled() && !fetchedOldMember.isCommunicationDisabled()) {
     const info = await getExecutorInfo(newMember.guild, AuditLogEvent.MemberUpdate, newMember.user.id);
@@ -109,7 +108,7 @@ export async function logMemberUpdate({ oldMember, newMember, guildConfig, t }: 
           moderator: info.executor,
           guild: newMember.guild,
           user: newMember.user,
-          reason: info.reason || t(($) => $.timeout.no_reason),
+          reason: info.reason || t(($) => $.timeout.noReason),
         },
         newMember.client,
       );

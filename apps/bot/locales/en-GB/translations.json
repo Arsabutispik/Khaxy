@@ -384,7 +384,9 @@
       "title": "User Roles Updated",
       "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Roles Removed**: {{removed_roles}}",
       "added": "Roles Added"
-    }
+    },
+    "banExpired": "Ban expired after {{duration}}.",
+    "muteExpired": "Mute expired after {{duration}}."
   },
   "infractionsPunishment": {
     "noMuteRole": "The mute role is not set. Please set the mute role in the moderation config to use this feature.",

@@ -9,6 +9,7 @@ import {
   SlashCommandBuilder,
   InteractionContextType,
   ChatInputCommandInteraction,
+  MessageFlags,
 } from "discord.js";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration.js";
@@ -21,7 +22,10 @@ import {
   ModMailAuthorType,
   ModMailSentToType,
   closeThread,
+  GuildWithLogs,
+  ModMailThread,
 } from "@repo/database";
+import { TFunction } from "i18next";
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
@@ -50,7 +54,7 @@ export default {
     const { client, channel, channelId, user: moderator } = interaction;
     const t = client.i18next.getFixedT(guildConfig.language, "commands", "close");
 
-    if (channel?.type !== ChannelType.GuildText) return interaction.reply(t(($) => $.notTextChannel));
+    if (channel?.type !== ChannelType.GuildText) return interaction.reply(t(($) => $.noThread));
 
     const thread = await getThreadByChannelId(channelId);
     if (!thread) return interaction.reply(t(($) => $.noThread));
@@ -59,11 +63,11 @@ export default {
     if (thread.scheduledCloseAt) {
       const confirmed = await handleExistingSchedule(interaction, thread.scheduledCloseAt, t, guildConfig.language);
       if (!confirmed) {
-        const cancelMessage = t(($) => $.cancelled);
+        const cancelMessage = t(($) => $.threadCloseDate);
         if (!interaction.deferred && !interaction.replied) {
-          await interaction.reply({ content: cancelMessage, ephemeral: true });
+          await interaction.reply({ content: cancelMessage, flags: MessageFlags.Ephemeral });
         } else {
-          await interaction.followUp({ content: cancelMessage, ephemeral: true });
+          await interaction.followUp({ content: cancelMessage, flags: MessageFlags.Ephemeral });
         }
         return; // User rejected or timed out
       }
@@ -74,7 +78,7 @@ export default {
 
     // 2. Scheduled Close Flow
     if (durationVal || unit) {
-      if (!durationVal || !unit) return interaction.reply(t(($) => $.missingDurationOrUnit));
+      if (!durationVal || !unit) return interaction.reply(t(($) => $.noDuration));
 
       const closeDate = dayjs().add(dayjs.duration(durationVal, unit as any));
       const longDuration = closeDate.locale(guildConfig.language || "en").fromNow(true);
@@ -95,7 +99,7 @@ export default {
         );
       } catch (error) {
         logger.error({ message: "Error scheduling close", error });
-        await interaction.reply(t(($) => $.databaseError));
+        await interaction.reply(t(($) => $.error));
       }
       return;
     }
@@ -111,7 +115,7 @@ export default {
 async function handleExistingSchedule(
   interaction: ChatInputCommandInteraction,
   date: Date,
-  t: any,
+  t: TFunction<"commands", "close">,
   lang: string,
 ): Promise<boolean> {
   const timeStr = dayjs(date)
@@ -119,8 +123,14 @@ async function handleExistingSchedule(
     .fromNow(true);
 
   const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
-    new ButtonBuilder().setCustomId("accept").setLabel(t(($) => $.accept)).setStyle(ButtonStyle.Success),
-    new ButtonBuilder().setCustomId("reject").setLabel(t(($) => $.reject)).setStyle(ButtonStyle.Danger),
+    new ButtonBuilder()
+      .setCustomId("accept")
+      .setLabel(t(($) => $.accept))
+      .setStyle(ButtonStyle.Success),
+    new ButtonBuilder()
+      .setCustomId("reject")
+      .setLabel(t(($) => $.reject))
+      .setStyle(ButtonStyle.Danger),
   );
 
   const response = await interaction.reply({
@@ -152,7 +162,12 @@ async function handleExistingSchedule(
 /**
  * Finalizes the thread: logs, DMs the user, and deletes the channel.
  */
-async function performImmediateClose(interaction: ChatInputCommandInteraction, thread: any, config: any, t: any) {
+async function performImmediateClose(
+  interaction: ChatInputCommandInteraction,
+  thread: ModMailThread,
+  config: GuildWithLogs,
+  t: TFunction<"commands", "close">,
+) {
   const { guild, channel, channelId, user: moderator, client } = interaction;
 
   try {
@@ -165,7 +180,7 @@ async function performImmediateClose(interaction: ChatInputCommandInteraction, t
     // DM the user
     const targetUser = await client.users.fetch(thread.userId).catch(() => null);
     if (targetUser) {
-      await targetUser.send(t(($) => $.threadCloseDm, { guild: guild!.name })).catch(() => null);
+      await targetUser.send(t(($) => $.threadClosedDm, { guild: guild!.name })).catch(() => null);
     }
 
     // System Log entry

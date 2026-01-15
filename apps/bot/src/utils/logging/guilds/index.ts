@@ -11,7 +11,6 @@ export interface LogBanOptions {
 }
 interface BaseLogOptions {
   guildConfig: GuildWithLogs;
-  t: TFunction;
 }
 
 interface ManualLogOptions extends BaseLogOptions {

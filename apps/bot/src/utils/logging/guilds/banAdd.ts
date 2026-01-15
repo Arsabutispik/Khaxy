@@ -13,14 +13,14 @@ export async function logBanAdd({ guild, user, reason, executor, guildConfig }: 
     type: WebhookType.GUILD_LOGS,
   });
   if (!webhook) return;
-  const t = guild.client.i18next.getFixedT(guildConfig.language, "loggers", "banAdd");
+  const t = guild.client.i18next.getFixedT(guildConfig.language, "loggers", "guildBanEvents");
   const embed = new EmbedBuilder()
-    .setTitle(t(($) => $.embed.title))
+    .setTitle(t(($) => $.banAdd.embed.title))
     .setColor("Red")
     .setThumbnail(user.displayAvatarURL())
     .setTimestamp()
-    .setDescription(t(($) => $.embed.description, { user }))
-    .addFields([{ name: t(($) => $.embed.fields.reason), value: reason }])
+    .setDescription(t(($) => $.banAdd.embed.description, { user }))
+    .addFields([{ name: t(($) => $.banAdd.embed.fields.reason), value: reason }])
     .setFooter({
       text: executor?.tag || t(($) => $.unknownExecutor),
       iconURL: executor?.displayAvatarURL() || undefined,

@@ -24,10 +24,12 @@ export async function logMessageBulkDelete(
     id: guildConfig.logConfig.messageLogsWebhookId,
     type: WebhookType.MESSAGE_LOGS,
   });
+  const message = messages.first();
+  if (!message) return;
   const embed = new EmbedBuilder()
     .setTitle(t(($) => $.embed.title, { count: messages.size }))
     .setColor("Red")
-    .setDescription(t(($) => $.embed.description, { message: messages.first() }))
+    .setDescription(t(($) => $.embed.description, { message }))
     .setTimestamp();
   const buffer = Buffer.from(
     messages
@@ -41,12 +43,12 @@ export async function logMessageBulkDelete(
           },
           content: message.content?.trim() || "No content",
         };
-        return `[${new Date()}] ${t(($) => $.message, { message: formattedMessage })}`;
+        return `[${new Date().toLocaleDateString(guildConfig.language)}] ${t(($) => $.message, { message: formattedMessage })}`;
       })
       .join("\n"),
     "utf8",
   );
-  const attachment = new AttachmentBuilder(buffer, { name: t(($) => $.file_name) });
+  const attachment = new AttachmentBuilder(buffer, { name: t(($) => $.fileName) });
   if (webhook) {
     await webhook
       .send({

@@ -42,17 +42,17 @@ export async function registerConfig(interaction: ChatInputCommandInteraction<"c
       },
     ]);
   const actionRow = new ActionRowBuilder<StringSelectMenuBuilder>().setComponents(selectMenu);
-  const messageComponent = await waitForMessageComponent(interaction, actionRow, t, "registerConfig");
+  const messageComponent = await waitForMessageComponent(interaction, actionRow, guildData.language, "registerConfig");
   if (!messageComponent) return;
   switch (messageComponent.values[0]) {
     case "registerJoinChannelId":
-      await dynamicChannel("registerJoinChannelId", messageComponent, guildData, t);
+      await dynamicChannel("registerJoinChannelId", messageComponent, guildData);
       break;
     case "registerChannelId":
-      await dynamicChannel("registerChannelId", messageComponent, guildData, t);
+      await dynamicChannel("registerChannelId", messageComponent, guildData);
       break;
     case "registerJoinMessage":
-      await dynamicMessage("registerJoinMessage", messageComponent, guildData, t);
+      await dynamicMessage("registerJoinMessage", messageComponent, guildData);
       break;
     case "registerClearChannel":
       await registerClearChannel(messageComponent, guildData, t);
@@ -63,7 +63,7 @@ export async function registerConfig(interaction: ChatInputCommandInteraction<"c
 async function registerClearChannel(
   interaction: StringSelectMenuInteraction<"cached">,
   data: GuildWithLogs,
-  t: TFunction,
+  t: TFunction<"translations", "registerConfig">,
 ) {
   await interaction.deferUpdate();
   if (data.registerChannelClear) {

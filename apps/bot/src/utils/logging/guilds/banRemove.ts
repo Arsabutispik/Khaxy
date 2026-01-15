@@ -10,12 +10,12 @@ export async function logBanRemove({ guild, user, reason, executor, guildConfig 
     id: guildConfig.logConfig.guildLogsWebhookId,
     type: WebhookType.GUILD_LOGS,
   });
-  const t = guild.client.i18next.getFixedT(guildConfig.language, "loggers", "banRemove");
+  const t = guild.client.i18next.getFixedT(guildConfig.language, "loggers", "guildBanEvents");
   const embed = new EmbedBuilder()
-    .setTitle(t(($) => $.embed.title))
+    .setTitle(t(($) => $.banRemove.embed.title))
     .setColor("Green")
     .setThumbnail(user.displayAvatarURL())
-    .setDescription(t(($) => $.embed.description, { user: user }))
+    .setDescription(t(($) => $.banRemove.embed.description, { user: user }))
     .setFooter({
       text: executor?.tag || t(($) => $.unknownExecutor),
       iconURL: executor?.displayAvatarURL() || undefined,
@@ -23,7 +23,7 @@ export async function logBanRemove({ guild, user, reason, executor, guildConfig 
     .setTimestamp()
     .addFields([
       {
-        name: t(($) => $.embed.fields.reason),
+        name: t(($) => $.banRemove.embed.fields.reason),
         value: reason || t(($) => $.noReason),
       },
     ]);

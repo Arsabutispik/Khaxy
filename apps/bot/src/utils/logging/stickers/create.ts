@@ -4,8 +4,8 @@ import { returnWebhook, WebhookType } from "@utils";
 import { logger } from "@lib";
 
 export async function logStickerCreate(sticker: Sticker, guildConfig: GuildWithLogs) {
-  if(!sticker.guild) return;
-  const t = sticker.client.i18next.getFixedT(guildConfig.language, "events", "stickerCreate");
+  if (!sticker.guild) return;
+  const t = sticker.client.i18next.getFixedT(guildConfig.language, "loggers", "stickerEvents");
   if (!guildConfig.logConfig?.stickerLogsChannelId) return;
   const logChannel = sticker.guild.channels.cache.get(guildConfig.logConfig.stickerLogsChannelId);
   if (logChannel?.type !== ChannelType.GuildText) return;
@@ -18,9 +18,9 @@ export async function logStickerCreate(sticker: Sticker, guildConfig: GuildWithL
   const logEntry = auditLogs?.entries.first();
   const embed = new EmbedBuilder()
     .setColor("Green")
-    .setTitle(t(($) => $.embed.title))
+    .setTitle(t(($) => $.stickerCreate.embed.title))
     .setDescription(
-      t(($) => $.embed.description, {
+      t(($) => $.stickerCreate.embed.description, {
         sticker,
       }),
     )
@@ -28,7 +28,7 @@ export async function logStickerCreate(sticker: Sticker, guildConfig: GuildWithL
     .setTimestamp();
   if (logEntry?.target?.id === sticker.id) {
     embed.setFooter({
-      text: logEntry.executor?.tag ?? t(($) => $.unknown_executor),
+      text: logEntry.executor?.tag ?? t(($) => $.unknownExecutor),
       iconURL: logEntry.executor?.displayAvatarURL() ?? undefined,
     });
   }
@@ -36,7 +36,7 @@ export async function logStickerCreate(sticker: Sticker, guildConfig: GuildWithL
     id: guildConfig.logConfig.stickerLogsWebhookId,
     type: WebhookType.STICKER_LOGS,
   });
-  if(webhook) {
+  if (webhook) {
     await webhook
       .send({
         embeds: [embed],

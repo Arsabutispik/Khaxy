@@ -43,7 +43,7 @@ interface Resources {
       "threadClosedDm": "Your thread in {{guild}} has been closed.",
       "timeout": "Timed out. The thread will be closed on **{{date}}**."
     },
-    "close-cancel": {
+    "closeCancel": {
       "cancelled": "The closing of this mod mail thread has been cancelled.",
       "error": "An error occurred while cancelling the close. Developers have been notified.",
       "noThread": "This is not a mod mail thread.",
@@ -1475,25 +1475,222 @@ interface Resources {
     "zh-TW": "Chinese (Traditional)"
   },
   "loggers": {
-    "banAdd": {
-      "embed": {
-        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n>",
-        "fields": {
-          "reason": "Reason"
-        },
-        "title": "User Banned"
+    "channelEvents": {
+      "channelCreate": {
+        "embed": {
+          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Type**: {{channel_type}}\n> **Created At**: {{timestamp}}",
+          "title": "Channel Created"
+        }
+      },
+      "channelTypes": {
+        "0": "Text Channel",
+        "1": "DM Channel",
+        "10": "News Thread Channel",
+        "11": "Public Thread Channel",
+        "12": "Private Thread Channel",
+        "13": "Stage Channel",
+        "14": "Directory Channel",
+        "15": "Forum Channel",
+        "16": "Media Channel",
+        "2": "Voice Channel",
+        "3": "Group DM Channel",
+        "4": "Category Channel",
+        "5": "News Channel"
       },
       "unknownExecutor": "Unknown Executor"
     },
-    "banRemove": {
-      "embed": {
-        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
-        "fields": {
-          "reason": "Reason"
+    "emojiEvents": {
+      "emojiCreate": {
+        "embed": {
+          "description": "> **Emoji**: {{emoji.name}}\n> **ID**: {{emoji.id}}\n> **Animated**: {{emoji_animated}}\n> **Created At**: {{timestamp}}",
+          "title": "Emoji Created"
+        }
+      },
+      "emojiDelete": {
+        "embed": {
+          "description": "> **Emoji**: {{emoji.name}}\n> **ID**: {{emoji.id}}\n> **Animated**: {{emoji_animated}}\n> **Deleted At**: {{timestamp}}",
+          "title": "Emoji Deleted"
+        }
+      },
+      "emojiUpdate": {
+        "nameChange": {
+          "embed": {
+            "description": "> **ID**: {{emoji.id}}\n> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}",
+            "title": "Emoji Name Changed"
+          }
+        }
+      },
+      "unknownExecutor": "Unknown Executor"
+    },
+    "guildAuditLogEvents": {
+      "guildAuditLogEntryCreate": {
+        "webhookCreate": {
+          "embed": {
+            "description": "> **Name**: {{webhook.name}}\n> **ID**: {{webhook.id}}\n> **Channel**: {{channel.name}} (<#{{channel.id}}>)",
+            "title": "Webhook Created"
+          }
         },
-        "title": "User Unbanned From Server"
+        "webhookDelete": {
+          "embed": {
+            "description": "> **Name**: {{webhook.name}}\n> **ID**: {{webhook.id}}\n> **Channel**: {{channel.name}} (<#{{channel.id}}>)",
+            "title": "Webhook Deleted"
+          }
+        }
+      },
+      "unknownExecutor": "Unknown Executor"
+    },
+    "guildBanEvents": {
+      "banAdd": {
+        "embed": {
+          "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n>",
+          "fields": {
+            "reason": "Reason"
+          },
+          "title": "User Banned"
+        }
+      },
+      "banRemove": {
+        "embed": {
+          "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
+          "fields": {
+            "reason": "Reason"
+          },
+          "title": "User Unbanned From Server"
+        }
       },
       "noReason": "No reason provided",
+      "unknownExecutor": "Unknown Executor"
+    },
+    "guildSoundboardEvents": {
+      "guildSoundboardSoundCreate": {
+        "embed": {
+          "description": "> **Name**: {{sound.name}}\n> **ID**: {{sound.soundId}}\n> **Emoji**: {{sound.emoji}}\n> **Volume**: {{volume}}%\n> **Created At**: {{timestamp}}",
+          "title": "Sound Created"
+        }
+      },
+      "guildSoundboardSoundDelete": {
+        "embed": {
+          "description": "> **Name**: {{sound.name}}\n> **ID**: {{sound.soundId}}\n> **Emoji**: {{sound.emoji}}\n> **Volume**: {{volume}}%\n> **Deleted At**: {{timestamp}}",
+          "title": "Sound Deleted"
+        }
+      },
+      "guildSoundboardSoundUpdate": {
+        "emojiChange": {
+          "embed": {
+            "description": "> **Name**: {{sound.name}}\n> **ID**: {{sound.id}}\n> **Old Emoji**: {{old_emoji}}\n> **New Emoji**: {{new_emoji}}",
+            "title": "Sound Emoji Changed"
+          }
+        },
+        "nameChange": {
+          "embed": {
+            "description": "> **ID**: {{sound.id}}\n> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}",
+            "title": "Sound Name Changed"
+          }
+        },
+        "noEmoji": "No emoji",
+        "noPreviousValue": "No previous value",
+        "volumeChange": {
+          "embed": {
+            "description": "> **Name**: {{sound.name}}\n> **ID**: {{sound.soundId}}\n> **Old Volume**: {{old_volume}}%\n> **New Volume**: {{new_volume}}%,",
+            "title": "Sound Volume Changed"
+          }
+        }
+      },
+      "unknownExecutor": "Unknown Executor"
+    },
+    "memberEvents": {
+      "memberUpdate": {
+        "nicknameChange": {
+          "embed": {
+            "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Old Nickname**: {{old_nickname}}\n> **New Nickname**: {{new_nickname}}",
+            "title": "User Nickname Changed"
+          },
+          "noNickname": "No Nickname"
+        },
+        "removeTimeout": {
+          "embed": {
+            "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
+            "title": "User Timeout Removed"
+          },
+          "noReason": "No reason provided for removing timeout."
+        },
+        "rolesUpdate": {
+          "embed": {
+            "added": "Roles Added",
+            "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
+            "removed": "Roles Removed",
+            "title": "User Roles Updated"
+          }
+        },
+        "timeout": {
+          "embed": {
+            "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Timeout Until**: {{timestamp}}",
+            "fields": {
+              "reason": "Reason"
+            },
+            "title": "User Timed Out"
+          },
+          "noReason": "No reason provided for timeout."
+        }
+      },
+      "unknownExecutor": "Unknown Executor"
+    },
+    "stageInstanceEvents": {
+      "stageInstanceCreate": {
+        "embed": {
+          "description": "> **Channel**: <#{{stage.channelId}}>\n> **Topic**: {{stage.topic}}",
+          "title": "Stage Started"
+        }
+      },
+      "stageInstanceDelete": {
+        "embed": {
+          "description": "> **Channel**: <#{{stage.channelId}}>\n> **Topic**: {{stage.topic}}",
+          "title": "Stage Ended"
+        }
+      },
+      "stageInstanceUpdate": {
+        "topicChange": {
+          "embed": {
+            "description": "> **Channel**: <#{{stage.channelId}}>\n> **Old Topic**: {{old_topic}}\n> **New Topic**: {{new_topic}}",
+            "title": "Stage Topic Changed"
+          }
+        }
+      },
+      "unknownExecutor": "Unknown Executor"
+    },
+    "stickerEvents": {
+      "stickerCreate": {
+        "embed": {
+          "description": "> **Name**: {{sticker.name}}\n> **ID**: {{sticker.id}}\n> **Description**: {{sticker.description}}\n> **Tags**: {{sticker.tags}}",
+          "title": "Sticker Created"
+        }
+      },
+      "stickerDelete": {
+        "embed": {
+          "description": "> **Name**: {{sticker.name}}\n> **ID**: {{sticker.id}}\n> **Description**: {{sticker.description}}\n> **Tags**: {{sticker.tags}}",
+          "title": "Sticker Deleted"
+        }
+      },
+      "stickerUpdate": {
+        "descriptionChange": {
+          "embed": {
+            "description": "> **Name**: {{sticker.name}}\n> **ID**: {{sticker.id}}\n> **Old Description**: {{old_description}}\n> **New Description**: {{new_description}}",
+            "title": "Sticker Description Changed"
+          }
+        },
+        "nameChange": {
+          "embed": {
+            "description": "> **Name**: {{sticker.name}}\n> **ID**: {{sticker.id}}\n> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}",
+            "title": "Sticker Name Changed"
+          }
+        },
+        "tagsChange": {
+          "embed": {
+            "description": "> **Name**: {{sticker.name}}\n> **ID**: {{sticker.id}}\n> **Old Tags**: {{old_tags}}\n> **New Tags**: {{new_tags}}",
+            "title": "Sticker Tags Changed"
+          }
+        }
+      },
       "unknownExecutor": "Unknown Executor"
     }
   },
@@ -1552,11 +1749,13 @@ interface Resources {
       "expiredModmailBlacklistNotification": "🔔 Modmail blacklist for **{{guild}}** expired"
     },
     "checkPunishments": {
+      "banExpired": "Ban expired after {{duration}}.",
       "embed": {
         "added": "Roles Added",
         "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Roles Removed**: {{removed_roles}}",
         "title": "User Roles Updated"
-      }
+      },
+      "muteExpired": "Mute expired after {{duration}}."
     },
     "dynamicChannel": {
       "initial": "Select a channel below...",

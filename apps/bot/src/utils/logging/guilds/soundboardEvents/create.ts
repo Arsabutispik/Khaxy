@@ -4,16 +4,16 @@ import { returnWebhook, WebhookType } from "@utils";
 import { logger } from "@lib";
 
 export async function logSoundBoardSoundCreate(soundboardSound: GuildSoundboardSound, guildConfig: GuildWithLogs) {
-  const t = soundboardSound.client.i18next.getFixedT(guildConfig.language, "events", "guildSoundboardSoundCreate");
+  const t = soundboardSound.client.i18next.getFixedT(guildConfig.language, "loggers", "guildSoundboardEvents");
   if (!guildConfig.logConfig?.soundboardLogsChannelId) return;
   const logChannel = soundboardSound.guild.channels.cache.get(guildConfig.logConfig.soundboardLogsChannelId);
   if (logChannel?.type !== ChannelType.GuildText) return;
   const embed = new EmbedBuilder()
     .setColor("Green")
     .setTimestamp()
-    .setTitle(t(($) => $.embed.title))
+    .setTitle(t(($) => $.guildSoundboardSoundCreate.embed.title))
     .setDescription(
-      t(($) => $.embed.description, {
+      t(($) => $.guildSoundboardSoundCreate.embed.description, {
         sound: soundboardSound,
         volume: Math.round(soundboardSound.volume * 100),
         timestamp: time(soundboardSound.createdAt, TimestampStyles.FullDateShortTime),
