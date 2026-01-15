@@ -11,27 +11,27 @@ export async function welcomeLeaveConfig(interaction: ChatInputCommandInteractio
     .setMaxValues(1)
     .setOptions([
       {
-        label: t("joinChannelId.label"),
+        label: t(($) => $.joinChannelId.label),
         value: "joinChannelId",
-        description: t("joinChannelId.description"),
+        description: t(($) => $.joinChannelId.description),
         emoji: "👋",
       },
       {
-        label: t("joinMessage.label"),
+        label: t(($) => $.joinMessage.label),
         value: "joinMessage",
-        description: t("joinMessage.description"),
+        description: t(($) => $.joinMessage.description),
         emoji: "📩",
       },
       {
-        label: t("leaveChannelId.label"),
+        label: t(($) => $.leaveChannelId.label),
         value: "leaveChannelId",
-        description: t("leaveChannelId.description"),
+        description: t(($) => $.leaveChannelId.description),
         emoji: "🚪",
       },
       {
-        label: t("leaveMessage.label"),
+        label: t(($) => $.leaveMessage.label),
         value: "leaveMessage",
-        description: t("leaveMessage.description"),
+        description: t(($) => $.leaveMessage.description),
         emoji: "📤",
       },
     ]);

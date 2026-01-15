@@ -64,7 +64,7 @@ export default {
 
       // 1. Validation for timed punishments
       if (["tempban", "mute"].includes(punishment) && (!durationNum || !durationUnit)) {
-        return interaction.reply({ content: t("durationMissing"), flags: MessageFlags.Ephemeral });
+        return interaction.reply({ content: t(($) => $.durationMissing), flags: MessageFlags.Ephemeral });
       }
 
       // 2. Prep Duration
@@ -84,11 +84,11 @@ export default {
       switch (punishment) {
         case "mute": {
           if (!guildConfig.muteRoleId || !guild.roles.cache.has(guildConfig.muteRoleId)) {
-            return interaction.reply({ content: t("noMuteRole"), flags: MessageFlags.Ephemeral });
+            return interaction.reply({ content: t(($) => $.noMuteRole), flags: MessageFlags.Ephemeral });
           }
           await setPunishmentRule(guildId!, threshold, PunishmentAction.MUTE, durationInSeconds);
           return interaction.reply({
-            content: t("muteSet", { threshold, duration: longDurationLabel }),
+            content: t(($) => $.muteSet, { threshold, duration: longDurationLabel }),
             flags: MessageFlags.Ephemeral,
           });
         }
@@ -96,19 +96,19 @@ export default {
         case "tempban": {
           await setPunishmentRule(guildId!, threshold, PunishmentAction.TEMPBAN, durationInSeconds);
           return interaction.reply({
-            content: t("tempbanSet", { threshold, duration: longDurationLabel }),
+            content: t(($) => $.tempbanSet, { threshold, duration: longDurationLabel }),
             flags: MessageFlags.Ephemeral,
           });
         }
 
         case "kick": {
           await setPunishmentRule(guildId!, threshold, PunishmentAction.KICK);
-          return interaction.reply({ content: t("kickSet", { threshold }), flags: MessageFlags.Ephemeral });
+          return interaction.reply({ content: t(($) => $.kickSet, { threshold }), flags: MessageFlags.Ephemeral });
         }
 
         case "ban": {
           await setPunishmentRule(guildId!, threshold, PunishmentAction.BAN);
-          return interaction.reply({ content: t("banSet", { threshold }), flags: MessageFlags.Ephemeral });
+          return interaction.reply({ content: t(($) => $.banSet, { threshold }), flags: MessageFlags.Ephemeral });
         }
       }
     }
@@ -119,12 +119,12 @@ export default {
       const ruleToRemove = existingRules.find((r) => r.level === threshold);
 
       if (!ruleToRemove) {
-        return interaction.reply({ content: t("noConfig", { threshold }), flags: MessageFlags.Ephemeral });
+        return interaction.reply({ content: t(($) => $.noConfig, { threshold }), flags: MessageFlags.Ephemeral });
       }
 
       await deletePunishmentRule(guildId!, threshold);
       return interaction.reply({
-        content: t("removed", { threshold, type: ruleToRemove.action.toLowerCase() }),
+        content: t(($) => $.removed, { threshold, type: ruleToRemove.action.toLowerCase() }),
         flags: MessageFlags.Ephemeral,
       });
     }

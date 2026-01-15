@@ -11,9 +11,9 @@ export async function logInviteCreate(invite: Invite, guildConfig: GuildWithLogs
   if (logChannel?.type !== ChannelType.GuildText) return;
   const embed = new EmbedBuilder()
     .setColor("Green")
-    .setTitle(t("embed.title"))
+    .setTitle(t(($) => $.embed.title))
     .setDescription(
-      t("embed.description", {
+      t(($) => $.embed.description, {
         invite,
         timestamp:
           invite.maxAge && invite.maxAge > 0

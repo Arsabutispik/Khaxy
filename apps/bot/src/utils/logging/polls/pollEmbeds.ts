@@ -13,9 +13,9 @@ export function buildPollResultEmbed(newMessage: Message | PartialMessage, t: TF
 
   return new EmbedBuilder()
     .setColor("Red")
-    .setTitle(t("poll_end.embed.title"))
+    .setTitle(t(($) => $.poll_end.embed.title))
     .setDescription(
-      t("poll_end.embed.description", {
+      t(($) => $.poll_end.embed.description, {
         message: newMessage,
         timestamp: newMessage.poll.expiresAt
           ? time(newMessage.poll.expiresAt, TimestampStyles.FullDateShortTime)
@@ -25,13 +25,13 @@ export function buildPollResultEmbed(newMessage: Message | PartialMessage, t: TF
     )
     .setFields([
       {
-        name: newMessage.poll.question.text || t("unknown_question"),
+        name: newMessage.poll.question.text || t(($) => $.unknown_question),
         value: newMessage.poll.answers.map((answer, i) => `${i}. ${answer.text} (${answer.voteCount})`).join("\n"),
       },
     ])
     .setTimestamp()
     .setFooter({
-      text: newMessage.author?.username || t("unknown_user"),
+      text: newMessage.author?.username || t(($) => $.unknown_user),
       iconURL: newMessage.author?.displayAvatarURL(),
     });
 }

@@ -24,9 +24,9 @@ export async function logScheduledEventDelete({ event, executor, guildConfig, t 
   if (event.entityType === GuildScheduledEventEntityType.External) {
     embed
       .setColor("Red")
-      .setTitle(t("external_channel.embed.title"))
+      .setTitle(t(($) => $.external_channel.embed.title))
       .setDescription(
-        t("external_channel.embed.description", {
+        t(($) => $.external_channel.embed.description, {
           event: event,
           scheduled_start_time: event.scheduledStartAt
             ? time(event.scheduledStartAt, TimestampStyles.FullDateShortTime)
@@ -39,9 +39,9 @@ export async function logScheduledEventDelete({ event, executor, guildConfig, t 
   } else {
     embed
       .setColor("Red")
-      .setTitle(t("voice_channel.embed.title"))
+      .setTitle(t(($) => $.voice_channel.embed.title))
       .setDescription(
-        t("voice_channel.embed.description", {
+        t(($) => $.voice_channel.embed.description, {
           event: event,
           scheduled_start_time: event.scheduledStartAt
             ? time(event.scheduledStartAt, TimestampStyles.FullDateShortTime)

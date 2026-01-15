@@ -24,7 +24,7 @@ export async function logsEmojiUpdate(oldEmoji: GuildEmoji, newEmoji: GuildEmoji
     .setThumbnail(newEmoji.animated ? newEmoji.imageURL({ extension: "gif" }) : newEmoji.imageURL())
     .setTimestamp()
     .setFooter({
-      text: executor?.tag ?? t("unknown_executor"),
+      text: executor?.tag ?? t(($) => $.unknown_executor),
       iconURL: executor?.displayAvatarURL() ?? undefined,
     });
   const webhook = await returnWebhook(newEmoji.client, logChannel, newEmoji.guild.id, guildConfig, {
@@ -32,8 +32,8 @@ export async function logsEmojiUpdate(oldEmoji: GuildEmoji, newEmoji: GuildEmoji
     type: WebhookType.EMOJI_LOGS,
   });
   if (oldEmoji.name !== newEmoji.name) {
-    embed.setTitle(t("name_change.embed.title")).setDescription(
-      t("name_change.embed.description", {
+    embed.setTitle(t(($) => $.name_change.embed.title)).setDescription(
+      t(($) => $.name_change.embed.description, {
         emoji: newEmoji,
         old_name: oldEmoji.name,
         new_name: newEmoji.name,

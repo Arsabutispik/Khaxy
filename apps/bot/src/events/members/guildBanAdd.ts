@@ -26,7 +26,7 @@ export default {
         guild: ban.guild,
         action: "BAN",
         user: ban.user,
-        reason: ban.reason || logEntry?.reason || t("no_reason"),
+        reason: ban.reason || logEntry?.reason || t(($) => $.no_reason),
         moderator: logEntry?.executor ?? null,
       },
       ban.client,
@@ -36,12 +36,12 @@ export default {
       ban.user.id,
       logEntry?.executor?.id || ban.client.user.id,
       InfractionType.BAN,
-      ban.reason || logEntry?.reason || t("no_reason"),
+      ban.reason || logEntry?.reason || t(($) => $.no_reason),
     );
     await logBanAdd({
       guild: ban.guild,
       user: ban.user,
-      reason: ban.reason || logEntry?.reason || t("no_reason"),
+      reason: ban.reason || logEntry?.reason || t(($) => $.no_reason),
       executor: logEntry?.executor ?? null,
       guildConfig,
       t,

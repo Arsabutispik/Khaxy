@@ -23,7 +23,7 @@ export async function logStickerUpdate(oldSticker: Sticker, newSticker: Sticker,
     .setThumbnail(`https://media.discordapp.net/stickers/${newSticker.id}.webp?size=240&amp;quality=lossless`);
   if (logEntry?.target.id === newSticker.id) {
     embed.setFooter({
-      text: logEntry.executor?.username ?? t("unknown_executor"),
+      text: logEntry.executor?.username ?? t(($) => $.unknown_executor),
       iconURL: logEntry.executor?.displayAvatarURL() ?? undefined,
     });
   }
@@ -33,9 +33,9 @@ export async function logStickerUpdate(oldSticker: Sticker, newSticker: Sticker,
   });
   if (oldSticker.name !== newSticker.name) {
     const embedClone = EmbedBuilder.from(embed)
-      .setTitle(t("name_change.embed.title"))
+      .setTitle(t(($) => $.name_change.embed.title))
       .setDescription(
-        t("name_change.embed.description", {
+        t(($) => $.name_change.embed.description, {
           sticker: newSticker,
           old_name: oldSticker.name,
           new_name: newSticker.name,
@@ -45,9 +45,9 @@ export async function logStickerUpdate(oldSticker: Sticker, newSticker: Sticker,
   }
   if (oldSticker.description !== newSticker.description) {
     const embedClone = EmbedBuilder.from(embed)
-      .setTitle(t("description_change.embed.title"))
+      .setTitle(t(($) => $.description_change.embed.title))
       .setDescription(
-        t("description_change.embed.description", {
+        t(($) => $.description_change.embed.description, {
           sticker: newSticker,
           old_description: oldSticker.description,
           new_description: newSticker.description,
@@ -57,9 +57,9 @@ export async function logStickerUpdate(oldSticker: Sticker, newSticker: Sticker,
   }
   if (oldSticker.tags !== newSticker.tags) {
     const embedClone = EmbedBuilder.from(embed)
-      .setTitle(t("tags_change.embed.title"))
+      .setTitle(t(($) => $.tags_change.embed.title))
       .setDescription(
-        t("tags_change.embed.description", {
+        t(($) => $.tags_change.embed.description, {
           sticker: newSticker,
           old_tags: oldSticker.tags,
           new_tags: newSticker.tags,

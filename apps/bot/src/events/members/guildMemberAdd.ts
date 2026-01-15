@@ -95,11 +95,11 @@ export default {
       });
       const t = member.client.i18next.getFixedT(guildConfig.language, "events", "guildMemberAdd");
       const embed = new EmbedBuilder()
-        .setTitle(t("embed.title"))
+        .setTitle(t(($) => $.embed.title))
         .setColor("Green")
         .setThumbnail(member.user.displayAvatarURL())
         .setDescription(
-          t("embed.description", {
+          t(($) => $.embed.description, {
             user: member.user,
             timestamp: time(member.user.createdAt, TimestampStyles.RelativeTime),
             member_count: member.guild.memberCount.toString(),

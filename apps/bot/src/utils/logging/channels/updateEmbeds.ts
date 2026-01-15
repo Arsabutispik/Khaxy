@@ -17,7 +17,7 @@ function createBaseEmbed(channel: NonThreadGuildBasedChannel, executor: User | n
     .setThumbnail(channel.guild.iconURL() ?? null)
     .setTimestamp()
     .setFooter({
-      text: executor?.tag ?? t("unknown_executor"),
+      text: executor?.tag ?? t(($) => $.unknown_executor),
       iconURL: executor?.displayAvatarURL() ?? undefined,
     });
 }
@@ -29,9 +29,9 @@ export function buildNameChangeEmbed(
   t: TFunction,
 ): EmbedBuilder {
   return createBaseEmbed(newChannel, executor, t)
-    .setTitle(t("name_change.embed.title"))
+    .setTitle(t(($) => $.name_change.embed.title))
     .setDescription(
-      t("name_change.embed.description", {
+      t(($) => $.name_change.embed.description, {
         channel: newChannel,
         old_name: oldName,
         new_name: newChannel.name,
@@ -46,9 +46,9 @@ export function buildTopicChangeEmbed(
   t: TFunction,
 ): EmbedBuilder {
   return createBaseEmbed(newChannel, executor, t)
-    .setTitle(t("topic_change.embed.title"))
+    .setTitle(t(($) => $.topic_change.embed.title))
     .setDescription(
-      t("topic_change.embed.description", {
+      t(($) => $.topic_change.embed.description, {
         channel: newChannel,
         old_topic: oldTopic || t("no_topic"),
         new_topic: (newChannel as TextChannel).topic || t("no_topic"),
@@ -68,9 +68,9 @@ export function buildNsfwChangeEmbed(
       : newChannel.client.allEmojis.get(newChannel.client.config.emojis.reject.id)?.format;
 
   return createBaseEmbed(newChannel, executor, t)
-    .setTitle(t("nsfw_change.embed.title"))
+    .setTitle(t(($) => $.nsfw_change.embed.title))
     .setDescription(
-      t("nsfw_change.embed.description", {
+      t(($) => $.nsfw_change.embed.description, {
         channel: newChannel,
         old_nsfw: getEmoji(oldNsfw),
         new_nsfw: getEmoji(newChannel.nsfw),
@@ -85,12 +85,12 @@ export function buildTypeChangeEmbed(
   t: TFunction,
 ): EmbedBuilder {
   return createBaseEmbed(newChannel, executor, t)
-    .setTitle(t("type_change.embed.title"))
+    .setTitle(t(($) => $.type_change.embed.title))
     .setDescription(
-      t("type_change.embed.description", {
+      t(($) => $.type_change.embed.description, {
         channel: newChannel,
         old_type: t(`channel_types.${oldType}`),
-        new_type: t(`channel_types.${newChannel.type}`),
+        new_type: t(($) => $.channel_types.${newChannel.type}),
       }),
     );
 }
@@ -103,9 +103,9 @@ export function buildPermissionsChangeEmbed(
   t: TFunction,
 ): EmbedBuilder {
   return createBaseEmbed(newChannel, executor, t)
-    .setTitle(t("permissions_change.embed.title"))
+    .setTitle(t(($) => $.permissions_change.embed.title))
     .setDescription(
-      t("permissions_change.embed.description", {
+      t(($) => $.permissions_change.embed.description, {
         channel: newChannel,
         changes: diffPermissions(newChannel.client, oldChannel, newChannel, language) || t("no_changes"),
       }),
@@ -121,9 +121,9 @@ export function buildRateLimitChangeEmbed(
 ): EmbedBuilder {
   const newLimit = (newChannel as TextChannel).rateLimitPerUser ?? 0;
   return createBaseEmbed(newChannel, executor, t)
-    .setTitle(t("rate_limit_change.embed.title"))
+    .setTitle(t(($) => $.rate_limit_change.embed.title))
     .setDescription(
-      t("rate_limit_change.embed.description", {
+      t(($) => $.rate_limit_change.embed.description, {
         channel: newChannel,
         old_rate_limit: formatDuration((oldRateLimit || 0) * 1000, language),
         new_rate_limit: formatDuration(newLimit * 1000, language),
@@ -143,9 +143,9 @@ export function buildBitrateChangeEmbed(
 ): EmbedBuilder {
   const newBitrate = (newChannel as VoiceChannel).bitrate;
   return createBaseEmbed(newChannel, executor, t)
-    .setTitle(t("bitrate_change.embed.title"))
+    .setTitle(t(($) => $.bitrate_change.embed.title))
     .setDescription(
-      t("bitrate_change.embed.description", {
+      t(($) => $.bitrate_change.embed.description, {
         channel: newChannel,
         old_bitrate: `${oldBitrate.toString().slice(0, 2)}kbps`,
         new_bitrate: `${newBitrate.toString().slice(0, 2)}kbps`,
@@ -163,9 +163,9 @@ export function buildUserLimitChangeEmbed(
   const infinityEmoji = newChannel.client.allEmojis.get(newChannel.client.config.emojis.infinity.id)?.format;
 
   return createBaseEmbed(newChannel, executor, t)
-    .setTitle(t("user_limit_change.embed.title"))
+    .setTitle(t(($) => $.user_limit_change.embed.title))
     .setDescription(
-      t("user_limit_change.embed.description", {
+      t(($) => $.user_limit_change.embed.description, {
         channel: newChannel,
         old_user_limit: oldLimit > 0 ? oldLimit : infinityEmoji,
         new_user_limit: newLimit > 0 ? newLimit : infinityEmoji,
@@ -180,9 +180,9 @@ export function buildRtcRegionChangeEmbed(
   t: TFunction,
 ): EmbedBuilder {
   return createBaseEmbed(newChannel, executor, t)
-    .setTitle(t("rtc_region_change.embed.title"))
+    .setTitle(t(($) => $.rtc_region_change.embed.title))
     .setDescription(
-      t("rtc_region_change.embed.description", {
+      t(($) => $.rtc_region_change.embed.description, {
         channel: newChannel,
         old_rtc_region: oldRegion || "N/A",
         new_rtc_region: (newChannel as VoiceChannel).rtcRegion || "N/A",
@@ -198,12 +198,12 @@ export function buildVideoQualityChangeEmbed(
 ): EmbedBuilder {
   const newMode = (newChannel as VoiceChannel).videoQualityMode;
   return createBaseEmbed(newChannel, executor, t)
-    .setTitle(t("video_quality_mode_change.embed.title"))
+    .setTitle(t(($) => $.video_quality_mode_change.embed.title))
     .setDescription(
-      t("video_quality_mode_change.embed.description", {
+      t(($) => $.video_quality_mode_change.embed.description, {
         channel: newChannel,
         old_video_quality_mode: t(`video_quality_mode_change.modes.${oldMode}`),
-        new_video_quality_mode: t(`video_quality_mode_change.modes.${newMode}`),
+        new_video_quality_mode: t(($) => $.video_quality_mode_change.modes.${newMode}),
       }),
     );
 }
@@ -219,12 +219,12 @@ export function buildForumArchiveDurationEmbed(
   t: TFunction,
 ): EmbedBuilder {
   return createBaseEmbed(newChannel, executor, t)
-    .setTitle(t("default_archive_duration_change.embed.title"))
+    .setTitle(t(($) => $.default_archive_duration_change.embed.title))
     .setDescription(
-      t("default_archive_duration_change.embed.description", {
+      t(($) => $.default_archive_duration_change.embed.description, {
         channel: newChannel,
         old_archive_duration: t(`default_archive_duration_change.time.${oldDuration}`),
-        new_archive_duration: t(`default_archive_duration_change.time.${newChannel.defaultAutoArchiveDuration}`),
+        new_archive_duration: t(($) => $.default_archive_duration_change.time.${newChannel.defaultAutoArchiveDuration}),
       }),
     );
 }
@@ -236,9 +236,9 @@ export function buildForumRateLimitEmbed(
   t: TFunction,
 ): EmbedBuilder {
   return createBaseEmbed(newChannel, executor, t)
-    .setTitle(t("forum_rate_limit_change.embed.title"))
+    .setTitle(t(($) => $.forum_rate_limit_change.embed.title))
     .setDescription(
-      t("forum_rate_limit_change.embed.description", {
+      t(($) => $.forum_rate_limit_change.embed.description, {
         channel: newChannel,
         old_rate_limit: `${oldRateLimit}s`,
         new_rate_limit: `${newChannel.rateLimitPerUser}s`,
@@ -253,9 +253,9 @@ export function buildForumThreadRateLimitEmbed(
   t: TFunction,
 ): EmbedBuilder {
   return createBaseEmbed(newChannel, executor, t)
-    .setTitle(t("forum_default_thread_rate_limit_change.embed.title"))
+    .setTitle(t(($) => $.forum_default_thread_rate_limit_change.embed.title))
     .setDescription(
-      t("forum_default_thread_rate_limit_change.embed.description", {
+      t(($) => $.forum_default_thread_rate_limit_change.embed.description, {
         channel: newChannel,
         old_rate_limit: `${oldRateLimit}s`,
         new_rate_limit: `${newChannel.defaultThreadRateLimitPerUser}s`,
@@ -274,9 +274,9 @@ export function buildForumReactionEmojiEmbed(
   const newReactionEmoji = newChannel.guild.emojis.cache.get(newChannel.defaultReactionEmoji?.id || "0");
 
   return createBaseEmbed(newChannel, executor, t)
-    .setTitle(t("forum_default_reaction_emoji_change.embed.title"))
+    .setTitle(t(($) => $.forum_default_reaction_emoji_change.embed.title))
     .setDescription(
-      t("forum_default_reaction_emoji_change.embed.description", {
+      t(($) => $.forum_default_reaction_emoji_change.embed.description, {
         channel: newChannel,
         old_reaction_emoji: oldReactionEmoji ? oldReactionEmoji.toString() : oldEmojiName || "N/A",
         new_reaction_emoji: newReactionEmoji
@@ -293,12 +293,12 @@ export function buildForumSortOrderEmbed(
   t: TFunction,
 ): EmbedBuilder {
   return createBaseEmbed(newChannel, executor, t)
-    .setTitle(t("forum_default_sort_order_change.embed.title"))
+    .setTitle(t(($) => $.forum_default_sort_order_change.embed.title))
     .setDescription(
-      t("forum_default_sort_order_change.embed.description", {
+      t(($) => $.forum_default_sort_order_change.embed.description, {
         channel: newChannel,
         old_sort_order: t(`forum_default_sort_order_change.modes.${oldSort}`),
-        new_sort_order: t(`forum_default_sort_order_change.modes.${newChannel.defaultSortOrder}`),
+        new_sort_order: t(($) => $.forum_default_sort_order_change.modes.${newChannel.defaultSortOrder}),
       }),
     );
 }
@@ -310,12 +310,12 @@ export function buildForumLayoutEmbed(
   t: TFunction,
 ): EmbedBuilder {
   return createBaseEmbed(newChannel, executor, t)
-    .setTitle(t("forum_default_forum_layout_change.embed.title"))
+    .setTitle(t(($) => $.forum_default_forum_layout_change.embed.title))
     .setDescription(
-      t("forum_default_forum_layout_change.embed.description", {
+      t(($) => $.forum_default_forum_layout_change.embed.description, {
         channel: newChannel,
         old_layout: t(`forum_default_forum_layout_change.layouts.${oldLayout}`),
-        new_layout: t(`forum_default_forum_layout_change.layouts.${newChannel.defaultForumLayout}`),
+        new_layout: t(($) => $.forum_default_forum_layout_change.layouts.${newChannel.defaultForumLayout}),
       }),
     );
 }
@@ -336,9 +336,9 @@ export function buildForumTagsUpdateEmbeds(
     embeds.push(
       createBaseEmbed(newChannel, executor, t)
         .setColor("Green")
-        .setTitle(t("forum_available_tags_change.added.embed.title"))
+        .setTitle(t(($) => $.forum_available_tags_change.added.embed.title))
         .setDescription(
-          t("forum_available_tags_change.added.embed.description", {
+          t(($) => $.forum_available_tags_change.added.embed.description, {
             channel: newChannel,
             tag_name: diff.added.map((tag) => tag.name).join(", "),
             tag_moderation_only: diff.added.map((tag) => (tag.moderated ? confirm : reject)).join(", "),
@@ -357,9 +357,9 @@ export function buildForumTagsUpdateEmbeds(
     embeds.push(
       createBaseEmbed(newChannel, executor, t)
         .setColor("Red")
-        .setTitle(t("forum_available_tags_change.removed.embed.title"))
+        .setTitle(t(($) => $.forum_available_tags_change.removed.embed.title))
         .setDescription(
-          t("forum_available_tags_change.removed.embed.description", {
+          t(($) => $.forum_available_tags_change.removed.embed.description, {
             channel: newChannel,
             tag_name: diff.removed.map((tag) => tag.name).join(", "),
             tag_moderation_only: diff.removed.map((tag) => (tag.moderated ? confirm : reject)).join(", "),
@@ -380,7 +380,7 @@ export function buildForumTagsUpdateEmbeds(
     for (const update of diff.updated) {
       const changes = update.changes;
       descriptionLines.push(
-        t("forum_available_tags_change.updated.embed.description", {
+        t(($) => $.forum_available_tags_change.updated.embed.description, {
           channel: newChannel,
           old_tag_name: changes.name ? changes.name.old : "N/A",
           new_tag_name: changes.name ? changes.name.new : "N/A",
@@ -406,7 +406,7 @@ export function buildForumTagsUpdateEmbeds(
     embeds.push(
       createBaseEmbed(newChannel, executor, t)
         .setColor("Yellow")
-        .setTitle(t("forum_available_tags_change.updated.embed.title"))
+        .setTitle(t(($) => $.forum_available_tags_change.updated.embed.title))
         .setDescription(descriptionLines.join("\n")),
     );
   }

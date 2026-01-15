@@ -30,18 +30,18 @@ export async function logChannelCreate(channel: NonThreadGuildBasedChannel, guil
 
   const embed = new EmbedBuilder()
     .setColor("Green")
-    .setTitle(t("embed.title"))
+    .setTitle(t(($) => $.embed.title))
     .setDescription(
-      t("embed.description", {
+      t(($) => $.embed.description, {
         channel: channel.toString(), // Explicitly stringify to <#ID>
-        channel_type: t(`channel_types.${channel.type}`),
+        channel_type: t(($) => $.channel_types.${channel.type}),
         timestamp: time(channel.createdAt, TimestampStyles.LongDateShortTime),
       }),
     )
     .setThumbnail(channel.guild.iconURL() ?? null)
     .setTimestamp()
     .setFooter({
-      text: executor?.tag ?? t("unknown_executor"),
+      text: executor?.tag ?? t(($) => $.unknown_executor),
       iconURL: executor?.displayAvatarURL() ?? undefined,
     });
 

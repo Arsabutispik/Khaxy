@@ -14,10 +14,10 @@ export async function modMailTextFile(
     const time = `[${dayjs(row.sentAt).format("YYYY-MM-DD HH:mm:ss")}]`;
 
     if (row.authorType === ModMailAuthorType.SYSTEM) {
-      const prefix = row.sentTo === ModMailSentToType.USER ? t("bot_to_user") : "[BOT]";
+      const prefix = row.sentTo === ModMailSentToType.USER ? t(($) => $.bot_to_user) : "[BOT]";
       messages.push(`${time} ${prefix} ${row.content}`);
     } else if (row.authorType === ModMailAuthorType.USER) {
-      messages.push(`${time} ${t("from_user")} [${user.tag}] ${row.content}`);
+      messages.push(`${time} ${t(($) => $.from_user)} [${user.tag}] ${row.content}`);
     } else if (row.authorType === ModMailAuthorType.STAFF) {
       const author = await client.users.fetch(row.authorId).catch(() => null);
       const tag = author ? author.tag : "Unknown";

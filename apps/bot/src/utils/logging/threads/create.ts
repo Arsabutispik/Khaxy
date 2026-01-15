@@ -10,9 +10,9 @@ export async function logThreadCreate(thread: AnyThreadChannel, guildConfig: Gui
   if (logChannel?.type !== ChannelType.GuildText) return;
   const embed = new EmbedBuilder()
     .setColor("Green")
-    .setTitle(t("embed.title"))
+    .setTitle(t(($) => $.embed.title))
     .setDescription(
-      t("embed.description", {
+      t(($) => $.embed.description, {
         thread,
         parent: thread.parent,
         auto_archive_duration: t(`thread_auto_archive_duration.${thread.autoArchiveDuration}`),

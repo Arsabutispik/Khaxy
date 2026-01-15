@@ -82,18 +82,18 @@ export default {
     const selectMenu = new StringSelectMenuBuilder()
       .setCustomId("configSelector")
       .setOptions(
-        { label: t("selectMenu.moderation"), value: "moderation", emoji: "⚖️" },
-        { label: t("selectMenu.register"), value: "register", emoji: "📝" },
-        { label: t("selectMenu.welcomeLeave"), value: "welcomeLeave", emoji: "👋" },
-        { label: t("selectMenu.role"), value: "role", emoji: "🔒" },
-        { label: t("selectMenu.misc"), value: "misc", emoji: "🔧" },
-        { label: t("selectMenu.log"), value: "log", emoji: "📜" },
+        { label: t(($) => $.selectMenu.moderation), value: "moderation", emoji: "⚖️" },
+        { label: t(($) => $.selectMenu.register), value: "register", emoji: "📝" },
+        { label: t(($) => $.selectMenu.welcomeLeave), value: "welcomeLeave", emoji: "👋" },
+        { label: t(($) => $.selectMenu.role), value: "role", emoji: "🔒" },
+        { label: t(($) => $.selectMenu.misc), value: "misc", emoji: "🔧" },
+        { label: t(($) => $.selectMenu.log), value: "log", emoji: "📜" },
       );
 
     const actionRow = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(selectMenu);
 
     const response = await interaction.reply({
-      content: t("noSetting"),
+      content: t(($) => $.noSetting),
       flags: MessageFlagsBitField.Flags.Ephemeral,
       withResponse: true,
       components: [actionRow],
@@ -124,102 +124,102 @@ export default {
 
       if (selected === "register") {
         embed
-          .setTitle(t("embed.register.title"))
+          .setTitle(t(($) => $.embed.register.title))
           .setURL(`${docsUrl}/${guildConfig.language.split("-")[0]}/configuration/register-settings`)
           .addFields(
             {
-              name: t("embed.register.fields.registerJoinChannel"),
-              value: guildConfig.registerJoinChannelId ? `<#${guildConfig.registerJoinChannelId}>` : t("none"),
+              name: t(($) => $.embed.register.fields.registerJoinChannel),
+              value: guildConfig.registerJoinChannelId ? `<#${guildConfig.registerJoinChannelId}>` : t(($) => $.none),
               inline: true,
             },
             {
-              name: t("embed.register.fields.registerChannel"),
-              value: guildConfig.registerChannelId ? `<#${guildConfig.registerChannelId}>` : t("none"),
+              name: t(($) => $.embed.register.fields.registerChannel),
+              value: guildConfig.registerChannelId ? `<#${guildConfig.registerChannelId}>` : t(($) => $.none),
               inline: true,
             },
             {
-              name: t("embed.register.fields.registerJoinMessage"),
+              name: t(($) => $.embed.register.fields.registerJoinMessage),
               value: check(guildConfig.registerJoinMessage),
               inline: true,
             },
             {
-              name: t("embed.register.fields.registerChannelClear"),
+              name: t(($) => $.embed.register.fields.registerChannelClear),
               value: check(guildConfig.registerChannelClear),
               inline: true,
             },
           );
       } else if (selected === "welcomeLeave") {
-        embed.setTitle(t("embed.welcomeLeave.title")).addFields(
+        embed.setTitle(t(($) => $.embed.welcomeLeave.title)).addFields(
           {
-            name: t("embed.welcomeLeave.fields.welcomeChannel"),
-            value: guildConfig.joinChannelId ? `<#${guildConfig.joinChannelId}>` : t("none"),
+            name: t(($) => $.embed.welcomeLeave.fields.welcomeChannel),
+            value: guildConfig.joinChannelId ? `<#${guildConfig.joinChannelId}>` : t(($) => $.none),
             inline: true,
           },
           {
-            name: t("embed.welcomeLeave.fields.welcomeMessage"),
+            name: t(($) => $.embed.welcomeLeave.fields.welcomeMessage),
             value: check(guildConfig.joinMessage),
             inline: true,
           },
           {
-            name: t("embed.welcomeLeave.fields.leaveChannel"),
-            value: guildConfig.leaveChannelId ? `<#${guildConfig.leaveChannelId}>` : t("none"),
+            name: t(($) => $.embed.welcomeLeave.fields.leaveChannel),
+            value: guildConfig.leaveChannelId ? `<#${guildConfig.leaveChannelId}>` : t(($) => $.none),
             inline: true,
           },
-          { name: t("embed.welcomeLeave.fields.leaveMessage"), value: check(guildConfig.leaveMessage), inline: true },
+          { name: t(($) => $.embed.welcomeLeave.fields.leaveMessage), value: check(guildConfig.leaveMessage), inline: true },
         );
       } else if (selected === "moderation") {
-        embed.setTitle(t("embed.moderation.title")).addFields(
+        embed.setTitle(t(($) => $.embed.moderation.title)).addFields(
           {
-            name: t("embed.moderation.fields.modLogChannel"),
-            value: guildConfig.logConfig?.modLogsChannelId ? `<#${guildConfig.logConfig.modLogsChannelId}>` : t("none"),
+            name: t(($) => $.embed.moderation.fields.modLogChannel),
+            value: guildConfig.logConfig?.modLogsChannelId ? `<#${guildConfig.logConfig.modLogsChannelId}>` : t(($) => $.none),
             inline: true,
           },
           {
-            name: t("embed.moderation.fields.staffRole"),
-            value: guildConfig.staffRoleId ? `<@&${guildConfig.staffRoleId}>` : t("none"),
+            name: t(($) => $.embed.moderation.fields.staffRole),
+            value: guildConfig.staffRoleId ? `<@&${guildConfig.staffRoleId}>` : t(($) => $.none),
             inline: true,
           },
           {
-            name: t("embed.moderation.fields.muteGetAllRoles"),
+            name: t(($) => $.embed.moderation.fields.muteGetAllRoles),
             value: check(guildConfig.muteGetAllRoles),
             inline: true,
           },
           {
-            name: t("embed.moderation.fields.registerDayLimit"),
+            name: t(($) => $.embed.moderation.fields.registerDayLimit),
             value: guildConfig.daysToKick.toString(),
             inline: true,
           },
         );
       } else if (selected === "log") {
-        embed.setTitle(t("embed.log.title")).addFields(
+        embed.setTitle(t(($) => $.embed.log.title)).addFields(
           {
-            name: t("embed.log.fields.messageLogsChannel"),
+            name: t(($) => $.embed.log.fields.messageLogsChannel),
             value: guildConfig.logConfig?.messageLogsChannelId
               ? `<#${guildConfig.logConfig.messageLogsChannelId}>`
-              : t("none"),
+              : t(($) => $.none),
             inline: true,
           },
           {
-            name: t("embed.log.fields.guildLogsChannel"),
+            name: t(($) => $.embed.log.fields.guildLogsChannel),
             value: guildConfig.logConfig?.guildLogsChannelId
               ? `<#${guildConfig.logConfig.guildLogsChannelId}>`
-              : t("none"),
+              : t(($) => $.none),
             inline: true,
           },
         );
       } else if (selected === "misc") {
-        embed.setTitle(t("embed.misc.title")).addFields(
+        embed.setTitle(t(($) => $.embed.misc.title)).addFields(
           {
-            name: t("embed.misc.fields.language"),
+            name: t(($) => $.embed.misc.fields.language),
             value: localeFlags[guildConfig.language] || guildConfig.language,
             inline: true,
           },
-          { name: t("embed.misc.fields.modMailMessage"), value: check(guildConfig.modMailMessage), inline: true },
+          { name: t(($) => $.embed.misc.fields.modMailMessage), value: check(guildConfig.modMailMessage), inline: true },
         );
       } else if (selected === "role") {
-        embed.setTitle(t("embed.role.title")).addFields({
-          name: t("embed.role.fields.colorOfTheDay"),
-          value: guildConfig.colourIdOfTheDay ? `<@&${guildConfig.colourIdOfTheDay}>` : t("none"),
+        embed.setTitle(t(($) => $.embed.role.title)).addFields({
+          name: t(($) => $.embed.role.fields.colorOfTheDay),
+          value: guildConfig.colourIdOfTheDay ? `<@&${guildConfig.colourIdOfTheDay}>` : t(($) => $.none),
           inline: true,
         });
       }

@@ -35,14 +35,14 @@ export default {
     const thread = await getThreadByChannelId(channelId);
     if (!thread) {
       return interaction.reply({
-        content: t("noThread"),
+        content: t(($) => $.noThread),
         flags: MessageFlags.Ephemeral,
       });
     }
 
     if (!thread.scheduledCloseAt) {
       return interaction.reply({
-        content: t("notClosing"),
+        content: t(($) => $.notClosing),
         flags: MessageFlags.Ephemeral,
       });
     }
@@ -53,7 +53,7 @@ export default {
 
       // We use withResponse: true to get the message object for logging
       const response = await interaction.reply({
-        content: t("cancelled"),
+        content: t(($) => $.cancelled),
         withResponse: true,
       });
 
@@ -62,7 +62,7 @@ export default {
       // Persist the cancellation in the thread history
       await addMessageToThread(
         channelId,
-        t("cancelled"),
+        t(($) => $.cancelled),
         user.id,
         ModMailAuthorType.SYSTEM,
         ModMailSentToType.THREAD,
@@ -76,7 +76,7 @@ export default {
       });
 
       return interaction.reply({
-        content: t("error"),
+        content: t(($) => $.error),
         flags: MessageFlags.Ephemeral,
       });
     }

@@ -29,7 +29,7 @@ export async function handleModMailMessageUpdate(
   const t = oldMessage.client.i18next.getFixedT(guildConfig.language, "events", "messageUpdate");
 
   // Format the notification text
-  const editNotification = t("message_edit", {
+  const editNotification = t(($) => $.message_edit, {
     oldContent: oldMessage.content || t("errors.unknown_content"),
     newContent: newMessage.content || t("errors.unknown_content"),
   });

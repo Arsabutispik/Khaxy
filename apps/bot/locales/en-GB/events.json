@@ -267,15 +267,7 @@
     "unknownExecutor": "Unknown Executor",
     "neverJoined": "User never joined the server."
   },
-  "guildBanRemove": {
-    "embed": {
-      "title": "User Unbanned From Server",
-      "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
-      "fields": {
-        "reason": "Reason"
-      }
-    }
-  },
+  "guildBanRemove": {},
   "guildMemberAdd": {
     "embed": {
       "title": "User Joined Server",

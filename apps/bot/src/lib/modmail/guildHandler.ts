@@ -21,6 +21,6 @@ export async function handleStaffReply(message: Message) {
     );
   } catch (e) {
     logger.error({ message: "Error saving staff reply", error: e });
-    await message.reply(t("error_inserting"));
+    await message.reply(t(($) => $.error_inserting));
   }
 }

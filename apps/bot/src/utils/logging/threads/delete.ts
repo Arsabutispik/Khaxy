@@ -10,9 +10,9 @@ export async function logThreadDelete(thread: AnyThreadChannel, guildConfig: Gui
   if (logChannel?.type !== ChannelType.GuildText) return;
   const embed = new EmbedBuilder()
     .setColor("Red")
-    .setTitle(t("embed.title"))
+    .setTitle(t(($) => $.embed.title))
     .setDescription(
-      t("embed.description", {
+      t(($) => $.embed.description, {
         thread,
         parent: thread.parent,
         auto_archive_duration: t(`thread_auto_archive_duration.${thread.autoArchiveDuration}`),
@@ -29,7 +29,7 @@ export async function logThreadDelete(thread: AnyThreadChannel, guildConfig: Gui
   const logEntry = auditLogs?.entries.first();
   if (logEntry?.target?.id === thread.id) {
     embed.setFooter({
-      text: logEntry.executor?.username ?? t("unknown_executor"),
+      text: logEntry.executor?.username ?? t(($) => $.unknown_executor),
       iconURL: logEntry.executor?.displayAvatarURL() ?? undefined,
     });
   }

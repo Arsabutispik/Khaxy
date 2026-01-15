@@ -17,9 +17,9 @@ export async function logRoleCreate(role: Role, guildConfig: GuildWithLogs) {
   const logEntry = auditLogs?.entries.first();
   const embed = new EmbedBuilder()
     .setColor("Green")
-    .setTitle(t("embed.title"))
+    .setTitle(t(($) => $.embed.title))
     .setDescription(
-      t("embed.description", {
+      t(($) => $.embed.description, {
         role: role,
         role_color: `#${role.color.toString(16).padStart(6, "0")}`,
         role_hoist: role.hoist
@@ -30,7 +30,7 @@ export async function logRoleCreate(role: Role, guildConfig: GuildWithLogs) {
           : role.client.allEmojis.get(role.client.config.emojis.reject.id)?.format,
         permissions: role.permissions.toArray().map((permission) => {
           const t = role.client.i18next.getFixedT(guildConfig.language, "permissions");
-          return t(`permissions.${permission}`);
+          return t(($) => $.permissions.${permission});
         }),
         timestamp: time(role.createdAt, TimestampStyles.LongDateShortTime),
       }),
@@ -39,7 +39,7 @@ export async function logRoleCreate(role: Role, guildConfig: GuildWithLogs) {
     .setTimestamp();
   if (logEntry?.target?.id === role.id) {
     embed.setFooter({
-      text: logEntry.executor?.tag ?? t("unknown_executor"),
+      text: logEntry.executor?.tag ?? t(($) => $.unknown_executor),
       iconURL: logEntry.executor?.displayAvatarURL() ?? undefined,
     });
   }

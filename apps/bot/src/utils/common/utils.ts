@@ -39,7 +39,7 @@ export function replacePlaceholders(template: string, replacements: Record<strin
  */
 export function missingPermissionsAsString(client: Client, missing: string[], language: string) {
   const t = client.i18next.getFixedT(language, "permissions");
-  return missing.map((perm) => t(`permissions.${perm}`)).join(", ");
+  return missing.map((perm) => t(($) => $.permissions.${perm})).join(", ");
 }
 dayjs.extend(duration);
 

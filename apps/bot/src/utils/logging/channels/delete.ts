@@ -29,9 +29,9 @@ export async function logsChannelDelete(channel: NonThreadGuildBasedChannel, gui
 
   const embed = new EmbedBuilder()
     .setColor("Red")
-    .setTitle(t("embed.title"))
+    .setTitle(t(($) => $.embed.title))
     .setDescription(
-      t("embed.description", {
+      t(($) => $.embed.description, {
         channel: channel,
         channel_type: t(`channel_types.${channel.type}`),
         timestamp: time(channel.createdAt, TimestampStyles.LongDateShortTime),
@@ -40,7 +40,7 @@ export async function logsChannelDelete(channel: NonThreadGuildBasedChannel, gui
     .setThumbnail(channel.guild.iconURL() ?? null)
     .setTimestamp()
     .setFooter({
-      text: executor?.tag ?? t("unknown_executor"),
+      text: executor?.tag ?? t(($) => $.unknown_executor),
       iconURL: executor?.displayAvatarURL() ?? undefined,
     });
 

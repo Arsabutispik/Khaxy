@@ -45,7 +45,7 @@ export async function modMailLog(client: Client, channel: TextChannel, user: Use
 
   const threads = await getModMailThreads(channel.guildId);
   const transcriptLines: string[] = [
-    t("initial", {
+    t(($) => $.initial, {
       thread_id: threads?.length || 1,
       user,
       time: dayjs(modMailMessages[0].sentAt),
@@ -55,7 +55,7 @@ export async function modMailLog(client: Client, channel: TextChannel, user: Use
   const attachment = await modMailTextFile(transcriptLines, modMailMessages, client, t, user);
 
   await logChannel.send({
-    content: t("close_message", {
+    content: t(($) => $.close_message, {
       thread_id: threads?.length || 1,
       user,
       closer,

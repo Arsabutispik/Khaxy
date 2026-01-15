@@ -12,9 +12,9 @@ export async function logInviteDelete(invite: Invite, guildConfig: GuildWithLogs
 
   const embed = new EmbedBuilder()
     .setColor("Red")
-    .setTitle(t("embed.title"))
+    .setTitle(t(($) => $.embed.title))
     .setDescription(
-      t("embed.description", {
+      t(($) => $.embed.description, {
         invite,
       }),
     )
@@ -28,7 +28,7 @@ export async function logInviteDelete(invite: Invite, guildConfig: GuildWithLogs
   const logEntry = auditLogs?.entries.first();
   if (logEntry?.target?.code === invite.code) {
     embed.setFooter({
-      text: logEntry.executor?.username ?? t("unknown_executor"),
+      text: logEntry.executor?.username ?? t(($) => $.unknown_executor),
       iconURL: logEntry.executor?.displayAvatarURL() ?? undefined,
     });
   }

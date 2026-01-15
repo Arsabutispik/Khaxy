@@ -46,7 +46,7 @@ export async function checkExpiredThreads(client: Client) {
 
       const user = await client.users.fetch(thread.userId).catch(() => null);
       if (user) {
-        await user.send(t("thread_closed_dm", { guild: guild.name })).catch(() => null);
+        await user.send(t(($) => $.thread_closed_dm, { guild: guild.name })).catch(() => null);
       }
 
       // Log it using the CORRECT closer (Mod or Bot)
@@ -56,7 +56,7 @@ export async function checkExpiredThreads(client: Client) {
       // We pass closer.id here to ensure the final record is accurate
       await closeThread(thread.channelId, closer.id);
 
-      await channel.send(t("preparing_close"));
+      await channel.send(t(($) => $.preparing_close));
 
       setTimeout(() => {
         channel.delete().catch(() => null);

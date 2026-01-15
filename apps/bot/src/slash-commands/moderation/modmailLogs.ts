@@ -35,22 +35,22 @@ export default {
     const threads = await getModMailThreads(interaction.guildId);
     const thread = threads?.find((thread) => Number(thread.id) === logId);
     if (!thread) {
-      return interaction.editReply({ content: t("noThreadFound", { logId }) });
+      return interaction.editReply({ content: t(($) => $.noThreadFound, { logId }) });
     }
     if (thread.status !== ModMailStatus.CLOSED) {
-      return interaction.editReply({ content: t("threadNotClosed", { logId }) });
+      return interaction.editReply({ content: t(($) => $.threadNotClosed, { logId }) });
     }
     const user = await interaction.client.users.fetch(thread.userId).catch(() => null);
     if (!user) {
-      return interaction.editReply({ content: t("userNotFound", { userId: thread.userId }) });
+      return interaction.editReply({ content: t(($) => $.userNotFound, { userId: thread.userId }) });
     }
     const messages = await getThreadMessages(thread.channelId);
     if (messages.length === 0) {
-      return interaction.editReply({ content: t("noMessagesFound", { logId }) });
+      return interaction.editReply({ content: t(($) => $.noMessagesFound, { logId }) });
     }
     const channel = interaction.guild?.channels.cache.get(thread.channelId);
     if (channel?.type !== ChannelType.GuildText) return;
     await modMailLog(interaction.client, channel, user, interaction.user);
-    return interaction.editReply({ content: t("logSent", { userTag: user.tag }) });
+    return interaction.editReply({ content: t(($) => $.logSent, { userTag: user.tag }) });
   },
 } as SlashCommandBase;

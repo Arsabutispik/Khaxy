@@ -49,7 +49,7 @@ export default {
     );
     if (!command) {
       await interaction.reply({
-        content: t("commandNotFound", { command: commandName }),
+        content: t(($) => $.commandNotFound, { command: commandName }),
         flags: MessageFlags.Ephemeral,
       });
       return;
@@ -59,18 +59,18 @@ export default {
       .setDescription(helpt(`${command.name}.description`))
       .setColor("Random")
       .setFooter({
-        text: t("footer"),
+        text: t(($) => $.footer),
       })
       .addFields({
-        name: t("commandUsage"),
+        name: t(($) => $.commandUsage),
         value: helpt(`${command.name}.usage`, { command }),
       })
       .addFields({
-        name: t("permissions"),
+        name: t(($) => $.permissions),
         value: helpt(`${command.name}.permissions`, { joinArrays: "\n" }),
       })
       .addFields({
-        name: t("examples"),
+        name: t(($) => $.examples),
         value: helpt(`${command.name}.examples`, { joinArrays: "\n" }),
       });
 

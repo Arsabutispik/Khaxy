@@ -25,14 +25,14 @@ export default {
         user: ban.user,
         moderator: logEntry?.executor ?? null,
         action: "UNBAN",
-        reason: ban.reason || t("no_reason"),
+        reason: ban.reason || t(($) => $.no_reason),
       },
       ban.client,
     );
     await logBanRemove({
       guild: ban.guild,
       user: ban.user,
-      reason: ban.reason || t("no_reason"),
+      reason: ban.reason || t(($) => $.no_reason),
       executor: logEntry?.executor ?? null,
       guildConfig,
       t,

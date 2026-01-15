@@ -112,7 +112,7 @@ export default {
     const t = interaction.client.i18next.getFixedT(guildConfig.language, "commands", "purge");
     if (interaction.channel?.type !== ChannelType.GuildText) {
       return interaction.reply({
-        content: t("not_text_channel"),
+        content: t(($) => $.not_text_channel),
         flags: MessageFlags.Ephemeral,
       });
     }
@@ -123,7 +123,7 @@ export default {
       try {
         const messages = await interaction.channel.bulkDelete(amount, true);
         return interaction.editReply({
-          content: t("any.success", {
+          content: t(($) => $.any.success, {
             count: messages.size,
             confirm: interaction.client.allEmojis.get(interaction.client.config.emojis.confirm.id)!.format,
           }),
@@ -135,7 +135,7 @@ export default {
           error,
         });
         return interaction.editReply({
-          content: t("any.error"),
+          content: t(($) => $.any.error),
         });
       }
     } else if (subcommand === "bots") {
@@ -145,7 +145,7 @@ export default {
         const botMessages = messages.filter((msg) => msg.author.bot);
         const deletedMessages = await interaction.channel.bulkDelete(botMessages, true);
         return interaction.editReply({
-          content: t("bots.success", {
+          content: t(($) => $.bots.success, {
             count: deletedMessages.size,
             confirm: interaction.client.allEmojis.get(interaction.client.config.emojis.confirm.id)!.format,
           }),
@@ -157,7 +157,7 @@ export default {
           error,
         });
         return interaction.editReply({
-          content: t("bots.error"),
+          content: t(($) => $.bots.error),
         });
       }
     } else if (subcommand === "user") {
@@ -168,7 +168,7 @@ export default {
         const userMessages = messages.filter((msg) => msg.author.id === target.id);
         const deletedMessages = await interaction.channel.bulkDelete(userMessages, true);
         return interaction.editReply({
-          content: t("user.success", {
+          content: t(($) => $.user.success, {
             count: deletedMessages.size,
             user: target.toString(),
             confirm: interaction.client.allEmojis.get(interaction.client.config.emojis.confirm.id)!.format,
@@ -181,7 +181,7 @@ export default {
           error,
         });
         return interaction.editReply({
-          content: t("user.error"),
+          content: t(($) => $.user.error),
         });
       }
     }

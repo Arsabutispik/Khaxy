@@ -12,9 +12,9 @@ export async function logStageInstanceCreate(stageInstance: StageInstance, guild
   const embed = new EmbedBuilder()
     .setColor("Green")
     .setTimestamp()
-    .setTitle(t("embed.title"))
+    .setTitle(t(($) => $.embed.title))
     .setDescription(
-      t("embed.description", {
+      t(($) => $.embed.description, {
         stage: stageInstance,
       }),
     );
@@ -27,7 +27,7 @@ export async function logStageInstanceCreate(stageInstance: StageInstance, guild
   const logEntry = auditLogs?.entries.first();
   if (logEntry?.target.id === stageInstance.id) {
     embed.setFooter({
-      text: logEntry?.executor?.username || t("unknown_executor"),
+      text: logEntry?.executor?.username || t(($) => $.unknown_executor),
       iconURL: logEntry.executor?.displayAvatarURL(),
     });
   }

@@ -18,12 +18,6 @@
       "noModlogChannel": "No mod log channel is set in the guild config. Please set one to enable mod logs."
     }
   },
-  "bumpLeaderboard": {
-    "initial": "This month's bump leaderboard:\n\n",
-    "lastBump": "Last bump was made {{time}} by {{user}}.",
-    "lastWinner": "Last month's winner: {{user}} with `{{count}}` bump out of **{{total_bumps}}** bumps.",
-    "messageNotSentByBot": "There are messages in the bump leaderboard channel that were not sent by the bot. Please remove them to avoid errors."
-  },
   "unregisteredPeople": {
     "kickMessage": "You failed to register in the **{{server}}** server within **{{days}}** days. You have been kicked from the server.",
     "initial": "Member failed to register within {{days}} days."
@@ -161,27 +155,14 @@
       "label": "Set Mod-Mail Channel",
       "description": "The channel where the mod-mail will be sent.",
       "unset": "Mod-mail channel has been removed.",
-      "set": "Mod-mail channel has been set to {{channel}}."
+      "set": "Mod-mail channel has been set to {{channel}}.",
+      "alreadySet": "Mod-mail channel is already set to {{channel}}."
     },
     "muteGetAllRoles": {
       "label": "Mute Get All Roles",
       "description": "Gives all roles to the muted user.",
       "false": "Mute get all roles is disabled.",
       "true": "Mute get all roles is enabled."
-    },
-    "registerDayLimit": {
-      "label": "Set Register Day Limit",
-      "description": "The number of days a user has to register.",
-      "labelZero": "Disable Register Day Limit",
-      "descriptionZero": "Disables the register day limit.",
-      "labelOne": "Set Register Day Limit 1 Day",
-      "descriptionOne": "Sets the register day limit to 1 day.",
-      "labelThree": "Set Register Day Limit 3 Days",
-      "descriptionThree": "Sets the register day limit to 3 days.",
-      "labelSeven": "Set Register Day Limit 7 Days",
-      "descriptionSeven": "Sets the register day limit to 7 days.",
-      "initial": "Select the one you want to set.",
-      "success": "Register day limit has been set to {{days}} days."
     },
     "defaultExpiry": {
       "label": "Set Default Expiry",
@@ -213,12 +194,6 @@
       "label": "Set Mod-Mail Message",
       "set": "Mod-mail message has been set.",
       "description": "The message that will be sent by the bot when a user sends a mod-mail."
-    },
-    "bumpLeaderboardChannelId": {
-      "label": "Set Bump Leaderboard Channel",
-      "description": "The channel where the bump leaderboard will be sent.",
-      "unset": "Bump leaderboard channel has been removed.",
-      "set": "Bump leaderboard channel has been set to {{channel}}."
     }
   },
   "logConfig": {
@@ -314,6 +289,80 @@
       "description": "The channel where webhook logs will be sent.",
       "unset": "Webhook Logs channel has been removed.",
       "set": "Webhook Logs channel has been set to {{channel}}."
+    }
+  },
+  "waitForMessageComponent": {
+    "initial": "Please select an option below.",
+    "timeout": "Menu timed out."
+  },
+  "dynamicChannel": {
+    "initial": "Select a channel below...",
+    "timeout": "Menu timed out.",
+
+    "messages": {
+      "set": "Successfully set **{{label}}** to {{channel}}.",
+      "unset": "Successfully disabled **{{label}}**."
+    },
+
+    "labels": {
+      "modLogsChannelId": "Moderation Logs",
+      "voiceLogsChannelId": "Voice Logs",
+      "messageLogsChannelId": "Message Logs",
+      "joinChannelId": "Welcome Channel",
+      "leaveChannelId": "Leave Channel",
+      "registerChannelId": "Register Channel",
+      "registerJoinChannelId": "Register Join Channel",
+      "modMailChannelId": "Mod-Mail Channel",
+      "guildMemberLogsChannelId": "Member Logs",
+      "guildLogsChannelId": "Guild Logs",
+      "channelLogsChannelId": "Channel Logs",
+      "emojiLogsChannelId": "Emoji Logs",
+      "roleLogsChannelId": "Role Logs",
+      "stickerLogsChannelId": "Sticker Logs",
+      "eventLogsChannelId": "Event Logs",
+      "inviteLogsChannelId": "Invite Logs",
+      "pollLogsChannelId": "Poll Logs",
+      "stageLogsChannelId": "Stage Logs",
+      "soundboardLogsChannelId": "Soundboard Logs",
+      "threadLogsChannelId": "Thread Logs",
+      "webhookLogsChannelId": "Webhook Logs"
+    }
+  },
+  "dynamicMessage": {
+    "initial": "Set a {{label}} message below with a modal",
+    "timeout": "Message timed out.",
+    "title": "Set {{label}} Message",
+    "messages": {
+      "set": "Successfully set **{{label}}** message.",
+      "unset": "Successfully removed **{{label}}** message."
+    },
+    "labels": {
+      "joinMessage": "Welcome",
+      "leaveMessage": "Leave",
+      "registerJoinMessage": "Register",
+      "modMailMessage": "Mod-Mail"
+    }
+  },
+  "dynamicRole": {
+    "initial": "Select a role below...",
+    "timeout": "Menu timed out.",
+
+    "messages": {
+      "set": "Successfully set **{{label}}** to {{role}}.",
+      "unset": "Successfully disabled **{{label}}**."
+    },
+    "errors": {
+      "roleTooHigh": "The role you selected is too high. Please select a role that is lower than the bot's role."
+    },
+    "labels": {
+      "memberRoleId": "Member Role",
+      "unverifiedRoleId": "Unverified Role",
+      "maleRoleId": "Male Role",
+      "staffRoleId": "Staff Role",
+      "femaleRoleId": "Female Role",
+      "colourIdOfTheDay": "Colour of the Day Role",
+      "muteRoleId": "Mute Role",
+      "djRoleId": "DJ Role"
     }
   },
   "modMailLog": {

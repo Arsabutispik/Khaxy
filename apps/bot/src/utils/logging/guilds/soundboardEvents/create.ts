@@ -11,9 +11,9 @@ export async function logSoundBoardSoundCreate(soundboardSound: GuildSoundboardS
   const embed = new EmbedBuilder()
     .setColor("Green")
     .setTimestamp()
-    .setTitle(t("embed.title"))
+    .setTitle(t(($) => $.embed.title))
     .setDescription(
-      t("embed.description", {
+      t(($) => $.embed.description, {
         sound: soundboardSound,
         volume: Math.round(soundboardSound.volume * 100),
         timestamp: time(soundboardSound.createdAt, TimestampStyles.FullDateShortTime),

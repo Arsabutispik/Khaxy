@@ -18,7 +18,7 @@ export default {
     const devGuild = interaction.client.guilds.cache.get(process.env.GUILD_ID!);
     if (!devGuild) {
       await interaction.reply({
-        content: t("guildNotFound"),
+        content: t(($) => $.guildNotFound),
         flags: MessageFlags.Ephemeral,
       });
       return;
@@ -29,14 +29,14 @@ export default {
       );
       const embed = new EmbedBuilder()
         .setColor("Random")
-        .setTitle(t("embed.title"))
+        .setTitle(t(($) => $.embed.title))
         .setFields([
           {
-            name: t("embed.fields.supportServer"),
+            name: t(($) => $.embed.fields.supportServer),
             value: invite.url,
           },
           {
-            name: t("embed.fields.docsSite"),
+            name: t(($) => $.embed.fields.docsSite),
             value: `https://docs.khaxy.net/${guildConfig.language.split("-")[0]}/`,
           },
         ]);
@@ -46,7 +46,7 @@ export default {
       });
     } catch (error) {
       await interaction.reply({
-        content: t("error"),
+        content: t(($) => $.error),
         flags: MessageFlags.Ephemeral,
       });
       logger.log({

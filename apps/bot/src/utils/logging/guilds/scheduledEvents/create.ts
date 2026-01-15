@@ -12,15 +12,15 @@ export async function logScheduledEventCreate({ event, executor, guildConfig, t 
     .setTimestamp()
     .setThumbnail(event.coverImageURL() ?? event.guild.iconURL())
     .setFooter({
-      text: executor?.tag || t("unknown_executor"),
+      text: executor?.tag || t(($) => $.unknown_executor),
       iconURL: executor?.displayAvatarURL() || undefined,
     });
   if (event.entityType === GuildScheduledEventEntityType.External) {
     embed
       .setColor("Green")
-      .setTitle(t("external_channel.embed.title"))
+      .setTitle(t(($) => $.external_channel.embed.title))
       .setDescription(
-        t("external_channel.embed.description", {
+        t(($) => $.external_channel.embed.description, {
           event: event,
           scheduled_start_time: event.scheduledStartAt
             ? time(event.scheduledStartAt, TimestampStyles.FullDateShortTime)
@@ -33,9 +33,9 @@ export async function logScheduledEventCreate({ event, executor, guildConfig, t 
   } else {
     embed
       .setColor("Green")
-      .setTitle(t("voice_channel.embed.title"))
+      .setTitle(t(($) => $.voice_channel.embed.title))
       .setDescription(
-        t("voice_channel.embed.description", {
+        t(($) => $.voice_channel.embed.description, {
           event: event,
           scheduled_start_time: event.scheduledStartAt
             ? time(event.scheduledStartAt, TimestampStyles.FullDateShortTime)

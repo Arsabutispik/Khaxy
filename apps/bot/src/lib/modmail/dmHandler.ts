@@ -73,7 +73,7 @@ async function handleSingleGuildFlow(message: Message, guild: any) {
   const blacklist = await getBlacklistedUser(guild.id, message.author.id);
   if (blacklist) {
     return message.reply(
-      t("blacklisted", {
+      t(($) => $.blacklisted, {
         guild: guild.name,
         reason: blacklist.reason,
         expires: blacklist.expiresAt ? dayjs(blacklist.expiresAt).fromNow() : t("never"),
@@ -83,17 +83,17 @@ async function handleSingleGuildFlow(message: Message, guild: any) {
 
   // Member check
   const member = await guild.members.fetch(message.author.id).catch(() => null);
-  if (!member) return message.reply(t("not_member"));
+  if (!member) return message.reply(t(($) => $.not_member));
 
   // Confirmation Prompt
   const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
-    new ButtonBuilder().setCustomId("modmail_confirm").setLabel(t("confirm")).setStyle(ButtonStyle.Success),
-    new ButtonBuilder().setCustomId("modmail_cancel").setLabel(t("cancel")).setStyle(ButtonStyle.Danger),
+    new ButtonBuilder().setCustomId("modmail_confirm").setLabel(t(($) => $.confirm)).setStyle(ButtonStyle.Success),
+    new ButtonBuilder().setCustomId("modmail_cancel").setLabel(t(($) => $.cancel)).setStyle(ButtonStyle.Danger),
   );
 
   const confirmEmbed = new EmbedBuilder()
-    .setTitle(t("confirm_title"))
-    .setDescription(t("confirm_description", { guild: guild.name }))
+    .setTitle(t(($) => $.confirm_title))
+    .setDescription(t(($) => $.confirm_description, { guild: guild.name }))
     .setColor("Blurple");
 
   const prompt = await message.reply({ embeds: [confirmEmbed], components: [row] });
@@ -108,13 +108,13 @@ async function handleSingleGuildFlow(message: Message, guild: any) {
     await confirmation.deferUpdate();
     if (confirmation.customId === "modmail_cancel") {
       return prompt.edit({
-        embeds: [new EmbedBuilder().setTitle(t("cancelled_title")).setColor("Red")],
+        embeds: [new EmbedBuilder().setTitle(t(($) => $.cancelled_title)).setColor("Red")],
         components: [],
       });
     }
 
     await setupNewThread(message, guild, prompt);
   } catch {
-    await prompt.edit({ content: t("timeout"), components: [], embeds: [] });
+    await prompt.edit({ content: t(($) => $.timeout), components: [], embeds: [] });
   }
 }

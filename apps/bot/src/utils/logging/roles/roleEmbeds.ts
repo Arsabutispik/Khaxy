@@ -15,7 +15,7 @@ function createBaseEmbed(role: Role, executor: User | null, t: TFunction) {
       iconURL: executor.displayAvatarURL(),
     });
   } else {
-    embed.setFooter({ text: t("unknown_executor") });
+    embed.setFooter({ text: t(($) => $.unknown_executor) });
   }
 
   return embed;
@@ -33,9 +33,9 @@ function getBoolEmoji(role: Role, value: boolean) {
 
 export function buildRoleNameEmbed(oldRole: Role, newRole: Role, executor: User | null, t: TFunction) {
   return createBaseEmbed(newRole, executor, t)
-    .setTitle(t("name_change.embed.title"))
+    .setTitle(t(($) => $.name_change.embed.title))
     .setDescription(
-      t("name_change.embed.description", {
+      t(($) => $.name_change.embed.description, {
         role: newRole,
         old_name: oldRole.name,
         new_name: newRole.name,
@@ -45,9 +45,9 @@ export function buildRoleNameEmbed(oldRole: Role, newRole: Role, executor: User 
 
 export function buildRoleColorEmbed(oldRole: Role, newRole: Role, executor: User | null, t: TFunction) {
   return createBaseEmbed(newRole, executor, t)
-    .setTitle(t("color_change.embed.title"))
+    .setTitle(t(($) => $.color_change.embed.title))
     .setDescription(
-      t("color_change.embed.description", {
+      t(($) => $.color_change.embed.description, {
         role: newRole,
         old_color: `#${oldRole.color.toString(16).padStart(6, "0").toUpperCase()}`,
         new_color: `#${newRole.color.toString(16).padStart(6, "0").toUpperCase()}`,
@@ -57,9 +57,9 @@ export function buildRoleColorEmbed(oldRole: Role, newRole: Role, executor: User
 
 export function buildRoleHoistEmbed(oldRole: Role, newRole: Role, executor: User | null, t: TFunction) {
   return createBaseEmbed(newRole, executor, t)
-    .setTitle(t("hoist_change.embed.title"))
+    .setTitle(t(($) => $.hoist_change.embed.title))
     .setDescription(
-      t("hoist_change.embed.description", {
+      t(($) => $.hoist_change.embed.description, {
         role: newRole,
         old_hoist: getBoolEmoji(oldRole, oldRole.hoist),
         new_hoist: getBoolEmoji(newRole, newRole.hoist),
@@ -69,9 +69,9 @@ export function buildRoleHoistEmbed(oldRole: Role, newRole: Role, executor: User
 
 export function buildRoleMentionableEmbed(oldRole: Role, newRole: Role, executor: User | null, t: TFunction) {
   return createBaseEmbed(newRole, executor, t)
-    .setTitle(t("mentionable_change.embed.title"))
+    .setTitle(t(($) => $.mentionable_change.embed.title))
     .setDescription(
-      t("mentionable_change.embed.description", {
+      t(($) => $.mentionable_change.embed.description, {
         role: newRole,
         old_mentionable: getBoolEmoji(oldRole, oldRole.mentionable),
         new_mentionable: getBoolEmoji(newRole, newRole.mentionable),
@@ -91,9 +91,9 @@ export function buildRolePermissionsEmbed(
   if (!diff) return null;
 
   return createBaseEmbed(newRole, executor, t)
-    .setTitle(t("permissions_change.embed.title"))
+    .setTitle(t(($) => $.permissions_change.embed.title))
     .setDescription(
-      t("permissions_change.embed.description", {
+      t(($) => $.permissions_change.embed.description, {
         role: newRole,
         changes: diff,
       }),
@@ -102,9 +102,9 @@ export function buildRolePermissionsEmbed(
 
 export function buildRoleIconEmbed(oldRole: Role, newRole: Role, executor: User | null, t: TFunction) {
   return createBaseEmbed(newRole, executor, t)
-    .setTitle(t("icon_change.embed.title"))
+    .setTitle(t(($) => $.icon_change.embed.title))
     .setDescription(
-      t("icon_change.embed.description", {
+      t(($) => $.icon_change.embed.description, {
         role: newRole,
         old_icon: oldRole.iconURL() ?? "N/A",
         new_icon: newRole.iconURL() ?? "N/A",

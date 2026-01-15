@@ -25,9 +25,9 @@ export async function logMessageBulkDelete(
     type: WebhookType.MESSAGE_LOGS,
   });
   const embed = new EmbedBuilder()
-    .setTitle(t("embed.title", { count: messages.size }))
+    .setTitle(t(($) => $.embed.title, { count: messages.size }))
     .setColor("Red")
-    .setDescription(t("embed.description", { message: messages.first() }))
+    .setDescription(t(($) => $.embed.description, { message: messages.first() }))
     .setTimestamp();
   const buffer = Buffer.from(
     messages
@@ -41,12 +41,12 @@ export async function logMessageBulkDelete(
           },
           content: message.content?.trim() || "No content",
         };
-        return `[${new Date()}] ${t("message", { message: formattedMessage })}`;
+        return `[${new Date()}] ${t(($) => $.message, { message: formattedMessage })}`;
       })
       .join("\n"),
     "utf8",
   );
-  const attachment = new AttachmentBuilder(buffer, { name: t("file_name") });
+  const attachment = new AttachmentBuilder(buffer, { name: t(($) => $.file_name) });
   if (webhook) {
     await webhook
       .send({

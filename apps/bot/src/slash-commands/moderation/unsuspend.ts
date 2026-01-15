@@ -29,14 +29,14 @@ export default {
     const thread = await getThreadByChannelId(interaction.channelId);
     if (!thread) {
       await interaction.reply({
-        content: t("noThread"),
+        content: t(($) => $.noThread),
         flags: MessageFlags.Ephemeral,
       });
       return;
     }
     if (thread.status !== ModMailStatus.SUSPENDED) {
       await interaction.reply({
-        content: t("notSuspended"),
+        content: t(($) => $.notSuspended),
         flags: MessageFlags.Ephemeral,
       });
       return;
@@ -44,7 +44,7 @@ export default {
     const userThreads = await getThreadsByUser(thread.userId);
     if (userThreads.some((t) => t.status === ModMailStatus.OPEN)) {
       await interaction.reply({
-        content: t("userHasOpenThreads"),
+        content: t(($) => $.userHasOpenThreads),
         flags: MessageFlags.Ephemeral,
       });
       return;
@@ -57,20 +57,20 @@ export default {
       });
       await addMessageToThread(
         interaction.channelId,
-        t("unsuspended"),
+        t(($) => $.unsuspended),
         interaction.user.id,
         ModMailAuthorType.STAFF,
         ModMailSentToType.THREAD,
         interaction.id,
       );
-      await interaction.editReply(t("unsuspended"));
+      await interaction.editReply(t(($) => $.unsuspended));
     } catch (error) {
       logger.log({
         level: "error",
         message: `Failed to unsuspend modmail thread ${interaction.channelId}`,
         error,
       });
-      await interaction.editReply(t("error"));
+      await interaction.editReply(t(($) => $.error));
     }
   },
 } as SlashCommandBase;

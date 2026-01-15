@@ -24,15 +24,15 @@ export async function logSoundboardSoundUpdate(oldSoundboardSound: GuildSoundboa
 
   if (targetId === newSoundboardSound.soundId) {
     embed.setFooter({
-      text: logEntry?.executor?.username ?? t("unknown_executor"),
+      text: logEntry?.executor?.username ?? t(($) => $.unknown_executor),
       iconURL: logEntry?.executor?.displayAvatarURL() ?? undefined,
     });
   }
   if (oldSoundboardSound?.volume !== newSoundboardSound.volume) {
     const embedClone = EmbedBuilder.from(embed)
-      .setTitle(t("volume_change.embed.title"))
+      .setTitle(t(($) => $.volume_change.embed.title))
       .setDescription(
-        t("volume_change.embed.description", {
+        t(($) => $.volume_change.embed.description, {
           sound: newSoundboardSound,
           old_volume: Math.round((oldSoundboardSound?.volume || 0) * 100),
           new_volume: Math.round(newSoundboardSound.volume * 100),
@@ -43,9 +43,9 @@ export async function logSoundboardSoundUpdate(oldSoundboardSound: GuildSoundboa
   }
   if (oldSoundboardSound?.name !== newSoundboardSound.name) {
     const embedClone = EmbedBuilder.from(embed)
-      .setTitle(t("name_change.embed.title"))
+      .setTitle(t(($) => $.name_change.embed.title))
       .setDescription(
-        t("name_change.embed.description", {
+        t(($) => $.name_change.embed.description, {
           sound: newSoundboardSound,
           old_name: oldSoundboardSound?.name || t("no_previous_value"),
           new_name: newSoundboardSound.name,
@@ -56,9 +56,9 @@ export async function logSoundboardSoundUpdate(oldSoundboardSound: GuildSoundboa
   }
   if (oldSoundboardSound?.emoji?.toString() !== newSoundboardSound.emoji?.toString()) {
     const embedClone = EmbedBuilder.from(embed)
-      .setTitle(t("emoji_change.embed.title"))
+      .setTitle(t(($) => $.emoji_change.embed.title))
       .setDescription(
-        t("emoji_change.embed.description", {
+        t(($) => $.emoji_change.embed.description, {
           sound: newSoundboardSound,
           old_emoji: oldSoundboardSound?.emoji?.toString() || t("no_previous_value"),
           new_emoji: newSoundboardSound.emoji?.toString() || t("no_emoji"),

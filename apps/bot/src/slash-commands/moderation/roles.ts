@@ -92,7 +92,7 @@ export default {
     const role = interaction.options.getRole("role", true);
     if (!member || !interaction.guild?.members.cache.has(member.id)) {
       await interaction.reply({
-        content: t("user_not_found"),
+        content: t(($) => $.user_not_found),
         flags: MessageFlags.Ephemeral,
       });
       return;
@@ -100,7 +100,7 @@ export default {
     if (subcommand === "add") {
       if (member.roles.cache.has(role.id)) {
         await interaction.reply({
-          content: t("role_already_assigned", { user: member.user.tag, role: role.name }),
+          content: t(($) => $.role_already_assigned, { user: member.user.tag, role: role.name }),
           flags: MessageFlags.Ephemeral,
         });
         return;
@@ -112,17 +112,17 @@ export default {
           message: `Failed to add role ${role.id} to user ${member.user.id} in guild ${interaction.guild.name} (${interaction.guildId})`,
         });
         await interaction.reply({
-          content: t("role_add_error"),
+          content: t(($) => $.role_add_error),
           flags: MessageFlags.Ephemeral,
         });
       });
       await interaction.reply({
-        content: t("role_added", { user: member.user.tag, role: role.name }),
+        content: t(($) => $.role_added, { user: member.user.tag, role: role.name }),
       });
     } else if (subcommand === "remove") {
       if (!member.roles.cache.has(role.id)) {
         await interaction.reply({
-          content: t("role_not_assigned", { user: member.user.tag, role: role.name }),
+          content: t(($) => $.role_not_assigned, { user: member.user.tag, role: role.name }),
           flags: MessageFlags.Ephemeral,
         });
         return;
@@ -130,13 +130,13 @@ export default {
 
       await member.roles.remove(role).catch(async (error) => {
         await interaction.reply({
-          content: t("role_remove_error", { error: error.message }),
+          content: t(($) => $.role_remove_error, { error: error.message }),
           flags: MessageFlags.Ephemeral,
         });
       });
 
       await interaction.reply({
-        content: t("role_removed", { user: member.user.tag, role: role.name }),
+        content: t(($) => $.role_removed, { user: member.user.tag, role: role.name }),
       });
     }
   },

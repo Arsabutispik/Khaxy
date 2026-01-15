@@ -56,13 +56,13 @@ export default {
           user: member.user,
           action: "KICK",
           moderator: executor,
-          reason: logEntry?.reason || t("no_reason"),
+          reason: logEntry?.reason || t(($) => $.no_reason),
         },
         member.client,
       );
     }
 
-    await logMemberLeave({ member, reason: logEntry?.reason || t("no_reason"), executor, guildConfig, t, isAKick });
+    await logMemberLeave({ member, reason: logEntry?.reason || t(($) => $.no_reason), executor, guildConfig, t, isAKick });
 
     const threadRows = await getThreadsByUser(member.user.id);
     for (const thread of threadRows) {
@@ -73,7 +73,7 @@ export default {
         channel.permissionsFor(member.guild.members.me!)?.has(PermissionsBitField.Flags.SendMessages)
       ) {
         await channel.send(
-          t("user_left", {
+          t(($) => $.user_left, {
             guild: member.guild.name,
           }),
         );

@@ -17,27 +17,27 @@ export async function registerConfig(interaction: ChatInputCommandInteraction<"c
     .setMaxValues(1)
     .setOptions([
       {
-        label: t("registerJoinChannelId.label"),
+        label: t(($) => $.registerJoinChannelId.label),
         value: "registerJoinChannelId",
-        description: t("registerJoinChannelId.description"),
+        description: t(($) => $.registerJoinChannelId.description),
         emoji: "📝",
       },
       {
-        label: t("registerChannelId.label"),
+        label: t(($) => $.registerChannelId.label),
         value: "registerChannelId",
-        description: t("registerChannelId.description"),
+        description: t(($) => $.registerChannelId.description),
         emoji: "📝",
       },
       {
-        label: t("registerJoinMessage.label"),
+        label: t(($) => $.registerJoinMessage.label),
         value: "registerJoinMessage",
-        description: t("registerJoinMessage.description"),
+        description: t(($) => $.registerJoinMessage.description),
         emoji: "📝",
       },
       {
-        label: t("registerClearChannel.label"),
+        label: t(($) => $.registerClearChannel.label),
         value: "registerClearChannel",
-        description: t("registerClearChannel.description"),
+        description: t(($) => $.registerClearChannel.description),
         emoji: "📝",
       },
     ]);
@@ -71,7 +71,7 @@ async function registerClearChannel(
       registerChannelClear: false,
     });
     await interaction.editReply({
-      content: t("registerClearChannel.unset"),
+      content: t(($) => $.registerClearChannel.unset),
       components: [],
     });
   } else {
@@ -79,7 +79,7 @@ async function registerClearChannel(
       registerChannelClear: true,
     });
     await interaction.editReply({
-      content: t("registerClearChannel.set"),
+      content: t(($) => $.registerClearChannel.set),
       components: [],
     });
   }

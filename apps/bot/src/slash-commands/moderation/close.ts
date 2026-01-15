@@ -50,16 +50,16 @@ export default {
     const { client, channel, channelId, user: moderator } = interaction;
     const t = client.i18next.getFixedT(guildConfig.language, "commands", "close");
 
-    if (channel?.type !== ChannelType.GuildText) return interaction.reply(t("notTextChannel"));
+    if (channel?.type !== ChannelType.GuildText) return interaction.reply(t(($) => $.notTextChannel));
 
     const thread = await getThreadByChannelId(channelId);
-    if (!thread) return interaction.reply(t("noThread"));
+    if (!thread) return interaction.reply(t(($) => $.noThread));
 
     // 1. Handle Existing Scheduled Close (Interruption)
     if (thread.scheduledCloseAt) {
       const confirmed = await handleExistingSchedule(interaction, thread.scheduledCloseAt, t, guildConfig.language);
       if (!confirmed) {
-        const cancelMessage = t("cancelled");
+        const cancelMessage = t(($) => $.cancelled);
         if (!interaction.deferred && !interaction.replied) {
           await interaction.reply({ content: cancelMessage, ephemeral: true });
         } else {
@@ -74,7 +74,7 @@ export default {
 
     // 2. Scheduled Close Flow
     if (durationVal || unit) {
-      if (!durationVal || !unit) return interaction.reply(t("missingDurationOrUnit"));
+      if (!durationVal || !unit) return interaction.reply(t(($) => $.missingDurationOrUnit));
 
       const closeDate = dayjs().add(dayjs.duration(durationVal, unit as any));
       const longDuration = closeDate.locale(guildConfig.language || "en").fromNow(true);
@@ -82,7 +82,7 @@ export default {
       try {
         await scheduleThreadClose(channelId, closeDate.toDate(), moderator.id);
 
-        const content = t("closeDuration", { duration: longDuration });
+        const content = t(($) => $.closeDuration, { duration: longDuration });
         await interaction.reply({ content });
 
         await addMessageToThread(
@@ -95,7 +95,7 @@ export default {
         );
       } catch (error) {
         logger.error({ message: "Error scheduling close", error });
-        await interaction.reply(t("databaseError"));
+        await interaction.reply(t(($) => $.databaseError));
       }
       return;
     }
@@ -119,12 +119,12 @@ async function handleExistingSchedule(
     .fromNow(true);
 
   const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
-    new ButtonBuilder().setCustomId("accept").setLabel(t("accept")).setStyle(ButtonStyle.Success),
-    new ButtonBuilder().setCustomId("reject").setLabel(t("reject")).setStyle(ButtonStyle.Danger),
+    new ButtonBuilder().setCustomId("accept").setLabel(t(($) => $.accept)).setStyle(ButtonStyle.Success),
+    new ButtonBuilder().setCustomId("reject").setLabel(t(($) => $.reject)).setStyle(ButtonStyle.Danger),
   );
 
   const response = await interaction.reply({
-    content: t("threadCloseDate", { date: timeStr }),
+    content: t(($) => $.threadCloseDate, { date: timeStr }),
     components: [row],
     withResponse: true,
   });
@@ -137,14 +137,14 @@ async function handleExistingSchedule(
     });
 
     if (component.customId === "reject") {
-      await component.update({ content: t("threadCloseDateRejected"), components: [] });
+      await component.update({ content: t(($) => $.threadCloseDateRejected), components: [] });
       return false;
     }
 
-    await component.update({ content: t("threadCloseDateAccepted"), components: [] });
+    await component.update({ content: t(($) => $.threadCloseDateAccepted), components: [] });
     return true;
   } catch {
-    await interaction.editReply({ content: t("timeout"), components: [] });
+    await interaction.editReply({ content: t(($) => $.timeout), components: [] });
     return false;
   }
 }
@@ -158,14 +158,14 @@ async function performImmediateClose(interaction: ChatInputCommandInteraction, t
   try {
     await closeThread(channelId, moderator.id);
 
-    const replyContent = t("close");
+    const replyContent = t(($) => $.close);
     if (interaction.replied || interaction.deferred) await interaction.followUp(replyContent);
     else await interaction.reply(replyContent);
 
     // DM the user
     const targetUser = await client.users.fetch(thread.userId).catch(() => null);
     if (targetUser) {
-      await targetUser.send(t("threadCloseDm", { guild: guild!.name })).catch(() => null);
+      await targetUser.send(t(($) => $.threadCloseDm, { guild: guild!.name })).catch(() => null);
     }
 
     // System Log entry
@@ -187,6 +187,6 @@ async function performImmediateClose(interaction: ChatInputCommandInteraction, t
     await channel?.delete().catch((err) => logger.error({ message: "Failed to delete modmail channel", error: err }));
   } catch (error) {
     logger.error({ message: "Error during immediate close", error });
-    if (!interaction.replied) await interaction.reply(t("error"));
+    if (!interaction.replied) await interaction.reply(t(($) => $.error));
   }
 }

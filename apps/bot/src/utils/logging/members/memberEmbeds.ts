@@ -8,10 +8,10 @@ interface ExecutorInfo {
 
 export function buildTimeoutEmbed(member: GuildMember, timeoutUntil: Date, info: ExecutorInfo, t: TFunction) {
   return new EmbedBuilder()
-    .setTitle(t("timeout.embed.title"))
+    .setTitle(t(($) => $.timeout.embed.title))
     .setColor("Yellow")
     .setDescription(
-      t("timeout.embed.description", {
+      t(($) => $.timeout.embed.description, {
         user: member.user,
         timestamp: time(timeoutUntil, TimestampStyles.FullDateShortTime),
       }),
@@ -20,25 +20,25 @@ export function buildTimeoutEmbed(member: GuildMember, timeoutUntil: Date, info:
     .setTimestamp()
     .addFields([
       {
-        name: t("timeout.embed.fields.reason"),
-        value: info.reason || t("timeout.no_reason"),
+        name: t(($) => $.timeout.embed.fields.reason),
+        value: info.reason || t(($) => $.timeout.no_reason),
       },
     ])
     .setFooter({
-      text: info.executor?.tag || t("unknown_executor"),
+      text: info.executor?.tag || t(($) => $.unknown_executor),
       iconURL: info.executor?.displayAvatarURL() || undefined,
     });
 }
 
 export function buildRemoveTimeoutEmbed(member: GuildMember, info: ExecutorInfo, t: TFunction) {
   return new EmbedBuilder()
-    .setTitle(t("remove_timeout.embed.title"))
+    .setTitle(t(($) => $.remove_timeout.embed.title))
     .setColor("Green")
-    .setDescription(t("remove_timeout.embed.description", { user: member.user }))
+    .setDescription(t(($) => $.remove_timeout.embed.description, { user: member.user }))
     .setThumbnail(member.user.displayAvatarURL())
     .setTimestamp()
     .setFooter({
-      text: info.executor?.tag || t("unknown_executor"),
+      text: info.executor?.tag || t(($) => $.unknown_executor),
       iconURL: info.executor?.displayAvatarURL() || undefined,
     });
 }
@@ -50,23 +50,23 @@ export function buildRolesUpdateEmbed(
   info: ExecutorInfo,
   t: TFunction,
 ) {
-  let description = t("roles_update.embed.description", { user: member.user });
+  let description = t(($) => $.roles_update.embed.description, { user: member.user });
 
   if (addedRoles.length > 0) {
-    description += `\n> **${t("roles_update.embed.added")}**: ${addedRoles.join(", ")}`;
+    description += `\n> **${t(($) => $.roles_update.embed.added)}**: ${addedRoles.join(", ")}`;
   }
   if (removedRoles.length > 0) {
-    description += `\n> **${t("roles_update.embed.removed")}**: ${removedRoles.join(", ")}`;
+    description += `\n> **${t(($) => $.roles_update.embed.removed)}**: ${removedRoles.join(", ")}`;
   }
 
   return new EmbedBuilder()
-    .setTitle(t("roles_update.embed.title"))
+    .setTitle(t(($) => $.roles_update.embed.title))
     .setColor("Yellow")
     .setThumbnail(member.user.displayAvatarURL())
     .setDescription(description)
     .setTimestamp()
     .setFooter({
-      text: info.executor?.tag || t("unknown_executor"),
+      text: info.executor?.tag || t(($) => $.unknown_executor),
       iconURL: info.executor?.displayAvatarURL() || undefined,
     });
 }
@@ -79,10 +79,10 @@ export function buildNicknameChangeEmbed(
   t: TFunction,
 ) {
   return new EmbedBuilder()
-    .setTitle(t("nickname_change.embed.title"))
+    .setTitle(t(($) => $.nickname_change.embed.title))
     .setColor("Blue")
     .setDescription(
-      t("nickname_change.embed.description", {
+      t(($) => $.nickname_change.embed.description, {
         user: member.user,
         old_nickname: oldNickname || t("nickname_change.no_nickname"),
         new_nickname: newNickname || t("nickname_change.no_nickname"),
@@ -91,7 +91,7 @@ export function buildNicknameChangeEmbed(
     .setThumbnail(member.user.displayAvatarURL())
     .setTimestamp()
     .setFooter({
-      text: info.executor?.tag || t("unknown_executor"),
+      text: info.executor?.tag || t(($) => $.unknown_executor),
       iconURL: info.executor?.displayAvatarURL() || undefined,
     });
 }

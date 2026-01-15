@@ -13,7 +13,7 @@ export async function CheckExpiredModmailBlacklists(client: Client) {
     if (!user) continue;
 
     // Notify the user about the expiration
-    await user.send(t("expired_modmail_blacklist_notification", { guild: guild.name })).catch(() => null);
+    await user.send(t(($) => $.expired_modmail_blacklist_notification, { guild: guild.name })).catch(() => null);
   }
   await removeExpiredBlacklists();
 }

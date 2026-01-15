@@ -16,7 +16,7 @@ export async function setupNewThread(message: Message, guild: any, promptToEdit:
   const member = await guild.members.fetch(message.author.id);
 
   const parent = guild.channels.cache.get(config.modMailParentChannelId!);
-  if (!parent) return message.reply(t("parent_channel_missing"));
+  if (!parent) return message.reply(t(($) => $.parent_channel_missing));
 
   const overwrites = [{ id: guild.id, deny: [PermissionsBitField.Flags.ViewChannel] }];
   if (config.staffRoleId && guild.roles.cache.has(config.staffRoleId)) {
@@ -27,7 +27,7 @@ export async function setupNewThread(message: Message, guild: any, promptToEdit:
     name: Math.random().toString(36).slice(2),
     parent: parent.id,
     type: ChannelType.GuildText,
-    topic: t("topic", { user: message.author.tag }),
+    topic: t(($) => $.topic, { user: message.author.tag }),
     permissionOverwrites: overwrites,
   });
 
@@ -36,7 +36,7 @@ export async function setupNewThread(message: Message, guild: any, promptToEdit:
   try {
     // FIX: Using botMsg to get the ID for the database log
     const botMsg = await channel.send(
-      t("initial", {
+      t(($) => $.initial, {
         user: message.author,
         account_age: dayjs(message.author.createdAt).fromNow(),
         join_date: dayjs(member.joinedAt).fromNow(),
@@ -67,14 +67,14 @@ export async function setupNewThread(message: Message, guild: any, promptToEdit:
 
     await promptToEdit.edit({
       content: config.modMailMessage,
-      embeds: [new EmbedBuilder().setTitle(t("confirmed_title")).setColor("Green")],
+      embeds: [new EmbedBuilder().setTitle(t(($) => $.confirmed_title)).setColor("Green")],
       components: [],
     });
 
     await channel.send(`**[${message.author.tag}]**: ${content}`);
   } catch (e) {
     logger.error({ message: "Error initializing thread", error: e });
-    await message.reply(t("error_inserting"));
+    await message.reply(t(($) => $.error_inserting));
   }
 }
 
@@ -89,7 +89,7 @@ export async function relayToThread(message: Message, thread: any) {
 
   if (thread.scheduledCloseAt) {
     await (channel as any).send(
-      t("reopened", { user: message.author.tag, closer: thread.closerId ? `<@${thread.closerId}>` : "unknown" }),
+      t(($) => $.reopened, { user: message.author.tag, closer: thread.closerId ? `<@${thread.closerId}>` : "unknown" }),
     );
     await cancelScheduledClose(channel.id);
   }

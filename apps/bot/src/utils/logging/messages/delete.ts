@@ -18,15 +18,15 @@ export async function logMessageDelete(message: Message<true>, guildConfig: Guil
   if (message.author.id === webhook?.id) return;
 
   const embed = new EmbedBuilder()
-    .setTitle(t("embed.title"))
+    .setTitle(t(($) => $.embed.title))
     .setColor("Red")
     .setDescription(
-      t("embed.description", { message, timestamp: time(message.createdAt, TimestampStyles.RelativeTime) }),
+      t(($) => $.embed.description, { message, timestamp: time(message.createdAt, TimestampStyles.RelativeTime) }),
     )
     .setTimestamp();
 
   if (message.content) {
-    embed.addFields({ name: t("embed.fields.content"), value: message.content });
+    embed.addFields({ name: t(($) => $.embed.fields.content), value: message.content });
   }
   function getMaxFileSize(premiumTier: number): number {
     switch (premiumTier) {
@@ -72,7 +72,7 @@ export async function logMessageDelete(message: Message<true>, guildConfig: Guil
     const remaining = filteredAttachments.length - links.length;
     const suffix = remaining > 0 ? ", [...]" : "";
     embed.addFields({
-      name: t("embed.fields.attachments", { count: filteredAttachments.length }),
+      name: t(($) => $.embed.fields.attachments, { count: filteredAttachments.length }),
       value: `> ${links.join(", ")}${suffix}`,
     });
   }
@@ -81,7 +81,7 @@ export async function logMessageDelete(message: Message<true>, guildConfig: Guil
   const skippedFiles = attachments.filter((a) => a.size > MAX_FILE_SIZE);
   if (skippedFiles.length > 0) {
     embed.addFields({
-      name: t("skipped_files"),
+      name: t(($) => $.skipped_files),
       value: "> " + skippedFiles.map((f) => `${f.name} (${(f.size / 1024 / 1024).toFixed(2)}MB)`).join(", "),
     });
   }

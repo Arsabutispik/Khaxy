@@ -18,9 +18,9 @@ export async function logStickerCreate(sticker: Sticker, guildConfig: GuildWithL
   const logEntry = auditLogs?.entries.first();
   const embed = new EmbedBuilder()
     .setColor("Green")
-    .setTitle(t("embed.title"))
+    .setTitle(t(($) => $.embed.title))
     .setDescription(
-      t("embed.description", {
+      t(($) => $.embed.description, {
         sticker,
       }),
     )
@@ -28,7 +28,7 @@ export async function logStickerCreate(sticker: Sticker, guildConfig: GuildWithL
     .setTimestamp();
   if (logEntry?.target?.id === sticker.id) {
     embed.setFooter({
-      text: logEntry.executor?.tag ?? t("unknown_executor"),
+      text: logEntry.executor?.tag ?? t(($) => $.unknown_executor),
       iconURL: logEntry.executor?.displayAvatarURL() ?? undefined,
     });
   }

@@ -52,22 +52,22 @@ export default {
     const t = client.i18next.getFixedT(guildConfig.language, "commands", "unban");
     const user = interaction.options.getUser("user", true);
     if (!user) {
-      await interaction.reply({ content: t("no_user"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t(($) => $.no_user), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
     const banned = await interaction.guild.bans.fetch(user.id).catch(() => null);
     if (!banned) {
       await interaction.reply({
-        content: t("not_banned", { user: user.tag }),
+        content: t(($) => $.not_banned, { user: user.tag }),
         flags: MessageFlagsBitField.Flags.Ephemeral,
       });
       return;
     }
-    const reason = interaction.options.getString("reason") || t("no_reason");
+    const reason = interaction.options.getString("reason") || t(($) => $.no_reason);
     try {
       await interaction.guild.members.unban(user, reason);
       await interaction.reply({
-        content: t("success", {
+        content: t(($) => $.success, {
           user: user.tag,
           confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
           case: guildConfig.caseId,
@@ -76,7 +76,7 @@ export default {
       });
     } catch (error: any) {
       await interaction.reply({
-        content: t("error", { error: error.message }),
+        content: t(($) => $.error, { error: error.message }),
         flags: MessageFlagsBitField.Flags.Ephemeral,
       });
       logger.error({
@@ -97,19 +97,19 @@ export default {
         });
         if (!webhook) return;
         const embed = new EmbedBuilder()
-          .setTitle(t("embed.title"))
+          .setTitle(t(($) => $.embed.title))
           .setColor("Green")
           .setThumbnail(user.displayAvatarURL())
-          .setDescription(t("embed.description", { user: user }))
+          .setDescription(t(($) => $.embed.description, { user: user }))
           .setFooter({
-            text: interaction.user.tag || t("unknown_executor"),
+            text: interaction.user.tag || t(($) => $.unknown_executor),
             iconURL: interaction.user.displayAvatarURL() || undefined,
           })
           .setTimestamp()
           .addFields([
             {
-              name: t("embed.fields.reason"),
-              value: reason || t("no_reason"),
+              name: t(($) => $.embed.fields.reason),
+              value: reason || t(($) => $.no_reason),
             },
           ]);
         await webhook

@@ -66,7 +66,7 @@ export async function logMemberAction({
           moderator: executor ?? null,
           guild: member.guild,
           user: member.user,
-          reason: reason || t("timeout.no_reason"),
+          reason: reason || t(($) => $.timeout.no_reason),
         },
         member.client,
       );
@@ -109,7 +109,7 @@ export async function logMemberUpdate({ oldMember, newMember, guildConfig, t }: 
           moderator: info.executor,
           guild: newMember.guild,
           user: newMember.user,
-          reason: info.reason || t("timeout.no_reason"),
+          reason: info.reason || t(($) => $.timeout.no_reason),
         },
         newMember.client,
       );

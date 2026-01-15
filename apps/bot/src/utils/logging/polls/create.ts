@@ -11,9 +11,9 @@ export async function logPollCreate(message: Message<true>, guildConfig: GuildWi
   if (logChannel?.type !== ChannelType.GuildText) return;
   const embed = new EmbedBuilder()
     .setColor("Green")
-    .setTitle(t("poll_create.embed.title"))
+    .setTitle(t(($) => $.poll_create.embed.title))
     .setDescription(
-      t("poll_create.embed.description", {
+      t(($) => $.poll_create.embed.description, {
         message: message,
         timestamp: time(message.poll.expiresAt!, TimestampStyles.FullDateShortTime),
         multi_select: message.poll.allowMultiselect

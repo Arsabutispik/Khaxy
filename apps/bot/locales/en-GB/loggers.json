@@ -8,5 +8,16 @@
       }
     },
     "unknownExecutor": "Unknown Executor"
+  },
+  "banRemove": {
+    "embed": {
+      "title": "User Unbanned From Server",
+      "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
+      "fields": {
+        "reason": "Reason"
+      }
+    },
+    "unknownExecutor": "Unknown Executor",
+    "noReason": "No reason provided"
   }
 }

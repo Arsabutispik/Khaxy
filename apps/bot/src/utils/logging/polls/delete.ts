@@ -11,9 +11,9 @@ export async function logPollDelete(message: Message<true>, guildConfig: GuildWi
   if (logChannel?.type !== ChannelType.GuildText) return;
   const embed = new EmbedBuilder()
     .setColor("Red")
-    .setTitle(t("poll_delete.embed.title"))
+    .setTitle(t(($) => $.poll_delete.embed.title))
     .setDescription(
-      t("poll_delete.embed.description", {
+      t(($) => $.poll_delete.embed.description, {
         message: message,
         timestamp: time(message.poll.expiresAt!, TimestampStyles.FullDateShortTime),
         multi_select: message.poll.allowMultiselect

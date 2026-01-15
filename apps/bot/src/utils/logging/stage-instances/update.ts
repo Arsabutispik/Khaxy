@@ -20,13 +20,13 @@ export async function logStageInstanceUpdate(oldStageInstance: StageInstance | n
   const logEntry = auditLogs?.entries.first();
   if (logEntry?.target.id === newStageInstance.id) {
     embed.setFooter({
-      text: logEntry?.executor?.username || t("unknown_executor"),
+      text: logEntry?.executor?.username || t(($) => $.unknown_executor),
       iconURL: logEntry.executor?.displayAvatarURL(),
     });
   }
   if (oldStageInstance?.topic !== newStageInstance.topic) {
-    embed.setTitle(t("topic_change.embed.title")).setDescription(
-      t("topic_change.embed.description", {
+    embed.setTitle(t(($) => $.topic_change.embed.title)).setDescription(
+      t(($) => $.topic_change.embed.description, {
         stage: newStageInstance,
         old_topic: oldStageInstance?.topic,
         new_topic: newStageInstance.topic,

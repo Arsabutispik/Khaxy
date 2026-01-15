@@ -76,7 +76,7 @@ export default {
     const t = client.i18next.getFixedT(guildConfig.language || "en", "commands", "register");
     const member = interaction.options.getMember("user");
     if (!member) {
-      await interaction.reply({ content: t("no_member"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t(($) => $.no_member), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
     const gender = interaction.options.getString("gender", true);
@@ -84,22 +84,22 @@ export default {
       ? interaction.guild.channels.cache.get(guildConfig.registerChannelId)
       : undefined;
     if (!guildConfig.registerChannelId || !registerChannel) {
-      await interaction.reply({ content: t("no_register_channel"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t(($) => $.no_register_channel), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
     if (interaction.channelId !== registerChannel.id) {
       await interaction.reply({
-        content: t("wrong_channel", { channel: registerChannel.id }),
+        content: t(($) => $.wrong_channel, { channel: registerChannel.id }),
         flags: MessageFlagsBitField.Flags.Ephemeral,
       });
       return;
     }
     if (!guildConfig.memberRoleId || !interaction.guild.roles.cache.has(guildConfig.memberRoleId)) {
-      await interaction.reply({ content: t("no_member_role"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t(($) => $.no_member_role), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
     if (member.roles.cache.has(guildConfig.memberRoleId)) {
-      await interaction.reply({ content: t("already_registered"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t(($) => $.already_registered), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
     const rolesToAdd = [
@@ -111,7 +111,7 @@ export default {
     switch (gender) {
       case "male":
         if (!guildConfig.maleRoleId || !interaction.guild.roles.cache.has(guildConfig.maleRoleId)) {
-          await interaction.reply({ content: t("no_male_role"), flags: MessageFlagsBitField.Flags.Ephemeral });
+          await interaction.reply({ content: t(($) => $.no_male_role), flags: MessageFlagsBitField.Flags.Ephemeral });
           return;
         }
         try {
@@ -119,7 +119,7 @@ export default {
           await member.roles.set(rolesToAdd);
           added_roles = `<@&${guildConfig.maleRoleId}>, <@&${guildConfig.memberRoleId}>`;
           await interaction.reply({
-            content: t("success", {
+            content: t(($) => $.success, {
               user: member.toString(),
               confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
             }),
@@ -127,7 +127,7 @@ export default {
           });
         } catch (error: any) {
           await interaction.reply({
-            content: t("error", { error: error.message }),
+            content: t(($) => $.error, { error: error.message }),
             flags: MessageFlagsBitField.Flags.Ephemeral,
           });
           logger.error({
@@ -140,7 +140,7 @@ export default {
         break;
       case "female":
         if (!guildConfig.femaleRoleId || !interaction.guild.roles.cache.has(guildConfig.femaleRoleId)) {
-          await interaction.reply({ content: t("no_female_role"), flags: MessageFlagsBitField.Flags.Ephemeral });
+          await interaction.reply({ content: t(($) => $.no_female_role), flags: MessageFlagsBitField.Flags.Ephemeral });
           return;
         }
         try {
@@ -148,7 +148,7 @@ export default {
           await member.roles.set(rolesToAdd);
           added_roles = `<@&${guildConfig.femaleRoleId}>, <@&${guildConfig.memberRoleId}>`;
           await interaction.reply({
-            content: t("success", {
+            content: t(($) => $.success, {
               user: member.toString(),
               confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
             }),
@@ -156,7 +156,7 @@ export default {
           });
         } catch (e: any) {
           await interaction.reply({
-            content: t("error", { error: e.message }),
+            content: t(($) => $.error, { error: e.message }),
             flags: MessageFlagsBitField.Flags.Ephemeral,
           });
           logger.error({
@@ -172,7 +172,7 @@ export default {
           await member.roles.set(rolesToAdd);
           added_roles = `<@&${guildConfig.memberRoleId}>`;
           await interaction.reply({
-            content: t("success", {
+            content: t(($) => $.success, {
               user: member.toString(),
               confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
             }),
@@ -180,7 +180,7 @@ export default {
           });
         } catch (e: any) {
           await interaction.reply({
-            content: t("error", { error: e.message }),
+            content: t(($) => $.error, { error: e.message }),
             flags: MessageFlagsBitField.Flags.Ephemeral,
           });
           logger.error({
@@ -192,7 +192,7 @@ export default {
         }
         break;
       default:
-        await interaction.reply(t("not_valid"));
+        await interaction.reply(t(($) => $.not_valid));
         break;
     }
     const logChannel = guildConfig.logConfig?.guildMemberLogsChannelId
@@ -200,7 +200,7 @@ export default {
       : undefined;
     if (logChannel?.type !== ChannelType.GuildText) return;
     const embed = new EmbedBuilder()
-      .setTitle(t("roles_update.embed.title"))
+      .setTitle(t(($) => $.roles_update.embed.title))
       .setColor("Yellow")
       .setThumbnail(member.user.displayAvatarURL())
       .setTimestamp()
@@ -209,10 +209,10 @@ export default {
         iconURL: interaction.user.displayAvatarURL(),
       });
 
-    let description = t("roles_update.embed.description", { user: member.user, added_roles });
+    let description = t(($) => $.roles_update.embed.description, { user: member.user, added_roles });
 
     if (check) {
-      description += `\n> **${t("roles_update.embed.removed")}**: <@&${guildConfig.unverifiedRoleId}>`;
+      description += `\n> **${t(($) => $.roles_update.embed.removed)}**: <@&${guildConfig.unverifiedRoleId}>`;
     }
 
     embed.setDescription(description);

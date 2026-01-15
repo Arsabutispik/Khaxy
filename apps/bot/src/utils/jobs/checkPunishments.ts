@@ -47,7 +47,7 @@ export async function checkPunishments(client: Client) {
           continue;
         }
 
-        const reason = t("commands:ban.expired");
+        const reason = t(($) => $.commands:ban.expired);
         await guild.members.unban(user, reason);
 
         await modLog(
@@ -101,7 +101,7 @@ export async function checkPunishments(client: Client) {
           guildConfig,
           t,
           executor: client.user, // The Bot did it
-          reason: t("commands:mute.expired"), // "Mute expired"
+          reason: t(($) => $.commands:mute.expired), // "Mute expired"
           addedRoles: rolesToRestore.map((id) => `<@&${id}>`), // Format for embed
           removedRoles: muteRoleId ? [`<@&${muteRoleId}>`] : [],
         });

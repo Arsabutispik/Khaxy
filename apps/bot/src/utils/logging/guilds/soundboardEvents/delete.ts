@@ -11,9 +11,9 @@ export async function logSoundBoardSoundDelete(soundboardSound: GuildSoundboardS
   const embed = new EmbedBuilder()
     .setColor("Red")
     .setTimestamp()
-    .setTitle(t("embed.title"))
+    .setTitle(t(($) => $.embed.title))
     .setDescription(
-      t("embed.description", {
+      t(($) => $.embed.description, {
         soundboard: soundboardSound,
         volume: Math.round((soundboardSound.volume || 0) * 100),
         timestamp: time(new Date(), TimestampStyles.FullDateShortTime),
@@ -33,7 +33,7 @@ export async function logSoundBoardSoundDelete(soundboardSound: GuildSoundboardS
 
   if (targetId === soundboardSound.soundId) {
     embed.setFooter({
-      text: logEntry?.executor?.username ?? t("unknown_executor"),
+      text: logEntry?.executor?.username ?? t(($) => $.unknown_executor),
       iconURL: logEntry?.executor?.displayAvatarURL() ?? undefined,
     });
   }

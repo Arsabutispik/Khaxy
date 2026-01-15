@@ -12,9 +12,9 @@ export async function logVoteAdd(pollAnswer: PollAnswer | PartialPollAnswer, use
   if (logChannel?.type !== ChannelType.GuildText) return;
   const embed = new EmbedBuilder()
     .setColor("Green")
-    .setTitle(t("embed.title"))
+    .setTitle(t(($) => $.embed.title))
     .setDescription(
-      t("embed.description", {
+      t(($) => $.embed.description, {
         message: pollAnswer.poll.message,
         answerer: userId,
         question: pollAnswer.poll.question.text,

@@ -91,51 +91,51 @@ export default {
     const t = client.i18next.getFixedT(guildConfig.language, "commands", "mute");
     const member = interaction.options.getMember("user");
     if (!member) {
-      await interaction.reply({ content: t("noUser"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t(($) => $.noUser), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
     if (member.user.bot) {
-      await interaction.reply({ content: t("cantMuteBot"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t(($) => $.cantMuteBot), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
     if (member.id === interaction.user.id) {
-      await interaction.reply({ content: t("cantMuteYourself"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t(($) => $.cantMuteYourself), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
     if (
       member.permissions.has(PermissionsBitField.Flags.ManageRoles) ||
       (guildConfig.staffRoleId && member.roles.cache.has(guildConfig.staffRoleId))
     ) {
-      await interaction.reply({ content: t("cantMuteMod"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t(($) => $.cantMuteMod), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
     if (member.roles.highest.position >= interaction.member.roles.highest.position) {
-      await interaction.reply({ content: t("cantMuteHigher"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t(($) => $.cantMuteHigher), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
     const muteRole = guildConfig.muteRoleId ? interaction.guild.roles.cache.get(guildConfig.muteRoleId) : undefined;
     if (!muteRole) {
-      await interaction.reply({ content: t("noMuteRole"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t(($) => $.noMuteRole), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
     const punishment = await getPunishment(interaction.guildId, member.id, PunishmentAction.MUTE);
 
     if (member.roles.cache.has(muteRole.id) && punishment) {
-      await interaction.reply({ content: t("alreadyMuted"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t(($) => $.alreadyMuted), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     } else if (member.roles.cache.has(muteRole.id) && !punishment) {
       await interaction.reply({
-        content: t("alreadyMutedNoPunishment"),
+        content: t(($) => $.alreadyMutedNoPunishment),
         flags: MessageFlagsBitField.Flags.Ephemeral,
       });
       await member.roles.remove(muteRole);
       return;
     } else if (!member.roles.cache.has(muteRole.id) && punishment) {
-      await interaction.reply({ content: t("notMuted"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t(($) => $.notMuted), flags: MessageFlagsBitField.Flags.Ephemeral });
       await member.roles.add(muteRole);
       return;
     }
-    const reason = interaction.options.getString("reason") || t("noReason");
+    const reason = interaction.options.getString("reason") || t(($) => $.noReason);
     const duration = dayjs.duration(
       interaction.options.getNumber("duration", true),
       interaction.options.getString("time", true) as dayjsduration.DurationUnitType,
@@ -159,7 +159,7 @@ export default {
           filteredRoles,
         );
       } catch (error) {
-        await interaction.reply({ content: t("database_error"), flags: MessageFlagsBitField.Flags.Ephemeral });
+        await interaction.reply({ content: t(($) => $.database_error), flags: MessageFlagsBitField.Flags.Ephemeral });
         logger.error({
           message: `Error while putting punishments to database for user ${member.user.tag} from guild ${interaction.guild.name}`,
           error,
@@ -171,7 +171,7 @@ export default {
       try {
         await member.roles.set([muteRole.id]);
       } catch (error) {
-        await interaction.reply({ content: t("role_error"), flags: MessageFlagsBitField.Flags.Ephemeral });
+        await interaction.reply({ content: t(($) => $.role_error), flags: MessageFlagsBitField.Flags.Ephemeral });
         logger.error({
           message: `Error while setting roles for user ${member.user.tag} from guild ${interaction.guild.name}`,
           error,
@@ -190,7 +190,7 @@ export default {
           new Date(Date.now() + duration.asMilliseconds()),
         );
       } catch (error) {
-        await interaction.reply({ content: t("database_error"), flags: MessageFlagsBitField.Flags.Ephemeral });
+        await interaction.reply({ content: t(($) => $.database_error), flags: MessageFlagsBitField.Flags.Ephemeral });
         logger.error({
           message: `Error while putting punishments to database for user ${member.user.tag} from guild ${interaction.guild.name}`,
           error,
@@ -202,7 +202,7 @@ export default {
       try {
         await member.roles.add(muteRole);
       } catch (error) {
-        await interaction.reply({ content: t("role_error"), flags: MessageFlagsBitField.Flags.Ephemeral });
+        await interaction.reply({ content: t(($) => $.role_error), flags: MessageFlagsBitField.Flags.Ephemeral });
         logger.error({
           message: `Error while setting roles for user ${member.user.tag} from guild ${interaction.guild.name}`,
           error,
@@ -213,9 +213,9 @@ export default {
       }
     }
     try {
-      await member.send(t("message.dm", { guild: interaction.guild.name, reason, duration: longDuration }));
+      await member.send(t(($) => $.message.dm, { guild: interaction.guild.name, reason, duration: longDuration }));
       await interaction.reply({
-        content: t("message.success", {
+        content: t(($) => $.message.success, {
           user: member.user.tag,
           duration: longDuration,
           confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
@@ -224,7 +224,7 @@ export default {
       });
     } catch {
       await interaction.reply({
-        content: t("message.fail", {
+        content: t(($) => $.message.fail, {
           user: member.user.tag,
           duration: longDuration,
           case: guildConfig.caseId,
@@ -254,14 +254,14 @@ export default {
       ? member.guild.channels.cache.get(guildConfig.logConfig.guildMemberLogsChannelId)
       : undefined;
     if (logChannel?.type !== ChannelType.GuildText) return;
-    const embed = new EmbedBuilder().setTitle(t("embed.title")).setColor("Yellow").setTimestamp();
-    let description = t("embed.description", {
+    const embed = new EmbedBuilder().setTitle(t(($) => $.embed.title)).setColor("Yellow").setTimestamp();
+    let description = t(($) => $.embed.description, {
       user: member.user,
       added_roles: muteRole.toString(),
     });
 
     if (filteredRoles.length > 0) {
-      description += `\n> **${t("embed.removed")}**: ${filteredRoles.map((id) => `<@&${id}>`).join(", ")}`;
+      description += `\n> **${t(($) => $.embed.removed)}**: ${filteredRoles.map((id) => `<@&${id}>`).join(", ")}`;
     }
 
     embed.setDescription(description);

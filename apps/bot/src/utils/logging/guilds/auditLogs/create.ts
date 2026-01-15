@@ -20,9 +20,9 @@ export async function logAuditLogEntryCreate(entry: GuildAuditLogsEntry, guild: 
     const targetChannel = getChannelFromTarget(guild, entry.target);
     const embed = new EmbedBuilder()
       .setColor("Green")
-      .setTitle(t("webhook_create.embed.title"))
+      .setTitle(t(($) => $.webhook_create.embed.title))
       .setDescription(
-        t("webhook_create.embed.description", {
+        t(($) => $.webhook_create.embed.description, {
           executor: entry.executor,
           webhook: entry.target,
           channel: targetChannel,
@@ -30,7 +30,7 @@ export async function logAuditLogEntryCreate(entry: GuildAuditLogsEntry, guild: 
       )
       .setTimestamp()
       .setFooter({
-        text: entry.executor?.username ?? t("unknown_executor"),
+        text: entry.executor?.username ?? t(($) => $.unknown_executor),
         iconURL: entry.executor?.displayAvatarURL() ?? undefined,
       });
     embeds.push(embed);
@@ -41,9 +41,9 @@ export async function logAuditLogEntryCreate(entry: GuildAuditLogsEntry, guild: 
     const targetChannel = getChannelFromTarget(guild, entry.target);
     const embed = new EmbedBuilder()
       .setColor("Red")
-      .setTitle(t("webhook_delete.embed.title"))
+      .setTitle(t(($) => $.webhook_delete.embed.title))
       .setDescription(
-        t("webhook_delete.embed.description", {
+        t(($) => $.webhook_delete.embed.description, {
           executor: entry.executor,
           webhook: entry.target,
           channel: targetChannel,
@@ -51,7 +51,7 @@ export async function logAuditLogEntryCreate(entry: GuildAuditLogsEntry, guild: 
       )
       .setTimestamp()
       .setFooter({
-        text: entry.executor?.username ?? t("unknown_executor"),
+        text: entry.executor?.username ?? t(($) => $.unknown_executor),
         iconURL: entry.executor?.displayAvatarURL() ?? undefined,
       });
     embeds.push(embed);

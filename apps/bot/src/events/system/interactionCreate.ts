@@ -48,7 +48,7 @@ export default {
           language,
         );
         await interaction.reply({
-          content: t("events:interactionCreate.memberMissingPermissions", { permissions: missingPermissions }),
+          content: t(($) => $.events:interactionCreate.memberMissingPermissions, { permissions: missingPermissions }),
           flags: MessageFlagsBitField.Flags.Ephemeral,
         });
         return;
@@ -65,7 +65,7 @@ export default {
           language,
         );
         await interaction.reply({
-          content: t("events:interactionCreate.botMissingPermissions", { permissions: missingPermissions }),
+          content: t(($) => $.events:interactionCreate.botMissingPermissions, { permissions: missingPermissions }),
           flags: MessageFlagsBitField.Flags.Ephemeral,
         });
         return;

@@ -637,13 +637,7 @@ interface Resources {
       "unknownExecutor": "Unknown Executor"
     },
     "guildBanRemove": {
-      "embed": {
-        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
-        "fields": {
-          "reason": "Reason"
-        },
-        "title": "User Unbanned From Server"
-      }
+
     },
     "guildMemberAdd": {
       "embed": {
@@ -1490,6 +1484,17 @@ interface Resources {
         "title": "User Banned"
       },
       "unknownExecutor": "Unknown Executor"
+    },
+    "banRemove": {
+      "embed": {
+        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
+        "fields": {
+          "reason": "Reason"
+        },
+        "title": "User Unbanned From Server"
+      },
+      "noReason": "No reason provided",
+      "unknownExecutor": "Unknown Executor"
     }
   },
   "permissions": {
@@ -1543,12 +1548,6 @@ interface Resources {
     "unset": "Unset"
   },
   "translations": {
-    "bumpLeaderboard": {
-      "initial": "This month's bump leaderboard:\n\n",
-      "lastBump": "Last bump was made {{time}} by {{user}}.",
-      "lastWinner": "Last month's winner: {{user}} with `{{count}}` bump out of **{{total_bumps}}** bumps.",
-      "messageNotSentByBot": "There are messages in the bump leaderboard channel that were not sent by the bot. Please remove them to avoid errors."
-    },
     "checkExpiredModmailBlacklists": {
       "expiredModmailBlacklistNotification": "🔔 Modmail blacklist for **{{guild}}** expired"
     },
@@ -1558,6 +1557,73 @@ interface Resources {
         "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Roles Removed**: {{removed_roles}}",
         "title": "User Roles Updated"
       }
+    },
+    "dynamicChannel": {
+      "initial": "Select a channel below...",
+      "labels": {
+        "channelLogsChannelId": "Channel Logs",
+        "emojiLogsChannelId": "Emoji Logs",
+        "eventLogsChannelId": "Event Logs",
+        "guildLogsChannelId": "Guild Logs",
+        "guildMemberLogsChannelId": "Member Logs",
+        "inviteLogsChannelId": "Invite Logs",
+        "joinChannelId": "Welcome Channel",
+        "leaveChannelId": "Leave Channel",
+        "messageLogsChannelId": "Message Logs",
+        "modLogsChannelId": "Moderation Logs",
+        "modMailChannelId": "Mod-Mail Channel",
+        "pollLogsChannelId": "Poll Logs",
+        "registerChannelId": "Register Channel",
+        "registerJoinChannelId": "Register Join Channel",
+        "roleLogsChannelId": "Role Logs",
+        "soundboardLogsChannelId": "Soundboard Logs",
+        "stageLogsChannelId": "Stage Logs",
+        "stickerLogsChannelId": "Sticker Logs",
+        "threadLogsChannelId": "Thread Logs",
+        "voiceLogsChannelId": "Voice Logs",
+        "webhookLogsChannelId": "Webhook Logs"
+      },
+      "messages": {
+        "set": "Successfully set **{{label}}** to {{channel}}.",
+        "unset": "Successfully disabled **{{label}}**."
+      },
+      "timeout": "Menu timed out."
+    },
+    "dynamicMessage": {
+      "initial": "Set a {{label}} message below with a modal",
+      "labels": {
+        "joinMessage": "Welcome",
+        "leaveMessage": "Leave",
+        "modMailMessage": "Mod-Mail",
+        "registerJoinMessage": "Register"
+      },
+      "messages": {
+        "set": "Successfully set **{{label}}** message.",
+        "unset": "Successfully removed **{{label}}** message."
+      },
+      "timeout": "Message timed out.",
+      "title": "Set {{label}} Message"
+    },
+    "dynamicRole": {
+      "errors": {
+        "roleTooHigh": "The role you selected is too high. Please select a role that is lower than the bot's role."
+      },
+      "initial": "Select a role below...",
+      "labels": {
+        "colourIdOfTheDay": "Colour of the Day Role",
+        "djRoleId": "DJ Role",
+        "femaleRoleId": "Female Role",
+        "maleRoleId": "Male Role",
+        "memberRoleId": "Member Role",
+        "muteRoleId": "Mute Role",
+        "staffRoleId": "Staff Role",
+        "unverifiedRoleId": "Unverified Role"
+      },
+      "messages": {
+        "set": "Successfully set **{{label}}** to {{role}}.",
+        "unset": "Successfully disabled **{{label}}**."
+      },
+      "timeout": "Menu timed out."
     },
     "infractionsPunishment": {
       "alreadyMuted": "The user is already muted.",
@@ -1702,12 +1768,6 @@ interface Resources {
       }
     },
     "miscConfig": {
-      "bumpLeaderboardChannelId": {
-        "description": "The channel where the bump leaderboard will be sent.",
-        "label": "Set Bump Leaderboard Channel",
-        "set": "Bump leaderboard channel has been set to {{channel}}.",
-        "unset": "Bump leaderboard channel has been removed."
-      },
       "channelInitial": "Select a channel below. If you want to remove the channel, press x and click elsewhere.",
       "initial": "Select the setting you want to update.",
       "language": {
@@ -1777,6 +1837,7 @@ interface Resources {
         "unset": "Mod log channel has been removed."
       },
       "modMailChannel": {
+        "alreadySet": "Mod-mail channel is already set to {{channel}}.",
         "description": "The channel where the mod-mail will be sent.",
         "label": "Set Mod-Mail Channel",
         "set": "Mod-mail channel has been set to {{channel}}.",
@@ -1787,20 +1848,6 @@ interface Resources {
         "false": "Mute get all roles is disabled.",
         "label": "Mute Get All Roles",
         "true": "Mute get all roles is enabled."
-      },
-      "registerDayLimit": {
-        "description": "The number of days a user has to register.",
-        "descriptionOne": "Sets the register day limit to 1 day.",
-        "descriptionSeven": "Sets the register day limit to 7 days.",
-        "descriptionThree": "Sets the register day limit to 3 days.",
-        "descriptionZero": "Disables the register day limit.",
-        "initial": "Select the one you want to set.",
-        "label": "Set Register Day Limit",
-        "labelOne": "Set Register Day Limit 1 Day",
-        "labelSeven": "Set Register Day Limit 7 Days",
-        "labelThree": "Set Register Day Limit 3 Days",
-        "labelZero": "Disable Register Day Limit",
-        "success": "Register day limit has been set to {{days}} days."
       },
       "roleInitial": "Select a role below. If you want to remove the role, press x and click elsewhere.",
       "roleTooHigh": "The role you selected is too high. Please select a role that is lower than the bot's role.",
@@ -1895,6 +1942,10 @@ interface Resources {
     "unregisteredPeople": {
       "initial": "Member failed to register within {{days}} days.",
       "kickMessage": "You failed to register in the **{{server}}** server within **{{days}}** days. You have been kicked from the server."
+    },
+    "waitForMessageComponent": {
+      "initial": "Please select an option below.",
+      "timeout": "Menu timed out."
     }
   }
 }

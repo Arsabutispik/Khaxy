@@ -15,11 +15,11 @@ export async function logMemberLeave({ member, reason, executor, guildConfig, t,
   if (!webhook) return;
 
   const embed = new EmbedBuilder()
-    .setTitle(isAKick ? t("embed.title_kicked") : t("embed.title"))
+    .setTitle(isAKick ? t(($) => $.embed.title_kicked) : t(($) => $.embed.title))
     .setColor("Red")
     .setThumbnail(member.user.displayAvatarURL())
     .setDescription(
-      t("embed.description", {
+      t(($) => $.embed.description, {
         user: member.user,
         member_count: member.guild.memberCount.toString(),
         timestamp: member.joinedTimestamp
@@ -32,10 +32,10 @@ export async function logMemberLeave({ member, reason, executor, guildConfig, t,
   if (isAKick) {
     embed
       .setFooter({
-        text: executor?.tag || t("unknown_executor"),
+        text: executor?.tag || t(($) => $.unknown_executor),
         iconURL: executor?.displayAvatarURL(),
       })
-      .addFields([{ name: t("embed.fields.reason"), value: reason || t("no_reason") }]);
+      .addFields([{ name: t(($) => $.embed.fields.reason), value: reason || t(($) => $.no_reason) }]);
   }
 
   await sendLogEmbed(webhook, [embed], member.guild, logChannel.id);
