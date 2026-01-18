@@ -18,12 +18,12 @@ export async function logsEmojiDelete(emoji: GuildEmoji, guildConfig: GuildWithL
     .catch(() => null);
   const logEntry = auditLogs?.entries.first();
   const executor = logEntry && logEntry.target?.id === emoji.id ? logEntry.executor : null;
-  const t = emoji.client.i18next.getFixedT(guildConfig.language, "events", "emojiDelete");
+  const t = emoji.client.i18next.getFixedT(guildConfig.language, "loggers", "emojiEvents");
   const embed = new EmbedBuilder()
     .setColor("Red")
-    .setTitle(t(($) => $.embed.title))
+    .setTitle(t(($) => $.emojiDelete.embed.title))
     .setDescription(
-      t(($) => $.embed.description, {
+      t(($) => $.emojiDelete.embed.description, {
         emoji: emoji,
         emoji_animated: emoji.animated
           ? emoji.client.allEmojis.get(emoji.client.config.emojis.confirm.id)?.format
@@ -34,7 +34,7 @@ export async function logsEmojiDelete(emoji: GuildEmoji, guildConfig: GuildWithL
     .setThumbnail(emoji.animated ? emoji.imageURL({ extension: "gif" }) : emoji.imageURL())
     .setTimestamp()
     .setFooter({
-      text: executor?.tag ?? t(($) => $.unknown_executor),
+      text: executor?.tag ?? t(($) => $.unknownExecutor),
       iconURL: executor?.displayAvatarURL() ?? undefined,
     });
   const webhook = await returnWebhook(emoji.client, logChannel, emoji.guild.id, guildConfig, {

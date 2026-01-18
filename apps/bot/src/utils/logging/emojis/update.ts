@@ -18,13 +18,13 @@ export async function logsEmojiUpdate(oldEmoji: GuildEmoji, newEmoji: GuildEmoji
     .catch(() => null);
   const logEntry = auditLogs?.entries.first();
   const executor = logEntry && logEntry.target?.id === newEmoji.id ? logEntry.executor : null;
-  const t = newEmoji.client.i18next.getFixedT(guildConfig.language, "events", "emojiUpdate");
+  const t = newEmoji.client.i18next.getFixedT(guildConfig.language, "loggers", "emojiEvents");
   const embed = new EmbedBuilder()
     .setColor("Yellow")
     .setThumbnail(newEmoji.animated ? newEmoji.imageURL({ extension: "gif" }) : newEmoji.imageURL())
     .setTimestamp()
     .setFooter({
-      text: executor?.tag ?? t(($) => $.unknown_executor),
+      text: executor?.tag ?? t(($) => $.unknownExecutor),
       iconURL: executor?.displayAvatarURL() ?? undefined,
     });
   const webhook = await returnWebhook(newEmoji.client, logChannel, newEmoji.guild.id, guildConfig, {
@@ -32,8 +32,8 @@ export async function logsEmojiUpdate(oldEmoji: GuildEmoji, newEmoji: GuildEmoji
     type: WebhookType.EMOJI_LOGS,
   });
   if (oldEmoji.name !== newEmoji.name) {
-    embed.setTitle(t(($) => $.name_change.embed.title)).setDescription(
-      t(($) => $.name_change.embed.description, {
+    embed.setTitle(t(($) => $.emojiUpdate.nameChange.embed.title)).setDescription(
+      t(($) => $.emojiUpdate.nameChange.embed.description, {
         emoji: newEmoji,
         old_name: oldEmoji.name,
         new_name: newEmoji.name,
