@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.0
+
+### Minor Changes
+
+- [#93](https://github.com/Arsabutispik/Khaxy/pull/93) [`576ad94`](https://github.com/Arsabutispik/Khaxy/commit/576ad94982b330fbabbf3a079f6866f1d9392020) Thanks [@Arsabutispik](https://github.com/Arsabutispik)! - Introduce docker
+
 ## 2.0.0
 
 ### Major Changes
