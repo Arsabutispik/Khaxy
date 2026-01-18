@@ -71,10 +71,14 @@ jobs:
             git fetch --all --tags
             git checkout --force ${GITHUB_REF_NAME}
             
-            # 3. Build & Launch with Podman
+            # 3. Safety Takedown (Ignore error if containers aren't running)
+            echo "🛑 Taking down old containers..."
+            podman-compose -f compose.yml down || true
+            
+            # 4. Build & Launch with Podman
             podman-compose -f compose.yml up -d --build
             
-            # 4. Cleanup (Garbage Collection)
+            # 5. Cleanup (Garbage Collection)
             echo "🧹 Cleaning up old images..."
             podman image prune -f
             
