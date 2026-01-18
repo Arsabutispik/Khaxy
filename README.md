@@ -39,15 +39,47 @@ khaxy/
 - **Bot**: Discord.js v14, TypeScript, i18next
 - **Web**: Next.js 16, React 19, Tailwind CSS, Better Auth
 - **Database**: PostgreSQL with Prisma ORM
+- **Containerization**: Docker / Podman
 
 ## 🚀 Self-Hosting
 
-To self-host Khaxy, please refer to the documentation for each application:
+### Option 1: Docker / Podman (Recommended)
 
-- **[Bot Self-Hosting Guide](./apps/bot/README.md)** - Instructions for setting up the Discord bot
-- **[Web Dashboard Guide](./apps/web/README.md)** - Instructions for setting up the web dashboard
+The easiest way to run Khaxy is using Docker or Podman:
 
-### Quick Start (Development)
+```bash
+# Clone the repository
+git clone https://github.com/Arsabutispik/Khaxy.git
+cd Khaxy
+
+# Create environment file
+cp .env.example .env
+# Edit .env with your Discord token and other settings
+
+# Start with Docker
+docker compose up -d
+
+# Or with Podman
+podman compose up -d
+```
+
+This will start:
+- **PostgreSQL** database
+- **Khaxy Bot** with automatic database migrations
+
+#### Using Pre-built Image
+
+```bash
+# Pull from GitHub Container Registry
+docker pull ghcr.io/arsabutispik/khaxy-bot:latest
+
+# Or with Podman
+podman pull ghcr.io/arsabutispik/khaxy-bot:latest
+```
+
+### Option 2: Manual Setup (Development)
+
+For development or if you prefer manual setup:
 
 ```bash
 # Clone the repository
@@ -57,7 +89,7 @@ cd Khaxy
 # Install dependencies
 pnpm install
 
-# Set up environment variables (see below)
+# Set up environment variables
 cp .env.example .env
 # Edit .env with your values
 
@@ -68,11 +100,63 @@ pnpm db:migrate
 pnpm dev
 ```
 
+For detailed setup instructions, see:
+- **[Bot Self-Hosting Guide](./apps/bot/README.md)**
+- **[Web Dashboard Guide](./apps/web/README.md)**
+
+## 🐳 Docker Configuration
+
+### compose.yml Services
+
+| Service | Description | Port |
+|---------|-------------|------|
+| `postgres` | PostgreSQL 17 database | 5432 (internal) |
+| `bot` | Khaxy Discord bot | 3001 |
+
+### Building the Image
+
+```bash
+# Build locally
+docker compose build
+
+# Or build with Podman
+podman compose build
+```
+
+### Container Management
+
+```bash
+# Start services
+docker compose up -d
+
+# View logs
+docker compose logs -f bot
+
+# Stop services
+docker compose down
+
+# Rebuild after changes
+docker compose up -d --build
+```
+
 ## ⚙️ Environment Variables
 
-All environment variables are defined in a single `.env` file at the **root** of the monorepo. This keeps configuration centralized and less confusing.
+Create a `.env` file in the root directory. For Docker deployments, only these are required:
 
-Create a `.env` file in the root directory with the following variables:
+### Required for Docker
+
+```env
+# Discord Bot
+DISCORD_BOT_TOKEN=your_discord_bot_token
+CLIENT_ID=your_discord_application_client_id
+
+# Database (optional - defaults provided)
+POSTGRES_USER=khaxy
+POSTGRES_PASSWORD=khaxy_password
+POSTGRES_DB=khaxy
+```
+
+### Full Configuration (Development)
 
 ```env
 # --- Discord Bot ---

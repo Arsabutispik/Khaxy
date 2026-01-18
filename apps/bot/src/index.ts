@@ -48,7 +48,7 @@ client.config = (await import("@lib")).Config;
 await RegisterSlashCommands(client);
 await loadEvents(client);
 
-await client.login(process.env.TOKEN).catch((error) => {
+await client.login(process.env.DISCORD_BOT_TOKEN).catch((error) => {
   logger.log({
     level: "error",
     error,
