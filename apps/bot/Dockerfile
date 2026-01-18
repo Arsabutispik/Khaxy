@@ -56,4 +56,4 @@ COPY --from=deps /app/prisma ./prisma
 ENV NODE_ENV=production
 
 # Run migrations then start bot
-CMD ["sh", "-c", "npx --no-install prisma migrate deploy --schema=./prisma/schema.prisma && node --enable-source-maps dist/index.js"]
+CMD ["sh", "-c", "./node_modules/.bin/prisma migrate deploy --schema=./prisma/schema.prisma && node --enable-source-maps dist/index.js"]
