@@ -43,13 +43,13 @@ async function registerCommands(...dirs: string[]) {
 // Load commands from the folder
 await registerCommands("../../slash-commands");
 
-if (!process.env.TOKEN) {
+if (!process.env.DISCORD_BOT_TOKEN) {
   logger.error("❌ Token is not defined in the .env file", { discord: false });
   process.exit(1);
 }
 
 // Create a REST client
-const rest = new REST().setToken(process.env.TOKEN);
+const rest = new REST().setToken(process.env.DISCORD_BOT_TOKEN);
 
 // Deploy commands based on environment
 (async () => {

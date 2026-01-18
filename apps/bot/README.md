@@ -14,14 +14,58 @@ The Discord bot component of the Khaxy monorepo. A feature-rich moderation and u
 
 ## 🚀 Self-Hosting
 
-### Prerequisites
+### Option 1: Docker / Podman (Recommended)
+
+The easiest way to run the bot:
+
+```bash
+# From the monorepo root
+cd Khaxy
+
+# Create environment file
+cp .env.example .env
+# Edit .env with your Discord token and settings
+
+# Start with Docker
+docker compose up -d
+
+# Or with Podman
+podman compose up -d
+
+# View logs
+docker compose logs -f bot
+```
+
+#### Using Pre-built Image
+
+```bash
+# Pull from GitHub Container Registry
+docker pull ghcr.io/arsabutispik/khaxy-bot:latest
+```
+
+#### Environment Variables for Docker
+
+```env
+# Required
+DISCORD_BOT_TOKEN=your_discord_bot_token
+CLIENT_ID=your_discord_application_client_id
+
+# Optional (defaults provided)
+POSTGRES_USER=khaxy
+POSTGRES_PASSWORD=khaxy_password
+POSTGRES_DB=khaxy
+```
+
+### Option 2: Manual Setup
+
+#### Prerequisites
 
 - [Node.js](https://nodejs.org/) v22.0.0 or higher
 - [pnpm](https://pnpm.io/) package manager
 - [PostgreSQL](https://www.postgresql.org/) database
 - A [Discord Application](https://discord.com/developers/applications) with a bot token
 
-### Setup
+#### Setup
 
 1. **Clone the repository** (if you haven't already)
    ```bash
@@ -36,7 +80,7 @@ The Discord bot component of the Khaxy monorepo. A feature-rich moderation and u
 
 3. **Set up environment variables**
    
-   All environment variables are configured in a single `.env` file at the **root** of the monorepo. See the [root README](../../README.md#%EF%B8%8F-environment-variables) for the full list of required variables.
+   All environment variables are configured in a single `.env` file at the **root** of the monorepo. See the [root README](../../README.md#-environment-variables) for the full list of required variables.
    
    The bot uses these variables:
 
@@ -94,6 +138,33 @@ pnpm dev
 pnpm -F khaxyrewrite dev
 ```
 
+## 🐳 Docker Details
+
+### Dockerfile
+
+The bot uses a multi-stage Dockerfile for optimized image size (~360MB):
+
+| Stage | Purpose |
+|-------|---------|
+| `builder` | Install deps, generate Prisma, build TypeScript |
+| `deps` | Create flat node_modules with npm |
+| `runner` | Minimal production image |
+
+### What's Included
+
+- Compiled JavaScript code
+- Production dependencies
+- Prisma client
+- Localization files
+- Config template
+
+### What's NOT Included (Security)
+
+- Source TypeScript files
+- Development dependencies
+- `.env` files or secrets
+- Discord tokens
+
 ## 📁 Project Structure
 
 ```
@@ -103,7 +174,6 @@ apps/bot/
 │   ├── api/                   # Internal API server
 │   ├── config-functions/      # Configuration handlers
 │   ├── constants/             # Constants and enums
-│   ├── database/              # Database queries
 │   ├── events/                # Discord event handlers
 │   ├── i18n/                  # Internationalization setup
 │   ├── lib/                   # Core libraries and utilities
@@ -115,6 +185,7 @@ apps/bot/
 │   └── tr-TR/                 # Turkish translations
 ├── scripts/                   # Build and utility scripts
 ├── config.toml                # Bot configuration
+├── Dockerfile                 # Container build file
 └── package.json
 ```
 
