@@ -38,6 +38,7 @@ services:
       PORT: 3000
       DISCORD_BOT_TOKEN: ${DISCORD_BOT_TOKEN}
       CLIENT_ID: ${CLIENT_ID}
+      API_KEY_PBKDF2_SALT: ${API_KEY_PBKDF2_SALT}
 
 volumes:
   postgres_data:
