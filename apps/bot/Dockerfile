@@ -39,7 +39,7 @@ RUN npm pkg delete scripts && \
 # --- STAGE 3: MINIMAL RUNNER ---
 FROM node:22-alpine AS runner
 
-RUN apk add --no-cache openssl lib6-compat
+RUN apk add --no-cache openssl libc6-compat
 WORKDIR /app
 
 # Copy everything needed
