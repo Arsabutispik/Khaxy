@@ -39,7 +39,7 @@ RUN npm pkg delete scripts && \
 # --- STAGE 3: MINIMAL RUNNER ---
 FROM node:22-alpine AS runner
 
-RUN apk add --no-cache openssl
+RUN apk add --no-cache openssl lib6-compat
 WORKDIR /app
 
 # Copy everything needed
@@ -54,6 +54,8 @@ COPY --from=builder /app/packages/database/package.json ./node_modules/@repo/dat
 COPY --from=deps /app/prisma ./prisma
 
 ENV NODE_ENV=production
+
+RUN npm install -g prisma@6.19.0
 
 # Run migrations then start bot
 CMD ["sh", "-c", "./node_modules/.bin/prisma migrate deploy --schema=./prisma/schema.prisma && node --enable-source-maps dist/index.js"]
