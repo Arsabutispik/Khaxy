@@ -1,0 +1,49 @@
+# Podman Compose file for Khaxy Discord Bot
+# Usage: podman-compose -f compose.yml up -d
+
+services:
+  postgres:
+    image: docker.io/library/postgres:17-alpine
+    container_name: khaxy-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-khaxy}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-khaxy_password}
+      POSTGRES_DB: ${POSTGRES_DB:-khaxy}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-khaxy} -d ${POSTGRES_DB:-khaxy}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - khaxy-network
+
+  bot:
+    build:
+      context: .
+      dockerfile: apps/bot/Dockerfile
+    container_name: khaxy-bot
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "3001:3001"
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-khaxy}:${POSTGRES_PASSWORD:-khaxy_password}@postgres:5432/${POSTGRES_DB:-khaxy}?schema=public
+      NODE_ENV: production
+      PORT: 3000
+      DISCORD_BOT_TOKEN: ${DISCORD_BOT_TOKEN}
+      CLIENT_ID: ${CLIENT_ID}
+    networks:
+      - khaxy-network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  khaxy-network:
+    driver: bridge

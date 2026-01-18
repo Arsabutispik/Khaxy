@@ -13,7 +13,7 @@
     "deploy-commands": "pnpm -F @repo/database run build && tsc && tsc-alias && dotenv -e ../../.env -- node --enable-source-maps dist/utils/system/deployCommands.js",
     "remove-commands": "pnpm -F @repo/database run build && tsc && tsc-alias && dotenv -e ../../.env -- node --enable-source-maps dist/utils/system/removeCommands.js",
     "db:deploy": "pnpm -F @repo/database exec -- dotenv -e ../../.env -- prisma migrate deploy",
-    "build": "pnpm -F @repo/database run build && pnpm run db:deploy && tsc && tsc-alias",
+    "build": "pnpm -F @repo/database run build && tsc && tsc-alias",
     "start": "node --enable-source-maps .",
     "validate-translations": "node scripts/ValidateI18nKeys.js",
     "dev": "pnpm -F @repo/database run build && tsc && tsc-alias && dotenv -e ../../.env -- node --enable-source-maps .",
