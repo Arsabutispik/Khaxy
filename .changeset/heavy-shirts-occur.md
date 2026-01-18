@@ -1,5 +1,0 @@
----
-"khaxyrewrite": minor
----
-
-Introduce docker
