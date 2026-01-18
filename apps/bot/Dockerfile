@@ -58,4 +58,4 @@ ENV NODE_ENV=production
 RUN npm install -g prisma@6.19.0
 
 # Run migrations then start bot
-CMD ["sh", "-c", "./node_modules/.bin/prisma migrate deploy --schema=./prisma/schema.prisma && node --enable-source-maps dist/index.js"]
+CMD ["sh", "-c", "prisma migrate deploy --schema=./prisma/schema.prisma && node --enable-source-maps dist/index.js"]
