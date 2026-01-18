@@ -1,4 +1,8 @@
 {
+  "_meta": {
+    "label": "Türkçe",
+    "flag": "🇹🇷"
+  },
   "ping": "Bu komutu {{interaction.user.username}} kullanıcısı çalıştırdı, bu kullanıcı {{interaction.member.joinedAt}} tarihinde katıldı.",
   "modLog": {
     "warning": "⚠️ **{{user.username}}**, **{{moderator.username}}** tarafından uyarıldı. Sebep:```{{reason}}```",

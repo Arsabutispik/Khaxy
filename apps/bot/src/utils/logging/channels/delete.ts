@@ -33,14 +33,14 @@ export async function logsChannelDelete(channel: NonThreadGuildBasedChannel, gui
     .setDescription(
       t(($) => $.embed.description, {
         channel: channel,
-        channel_type: t(`channel_types.${channel.type}`),
+        channel_type: t(($) => $.channelTypes[channel.type]),
         timestamp: time(channel.createdAt, TimestampStyles.LongDateShortTime),
       }),
     )
     .setThumbnail(channel.guild.iconURL() ?? null)
     .setTimestamp()
     .setFooter({
-      text: executor?.tag ?? t(($) => $.unknown_executor),
+      text: executor?.tag ?? t(($) => $.unknownExecutor),
       iconURL: executor?.displayAvatarURL() ?? undefined,
     });
 

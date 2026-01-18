@@ -2,22 +2,30 @@ import {
   ChannelType,
   EmbedBuilder,
   ForumChannel,
+  ForumLayoutType,
   GuildForumTagEmoji,
   NonThreadGuildBasedChannel,
+  SortOrderType,
   TextChannel,
+  ThreadAutoArchiveDuration,
   User,
+  VideoQualityMode,
   VoiceChannel,
 } from "discord.js";
 import { formatDuration, formatUpdatedTagEmoji, diffGuildForumTags, diffPermissions } from "@utils";
 import { TFunction } from "i18next";
 
-function createBaseEmbed(channel: NonThreadGuildBasedChannel, executor: User | null, t: TFunction): EmbedBuilder {
+function createBaseEmbed(
+  channel: NonThreadGuildBasedChannel,
+  executor: User | null,
+  t: TFunction<"loggers", "channelEvents">,
+): EmbedBuilder {
   return new EmbedBuilder()
     .setColor("Yellow")
     .setThumbnail(channel.guild.iconURL() ?? null)
     .setTimestamp()
     .setFooter({
-      text: executor?.tag ?? t(($) => $.unknown_executor),
+      text: executor?.tag ?? t(($) => $.unknownExecutor),
       iconURL: executor?.displayAvatarURL() ?? undefined,
     });
 }
@@ -26,12 +34,12 @@ export function buildNameChangeEmbed(
   oldName: string,
   newChannel: NonThreadGuildBasedChannel,
   executor: User | null,
-  t: TFunction,
+  t: TFunction<"loggers", "channelEvents">,
 ): EmbedBuilder {
   return createBaseEmbed(newChannel, executor, t)
-    .setTitle(t(($) => $.name_change.embed.title))
+    .setTitle(t(($) => $.channelUpdate.nameChange.embed.title))
     .setDescription(
-      t(($) => $.name_change.embed.description, {
+      t(($) => $.channelUpdate.nameChange.embed.description, {
         channel: newChannel,
         old_name: oldName,
         new_name: newChannel.name,
@@ -43,15 +51,15 @@ export function buildTopicChangeEmbed(
   oldTopic: string | null,
   newChannel: NonThreadGuildBasedChannel,
   executor: User | null,
-  t: TFunction,
+  t: TFunction<"loggers", "channelEvents">,
 ): EmbedBuilder {
   return createBaseEmbed(newChannel, executor, t)
-    .setTitle(t(($) => $.topic_change.embed.title))
+    .setTitle(t(($) => $.channelUpdate.topicChange.embed.title))
     .setDescription(
-      t(($) => $.topic_change.embed.description, {
+      t(($) => $.channelUpdate.topicChange.embed.description, {
         channel: newChannel,
-        old_topic: oldTopic || t("no_topic"),
-        new_topic: (newChannel as TextChannel).topic || t("no_topic"),
+        old_topic: oldTopic || t(($) => $.channelUpdate.topicChange.noTopic),
+        new_topic: (newChannel as TextChannel).topic || t(($) => $.channelUpdate.topicChange.noTopic),
       }),
     );
 }
@@ -60,7 +68,7 @@ export function buildNsfwChangeEmbed(
   oldNsfw: boolean,
   newChannel: NonThreadGuildBasedChannel & { nsfw: boolean },
   executor: User | null,
-  t: TFunction,
+  t: TFunction<"loggers", "channelEvents">,
 ): EmbedBuilder {
   const getEmoji = (state: boolean) =>
     state
@@ -68,9 +76,9 @@ export function buildNsfwChangeEmbed(
       : newChannel.client.allEmojis.get(newChannel.client.config.emojis.reject.id)?.format;
 
   return createBaseEmbed(newChannel, executor, t)
-    .setTitle(t(($) => $.nsfw_change.embed.title))
+    .setTitle(t(($) => $.channelUpdate.nsfwChange.embed.title))
     .setDescription(
-      t(($) => $.nsfw_change.embed.description, {
+      t(($) => $.channelUpdate.nsfwChange.embed.description, {
         channel: newChannel,
         old_nsfw: getEmoji(oldNsfw),
         new_nsfw: getEmoji(newChannel.nsfw),
@@ -82,15 +90,15 @@ export function buildTypeChangeEmbed(
   oldType: ChannelType,
   newChannel: NonThreadGuildBasedChannel,
   executor: User | null,
-  t: TFunction,
+  t: TFunction<"loggers", "channelEvents">,
 ): EmbedBuilder {
   return createBaseEmbed(newChannel, executor, t)
-    .setTitle(t(($) => $.type_change.embed.title))
+    .setTitle(t(($) => $.channelUpdate.typeChange.embed.title))
     .setDescription(
-      t(($) => $.type_change.embed.description, {
+      t(($) => $.channelUpdate.typeChange.embed.description, {
         channel: newChannel,
-        old_type: t(`channel_types.${oldType}`),
-        new_type: t(($) => $.channel_types.${newChannel.type}),
+        old_type: t(($) => $.channelTypes[oldType]),
+        new_type: t(($) => $.channelTypes[newChannel.type]),
       }),
     );
 }
@@ -100,14 +108,16 @@ export function buildPermissionsChangeEmbed(
   newChannel: NonThreadGuildBasedChannel,
   executor: User | null,
   language: string,
-  t: TFunction,
+  t: TFunction<"loggers", "channelEvents">,
 ): EmbedBuilder {
   return createBaseEmbed(newChannel, executor, t)
-    .setTitle(t(($) => $.permissions_change.embed.title))
+    .setTitle(t(($) => $.channelUpdate.permissionsChange.embed.title))
     .setDescription(
-      t(($) => $.permissions_change.embed.description, {
+      t(($) => $.channelUpdate.permissionsChange.embed.description, {
         channel: newChannel,
-        changes: diffPermissions(newChannel.client, oldChannel, newChannel, language) || t("no_changes"),
+        changes:
+          diffPermissions(newChannel.client, oldChannel, newChannel, language) ||
+          t(($) => $.channelUpdate.permissionsChange.noChanges),
       }),
     );
 }
@@ -117,13 +127,13 @@ export function buildRateLimitChangeEmbed(
   newChannel: NonThreadGuildBasedChannel,
   executor: User | null,
   language: string,
-  t: TFunction,
+  t: TFunction<"loggers", "channelEvents">,
 ): EmbedBuilder {
   const newLimit = (newChannel as TextChannel).rateLimitPerUser ?? 0;
   return createBaseEmbed(newChannel, executor, t)
-    .setTitle(t(($) => $.rate_limit_change.embed.title))
+    .setTitle(t(($) => $.channelUpdate.rateLimitChange.embed.title))
     .setDescription(
-      t(($) => $.rate_limit_change.embed.description, {
+      t(($) => $.channelUpdate.rateLimitChange.embed.description, {
         channel: newChannel,
         old_rate_limit: formatDuration((oldRateLimit || 0) * 1000, language),
         new_rate_limit: formatDuration(newLimit * 1000, language),
@@ -139,13 +149,13 @@ export function buildBitrateChangeEmbed(
   oldBitrate: number,
   newChannel: NonThreadGuildBasedChannel,
   executor: User | null,
-  t: TFunction,
+  t: TFunction<"loggers", "channelEvents">,
 ): EmbedBuilder {
   const newBitrate = (newChannel as VoiceChannel).bitrate;
   return createBaseEmbed(newChannel, executor, t)
-    .setTitle(t(($) => $.bitrate_change.embed.title))
+    .setTitle(t(($) => $.channelUpdate.bitrateChange.embed.title))
     .setDescription(
-      t(($) => $.bitrate_change.embed.description, {
+      t(($) => $.channelUpdate.bitrateChange.embed.description, {
         channel: newChannel,
         old_bitrate: `${oldBitrate.toString().slice(0, 2)}kbps`,
         new_bitrate: `${newBitrate.toString().slice(0, 2)}kbps`,
@@ -157,15 +167,15 @@ export function buildUserLimitChangeEmbed(
   oldLimit: number,
   newChannel: NonThreadGuildBasedChannel,
   executor: User | null,
-  t: TFunction,
+  t: TFunction<"loggers", "channelEvents">,
 ): EmbedBuilder {
   const newLimit = (newChannel as VoiceChannel).userLimit;
   const infinityEmoji = newChannel.client.allEmojis.get(newChannel.client.config.emojis.infinity.id)?.format;
 
   return createBaseEmbed(newChannel, executor, t)
-    .setTitle(t(($) => $.user_limit_change.embed.title))
+    .setTitle(t(($) => $.channelUpdate.userLimitChange.embed.title))
     .setDescription(
-      t(($) => $.user_limit_change.embed.description, {
+      t(($) => $.channelUpdate.userLimitChange.embed.description, {
         channel: newChannel,
         old_user_limit: oldLimit > 0 ? oldLimit : infinityEmoji,
         new_user_limit: newLimit > 0 ? newLimit : infinityEmoji,
@@ -177,12 +187,12 @@ export function buildRtcRegionChangeEmbed(
   oldRegion: string | null,
   newChannel: NonThreadGuildBasedChannel,
   executor: User | null,
-  t: TFunction,
+  t: TFunction<"loggers", "channelEvents">,
 ): EmbedBuilder {
   return createBaseEmbed(newChannel, executor, t)
-    .setTitle(t(($) => $.rtc_region_change.embed.title))
+    .setTitle(t(($) => $.channelUpdate.rtcRegionChange.embed.title))
     .setDescription(
-      t(($) => $.rtc_region_change.embed.description, {
+      t(($) => $.channelUpdate.rtcRegionChange.embed.description, {
         channel: newChannel,
         old_rtc_region: oldRegion || "N/A",
         new_rtc_region: (newChannel as VoiceChannel).rtcRegion || "N/A",
@@ -191,19 +201,19 @@ export function buildRtcRegionChangeEmbed(
 }
 
 export function buildVideoQualityChangeEmbed(
-  oldMode: number | null,
+  oldMode: VideoQualityMode | null,
   newChannel: NonThreadGuildBasedChannel,
   executor: User | null,
-  t: TFunction,
+  t: TFunction<"loggers", "channelEvents">,
 ): EmbedBuilder {
-  const newMode = (newChannel as VoiceChannel).videoQualityMode;
+  const newMode = (newChannel as VoiceChannel).videoQualityMode || VideoQualityMode.Auto;
   return createBaseEmbed(newChannel, executor, t)
-    .setTitle(t(($) => $.video_quality_mode_change.embed.title))
+    .setTitle(t(($) => $.channelUpdate.videoQualityModeChange.embed.title))
     .setDescription(
-      t(($) => $.video_quality_mode_change.embed.description, {
+      t(($) => $.channelUpdate.videoQualityModeChange.embed.description, {
         channel: newChannel,
-        old_video_quality_mode: t(`video_quality_mode_change.modes.${oldMode}`),
-        new_video_quality_mode: t(($) => $.video_quality_mode_change.modes.${newMode}),
+        old_video_quality_mode: t(($) => $.channelUpdate.videoQualityModeChange.modes[oldMode ?? "1"]),
+        new_video_quality_mode: t(($) => $.channelUpdate.videoQualityModeChange.modes[newMode]),
       }),
     );
 }
@@ -213,18 +223,21 @@ export function buildVideoQualityChangeEmbed(
 // ============================================================================
 
 export function buildForumArchiveDurationEmbed(
-  oldDuration: number | null,
+  oldDuration: ThreadAutoArchiveDuration | null,
   newChannel: ForumChannel,
   executor: User | null,
-  t: TFunction,
+  t: TFunction<"loggers", "channelEvents">,
 ): EmbedBuilder {
+  const newDuration = newChannel.defaultAutoArchiveDuration;
   return createBaseEmbed(newChannel, executor, t)
-    .setTitle(t(($) => $.default_archive_duration_change.embed.title))
+    .setTitle(t(($) => $.channelUpdate.defaultArchiveDurationChange.embed.title))
     .setDescription(
-      t(($) => $.default_archive_duration_change.embed.description, {
+      t(($) => $.channelUpdate.defaultArchiveDurationChange.embed.description, {
         channel: newChannel,
-        old_archive_duration: t(`default_archive_duration_change.time.${oldDuration}`),
-        new_archive_duration: t(($) => $.default_archive_duration_change.time.${newChannel.defaultAutoArchiveDuration}),
+        old_archive_duration:
+          oldDuration !== null ? t(($) => $.channelUpdate.defaultArchiveDurationChange.time[oldDuration]) : "N/A",
+        new_archive_duration:
+          newDuration !== null ? t(($) => $.channelUpdate.defaultArchiveDurationChange.time[newDuration]) : "N/A",
       }),
     );
 }
@@ -233,12 +246,12 @@ export function buildForumRateLimitEmbed(
   oldRateLimit: number | null,
   newChannel: ForumChannel,
   executor: User | null,
-  t: TFunction,
+  t: TFunction<"loggers", "channelEvents">,
 ): EmbedBuilder {
   return createBaseEmbed(newChannel, executor, t)
-    .setTitle(t(($) => $.forum_rate_limit_change.embed.title))
+    .setTitle(t(($) => $.channelUpdate.forumRateLimitChange.embed.title))
     .setDescription(
-      t(($) => $.forum_rate_limit_change.embed.description, {
+      t(($) => $.channelUpdate.forumRateLimitChange.embed.description, {
         channel: newChannel,
         old_rate_limit: `${oldRateLimit}s`,
         new_rate_limit: `${newChannel.rateLimitPerUser}s`,
@@ -250,12 +263,12 @@ export function buildForumThreadRateLimitEmbed(
   oldRateLimit: number | null,
   newChannel: ForumChannel,
   executor: User | null,
-  t: TFunction,
+  t: TFunction<"loggers", "channelEvents">,
 ): EmbedBuilder {
   return createBaseEmbed(newChannel, executor, t)
-    .setTitle(t(($) => $.forum_default_thread_rate_limit_change.embed.title))
+    .setTitle(t(($) => $.channelUpdate.forumDefaultThreadRateLimitChange.embed.title))
     .setDescription(
-      t(($) => $.forum_default_thread_rate_limit_change.embed.description, {
+      t(($) => $.channelUpdate.forumDefaultThreadRateLimitChange.embed.description, {
         channel: newChannel,
         old_rate_limit: `${oldRateLimit}s`,
         new_rate_limit: `${newChannel.defaultThreadRateLimitPerUser}s`,
@@ -268,15 +281,15 @@ export function buildForumReactionEmojiEmbed(
   oldEmojiName: string | undefined | null,
   newChannel: ForumChannel,
   executor: User | null,
-  t: TFunction,
+  t: TFunction<"loggers", "channelEvents">,
 ): EmbedBuilder {
   const oldReactionEmoji = newChannel.guild.emojis.cache.get(oldEmojiId || "0");
   const newReactionEmoji = newChannel.guild.emojis.cache.get(newChannel.defaultReactionEmoji?.id || "0");
 
   return createBaseEmbed(newChannel, executor, t)
-    .setTitle(t(($) => $.forum_default_reaction_emoji_change.embed.title))
+    .setTitle(t(($) => $.channelUpdate.forumDefaultReactionEmojiChange.embed.title))
     .setDescription(
-      t(($) => $.forum_default_reaction_emoji_change.embed.description, {
+      t(($) => $.channelUpdate.forumDefaultReactionEmojiChange.embed.description, {
         channel: newChannel,
         old_reaction_emoji: oldReactionEmoji ? oldReactionEmoji.toString() : oldEmojiName || "N/A",
         new_reaction_emoji: newReactionEmoji
@@ -287,35 +300,36 @@ export function buildForumReactionEmojiEmbed(
 }
 
 export function buildForumSortOrderEmbed(
-  oldSort: number | null,
+  oldSort: SortOrderType | null,
   newChannel: ForumChannel,
   executor: User | null,
-  t: TFunction,
+  t: TFunction<"loggers", "channelEvents">,
 ): EmbedBuilder {
+  const newSort = newChannel.defaultSortOrder;
   return createBaseEmbed(newChannel, executor, t)
-    .setTitle(t(($) => $.forum_default_sort_order_change.embed.title))
+    .setTitle(t(($) => $.channelUpdate.forumDefaultSortOrderChange.embed.title))
     .setDescription(
-      t(($) => $.forum_default_sort_order_change.embed.description, {
+      t(($) => $.channelUpdate.forumDefaultSortOrderChange.embed.description, {
         channel: newChannel,
-        old_sort_order: t(`forum_default_sort_order_change.modes.${oldSort}`),
-        new_sort_order: t(($) => $.forum_default_sort_order_change.modes.${newChannel.defaultSortOrder}),
+        old_sort_order: oldSort !== null ? t(($) => $.channelUpdate.forumDefaultSortOrderChange.modes[oldSort]) : "N/A",
+        new_sort_order: newSort !== null ? t(($) => $.channelUpdate.forumDefaultSortOrderChange.modes[newSort]) : "N/A",
       }),
     );
 }
 
 export function buildForumLayoutEmbed(
-  oldLayout: number,
+  oldLayout: ForumLayoutType,
   newChannel: ForumChannel,
   executor: User | null,
-  t: TFunction,
+  t: TFunction<"loggers", "channelEvents">,
 ): EmbedBuilder {
   return createBaseEmbed(newChannel, executor, t)
-    .setTitle(t(($) => $.forum_default_forum_layout_change.embed.title))
+    .setTitle(t(($) => $.channelUpdate.forumDefaultForumLayoutChange.embed.title))
     .setDescription(
-      t(($) => $.forum_default_forum_layout_change.embed.description, {
+      t(($) => $.channelUpdate.forumDefaultForumLayoutChange.embed.description, {
         channel: newChannel,
-        old_layout: t(`forum_default_forum_layout_change.layouts.${oldLayout}`),
-        new_layout: t(($) => $.forum_default_forum_layout_change.layouts.${newChannel.defaultForumLayout}),
+        old_layout: t(($) => $.channelUpdate.forumDefaultForumLayoutChange.layouts[oldLayout]),
+        new_layout: t(($) => $.channelUpdate.forumDefaultForumLayoutChange.layouts[newChannel.defaultForumLayout]),
       }),
     );
 }
@@ -324,7 +338,7 @@ export function buildForumTagsUpdateEmbeds(
   oldChannel: ForumChannel,
   newChannel: ForumChannel,
   executor: User | null,
-  t: TFunction,
+  t: TFunction<"loggers", "channelEvents">,
 ): EmbedBuilder[] {
   const diff = diffGuildForumTags(oldChannel.availableTags, newChannel.availableTags);
   const embeds: EmbedBuilder[] = [];
@@ -336,9 +350,9 @@ export function buildForumTagsUpdateEmbeds(
     embeds.push(
       createBaseEmbed(newChannel, executor, t)
         .setColor("Green")
-        .setTitle(t(($) => $.forum_available_tags_change.added.embed.title))
+        .setTitle(t(($) => $.channelUpdate.forumAvailableTagsChange.added.embed.title))
         .setDescription(
-          t(($) => $.forum_available_tags_change.added.embed.description, {
+          t(($) => $.channelUpdate.forumAvailableTagsChange.added.embed.description, {
             channel: newChannel,
             tag_name: diff.added.map((tag) => tag.name).join(", "),
             tag_moderation_only: diff.added.map((tag) => (tag.moderated ? confirm : reject)).join(", "),
@@ -357,9 +371,9 @@ export function buildForumTagsUpdateEmbeds(
     embeds.push(
       createBaseEmbed(newChannel, executor, t)
         .setColor("Red")
-        .setTitle(t(($) => $.forum_available_tags_change.removed.embed.title))
+        .setTitle(t(($) => $.channelUpdate.forumAvailableTagsChange.removed.embed.title))
         .setDescription(
-          t(($) => $.forum_available_tags_change.removed.embed.description, {
+          t(($) => $.channelUpdate.forumAvailableTagsChange.removed.embed.description, {
             channel: newChannel,
             tag_name: diff.removed.map((tag) => tag.name).join(", "),
             tag_moderation_only: diff.removed.map((tag) => (tag.moderated ? confirm : reject)).join(", "),
@@ -380,7 +394,7 @@ export function buildForumTagsUpdateEmbeds(
     for (const update of diff.updated) {
       const changes = update.changes;
       descriptionLines.push(
-        t(($) => $.forum_available_tags_change.updated.embed.description, {
+        t(($) => $.channelUpdate.forumAvailableTagsChange.updated.embed.description, {
           channel: newChannel,
           old_tag_name: changes.name ? changes.name.old : "N/A",
           new_tag_name: changes.name ? changes.name.new : "N/A",
@@ -406,7 +420,7 @@ export function buildForumTagsUpdateEmbeds(
     embeds.push(
       createBaseEmbed(newChannel, executor, t)
         .setColor("Yellow")
-        .setTitle(t(($) => $.forum_available_tags_change.updated.embed.title))
+        .setTitle(t(($) => $.channelUpdate.forumAvailableTagsChange.updated.embed.title))
         .setDescription(descriptionLines.join("\n")),
     );
   }

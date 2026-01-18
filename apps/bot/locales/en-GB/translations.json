@@ -1,4 +1,8 @@
 {
+  "_meta": {
+    "label": "English (UK)",
+    "flag": "🇬🇧"
+  },
   "ping": "This command was run by {{interaction.user.username}}, who joined on {{interaction.member.joinedAt}}.",
   "modLog": {
     "warning": "⚠️ **{{user.username}}** has been warned by **{{moderator.username}}**. Reason:```{{reason}}```",

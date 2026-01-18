@@ -17,7 +17,7 @@ export async function logChannelUpdates(
   if (logChannel?.type !== ChannelType.GuildText) return;
 
   const executor = await getChannelExecutor(newChannel.guild, newChannel.id);
-  const t = newChannel.client.i18next.getFixedT(guildConfig.language, "events", "channelUpdate");
+  const t = newChannel.client.i18next.getFixedT(guildConfig.language, "loggers", "channelEvents");
 
   const embeds: EmbedBuilder[] = [];
 
@@ -74,8 +74,8 @@ export async function logChannelUpdates(
   }
 
   // Permission Overwrites Change
-  const oldPerms = normalizeOverwrites(oldChannel as any);
-  const newPerms = normalizeOverwrites(newChannel as any);
+  const oldPerms = normalizeOverwrites(oldChannel);
+  const newPerms = normalizeOverwrites(newChannel);
   if (!isDeepStrictEqual(oldPerms, newPerms)) {
     embeds.push(Embeds.buildPermissionsChangeEmbed(oldChannel, newChannel, executor, guildConfig.language, t));
   }

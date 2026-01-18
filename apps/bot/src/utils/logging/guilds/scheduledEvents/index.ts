@@ -6,7 +6,6 @@ export interface GuildScheduledEvents {
   event: GuildScheduledEvent | PartialGuildScheduledEvent;
   executor?: User | PartialUser | null;
   guildConfig: GuildWithLogs;
-  t: TFunction;
 }
 
 export * from "./create.js";
