@@ -17,6 +17,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    ports:
+      - "127.0.0.1:5432:5432"
     networks:
       - khaxy-network
 
@@ -29,19 +31,13 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    ports:
-      - "3001:3001"
+    network_mode: "host"
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER:-khaxy}:${POSTGRES_PASSWORD:-khaxy_password}@postgres:5432/${POSTGRES_DB:-khaxy}?schema=public
+      DATABASE_URL: postgresql://${POSTGRES_USER:-khaxy}:${POSTGRES_PASSWORD:-khaxy_password}@localhost:5432/${POSTGRES_DB:-khaxy}?schema=public
       NODE_ENV: production
       PORT: 3000
       DISCORD_BOT_TOKEN: ${DISCORD_BOT_TOKEN}
       CLIENT_ID: ${CLIENT_ID}
-    networks:
-      - khaxy-network
-    dns:
-      - 8.8.8.8
-      - 1.1.1.1
 
 volumes:
   postgres_data:
