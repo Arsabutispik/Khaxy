@@ -6,7 +6,7 @@ import { buildMessageEditEmbed } from "./messageEmbeds.js";
 
 export async function logMessageEdit(
   oldMessage: Message | PartialMessage,
-  newMessage: Message | PartialMessage,
+  newMessage: Message<true>,
   guildConfig: GuildWithLogs,
 ) {
   // 1. Validation: Content change, Ignore bots, Check config
@@ -29,7 +29,7 @@ export async function logMessageEdit(
   if (!webhook) return;
 
   // 3. Build & Send
-  const t = newMessage.client.i18next.getFixedT(guildConfig.language, "events", "messageUpdate");
+  const t = newMessage.client.i18next.getFixedT(guildConfig.language, "loggers", "messageEvents");
   const embed = buildMessageEditEmbed(oldMessage, newMessage, t);
 
   await webhook

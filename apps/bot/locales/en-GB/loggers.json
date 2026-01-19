@@ -717,5 +717,72 @@
         }
       }
     }
+  },
+  "messageEvents": {
+    "messageBulkDelete": {
+      "embed": {
+        "title": "{{count}} Message(s) Deleted",
+        "description": "> **Channel**: {{message.channel.name}} (<#{{message.channel.id}}>)"
+      },
+      "fileName": "deleted_messages.txt",
+      "message": "**Message ID:** {{message.id}} **Author:** {{message.author.tag}} **Content:** {{message.content}}"
+    },
+    "messageCreate": {
+      "pollCreate": {
+        "embed": {
+          "title": "Poll Created",
+          "description": "> **Expires At**: {{timestamp}}\n> **Multi Select**: {{multi_select}}\n> **Message**: {{message.url}}"
+        }
+      }
+    },
+    "messageDelete": {
+      "embed": {
+        "title": "Message Deleted",
+        "description": "> **Channel**: {{message.channel.name}} (<#{{message.channel.id}}>)\n> **Author**: {{message.author.tag}} (<@{{message.author.id}}>)\n> **Message ID**: [{{message.id}}](https://discord.com/channels/{{message.guild.id}}/{{message.channel.id}}/{{message.id}})\n> **Created At**: {{timestamp}}",
+        "fields": {
+          "content": "Message",
+          "attachments": "{{count}} Attachment(s)"
+        }
+      },
+      "skippedFiles": "⚠️ Skipped Large Files",
+      "pollDelete": {
+        "embed": {
+          "title": "Poll Deleted",
+          "description": "> **Expired at**: {{timestamp}}\n> **Multi Select**: {{multi_select}}\n> **Finalized**: {{finalized}}\n> **Channel**: <#{{message.channel.id}}>\n> **Message ID**: {{message.id}}\n> **Sent by**: <@{{message.author.id}}>"
+        }
+      }
+    },
+    "messagePollVoteAdd": {
+      "embed": {
+        "title": "Poll Votes Add",
+        "description": "> **Question**: {{question}}\n> **Answer**: {{answer}} <@{{answerer}}>\n> **Expired At**: {{timestamp}}\n> **Multi Select**: {{multi_select}}\n> **Message**: {{message.url}}"
+      }
+    },
+    "messagePollVoteRemove": {
+      "embed": {
+        "title": "Poll Votes Remove",
+        "description": "> **Question**: {{question}}\n> **Answer**: {{answer}} <@{{answerer}}>\n> **Expired At**: {{timestamp}}\n> **Multi Select**: {{multi_select}}\n> **Message**: {{message.url}}"
+      }
+    },
+    "messageUpdate": {
+      "messageEdit": "***User edited their message.***\n```diff\n- {{oldContent}}\n+ {{newContent}}\n```",
+      "embed": {
+        "title": "Message Edited",
+        "description": "> **Channel**: {{message.channel.name}} (<#{{message.channel.id}}>)\n> **Author**: {{message.author.tag}} (<@{{message.author.id}}>)\n> **Message ID**: [{{message.id}}](https://discord.com/channels/{{message.guild.id}}/{{message.channel.id}}/{{message.id}})",
+        "fields": {
+          "oldContent": "Before",
+          "newContent": "After"
+        }
+      },
+      "errors": {
+        "noContent": "⚠️ Could not retrieve message content before or after the edit."
+      },
+      "pollEnd": {
+        "embed": {
+          "title": "Poll Ended",
+          "description": "> **Expired At**: {{timestamp}}\n> **Multi Select**: {{multi_select}}\n> **Message**: {{message.url}}"
+        }
+      }
+    }
   }
 }
