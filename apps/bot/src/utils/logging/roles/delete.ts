@@ -4,7 +4,7 @@ import { returnWebhook, WebhookType } from "@utils";
 import { logger } from "@lib";
 
 export async function logRoleDelete(role: Role, guildConfig: GuildWithLogs) {
-  const t = role.client.i18next.getFixedT(guildConfig.language, "events", "roleDelete");
+  const t = role.client.i18next.getFixedT(guildConfig.language, "loggers", "roleEvents");
   if (!guildConfig.logConfig?.roleLogsChannelId) return;
   const logChannel = role.guild.channels.cache.get(guildConfig.logConfig.roleLogsChannelId);
   if (logChannel?.type !== ChannelType.GuildText) return;
@@ -17,9 +17,9 @@ export async function logRoleDelete(role: Role, guildConfig: GuildWithLogs) {
   const logEntry = auditLogs?.entries.first();
   const embed = new EmbedBuilder()
     .setColor("Red")
-    .setTitle(t(($) => $.embed.title))
+    .setTitle(t(($) => $.roleDelete.embed.title))
     .setDescription(
-      t(($) => $.embed.description, {
+      t(($) => $.roleDelete.embed.description, {
         role: role,
         role_color: `#${role.color.toString(16).padStart(6, "0")}`,
         role_hoist: role.hoist
@@ -30,7 +30,7 @@ export async function logRoleDelete(role: Role, guildConfig: GuildWithLogs) {
           : role.client.allEmojis.get(role.client.config.emojis.reject.id)?.format,
         permissions: role.permissions.toArray().map((permission) => {
           const t = role.client.i18next.getFixedT(guildConfig.language, "permissions");
-          return t(($) => $.permissions.${permission});
+          return t(($) => $.permissions[permission] || permission);
         }),
         timestamp: time(new Date(), TimestampStyles.LongDateShortTime),
       }),
@@ -39,7 +39,7 @@ export async function logRoleDelete(role: Role, guildConfig: GuildWithLogs) {
     .setTimestamp();
   if (logEntry?.target?.id === role.id) {
     embed.setFooter({
-      text: logEntry.executor?.tag ?? t(($) => $.unknown_executor),
+      text: logEntry.executor?.tag ?? t(($) => $.unknownExecutor),
       iconURL: logEntry.executor?.displayAvatarURL() ?? undefined,
     });
   }

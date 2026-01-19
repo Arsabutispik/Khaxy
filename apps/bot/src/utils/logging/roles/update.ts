@@ -3,6 +3,7 @@ import { GuildWithLogs } from "@repo/database";
 import { returnWebhook, WebhookType } from "@utils";
 import { logger } from "@lib";
 import * as Embeds from "./roleEmbeds.js";
+import { logUnhandledChanges } from "../utils.js";
 
 export async function logRoleUpdate(oldRole: Role, newRole: Role, guildConfig: GuildWithLogs) {
   // 1. Validation
@@ -32,7 +33,7 @@ export async function logRoleUpdate(oldRole: Role, newRole: Role, guildConfig: G
 
   if (!webhook) return;
 
-  const t = newRole.client.i18next.getFixedT(guildConfig.language, "events", "roleUpdate");
+  const t = newRole.client.i18next.getFixedT(guildConfig.language, "loggers", "roleEvents");
   const embeds: EmbedBuilder[] = [];
 
   // 4. Check for changes and build embeds
@@ -67,17 +68,31 @@ export async function logRoleUpdate(oldRole: Role, newRole: Role, guildConfig: G
   if (oldRole.icon !== newRole.icon) {
     embeds.push(Embeds.buildRoleIconEmbed(oldRole, newRole, executor, t));
   }
+  if (embeds.length === 0) {
+    logUnhandledChanges("RoleUpdate", oldRole, newRole, `Role "${newRole.name}" (${newRole.id})`, [
+      // CRITICAL: Ignore the members manager.
+      // We don't want this firing when a user gets/loses the role.
+      "members",
 
-  // 5. Send
-  if (embeds.length > 0) {
-    // Discord allows up to 10 embeds per message. This logic typically produces 1-3.
-    await webhook.send({ embeds }).catch((error) => {
-      logger.log({
-        level: "error",
-        error,
-        message: `Failed to send roleUpdate embed(s) in ${newRole.guild.name}`,
-        channelId: logChannel.id,
-      });
-    });
+      // OPTIONAL: Ignore position (raw integer)
+      // If you don't want logs when an admin drags/reorders roles in the list.
+      "position",
+      "rawPosition",
+
+      // OPTIONAL: Ignore tags
+      // These are internal flags for bot integration roles/premium roles
+      "tags",
+    ]);
+    return;
   }
+  // 5. Send
+  // Discord allows up to 10 embeds per message. This logic typically produces 1-3.
+  await webhook.send({ embeds }).catch((error) => {
+    logger.log({
+      level: "error",
+      error,
+      message: `Failed to send roleUpdate embed(s) in ${newRole.guild.name}`,
+      channelId: logChannel.id,
+    });
+  });
 }

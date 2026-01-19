@@ -9,7 +9,6 @@ interface Resources {
       "errors": {
         "banFailed": "Failed to ban {{user}}. Ensure my role is higher than the user's role and I have ban permissions."
       },
-      "expired": "Ban has expired.",
       "message": {
         "dm": {
           "duration": "You have been banned from **{{guild}}** for **{{duration}}**. Reason:```{{reason}}```",
@@ -53,21 +52,8 @@ interface Resources {
       "embed": {
         "log": {
           "fields": {
-            "channelLogsChannel": "Channel Logs Channel",
-            "emojiLogsChannel": "Emoji Logs Channel",
-            "eventLogsChannelId": "Event Logs Channel",
             "guildLogsChannel": "Guild Logs Channel",
-            "guildMemberLogsChannel": "Guild Member Logs Channel",
-            "inviteLogsChannel": "Invite Logs Channel",
-            "messageLogsChannel": "Message Logs Channel",
-            "pollLogsChannel": "Poll Logs Channel",
-            "roleLogsChannel": "Role Logs Channel",
-            "soundboardLogsChannelId": "Soundboard Logs Channel",
-            "stageLogsChannelId": "Stage Logs Channel",
-            "stickerLogsChannel": "Sticker Logs Channel",
-            "threadLogsChannelId": "Thread Logs Channel",
-            "voiceLogsChannel": "Voice Logs Channel",
-            "webhookLogsChannelId": "Webhook Logs Channel"
+            "messageLogsChannel": "Message Logs Channel"
           },
           "title": "Log Settings"
         },
@@ -80,9 +66,7 @@ interface Resources {
         },
         "moderation": {
           "fields": {
-            "defaultExpiry": "Default Expiry",
             "modLogChannel": "Moderation Log Channel",
-            "modMailChannel": "Mod Mail Channel",
             "muteGetAllRoles": "Mute Get All Roles",
             "registerDayLimit": "Register Day Limit",
             "staffRole": "Staff Role"
@@ -100,13 +84,7 @@ interface Resources {
         },
         "role": {
           "fields": {
-            "colorOfTheDay": "Colour of the Day",
-            "djRole": "DJ Role",
-            "femaleRole": "Female Role",
-            "maleRole": "Male Role",
-            "memberRole": "Member Role",
-            "muteRole": "Mute Role",
-            "unverifiedRole": "Unverified Role"
+            "colorOfTheDay": "Colour of the Day"
           },
           "title": "Role Settings"
         },
@@ -129,11 +107,9 @@ interface Resources {
         "register": "Register Settings",
         "role": "Role Settings",
         "welcomeLeave": "Welcome/Leave Settings"
-      },
-      "timesUp": "Time's up! You can no longer view the settings."
+      }
     },
     "help": {
-      "commandHelpNotFound": "Help for this command is not available.",
       "commandNotFound": "Command not found.",
       "commandUsage": "Command Usage",
       "examples": "Examples",
@@ -150,19 +126,9 @@ interface Resources {
       "tempbanSet": "{{duration}} ban will be given at {{threshold}} infractions."
     },
     "infractions": {
-      "infractionCase": "Case #{{case}}",
-      "infractionDetails": "> **Type**: {{type}}\n> **Reason**: {{reason}}\n> **Moderator**: {{moderator}}\n> **Date**: {{date}}",
-      "infractionsFor": "Infractions For **{{user}}**",
-      "noInfractions": "No infractions found for **{{user}}**.",
-      "noUser": "User not found.",
-      "pageFooter": "Page {{current}} of {{total}}"
+      "noUser": "User not found."
     },
     "kick": {
-      "cantKick": "This user can't be kicked.",
-      "cantKickBot": "You can't kick a bot.",
-      "cantKickHigher": "You can't kick a user with a higher role than you.",
-      "cantKickMod": "You can't kick a moderator.",
-      "cantKickYourself": "You can't kick yourself.",
       "clearFail": "Failed to clear the messages.",
       "embed": {
         "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Joined At**: {{timestamp}}",
@@ -186,7 +152,6 @@ interface Resources {
         "embed": {
           "fields": {
             "createdAt": "Blacklisted At",
-            "duration": "Duration",
             "expiresAt": "Expires At",
             "moderator": "Responsible Moderator",
             "reason": "Reason"
@@ -215,7 +180,6 @@ interface Resources {
     },
     "mute": {
       "alreadyMuted": "User is already muted.",
-      "alreadyMutedNoPunishments": "User is already muted but no punishments found. Removing the role.",
       "cantMuteBot": "You can't mute a bot.",
       "cantMuteHigher": "You can't mute a user with a higher role than you.",
       "cantMuteMod": "You can't mute a moderator.",
@@ -238,20 +202,9 @@ interface Resources {
       "roleError": "Error while removing or adding roles. I may not have permission to do so. Please check the role permissions. The command has been cancelled."
     },
     "newthread": {
-      "channelCreateFailed": "Could not create the channel.",
-      "createdBy": "`Created by {{user}}`",
-      "dbError": "Failed database query. Mod mail thread is dropped.",
-      "dmFail": "Failed to send a DM to the user.",
       "initial": "`Account Age:` **{{account_age}}**, `ID:` **{{user.id}}**\n`Username:` **{{user.username}}** (<@{{user.id}}>), `Join Date:` **{{join_date}}**\n**»»----------------------------¤----------------------------««**",
       "message": "A thread with the `{{guild}}` has been created. **[{{user}}]:** {{message}}",
-      "messageSendFailed": "Message couldn't be delivered to thread. Mod mail thread is closed.",
-      "modmailChannelNotInParent": "Mod mail channel is not in the same parent as the mod mail thread. Put the mod mail channel in the same parent as the mod mail thread or update the mod mail channel with the /config command.",
-      "modmailChannelNotText": "Mod mail channel is not a text channel. Update the mod mail channel in the channel settings.",
-      "noModmailChannel": "Mod mail channel not found. Update the mod mail channel with the /config command.",
-      "threadAlreadyExists": "A thread already exists for this user. Close the thread or suspend before creating a new one.",
-      "threadCreated": "Thread has been created.",
-      "topic": "Mod Mail conversation with {{user}}",
-      "userNotInGuild": "The user is not a member of the server."
+      "topic": "Mod Mail conversation with {{user}}"
     },
     "purge": {
       "any": {
@@ -262,21 +215,14 @@ interface Resources {
         "error": "An error occurred while deleting the bot messages. Please try again later.",
         "success": "{{confirm}} Successfully deleted **{{count}}** messages from bots."
       },
-      "notTextChannel": "This command can only be used in text channels.",
       "user": {
         "error": "An error occurred while deleting the messages from the user. Please try again later.",
         "success": "{{confirm}} Successfully deleted **{{count}}** messages from **{{user}}**."
       }
     },
     "register": {
-      "alreadyRegistered": "User is already registered.",
       "error": "Error while registering the user. {{error}}",
-      "noFemaleRole": "Female role not found. Please update the female role in the settings.",
-      "noMaleRole": "Male role not found. Please update the male role in the settings.",
       "noMember": "Member not found. Is the member still in the server?",
-      "noMemberRole": "Member role not found. Please update the member role in the settings.",
-      "noRegisterChannel": "Register channel not found. Please update the register channel in the settings.",
-      "notValid": "The option you provided is not valid. Please provide a valid option.",
       "rolesUpdate": {
         "embed": {
           "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Roles Added**: {{added_roles}}",
@@ -284,8 +230,7 @@ interface Resources {
           "title": "Roles Updated"
         }
       },
-      "success": "{{confirm}} **{{user}}** has been registered.",
-      "wrongChannel": "You can only register in <#{{channel}}>"
+      "success": "{{confirm}} **{{user}}** has been registered."
     },
     "reply": {
       "anonymous": "Anonymous",
@@ -297,12 +242,6 @@ interface Resources {
       "suspended": "This mod mail thread has been suspended. Unsuspend the thread to reply."
     },
     "roles": {
-      "roleAddError": "Error while adding the role. I may not have permission to do so.",
-      "roleAdded": "Role **{{role}}** has been added to **{{user}}**.",
-      "roleAlreadyAssigned": "The role **{{role}}** is already assigned to **{{user}}**.",
-      "roleNotAssigned": "The role **{{role}}** is not assigned to **{{user}}**.",
-      "roleRemoveError": "Error while removing the role. I may not have permission to do so.",
-      "roleRemoved": "Role **{{role}}** has been removed from **{{user}}**.",
       "userNotFound": "Member not found. Is the member still in the server?"
     },
     "support": {
@@ -317,7 +256,6 @@ interface Resources {
       "guildNotFound": "Dev Guild not found cannot create invite."
     },
     "suspend": {
-      "alreadySuspended": "This mod mail thread is already suspended.",
       "error": "An error occurred while suspending the thread. Developers have been notified.",
       "noThread": "This is not a mod mail thread.",
       "suspended": "This mod mail thread has been suspended. You can no longer reply to the user."
@@ -333,19 +271,16 @@ interface Resources {
       "error": "Error while unbanning the user. {{error}}",
       "noReason": "No reason provided for unbanning.",
       "noUser": "User not found.",
-      "notBanned": "User is not banned.",
       "success": "{{confirm}} **{{user}}** has been unbanned (Case #{{case}})."
     },
     "unmute": {
       "databaseError": "Critical error while updating the database. The developers have been notified. The command has been cancelled.",
       "dm": "You have been unmuted in **{{guild}}**.",
       "dmError": "{{confirm}} **{{user}}** has been unmuted (Case #{{case}}). The user could not be notified via DM.",
-      "mutedNoPunishments": "User is muted but no punishments found. Removing the role. Lost roles cannot be restored automatically.",
       "noMember": "Member not found. Is the member still in the server?",
       "noMuteRole": "Mute role not found. Please update the mute role in the settings.",
       "noReason": "No reason provided for unmuting.",
       "notMuted": "User is not muted. If they appear to be, please remove the role manually. Lost roles cannot be restored automatically.",
-      "previousRolesError": "Failed to reassign previous roles. The following roles couldn't be added:```{{roles}}```",
       "roleError": "Error while removing the role. The role may have been deleted or I may not have permission to remove it.",
       "success": "{{confirm}} **{{user}}** has been unmuted (Case #{{case}}). The user has been notified via DM."
     },
@@ -1331,11 +1266,9 @@ interface Resources {
   },
   "help": {
     "ban": {
-      "description": "Bans the user from the server. With or without a given time.",
       "examples": ["`/ban user:@user` - Bans the user indefinitely.", "`/ban user:@user duration:1 time:Day(s)` - Bans the user for 1 day.", "`/ban user:@user reason:Spamming duration:1 time:Week(s)` - Bans the user for 1 week with a reason."],
       "permissions": ["User Permissions: `Ban Members`", "Bot Permissions: `Ban Members`"],
-      "title": "Ban User",
-      "usage": "Usage: </{{command.name}}:{{command.id}}> `<user> [reason] [duration] [time]`"
+      "title": "Ban User"
     },
     "close": {
       "description": "Closes the current modmail thread, preventing further messages. Must be used in a modmail channel.",
@@ -1344,103 +1277,73 @@ interface Resources {
       "usage": "Usage: </{{command.name}}:{{command.id}}>"
     },
     "close-cancel": {
-      "description": "Cancels the close action for a modmail thread, allowing further messages to be sent.",
       "permissions": ["User Permissions: `Manage Messages`"],
-      "title": "Cancel Close",
-      "usage": "Usage: </{{command.name}}:{{command.id}}>"
+      "title": "Cancel Close"
     },
     "config": {
-      "description": "Allows you to configure various settings for the server, such as modmail channels, welcome messages, and more.",
       "examples": ["`/config setting:Moderation Settings` - Configures moderation settings for the server.", "`/config setting:Welcome-Leave Settings` - Configures the welcome-leave settings for the server."],
       "permissions": ["User Permissions: `Administrator`"],
-      "title": "Configure Server Settings",
-      "usage": "Usage: </{{command.name}}:{{command.id}}> `[setting]`"
+      "title": "Configure Server Settings"
     },
     "help": {
-      "description": "Provides information about the available commands and how to use them.",
       "examples": ["`/help command:ban` - Displays help information for the ban command.", "`/help command:mute` - Displays help information for the mute command."],
-      "title": "Help",
-      "usage": "Usage: </{{command.name}}:{{command.id}}> `<command>`"
+      "title": "Help"
     },
     "kick": {
-      "description": "Kicks the user from the server with the option to clear their messages.",
       "examples": ["`/kick user:@user` - Kicks the user from the server.", "`/kick user:@user reason:Spamming` - Kicks the user with a reason.", "`/kick user:@user clear:True` - Kicks the user and clears their messages."],
       "permissions": ["User Permissions: `Kick Members`", "Bot Permissions: `Kick Members`"],
-      "title": "Kick User",
-      "usage": "Usage: </{{command.name}}:{{command.id}}> `<user> [reason] [clear]`"
+      "title": "Kick User"
     },
     "modmail-blacklist": {
-      "description": "Add or remove users from the modmail blacklist, preventing them from starting new threads. You can also view the current blacklist of a user.",
       "examples": ["`/modmail-blacklist add user:@user reason:Spamming` - Adds the user to the modmail blacklist with a reason.", "`/modmail-blacklist remove user:@user` - Removes the user from the modmail blacklist.", "`/modmail-blacklist get user:@user` - Retrieves the current modmail blacklist status for the user."],
       "permissions": ["User Permissions: `Manage Messages`"],
-      "title": "Manage Modmail Blacklist",
-      "usage": "Usage: </{{command.name}}:{{command.id}}> (add/remove/get) `<user> [reason] [duration] [time]`"
+      "title": "Manage Modmail Blacklist"
     },
     "mute": {
-      "description": "Mutes the user in the server, preventing them from sending messages.",
       "examples": ["`/mute user:@user` - Mutes the user indefinitely.", "`/mute user:@user duration:1 time:Day(s)` - Mutes the user for 1 day.", "`/mute user:@user reason:Spamming duration:1 time:Hour(s)` - Mutes the user for 1 hour with a reason."],
       "permissions": ["User Permissions: `Manage Roles`", "Bot Permissions: `Manage Roles`"],
-      "title": "Mute User",
-      "usage": "Usage: </{{command.name}}:{{command.id}}> `<user> <duration> <time> [reason]`"
+      "title": "Mute User"
     },
     "newthread": {
-      "description": "Starts a new modmail thread with the specified user, allowing for private communication.",
       "examples": ["`/newthread user:@user message:Hello!` - Starts a new modmail thread with the user and sends a message."],
       "permissions": ["User Permissions: `Manage Messages`", "Bot Permissions: `Send Messages`"],
-      "title": "Start a New Modmail Thread",
-      "usage": "Usage: </{{command.name}}:{{command.id}}> `<user> <message>`"
+      "title": "Start a New Modmail Thread"
     },
     "ping": {
-      "description": "Checks the bot's latency and responsiveness.",
-      "title": "Ping",
-      "usage": "Usage: </{{command.name}}:{{command.id}}>"
+      "title": "Ping"
     },
     "register": {
-      "description": "Helps you manually verify a user with gender specific roles or not.",
       "examples": ["`/register user:@user gender:Other 🧑` - Registers the user with just the member role."],
       "permissions": ["User Permissions: `Manage Roles`", "Bot Permissions: `Manage Roles`"],
-      "title": "Register User",
-      "usage": "Usage: </{{command.name}}:{{command.id}}> `<user> <gender>`"
+      "title": "Register User"
     },
     "reply": {
-      "description": "Replies to the current modmail thread, allowing for continued communication with the user.",
       "examples": ["`/reply message:Hello!` - Replies to the current modmail thread with a message."],
       "permissions": ["User Permissions: `Manage Messages`"],
-      "title": "Reply to a Modmail Thread",
-      "usage": "Usage: </{{command.name}}:{{command.id}}> `<message>`"
+      "title": "Reply to a Modmail Thread"
     },
     "suspend": {
-      "description": "Suspends the current modmail thread, preventing further messages until resumed.",
       "permissions": ["User Permissions: `Manage Messages`"],
-      "title": "Suspend Modmail Thread",
-      "usage": "Usage: </{{command.name}}:{{command.id}}>"
+      "title": "Suspend Modmail Thread"
     },
     "unban": {
-      "description": "Unbans a user from the server, allowing them to rejoin.",
       "examples": ["`/unban user:@user` - Unbans the user from the server.", "`/unban user:@user reason:Appealed` - Unbans the user with a reason."],
       "permissions": ["User Permissions: `Ban Members`", "Bot Permissions: `Ban Members`"],
-      "title": "Unban User",
-      "usage": "Usage: </{{command.name}}:{{command.id}}> `<user> [reason]`"
+      "title": "Unban User"
     },
     "unmute": {
-      "description": "Unmutes a user in the server, allowing them to send messages again.",
       "examples": ["`/unmute user:@user` - Unmutes the user in the server."],
       "permissions": ["User Permissions: `Manage Roles`", "Bot Permissions: `Manage Roles`"],
-      "title": "Unmute User",
-      "usage": "Usage: </{{command.name}}:{{command.id}}> `<user>`"
+      "title": "Unmute User"
     },
     "unsuspend": {
-      "description": "Unsuspends the current modmail thread, allowing further messages to be sent.",
       "permissions": ["User Permissions: `Manage Messages`"],
-      "title": "Unsuspend Modmail Thread",
-      "usage": "Usage: </{{command.name}}:{{command.id}}>"
+      "title": "Unsuspend Modmail Thread"
     },
     "warn": {
-      "description": "Issues a warning to the user, which can be tracked for moderation purposes.",
       "examples": ["`/warn user:@user reason:Inappropriate behavior` - Issues a warning to the user."],
       "permissions": ["User Permissions: `Moderate Members`"],
-      "title": "Warn User",
-      "usage": "Usage: </{{command.name}}:{{command.id}}> `<user> <reason>`"
+      "title": "Warn User"
     }
   },
   "locales": {
@@ -1622,19 +1525,7 @@ interface Resources {
             "title": "Voice Channel RTC Region Changed"
           },
           "region": {
-            "brazil": "Brazil",
-            "hongkong": "Hong Kong",
-            "india": "India",
-            "japan": "Japan",
-            "none": "Auto",
-            "rotterdam": "Rotterdam",
-            "singapore": "Singapore",
-            "southafrica": "South Africa",
-            "sydney": "Sydney",
-            "us-central": "US Central",
-            "us-east": "US East",
-            "us-south": "US South",
-            "us-west": "US West"
+            "none": "Auto"
           }
         },
         "topicChange": {
@@ -2100,8 +1991,7 @@ interface Resources {
         },
         "joinDateUnknown": "Join date unknown",
         "noReason": "No reason provided.",
-        "unknownExecutor": "Unknown Executor",
-        "userLeft": "**User has left {{guild}}**"
+        "unknownExecutor": "Unknown Executor"
       },
       "memberUpdate": {
         "nicknameChange": {
@@ -2197,7 +2087,6 @@ interface Resources {
         "errors": {
           "noContent": "⚠️ Could not retrieve message content before or after the edit."
         },
-        "messageEdit": "***User edited their message.***\n```diff\n- {{oldContent}}\n+ {{newContent}}\n```",
         "pollEnd": {
           "embed": {
             "description": "> **Expired At**: {{timestamp}}\n> **Multi Select**: {{multi_select}}\n> **Message**: {{message.url}}",
@@ -2208,6 +2097,59 @@ interface Resources {
           "unknownUser": "Unknown User"
         }
       }
+    },
+    "roleEvents": {
+      "roleCreate": {
+        "embed": {
+          "description": "> **Role**: {{role.name}}\n> **ID**: {{role.id}}\n> **Color**: {{role_color}}\n> **Hoisted**: {{role_hoist}}\n> **Mentionable**: {{role_mentionable}}\n> **Position**: {{role.position}}\n> **Created At**: {{timestamp}}\n> **Permissions**: {{permissions}}",
+          "title": "Role Created"
+        }
+      },
+      "roleDelete": {
+        "embed": {
+          "description": "> **Role**: {{role.name}}\n> **ID**: {{role.id}}\n> **Color**: {{role_color}}\n> **Hoisted**: {{role_hoist}}\n> **Mentionable**: {{role_mentionable}}\n> **Position**: {{role.position}}\n> **Deleted At**: {{timestamp}}\n> **Permissions**: {{permissions}}",
+          "title": "Role Deleted"
+        }
+      },
+      "roleUpdate": {
+        "colorChange": {
+          "embed": {
+            "description": "> **Role**: {{role.name}}\n> **ID**: {{role.id}}\n> **Old Color**: {{old_color}}\n> **New Color**: {{new_color}}",
+            "title": "Role Color Changed"
+          }
+        },
+        "hoistChange": {
+          "embed": {
+            "description": "> **Role**: {{role.name}}\n> **ID**: {{role.id}}\n> **Old Hoist Status**: {{old_hoist}}\n> **New Hoist Status**: {{new_hoist}}",
+            "title": "Role Hoisted Changed"
+          }
+        },
+        "iconChange": {
+          "embed": {
+            "description": "> **Role**: {{role.name}}\n> **ID**: {{role.id}}\n> **Old Icon**: {{old_icon}}\n> **New Icon**: {{new_icon}}",
+            "title": "Role Icon Changed"
+          }
+        },
+        "mentionableChange": {
+          "embed": {
+            "description": "> **Role**: {{role.name}}\n> **ID**: {{role.id}}\n> **Old Mentionable Status**: {{old_mentionable}}\n> **New Mentionable Status**: {{new_mentionable}}",
+            "title": "Role Mentionable Changed"
+          }
+        },
+        "nameChange": {
+          "embed": {
+            "description": "> **ID**: {{role.id}}\n> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}",
+            "title": "Role Name Changed"
+          }
+        },
+        "permissionsChange": {
+          "embed": {
+            "description": "> **Role**: {{role.name}}\n> **ID**: {{role.id}}\n**Changes**: {{changes}}",
+            "title": "Role Permissions Changed"
+          }
+        }
+      },
+      "unknownExecutor": "Unknown Executor"
     },
     "stageInstanceEvents": {
       "stageInstanceCreate": {
@@ -2278,8 +2220,11 @@ interface Resources {
       "Administrator": "Administrator",
       "AttachFiles": "Attach Files",
       "BanMembers": "Ban Members",
+      "BypassSlowmode": "Bypass Slowmode",
       "ChangeNickname": "Change Nickname",
       "Connect": "Connect",
+      "CreateEvents": "Create Events",
+      "CreateGuildExpressions": "Create Server Expressions",
       "CreateInstantInvite": "Create Instant Invite",
       "CreatePrivateThreads": "Create Private Threads",
       "CreatePublicThreads": "Create Public Threads",
@@ -2290,6 +2235,7 @@ interface Resources {
       "ManageEmojisAndStickers": "Manage Emojis and Stickers",
       "ManageEvents": "Manage Events",
       "ManageGuild": "Manage Server",
+      "ManageGuildExpressions": "Manage Server Expressions",
       "ManageMessages": "Manage Messages",
       "ManageNicknames": "Manage Nicknames",
       "ManageRoles": "Manage Roles",
@@ -2299,21 +2245,28 @@ interface Resources {
       "ModerateMembers": "Moderate Members",
       "MoveMembers": "Move Members",
       "MuteMembers": "Mute Members",
+      "PinMessages": "Pin Messages",
       "PrioritySpeaker": "Priority Speaker",
       "ReadMessageHistory": "Read Message History",
       "RequestToSpeak": "Request to Speak",
       "SendMessages": "Send Messages",
       "SendMessagesInThreads": "Send Messages in Threads",
+      "SendPolls": "Send Polls",
       "SendTTSMessages": "Send Text-to-Speech Messages",
+      "SendVoiceMessages": "Send Voice Messages",
       "Speak": "Speak",
       "Stream": "Stream",
       "UseApplicationCommands": "Use Application Commands",
       "UseEmbeddedActivities": "Use Embedded Activities",
+      "UseExternalApps": "Use External Apps",
       "UseExternalEmojis": "Use External Emojis",
+      "UseExternalSounds": "Use External Sounds",
       "UseExternalStickers": "Use External Stickers",
+      "UseSoundboard": "Use Soundboard",
       "UseVAD": "Use Voice Activity",
       "ViewAuditLog": "View Audit Log",
       "ViewChannel": "View Channel",
+      "ViewCreatorMonetizationAnalytics": "View Creator Monetization Analytics",
       "ViewGuildInsights": "View Server Insights"
     },
     "unset": "Unset"
@@ -2327,17 +2280,12 @@ interface Resources {
     "SuppressRoleSubscriptionPurchaseNotifications": "Suppress Role Sub Purchase"
   },
   "translations": {
-    "_meta": {
-      "flag": "🇬🇧",
-      "label": "English (UK)"
-    },
     "checkExpiredModmailBlacklists": {
       "expiredModmailBlacklistNotification": "🔔 Modmail blacklist for **{{guild}}** expired"
     },
     "checkPunishments": {
       "banExpired": "Ban expired after {{duration}}.",
       "embed": {
-        "added": "Roles Added",
         "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Roles Removed**: {{removed_roles}}",
         "title": "User Roles Updated"
       },
@@ -2419,141 +2367,116 @@ interface Resources {
         "mute": "You have been muted in **{{guild}}** for **{{duration}}**. Reason: ```{{reason}}```",
         "tempBan": "You have been temporarily banned from **{{guild}}** for **{{duration}}**. Reason:```{{reason}}```"
       },
-      "muteError": "An error occurred while trying to mute the user. Please check the bot's permissions and try again.",
       "noMuteRole": "The mute role is not set. Please set the mute role in the moderation config to use this feature.",
-      "noPermission": "I do not have permission to mute this user. Please check the bot's role and permissions.",
       "reason": "Automatic punishment escalation (strike {{level}})",
       "roleError": "An error occurred while trying to add/remove a role. Please check the bot's permissions and try again."
     },
     "joinLeaveConfig": {
-      "channelInitial": "Select a channel below. If you want to remove the channel, press x and click elsewhere.",
       "initial": "Select the setting you want to update.",
       "joinChannelId": {
         "description": "The channel where the welcome message will be sent.",
         "label": "Set Welcome Channel",
-        "set": "Welcome channel has been set to {{channel}}.",
         "unset": "Welcome channel has been removed."
       },
       "joinMessage": {
         "description": "The message that will be sent when a member joins the server.",
         "label": "Set Welcome Message",
-        "set": "Welcome message has been set.",
         "title": "Set Welcome Message",
         "unset": "Welcome message has been removed."
       },
       "leaveChannelId": {
         "description": "The channel where the leave message will be sent.",
         "label": "Set Leave Channel",
-        "set": "Leave channel has been set to {{channel}}.",
         "unset": "Leave channel has been removed."
       },
       "leaveMessage": {
         "description": "The message that will be sent when a member leaves the server.",
         "label": "Set Leave Message",
-        "set": "Leave message has been set.",
         "title": "Set Leave Message",
         "unset": "Leave message has been removed."
       },
-      "roleInitial": "Select a role below. If you want to remove the role, press x and click elsewhere.",
       "timeout": "Message timed out. Please run the command again."
     },
     "logConfig": {
-      "channelInitial": "Select a channel below. If you want to remove the channel, press x and click elsewhere.",
       "channelLogsChannelId": {
         "description": "The channel where channel update logs will be sent.",
         "label": "Set Channel Logs Channel",
-        "set": "Channel Logs channel has been set to {{channel}}.",
         "unset": "Channel Logs channel has been removed."
       },
       "emojiLogsChannelId": {
         "description": "The channel where emoji update logs will be sent.",
         "label": "Set Emoji Logs Channel",
-        "set": "Emoji Logs channel has been set to {{channel}}.",
         "unset": "Emoji Logs channel has been removed."
       },
       "eventLogsChannelId": {
         "description": "The channel where event logs will be sent.",
         "label": "Set Event Logs Channel",
-        "set": "Event Logs channel has been set to {{channel}}.",
         "unset": "Event Logs channel has been removed."
       },
       "guildLogsChannelId": {
         "description": "The channel where guild update logs will be sent.",
         "label": "Set Guild Logs Channel",
-        "set": "Guild Logs channel has been set to {{channel}}.",
         "unset": "Guild Logs channel has been removed."
       },
       "guildMemberLogsChannelId": {
         "description": "The channel where member update logs will be sent.",
         "label": "Set Member Logs Channel",
-        "set": "Member Logs channel has been set to {{channel}}.",
         "unset": "Member Logs channel has been removed."
       },
       "initial": "Select the setting you want to update.",
       "inviteLogsChannelId": {
         "description": "The channel where invite logs will be sent.",
         "label": "Set Invite Logs Channel",
-        "set": "Invite Logs channel has been set to {{channel}}.",
         "unset": "Invite Logs channel has been removed."
       },
       "messageLogsChannelId": {
         "description": "The channel where; message delete, message update, bulk delete logs will be sent.",
         "label": "Set Message Logs Channel",
-        "set": "Message Logs channel has been set to {{channel}}.",
         "unset": "Message Logs channel has been removed."
       },
       "pollLogsChannelId": {
         "description": "The channel where poll logs will be sent.",
         "label": "Set Poll Logs Channel",
-        "set": "Poll Logs channel has been set to {{channel}}.",
         "unset": "Poll Logs channel has been removed."
       },
       "roleLogsChannelId": {
         "description": "The channel where role update logs will be sent.",
         "label": "Set Role Logs Channel",
-        "set": "Role Logs channel has been set to {{channel}}.",
         "unset": "Role Logs channel has been removed."
       },
       "soundboardLogsChannelId": {
         "description": "The channel where soundboard logs will be sent.",
         "label": "Set Soundboard Logs Channel",
-        "set": "Soundboard Logs channel has been set to {{channel}}.",
         "unset": "Soundboard Logs channel has been removed."
       },
       "stageLogsChannelId": {
         "description": "The channel where stage logs will be sent.",
         "label": "Set Stage Logs Channel",
-        "set": "Stage Logs channel has been set to {{channel}}.",
         "unset": "Stage Logs channel has been removed."
       },
       "stickerLogsChannelId": {
         "description": "The channel where sticker update logs will be sent.",
         "label": "Set Sticker Logs Channel",
-        "set": "Sticker Logs channel has been set to {{channel}}.",
         "unset": "Sticker Logs channel has been removed."
       },
       "threadLogsChannelId": {
         "description": "The channel where thread logs will be sent.",
         "label": "Set Thread Logs Channel",
-        "set": "Thread Logs channel has been set to {{channel}}.",
         "unset": "Thread Logs channel has been removed."
       },
       "timeout": "Message timed out. Please run the command again.",
       "voiceLogsChannelId": {
         "description": "The channel where voice update logs will be sent.",
         "label": "Set Voice Logs Channel",
-        "set": "Voice Logs channel has been set to {{channel}}.",
         "unset": "Voice Logs channel has been removed."
       },
       "webhookLogsChannelId": {
         "description": "The channel where webhook logs will be sent.",
         "label": "Set Webhook Logs Channel",
-        "set": "Webhook Logs channel has been set to {{channel}}.",
         "unset": "Webhook Logs channel has been removed."
       }
     },
     "miscConfig": {
-      "channelInitial": "Select a channel below. If you want to remove the channel, press x and click elsewhere.",
       "initial": "Select the setting you want to update.",
       "language": {
         "description": "The language the bot will use.",
@@ -2564,7 +2487,6 @@ interface Resources {
       "modMailMessage": {
         "description": "The message that will be sent by the bot when a user sends a mod-mail.",
         "label": "Set Mod-Mail Message",
-        "set": "Mod-mail message has been set.",
         "title": "Set Mod-Mail Message"
       },
       "timeout": "Message timed out. Please run the command again."
@@ -2572,12 +2494,8 @@ interface Resources {
     "modLog": {
       "ban": "{{emoji}}  **{{user.username}}** has been banned by **{{moderator.username}}**. Reason:```{{reason}}```",
       "banExpired": "🔓 User (`{{user.id}}`) has been automatically unbanned by **{{moderator.username}}** after **{{duration}}**. Reason:```{{reason}}```",
-      "changeWarn": "<t:{{time}}> `[{{case}}]` ✏️ Case #{{case}}, has been modified by **{{moderator.username}}**. Reason:```{{reason}}```",
       "functionErrors": {
-        "caseIdError": "An error occurred while trying to increment the case ID. This is likely a database error on our side. This may cause duplicate case IDs. Please report this to the bot developers.",
-        "channelError": "An error occurred while trying to send the message. This is likely due to the channel being deleted or the bot not having permission to send messages. Please check the channel and try again. This error removes the mod log channel ID from the guild config.",
-        "noGuildConfig": "Guild config not found, creating one. This stops the mod_log_operation. To disable this warning, change the \"Function Warnings\" setting.",
-        "noModlogChannel": "No mod log channel is set in the guild config. Please set one to enable mod logs."
+        "caseIdError": "An error occurred while trying to increment the case ID. This is likely a database error on our side. This may cause duplicate case IDs. Please report this to the bot developers."
       },
       "kick": "👢  **{{user.username}}** has been kicked by **{{moderator.username}}**. Reason:```{{reason}}```",
       "mute": "🔇  **{{user.username}}** has been muted by **{{moderator.username}}** for **{{duration}}**. Reason:```{{reason}}```",
@@ -2588,18 +2506,11 @@ interface Resources {
       "warning": "⚠️ **{{user.username}}** has been warned by **{{moderator.username}}**. Reason:```{{reason}}```"
     },
     "modMailLog": {
-      "botToUser": "[BOT TO USER]",
-      "closeMessage": "Mod-mail thread #{{thread_id}} with {{user.tag}} ({{user.id}}) was closed by {{closer.tag}}.\n**{{messages.user}}** messages from the user, **{{messages.staff}}** messages to the user, and **{{messages.internal}}** internal chat messages.",
-      "command": "[COMMAND]",
-      "fromUser": "[FROM USER]",
       "initial": "# Mod-mail thread #{{thread_id}} with {{user.tag}} {{user.id}} started at {{time}}. All times are in GMT.",
       "preparingClose": "Thread is being closed...",
-      "threadClosedDm": "Your thread in {{guild}} has been closed.",
-      "toThread": "[CHAT]",
-      "toUser": "[TO USER]"
+      "threadClosedDm": "Your thread in {{guild}} has been closed."
     },
     "moderationConfig": {
-      "channelInitial": "Select a channel below. If you want to remove the channel, press x and click elsewhere.",
       "defaultExpiry": {
         "description": "The default expiry for infractions.",
         "descriptionFourteen": "Sets the default expiry to 14 days.",
@@ -2618,7 +2529,6 @@ interface Resources {
       "modLogsChannelId": {
         "description": "The channel where the moderation logs will be sent.",
         "label": "Set Mod Log Channel",
-        "set": "Mod log channel has been set to {{channel}}.",
         "unset": "Mod log channel has been removed."
       },
       "modMailChannel": {
@@ -2634,25 +2544,19 @@ interface Resources {
         "label": "Mute Get All Roles",
         "true": "Mute get all roles is enabled."
       },
-      "roleInitial": "Select a role below. If you want to remove the role, press x and click elsewhere.",
-      "roleTooHigh": "The role you selected is too high. Please select a role that is lower than the bot's role.",
       "staffRoleId": {
         "description": "The role required to use moderation commands.",
         "initial": "Select a role below. If you want to remove the role, press x and click elsewhere.",
         "label": "Set Staff Role",
-        "set": "Staff role has been set to {{role}}.",
         "unset": "Staff role has been removed."
       },
       "timeout": "Message timed out. Please run the command again."
     },
-    "ping": "This command was run by {{interaction.user.username}}, who joined on {{interaction.member.joinedAt}}.",
     "registerConfig": {
-      "channelInitial": "Select a channel below. If you want to remove the channel, press x and click elsewhere.",
       "initial": "Select the setting you want to update.",
       "registerChannelId": {
         "description": "The channel where the register command will be used.",
         "label": "Set Register Channel",
-        "set": "Register channel has been set to {{channel}}.",
         "unset": "Register channel has been removed."
       },
       "registerClearChannel": {
@@ -2664,13 +2568,11 @@ interface Resources {
       "registerJoinChannelId": {
         "description": "The channel where the register message will be sent.",
         "label": "Set Register Join Channel",
-        "set": "Register join channel has been set to {{channel}}.",
         "unset": "Register join channel has been removed."
       },
       "registerJoinMessage": {
         "description": "The message that will be sent when a member joins the server.",
         "label": "Set Register Message",
-        "set": "Register message has been set.",
         "title": "Set Register Message",
         "unset": "Register message has been removed."
       },
@@ -2680,53 +2582,43 @@ interface Resources {
       "colourIdOfTheDay": {
         "description": "A role that changes every day.",
         "label": "Set Colour of the Day Role",
-        "set": "Colour of the Day role has been set to {{role}}.",
         "unset": "Colour of the Day role has been removed."
       },
       "djRoleId": {
         "description": "A role that bypasses the music command restrictions.",
         "label": "Set DJ Role",
-        "set": "DJ role has been set to {{role}}.",
         "unset": "DJ role has been removed."
       },
       "femaleRoleId": {
         "description": "The role given when a member registers as female",
         "label": "Set Female Role",
-        "set": "Female role has been set to {{role}}.",
         "unset": "Female role has been removed."
       },
       "initial": "Select the setting you want to update.",
       "maleRoleId": {
         "description": "The role given when a member registers as male.",
         "label": "Set Male Role",
-        "set": "Male role has been set to {{role}}.",
         "unset": "Male role has been removed."
       },
       "memberRoleId": {
         "description": "The role given when a member registers.",
         "label": "Set Member Role",
-        "set": "Member role has been set to {{role}}.",
         "unset": "Member role has been removed."
       },
       "muteRoleId": {
         "description": "The role given when a member is muted.",
         "label": "Set Mute Role",
-        "set": "Mute role has been set to {{role}}.",
         "unset": "Mute role has been removed."
       },
-      "roleInitial": "Select a role below. If you want to remove the role, press x and click elsewhere.",
-      "roleTooHigh": "The role you selected is too high. Please select a role that is lower than the bot's role.",
       "timeout": "Message timed out. Please run the command again.",
       "unverifiedRoleId": {
         "description": "The role given when a member joins the server if the registration module is enabled.",
         "label": "Set Unverified Role",
-        "set": "Unverified role has been set to {{role}}.",
         "unset": "Unverified role has been removed."
       }
     },
     "unregisteredPeople": {
-      "initial": "Member failed to register within {{days}} days.",
-      "kickMessage": "You failed to register in the **{{server}}** server within **{{days}}** days. You have been kicked from the server."
+      "initial": "Member failed to register within {{days}} days."
     },
     "waitForMessageComponent": {
       "initial": "Please select an option below.",
