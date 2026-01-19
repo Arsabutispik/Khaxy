@@ -24,9 +24,9 @@ export async function logScheduledEventCreate({ event, executor, guildConfig }: 
           event: {
             name: event.name,
             id: event.id,
-            description: event.description || "No description", // Handle null description
+            description: event.description || t(($) => $.noDescription),
             entityMetadata: {
-              location: event.entityMetadata?.location || "Unknown Location", // Handle null metadata
+              location: event.entityMetadata?.location || t(($) => $.noLocation),
             },
           },
           scheduled_start_time: event.scheduledStartAt
@@ -46,9 +46,9 @@ export async function logScheduledEventCreate({ event, executor, guildConfig }: 
           event: {
             name: event.name,
             id: event.id,
-            description: event.description || "No description",
+            description: event.description || t(($) => $.noDescription),
             channel: {
-              name: event.channel?.name || "Unknown Channel",
+              name: event.channel?.name || t(($) => $.unknownChannel),
               id: event.channelId,
             },
           },

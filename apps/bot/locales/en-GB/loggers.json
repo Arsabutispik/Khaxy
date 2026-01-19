@@ -387,6 +387,9 @@
   },
   "guildScheduledEvents": {
     "unknownExecutor": "Unknown Executor",
+    "noLocation": "No location provided",
+    "noDescription": "No description provided",
+    "unknownChannel": "Unknown Channel",
     "guildScheduledEventCreate": {
       "voiceChannel": {
         "embed": {
@@ -456,6 +459,12 @@
         "embed": {
           "title": "Guild Scheduled Event Status Changed",
           "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Old Status**: {{old_status}}\n> **New Status**: {{new_status}}"
+        }
+      },
+      "imageChange": {
+        "embed": {
+          "title": "Guild Scheduled Event Image Changed",
+          "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Old Image**: {{old_image}}\n> **New Image**: {{new_image}}"
         }
       }
     },

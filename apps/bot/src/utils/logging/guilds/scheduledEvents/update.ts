@@ -7,8 +7,8 @@ export async function logScheduledEventUpdate({
   newEvent,
   executor,
   guildConfig,
-  t,
 }: GuildScheduledEvents & { newEvent: GuildScheduledEvent }) {
+  if (oldEvent.partial) oldEvent = await oldEvent.fetch();
   if (!newEvent.guild) return;
   if (!guildConfig.logConfig?.eventLogsChannelId) return;
   const logChannel = newEvent.guild.channels.cache.get(guildConfig.logConfig?.eventLogsChannelId);
@@ -25,11 +25,12 @@ export async function logScheduledEventUpdate({
       iconURL: executor.displayAvatarURL(),
     });
   }
+  const t = newEvent.client.i18next.getFixedT(guildConfig.language, "loggers", "guildScheduledEvents");
   if (oldEvent.entityMetadata?.location !== newEvent.entityMetadata?.location) {
     const embedClone = EmbedBuilder.from(embed)
-      .setTitle(t(($) => $.location_change.embed.title))
+      .setTitle(t(($) => $.guildScheduledEventUpdate.locationChange.embed.title))
       .setDescription(
-        t(($) => $.location_change.embed.title, {
+        t(($) => $.guildScheduledEventUpdate.locationChange.embed.title, {
           event: newEvent,
           old_location: oldEvent.entityMetadata?.location,
           new_location: oldEvent.entityMetadata?.location,
@@ -39,9 +40,9 @@ export async function logScheduledEventUpdate({
   }
   if (oldEvent.description !== newEvent.description) {
     const embedClone = EmbedBuilder.from(embed)
-      .setTitle(t(($) => $.description_change.embed.title))
+      .setTitle(t(($) => $.guildScheduledEventUpdate.descriptionChange.embed.title))
       .setDescription(
-        t(($) => $.description_change.embed.description, {
+        t(($) => $.guildScheduledEventUpdate.descriptionChange.embed.description, {
           event: newEvent,
           old_description: oldEvent.description,
           new_description: newEvent.description,
@@ -51,9 +52,9 @@ export async function logScheduledEventUpdate({
   }
   if (oldEvent.name !== newEvent.name) {
     const embedClone = EmbedBuilder.from(embed)
-      .setTitle(t(($) => $.name_change.embed.title))
+      .setTitle(t(($) => $.guildScheduledEventUpdate.nameChange.embed.title))
       .setDescription(
-        t(($) => $.name_change.embed.description, {
+        t(($) => $.guildScheduledEventUpdate.nameChange.embed.description, {
           event: newEvent,
           old_name: oldEvent.name,
           new_name: newEvent.name,
@@ -63,9 +64,9 @@ export async function logScheduledEventUpdate({
   }
   if (oldEvent.scheduledStartAt !== newEvent.scheduledStartAt) {
     const embedClone = EmbedBuilder.from(embed)
-      .setTitle(t(($) => $.start_time_change.embed.title))
+      .setTitle(t(($) => $.guildScheduledEventUpdate.startTimeChange.embed.title))
       .setDescription(
-        t(($) => $.start_time_change.embed.description, {
+        t(($) => $.guildScheduledEventUpdate.startTimeChange.embed.description, {
           event: newEvent,
           old_start_time: time(newEvent.scheduledStartAt!, TimestampStyles.FullDateShortTime),
           new_start_time: time(newEvent.scheduledStartAt!, TimestampStyles.FullDateShortTime),
@@ -75,9 +76,9 @@ export async function logScheduledEventUpdate({
   }
   if (oldEvent.scheduledEndAt !== newEvent.scheduledEndAt) {
     const embedClone = EmbedBuilder.from(embed)
-      .setTitle(t(($) => $.end_time_change.embed.title))
+      .setTitle(t(($) => $.guildScheduledEventUpdate.endTimeChange.embed.title))
       .setDescription(
-        t(($) => $.end_time_change.embed.description, {
+        t(($) => $.guildScheduledEventUpdate.endTimeChange.embed.description, {
           event: newEvent,
           old_end_time: time(oldEvent.scheduledEndAt!, TimestampStyles.FullDateShortTime),
           new_end_time: time(newEvent.scheduledEndAt!, TimestampStyles.FullDateShortTime),
@@ -87,24 +88,24 @@ export async function logScheduledEventUpdate({
   }
   if (oldEvent.status !== newEvent.status) {
     const embedClone = EmbedBuilder.from(embed)
-      .setTitle(t(($) => $.status_change.embed.title))
+      .setTitle(t(($) => $.guildScheduledEventUpdate.statusChange.embed.title))
       .setDescription(
-        t(($) => $.status_change.embed.description, {
+        t(($) => $.guildScheduledEventUpdate.statusChange.embed.description, {
           event: newEvent,
-          old_status: t(`status_change.status.${oldEvent.status}`),
-          new_status: t(($) => $.status_change.status.${newEvent.status}),
+          old_status: t(($) => $.guildScheduledEventUpdate.statusChange.status[oldEvent.status]),
+          new_status: t(($) => $.guildScheduledEventUpdate.statusChange.status[newEvent.status]),
         }),
       );
     embeds.push(embedClone);
   }
   if (oldEvent.coverImageURL() !== newEvent.coverImageURL()) {
     const embedClone = EmbedBuilder.from(embed)
-      .setTitle(t(($) => $.image_change.embed.title))
+      .setTitle(t(($) => $.guildScheduledEventUpdate.imageChange.embed.title))
       .setDescription(
-        t(($) => $.image_change.embed.description, {
+        t(($) => $.guildScheduledEventUpdate.imageChange.embed.description, {
           event: newEvent,
-          old_image_url: newEvent.coverImageURL(),
-          new_image_url: newEvent.coverImageURL(),
+          old_image: newEvent.coverImageURL(),
+          new_image: newEvent.coverImageURL(),
         }),
       );
     embeds.push(embedClone);

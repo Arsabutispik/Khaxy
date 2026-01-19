@@ -1771,6 +1771,12 @@ interface Resources {
             "title": "Guild Scheduled Event End Time Changed"
           }
         },
+        "imageChange": {
+          "embed": {
+            "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Old Image**: {{old_image}}\n> **New Image**: {{new_image}}",
+            "title": "Guild Scheduled Event Image Changed"
+          }
+        },
         "locationChange": {
           "embed": {
             "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Old Location**: {{old_location}}\n> **New Location**: {{new_location}}",
@@ -1814,6 +1820,9 @@ interface Resources {
           "title": "User Unsubscribed From Event"
         }
       },
+      "noDescription": "No description provided",
+      "noLocation": "No location provided",
+      "unknownChannel": "Unknown Channel",
       "unknownExecutor": "Unknown Executor"
     },
     "guildSoundboardEvents": {
