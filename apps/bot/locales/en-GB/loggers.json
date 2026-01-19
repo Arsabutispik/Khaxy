@@ -293,13 +293,13 @@
       "nameChange": {
         "embed": {
           "title": "Sound Name Changed",
-          "description": "> **ID**: {{sound.id}}\n> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}"
+          "description": "> **ID**: {{sound.soundId}}\n> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}"
         }
       },
       "emojiChange": {
         "embed": {
           "title": "Sound Emoji Changed",
-          "description": "> **Name**: {{sound.name}}\n> **ID**: {{sound.id}}\n> **Old Emoji**: {{old_emoji}}\n> **New Emoji**: {{new_emoji}}"
+          "description": "> **Name**: {{sound.name}}\n> **ID**: {{sound.soundId}}\n> **Old Emoji**: {{old_emoji}}\n> **New Emoji**: {{new_emoji}}"
         }
       }
     }

@@ -3,8 +3,12 @@ import { GuildWithLogs } from "@repo/database";
 import { returnWebhook, WebhookType } from "@utils";
 import { logger } from "@lib";
 
-export async function logSoundboardSoundUpdate(oldSoundboardSound: GuildSoundboardSound | null, newSoundboardSound: GuildSoundboardSound, guildConfig: GuildWithLogs) {
-  const t = newSoundboardSound.client.i18next.getFixedT(guildConfig.language, "events", "guildSoundboardSoundUpdate");
+export async function logSoundboardSoundUpdate(
+  oldSoundboardSound: GuildSoundboardSound | null,
+  newSoundboardSound: GuildSoundboardSound,
+  guildConfig: GuildWithLogs,
+) {
+  const t = newSoundboardSound.client.i18next.getFixedT(guildConfig.language, "loggers", "guildSoundboardEvents");
   if (!guildConfig.logConfig?.soundboardLogsChannelId) return;
   const logChannel = newSoundboardSound.guild.channels.cache.get(guildConfig.logConfig.soundboardLogsChannelId);
   if (logChannel?.type !== ChannelType.GuildText) return;
@@ -24,15 +28,15 @@ export async function logSoundboardSoundUpdate(oldSoundboardSound: GuildSoundboa
 
   if (targetId === newSoundboardSound.soundId) {
     embed.setFooter({
-      text: logEntry?.executor?.username ?? t(($) => $.unknown_executor),
+      text: logEntry?.executor?.username ?? t(($) => $.unknownExecutor),
       iconURL: logEntry?.executor?.displayAvatarURL() ?? undefined,
     });
   }
   if (oldSoundboardSound?.volume !== newSoundboardSound.volume) {
     const embedClone = EmbedBuilder.from(embed)
-      .setTitle(t(($) => $.volume_change.embed.title))
+      .setTitle(t(($) => $.guildSoundboardSoundUpdate.volumeChange.embed.title))
       .setDescription(
-        t(($) => $.volume_change.embed.description, {
+        t(($) => $.guildSoundboardSoundUpdate.volumeChange.embed.description, {
           sound: newSoundboardSound,
           old_volume: Math.round((oldSoundboardSound?.volume || 0) * 100),
           new_volume: Math.round(newSoundboardSound.volume * 100),
@@ -43,11 +47,11 @@ export async function logSoundboardSoundUpdate(oldSoundboardSound: GuildSoundboa
   }
   if (oldSoundboardSound?.name !== newSoundboardSound.name) {
     const embedClone = EmbedBuilder.from(embed)
-      .setTitle(t(($) => $.name_change.embed.title))
+      .setTitle(t(($) => $.guildSoundboardSoundUpdate.nameChange.embed.title))
       .setDescription(
-        t(($) => $.name_change.embed.description, {
+        t(($) => $.guildSoundboardSoundUpdate.nameChange.embed.description, {
           sound: newSoundboardSound,
-          old_name: oldSoundboardSound?.name || t("no_previous_value"),
+          old_name: oldSoundboardSound?.name || t(($) => $.guildSoundboardSoundUpdate.noPreviousValue),
           new_name: newSoundboardSound.name,
           timestamp: time(new Date(), TimestampStyles.FullDateShortTime),
         }),
@@ -56,12 +60,12 @@ export async function logSoundboardSoundUpdate(oldSoundboardSound: GuildSoundboa
   }
   if (oldSoundboardSound?.emoji?.toString() !== newSoundboardSound.emoji?.toString()) {
     const embedClone = EmbedBuilder.from(embed)
-      .setTitle(t(($) => $.emoji_change.embed.title))
+      .setTitle(t(($) => $.guildSoundboardSoundUpdate.emojiChange.embed.title))
       .setDescription(
-        t(($) => $.emoji_change.embed.description, {
+        t(($) => $.guildSoundboardSoundUpdate.emojiChange.embed.description, {
           sound: newSoundboardSound,
-          old_emoji: oldSoundboardSound?.emoji?.toString() || t("no_previous_value"),
-          new_emoji: newSoundboardSound.emoji?.toString() || t("no_emoji"),
+          old_emoji: oldSoundboardSound?.emoji?.toString() || t(($) => $.guildSoundboardSoundUpdate.noEmoji),
+          new_emoji: newSoundboardSound.emoji?.toString() || t(($) => $.guildSoundboardSoundUpdate.noEmoji),
           timestamp: time(new Date(), TimestampStyles.FullDateShortTime),
         }),
       );
@@ -72,7 +76,7 @@ export async function logSoundboardSoundUpdate(oldSoundboardSound: GuildSoundboa
     id: guildConfig.logConfig.soundboardLogsWebhookId,
     type: WebhookType.SOUNDBOARD_LOGS,
   });
-  if(webhook) {
+  if (webhook) {
     await webhook.send({ embeds: [embed] }).catch((error) => {
       logger.log({
         level: "error",

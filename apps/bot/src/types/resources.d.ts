@@ -1841,13 +1841,13 @@ interface Resources {
       "guildSoundboardSoundUpdate": {
         "emojiChange": {
           "embed": {
-            "description": "> **Name**: {{sound.name}}\n> **ID**: {{sound.id}}\n> **Old Emoji**: {{old_emoji}}\n> **New Emoji**: {{new_emoji}}",
+            "description": "> **Name**: {{sound.name}}\n> **ID**: {{sound.soundId}}\n> **Old Emoji**: {{old_emoji}}\n> **New Emoji**: {{new_emoji}}",
             "title": "Sound Emoji Changed"
           }
         },
         "nameChange": {
           "embed": {
-            "description": "> **ID**: {{sound.id}}\n> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}",
+            "description": "> **ID**: {{sound.soundId}}\n> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}",
             "title": "Sound Name Changed"
           }
         },
