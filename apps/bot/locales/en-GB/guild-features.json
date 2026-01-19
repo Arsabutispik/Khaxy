@@ -34,5 +34,8 @@
   "VANITY_URL": "Vanity URL",
   "VERIFIED": "Verified",
   "VIP_REGIONS": "VIP Regions",
-  "WELCOME_SCREEN_ENABLED": "Welcome Screen"
+  "WELCOME_SCREEN_ENABLED": "Welcome Screen",
+  "GUILD_TAGS": "Guild Tags",
+  "GUESTS_ENABLED": "Guests Enabled",
+  "PIN_PERMISSION_MIGRATION_COMPLETE": "Pin Permission Migration Complete"
 }

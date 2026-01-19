@@ -13,7 +13,17 @@ export async function initI18n() {
       fallbackLng: "en-GB",
       lng: "en-GB",
       preload: ["en-GB", "tr-TR"],
-      ns: ["translations", "events", "permissions", "commands", "help", "guild-features", "locales", "loggers"],
+      ns: [
+        "translations",
+        "events",
+        "permissions",
+        "commands",
+        "help",
+        "guild-features",
+        "locales",
+        "loggers",
+        "system-channel-flags",
+      ],
       defaultNS: "translations",
       backend: {
         loadPath: join(__dirname, "../../locales/{{lng}}/{{ns}}.json"),

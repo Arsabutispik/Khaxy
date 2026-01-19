@@ -1301,6 +1301,8 @@ interface Resources {
     "DISCOVERABLE": "Discoverable",
     "ENHANCED_ROLE_COLORS": "Enhanced Role Colors",
     "FEATURABLE": "Featurable",
+    "GUESTS_ENABLED": "Guests Enabled",
+    "GUILD_TAGS": "Guild Tags",
     "HAS_DIRECTORY_ENTRY": "Directory Entry",
     "HUB": "Student Hub",
     "INVITES_DISABLED": "Invites Disabled",
@@ -1312,6 +1314,7 @@ interface Resources {
     "MORE_STICKERS": "More Sticker Slots",
     "NEWS": "News Channels",
     "PARTNERED": "Partnered",
+    "PIN_PERMISSION_MIGRATION_COMPLETE": "Pin Permission Migration Complete",
     "PREVIEW_ENABLED": "Preview Enabled",
     "PRIVATE_THREADS": "Private Threads",
     "RAID_ALERTS_DISABLED": "Raid Alerts Disabled",
@@ -1729,6 +1732,214 @@ interface Resources {
       "noReason": "No reason provided",
       "unknownExecutor": "Unknown Executor"
     },
+    "guildEvents": {
+      "explicitContentFilterLevels": {
+        "0": "Disabled",
+        "1": "Members Without Roles",
+        "2": "All Members"
+      },
+      "guildUpdate": {
+        "afkChannelChange": {
+          "embed": {
+            "description": "> **Old AFK Channel**: {{old_channel}}\n> **New AFK Channel**: {{new_channel}}",
+            "title": "Server AFK Channel Changed"
+          }
+        },
+        "afkTimeoutChange": {
+          "embed": {
+            "description": "> **Old AFK Timeout**: {{old_timeout}}\n> **New AFK Timeout**: {{new_timeout}}",
+            "title": "Server AFK Timeout Changed"
+          }
+        },
+        "bannerChange": {
+          "embed": {
+            "description": "> **Old Banner**: {{old_banner}}\n> **New Banner**: {{new_banner}}",
+            "title": "Server Banner Changed"
+          }
+        },
+        "defaultMessageNotificationsChange": {
+          "embed": {
+            "description": "> **Old Level**: {{old_level}}\n> **New Level**: {{new_level}}",
+            "title": "Server Default Message Notifications Changed"
+          }
+        },
+        "descriptionChange": {
+          "embed": {
+            "description": "> **Old Description**: {{old_description}}\n> **New Description**: {{new_description}}",
+            "title": "Server Description Changed"
+          }
+        },
+        "discoverySplashChange": {
+          "embed": {
+            "description": "> **Old Discovery Splash**: {{old_discovery_splash}}\n> **New Discovery Splash**: {{new_discovery_splash}}",
+            "title": "Server Discovery Splash Changed"
+          }
+        },
+        "explicitContentFilterChange": {
+          "embed": {
+            "description": "> **Old Level**: {{old_level}}\n> **New Level**: {{new_level}}",
+            "title": "Server Explicit Content Filter Changed"
+          }
+        },
+        "featuresChange": {
+          "embed": {
+            "added": "Added",
+            "description": "> **Old Features**: {{old_features}}\n> **New Features**: {{new_features}}",
+            "removed": "Removed",
+            "title": "Server Features Changed"
+          }
+        },
+        "iconChange": {
+          "embed": {
+            "description": "> **Old Icon**: {{old_icon}}\n> **New Icon**: {{new_icon}}",
+            "title": "Server Icon Changed"
+          }
+        },
+        "mfaLevelChange": {
+          "embed": {
+            "description": "> **Old Level**: {{old_level}}\n> **New Level**: {{new_level}}",
+            "title": "Server MFA Level Changed"
+          }
+        },
+        "nameChange": {
+          "embed": {
+            "description": "> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}",
+            "title": "Server Name Changed"
+          }
+        },
+        "nsfwLevelChange": {
+          "embed": {
+            "description": "> **Old Level**: {{old_level}}\n> **New Level**: {{new_level}}",
+            "title": "Server NSFW Level Changed"
+          }
+        },
+        "ownerChange": {
+          "embed": {
+            "description": "> **Old Owner**: {{old_owner}}\n> **New Owner**: {{new_owner}}",
+            "title": "Server Owner Changed"
+          }
+        },
+        "partneredChange": {
+          "embed": {
+            "description": "> **Old Status**: {{old_status}}\n> **New Status**: {{new_status}}",
+            "title": "Server Partnered Status Changed"
+          }
+        },
+        "preferredLocaleChange": {
+          "embed": {
+            "description": "> **Old Locale**: {{old_locale}}\n> **New Locale**: {{new_locale}}",
+            "title": "Server Preferred Locale Changed"
+          }
+        },
+        "premiumProgressBarChange": {
+          "embed": {
+            "description": "> **Old Status**: {{old_progress_bar}}\n> **New Status**: {{new_progress_bar}}",
+            "title": "Server Boost Progress Bar Changed"
+          }
+        },
+        "premiumSubscriptionCountChange": {
+          "embed": {
+            "description": "> **Old Count**: {{old_count}}\n> **New Count**: {{new_count}}",
+            "title": "Server Boost Count Changed"
+          }
+        },
+        "premiumTierChange": {
+          "embed": {
+            "description": "> **Old Level**: {{old_level}}\n> **New Level**: {{new_level}}",
+            "title": "Server Boost Level Changed"
+          }
+        },
+        "publicUpdatesChannelChange": {
+          "embed": {
+            "description": "> **Old Public Updates Channel**: {{old_channel}}\n> **New Public Updates Channel**: {{new_channel}}",
+            "title": "Server Public Updates Channel Changed"
+          }
+        },
+        "rulesChannelChange": {
+          "embed": {
+            "description": "> **Old Rules Channel**: {{old_channel}}\n> **New Rules Channel**: {{new_channel}}",
+            "title": "Server Rules Channel Changed"
+          }
+        },
+        "safetyAlertsChannelChange": {
+          "embed": {
+            "description": "> **Old Safety Alerts Channel**: {{old_channel}}\n> **New Safety Alerts Channel**: {{new_channel}}",
+            "title": "Server Safety Alerts Channel Changed"
+          }
+        },
+        "splashChange": {
+          "embed": {
+            "description": "> **Old Splash**: {{old_splash}}\n> **New Splash**: {{new_splash}}",
+            "title": "Server Splash Changed"
+          }
+        },
+        "systemChannelChange": {
+          "embed": {
+            "description": "> **Old System Channel**: {{old_channel}}\n> **New System Channel**: {{new_channel}}",
+            "title": "Server System Channel Changed"
+          }
+        },
+        "systemChannelFlagsChange": {
+          "embed": {
+            "description": "> **Old Flags**: {{old_flags}}\n> **New Flags**: {{new_flags}}",
+            "title": "Server System Channel Flags Changed"
+          }
+        },
+        "vanityUrlCodeChange": {
+          "embed": {
+            "description": "> **Old Vanity URL**: {{old_code}}\n> **New Vanity URL**: {{new_code}}",
+            "title": "Server Vanity URL Changed"
+          }
+        },
+        "verificationLevelChange": {
+          "embed": {
+            "description": "> **Old Level**: {{old_level}}\n> **New Level**: {{new_level}}",
+            "title": "Server Verification Level Changed"
+          }
+        },
+        "verifiedChange": {
+          "embed": {
+            "description": "> **Old Status**: {{old_status}}\n> **New Status**: {{new_status}}",
+            "title": "Server Verified Status Changed"
+          }
+        },
+        "widgetChannelChange": {
+          "embed": {
+            "description": "> **Old Widget Channel**: {{old_channel}}\n> **New Widget Channel**: {{new_channel}}",
+            "title": "Server Widget Channel Changed"
+          }
+        },
+        "widgetEnabledChange": {
+          "embed": {
+            "description": "> **Old Status**: {{old_status}}\n> **New Status**: {{new_status}}",
+            "title": "Server Widget Enabled Status Changed"
+          }
+        }
+      },
+      "mfaLevels": {
+        "0": "None",
+        "1": "Elevated"
+      },
+      "none": "None",
+      "notificationLevels": {
+        "0": "All Messages",
+        "1": "Only @mentions"
+      },
+      "nsfwLevels": {
+        "0": "Default",
+        "1": "Explicit",
+        "2": "Safe",
+        "3": "Age Restricted"
+      },
+      "unknownExecutor": "Unknown Executor",
+      "verificationLevels": {
+        "0": "None",
+        "1": "Low",
+        "2": "Medium",
+        "3": "High",
+        "4": "Very High"
+      }
+    },
     "guildScheduledEvents": {
       "guildScheduledEventCreate": {
         "externalChannel": {
@@ -1878,6 +2089,20 @@ interface Resources {
       "unknownExecutor": "Unknown Executor"
     },
     "memberEvents": {
+      "memberRemove": {
+        "embed": {
+          "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Joined For**: {{timestamp}}\n> **Member Count**: {{member_count}}",
+          "fields": {
+            "reason": "Reason"
+          },
+          "title": "User Left Server",
+          "titleKicked": "User Kicked From Server"
+        },
+        "joinDateUnknown": "Join date unknown",
+        "noReason": "No reason provided.",
+        "unknownExecutor": "Unknown Executor",
+        "userLeft": "**User has left {{guild}}**"
+      },
       "memberUpdate": {
         "nicknameChange": {
           "embed": {
@@ -2022,6 +2247,14 @@ interface Resources {
       "ViewGuildInsights": "View Server Insights"
     },
     "unset": "Unset"
+  },
+  "system-channel-flags": {
+    "SuppressGuildReminderNotifications": "Suppress Server Tips",
+    "SuppressJoinNotificationReplies": "Suppress Join Replies",
+    "SuppressJoinNotifications": "Suppress Join Messages",
+    "SuppressPremiumSubscriptions": "Suppress Server Boosts",
+    "SuppressRoleSubscriptionPurchaseNotificationReplies": "Suppress Role Sub Replies",
+    "SuppressRoleSubscriptionPurchaseNotifications": "Suppress Role Sub Purchase"
   },
   "translations": {
     "_meta": {

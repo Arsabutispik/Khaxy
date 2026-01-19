@@ -1,6 +1,5 @@
 import { Guild, GuildMember, PartialGuildMember, PartialUser, User } from "discord.js";
 import { GuildWithLogs } from "@repo/database";
-import { TFunction } from "i18next";
 
 export interface LogBanOptions {
   guild: Guild;
@@ -44,6 +43,6 @@ export * from "./scheduledEvents/index.js";
 export * from "./soundboardEvents/index.js";
 export * from "./banAdd.js";
 export * from "./banRemove.js";
-export * from "./memberKick.js";
+export * from "./memberRemove.js";
 export * from "./update.js";
 export * from "./utils.js";

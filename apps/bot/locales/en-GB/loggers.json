@@ -56,6 +56,20 @@
           "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Old Nickname**: {{old_nickname}}\n> **New Nickname**: {{new_nickname}}"
         }
       }
+    },
+    "memberRemove": {
+      "noReason": "No reason provided.",
+      "userLeft": "**User has left {{guild}}**",
+      "embed": {
+        "title": "User Left Server",
+        "titleKicked": "User Kicked From Server",
+        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Joined For**: {{timestamp}}\n> **Member Count**: {{member_count}}",
+        "fields": {
+          "reason": "Reason"
+        }
+      },
+      "joinDateUnknown": "Join date unknown",
+      "unknownExecutor": "Unknown Executor"
     }
   },
   "channelEvents": {
@@ -493,6 +507,214 @@
       "embed": {
         "title": "Invite Deleted",
         "description": "> **Code**: {{invite.code}}\n> **Channel**: <#{{invite.channelId}}>"
+      }
+    }
+  },
+  "guildEvents": {
+    "unknownExecutor": "Unknown Executor",
+    "none": "None",
+    "notificationLevels": {
+      "0": "All Messages",
+      "1": "Only @mentions"
+    },
+    "explicitContentFilterLevels": {
+      "0": "Disabled",
+      "1": "Members Without Roles",
+      "2": "All Members"
+    },
+    "mfaLevels": {
+      "0": "None",
+      "1": "Elevated"
+    },
+    "verificationLevels": {
+      "0": "None",
+      "1": "Low",
+      "2": "Medium",
+      "3": "High",
+      "4": "Very High"
+    },
+    "nsfwLevels": {
+      "0": "Default",
+      "1": "Explicit",
+      "2": "Safe",
+      "3": "Age Restricted"
+    },
+    "guildUpdate": {
+      "afkChannelChange": {
+        "embed": {
+          "title": "Server AFK Channel Changed",
+          "description": "> **Old AFK Channel**: {{old_channel}}\n> **New AFK Channel**: {{new_channel}}"
+        }
+      },
+      "afkTimeoutChange": {
+        "embed": {
+          "title": "Server AFK Timeout Changed",
+          "description": "> **Old AFK Timeout**: {{old_timeout}}\n> **New AFK Timeout**: {{new_timeout}}"
+        }
+      },
+      "bannerChange": {
+        "embed": {
+          "title": "Server Banner Changed",
+          "description": "> **Old Banner**: {{old_banner}}\n> **New Banner**: {{new_banner}}"
+        }
+      },
+      "defaultMessageNotificationsChange": {
+        "embed": {
+          "title": "Server Default Message Notifications Changed",
+          "description": "> **Old Level**: {{old_level}}\n> **New Level**: {{new_level}}"
+        }
+      },
+      "discoverySplashChange": {
+        "embed": {
+          "title": "Server Discovery Splash Changed",
+          "description": "> **Old Discovery Splash**: {{old_discovery_splash}}\n> **New Discovery Splash**: {{new_discovery_splash}}"
+        }
+      },
+      "explicitContentFilterChange": {
+        "embed": {
+          "title": "Server Explicit Content Filter Changed",
+          "description": "> **Old Level**: {{old_level}}\n> **New Level**: {{new_level}}"
+        }
+      },
+      "featuresChange": {
+        "embed": {
+          "added": "Added",
+          "removed": "Removed",
+          "title": "Server Features Changed",
+          "description": "> **Old Features**: {{old_features}}\n> **New Features**: {{new_features}}"
+        }
+      },
+      "iconChange": {
+        "embed": {
+          "title": "Server Icon Changed",
+          "description": "> **Old Icon**: {{old_icon}}\n> **New Icon**: {{new_icon}}"
+        }
+      },
+      "mfaLevelChange": {
+        "embed": {
+          "title": "Server MFA Level Changed",
+          "description": "> **Old Level**: {{old_level}}\n> **New Level**: {{new_level}}"
+        }
+      },
+      "nameChange": {
+        "embed": {
+          "title": "Server Name Changed",
+          "description": "> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}"
+        }
+      },
+      "descriptionChange": {
+        "embed": {
+          "title": "Server Description Changed",
+          "description": "> **Old Description**: {{old_description}}\n> **New Description**: {{new_description}}"
+        }
+      },
+      "ownerChange": {
+        "embed": {
+          "title": "Server Owner Changed",
+          "description": "> **Old Owner**: {{old_owner}}\n> **New Owner**: {{new_owner}}"
+        }
+      },
+      "partneredChange": {
+        "embed": {
+          "title": "Server Partnered Status Changed",
+          "description": "> **Old Status**: {{old_status}}\n> **New Status**: {{new_status}}"
+        }
+      },
+      "preferredLocaleChange": {
+        "embed": {
+          "title": "Server Preferred Locale Changed",
+          "description": "> **Old Locale**: {{old_locale}}\n> **New Locale**: {{new_locale}}"
+        }
+      },
+      "premiumProgressBarChange": {
+        "embed": {
+          "title": "Server Boost Progress Bar Changed",
+          "description": "> **Old Status**: {{old_progress_bar}}\n> **New Status**: {{new_progress_bar}}"
+        }
+      },
+      "premiumSubscriptionCountChange": {
+        "embed": {
+          "title": "Server Boost Count Changed",
+          "description": "> **Old Count**: {{old_count}}\n> **New Count**: {{new_count}}"
+        }
+      },
+      "premiumTierChange": {
+        "embed": {
+          "title": "Server Boost Level Changed",
+          "description": "> **Old Level**: {{old_level}}\n> **New Level**: {{new_level}}"
+        }
+      },
+      "publicUpdatesChannelChange": {
+        "embed": {
+          "title": "Server Public Updates Channel Changed",
+          "description": "> **Old Public Updates Channel**: {{old_channel}}\n> **New Public Updates Channel**: {{new_channel}}"
+        }
+      },
+      "rulesChannelChange": {
+        "embed": {
+          "title": "Server Rules Channel Changed",
+          "description": "> **Old Rules Channel**: {{old_channel}}\n> **New Rules Channel**: {{new_channel}}"
+        }
+      },
+      "safetyAlertsChannelChange": {
+        "embed": {
+          "title": "Server Safety Alerts Channel Changed",
+          "description": "> **Old Safety Alerts Channel**: {{old_channel}}\n> **New Safety Alerts Channel**: {{new_channel}}"
+        }
+      },
+      "splashChange": {
+        "embed": {
+          "title": "Server Splash Changed",
+          "description": "> **Old Splash**: {{old_splash}}\n> **New Splash**: {{new_splash}}"
+        }
+      },
+      "systemChannelChange": {
+        "embed": {
+          "title": "Server System Channel Changed",
+          "description": "> **Old System Channel**: {{old_channel}}\n> **New System Channel**: {{new_channel}}"
+        }
+      },
+      "vanityUrlCodeChange": {
+        "embed": {
+          "title": "Server Vanity URL Changed",
+          "description": "> **Old Vanity URL**: {{old_code}}\n> **New Vanity URL**: {{new_code}}"
+        }
+      },
+      "verificationLevelChange": {
+        "embed": {
+          "title": "Server Verification Level Changed",
+          "description": "> **Old Level**: {{old_level}}\n> **New Level**: {{new_level}}"
+        }
+      },
+      "verifiedChange": {
+        "embed": {
+          "title": "Server Verified Status Changed",
+          "description": "> **Old Status**: {{old_status}}\n> **New Status**: {{new_status}}"
+        }
+      },
+      "widgetChannelChange": {
+        "embed": {
+          "title": "Server Widget Channel Changed",
+          "description": "> **Old Widget Channel**: {{old_channel}}\n> **New Widget Channel**: {{new_channel}}"
+        }
+      },
+      "systemChannelFlagsChange": {
+        "embed": {
+          "title": "Server System Channel Flags Changed",
+          "description": "> **Old Flags**: {{old_flags}}\n> **New Flags**: {{new_flags}}"
+        }
+      },
+      "nsfwLevelChange": {
+        "embed": {
+          "title": "Server NSFW Level Changed",
+          "description": "> **Old Level**: {{old_level}}\n> **New Level**: {{new_level}}"
+        }
+      },
+      "widgetEnabledChange": {
+        "embed": {
+          "title": "Server Widget Enabled Status Changed",
+          "description": "> **Old Status**: {{old_status}}\n> **New Status**: {{new_status}}"
+        }
       }
     }
   }
