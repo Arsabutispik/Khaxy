@@ -1,7 +1,7 @@
 import { EmbedBuilder, Message, PartialMessage, time, TimestampStyles } from "discord.js";
 import { TFunction } from "i18next";
 
-export function buildPollResultEmbed(newMessage: Message | PartialMessage, t: TFunction) {
+export function buildPollResultEmbed(newMessage: Message | PartialMessage, t: TFunction<"loggers", "messageEvents">) {
   if (!newMessage.poll) return null;
 
   const client = newMessage.client;
@@ -13,25 +13,25 @@ export function buildPollResultEmbed(newMessage: Message | PartialMessage, t: TF
 
   return new EmbedBuilder()
     .setColor("Red")
-    .setTitle(t(($) => $.poll_end.embed.title))
+    .setTitle(t(($) => $.messageUpdate.pollEnd.embed.title))
     .setDescription(
-      t(($) => $.poll_end.embed.description, {
+      t(($) => $.messageUpdate.pollEnd.embed.description, {
         message: newMessage,
         timestamp: newMessage.poll.expiresAt
           ? time(newMessage.poll.expiresAt, TimestampStyles.FullDateShortTime)
-          : t("unknown_time"),
+          : t(($) => $.messageUpdate.pollEnd.unknownTime),
         multi_select: multiSelectIcon,
       }),
     )
     .setFields([
       {
-        name: newMessage.poll.question.text || t(($) => $.unknown_question),
+        name: newMessage.poll.question.text || t(($) => $.messageUpdate.pollEnd.unknownQuestion),
         value: newMessage.poll.answers.map((answer, i) => `${i}. ${answer.text} (${answer.voteCount})`).join("\n"),
       },
     ])
     .setTimestamp()
     .setFooter({
-      text: newMessage.author?.username || t(($) => $.unknown_user),
+      text: newMessage.author?.username || t(($) => $.messageUpdate.pollEnd.unknownUser),
       iconURL: newMessage.author?.displayAvatarURL(),
     });
 }

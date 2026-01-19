@@ -5,15 +5,15 @@ import { logger } from "@lib";
 
 export async function logPollCreate(message: Message<true>, guildConfig: GuildWithLogs) {
   if (!message.poll) return;
-  const t = message.client.i18next.getFixedT(guildConfig.language, "events", "messageCreate");
+  const t = message.client.i18next.getFixedT(guildConfig.language, "loggers", "messageEvents");
   if (!guildConfig.logConfig?.pollLogsChannelId) return;
   const logChannel = message.guild.channels.cache.get(guildConfig.logConfig.pollLogsChannelId);
   if (logChannel?.type !== ChannelType.GuildText) return;
   const embed = new EmbedBuilder()
     .setColor("Green")
-    .setTitle(t(($) => $.poll_create.embed.title))
+    .setTitle(t(($) => $.messageCreate.pollCreate.embed.title))
     .setDescription(
-      t(($) => $.poll_create.embed.description, {
+      t(($) => $.messageCreate.pollCreate.embed.description, {
         message: message,
         timestamp: time(message.poll.expiresAt!, TimestampStyles.FullDateShortTime),
         multi_select: message.poll.allowMultiselect

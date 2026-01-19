@@ -778,6 +778,9 @@
         "noContent": "⚠️ Could not retrieve message content before or after the edit."
       },
       "pollEnd": {
+        "unknownTime": "Unknown Time",
+        "unknownQuestion": "Unknown Question",
+        "unknownUser": "Unknown User",
         "embed": {
           "title": "Poll Ended",
           "description": "> **Expired At**: {{timestamp}}\n> **Multi Select**: {{multi_select}}\n> **Message**: {{message.url}}"

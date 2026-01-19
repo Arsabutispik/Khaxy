@@ -2202,7 +2202,10 @@ interface Resources {
           "embed": {
             "description": "> **Expired At**: {{timestamp}}\n> **Multi Select**: {{multi_select}}\n> **Message**: {{message.url}}",
             "title": "Poll Ended"
-          }
+          },
+          "unknownQuestion": "Unknown Question",
+          "unknownTime": "Unknown Time",
+          "unknownUser": "Unknown User"
         }
       }
     },

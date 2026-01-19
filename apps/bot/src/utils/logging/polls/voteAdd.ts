@@ -3,18 +3,22 @@ import { GuildWithLogs } from "@repo/database";
 import { returnWebhook, WebhookType } from "@utils";
 import { logger } from "@lib";
 
-export async function logVoteAdd(pollAnswer: PollAnswer | PartialPollAnswer, userId: string, guildConfig: GuildWithLogs) {
+export async function logVoteAdd(
+  pollAnswer: PollAnswer | PartialPollAnswer,
+  userId: string,
+  guildConfig: GuildWithLogs,
+) {
   if (!pollAnswer.poll.message.guild) return;
-  
-  const t = pollAnswer.client.i18next.getFixedT(guildConfig.language, "events", "messagePollVoteAdd");
+
+  const t = pollAnswer.client.i18next.getFixedT(guildConfig.language, "loggers", "messageEvents");
   if (!guildConfig.logConfig?.pollLogsChannelId) return;
   const logChannel = pollAnswer.poll.message.guild.channels.cache.get(guildConfig.logConfig.pollLogsChannelId);
   if (logChannel?.type !== ChannelType.GuildText) return;
   const embed = new EmbedBuilder()
     .setColor("Green")
-    .setTitle(t(($) => $.embed.title))
+    .setTitle(t(($) => $.messagePollVoteAdd.embed.title))
     .setDescription(
-      t(($) => $.embed.description, {
+      t(($) => $.messagePollVoteAdd.embed.description, {
         message: pollAnswer.poll.message,
         answerer: userId,
         question: pollAnswer.poll.question.text,
@@ -26,11 +30,17 @@ export async function logVoteAdd(pollAnswer: PollAnswer | PartialPollAnswer, use
       }),
     )
     .setTimestamp();
-  const webhook = await returnWebhook(pollAnswer.poll.message.client, logChannel, pollAnswer.poll.message.guild.id, guildConfig, {
-    id: guildConfig.logConfig.pollLogsWebhookId,
-    type: WebhookType.POLL_LOGS,
-  });
-  if(webhook) {
+  const webhook = await returnWebhook(
+    pollAnswer.poll.message.client,
+    logChannel,
+    pollAnswer.poll.message.guild.id,
+    guildConfig,
+    {
+      id: guildConfig.logConfig.pollLogsWebhookId,
+      type: WebhookType.POLL_LOGS,
+    },
+  );
+  if (webhook) {
     await webhook.send({ embeds: [embed] }).catch((error) => {
       logger.log({
         level: "error",

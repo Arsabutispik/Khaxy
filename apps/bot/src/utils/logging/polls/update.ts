@@ -29,7 +29,7 @@ export async function logPollFinalization(
   if (!webhook) return;
 
   // 3. Build & Send
-  const t = newMessage.client.i18next.getFixedT(guildConfig.language, "events", "messageUpdate");
+  const t = newMessage.client.i18next.getFixedT(guildConfig.language, "loggers", "messageEvents");
   const embed = buildPollResultEmbed(newMessage, t);
 
   if (!embed) return;
