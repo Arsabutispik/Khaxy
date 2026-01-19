@@ -1853,6 +1853,21 @@ interface Resources {
       },
       "unknownExecutor": "Unknown Executor"
     },
+    "inviteEvents": {
+      "inviteCreate": {
+        "embed": {
+          "description": "> **Code**: {{invite.code}}\n> **Channel**: <#{{invite.channelId}}>\n> **Expires At**: {{timestamp}}\n> **Max Usage**: {{usage}}",
+          "title": "Invite Created"
+        }
+      },
+      "inviteDelete": {
+        "embed": {
+          "description": "> **Code**: {{invite.code}}\n> **Channel**: <#{{invite.channelId}}>",
+          "title": "Invite Deleted"
+        }
+      },
+      "unknownExecutor": "Unknown Executor"
+    },
     "memberEvents": {
       "memberUpdate": {
         "nicknameChange": {

@@ -471,5 +471,20 @@
         "description": "> **User**: {{user.username}} (<@{{user.id}}>)\n> **User ID**: {{user.id}}\n> **Event Name**: {{event.name}}\n> **Event ID**: {{event.id}}"
       }
     }
+  },
+  "inviteEvents": {
+    "unknownExecutor": "Unknown Executor",
+    "inviteCreate": {
+      "embed": {
+        "title": "Invite Created",
+        "description": "> **Code**: {{invite.code}}\n> **Channel**: <#{{invite.channelId}}>\n> **Expires At**: {{timestamp}}\n> **Max Usage**: {{usage}}"
+      }
+    },
+    "inviteDelete": {
+      "embed": {
+        "title": "Invite Deleted",
+        "description": "> **Code**: {{invite.code}}\n> **Channel**: <#{{invite.channelId}}>"
+      }
+    }
   }
 }
