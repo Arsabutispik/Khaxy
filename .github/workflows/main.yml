@@ -59,7 +59,7 @@ jobs:
         with:
           version: '10.11.1'
       - run: pnpm install
-      - run: pnpm --filter khaxyrewrite run validate-translations:ci
+      - run: pnpm --filter khaxyrewrite run i18n:check
   deploy:
     name: Deploy to VPS
     runs-on: ubuntu-latest
