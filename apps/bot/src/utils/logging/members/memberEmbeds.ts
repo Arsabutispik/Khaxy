@@ -10,13 +10,13 @@ export function buildTimeoutEmbed(
   member: GuildMember,
   timeoutUntil: Date,
   info: ExecutorInfo,
-  t: TFunction<"loggers", "memberLogs">,
+  t: TFunction<"loggers", "memberEvents">,
 ) {
   return new EmbedBuilder()
-    .setTitle(t(($) => $.timeout.embed.title))
+    .setTitle(t(($) => $.memberUpdate.timeout.embed.title))
     .setColor("Yellow")
     .setDescription(
-      t(($) => $.timeout.embed.description, {
+      t(($) => $.memberUpdate.timeout.embed.description, {
         user: member.user,
         timestamp: time(timeoutUntil, TimestampStyles.FullDateShortTime),
       }),
@@ -25,8 +25,8 @@ export function buildTimeoutEmbed(
     .setTimestamp()
     .addFields([
       {
-        name: t(($) => $.timeout.embed.fields.reason),
-        value: info.reason || t(($) => $.timeout.noReason),
+        name: t(($) => $.memberUpdate.timeout.embed.fields.reason),
+        value: info.reason || t(($) => $.memberUpdate.timeout.noReason),
       },
     ])
     .setFooter({
@@ -38,12 +38,12 @@ export function buildTimeoutEmbed(
 export function buildRemoveTimeoutEmbed(
   member: GuildMember,
   info: ExecutorInfo,
-  t: TFunction<"loggers", "memberLogs">,
+  t: TFunction<"loggers", "memberEvents">,
 ) {
   return new EmbedBuilder()
-    .setTitle(t(($) => $.removeTimeout.embed.title))
+    .setTitle(t(($) => $.memberUpdate.removeTimeout.embed.title))
     .setColor("Green")
-    .setDescription(t(($) => $.removeTimeout.embed.description, { user: member.user }))
+    .setDescription(t(($) => $.memberUpdate.removeTimeout.embed.description, { user: member.user }))
     .setThumbnail(member.user.displayAvatarURL())
     .setTimestamp()
     .setFooter({
@@ -57,19 +57,19 @@ export function buildRolesUpdateEmbed(
   addedRoles: string[],
   removedRoles: string[],
   info: ExecutorInfo,
-  t: TFunction<"loggers", "memberLogs">,
+  t: TFunction<"loggers", "memberEvents">,
 ) {
-  let description = t(($) => $.rolesUpdate.embed.description, { user: member.user });
+  let description = t(($) => $.memberUpdate.rolesUpdate.embed.description, { user: member.user });
 
   if (addedRoles.length > 0) {
-    description += `\n> **${t(($) => $.rolesUpdate.embed.added)}**: ${addedRoles.join(", ")}`;
+    description += `\n> **${t(($) => $.memberUpdate.rolesUpdate.embed.added)}**: ${addedRoles.join(", ")}`;
   }
   if (removedRoles.length > 0) {
-    description += `\n> **${t(($) => $.rolesUpdate.embed.removed)}**: ${removedRoles.join(", ")}`;
+    description += `\n> **${t(($) => $.memberUpdate.rolesUpdate.embed.removed)}**: ${removedRoles.join(", ")}`;
   }
 
   return new EmbedBuilder()
-    .setTitle(t(($) => $.rolesUpdate.embed.title))
+    .setTitle(t(($) => $.memberUpdate.rolesUpdate.embed.title))
     .setColor("Yellow")
     .setThumbnail(member.user.displayAvatarURL())
     .setDescription(description)
@@ -85,16 +85,16 @@ export function buildNicknameChangeEmbed(
   oldNickname: string,
   newNickname: string,
   info: ExecutorInfo,
-  t: TFunction<"loggers", "memberLogs">,
+  t: TFunction<"loggers", "memberEvents">,
 ) {
   return new EmbedBuilder()
-    .setTitle(t(($) => $.nicknameChange.embed.title))
+    .setTitle(t(($) => $.memberUpdate.nicknameChange.embed.title))
     .setColor("Blue")
     .setDescription(
-      t(($) => $.nicknameChange.embed.description, {
+      t(($) => $.memberUpdate.nicknameChange.embed.description, {
         user: member.user,
-        old_nickname: oldNickname || t(($) => $.nicknameChange.noNickname),
-        new_nickname: newNickname || t(($) => $.nicknameChange.noNickname),
+        old_nickname: oldNickname || t(($) => $.memberUpdate.nicknameChange.noNickname),
+        new_nickname: newNickname || t(($) => $.memberUpdate.nicknameChange.noNickname),
       }),
     )
     .setThumbnail(member.user.displayAvatarURL())

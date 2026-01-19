@@ -56,7 +56,7 @@ export async function logMemberAction({
 
   const info = { executor: executor ?? null, reason };
   let embed: EmbedBuilder | null = null;
-  const t = logChannel.client.i18next.getFixedT(guildConfig.language, "loggers", "memberLogs");
+  const t = logChannel.client.i18next.getFixedT(guildConfig.language, "loggers", "memberEvents");
   switch (action) {
     case "timeout":
       embed = Embeds.buildTimeoutEmbed(member, timeoutUntil!, info, t);
@@ -66,7 +66,7 @@ export async function logMemberAction({
           moderator: executor ?? null,
           guild: member.guild,
           user: member.user,
-          reason: reason || t(($) => $.timeout.noReason),
+          reason: reason || t(($) => $.memberUpdate.timeout.noReason),
         },
         member.client,
       );
@@ -97,7 +97,7 @@ export async function logMemberUpdate({ oldMember, newMember, guildConfig }: Log
 
   const fetchedOldMember = oldMember.partial ? await oldMember.fetch() : oldMember;
   const embeds: EmbedBuilder[] = [];
-  const t = logChannel.client.i18next.getFixedT(guildConfig.language, "loggers", "memberLogs");
+  const t = logChannel.client.i18next.getFixedT(guildConfig.language, "loggers", "memberEvents");
   // A. TIMEOUT ADDED
   if (newMember.isCommunicationDisabled() && !fetchedOldMember.isCommunicationDisabled()) {
     const info = await getExecutorInfo(newMember.guild, AuditLogEvent.MemberUpdate, newMember.user.id);
@@ -109,7 +109,7 @@ export async function logMemberUpdate({ oldMember, newMember, guildConfig }: Log
           moderator: info.executor,
           guild: newMember.guild,
           user: newMember.user,
-          reason: info.reason || t(($) => $.timeout.noReason),
+          reason: info.reason || t(($) => $.memberUpdate.timeout.noReason),
         },
         newMember.client,
       );
