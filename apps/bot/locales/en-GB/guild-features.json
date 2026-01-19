@@ -11,10 +11,12 @@
   "DISCOVERABLE": "Discoverable",
   "ENHANCED_ROLE_COLORS": "Enhanced Role Colors",
   "FEATURABLE": "Featurable",
+  "GUESTS_ENABLED": "Guests Enabled",
+  "GUILD_TAGS": "Guild Tags",
   "HAS_DIRECTORY_ENTRY": "Directory Entry",
   "HUB": "Student Hub",
-  "INVITES_DISABLED": "Invites Disabled",
   "INVITE_SPLASH": "Invite Splash",
+  "INVITES_DISABLED": "Invites Disabled",
   "LINKED_TO_HUB": "Linked to Student Hub",
   "MEMBER_VERIFICATION_GATE_ENABLED": "Membership Screening",
   "MONETIZATION_ENABLED": "Monetization",
@@ -22,6 +24,7 @@
   "MORE_STICKERS": "More Sticker Slots",
   "NEWS": "News Channels",
   "PARTNERED": "Partnered",
+  "PIN_PERMISSION_MIGRATION_COMPLETE": "Pin Permission Migration Complete",
   "PREVIEW_ENABLED": "Preview Enabled",
   "PRIVATE_THREADS": "Private Threads",
   "RAID_ALERTS_DISABLED": "Raid Alerts Disabled",
@@ -34,8 +37,5 @@
   "VANITY_URL": "Vanity URL",
   "VERIFIED": "Verified",
   "VIP_REGIONS": "VIP Regions",
-  "WELCOME_SCREEN_ENABLED": "Welcome Screen",
-  "GUILD_TAGS": "Guild Tags",
-  "GUESTS_ENABLED": "Guests Enabled",
-  "PIN_PERMISSION_MIGRATION_COMPLETE": "Pin Permission Migration Complete"
+  "WELCOME_SCREEN_ENABLED": "Welcome Screen"
 }

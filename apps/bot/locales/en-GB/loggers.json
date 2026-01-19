@@ -1,79 +1,18 @@
 {
-  "guildBanEvents": {
-    "unknownExecutor": "Unknown Executor",
-    "noReason": "No reason provided",
-    "banAdd": {
-      "embed": {
-        "title": "User Banned",
-        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n>",
-        "fields": {
-          "reason": "Reason"
-        }
-      }
-    },
-    "banRemove": {
-      "embed": {
-        "title": "User Unbanned From Server",
-        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
-        "fields": {
-          "reason": "Reason"
-        }
-      }
-    }
-  },
-  "memberEvents": {
-    "unknownExecutor": "Unknown Executor",
-    "memberUpdate": {
-      "timeout": {
-        "noReason": "No reason provided for timeout.",
-        "embed": {
-          "title": "User Timed Out",
-          "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Timeout Until**: {{timestamp}}",
-          "fields": {
-            "reason": "Reason"
-          }
-        }
-      },
-      "removeTimeout": {
-        "noReason": "No reason provided for removing timeout.",
-        "embed": {
-          "title": "User Timeout Removed",
-          "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}"
-        }
-      },
-      "rolesUpdate": {
-        "embed": {
-          "title": "User Roles Updated",
-          "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
-          "added": "Roles Added",
-          "removed": "Roles Removed"
-        }
-      },
-      "nicknameChange": {
-        "noNickname": "No Nickname",
-        "embed": {
-          "title": "User Nickname Changed",
-          "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Old Nickname**: {{old_nickname}}\n> **New Nickname**: {{new_nickname}}"
-        }
-      }
-    },
-    "memberRemove": {
-      "noReason": "No reason provided.",
-      "userLeft": "**User has left {{guild}}**",
-      "embed": {
-        "title": "User Left Server",
-        "titleKicked": "User Kicked From Server",
-        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Joined For**: {{timestamp}}\n> **Member Count**: {{member_count}}",
-        "fields": {
-          "reason": "Reason"
-        }
-      },
-      "joinDateUnknown": "Join date unknown",
-      "unknownExecutor": "Unknown Executor"
-    }
-  },
   "channelEvents": {
-    "unknownExecutor": "Unknown Executor",
+    "channelCreate": {
+      "embed": {
+        "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Type**: {{channel_type}}\n> **Created At**: {{timestamp}}",
+        "title": "Channel Created"
+      }
+    },
+    "channelDelete": {
+      "embed": {
+        "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Type**: {{channel_type}}\n> **Deleted At**: {{timestamp}}",
+        "title": "Channel Deleted"
+      },
+      "unknownExecutor": "Unknown Executor"
+    },
     "channelTypes": {
       "0": "Text Channel",
       "1": "DM Channel",
@@ -89,449 +28,411 @@
       "15": "Forum Channel",
       "16": "Media Channel"
     },
-    "channelCreate": {
-      "embed": {
-        "title": "Channel Created",
-        "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Type**: {{channel_type}}\n> **Created At**: {{timestamp}}"
-      }
-    },
-    "channelDelete": {
-      "unknownExecutor": "Unknown Executor",
-      "embed": {
-        "title": "Channel Deleted",
-        "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Type**: {{channel_type}}\n> **Deleted At**: {{timestamp}}"
-      }
-    },
     "channelUpdate": {
-      "unknownExecutor": "Unknown Executor",
-      "nameChange": {
-        "embed": {
-          "title": "Channel Name Changed",
-          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}"
-        }
-      },
-      "topicChange": {
-        "embed": {
-          "title": "Channel Topic Changed",
-          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Topic**: {{old_topic}}\n> **New Topic**: {{new_topic}}"
-        },
-        "noTopic": "No Topic"
-      },
-      "nsfwChange": {
-        "embed": {
-          "title": "Channel NSFW Status Changed",
-          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Status**: {{old_nsfw}}\n> **New Status**: {{new_nsfw}}"
-        }
-      },
-      "permissionsChange": {
-        "embed": {
-          "title": "Channel Permission Overwrites Changed",
-          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Changes**: {{changes}}"
-        },
-        "noChanges": "No permission changes detected."
-      },
-      "typeChange": {
-        "embed": {
-          "title": "Channel Type Changed",
-          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Type**: {{old_type}}\n> **New Type**: {{new_type}}"
-        }
-      },
       "bitrateChange": {
         "embed": {
-          "title": "Voice Channel Bitrate Changed",
-          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Bitrate**: {{old_bitrate}}\n> **New Bitrate**: {{new_bitrate}}"
-        }
-      },
-      "userLimitChange": {
-        "embed": {
-          "title": "Channel User Limit Changed",
-          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old User Limit**: {{old_user_limit}} users\n> **New User Limit**: {{new_user_limit}} users"
-        }
-      },
-      "rateLimitChange": {
-        "embed": {
-          "title": "Channel Rate Limit Changed",
-          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Rate Limit**: {{old_rate_limit}}\n> **New Rate Limit**: {{new_rate_limit}}"
-        }
-      },
-      "rtcRegionChange": {
-        "region": {
-          "none": "Auto",
-          "brazil": "Brazil",
-          "hongkong": "Hong Kong",
-          "india": "India",
-          "japan": "Japan",
-          "rotterdam": "Rotterdam",
-          "singapore": "Singapore",
-          "southafrica": "South Africa",
-          "sydney": "Sydney",
-          "us-central": "US Central",
-          "us-east": "US East",
-          "us-south": "US South",
-          "us-west": "US West"
-        },
-        "embed": {
-          "title": "Voice Channel RTC Region Changed",
-          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old RTC Region**: {{old_rtc_region}}\n> **New RTC Region**: {{new_rtc_region}}"
-        }
-      },
-      "videoQualityModeChange": {
-        "modes": {
-          "1": "Auto",
-          "2": "Full (720p)"
-        },
-        "embed": {
-          "title": "Voice Channel Video Quality Mode Changed",
-          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Video Quality Mode**: {{old_video_quality_mode}}\n> **New Video Quality Mode**: {{new_video_quality_mode}}"
+          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Bitrate**: {{old_bitrate}}\n> **New Bitrate**: {{new_bitrate}}",
+          "title": "Voice Channel Bitrate Changed"
         }
       },
       "defaultArchiveDurationChange": {
+        "embed": {
+          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Default Archive Duration**: {{old_archive_duration}}\n> **New Default Archive Duration**: {{new_archive_duration}}",
+          "title": "Forum Channel Default Archive Duration Changed"
+        },
         "time": {
           "60": "1 Hour",
           "1440": "1 Day",
           "4320": "3 Days",
           "10080": "1 Week"
-        },
-        "embed": {
-          "title": "Forum Channel Default Archive Duration Changed",
-          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Default Archive Duration**: {{old_archive_duration}}\n> **New Default Archive Duration**: {{new_archive_duration}}"
-        }
-      },
-      "forumRateLimitChange": {
-        "embed": {
-          "title": "Forum Channel Rate Limit Changed",
-          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Rate Limit**: {{old_rate_limit}}\n> **New Rate Limit**: {{new_rate_limit}}"
-        }
-      },
-      "forumDefaultThreadRateLimitChange": {
-        "embed": {
-          "title": "Forum Channel Default Thread Rate Limit Changed",
-          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Rate Limit**: {{old_rate_limit}}\n> **New Rate Limit**: {{new_rate_limit}}"
-        }
-      },
-      "forumDefaultReactionEmojiChange": {
-        "embed": {
-          "title": "Forum Channel Default Reaction Emoji Changed",
-          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Reaction Emoji**: {{old_reaction_emoji}}\n> **New Reaction Emoji**: {{new_reaction_emoji}}"
-        }
-      },
-      "forumDefaultSortOrderChange": {
-        "modes": {
-          "0": "Latest Activity",
-          "1": "Creation Date"
-        },
-        "embed": {
-          "title": "Forum Default Sort Order Changed",
-          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Sort Order**: {{old_sort_order}}\n> **New Sort Order**: {{new_sort_order}}"
         }
       },
       "forumAvailableTagsChange": {
         "added": {
           "embed": {
-            "title": "Forum Channel Available Tags Added",
-            "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Name**: {{tag_name}}\n> **Moderation Only**: {{tag_moderation_only}}\n> **Emoji**: {{tag_emoji}}"
+            "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Name**: {{tag_name}}\n> **Moderation Only**: {{tag_moderation_only}}\n> **Emoji**: {{tag_emoji}}",
+            "title": "Forum Channel Available Tags Added"
           }
         },
         "removed": {
           "embed": {
-            "title": "Forum Channel Available Tags Removed",
-            "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}  \n> **Name**: {{tag_name}}\n> **Moderation Only**: {{tag_moderation_only}}\n> **Emoji**: {{tag_emoji}}"
+            "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}  \n> **Name**: {{tag_name}}\n> **Moderation Only**: {{tag_moderation_only}}\n> **Emoji**: {{tag_emoji}}",
+            "title": "Forum Channel Available Tags Removed"
           }
         },
         "updated": {
           "embed": {
-            "title": "Forum Channel Available Tags Updated",
-            "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Name**: ~~{{old_tag_name}}~~ -> {{new_tag_name}}\n> **Moderation Only**: ~~{{old_tag_moderation_only}}~~ -> {{new_tag_moderation_only}}\n> **Emoji**: ~~{{old_tag_emoji}}~~ -> {{new_tag_emoji}}"
+            "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Name**: ~~{{old_tag_name}}~~ -> {{new_tag_name}}\n> **Moderation Only**: ~~{{old_tag_moderation_only}}~~ -> {{new_tag_moderation_only}}\n> **Emoji**: ~~{{old_tag_emoji}}~~ -> {{new_tag_emoji}}",
+            "title": "Forum Channel Available Tags Updated"
           }
         }
       },
       "forumDefaultForumLayoutChange": {
+        "embed": {
+          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Default Forum Layout**: {{old_layout}}\n> **New Default Forum Layout**: {{new_layout}},",
+          "title": "Forum Channel Default Forum Layout Changed"
+        },
         "layouts": {
           "0": "Not Set",
           "1": "List View",
           "2": "Gallery View"
-        },
+        }
+      },
+      "forumDefaultReactionEmojiChange": {
         "embed": {
-          "title": "Forum Channel Default Forum Layout Changed",
-          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Default Forum Layout**: {{old_layout}}\n> **New Default Forum Layout**: {{new_layout}},"
+          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Reaction Emoji**: {{old_reaction_emoji}}\n> **New Reaction Emoji**: {{new_reaction_emoji}}",
+          "title": "Forum Channel Default Reaction Emoji Changed"
+        }
+      },
+      "forumDefaultSortOrderChange": {
+        "embed": {
+          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Sort Order**: {{old_sort_order}}\n> **New Sort Order**: {{new_sort_order}}",
+          "title": "Forum Default Sort Order Changed"
+        },
+        "modes": {
+          "0": "Latest Activity",
+          "1": "Creation Date"
+        }
+      },
+      "forumDefaultThreadRateLimitChange": {
+        "embed": {
+          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Rate Limit**: {{old_rate_limit}}\n> **New Rate Limit**: {{new_rate_limit}}",
+          "title": "Forum Channel Default Thread Rate Limit Changed"
         }
       },
       "forumNsfwChange": {
         "embed": {
-          "title": "Forum Channel NSFW Status Changed",
-          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Status**: {{old_nsfw}}\n> **New Status**: {{new_nsfw}}"
-        }
-      }
-    }
-  },
-  "guildAuditLogEvents": {
-    "unknownExecutor": "Unknown Executor",
-    "guildAuditLogEntryCreate": {
-      "webhookCreate": {
-        "embed": {
-          "title": "Webhook Created",
-          "description": "> **Name**: {{webhook.name}}\n> **ID**: {{webhook.id}}\n> **Channel**: {{channel.name}} (<#{{channel.id}}>)"
+          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Status**: {{old_nsfw}}\n> **New Status**: {{new_nsfw}}",
+          "title": "Forum Channel NSFW Status Changed"
         }
       },
-      "webhookDelete": {
+      "forumRateLimitChange": {
         "embed": {
-          "title": "Webhook Deleted",
-          "description": "> **Name**: {{webhook.name}}\n> **ID**: {{webhook.id}}\n> **Channel**: {{channel.name}} (<#{{channel.id}}>)"
-        }
-      }
-    }
-  },
-  "guildSoundboardEvents": {
-    "unknownExecutor": "Unknown Executor",
-    "guildSoundboardSoundCreate": {
-      "embed": {
-        "title": "Sound Created",
-        "description": "> **Name**: {{sound.name}}\n> **ID**: {{sound.soundId}}\n> **Emoji**: {{sound.emoji}}\n> **Volume**: {{volume}}%\n> **Created At**: {{timestamp}}"
-      }
-    },
-    "guildSoundboardSoundDelete": {
-      "embed": {
-        "title": "Sound Deleted",
-        "description": "> **Name**: {{sound.name}}\n> **ID**: {{sound.soundId}}\n> **Emoji**: {{sound.emoji}}\n> **Volume**: {{volume}}%\n> **Deleted At**: {{timestamp}}"
-      }
-    },
-    "guildSoundboardSoundUpdate": {
-      "noPreviousValue": "No previous value",
-      "noEmoji": "No emoji",
-      "volumeChange": {
-        "embed": {
-          "title": "Sound Volume Changed",
-          "description": "> **Name**: {{sound.name}}\n> **ID**: {{sound.soundId}}\n> **Old Volume**: {{old_volume}}%\n> **New Volume**: {{new_volume}}%,"
+          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Rate Limit**: {{old_rate_limit}}\n> **New Rate Limit**: {{new_rate_limit}}",
+          "title": "Forum Channel Rate Limit Changed"
         }
       },
       "nameChange": {
         "embed": {
-          "title": "Sound Name Changed",
-          "description": "> **ID**: {{sound.soundId}}\n> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}"
+          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}",
+          "title": "Channel Name Changed"
         }
       },
-      "emojiChange": {
+      "nsfwChange": {
         "embed": {
-          "title": "Sound Emoji Changed",
-          "description": "> **Name**: {{sound.name}}\n> **ID**: {{sound.soundId}}\n> **Old Emoji**: {{old_emoji}}\n> **New Emoji**: {{new_emoji}}"
+          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Status**: {{old_nsfw}}\n> **New Status**: {{new_nsfw}}",
+          "title": "Channel NSFW Status Changed"
+        }
+      },
+      "permissionsChange": {
+        "embed": {
+          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Changes**: {{changes}}",
+          "title": "Channel Permission Overwrites Changed"
+        },
+        "noChanges": "No permission changes detected."
+      },
+      "rateLimitChange": {
+        "embed": {
+          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Rate Limit**: {{old_rate_limit}}\n> **New Rate Limit**: {{new_rate_limit}}",
+          "title": "Channel Rate Limit Changed"
+        }
+      },
+      "rtcRegionChange": {
+        "embed": {
+          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old RTC Region**: {{old_rtc_region}}\n> **New RTC Region**: {{new_rtc_region}}",
+          "title": "Voice Channel RTC Region Changed"
+        },
+        "region": {
+          "none": "Auto"
+        }
+      },
+      "topicChange": {
+        "embed": {
+          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Topic**: {{old_topic}}\n> **New Topic**: {{new_topic}}",
+          "title": "Channel Topic Changed"
+        },
+        "noTopic": "No Topic"
+      },
+      "typeChange": {
+        "embed": {
+          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Type**: {{old_type}}\n> **New Type**: {{new_type}}",
+          "title": "Channel Type Changed"
+        }
+      },
+      "unknownExecutor": "Unknown Executor",
+      "userLimitChange": {
+        "embed": {
+          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old User Limit**: {{old_user_limit}} users\n> **New User Limit**: {{new_user_limit}} users",
+          "title": "Channel User Limit Changed"
+        }
+      },
+      "videoQualityModeChange": {
+        "embed": {
+          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Video Quality Mode**: {{old_video_quality_mode}}\n> **New Video Quality Mode**: {{new_video_quality_mode}}",
+          "title": "Voice Channel Video Quality Mode Changed"
+        },
+        "modes": {
+          "1": "Auto",
+          "2": "Full (720p)"
         }
       }
-    }
+    },
+    "unknownExecutor": "Unknown Executor"
   },
   "emojiEvents": {
-    "unknownExecutor": "Unknown Executor",
     "emojiCreate": {
       "embed": {
-        "title": "Emoji Created",
-        "description": "> **Emoji**: {{emoji.name}}\n> **ID**: {{emoji.id}}\n> **Animated**: {{emoji_animated}}\n> **Created At**: {{timestamp}}"
+        "description": "> **Emoji**: {{emoji.name}}\n> **ID**: {{emoji.id}}\n> **Animated**: {{emoji_animated}}\n> **Created At**: {{timestamp}}",
+        "title": "Emoji Created"
       }
     },
     "emojiDelete": {
       "embed": {
-        "title": "Emoji Deleted",
-        "description": "> **Emoji**: {{emoji.name}}\n> **ID**: {{emoji.id}}\n> **Animated**: {{emoji_animated}}\n> **Deleted At**: {{timestamp}}"
+        "description": "> **Emoji**: {{emoji.name}}\n> **ID**: {{emoji.id}}\n> **Animated**: {{emoji_animated}}\n> **Deleted At**: {{timestamp}}",
+        "title": "Emoji Deleted"
       }
     },
     "emojiUpdate": {
       "nameChange": {
         "embed": {
-          "title": "Emoji Name Changed",
-          "description": "> **ID**: {{emoji.id}}\n> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}"
+          "description": "> **ID**: {{emoji.id}}\n> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}",
+          "title": "Emoji Name Changed"
         }
       }
-    }
+    },
+    "unknownExecutor": "Unknown Executor"
   },
-  "stickerEvents": {
-    "unknownExecutor": "Unknown Executor",
-    "stickerCreate": {
-      "embed": {
-        "title": "Sticker Created",
-        "description": "> **Name**: {{sticker.name}}\n> **ID**: {{sticker.id}}\n> **Description**: {{sticker.description}}\n> **Tags**: {{sticker.tags}}"
-      }
-    },
-    "stickerDelete": {
-      "embed": {
-        "title": "Sticker Deleted",
-        "description": "> **Name**: {{sticker.name}}\n> **ID**: {{sticker.id}}\n> **Description**: {{sticker.description}}\n> **Tags**: {{sticker.tags}}"
-      }
-    },
-    "stickerUpdate": {
-      "nameChange": {
+  "guildAuditLogEvents": {
+    "guildAuditLogEntryCreate": {
+      "webhookCreate": {
         "embed": {
-          "title": "Sticker Name Changed",
-          "description": "> **Name**: {{sticker.name}}\n> **ID**: {{sticker.id}}\n> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}"
+          "description": "> **Name**: {{webhook.name}}\n> **ID**: {{webhook.id}}\n> **Channel**: {{channel.name}} (<#{{channel.id}}>)",
+          "title": "Webhook Created"
         }
       },
-      "descriptionChange": {
+      "webhookDelete": {
         "embed": {
-          "title": "Sticker Description Changed",
-          "description": "> **Name**: {{sticker.name}}\n> **ID**: {{sticker.id}}\n> **Old Description**: {{old_description}}\n> **New Description**: {{new_description}}"
-        }
-      },
-      "tagsChange": {
-        "embed": {
-          "title": "Sticker Tags Changed",
-          "description": "> **Name**: {{sticker.name}}\n> **ID**: {{sticker.id}}\n> **Old Tags**: {{old_tags}}\n> **New Tags**: {{new_tags}}"
+          "description": "> **Name**: {{webhook.name}}\n> **ID**: {{webhook.id}}\n> **Channel**: {{channel.name}} (<#{{channel.id}}>)",
+          "title": "Webhook Deleted"
         }
       }
-    }
+    },
+    "unknownExecutor": "Unknown Executor"
   },
-  "stageInstanceEvents": {
-    "unknownExecutor": "Unknown Executor",
-    "stageInstanceCreate": {
+  "guildBanEvents": {
+    "banAdd": {
       "embed": {
-        "title": "Stage Started",
-        "description": "> **Channel**: <#{{stage.channelId}}>\n> **Topic**: {{stage.topic}}"
-      }
-    },
-    "stageInstanceDelete": {
-      "embed": {
-        "title": "Stage Ended",
-        "description": "> **Channel**: <#{{stage.channelId}}>\n> **Topic**: {{stage.topic}}"
-      }
-    },
-    "stageInstanceUpdate": {
-      "topicChange": {
-        "embed": {
-          "title": "Stage Topic Changed",
-          "description": "> **Channel**: <#{{stage.channelId}}>\n> **Old Topic**: {{old_topic}}\n> **New Topic**: {{new_topic}}"
-        }
-      }
-    }
-  },
-  "guildScheduledEvents": {
-    "unknownExecutor": "Unknown Executor",
-    "noLocation": "No location provided",
-    "noDescription": "No description provided",
-    "unknownChannel": "Unknown Channel",
-    "guildScheduledEventCreate": {
-      "voiceChannel": {
-        "embed": {
-          "title": "Guild Scheduled Event Created",
-          "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Channel**: {{event.channel.name}} (<#{{event.channel.id}}>)\n> **Description**: {{event.description}}\n> **Start Time**: {{scheduled_start_time}}"
-        }
-      },
-      "externalChannel": {
-        "embed": {
-          "title": "Guild Scheduled Event Created",
-          "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Location**: {{event.entityMetadata.location}}\n> **Description**: {{event.description}}\n> **Start Time**: {{scheduled_start_time}}\n> **End Time**: {{scheduled_end_time}}"
-        }
-      }
-    },
-    "guildScheduledEventDelete": {
-      "voiceChannel": {
-        "embed": {
-          "title": "Guild Scheduled Event Deleted",
-          "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Channel**: {{event.channel.name}} (<#{{event.channel.id}}>)\n> **Description**: {{event.description}}\n> **Start Time**: {{scheduled_start_time}}"
-        }
-      },
-      "externalChannel": {
-        "embed": {
-          "title": "Guild Scheduled Event Deleted",
-          "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Location**: {{event.entityMetadata.location}}\n> **Description**: {{event.description}}\n> **Start Time**: {{scheduled_start_time}}\n> **End Time**: {{scheduled_end_time}}"
-        }
-      }
-    },
-    "guildScheduledEventUpdate": {
-      "locationChange": {
-        "embed": {
-          "title": "Guild Scheduled Event Location Changed",
-          "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Old Location**: {{old_location}}\n> **New Location**: {{new_location}}"
-        }
-      },
-      "descriptionChange": {
-        "embed": {
-          "title": "Guild Scheduled Event Description Changed",
-          "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Old Description**: {{old_description}}\n> **New Description**: {{new_description}}"
-        }
-      },
-      "nameChange": {
-        "embed": {
-          "title": "Guild Scheduled Event Name Changed",
-          "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}"
-        }
-      },
-      "startTimeChange": {
-        "embed": {
-          "title": "Guild Scheduled Event Start Time Changed",
-          "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Old Start**: {{old_start_time}}\n> **New Start**: {{new_start_time}}"
-        }
-      },
-      "endTimeChange": {
-        "embed": {
-          "title": "Guild Scheduled Event End Time Changed",
-          "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Old End**: {{old_end_time}}\n> **New End**: {{new_end_time}}"
-        }
-      },
-      "statusChange": {
-        "status": {
-          "1": "Scheduled",
-          "2": "Active",
-          "3": "Completed",
-          "4": "Canceled"
+        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n>",
+        "fields": {
+          "reason": "Reason"
         },
-        "embed": {
-          "title": "Guild Scheduled Event Status Changed",
-          "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Old Status**: {{old_status}}\n> **New Status**: {{new_status}}"
-        }
-      },
-      "imageChange": {
-        "embed": {
-          "title": "Guild Scheduled Event Image Changed",
-          "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Old Image**: {{old_image}}\n> **New Image**: {{new_image}}"
-        }
+        "title": "User Banned"
       }
     },
-    "guildScheduledEventUserAdd": {
+    "banRemove": {
       "embed": {
-        "title": "User Subscribed To Event",
-        "description": "> **User**: {{user.username}} (<@{{user.id}}>)\n> **User ID**: {{user.id}}\n> **Event Name**: {{event.name}}\n> **Event ID**: {{event.id}}"
+        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
+        "fields": {
+          "reason": "Reason"
+        },
+        "title": "User Unbanned From Server"
       }
     },
-    "guildScheduledEventUserRemove": {
-      "embed": {
-        "title": "User Unsubscribed From Event",
-        "description": "> **User**: {{user.username}} (<@{{user.id}}>)\n> **User ID**: {{user.id}}\n> **Event Name**: {{event.name}}\n> **Event ID**: {{event.id}}"
-      }
-    }
-  },
-  "inviteEvents": {
-    "unknownExecutor": "Unknown Executor",
-    "inviteCreate": {
-      "embed": {
-        "title": "Invite Created",
-        "description": "> **Code**: {{invite.code}}\n> **Channel**: <#{{invite.channelId}}>\n> **Expires At**: {{timestamp}}\n> **Max Usage**: {{usage}}"
-      }
-    },
-    "inviteDelete": {
-      "embed": {
-        "title": "Invite Deleted",
-        "description": "> **Code**: {{invite.code}}\n> **Channel**: <#{{invite.channelId}}>"
-      }
-    }
+    "noReason": "No reason provided",
+    "unknownExecutor": "Unknown Executor"
   },
   "guildEvents": {
-    "unknownExecutor": "Unknown Executor",
-    "none": "None",
-    "notificationLevels": {
-      "0": "All Messages",
-      "1": "Only @mentions"
-    },
     "explicitContentFilterLevels": {
       "0": "Disabled",
       "1": "Members Without Roles",
       "2": "All Members"
     },
+    "guildUpdate": {
+      "afkChannelChange": {
+        "embed": {
+          "description": "> **Old AFK Channel**: {{old_channel}}\n> **New AFK Channel**: {{new_channel}}",
+          "title": "Server AFK Channel Changed"
+        }
+      },
+      "afkTimeoutChange": {
+        "embed": {
+          "description": "> **Old AFK Timeout**: {{old_timeout}}\n> **New AFK Timeout**: {{new_timeout}}",
+          "title": "Server AFK Timeout Changed"
+        }
+      },
+      "bannerChange": {
+        "embed": {
+          "description": "> **Old Banner**: {{old_banner}}\n> **New Banner**: {{new_banner}}",
+          "title": "Server Banner Changed"
+        }
+      },
+      "defaultMessageNotificationsChange": {
+        "embed": {
+          "description": "> **Old Level**: {{old_level}}\n> **New Level**: {{new_level}}",
+          "title": "Server Default Message Notifications Changed"
+        }
+      },
+      "descriptionChange": {
+        "embed": {
+          "description": "> **Old Description**: {{old_description}}\n> **New Description**: {{new_description}}",
+          "title": "Server Description Changed"
+        }
+      },
+      "discoverySplashChange": {
+        "embed": {
+          "description": "> **Old Discovery Splash**: {{old_discovery_splash}}\n> **New Discovery Splash**: {{new_discovery_splash}}",
+          "title": "Server Discovery Splash Changed"
+        }
+      },
+      "explicitContentFilterChange": {
+        "embed": {
+          "description": "> **Old Level**: {{old_level}}\n> **New Level**: {{new_level}}",
+          "title": "Server Explicit Content Filter Changed"
+        }
+      },
+      "featuresChange": {
+        "embed": {
+          "added": "Added",
+          "description": "> **Old Features**: {{old_features}}\n> **New Features**: {{new_features}}",
+          "removed": "Removed",
+          "title": "Server Features Changed"
+        }
+      },
+      "iconChange": {
+        "embed": {
+          "description": "> **Old Icon**: {{old_icon}}\n> **New Icon**: {{new_icon}}",
+          "title": "Server Icon Changed"
+        }
+      },
+      "mfaLevelChange": {
+        "embed": {
+          "description": "> **Old Level**: {{old_level}}\n> **New Level**: {{new_level}}",
+          "title": "Server MFA Level Changed"
+        }
+      },
+      "nameChange": {
+        "embed": {
+          "description": "> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}",
+          "title": "Server Name Changed"
+        }
+      },
+      "nsfwLevelChange": {
+        "embed": {
+          "description": "> **Old Level**: {{old_level}}\n> **New Level**: {{new_level}}",
+          "title": "Server NSFW Level Changed"
+        }
+      },
+      "ownerChange": {
+        "embed": {
+          "description": "> **Old Owner**: {{old_owner}}\n> **New Owner**: {{new_owner}}",
+          "title": "Server Owner Changed"
+        }
+      },
+      "partneredChange": {
+        "embed": {
+          "description": "> **Old Status**: {{old_status}}\n> **New Status**: {{new_status}}",
+          "title": "Server Partnered Status Changed"
+        }
+      },
+      "preferredLocaleChange": {
+        "embed": {
+          "description": "> **Old Locale**: {{old_locale}}\n> **New Locale**: {{new_locale}}",
+          "title": "Server Preferred Locale Changed"
+        }
+      },
+      "premiumProgressBarChange": {
+        "embed": {
+          "description": "> **Old Status**: {{old_progress_bar}}\n> **New Status**: {{new_progress_bar}}",
+          "title": "Server Boost Progress Bar Changed"
+        }
+      },
+      "premiumSubscriptionCountChange": {
+        "embed": {
+          "description": "> **Old Count**: {{old_count}}\n> **New Count**: {{new_count}}",
+          "title": "Server Boost Count Changed"
+        }
+      },
+      "premiumTierChange": {
+        "embed": {
+          "description": "> **Old Level**: {{old_level}}\n> **New Level**: {{new_level}}",
+          "title": "Server Boost Level Changed"
+        }
+      },
+      "publicUpdatesChannelChange": {
+        "embed": {
+          "description": "> **Old Public Updates Channel**: {{old_channel}}\n> **New Public Updates Channel**: {{new_channel}}",
+          "title": "Server Public Updates Channel Changed"
+        }
+      },
+      "rulesChannelChange": {
+        "embed": {
+          "description": "> **Old Rules Channel**: {{old_channel}}\n> **New Rules Channel**: {{new_channel}}",
+          "title": "Server Rules Channel Changed"
+        }
+      },
+      "safetyAlertsChannelChange": {
+        "embed": {
+          "description": "> **Old Safety Alerts Channel**: {{old_channel}}\n> **New Safety Alerts Channel**: {{new_channel}}",
+          "title": "Server Safety Alerts Channel Changed"
+        }
+      },
+      "splashChange": {
+        "embed": {
+          "description": "> **Old Splash**: {{old_splash}}\n> **New Splash**: {{new_splash}}",
+          "title": "Server Splash Changed"
+        }
+      },
+      "systemChannelChange": {
+        "embed": {
+          "description": "> **Old System Channel**: {{old_channel}}\n> **New System Channel**: {{new_channel}}",
+          "title": "Server System Channel Changed"
+        }
+      },
+      "systemChannelFlagsChange": {
+        "embed": {
+          "description": "> **Old Flags**: {{old_flags}}\n> **New Flags**: {{new_flags}}",
+          "title": "Server System Channel Flags Changed"
+        }
+      },
+      "vanityUrlCodeChange": {
+        "embed": {
+          "description": "> **Old Vanity URL**: {{old_code}}\n> **New Vanity URL**: {{new_code}}",
+          "title": "Server Vanity URL Changed"
+        }
+      },
+      "verificationLevelChange": {
+        "embed": {
+          "description": "> **Old Level**: {{old_level}}\n> **New Level**: {{new_level}}",
+          "title": "Server Verification Level Changed"
+        }
+      },
+      "verifiedChange": {
+        "embed": {
+          "description": "> **Old Status**: {{old_status}}\n> **New Status**: {{new_status}}",
+          "title": "Server Verified Status Changed"
+        }
+      },
+      "widgetChannelChange": {
+        "embed": {
+          "description": "> **Old Widget Channel**: {{old_channel}}\n> **New Widget Channel**: {{new_channel}}",
+          "title": "Server Widget Channel Changed"
+        }
+      },
+      "widgetEnabledChange": {
+        "embed": {
+          "description": "> **Old Status**: {{old_status}}\n> **New Status**: {{new_status}}",
+          "title": "Server Widget Enabled Status Changed"
+        }
+      }
+    },
     "mfaLevels": {
       "0": "None",
       "1": "Elevated"
     },
-    "verificationLevels": {
-      "0": "None",
-      "1": "Low",
-      "2": "Medium",
-      "3": "High",
-      "4": "Very High"
+    "none": "None",
+    "notificationLevels": {
+      "0": "All Messages",
+      "1": "Only @mentions"
     },
     "nsfwLevels": {
       "0": "Default",
@@ -539,190 +440,218 @@
       "2": "Safe",
       "3": "Age Restricted"
     },
-    "guildUpdate": {
-      "afkChannelChange": {
+    "unknownExecutor": "Unknown Executor",
+    "verificationLevels": {
+      "0": "None",
+      "1": "Low",
+      "2": "Medium",
+      "3": "High",
+      "4": "Very High"
+    }
+  },
+  "guildScheduledEvents": {
+    "guildScheduledEventCreate": {
+      "externalChannel": {
         "embed": {
-          "title": "Server AFK Channel Changed",
-          "description": "> **Old AFK Channel**: {{old_channel}}\n> **New AFK Channel**: {{new_channel}}"
+          "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Location**: {{event.entityMetadata.location}}\n> **Description**: {{event.description}}\n> **Start Time**: {{scheduled_start_time}}\n> **End Time**: {{scheduled_end_time}}",
+          "title": "Guild Scheduled Event Created"
         }
       },
-      "afkTimeoutChange": {
+      "voiceChannel": {
         "embed": {
-          "title": "Server AFK Timeout Changed",
-          "description": "> **Old AFK Timeout**: {{old_timeout}}\n> **New AFK Timeout**: {{new_timeout}}"
+          "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Channel**: {{event.channel.name}} (<#{{event.channel.id}}>)\n> **Description**: {{event.description}}\n> **Start Time**: {{scheduled_start_time}}",
+          "title": "Guild Scheduled Event Created"
+        }
+      }
+    },
+    "guildScheduledEventDelete": {
+      "externalChannel": {
+        "embed": {
+          "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Location**: {{event.entityMetadata.location}}\n> **Description**: {{event.description}}\n> **Start Time**: {{scheduled_start_time}}\n> **End Time**: {{scheduled_end_time}}",
+          "title": "Guild Scheduled Event Deleted"
         }
       },
-      "bannerChange": {
+      "voiceChannel": {
         "embed": {
-          "title": "Server Banner Changed",
-          "description": "> **Old Banner**: {{old_banner}}\n> **New Banner**: {{new_banner}}"
+          "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Channel**: {{event.channel.name}} (<#{{event.channel.id}}>)\n> **Description**: {{event.description}}\n> **Start Time**: {{scheduled_start_time}}",
+          "title": "Guild Scheduled Event Deleted"
+        }
+      }
+    },
+    "guildScheduledEventUpdate": {
+      "descriptionChange": {
+        "embed": {
+          "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Old Description**: {{old_description}}\n> **New Description**: {{new_description}}",
+          "title": "Guild Scheduled Event Description Changed"
         }
       },
-      "defaultMessageNotificationsChange": {
+      "endTimeChange": {
         "embed": {
-          "title": "Server Default Message Notifications Changed",
-          "description": "> **Old Level**: {{old_level}}\n> **New Level**: {{new_level}}"
+          "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Old End**: {{old_end_time}}\n> **New End**: {{new_end_time}}",
+          "title": "Guild Scheduled Event End Time Changed"
         }
       },
-      "discoverySplashChange": {
+      "imageChange": {
         "embed": {
-          "title": "Server Discovery Splash Changed",
-          "description": "> **Old Discovery Splash**: {{old_discovery_splash}}\n> **New Discovery Splash**: {{new_discovery_splash}}"
+          "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Old Image**: {{old_image}}\n> **New Image**: {{new_image}}",
+          "title": "Guild Scheduled Event Image Changed"
         }
       },
-      "explicitContentFilterChange": {
+      "locationChange": {
         "embed": {
-          "title": "Server Explicit Content Filter Changed",
-          "description": "> **Old Level**: {{old_level}}\n> **New Level**: {{new_level}}"
-        }
-      },
-      "featuresChange": {
-        "embed": {
-          "added": "Added",
-          "removed": "Removed",
-          "title": "Server Features Changed",
-          "description": "> **Old Features**: {{old_features}}\n> **New Features**: {{new_features}}"
-        }
-      },
-      "iconChange": {
-        "embed": {
-          "title": "Server Icon Changed",
-          "description": "> **Old Icon**: {{old_icon}}\n> **New Icon**: {{new_icon}}"
-        }
-      },
-      "mfaLevelChange": {
-        "embed": {
-          "title": "Server MFA Level Changed",
-          "description": "> **Old Level**: {{old_level}}\n> **New Level**: {{new_level}}"
+          "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Old Location**: {{old_location}}\n> **New Location**: {{new_location}}",
+          "title": "Guild Scheduled Event Location Changed"
         }
       },
       "nameChange": {
         "embed": {
-          "title": "Server Name Changed",
-          "description": "> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}"
+          "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}",
+          "title": "Guild Scheduled Event Name Changed"
         }
       },
-      "descriptionChange": {
+      "startTimeChange": {
         "embed": {
-          "title": "Server Description Changed",
-          "description": "> **Old Description**: {{old_description}}\n> **New Description**: {{new_description}}"
+          "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Old Start**: {{old_start_time}}\n> **New Start**: {{new_start_time}}",
+          "title": "Guild Scheduled Event Start Time Changed"
         }
       },
-      "ownerChange": {
+      "statusChange": {
         "embed": {
-          "title": "Server Owner Changed",
-          "description": "> **Old Owner**: {{old_owner}}\n> **New Owner**: {{new_owner}}"
-        }
-      },
-      "partneredChange": {
-        "embed": {
-          "title": "Server Partnered Status Changed",
-          "description": "> **Old Status**: {{old_status}}\n> **New Status**: {{new_status}}"
-        }
-      },
-      "preferredLocaleChange": {
-        "embed": {
-          "title": "Server Preferred Locale Changed",
-          "description": "> **Old Locale**: {{old_locale}}\n> **New Locale**: {{new_locale}}"
-        }
-      },
-      "premiumProgressBarChange": {
-        "embed": {
-          "title": "Server Boost Progress Bar Changed",
-          "description": "> **Old Status**: {{old_progress_bar}}\n> **New Status**: {{new_progress_bar}}"
-        }
-      },
-      "premiumSubscriptionCountChange": {
-        "embed": {
-          "title": "Server Boost Count Changed",
-          "description": "> **Old Count**: {{old_count}}\n> **New Count**: {{new_count}}"
-        }
-      },
-      "premiumTierChange": {
-        "embed": {
-          "title": "Server Boost Level Changed",
-          "description": "> **Old Level**: {{old_level}}\n> **New Level**: {{new_level}}"
-        }
-      },
-      "publicUpdatesChannelChange": {
-        "embed": {
-          "title": "Server Public Updates Channel Changed",
-          "description": "> **Old Public Updates Channel**: {{old_channel}}\n> **New Public Updates Channel**: {{new_channel}}"
-        }
-      },
-      "rulesChannelChange": {
-        "embed": {
-          "title": "Server Rules Channel Changed",
-          "description": "> **Old Rules Channel**: {{old_channel}}\n> **New Rules Channel**: {{new_channel}}"
-        }
-      },
-      "safetyAlertsChannelChange": {
-        "embed": {
-          "title": "Server Safety Alerts Channel Changed",
-          "description": "> **Old Safety Alerts Channel**: {{old_channel}}\n> **New Safety Alerts Channel**: {{new_channel}}"
-        }
-      },
-      "splashChange": {
-        "embed": {
-          "title": "Server Splash Changed",
-          "description": "> **Old Splash**: {{old_splash}}\n> **New Splash**: {{new_splash}}"
-        }
-      },
-      "systemChannelChange": {
-        "embed": {
-          "title": "Server System Channel Changed",
-          "description": "> **Old System Channel**: {{old_channel}}\n> **New System Channel**: {{new_channel}}"
-        }
-      },
-      "vanityUrlCodeChange": {
-        "embed": {
-          "title": "Server Vanity URL Changed",
-          "description": "> **Old Vanity URL**: {{old_code}}\n> **New Vanity URL**: {{new_code}}"
-        }
-      },
-      "verificationLevelChange": {
-        "embed": {
-          "title": "Server Verification Level Changed",
-          "description": "> **Old Level**: {{old_level}}\n> **New Level**: {{new_level}}"
-        }
-      },
-      "verifiedChange": {
-        "embed": {
-          "title": "Server Verified Status Changed",
-          "description": "> **Old Status**: {{old_status}}\n> **New Status**: {{new_status}}"
-        }
-      },
-      "widgetChannelChange": {
-        "embed": {
-          "title": "Server Widget Channel Changed",
-          "description": "> **Old Widget Channel**: {{old_channel}}\n> **New Widget Channel**: {{new_channel}}"
-        }
-      },
-      "systemChannelFlagsChange": {
-        "embed": {
-          "title": "Server System Channel Flags Changed",
-          "description": "> **Old Flags**: {{old_flags}}\n> **New Flags**: {{new_flags}}"
-        }
-      },
-      "nsfwLevelChange": {
-        "embed": {
-          "title": "Server NSFW Level Changed",
-          "description": "> **Old Level**: {{old_level}}\n> **New Level**: {{new_level}}"
-        }
-      },
-      "widgetEnabledChange": {
-        "embed": {
-          "title": "Server Widget Enabled Status Changed",
-          "description": "> **Old Status**: {{old_status}}\n> **New Status**: {{new_status}}"
+          "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Old Status**: {{old_status}}\n> **New Status**: {{new_status}}",
+          "title": "Guild Scheduled Event Status Changed"
+        },
+        "status": {
+          "1": "Scheduled",
+          "2": "Active",
+          "3": "Completed",
+          "4": "Canceled"
         }
       }
-    }
+    },
+    "guildScheduledEventUserAdd": {
+      "embed": {
+        "description": "> **User**: {{user.username}} (<@{{user.id}}>)\n> **User ID**: {{user.id}}\n> **Event Name**: {{event.name}}\n> **Event ID**: {{event.id}}",
+        "title": "User Subscribed To Event"
+      }
+    },
+    "guildScheduledEventUserRemove": {
+      "embed": {
+        "description": "> **User**: {{user.username}} (<@{{user.id}}>)\n> **User ID**: {{user.id}}\n> **Event Name**: {{event.name}}\n> **Event ID**: {{event.id}}",
+        "title": "User Unsubscribed From Event"
+      }
+    },
+    "noDescription": "No description provided",
+    "noLocation": "No location provided",
+    "unknownChannel": "Unknown Channel",
+    "unknownExecutor": "Unknown Executor"
+  },
+  "guildSoundboardEvents": {
+    "guildSoundboardSoundCreate": {
+      "embed": {
+        "description": "> **Name**: {{sound.name}}\n> **ID**: {{sound.soundId}}\n> **Emoji**: {{sound.emoji}}\n> **Volume**: {{volume}}%\n> **Created At**: {{timestamp}}",
+        "title": "Sound Created"
+      }
+    },
+    "guildSoundboardSoundDelete": {
+      "embed": {
+        "description": "> **Name**: {{sound.name}}\n> **ID**: {{sound.soundId}}\n> **Emoji**: {{sound.emoji}}\n> **Volume**: {{volume}}%\n> **Deleted At**: {{timestamp}}",
+        "title": "Sound Deleted"
+      }
+    },
+    "guildSoundboardSoundUpdate": {
+      "emojiChange": {
+        "embed": {
+          "description": "> **Name**: {{sound.name}}\n> **ID**: {{sound.soundId}}\n> **Old Emoji**: {{old_emoji}}\n> **New Emoji**: {{new_emoji}}",
+          "title": "Sound Emoji Changed"
+        }
+      },
+      "nameChange": {
+        "embed": {
+          "description": "> **ID**: {{sound.soundId}}\n> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}",
+          "title": "Sound Name Changed"
+        }
+      },
+      "noEmoji": "No emoji",
+      "noPreviousValue": "No previous value",
+      "volumeChange": {
+        "embed": {
+          "description": "> **Name**: {{sound.name}}\n> **ID**: {{sound.soundId}}\n> **Old Volume**: {{old_volume}}%\n> **New Volume**: {{new_volume}}%,",
+          "title": "Sound Volume Changed"
+        }
+      }
+    },
+    "unknownExecutor": "Unknown Executor"
+  },
+  "inviteEvents": {
+    "inviteCreate": {
+      "embed": {
+        "description": "> **Code**: {{invite.code}}\n> **Channel**: <#{{invite.channelId}}>\n> **Expires At**: {{timestamp}}\n> **Max Usage**: {{usage}}",
+        "title": "Invite Created"
+      }
+    },
+    "inviteDelete": {
+      "embed": {
+        "description": "> **Code**: {{invite.code}}\n> **Channel**: <#{{invite.channelId}}>",
+        "title": "Invite Deleted"
+      }
+    },
+    "unknownExecutor": "Unknown Executor"
+  },
+  "memberEvents": {
+    "memberRemove": {
+      "embed": {
+        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Joined For**: {{timestamp}}\n> **Member Count**: {{member_count}}",
+        "fields": {
+          "reason": "Reason"
+        },
+        "title": "User Left Server",
+        "titleKicked": "User Kicked From Server"
+      },
+      "joinDateUnknown": "Join date unknown",
+      "noReason": "No reason provided.",
+      "unknownExecutor": "Unknown Executor"
+    },
+    "memberUpdate": {
+      "nicknameChange": {
+        "embed": {
+          "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Old Nickname**: {{old_nickname}}\n> **New Nickname**: {{new_nickname}}",
+          "title": "User Nickname Changed"
+        },
+        "noNickname": "No Nickname"
+      },
+      "removeTimeout": {
+        "embed": {
+          "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
+          "title": "User Timeout Removed"
+        },
+        "noReason": "No reason provided for removing timeout."
+      },
+      "rolesUpdate": {
+        "embed": {
+          "added": "Roles Added",
+          "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
+          "removed": "Roles Removed",
+          "title": "User Roles Updated"
+        }
+      },
+      "timeout": {
+        "embed": {
+          "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Timeout Until**: {{timestamp}}",
+          "fields": {
+            "reason": "Reason"
+          },
+          "title": "User Timed Out"
+        },
+        "noReason": "No reason provided for timeout."
+      }
+    },
+    "unknownExecutor": "Unknown Executor"
   },
   "messageEvents": {
     "messageBulkDelete": {
       "embed": {
-        "title": "{{count}} Message(s) Deleted",
-        "description": "> **Channel**: {{message.channel.name}} (<#{{message.channel.id}}>)"
+        "description": "> **Channel**: {{message.channel.name}} (<#{{message.channel.id}}>)",
+        "title": "{{count}} Message(s) Deleted"
       },
       "fileName": "deleted_messages.txt",
       "message": "**Message ID:** {{message.id}} **Author:** {{message.author.tag}} **Content:** {{message.content}}"
@@ -730,62 +659,172 @@
     "messageCreate": {
       "pollCreate": {
         "embed": {
-          "title": "Poll Created",
-          "description": "> **Expires At**: {{timestamp}}\n> **Multi Select**: {{multi_select}}\n> **Message**: {{message.url}}"
+          "description": "> **Expires At**: {{timestamp}}\n> **Multi Select**: {{multi_select}}\n> **Message**: {{message.url}}",
+          "title": "Poll Created"
         }
       }
     },
     "messageDelete": {
       "embed": {
-        "title": "Message Deleted",
         "description": "> **Channel**: {{message.channel.name}} (<#{{message.channel.id}}>)\n> **Author**: {{message.author.tag}} (<@{{message.author.id}}>)\n> **Message ID**: [{{message.id}}](https://discord.com/channels/{{message.guild.id}}/{{message.channel.id}}/{{message.id}})\n> **Created At**: {{timestamp}}",
         "fields": {
-          "content": "Message",
-          "attachments": "{{count}} Attachment(s)"
-        }
+          "attachments": "{{count}} Attachment(s)",
+          "content": "Message"
+        },
+        "title": "Message Deleted"
       },
-      "skippedFiles": "⚠️ Skipped Large Files",
       "pollDelete": {
         "embed": {
-          "title": "Poll Deleted",
-          "description": "> **Expired at**: {{timestamp}}\n> **Multi Select**: {{multi_select}}\n> **Finalized**: {{finalized}}\n> **Channel**: <#{{message.channel.id}}>\n> **Message ID**: {{message.id}}\n> **Sent by**: <@{{message.author.id}}>"
+          "description": "> **Expired at**: {{timestamp}}\n> **Multi Select**: {{multi_select}}\n> **Finalized**: {{finalized}}\n> **Channel**: <#{{message.channel.id}}>\n> **Message ID**: {{message.id}}\n> **Sent by**: <@{{message.author.id}}>",
+          "title": "Poll Deleted"
         }
-      }
+      },
+      "skippedFiles": "⚠️ Skipped Large Files"
     },
     "messagePollVoteAdd": {
       "embed": {
-        "title": "Poll Votes Add",
-        "description": "> **Question**: {{question}}\n> **Answer**: {{answer}} <@{{answerer}}>\n> **Expired At**: {{timestamp}}\n> **Multi Select**: {{multi_select}}\n> **Message**: {{message.url}}"
+        "description": "> **Question**: {{question}}\n> **Answer**: {{answer}} <@{{answerer}}>\n> **Expired At**: {{timestamp}}\n> **Multi Select**: {{multi_select}}\n> **Message**: {{message.url}}",
+        "title": "Poll Votes Add"
       }
     },
     "messagePollVoteRemove": {
       "embed": {
-        "title": "Poll Votes Remove",
-        "description": "> **Question**: {{question}}\n> **Answer**: {{answer}} <@{{answerer}}>\n> **Expired At**: {{timestamp}}\n> **Multi Select**: {{multi_select}}\n> **Message**: {{message.url}}"
+        "description": "> **Question**: {{question}}\n> **Answer**: {{answer}} <@{{answerer}}>\n> **Expired At**: {{timestamp}}\n> **Multi Select**: {{multi_select}}\n> **Message**: {{message.url}}",
+        "title": "Poll Votes Remove"
       }
     },
     "messageUpdate": {
-      "messageEdit": "***User edited their message.***\n```diff\n- {{oldContent}}\n+ {{newContent}}\n```",
       "embed": {
-        "title": "Message Edited",
         "description": "> **Channel**: {{message.channel.name}} (<#{{message.channel.id}}>)\n> **Author**: {{message.author.tag}} (<@{{message.author.id}}>)\n> **Message ID**: [{{message.id}}](https://discord.com/channels/{{message.guild.id}}/{{message.channel.id}}/{{message.id}})",
         "fields": {
-          "oldContent": "Before",
-          "newContent": "After"
-        }
+          "newContent": "After",
+          "oldContent": "Before"
+        },
+        "title": "Message Edited"
       },
       "errors": {
         "noContent": "⚠️ Could not retrieve message content before or after the edit."
       },
       "pollEnd": {
-        "unknownTime": "Unknown Time",
-        "unknownQuestion": "Unknown Question",
-        "unknownUser": "Unknown User",
         "embed": {
-          "title": "Poll Ended",
-          "description": "> **Expired At**: {{timestamp}}\n> **Multi Select**: {{multi_select}}\n> **Message**: {{message.url}}"
-        }
+          "description": "> **Expired At**: {{timestamp}}\n> **Multi Select**: {{multi_select}}\n> **Message**: {{message.url}}",
+          "title": "Poll Ended"
+        },
+        "unknownQuestion": "Unknown Question",
+        "unknownTime": "Unknown Time",
+        "unknownUser": "Unknown User"
       }
     }
+  },
+  "roleEvents": {
+    "roleCreate": {
+      "embed": {
+        "description": "> **Role**: {{role.name}}\n> **ID**: {{role.id}}\n> **Color**: {{role_color}}\n> **Hoisted**: {{role_hoist}}\n> **Mentionable**: {{role_mentionable}}\n> **Position**: {{role.position}}\n> **Created At**: {{timestamp}}\n> **Permissions**: {{permissions}}",
+        "title": "Role Created"
+      }
+    },
+    "roleDelete": {
+      "embed": {
+        "description": "> **Role**: {{role.name}}\n> **ID**: {{role.id}}\n> **Color**: {{role_color}}\n> **Hoisted**: {{role_hoist}}\n> **Mentionable**: {{role_mentionable}}\n> **Position**: {{role.position}}\n> **Deleted At**: {{timestamp}}\n> **Permissions**: {{permissions}}",
+        "title": "Role Deleted"
+      }
+    },
+    "roleUpdate": {
+      "colorChange": {
+        "embed": {
+          "description": "> **Role**: {{role.name}}\n> **ID**: {{role.id}}\n> **Old Color**: {{old_color}}\n> **New Color**: {{new_color}}",
+          "title": "Role Color Changed"
+        }
+      },
+      "hoistChange": {
+        "embed": {
+          "description": "> **Role**: {{role.name}}\n> **ID**: {{role.id}}\n> **Old Hoist Status**: {{old_hoist}}\n> **New Hoist Status**: {{new_hoist}}",
+          "title": "Role Hoisted Changed"
+        }
+      },
+      "iconChange": {
+        "embed": {
+          "description": "> **Role**: {{role.name}}\n> **ID**: {{role.id}}\n> **Old Icon**: {{old_icon}}\n> **New Icon**: {{new_icon}}",
+          "title": "Role Icon Changed"
+        }
+      },
+      "mentionableChange": {
+        "embed": {
+          "description": "> **Role**: {{role.name}}\n> **ID**: {{role.id}}\n> **Old Mentionable Status**: {{old_mentionable}}\n> **New Mentionable Status**: {{new_mentionable}}",
+          "title": "Role Mentionable Changed"
+        }
+      },
+      "nameChange": {
+        "embed": {
+          "description": "> **ID**: {{role.id}}\n> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}",
+          "title": "Role Name Changed"
+        }
+      },
+      "permissionsChange": {
+        "embed": {
+          "description": "> **Role**: {{role.name}}\n> **ID**: {{role.id}}\n**Changes**: {{changes}}",
+          "title": "Role Permissions Changed"
+        }
+      }
+    },
+    "unknownExecutor": "Unknown Executor"
+  },
+  "stageInstanceEvents": {
+    "stageInstanceCreate": {
+      "embed": {
+        "description": "> **Channel**: <#{{stage.channelId}}>\n> **Topic**: {{stage.topic}}",
+        "title": "Stage Started"
+      }
+    },
+    "stageInstanceDelete": {
+      "embed": {
+        "description": "> **Channel**: <#{{stage.channelId}}>\n> **Topic**: {{stage.topic}}",
+        "title": "Stage Ended"
+      }
+    },
+    "stageInstanceUpdate": {
+      "topicChange": {
+        "embed": {
+          "description": "> **Channel**: <#{{stage.channelId}}>\n> **Old Topic**: {{old_topic}}\n> **New Topic**: {{new_topic}}",
+          "title": "Stage Topic Changed"
+        }
+      }
+    },
+    "unknownExecutor": "Unknown Executor"
+  },
+  "stickerEvents": {
+    "stickerCreate": {
+      "embed": {
+        "description": "> **Name**: {{sticker.name}}\n> **ID**: {{sticker.id}}\n> **Description**: {{sticker.description}}\n> **Tags**: {{sticker.tags}}",
+        "title": "Sticker Created"
+      }
+    },
+    "stickerDelete": {
+      "embed": {
+        "description": "> **Name**: {{sticker.name}}\n> **ID**: {{sticker.id}}\n> **Description**: {{sticker.description}}\n> **Tags**: {{sticker.tags}}",
+        "title": "Sticker Deleted"
+      }
+    },
+    "stickerUpdate": {
+      "descriptionChange": {
+        "embed": {
+          "description": "> **Name**: {{sticker.name}}\n> **ID**: {{sticker.id}}\n> **Old Description**: {{old_description}}\n> **New Description**: {{new_description}}",
+          "title": "Sticker Description Changed"
+        }
+      },
+      "nameChange": {
+        "embed": {
+          "description": "> **Name**: {{sticker.name}}\n> **ID**: {{sticker.id}}\n> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}",
+          "title": "Sticker Name Changed"
+        }
+      },
+      "tagsChange": {
+        "embed": {
+          "description": "> **Name**: {{sticker.name}}\n> **ID**: {{sticker.id}}\n> **Old Tags**: {{old_tags}}\n> **New Tags**: {{new_tags}}",
+          "title": "Sticker Tags Changed"
+        }
+      }
+    },
+    "unknownExecutor": "Unknown Executor"
   }
 }
