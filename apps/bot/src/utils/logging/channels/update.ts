@@ -5,6 +5,7 @@ import { logger } from "@lib";
 import { isDeepStrictEqual } from "node:util";
 import { getChannelExecutor, normalizeOverwrites } from "./utils.js";
 import * as Embeds from "./updateEmbeds.js";
+import { logUnhandledChanges } from "../utils.js";
 
 export async function logChannelUpdates(
   oldChannel: NonThreadGuildBasedChannel,
@@ -144,7 +145,17 @@ export async function logChannelUpdates(
   // ========================================================================
   // SEND LOGS
   // ========================================================================
-  if (embeds.length === 0) return;
+  if (embeds.length === 0) {
+    logUnhandledChanges("ChannelUpdate", oldChannel, newChannel, `#${newChannel.name || newChannel.id}`, [
+      "messages",
+      "permissionOverwrites",
+      "threads",
+      "members",
+      "lastMessageId",
+      "topic", // topic often changes empty string to null
+    ]);
+    return;
+  }
 
   const webhook = await returnWebhook(newChannel.client, logChannel, newChannel.guild.id, guildConfig, {
     id: guildConfig.logConfig?.channelLogsWebhookId,

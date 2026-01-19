@@ -1,6 +1,7 @@
 import { AuditLogEvent, ChannelType, EmbedBuilder, Guild, PartialUser, User } from "discord.js";
 import { LogActionOptions, LogMemberUpdateOptions, sendLogEmbed, modLog, returnWebhook, WebhookType } from "@utils";
 import * as Embeds from "./memberEmbeds.js";
+import { logUnhandledChanges } from "../utils.js";
 
 // --- Helper: Fetch Audit Log ---
 async function getExecutorInfo(
@@ -157,7 +158,21 @@ export async function logMemberUpdate({ oldMember, newMember, guildConfig }: Log
       );
     }
   }
-
+  if (embeds.length === 0) {
+    logUnhandledChanges("MemberUpdate", oldMember, newMember, `@${newMember.user.tag} in ${newMember.guild.name}`, [
+      // Managers specific to Member
+      "user",
+      "voice",
+      "presence",
+      "flags",
+      "permissions",
+      "joinedAt",
+      "joinedTimestamp",
+      "premiumSince",
+      "premiumSinceTimestamp",
+    ]);
+    return;
+  }
   // SEND BATCH
   if (embeds.length > 0) {
     const webhook = await returnWebhook(newMember.client, logChannel, newMember.guild.id, guildConfig, {

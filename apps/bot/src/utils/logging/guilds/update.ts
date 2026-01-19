@@ -4,6 +4,7 @@ import { getGuildExecutor, returnWebhook, WebhookType } from "@utils";
 import { isDeepStrictEqual } from "node:util";
 import * as Embeds from "./updateEmbeds.js";
 import { logger } from "@lib";
+import { logUnhandledChanges } from "../utils.js";
 
 export async function logGuildUpdate(oldGuild: Guild, newGuild: Guild, guildConfig: GuildWithLogs) {
   // 1. Config Check
@@ -141,10 +142,8 @@ export async function logGuildUpdate(oldGuild: Guild, newGuild: Guild, guildConf
     embeds.push(Embeds.buildWidgetEnabledEmbed(oldGuild.widgetEnabled, newGuild, executor, t));
   }
   if (embeds.length === 0) {
-    // 4. Send
-    const ignoredKeys = [
-      // Managers and internal workings we don't care about comparing directly
-      "client",
+    logUnhandledChanges("GuildUpdate", oldGuild, newGuild, `"${newGuild.name}" (${newGuild.id})`, [
+      // Managers specific to Guild
       "channels",
       "roles",
       "members",
@@ -160,42 +159,10 @@ export async function logGuildUpdate(oldGuild: Guild, newGuild: Guild, guildConf
       "bans",
       "shard",
       "shardId",
-      "createdAt",
-      "createdTimestamp",
       "joinedAt",
       "joinedTimestamp",
-    ];
-
-    const unhandledChanges: string[] = [];
-
-    // Loop through properties to see what actually changed
-    for (const key in newGuild) {
-      // 1. Skip keys we know are irrelevant or Managers
-      if (ignoredKeys.includes(key)) continue;
-
-      // 2. Skip keys if they are functions (methods)
-      if (typeof newGuild[key as keyof Guild] === "function") continue;
-
-      // 3. Compare values
-      // Note: We use strict inequality. This might catch deep object ref changes
-      // but is perfect for debugging "what triggered this?"
-      const oldVal = oldGuild[key as keyof Guild];
-      const newVal = newGuild[key as keyof Guild];
-
-      if (oldVal !== newVal) {
-        // Optional: Filter out empty/null mismatches if you want less noise
-        if (!oldVal && !newVal) continue;
-
-        unhandledChanges.push(key);
-      }
-    }
-
-    if (unhandledChanges.length > 0) {
-      logger.log({
-        level: "warn", // Use warn so it stands out in your console
-        message: `[GuildUpdate] Unhandled change detected in "${newGuild.name}" (${newGuild.id}). Keys changed: [${unhandledChanges.join(", ")}]`,
-      });
-    }
+      "features", // features is usually array ref change, can be noisy
+    ]);
     return;
   }
 
