@@ -49,6 +49,7 @@ services:
       - WEBLATE_ADMIN_EMAIL=${WEBLATE_ADMIN_EMAIL:-admin@khaxy.com}
       - WEBLATE_ADMIN_PASSWORD=${WEBLATE_ADMIN_PASSWORD:-admin}
       - WEBLATE_REGISTRATION_OPEN=1
+      - WEBLATE_REGISTRATION_ALLOW_BACKENDS=github,discord
       - SOCIAL_AUTH_GITHUB_KEY=${GITHUB_CLIENT_ID}
       - SOCIAL_AUTH_GITHUB_SECRET=${GITHUB_CLIENT_SECRET}
       - SOCIAL_AUTH_DISCORD_KEY=${DISCORD_CLIENT_ID}
@@ -59,6 +60,7 @@ services:
 
     volumes:
       - weblate_data:/app/data
+      - ~/resolv.conf:/etc/resolv.conf:ro
     depends_on:
       - weblate-db
       - weblate-cache
