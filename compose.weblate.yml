@@ -30,12 +30,12 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - POSTGRES_HOST=weblate-db
+      - POSTGRES_HOST=weblate-postgres
       - POSTGRES_PORT=5432
       - POSTGRES_DB=weblate
       - POSTGRES_USER=weblate
       - POSTGRES_PASSWORD=${WEBLATE_DB_PASSWORD:-weblate_secure_pass}
-      - REDIS_HOST=weblate-cache
+      - REDIS_HOST=weblate-redis
       - REDIS_PORT=6379
 
       # --- ADMIN SETUP ---
