@@ -30,6 +30,9 @@ services:
     restart: unless-stopped
     ports:
       - "8080:8080"
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
     environment:
       # USE THE IPS DIRECTLY
       - POSTGRES_HOST=10.10.10.6
@@ -46,7 +49,6 @@ services:
       - WEBLATE_ADMIN_EMAIL=${WEBLATE_ADMIN_EMAIL:-admin@khaxy.com}
       - WEBLATE_ADMIN_PASSWORD=${WEBLATE_ADMIN_PASSWORD:-admin}
       - WEBLATE_REGISTRATION_OPEN=1
-      - WEBLATE_REGISTRATION_ALLOW_BACKENDS=github,discord
       - SOCIAL_AUTH_GITHUB_KEY=${GITHUB_CLIENT_ID}
       - SOCIAL_AUTH_GITHUB_SECRET=${GITHUB_CLIENT_SECRET}
       - SOCIAL_AUTH_DISCORD_KEY=${DISCORD_CLIENT_ID}
