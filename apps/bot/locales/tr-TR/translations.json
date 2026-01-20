@@ -1,298 +1,298 @@
 {
-  "checkExpiredModmailBlacklists": {
-    "expiredModmailBlacklistNotification": "🔔 **{{guild}}** sunucusu için modmail kara listesi süresi doldu."
-  },
-  "checkPunishments": {
-    "banExpired": "",
-    "muteExpired": ""
-  },
-  "dynamicChannel": {
-    "initial": "",
-    "labels": {
-      "channelLogsChannelId": "",
-      "emojiLogsChannelId": "",
-      "eventLogsChannelId": "",
-      "guildLogsChannelId": "",
-      "guildMemberLogsChannelId": "",
-      "inviteLogsChannelId": "",
-      "joinChannelId": "",
-      "leaveChannelId": "",
-      "messageLogsChannelId": "",
-      "modLogsChannelId": "",
-      "modMailChannelId": "",
-      "pollLogsChannelId": "",
-      "registerChannelId": "",
-      "registerJoinChannelId": "",
-      "roleLogsChannelId": "",
-      "soundboardLogsChannelId": "",
-      "stageLogsChannelId": "",
-      "stickerLogsChannelId": "",
-      "threadLogsChannelId": "",
-      "voiceLogsChannelId": "",
-      "webhookLogsChannelId": ""
+    "checkExpiredModmailBlacklists": {
+        "expiredModmailBlacklistNotification": "🔔 **{{guild}}** sunucusu için modmail kara listesi süresi doldu."
     },
-    "messages": {
-      "set": "",
-      "unset": ""
+    "checkPunishments": {
+        "banExpired": "",
+        "muteExpired": ""
     },
-    "timeout": ""
-  },
-  "dynamicMessage": {
-    "initial": "",
-    "labels": {
-      "joinMessage": "",
-      "leaveMessage": "",
-      "modMailMessage": "",
-      "registerJoinMessage": ""
+    "dynamicChannel": {
+        "initial": "",
+        "labels": {
+            "channelLogsChannelId": "",
+            "emojiLogsChannelId": "",
+            "eventLogsChannelId": "",
+            "guildLogsChannelId": "",
+            "guildMemberLogsChannelId": "",
+            "inviteLogsChannelId": "",
+            "joinChannelId": "",
+            "leaveChannelId": "",
+            "messageLogsChannelId": "",
+            "modLogsChannelId": "",
+            "modMailChannelId": "",
+            "pollLogsChannelId": "",
+            "registerChannelId": "",
+            "registerJoinChannelId": "",
+            "roleLogsChannelId": "",
+            "soundboardLogsChannelId": "",
+            "stageLogsChannelId": "",
+            "stickerLogsChannelId": "",
+            "threadLogsChannelId": "",
+            "voiceLogsChannelId": "",
+            "webhookLogsChannelId": ""
+        },
+        "messages": {
+            "set": "",
+            "unset": ""
+        },
+        "timeout": ""
     },
-    "messages": {
-      "set": "",
-      "unset": ""
+    "dynamicMessage": {
+        "initial": "",
+        "labels": {
+            "joinMessage": "",
+            "leaveMessage": "",
+            "modMailMessage": "",
+            "registerJoinMessage": ""
+        },
+        "messages": {
+            "set": "",
+            "unset": ""
+        },
+        "timeout": "",
+        "title": ""
     },
-    "timeout": "",
-    "title": ""
-  },
-  "dynamicRole": {
-    "errors": {
-      "roleTooHigh": ""
+    "dynamicRole": {
+        "errors": {
+            "roleTooHigh": ""
+        },
+        "initial": "",
+        "labels": {
+            "colourIdOfTheDay": "",
+            "djRoleId": "",
+            "femaleRoleId": "",
+            "maleRoleId": "",
+            "memberRoleId": "",
+            "muteRoleId": "",
+            "staffRoleId": "",
+            "unverifiedRoleId": ""
+        },
+        "messages": {
+            "set": "",
+            "unset": ""
+        },
+        "timeout": ""
     },
-    "initial": "",
-    "labels": {
-      "colourIdOfTheDay": "",
-      "djRoleId": "",
-      "femaleRoleId": "",
-      "maleRoleId": "",
-      "memberRoleId": "",
-      "muteRoleId": "",
-      "staffRoleId": "",
-      "unverifiedRoleId": ""
+    "infractionsPunishment": {
+        "alreadyMuted": "Kullanıcı zaten susturulmuş, lütfen önce susturmayı kaldırın ve tekrar deneyin.",
+        "databaseError": "Veritabanı hatası nedeniyle kullanıcıyı susturamadım, lütfen daha sonra tekrar deneyin.",
+        "messages": {
+            "ban": "**{{guild}}** sunucusundan yasaklandınız. Sebep: ```{{reason}}```",
+            "kick": "**{{guild}}** sunucusundan atıldınız. Sebep: ```{{reason}}```",
+            "mute": "**{{guild}}** sunucusunda **{{duration}}** boyunca susturuldunuz. Sebep: ```{{reason}}```",
+            "tempBan": "**{{guild}}** sunucusundan **{{duration}}** boyunca yasaklandınız. Sebep: ```{{reason}}```"
+        },
+        "muteError": "Kullanıcıyı susturamadım, lütfen yetkili rolünü ve botun yetkilerini kontrol edin ve tekrar deneyin.",
+        "noMuteRole": "Susturma rolü ayarlanmamış, lütfen bir tane ayarlayın ve tekrar deneyin.",
+        "noPermission": "Kullanıcıyı susturmak için yeterli iznim yok, lütfen yetkili rolünü kontrol edin ve tekrar deneyin.",
+        "reason": "Otomatik ceza artırımı (uyarı {{level}})",
+        "roleError": "Susturma rolünü kullanıcıya veremedim, lütfen yetkili rolünü ve botun yetkilerini kontrol edin ve tekrar deneyin."
     },
-    "messages": {
-      "set": "",
-      "unset": ""
+    "joinLeaveConfig": {
+        "joinChannelId": {
+            "description": "Üye katıldığında gönderilen mesajın gönderildiği kanal",
+            "label": "Katılma Kanalını Ayarla"
+        },
+        "joinMessage": {
+            "description": "Üye katıldığında gönderilen mesaj",
+            "label": "Katılma Mesajını Ayarla"
+        },
+        "leaveChannelId": {
+            "description": "Üye ayrıldığında gönderilen mesajın gönderildiği kanal",
+            "label": "Ayrılma Kanalını Ayarla"
+        },
+        "leaveMessage": {
+            "description": "Üye ayrıldığında gönderilen mesaj",
+            "label": "Ayrılma Mesajını Ayarla"
+        }
     },
-    "timeout": ""
-  },
-  "infractionsPunishment": {
-    "alreadyMuted": "Kullanıcı zaten susturulmuş, lütfen önce susturmayı kaldırın ve tekrar deneyin.",
-    "databaseError": "Veritabanı hatası nedeniyle kullanıcıyı susturamadım, lütfen daha sonra tekrar deneyin.",
-    "messages": {
-      "ban": "**{{guild}}** sunucusundan yasaklandınız. Sebep: ```{{reason}}```",
-      "kick": "**{{guild}}** sunucusundan atıldınız. Sebep: ```{{reason}}```",
-      "mute": "**{{guild}}** sunucusunda **{{duration}}** boyunca susturuldunuz. Sebep: ```{{reason}}```",
-      "tempBan": "**{{guild}}** sunucusundan **{{duration}}** boyunca yasaklandınız. Sebep: ```{{reason}}```"
+    "logConfig": {
+        "channelLogsChannelId": {
+            "description": "Kanal üzerinde yapılan değişikliklerin kaydedildiği kanal",
+            "label": "Kanal Günlükleri Kanalını Ayarla"
+        },
+        "emojiLogsChannelId": {
+            "description": "Emojiler üzerinde yapılan değişikliklerin kaydedildiği kanal",
+            "label": "Emoji Günlükleri Kanalını Ayarla"
+        },
+        "eventLogsChannelId": {
+            "description": "Etkinlikler üzerinde yapılan değişiklerin kaydedildiği kanal",
+            "label": "Etkinlik Günlükleri Kanalını Ayarla"
+        },
+        "guildLogsChannelId": {
+            "description": "Sunucu üzerinde yapılan değişikliklerin kaydedildiği kanal",
+            "label": "Sunucu Günlükleri Kanalını Ayarla"
+        },
+        "guildMemberLogsChannelId": {
+            "description": "Üyeler üzerinde yapılan değişikliklerin kaydedildiği kanal",
+            "label": "Üye Günlükleri Kanalını Ayarla"
+        },
+        "inviteLogsChannelId": {
+            "description": "Davetler üzerinde yapılan değişiklerin kaydedildiği kanal",
+            "label": "Davet Günlükleri Kanalını Ayarla"
+        },
+        "messageLogsChannelId": {
+            "description": "Mesajlar üzerinde yapılan değişikliklerin kaydedildiği kanal",
+            "label": "Mesaj Günlükleri Kanalını Ayarla"
+        },
+        "pollLogsChannelId": {
+            "description": "Anketler üzerinde yapılan değişiklerin kaydedildiği kanal",
+            "label": "Anket Günlükleri Kanalını Ayarla"
+        },
+        "roleLogsChannelId": {
+            "description": "Roller üzerinde yapılan değişiklerin kaydedildiği kanal",
+            "label": "Rol Günlükleri Kanalını Ayarla"
+        },
+        "soundboardLogsChannelId": {
+            "description": "Soundboard üzerinde yapılan değişiklerin kaydedildiği kanal",
+            "label": "Soundboard Günlükleri Kanalını Ayarla"
+        },
+        "stageLogsChannelId": {
+            "description": "Sahne üzerinde yapılan değişiklerin kaydedildiği kanal",
+            "label": "Sahne Günlükleri Kanalını Ayarla"
+        },
+        "stickerLogsChannelId": {
+            "description": "Çıkartmalar üzerinde yapılan değişiklerin kaydedildiği kanal",
+            "label": "Çıkartma Günlükleri Kanalını Ayarla"
+        },
+        "threadLogsChannelId": {
+            "description": "Alt Başlıklar üzerinde yapılan değişiklerin kaydedildiği kanal",
+            "label": "Alt Başlıklar Günlükleri Kanalını Ayarla"
+        },
+        "voiceLogsChannelId": {
+            "description": "Ses kanallarında yapılan değişikliklerin kaydedildiği kanal",
+            "label": "Ses Günlükleri Kanalını Ayarla"
+        },
+        "webhookLogsChannelId": {
+            "description": "Webhooklar üzerinde yapılan değişiklerin kaydedildiği kanal",
+            "label": "Webhook Günlükleri Kanalını Ayarla"
+        }
     },
-    "muteError": "Kullanıcıyı susturamadım, lütfen yetkili rolünü ve botun yetkilerini kontrol edin ve tekrar deneyin.",
-    "noMuteRole": "Susturma rolü ayarlanmamış, lütfen bir tane ayarlayın ve tekrar deneyin.",
-    "noPermission": "Kullanıcıyı susturmak için yeterli iznim yok, lütfen yetkili rolünü kontrol edin ve tekrar deneyin.",
-    "reason": "Otomatik ceza artırımı (uyarı {{level}})",
-    "roleError": "Susturma rolünü kullanıcıya veremedim, lütfen yetkili rolünü ve botun yetkilerini kontrol edin ve tekrar deneyin."
-  },
-  "joinLeaveConfig": {
-    "joinChannelId": {
-      "description": "Üye katıldığında gönderilen mesajın gönderildiği kanal",
-      "label": "Katılma Kanalını Ayarla"
+    "miscConfig": {
+        "language": {
+            "description": "Botun dilini ayarlar",
+            "initial": "Ayarlamak istediğiniz dili seçin",
+            "label": "Dil Ayarla",
+            "set": "Dil ayarı {{language}} olarak ayarlandı."
+        },
+        "modMailMessage": {
+            "description": "Mod mail alındığında botun gönderdiği mesaj",
+            "label": "Mod Mail Mesajını Ayarla"
+        },
+        "timeout": "Mesaj zaman aşımına uğradı. Lütfen komutu tekrar çalıştırın."
     },
-    "joinMessage": {
-      "description": "Üye katıldığında gönderilen mesaj",
-      "label": "Katılma Mesajını Ayarla"
+    "moderationConfig": {
+        "defaultExpiry": {
+            "description": "İhlallerin varsayılan sona erme süresi",
+            "descriptionFourteen": "İhlallerin varsayılan sona erme süresini 14 gün olarak ayarlar",
+            "descriptionSeven": "İhlallerin varsayılan sona erme süresini 7 gün olarak ayarlar",
+            "descriptionThirty": "İhlallerin varsayılan sona erme süresini 30 gün olarak ayarlar",
+            "descriptionZero": "İhlallerin varsayılan sona erme süresini kaldırır",
+            "label": "Varsayılan Sona Erme Süresini Ayarla",
+            "labelFourteen": "Varsayılan Sona Erme Süresini 14 Gün Olarak Ayarla",
+            "labelSeven": "Varsayılan Sona Erme Süresini 7 Gün Olarak Ayarla",
+            "labelThirty": "Varsayılan Sona Erme Süresini 30 Gün Olarak Ayarla",
+            "labelZero": "Varsayılan Sona Erme Süresini Kaldır",
+            "success": "Varsayılan süre {{days}} olarak ayarlandı."
+        },
+        "modLogsChannelId": {
+            "description": "Moderasyon loglarının gönderildiği kanal",
+            "label": "Moderasyon Log Kanalını Ayarla"
+        },
+        "modMailChannel": {
+            "alreadySet": "",
+            "description": "Mod mail mesajlarının gönderildiği kanal",
+            "label": "Mod Mail Kanalını Ayarla",
+            "set": "Mod mail kanalı {{channel}} olarak ayarlandı."
+        },
+        "muteGetAllRoles": {
+            "description": "Kullanıcı susturulduğunda tüm rolleri alır ve susturma rolünü verir",
+            "false": "Tüm rolleri al işlemi devre dışı bırakıldı.",
+            "label": "Tüm Rolleri Al",
+            "true": "Tüm rolleri al işlemi etkinleştirildi."
+        },
+        "staffRoleId": {
+            "description": "Yetkililerin sahip olduğu rol",
+            "label": "Yetkili Rolünü Ayarla"
+        }
     },
-    "leaveChannelId": {
-      "description": "Üye ayrıldığında gönderilen mesajın gönderildiği kanal",
-      "label": "Ayrılma Kanalını Ayarla"
+    "modLog": {
+        "ban": "{{emoji}} **{{user.username}}**, **{{moderator.username}}** tarafından yasaklandı. Sebep:```{{reason}}```",
+        "banExpired": "🔓 Kullanıcı (`{{user.id}}`), **{{moderator.username}}** tarafından **{{duration}}** sonra otomatik olarak yasak kaldırıldı. Sebep:```{{reason}}```",
+        "functionErrors": {
+            "caseIdError": "Vaka kimliğini artırmaya çalışırken bir hata oluştu. Bu muhtemelen bizim tarafımızdan veritabanı hatasıdır ve çift vaka kimliklerine neden olacaktır. Lütfen bunu bot geliştiricilerine bildirin."
+        },
+        "kick": "👢 **{{user.username}}**, **{{moderator.username}}** tarafından atıldı. Sebep:```{{reason}}```",
+        "mute": "🔇 **{{user.username}}**, **{{moderator.username}}** tarafından **{{duration}}** boyunca susturuldu. Sebep:```{{reason}}```",
+        "timedBan": "{{emoji}} **{{user.username}}**, **{{moderator.username}}** tarafından **{{duration}}** boyunca yasaklandı. Sebep:```{{reason}}```",
+        "timeout": "🔇 **{{user.username}}**, **{{moderator.username}}** tarafından **{{duration}}** boyunca susturuldu. Sebep:```{{reason}}```",
+        "unban": "🔓 Kullanıcı (`{{user.id}}`), **{{moderator.username}}** tarafından yasak kaldırıldı. Sebep:```{{reason}}```",
+        "unmute": "🔊 **{{user.username}}**, **{{moderator.username}}** tarafından susturulması kaldırıldı. Sebep:```{{reason}}```",
+        "warning": "⚠️ **{{user.username}}**, **{{moderator.username}}** tarafından uyarıldı. Sebep:```{{reason}}```"
     },
-    "leaveMessage": {
-      "description": "Üye ayrıldığında gönderilen mesaj",
-      "label": "Ayrılma Mesajını Ayarla"
+    "modMailLog": {
+        "bot": "",
+        "closeMessage": "{{user.tag}} ({{user.id}}) ile olan modmail konuşması #{{thread_id}} {{closer.tag}} ({{closer.id}} tarafından kapatıldı. Kullanıcı tarafından **{{messages.user}}** mesaj, kullanıcıya **{{messages.staff}}**, **{{messages.internal}}** iç mesaj gönderildi.",
+        "command": "[KOMUT]",
+        "fromUser": "[KULLANICIDAN]",
+        "initial": "# {{user.tag}} ({{user.id}}) ile olan modmail konuşması #{{thread_id}} {{time}} tarihinde başladı. Zaman dilimi GMT",
+        "preparingClose": "Kapatılıyor...",
+        "threadClosedDm": "{{guild}} sunucusundaki mod mail konuşmanız kapatıldı.",
+        "toThread": "[KONUŞMAYA]",
+        "toUser": "[KULLANICIYA]"
+    },
+    "registerConfig": {
+        "registerChannelId": {
+            "description": "Kayıt komutunun çalıştırıldığı kanal",
+            "label": "Kayıt Kanalını Ayarla"
+        },
+        "registerClearChannel": {
+            "description": "Kayıt kanalındaki mesajları temizler",
+            "label": "Kayıt Kanalını Temizle",
+            "set": "Kayıt kanalı temizleme işlemi etkinleştirildi.",
+            "unset": "Kayıt kanalı temizleme işlemi devre dışı bırakıldı."
+        },
+        "registerJoinChannelId": {
+            "description": "Üye katıldığında kayıt mesajının gönderildiği kanal",
+            "label": "Kayıt Giriş Kanalını Ayarla"
+        },
+        "registerJoinMessage": {
+            "description": "Üye katıldığında gönderilen mesaj",
+            "label": "Kayıt Giriş Mesajını Ayarla"
+        }
+    },
+    "roleConfig": {
+        "colourIdOfTheDay": {
+            "description": "Her gün değişen bir rol.",
+            "label": "Günün Rengi Rolünü Ayarla"
+        },
+        "djRoleId": {
+            "description": "Müzik komutu kısıtlamalarını atlayan bir rol",
+            "label": "DJ Rolünü Ayarla"
+        },
+        "femaleRoleId": {
+            "description": "Üye kadın olarak kayıt olduğunda verilen rol",
+            "label": "Kadın Rolünü Ayarla"
+        },
+        "maleRoleId": {
+            "description": "Üye erkek olarak kayıt olduğunda verilen rol",
+            "label": "Erkek Rolünü Ayarla"
+        },
+        "memberRoleId": {
+            "description": "Üye kayıt olduğunda verilen rol",
+            "label": "Üye Rolünü Ayarla"
+        },
+        "muteRoleId": {
+            "description": "Üye susturulduğunda verilen rol",
+            "label": "Susturma Rolünü Ayarla"
+        },
+        "unverifiedRoleId": {
+            "description": "Üye sunucuya katıldığında kayıt modülü açıksa verilen rol",
+            "label": "Doğrulanmamış Rolünü Ayarla"
+        }
+    },
+    "waitForMessageComponent": {
+        "initial": "",
+        "timeout": ""
     }
-  },
-  "logConfig": {
-    "channelLogsChannelId": {
-      "description": "Kanal üzerinde yapılan değişikliklerin kaydedildiği kanal",
-      "label": "Kanal Günlükleri Kanalını Ayarla"
-    },
-    "emojiLogsChannelId": {
-      "description": "Emojiler üzerinde yapılan değişikliklerin kaydedildiği kanal",
-      "label": "Emoji Günlükleri Kanalını Ayarla"
-    },
-    "eventLogsChannelId": {
-      "description": "Etkinlikler üzerinde yapılan değişiklerin kaydedildiği kanal",
-      "label": "Etkinlik Günlükleri Kanalını Ayarla"
-    },
-    "guildLogsChannelId": {
-      "description": "Sunucu üzerinde yapılan değişikliklerin kaydedildiği kanal",
-      "label": "Sunucu Günlükleri Kanalını Ayarla"
-    },
-    "guildMemberLogsChannelId": {
-      "description": "Üyeler üzerinde yapılan değişikliklerin kaydedildiği kanal",
-      "label": "Üye Günlükleri Kanalını Ayarla"
-    },
-    "inviteLogsChannelId": {
-      "description": "Davetler üzerinde yapılan değişiklerin kaydedildiği kanal",
-      "label": "Davet Günlükleri Kanalını Ayarla"
-    },
-    "messageLogsChannelId": {
-      "description": "Mesajlar üzerinde yapılan değişikliklerin kaydedildiği kanal",
-      "label": "Mesaj Günlükleri Kanalını Ayarla"
-    },
-    "pollLogsChannelId": {
-      "description": "Anketler üzerinde yapılan değişiklerin kaydedildiği kanal",
-      "label": "Anket Günlükleri Kanalını Ayarla"
-    },
-    "roleLogsChannelId": {
-      "description": "Roller üzerinde yapılan değişiklerin kaydedildiği kanal",
-      "label": "Rol Günlükleri Kanalını Ayarla"
-    },
-    "soundboardLogsChannelId": {
-      "description": "Soundboard üzerinde yapılan değişiklerin kaydedildiği kanal",
-      "label": "Soundboard Günlükleri Kanalını Ayarla"
-    },
-    "stageLogsChannelId": {
-      "description": "Sahne üzerinde yapılan değişiklerin kaydedildiği kanal",
-      "label": "Sahne Günlükleri Kanalını Ayarla"
-    },
-    "stickerLogsChannelId": {
-      "description": "Çıkartmalar üzerinde yapılan değişiklerin kaydedildiği kanal",
-      "label": "Çıkartma Günlükleri Kanalını Ayarla"
-    },
-    "threadLogsChannelId": {
-      "description": "Alt Başlıklar üzerinde yapılan değişiklerin kaydedildiği kanal",
-      "label": "Alt Başlıklar Günlükleri Kanalını Ayarla"
-    },
-    "voiceLogsChannelId": {
-      "description": "Ses kanallarında yapılan değişikliklerin kaydedildiği kanal",
-      "label": "Ses Günlükleri Kanalını Ayarla"
-    },
-    "webhookLogsChannelId": {
-      "description": "Webhooklar üzerinde yapılan değişiklerin kaydedildiği kanal",
-      "label": "Webhook Günlükleri Kanalını Ayarla"
-    }
-  },
-  "miscConfig": {
-    "language": {
-      "description": "Botun dilini ayarlar",
-      "initial": "Ayarlamak istediğiniz dili seçin",
-      "label": "Dil Ayarla",
-      "set": "Dil ayarı {{language}} olarak ayarlandı."
-    },
-    "modMailMessage": {
-      "description": "Mod mail alındığında botun gönderdiği mesaj",
-      "label": "Mod Mail Mesajını Ayarla"
-    },
-    "timeout": "Mesaj zaman aşımına uğradı. Lütfen komutu tekrar çalıştırın."
-  },
-  "moderationConfig": {
-    "defaultExpiry": {
-      "description": "İhlallerin varsayılan sona erme süresi",
-      "descriptionFourteen": "İhlallerin varsayılan sona erme süresini 14 gün olarak ayarlar",
-      "descriptionSeven": "İhlallerin varsayılan sona erme süresini 7 gün olarak ayarlar",
-      "descriptionThirty": "İhlallerin varsayılan sona erme süresini 30 gün olarak ayarlar",
-      "descriptionZero": "İhlallerin varsayılan sona erme süresini kaldırır",
-      "label": "Varsayılan Sona Erme Süresini Ayarla",
-      "labelFourteen": "Varsayılan Sona Erme Süresini 14 Gün Olarak Ayarla",
-      "labelSeven": "Varsayılan Sona Erme Süresini 7 Gün Olarak Ayarla",
-      "labelThirty": "Varsayılan Sona Erme Süresini 30 Gün Olarak Ayarla",
-      "labelZero": "Varsayılan Sona Erme Süresini Kaldır",
-      "success": "Varsayılan süre {{days}} olarak ayarlandı."
-    },
-    "modLogsChannelId": {
-      "description": "Moderasyon loglarının gönderildiği kanal",
-      "label": "Moderasyon Log Kanalını Ayarla"
-    },
-    "modMailChannel": {
-      "alreadySet": "",
-      "description": "Mod mail mesajlarının gönderildiği kanal",
-      "label": "Mod Mail Kanalını Ayarla",
-      "set": "Mod mail kanalı {{channel}} olarak ayarlandı."
-    },
-    "muteGetAllRoles": {
-      "description": "Kullanıcı susturulduğunda tüm rolleri alır ve susturma rolünü verir",
-      "false": "Tüm rolleri al işlemi devre dışı bırakıldı.",
-      "label": "Tüm Rolleri Al",
-      "true": "Tüm rolleri al işlemi etkinleştirildi."
-    },
-    "staffRoleId": {
-      "description": "Yetkililerin sahip olduğu rol",
-      "label": "Yetkili Rolünü Ayarla"
-    }
-  },
-  "modLog": {
-    "ban": "{{emoji}} **{{user.username}}**, **{{moderator.username}}** tarafından yasaklandı. Sebep:```{{reason}}```",
-    "banExpired": "🔓 Kullanıcı (`{{user.id}}`), **{{moderator.username}}** tarafından **{{duration}}** sonra otomatik olarak yasak kaldırıldı. Sebep:```{{reason}}```",
-    "functionErrors": {
-      "caseIdError": "Vaka kimliğini artırmaya çalışırken bir hata oluştu. Bu muhtemelen bizim tarafımızdan veritabanı hatasıdır ve çift vaka kimliklerine neden olacaktır. Lütfen bunu bot geliştiricilerine bildirin."
-    },
-    "kick": "👢 **{{user.username}}**, **{{moderator.username}}** tarafından atıldı. Sebep:```{{reason}}```",
-    "mute": "🔇 **{{user.username}}**, **{{moderator.username}}** tarafından **{{duration}}** boyunca susturuldu. Sebep:```{{reason}}```",
-    "timedBan": "{{emoji}} **{{user.username}}**, **{{moderator.username}}** tarafından **{{duration}}** boyunca yasaklandı. Sebep:```{{reason}}```",
-    "timeout": "🔇 **{{user.username}}**, **{{moderator.username}}** tarafından **{{duration}}** boyunca susturuldu. Sebep:```{{reason}}```",
-    "unban": "🔓 Kullanıcı (`{{user.id}}`), **{{moderator.username}}** tarafından yasak kaldırıldı. Sebep:```{{reason}}```",
-    "unmute": "🔊 **{{user.username}}**, **{{moderator.username}}** tarafından susturulması kaldırıldı. Sebep:```{{reason}}```",
-    "warning": "⚠️ **{{user.username}}**, **{{moderator.username}}** tarafından uyarıldı. Sebep:```{{reason}}```"
-  },
-  "modMailLog": {
-    "bot": "",
-    "closeMessage": "{{user.tag}} ({{user.id}}) ile olan modmail konuşması #{{thread_id}} {{closer.tag}} ({{closer.id}} tarafından kapatıldı. Kullanıcı tarafından **{{messages.user}}** mesaj, kullanıcıya **{{messages.staff}}**, **{{messages.internal}}** iç mesaj gönderildi.",
-    "command": "[KOMUT]",
-    "fromUser": "[KULLANICIDAN]",
-    "initial": "# {{user.tag}} ({{user.id}}) ile olan modmail konuşması #{{thread_id}} {{time}} tarihinde başladı. Zaman dilimi GMT",
-    "preparingClose": "Kapatılıyor...",
-    "threadClosedDm": "{{guild}} sunucusundaki mod mail konuşmanız kapatıldı.",
-    "toThread": "[KONUŞMAYA]",
-    "toUser": "[KULLANICIYA]"
-  },
-  "registerConfig": {
-    "registerChannelId": {
-      "description": "Kayıt komutunun çalıştırıldığı kanal",
-      "label": "Kayıt Kanalını Ayarla"
-    },
-    "registerClearChannel": {
-      "description": "Kayıt kanalındaki mesajları temizler",
-      "label": "Kayıt Kanalını Temizle",
-      "set": "Kayıt kanalı temizleme işlemi etkinleştirildi.",
-      "unset": "Kayıt kanalı temizleme işlemi devre dışı bırakıldı."
-    },
-    "registerJoinChannelId": {
-      "description": "Üye katıldığında kayıt mesajının gönderildiği kanal",
-      "label": "Kayıt Giriş Kanalını Ayarla"
-    },
-    "registerJoinMessage": {
-      "description": "Üye katıldığında gönderilen mesaj",
-      "label": "Kayıt Giriş Mesajını Ayarla"
-    }
-  },
-  "roleConfig": {
-    "colourIdOfTheDay": {
-      "description": "Her gün değişen bir rol.",
-      "label": "Günün Rengi Rolünü Ayarla"
-    },
-    "djRoleId": {
-      "description": "Müzik komutu kısıtlamalarını atlayan bir rol",
-      "label": "DJ Rolünü Ayarla"
-    },
-    "femaleRoleId": {
-      "description": "Üye kadın olarak kayıt olduğunda verilen rol",
-      "label": "Kadın Rolünü Ayarla"
-    },
-    "maleRoleId": {
-      "description": "Üye erkek olarak kayıt olduğunda verilen rol",
-      "label": "Erkek Rolünü Ayarla"
-    },
-    "memberRoleId": {
-      "description": "Üye kayıt olduğunda verilen rol",
-      "label": "Üye Rolünü Ayarla"
-    },
-    "muteRoleId": {
-      "description": "Üye susturulduğunda verilen rol",
-      "label": "Susturma Rolünü Ayarla"
-    },
-    "unverifiedRoleId": {
-      "description": "Üye sunucuya katıldığında kayıt modülü açıksa verilen rol",
-      "label": "Doğrulanmamış Rolünü Ayarla"
-    }
-  },
-  "waitForMessageComponent": {
-    "initial": "",
-    "timeout": ""
-  }
 }
