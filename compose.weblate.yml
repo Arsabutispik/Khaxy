@@ -1,6 +1,6 @@
 services:
   weblate-db:
-    image: docker.io/library/postgres:17-alpine
+    image: postgres:17-alpine
     container_name: weblate-postgres
     restart: unless-stopped
     environment:
@@ -10,41 +10,34 @@ services:
     volumes:
       - weblate_db_data:/var/lib/postgresql/data
     networks:
-      weblate-network:
-        ipv4_address: 10.10.10.6
+      - weblate-network
 
   weblate-cache:
-    image: docker.io/library/redis:7-alpine
+    image: redis:7-alpine
     container_name: weblate-redis
     restart: unless-stopped
     command: ["redis-server", "--appendonly", "yes"]
     volumes:
       - weblate_redis_data:/data
     networks:
-      weblate-network:
-        ipv4_address: 10.10.10.5
+      - weblate-network
 
   weblate:
-    image: docker.io/weblate/weblate:latest
+    image: weblate/weblate:latest
     container_name: khaxy-weblate
     restart: unless-stopped
     ports:
       - "8080:8080"
-    dns:
-      - 8.8.8.8
-      - 8.8.4.4
-      - 1.1.1.1
-      - 1.0.0.1
     environment:
-      # Database Configuration - USE STATIC IPS
-      - POSTGRES_HOST=10.10.10.6
+      # Database Configuration
+      - POSTGRES_HOST=weblate-db
       - POSTGRES_PORT=5432
       - POSTGRES_DB=weblate
       - POSTGRES_USER=weblate
       - POSTGRES_PASSWORD=${WEBLATE_DB_PASSWORD:-weblate_secure_pass}
 
-      # Redis Configuration - USE STATIC IP
-      - REDIS_HOST=10.10.10.5
+      # Redis Configuration
+      - REDIS_HOST=weblate-cache
       - REDIS_PORT=6379
 
       # Admin & Site Configuration
@@ -66,13 +59,13 @@ services:
       - WEBLATE_EMAIL_USE_SSL=0
       - WEBLATE_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
 
-      # Registration Configuration - ONLY EMAIL (removed github)
+      # Registration Configuration - Email only
       - WEBLATE_REGISTRATION_OPEN=1
       - WEBLATE_REGISTRATION_ALLOW_BACKENDS=email
       - WEBLATE_REGISTRATION_CAPTCHA=1
 
-      # Disable avatars to avoid Gravatar DNS issues
-      - WEBLATE_ENABLE_AVATARS=0
+      # Enable avatars (should work fine with Docker DNS)
+      - WEBLATE_ENABLE_AVATARS=1
 
     volumes:
       - weblate_data:/app/data
@@ -80,8 +73,7 @@ services:
       - weblate-db
       - weblate-cache
     networks:
-      weblate-network:
-        ipv4_address: 10.10.10.7
+      - weblate-network
 
 volumes:
   weblate_db_data:
@@ -91,6 +83,3 @@ volumes:
 networks:
   weblate-network:
     driver: bridge
-    ipam:
-      config:
-        - subnet: 10.10.10.0/24

@@ -1,7 +1,7 @@
 # compose.yml - For running the Khaxy Bot
 services:
   postgres:
-    image: docker.io/library/postgres:17-alpine
+    image: postgres:17-alpine
     container_name: khaxy-postgres
     restart: unless-stopped
     environment:
