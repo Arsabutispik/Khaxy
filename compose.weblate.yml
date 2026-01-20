@@ -49,8 +49,8 @@ services:
       - WEBLATE_ENABLE_HTTPS=1
 
       # Proton Mail SMTP Configuration
-      - WEBLATE_SERVER_EMAIL=noreply@${WEBLATE_SITE_DOMAIN:-khaxy.net}
-      - WEBLATE_DEFAULT_FROM_EMAIL=noreply@${WEBLATE_SITE_DOMAIN:-khaxy.net}
+      - WEBLATE_SERVER_EMAIL=${WEBLATE_EMAIL_FROM:-noreply@khaxy.net}
+      - WEBLATE_DEFAULT_FROM_EMAIL=${WEBLATE_EMAIL_FROM:-noreply@khaxy.net}
       - WEBLATE_EMAIL_HOST=smtp.protonmail.ch
       - WEBLATE_EMAIL_PORT=587
       - WEBLATE_EMAIL_HOST_USER=${PROTON_EMAIL}
