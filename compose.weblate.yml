@@ -29,6 +29,9 @@ services:
     restart: unless-stopped
     ports:
       - "8080:8080"
+    links:
+      - weblate-cache:weblate-redis
+      - weblate-db:weblate-postgres
     environment:
       - POSTGRES_HOST=weblate-postgres
       - POSTGRES_PORT=5432
