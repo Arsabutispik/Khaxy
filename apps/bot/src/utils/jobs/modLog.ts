@@ -24,9 +24,9 @@ type actions =
 export async function modLog(
   data: {
     guild: Guild;
-    user: User | PartialUser | null;
+    user: User | PartialUser;
     action: actions;
-    moderator: User | PartialUser | string | null;
+    moderator: User | PartialUser;
     reason?: string;
     duration?: Dayjs;
     caseID?: number;
@@ -95,6 +95,7 @@ export async function modLog(
         emoji: client.allEmojis.get(client.config.emojis.ban.id)?.format,
       });
       break;
+    /* This case is currently not used
     case "CHANGES":
       message += t(($) => $.modLog.changes, {
         moderator,
@@ -104,6 +105,7 @@ export async function modLog(
         time: `${Math.floor(Date.now() / 1000)}`,
       });
       break;
+     */
     case "UNBAN":
       message += t(($) => $.modLog.unban, { moderator, user, reason });
       break;

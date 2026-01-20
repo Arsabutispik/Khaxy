@@ -1,4 +1,13 @@
-import { ActivityType, Client, Collection, Guild, GuildForumTagEmoji, TextChannel, Webhook } from "discord.js";
+import {
+  ActivityType,
+  Client,
+  Collection,
+  Guild,
+  GuildForumTagEmoji,
+  PermissionsString,
+  TextChannel,
+  Webhook,
+} from "discord.js";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration.js";
 import "dayjs/locale/tr.js";
@@ -37,9 +46,9 @@ export function replacePlaceholders(template: string, replacements: Record<strin
  * @param language - The language code
  * @returns A string of missing permissions in a human-readable format.
  */
-export function missingPermissionsAsString(client: Client, missing: string[], language: string) {
+export function missingPermissionsAsString(client: Client, missing: PermissionsString[], language: string) {
   const t = client.i18next.getFixedT(language, "permissions");
-  return missing.map((perm) => t(($) => $.permissions.${perm})).join(", ");
+  return missing.map((perm) => t(($) => $.permissions[perm])).join(", ");
 }
 dayjs.extend(duration);
 
