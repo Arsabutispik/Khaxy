@@ -1,0 +1,80 @@
+# compose.weblate.yml - For Translation Infrastructure
+services:
+  weblate-db:
+    image: docker.io/library/postgres:17-alpine
+    container_name: weblate-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: weblate
+      POSTGRES_PASSWORD: ${WEBLATE_DB_PASSWORD:-weblate_secure_pass}
+      POSTGRES_DB: weblate
+    volumes:
+      - weblate_db_data:/var/lib/postgresql/data
+    networks:
+      - weblate-network
+
+  weblate-cache:
+    image: docker.io/library/redis:7-alpine
+    container_name: weblate-redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - weblate_redis_data:/data
+    networks:
+      - weblate-network
+
+  weblate:
+    image: docker.io/weblate/weblate:latest
+    container_name: khaxy-weblate
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - POSTGRES_HOST=weblate-db
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=weblate
+      - POSTGRES_USER=weblate
+      - POSTGRES_PASSWORD=${WEBLATE_DB_PASSWORD:-weblate_secure_pass}
+      - REDIS_HOST=weblate-cache
+      - REDIS_PORT=6379
+
+      # --- ADMIN SETUP ---
+      - WEBLATE_ADMIN_NAME=${WEBLATE_ADMIN_NAME:-Admin}
+      - WEBLATE_ADMIN_EMAIL=${WEBLATE_ADMIN_EMAIL:-admin@khaxy.com}
+      - WEBLATE_ADMIN_PASSWORD=${WEBLATE_ADMIN_PASSWORD:-admin}
+
+      # --- PUBLIC ACCESS SETTINGS ---
+      - WEBLATE_REGISTRATION_OPEN=1
+      # Only allow login via these methods
+      - WEBLATE_REGISTRATION_ALLOW_BACKENDS=github,discord
+
+      # --- GITHUB AUTH ---
+      - SOCIAL_AUTH_GITHUB_KEY=${GITHUB_CLIENT_ID}
+      - SOCIAL_AUTH_GITHUB_SECRET=${GITHUB_CLIENT_SECRET}
+
+      # --- DISCORD AUTH ---
+      - SOCIAL_AUTH_DISCORD_KEY=${DISCORD_CLIENT_ID}
+      - SOCIAL_AUTH_DISCORD_SECRET=${DISCORD_CLIENT_SECRET}
+
+      # --- HOSTING SETTINGS ---
+      - WEBLATE_SITE_DOMAIN=${WEBLATE_SITE_DOMAIN} # e.g., translate.khaxy.com
+      - WEBLATE_ALLOWED_HOSTS=${WEBLATE_SITE_DOMAIN},localhost,127.0.0.1
+      # IMPORTANT: If behind HTTPS proxy (Nginx/Caddy), set this to 1
+      - WEBLATE_ENABLE_HTTPS=1
+
+    volumes:
+      - weblate_data:/app/data
+    depends_on:
+      - weblate-db
+      - weblate-cache
+    networks:
+      - weblate-network
+
+volumes:
+  weblate_db_data:
+  weblate_redis_data:
+  weblate_data:
+
+networks:
+  weblate-network:
+    driver: bridge
