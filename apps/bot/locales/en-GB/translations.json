@@ -1,298 +1,298 @@
 {
-  "checkExpiredModmailBlacklists": {
-    "expiredModmailBlacklistNotification": "🔔 Modmail blacklist for **{{guild}}** expired"
-  },
-  "checkPunishments": {
-    "banExpired": "Ban expired after {{duration}}.",
-    "muteExpired": "Mute expired after {{duration}}."
-  },
-  "dynamicChannel": {
-    "initial": "Select a channel below...",
-    "labels": {
-      "channelLogsChannelId": "Channel Logs",
-      "emojiLogsChannelId": "Emoji Logs",
-      "eventLogsChannelId": "Event Logs",
-      "guildLogsChannelId": "Guild Logs",
-      "guildMemberLogsChannelId": "Member Logs",
-      "inviteLogsChannelId": "Invite Logs",
-      "joinChannelId": "Welcome Channel",
-      "leaveChannelId": "Leave Channel",
-      "messageLogsChannelId": "Message Logs",
-      "modLogsChannelId": "Moderation Logs",
-      "modMailChannelId": "Mod-Mail Channel",
-      "pollLogsChannelId": "Poll Logs",
-      "registerChannelId": "Register Channel",
-      "registerJoinChannelId": "Register Join Channel",
-      "roleLogsChannelId": "Role Logs",
-      "soundboardLogsChannelId": "Soundboard Logs",
-      "stageLogsChannelId": "Stage Logs",
-      "stickerLogsChannelId": "Sticker Logs",
-      "threadLogsChannelId": "Thread Logs",
-      "voiceLogsChannelId": "Voice Logs",
-      "webhookLogsChannelId": "Webhook Logs"
+    "checkExpiredModmailBlacklists": {
+        "expiredModmailBlacklistNotification": "🔔 Modmail blacklist for **{{guild}}** expired"
     },
-    "messages": {
-      "set": "Successfully set **{{label}}** to {{channel}}.",
-      "unset": "Successfully disabled **{{label}}**."
+    "checkPunishments": {
+        "banExpired": "Ban expired after {{duration}}.",
+        "muteExpired": "Mute expired after {{duration}}."
     },
-    "timeout": "Menu timed out."
-  },
-  "dynamicMessage": {
-    "initial": "Set a {{label}} message below with a modal",
-    "labels": {
-      "joinMessage": "Welcome",
-      "leaveMessage": "Leave",
-      "modMailMessage": "Mod-Mail",
-      "registerJoinMessage": "Register"
+    "dynamicChannel": {
+        "initial": "Select a channel below...",
+        "labels": {
+            "channelLogsChannelId": "Channel Logs",
+            "emojiLogsChannelId": "Emoji Logs",
+            "eventLogsChannelId": "Event Logs",
+            "guildLogsChannelId": "Guild Logs",
+            "guildMemberLogsChannelId": "Member Logs",
+            "inviteLogsChannelId": "Invite Logs",
+            "joinChannelId": "Welcome Channel",
+            "leaveChannelId": "Leave Channel",
+            "messageLogsChannelId": "Message Logs",
+            "modLogsChannelId": "Moderation Logs",
+            "modMailChannelId": "Mod-Mail Channel",
+            "pollLogsChannelId": "Poll Logs",
+            "registerChannelId": "Register Channel",
+            "registerJoinChannelId": "Register Join Channel",
+            "roleLogsChannelId": "Role Logs",
+            "soundboardLogsChannelId": "Soundboard Logs",
+            "stageLogsChannelId": "Stage Logs",
+            "stickerLogsChannelId": "Sticker Logs",
+            "threadLogsChannelId": "Thread Logs",
+            "voiceLogsChannelId": "Voice Logs",
+            "webhookLogsChannelId": "Webhook Logs"
+        },
+        "messages": {
+            "set": "Successfully set **{{label}}** to {{channel}}.",
+            "unset": "Successfully disabled **{{label}}**."
+        },
+        "timeout": "Menu timed out."
     },
-    "messages": {
-      "set": "Successfully set **{{label}}** message.",
-      "unset": "Successfully removed **{{label}}** message."
+    "dynamicMessage": {
+        "initial": "Set a {{label}} message below with a modal",
+        "labels": {
+            "joinMessage": "Welcome",
+            "leaveMessage": "Leave",
+            "modMailMessage": "Mod-Mail",
+            "registerJoinMessage": "Register"
+        },
+        "messages": {
+            "set": "Successfully set **{{label}}** message.",
+            "unset": "Successfully removed **{{label}}** message."
+        },
+        "timeout": "Message timed out.",
+        "title": "Set {{label}} Message"
     },
-    "timeout": "Message timed out.",
-    "title": "Set {{label}} Message"
-  },
-  "dynamicRole": {
-    "errors": {
-      "roleTooHigh": "The role you selected is too high. Please select a role that is lower than the bot's role."
+    "dynamicRole": {
+        "errors": {
+            "roleTooHigh": "The role you selected is too high. Please select a role that is lower than the bot's role."
+        },
+        "initial": "Select a role below...",
+        "labels": {
+            "colourIdOfTheDay": "Colour of the Day Role",
+            "djRoleId": "DJ Role",
+            "femaleRoleId": "Female Role",
+            "maleRoleId": "Male Role",
+            "memberRoleId": "Member Role",
+            "muteRoleId": "Mute Role",
+            "staffRoleId": "Staff Role",
+            "unverifiedRoleId": "Unverified Role"
+        },
+        "messages": {
+            "set": "Successfully set **{{label}}** to {{role}}.",
+            "unset": "Successfully disabled **{{label}}**."
+        },
+        "timeout": "Menu timed out."
     },
-    "initial": "Select a role below...",
-    "labels": {
-      "colourIdOfTheDay": "Colour of the Day Role",
-      "djRoleId": "DJ Role",
-      "femaleRoleId": "Female Role",
-      "maleRoleId": "Male Role",
-      "memberRoleId": "Member Role",
-      "muteRoleId": "Mute Role",
-      "staffRoleId": "Staff Role",
-      "unverifiedRoleId": "Unverified Role"
+    "infractionsPunishment": {
+        "alreadyMuted": "The user is already muted.",
+        "databaseError": "An error occurred while trying to add the infraction to the database. Please try again later.",
+        "messages": {
+            "ban": "You have been banned from **{{guild}}**. Reason: ```{{reason}}```",
+            "kick": "You have been kicked from **{{guild}}**. Reason: ```{{reason}}```",
+            "mute": "You have been muted in **{{guild}}** for **{{duration}}**. Reason: ```{{reason}}```",
+            "tempBan": "You have been temporarily banned from **{{guild}}** for **{{duration}}**. Reason:```{{reason}}```"
+        },
+        "muteError": "An error occurred while trying to mute the user. Please check the bot's permissions and try again.",
+        "noMuteRole": "The mute role is not set. Please set the mute role in the moderation config to use this feature.",
+        "noPermission": "I do not have the required permissions to perform this action. Please ensure I have the appropriate permissions and try again.",
+        "reason": "Automatic punishment escalation (strike {{level}})",
+        "roleError": "An error occurred while trying to add/remove a role. Please check the bot's permissions and try again."
     },
-    "messages": {
-      "set": "Successfully set **{{label}}** to {{role}}.",
-      "unset": "Successfully disabled **{{label}}**."
+    "joinLeaveConfig": {
+        "joinChannelId": {
+            "description": "The channel where the welcome message will be sent.",
+            "label": "Set Welcome Channel"
+        },
+        "joinMessage": {
+            "description": "The message that will be sent when a member joins the server.",
+            "label": "Set Welcome Message"
+        },
+        "leaveChannelId": {
+            "description": "The channel where the leave message will be sent.",
+            "label": "Set Leave Channel"
+        },
+        "leaveMessage": {
+            "description": "The message that will be sent when a member leaves the server.",
+            "label": "Set Leave Message"
+        }
     },
-    "timeout": "Menu timed out."
-  },
-  "infractionsPunishment": {
-    "alreadyMuted": "The user is already muted.",
-    "databaseError": "An error occurred while trying to add the infraction to the database. Please try again later.",
-    "messages": {
-      "ban": "You have been banned from **{{guild}}**. Reason: ```{{reason}}```",
-      "kick": "You have been kicked from **{{guild}}**. Reason: ```{{reason}}```",
-      "mute": "You have been muted in **{{guild}}** for **{{duration}}**. Reason: ```{{reason}}```",
-      "tempBan": "You have been temporarily banned from **{{guild}}** for **{{duration}}**. Reason:```{{reason}}```"
+    "logConfig": {
+        "channelLogsChannelId": {
+            "description": "The channel where channel update logs will be sent.",
+            "label": "Set Channel Logs Channel"
+        },
+        "emojiLogsChannelId": {
+            "description": "The channel where emoji update logs will be sent.",
+            "label": "Set Emoji Logs Channel"
+        },
+        "eventLogsChannelId": {
+            "description": "The channel where event logs will be sent.",
+            "label": "Set Event Logs Channel"
+        },
+        "guildLogsChannelId": {
+            "description": "The channel where guild update logs will be sent.",
+            "label": "Set Guild Logs Channel"
+        },
+        "guildMemberLogsChannelId": {
+            "description": "The channel where member update logs will be sent.",
+            "label": "Set Member Logs Channel"
+        },
+        "inviteLogsChannelId": {
+            "description": "The channel where invite logs will be sent.",
+            "label": "Set Invite Logs Channel"
+        },
+        "messageLogsChannelId": {
+            "description": "The channel where; message delete, message update, bulk delete logs will be sent.",
+            "label": "Set Message Logs Channel"
+        },
+        "pollLogsChannelId": {
+            "description": "The channel where poll logs will be sent.",
+            "label": "Set Poll Logs Channel"
+        },
+        "roleLogsChannelId": {
+            "description": "The channel where role update logs will be sent.",
+            "label": "Set Role Logs Channel"
+        },
+        "soundboardLogsChannelId": {
+            "description": "The channel where soundboard logs will be sent.",
+            "label": "Set Soundboard Logs Channel"
+        },
+        "stageLogsChannelId": {
+            "description": "The channel where stage logs will be sent.",
+            "label": "Set Stage Logs Channel"
+        },
+        "stickerLogsChannelId": {
+            "description": "The channel where sticker update logs will be sent.",
+            "label": "Set Sticker Logs Channel"
+        },
+        "threadLogsChannelId": {
+            "description": "The channel where thread logs will be sent.",
+            "label": "Set Thread Logs Channel"
+        },
+        "voiceLogsChannelId": {
+            "description": "The channel where voice update logs will be sent.",
+            "label": "Set Voice Logs Channel"
+        },
+        "webhookLogsChannelId": {
+            "description": "The channel where webhook logs will be sent.",
+            "label": "Set Webhook Logs Channel"
+        }
     },
-    "muteError": "An error occurred while trying to mute the user. Please check the bot's permissions and try again.",
-    "noMuteRole": "The mute role is not set. Please set the mute role in the moderation config to use this feature.",
-    "noPermission": "I do not have the required permissions to perform this action. Please ensure I have the appropriate permissions and try again.",
-    "reason": "Automatic punishment escalation (strike {{level}})",
-    "roleError": "An error occurred while trying to add/remove a role. Please check the bot's permissions and try again."
-  },
-  "joinLeaveConfig": {
-    "joinChannelId": {
-      "description": "The channel where the welcome message will be sent.",
-      "label": "Set Welcome Channel"
+    "miscConfig": {
+        "language": {
+            "description": "The language the bot will use.",
+            "initial": "Select the language you want to set.",
+            "label": "Set Language",
+            "set": "Language has been set to {{language}}."
+        },
+        "modMailMessage": {
+            "description": "The message that will be sent by the bot when a user sends a mod-mail.",
+            "label": "Set Mod-Mail Message"
+        },
+        "timeout": "Message timed out. Please run the command again."
     },
-    "joinMessage": {
-      "description": "The message that will be sent when a member joins the server.",
-      "label": "Set Welcome Message"
+    "moderationConfig": {
+        "defaultExpiry": {
+            "description": "The default expiry for infractions.",
+            "descriptionFourteen": "Sets the default expiry to 14 days.",
+            "descriptionSeven": "Sets the default expiry to 7 days.",
+            "descriptionThirty": "Sets the default expiry to 30 days.",
+            "descriptionZero": "Disables the default expiry.",
+            "label": "Set Default Expiry",
+            "labelFourteen": "Set Default Expiry 14 Days",
+            "labelSeven": "Set Default Expiry 7 Days",
+            "labelThirty": "Set Default Expiry 30 Days",
+            "labelZero": "Disable Default Expiry",
+            "success": "Default expiry has been set to {{days}} days."
+        },
+        "modLogsChannelId": {
+            "description": "The channel where the moderation logs will be sent.",
+            "label": "Set Mod Log Channel"
+        },
+        "modMailChannel": {
+            "alreadySet": "Mod-mail channel is already set to {{channel}}.",
+            "description": "The channel where the mod-mail will be sent.",
+            "label": "Set Mod-Mail Channel",
+            "set": "Mod-mail channel has been set to {{channel}}."
+        },
+        "muteGetAllRoles": {
+            "description": "Gives all roles to the muted user.",
+            "false": "Mute get all roles is disabled.",
+            "label": "Mute Get All Roles",
+            "true": "Mute get all roles is enabled."
+        },
+        "staffRoleId": {
+            "description": "The role required to use moderation commands.",
+            "label": "Set Staff Role"
+        }
     },
-    "leaveChannelId": {
-      "description": "The channel where the leave message will be sent.",
-      "label": "Set Leave Channel"
+    "modLog": {
+        "ban": "{{emoji}}  **{{user.username}}** has been banned by **{{moderator.username}}**. Reason:```{{reason}}```",
+        "banExpired": "🔓 User (`{{user.id}}`) has been automatically unbanned by **{{moderator.username}}** after **{{duration}}**. Reason:```{{reason}}```",
+        "functionErrors": {
+            "caseIdError": "An error occurred while trying to increment the case ID. This is likely a database error on our side. This may cause duplicate case IDs. Please report this to the bot developers."
+        },
+        "kick": "👢  **{{user.username}}** has been kicked by **{{moderator.username}}**. Reason:```{{reason}}```",
+        "mute": "🔇  **{{user.username}}** has been muted by **{{moderator.username}}** for **{{duration}}**. Reason:```{{reason}}```",
+        "timedBan": "{{emoji}}  **{{user.username}}** has been banned by **{{moderator.username}}** for **{{duration}}**. Reason:```{{reason}}```",
+        "timeout": "🔇 **{{user.username}}** has been timed out by **{{moderator.username}}** for **{{duration}}**. Reason:```{{reason}}```",
+        "unban": "🔓 User (`{{user.id}}`) has been unbanned by **{{moderator.username}}**. Reason:```{{reason}}```",
+        "unmute": "🔊  **{{user.username}}** has been unmuted by **{{moderator.username}}**. Reason:```{{reason}}```",
+        "warning": "⚠️ **{{user.username}}** has been warned by **{{moderator.username}}**. Reason:```{{reason}}```"
     },
-    "leaveMessage": {
-      "description": "The message that will be sent when a member leaves the server.",
-      "label": "Set Leave Message"
+    "modMailLog": {
+        "bot": "[BOT]",
+        "closeMessage": "Thread #{{thread_id}} with {{user.tag}} ({{user.id}}) has been closed by {{closer.tag}} ({{closer.id}}). **{{messages.user}}** messages from user, **{{messages.staff}}** messages from staff, **{{messages.internal}}** internal messages.",
+        "command": "[COMMAND]",
+        "fromUser": "[FROM USER]",
+        "initial": "# Mod-mail thread #{{thread_id}} with {{user.tag}} {{user.id}} started at {{time}}. All times are in GMT.",
+        "preparingClose": "Thread is being closed...",
+        "threadClosedDm": "Your thread in {{guild}} has been closed.",
+        "toThread": "[TO THREAD]",
+        "toUser": "[TO USER]"
+    },
+    "registerConfig": {
+        "registerChannelId": {
+            "description": "The channel where the register command will be used.",
+            "label": "Set Register Channel"
+        },
+        "registerClearChannel": {
+            "description": "Clears the channel after a user registers.",
+            "label": "Set Register Clear Channel",
+            "set": "Register channel clearing is enabled.",
+            "unset": "Register channel clearing is disabled."
+        },
+        "registerJoinChannelId": {
+            "description": "The channel where the register message will be sent.",
+            "label": "Set Register Join Channel"
+        },
+        "registerJoinMessage": {
+            "description": "The message that will be sent when a member joins the server.",
+            "label": "Set Register Message"
+        }
+    },
+    "roleConfig": {
+        "colourIdOfTheDay": {
+            "description": "A role that changes every day.",
+            "label": "Set Colour of the Day Role"
+        },
+        "djRoleId": {
+            "description": "A role that bypasses the music command restrictions.",
+            "label": "Set DJ Role"
+        },
+        "femaleRoleId": {
+            "description": "The role given when a member registers as female",
+            "label": "Set Female Role"
+        },
+        "maleRoleId": {
+            "description": "The role given when a member registers as male.",
+            "label": "Set Male Role"
+        },
+        "memberRoleId": {
+            "description": "The role given when a member registers.",
+            "label": "Set Member Role"
+        },
+        "muteRoleId": {
+            "description": "The role given when a member is muted.",
+            "label": "Set Mute Role"
+        },
+        "unverifiedRoleId": {
+            "description": "The role given when a member joins the server if the registration module is enabled.",
+            "label": "Set Unverified Role"
+        }
+    },
+    "waitForMessageComponent": {
+        "initial": "Please select an option below.",
+        "timeout": "Menu timed out."
     }
-  },
-  "logConfig": {
-    "channelLogsChannelId": {
-      "description": "The channel where channel update logs will be sent.",
-      "label": "Set Channel Logs Channel"
-    },
-    "emojiLogsChannelId": {
-      "description": "The channel where emoji update logs will be sent.",
-      "label": "Set Emoji Logs Channel"
-    },
-    "eventLogsChannelId": {
-      "description": "The channel where event logs will be sent.",
-      "label": "Set Event Logs Channel"
-    },
-    "guildLogsChannelId": {
-      "description": "The channel where guild update logs will be sent.",
-      "label": "Set Guild Logs Channel"
-    },
-    "guildMemberLogsChannelId": {
-      "description": "The channel where member update logs will be sent.",
-      "label": "Set Member Logs Channel"
-    },
-    "inviteLogsChannelId": {
-      "description": "The channel where invite logs will be sent.",
-      "label": "Set Invite Logs Channel"
-    },
-    "messageLogsChannelId": {
-      "description": "The channel where; message delete, message update, bulk delete logs will be sent.",
-      "label": "Set Message Logs Channel"
-    },
-    "pollLogsChannelId": {
-      "description": "The channel where poll logs will be sent.",
-      "label": "Set Poll Logs Channel"
-    },
-    "roleLogsChannelId": {
-      "description": "The channel where role update logs will be sent.",
-      "label": "Set Role Logs Channel"
-    },
-    "soundboardLogsChannelId": {
-      "description": "The channel where soundboard logs will be sent.",
-      "label": "Set Soundboard Logs Channel"
-    },
-    "stageLogsChannelId": {
-      "description": "The channel where stage logs will be sent.",
-      "label": "Set Stage Logs Channel"
-    },
-    "stickerLogsChannelId": {
-      "description": "The channel where sticker update logs will be sent.",
-      "label": "Set Sticker Logs Channel"
-    },
-    "threadLogsChannelId": {
-      "description": "The channel where thread logs will be sent.",
-      "label": "Set Thread Logs Channel"
-    },
-    "voiceLogsChannelId": {
-      "description": "The channel where voice update logs will be sent.",
-      "label": "Set Voice Logs Channel"
-    },
-    "webhookLogsChannelId": {
-      "description": "The channel where webhook logs will be sent.",
-      "label": "Set Webhook Logs Channel"
-    }
-  },
-  "miscConfig": {
-    "language": {
-      "description": "The language the bot will use.",
-      "initial": "Select the language you want to set.",
-      "label": "Set Language",
-      "set": "Language has been set to {{language}}."
-    },
-    "modMailMessage": {
-      "description": "The message that will be sent by the bot when a user sends a mod-mail.",
-      "label": "Set Mod-Mail Message"
-    },
-    "timeout": "Message timed out. Please run the command again."
-  },
-  "moderationConfig": {
-    "defaultExpiry": {
-      "description": "The default expiry for infractions.",
-      "descriptionFourteen": "Sets the default expiry to 14 days.",
-      "descriptionSeven": "Sets the default expiry to 7 days.",
-      "descriptionThirty": "Sets the default expiry to 30 days.",
-      "descriptionZero": "Disables the default expiry.",
-      "label": "Set Default Expiry",
-      "labelFourteen": "Set Default Expiry 14 Days",
-      "labelSeven": "Set Default Expiry 7 Days",
-      "labelThirty": "Set Default Expiry 30 Days",
-      "labelZero": "Disable Default Expiry",
-      "success": "Default expiry has been set to {{days}} days."
-    },
-    "modLogsChannelId": {
-      "description": "The channel where the moderation logs will be sent.",
-      "label": "Set Mod Log Channel"
-    },
-    "modMailChannel": {
-      "alreadySet": "Mod-mail channel is already set to {{channel}}.",
-      "description": "The channel where the mod-mail will be sent.",
-      "label": "Set Mod-Mail Channel",
-      "set": "Mod-mail channel has been set to {{channel}}."
-    },
-    "muteGetAllRoles": {
-      "description": "Gives all roles to the muted user.",
-      "false": "Mute get all roles is disabled.",
-      "label": "Mute Get All Roles",
-      "true": "Mute get all roles is enabled."
-    },
-    "staffRoleId": {
-      "description": "The role required to use moderation commands.",
-      "label": "Set Staff Role"
-    }
-  },
-  "modLog": {
-    "ban": "{{emoji}}  **{{user.username}}** has been banned by **{{moderator.username}}**. Reason:```{{reason}}```",
-    "banExpired": "🔓 User (`{{user.id}}`) has been automatically unbanned by **{{moderator.username}}** after **{{duration}}**. Reason:```{{reason}}```",
-    "functionErrors": {
-      "caseIdError": "An error occurred while trying to increment the case ID. This is likely a database error on our side. This may cause duplicate case IDs. Please report this to the bot developers."
-    },
-    "kick": "👢  **{{user.username}}** has been kicked by **{{moderator.username}}**. Reason:```{{reason}}```",
-    "mute": "🔇  **{{user.username}}** has been muted by **{{moderator.username}}** for **{{duration}}**. Reason:```{{reason}}```",
-    "timedBan": "{{emoji}}  **{{user.username}}** has been banned by **{{moderator.username}}** for **{{duration}}**. Reason:```{{reason}}```",
-    "timeout": "🔇 **{{user.username}}** has been timed out by **{{moderator.username}}** for **{{duration}}**. Reason:```{{reason}}```",
-    "unban": "🔓 User (`{{user.id}}`) has been unbanned by **{{moderator.username}}**. Reason:```{{reason}}```",
-    "unmute": "🔊  **{{user.username}}** has been unmuted by **{{moderator.username}}**. Reason:```{{reason}}```",
-    "warning": "⚠️ **{{user.username}}** has been warned by **{{moderator.username}}**. Reason:```{{reason}}```"
-  },
-  "modMailLog": {
-    "bot": "[BOT]",
-    "closeMessage": "Thread #{{thread_id}} with {{user.tag}} ({{user.id}}) has been closed by {{closer.tag}} ({{closer.id}}). **{{messages.user}}** messages from user, **{{messages.staff}}** messages from staff, **{{messages.internal}}** internal messages.",
-    "command": "[COMMAND]",
-    "fromUser": "[FROM USER]",
-    "initial": "# Mod-mail thread #{{thread_id}} with {{user.tag}} {{user.id}} started at {{time}}. All times are in GMT.",
-    "preparingClose": "Thread is being closed...",
-    "threadClosedDm": "Your thread in {{guild}} has been closed.",
-    "toThread": "[TO THREAD]",
-    "toUser": "[TO USER]"
-  },
-  "registerConfig": {
-    "registerChannelId": {
-      "description": "The channel where the register command will be used.",
-      "label": "Set Register Channel"
-    },
-    "registerClearChannel": {
-      "description": "Clears the channel after a user registers.",
-      "label": "Set Register Clear Channel",
-      "set": "Register channel clearing is enabled.",
-      "unset": "Register channel clearing is disabled."
-    },
-    "registerJoinChannelId": {
-      "description": "The channel where the register message will be sent.",
-      "label": "Set Register Join Channel"
-    },
-    "registerJoinMessage": {
-      "description": "The message that will be sent when a member joins the server.",
-      "label": "Set Register Message"
-    }
-  },
-  "roleConfig": {
-    "colourIdOfTheDay": {
-      "description": "A role that changes every day.",
-      "label": "Set Colour of the Day Role"
-    },
-    "djRoleId": {
-      "description": "A role that bypasses the music command restrictions.",
-      "label": "Set DJ Role"
-    },
-    "femaleRoleId": {
-      "description": "The role given when a member registers as female",
-      "label": "Set Female Role"
-    },
-    "maleRoleId": {
-      "description": "The role given when a member registers as male.",
-      "label": "Set Male Role"
-    },
-    "memberRoleId": {
-      "description": "The role given when a member registers.",
-      "label": "Set Member Role"
-    },
-    "muteRoleId": {
-      "description": "The role given when a member is muted.",
-      "label": "Set Mute Role"
-    },
-    "unverifiedRoleId": {
-      "description": "The role given when a member joins the server if the registration module is enabled.",
-      "label": "Set Unverified Role"
-    }
-  },
-  "waitForMessageComponent": {
-    "initial": "Please select an option below.",
-    "timeout": "Menu timed out."
-  }
 }
