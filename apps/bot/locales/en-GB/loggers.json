@@ -894,5 +894,29 @@
         }
       }
     }
+  },
+  "voiceStateEvents": {
+    "voiceStateUpdate": {
+      "join": {
+        "embed": {
+          "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **Joined At**: {{timestamp}}",
+          "title": "User Joined Voice Channel"
+        }
+      },
+      "leave": {
+        "embed": {
+          "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **Left At**: {{timestamp}}",
+          "title": "User Left Voice Channel",
+          "titleKicked": "User Kicked from Voice Channel"
+        }
+      },
+      "move": {
+        "embed": {
+          "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Old Channel**: {{oldChannel.name}} (<#{{oldChannel.id}}>)\n> **New Channel**: {{newChannel.name}} (<#{{newChannel.id}}>)",
+          "title": "User Moved Voice Channel"
+        }
+      },
+      "unknownExecutor": "Unknown Executor"
+    }
   }
 }

@@ -9,25 +9,43 @@ function createBaseEmbed(member: GuildMember | null, color: "Green" | "Red" | "Y
     .setTimestamp();
 }
 
-export function buildVoiceJoinEmbed(newState: VoiceState, t: TFunction) {
+export function buildVoiceJoinEmbed(newState: VoiceState, t: TFunction<"loggers", "voiceStateEvents">) {
   return createBaseEmbed(newState.member, "Green")
-    .setTitle(t(($) => $.join.embed.title))
+    .setTitle(t(($) => $.voiceStateUpdate.join.embed.title))
     .setDescription(
-      t(($) => $.join.embed.description, {
-        user: newState.member?.user,
-        channel: newState.channel,
+      t(($) => $.voiceStateUpdate.join.embed.description, {
+        user: {
+          tag: newState.member?.user.tag,
+          id: newState.member?.user.id,
+        },
+        channel: {
+          name: newState.channel?.name,
+          id: newState.channel?.id,
+        },
         timestamp: time(new Date(), TimestampStyles.FullDateShortTime),
       }),
     );
 }
 
-export function buildVoiceLeaveEmbed(oldState: VoiceState, executor: User | null, t: TFunction) {
+export function buildVoiceLeaveEmbed(
+  oldState: VoiceState,
+  executor: User | null,
+  t: TFunction<"loggers", "voiceStateEvents">,
+) {
   const embed = createBaseEmbed(oldState.member, "Red")
-    .setTitle(executor ? t(($) => $.leave.embed.title_kicked) : t(($) => $.leave.embed.title))
+    .setTitle(
+      executor ? t(($) => $.voiceStateUpdate.leave.embed.titleKicked) : t(($) => $.voiceStateUpdate.leave.embed.title),
+    )
     .setDescription(
-      t(($) => $.leave.embed.description, {
-        user: oldState.member?.user,
-        channel: oldState.channel,
+      t(($) => $.voiceStateUpdate.leave.embed.description, {
+        user: {
+          tag: oldState.member?.user.tag,
+          id: oldState.member?.user.id,
+        },
+        channel: {
+          name: oldState.channel?.name,
+          id: oldState.channel?.id,
+        },
         timestamp: time(new Date(), TimestampStyles.FullDateShortTime),
       }),
     );
@@ -42,14 +60,28 @@ export function buildVoiceLeaveEmbed(oldState: VoiceState, executor: User | null
   return embed;
 }
 
-export function buildVoiceMoveEmbed(oldState: VoiceState, newState: VoiceState, executor: User | null, t: TFunction) {
+export function buildVoiceMoveEmbed(
+  oldState: VoiceState,
+  newState: VoiceState,
+  executor: User | null,
+  t: TFunction<"loggers", "voiceStateEvents">,
+) {
   const embed = createBaseEmbed(oldState.member, "Yellow")
-    .setTitle(t(($) => $.move.embed.title))
+    .setTitle(t(($) => $.voiceStateUpdate.move.embed.title))
     .setDescription(
-      t(($) => $.move.embed.description, {
-        user: oldState.member?.user,
-        oldChannel: oldState.channel,
-        newChannel: newState.channel,
+      t(($) => $.voiceStateUpdate.move.embed.description, {
+        user: {
+          tag: oldState.member?.user.tag,
+          id: oldState.member?.user.id,
+        },
+        oldChannel: {
+          name: oldState.channel?.name,
+          id: oldState.channel?.id,
+        },
+        newChannel: {
+          name: newState.channel?.name,
+          id: newState.channel?.id,
+        },
         timestamp: time(new Date(), TimestampStyles.FullDateShortTime),
       }),
     );

@@ -19,7 +19,7 @@ export async function logVoiceStateUpdate(oldState: VoiceState, newState: VoiceS
 
   if (!webhook) return;
 
-  const t = newState.client.i18next.getFixedT(guildConfig.language, "events", "voiceStateUpdate");
+  const t = newState.client.i18next.getFixedT(guildConfig.language, "loggers", "voiceStateEvents");
   let embed = null;
 
   // ========================================================================
