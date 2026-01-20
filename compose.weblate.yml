@@ -46,7 +46,7 @@ services:
 
       # --- ADMIN & AUTH SETUP (Keep your existing settings) ---
       - WEBLATE_ADMIN_NAME=${WEBLATE_ADMIN_NAME:-Admin}
-      - WEBLATE_ADMIN_EMAIL=${WEBLATE_ADMIN_EMAIL:-admin@khaxy.com}
+      - WEBLATE_ADMIN_EMAIL=${WEBLATE_ADMIN_EMAIL:-admin@khaxy.net}
       - WEBLATE_ADMIN_PASSWORD=${WEBLATE_ADMIN_PASSWORD:-admin}
       - WEBLATE_REGISTRATION_OPEN=1
       - WEBLATE_REGISTRATION_ALLOW_BACKENDS=github,discord
