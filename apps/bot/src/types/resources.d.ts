@@ -2208,6 +2208,74 @@ interface Resources {
         }
       },
       "unknownExecutor": "Unknown Executor"
+    },
+    "threadEvents": {
+      "noParentId": "No Parent Channel ID",
+      "noParentName": "No Parent Channel",
+      "threadAutoArchiveDuration": {
+        "10080": "1 Week",
+        "1440": "1 Day",
+        "4320": "3 Days",
+        "60": "1 Hour",
+        "null": "Default"
+      },
+      "threadCreate": {
+        "embed": {
+          "description": "> **Thread**: {{thread.name}} (<#{{thread.id}}>)\n> **ID**: {{thread.id}}\n> **Parent Channel**: {{parent.name}} (<#{{parent.id}}>)\n> **Auto Archive Duration**: {{auto_archive_duration}}\n> **Created At**: {{timestamp}}",
+          "title": "Thread Created"
+        }
+      },
+      "threadDelete": {
+        "embed": {
+          "description": "> **Thread**: {{thread.name}} (<#{{thread.id}}>)\n> **ID**: {{thread.id}}\n> **Parent Channel**: {{parent.name}} (<#{{parent.id}}>)\n> **Auto Archive Duration**: {{auto_archive_duration}}\n> **Created**: {{timestamp}}",
+          "title": "Thread Deleted"
+        }
+      },
+      "threadUpdate": {
+        "archive": {
+          "embed": {
+            "description": "> **Thread**: {{thread.name}} (<#{{thread.id}}>)\n> **ID**: {{thread.id}}\n> **Parent Channel**: {{parent.name}} (<#{{parent.id}}>)",
+            "title": "Thread Archived"
+          }
+        },
+        "autoArchiveDurationChange": {
+          "embed": {
+            "description": "> **Thread**: {{thread.name}} (<#{{thread.id}}>)\n> **ID**: {{thread.id}}\n> **Parent Channel**: {{parent.name}} (<#{{parent.id}}>)\n> **Old Auto Archive Duration**: {{old_duration}}\n> **New Auto Archive Duration**: {{new_duration}}",
+            "title": "Thread Auto Archive Duration Changed"
+          }
+        },
+        "lock": {
+          "embed": {
+            "description": "> **Thread**: {{thread.name}} (<#{{thread.id}}>)\n> **ID**: {{thread.id}}\n> **Parent Channel**: {{parent.name}} (<#{{parent.id}}>)",
+            "title": "Thread Locked"
+          }
+        },
+        "nameChange": {
+          "embed": {
+            "description": "> **Thread**: {{thread.name}} (<#{{thread.id}}>)\n> **ID**: {{thread.id}}\n> **Parent Channel**: {{parent.name}} (<#{{parent.id}}>)\n> **Old Name**: {{old_name}}\n> **New Name**: {{new_name}}",
+            "title": "Thread Name Changed"
+          }
+        },
+        "rateLimitChange": {
+          "embed": {
+            "description": "> **Thread**: {{thread.name}} (<#{{thread.id}}>)\n> **ID**: {{thread.id}}\n> **Parent Channel**: {{parent.name}} (<#{{parent.id}}>)\n> **Old Rate Limit**: {{old_rate_limit}}\n> **New Rate Limit**: {{new_rate_limit}}",
+            "title": "Thread Rate Limit Changed"
+          }
+        },
+        "unarchive": {
+          "embed": {
+            "description": "> **Thread**: {{thread.name}} (<#{{thread.id}}>)\n> **ID**: {{thread.id}}\n> **Parent Channel**: {{parent.name}} (<#{{parent.id}}>)",
+            "title": "Thread Unarchived"
+          }
+        },
+        "unlock": {
+          "embed": {
+            "description": "> **Thread**: {{thread.name}} (<#{{thread.id}}>)\n> **ID**: {{thread.id}}\n> **Parent Channel**: {{parent.name}} (<#{{parent.id}}>)",
+            "title": "Thread Unlocked"
+          }
+        }
+      },
+      "unknownExecutor": "Unknown Executor"
     }
   },
   "permissions": {
