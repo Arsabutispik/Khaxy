@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.1
+
+### Patch Changes
+
+- [#92](https://github.com/Arsabutispik/Khaxy/pull/92) [`df91e56`](https://github.com/Arsabutispik/Khaxy/commit/df91e56874275a673b202517c4aee73571b1af26) Thanks [@Arsabutispik](https://github.com/Arsabutispik)! - Fix translations and make it typesafe by using the new i18n selector API
+
 ## 2.1.0
 
 ### Minor Changes
