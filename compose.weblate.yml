@@ -11,7 +11,9 @@ services:
     volumes:
       - weblate_db_data:/var/lib/postgresql/data
     networks:
-      - weblate-network
+      weblate-network:
+        aliases:
+          - weblate-postgres
 
   weblate-cache:
     image: docker.io/library/redis:7-alpine
@@ -21,7 +23,9 @@ services:
     volumes:
       - weblate_redis_data:/data
     networks:
-      - weblate-network
+      weblate-network:
+        aliases:
+          - weblate-redis
 
   weblate:
     image: docker.io/weblate/weblate:latest
@@ -29,9 +33,6 @@ services:
     restart: unless-stopped
     ports:
       - "8080:8080"
-    links:
-      - weblate-cache:weblate-redis
-      - weblate-db:weblate-postgres
     environment:
       - POSTGRES_HOST=weblate-postgres
       - POSTGRES_PORT=5432
