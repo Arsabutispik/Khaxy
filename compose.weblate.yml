@@ -34,33 +34,43 @@ services:
       - 8.8.8.8
       - 1.1.1.1
     environment:
-      # USE THE IPS DIRECTLY
+      # Database Configuration
       - POSTGRES_HOST=10.10.10.6
       - POSTGRES_PORT=5432
       - POSTGRES_DB=weblate
       - POSTGRES_USER=weblate
       - POSTGRES_PASSWORD=${WEBLATE_DB_PASSWORD:-weblate_secure_pass}
 
+      # Redis Configuration
       - REDIS_HOST=10.10.10.5
       - REDIS_PORT=6379
 
-      # --- ADMIN & AUTH SETUP (Keep your existing settings) ---
+      # Admin & Site Configuration
       - WEBLATE_ADMIN_NAME=${WEBLATE_ADMIN_NAME:-Admin}
       - WEBLATE_ADMIN_EMAIL=${WEBLATE_ADMIN_EMAIL:-admin@khaxy.net}
       - WEBLATE_ADMIN_PASSWORD=${WEBLATE_ADMIN_PASSWORD:-admin}
-      - WEBLATE_REGISTRATION_OPEN=1
-      - WEBLATE_REGISTRATION_ALLOW_BACKENDS=github,discord
-      - SOCIAL_AUTH_GITHUB_KEY=${GITHUB_CLIENT_ID}
-      - SOCIAL_AUTH_GITHUB_SECRET=${GITHUB_CLIENT_SECRET}
-      - SOCIAL_AUTH_DISCORD_KEY=${DISCORD_CLIENT_ID}
-      - SOCIAL_AUTH_DISCORD_SECRET=${DISCORD_CLIENT_SECRET}
       - WEBLATE_SITE_DOMAIN=${WEBLATE_SITE_DOMAIN}
       - WEBLATE_ALLOWED_HOSTS=${WEBLATE_SITE_DOMAIN},localhost,127.0.0.1
       - WEBLATE_ENABLE_HTTPS=1
 
+      # Proton Mail SMTP Configuration
+      - WEBLATE_SERVER_EMAIL=noreply@${WEBLATE_SITE_DOMAIN:-khaxy.net}
+      - WEBLATE_DEFAULT_FROM_EMAIL=noreply@${WEBLATE_SITE_DOMAIN:-khaxy.net}
+      - WEBLATE_EMAIL_HOST=smtp.protonmail.ch
+      - WEBLATE_EMAIL_PORT=587
+      - WEBLATE_EMAIL_HOST_USER=${PROTON_EMAIL}
+      - WEBLATE_EMAIL_HOST_PASSWORD=${PROTON_APP_PASSWORD}
+      - WEBLATE_EMAIL_USE_TLS=1
+      - WEBLATE_EMAIL_USE_SSL=0
+      - WEBLATE_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+
+      # Registration Configuration
+      - WEBLATE_REGISTRATION_OPEN=1
+      - WEBLATE_REGISTRATION_ALLOW_BACKENDS=email,github
+      - WEBLATE_REGISTRATION_CAPTCHA=1
+
     volumes:
       - weblate_data:/app/data
-      - ~/resolv.conf:/etc/resolv.conf:ro
     depends_on:
       - weblate-db
       - weblate-cache
