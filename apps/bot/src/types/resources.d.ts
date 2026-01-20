@@ -1006,6 +1006,7 @@ interface Resources {
         "title": "Message Edited"
       },
       "messageEdit": "***User edited their message.***\n```diff\n- {{oldContent}}\n+ {{newContent}}\n```",
+      "noContent": "No Content",
       "pollEnd": {
         "embed": {
           "description": "> **Expired At**: {{timestamp}}\n> **Multi Select**: {{multi_select}}\n> **Message**: {{message.url}}",
@@ -2459,7 +2460,9 @@ interface Resources {
         "mute": "You have been muted in **{{guild}}** for **{{duration}}**. Reason: ```{{reason}}```",
         "tempBan": "You have been temporarily banned from **{{guild}}** for **{{duration}}**. Reason:```{{reason}}```"
       },
+      "muteError": "An error occurred while trying to mute the user. Please check the bot's permissions and try again.",
       "noMuteRole": "The mute role is not set. Please set the mute role in the moderation config to use this feature.",
+      "noPermission": "I do not have the required permissions to perform this action. Please ensure I have the appropriate permissions and try again.",
       "reason": "Automatic punishment escalation (strike {{level}})",
       "roleError": "An error occurred while trying to add/remove a role. Please check the bot's permissions and try again."
     },

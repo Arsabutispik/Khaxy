@@ -691,6 +691,7 @@
     }
   },
   "messageUpdate": {
+    "noContent": "No Content",
     "embed": {
       "description": "> **Channel**: {{message.channel.name}} (<#{{message.channel.id}}>)\n> **Author**: {{message.author.tag}} (<@{{message.author.id}}>)\n> **Message ID**: [{{message.id}}](https://discord.com/channels/{{message.guild.id}}/{{message.channel.id}}/{{message.id}})",
       "fields": {
