@@ -2,6 +2,7 @@ import { AnyThreadChannel, ChannelType, EmbedBuilder, AuditLogEvent } from "disc
 import { GuildWithLogs } from "@repo/database";
 import { formatDuration, returnWebhook, WebhookType } from "@utils";
 import { logger } from "@lib";
+import { logUnhandledChanges } from "../utils.js";
 
 export async function logThreadUpdate(
   oldThread: AnyThreadChannel,
@@ -125,7 +126,23 @@ export async function logThreadUpdate(
       );
     embeds.push(embedClone);
   }
-  if (embeds.length === 0) return;
+  if (embeds.length === 0) {
+    logUnhandledChanges("threadUpdate", oldThread, newThread, `Thread "${newThread.name}" (${newThread.id})`, [
+      "messages",
+      "members",
+      "guildMembers",
+      "parent",
+      "ownerId",
+      "parentId",
+      "guildId",
+      "lastMessageId",
+      "lastPinTimestamp",
+      "messageCount",
+      "memberCount",
+      "totalMessageSent",
+    ]);
+    return;
+  }
   const webhook = await returnWebhook(newThread.client, logChannel, newThread.guild.id, guildConfig, {
     id: guildConfig.logConfig.threadLogsWebhookId,
     type: WebhookType.THREAD_LOGS,
