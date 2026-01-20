@@ -32,16 +32,18 @@ services:
       - "8080:8080"
     dns:
       - 8.8.8.8
+      - 8.8.4.4
       - 1.1.1.1
+      - 1.0.0.1
     environment:
-      # Database Configuration
+      # Database Configuration - USE STATIC IPS
       - POSTGRES_HOST=10.10.10.6
       - POSTGRES_PORT=5432
       - POSTGRES_DB=weblate
       - POSTGRES_USER=weblate
       - POSTGRES_PASSWORD=${WEBLATE_DB_PASSWORD:-weblate_secure_pass}
 
-      # Redis Configuration
+      # Redis Configuration - USE STATIC IP
       - REDIS_HOST=10.10.10.5
       - REDIS_PORT=6379
 
@@ -64,10 +66,13 @@ services:
       - WEBLATE_EMAIL_USE_SSL=0
       - WEBLATE_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
 
-      # Registration Configuration
+      # Registration Configuration - ONLY EMAIL (removed github)
       - WEBLATE_REGISTRATION_OPEN=1
-      - WEBLATE_REGISTRATION_ALLOW_BACKENDS=email,github
+      - WEBLATE_REGISTRATION_ALLOW_BACKENDS=email
       - WEBLATE_REGISTRATION_CAPTCHA=1
+
+      # Disable avatars to avoid Gravatar DNS issues
+      - WEBLATE_ENABLE_AVATARS=0
 
     volumes:
       - weblate_data:/app/data
