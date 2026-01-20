@@ -33,7 +33,6 @@
     "error": "Kanal kapatılırken hata oluştu.",
     "noDuration": "Bir süre belirtilmedi.",
     "noThread": "Bu bir mod mail kanalı değil.",
-    "noTime": "Bir zaman birimi belirtilmedi.",
     "reject": "Kapat",
     "threadCloseDate": "Mod mail konuşmanız **{{date}}** sonra kapatılacak. Geçersiz kılmak ister misiniz?",
     "threadCloseDateAccepted": "Devam ediliyor...",
@@ -108,13 +107,6 @@
       "welcomeLeave": "Gelen/Giden Ayarları"
     }
   },
-  "help": {
-    "commandNotFound": "Komut bulunamadı.",
-    "commandUsage": "Komut Kullanımı",
-    "examples": "Örnekler",
-    "footer": "<param> - Zorunlu parametre, [param] - İsteğe bağlı parametre",
-    "permissions": "Gerekli İzinler"
-  },
   "infractionPunishments": {
     "banSet": "",
     "durationMissing": "",
@@ -154,7 +146,6 @@
     "cantKickMod": "Moderatörü atamazsın.",
     "cantKickSelf": "",
     "clearFail": "Mesajlar temizlenirken hata oluştu.",
-    "databaseError": "",
     "embed": {
       "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Katılma Tarihi**: {{timestamp}}",
       "fields": {
@@ -270,13 +261,6 @@
     "noMemberRole": "Kayıt rolü bulunamadı. Ayarlar kısmından kayıt rolünü güncelleyin.",
     "noRegisterChannel": "Kayıt kanalı bulunamadı. Ayarlar kısmından kayıt kanalını güncelleyin.",
     "notValid": "Geçerli bir seçenek belirtmediniz. Lütfen geçerli bir seçenek belirtin.",
-    "rolesUpdate": {
-      "embed": {
-        "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Eklenen Roller**: {{added_roles}}",
-        "removed": "Kaldırılan Roller",
-        "title": "Kullanıcı Rolleri Değiştirildi"
-      }
-    },
     "success": "{{confirm}} **{{user}}**, başarıyla kayıt edildi",
     "wrongChannel": "Sadece ayarlanmış kanalda kayıt olabilirsiniz."
   },
@@ -318,13 +302,6 @@
     "suspended": "Mod mail kanalı askıya alındı."
   },
   "unban": {
-    "embed": {
-      "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
-      "fields": {
-        "reason": "Sebep"
-      },
-      "title": "Kullanıcının Yasağı Kaldırıldı"
-    },
     "error": "Kullanıcının yasağı kaldırılırken hata oluştu. {{error}}",
     "noReason": "Yasağın kaldırılma sebebi belirtilmedi.",
     "notBanned": "{{user}} zaten yasaklanmamış.",

@@ -125,31 +125,50 @@ function scanSelectorUsage() {
     // Strip comments to avoid false positives
     content = content.replace(/\/\*[\s\S]*?\*\/|([^\\:]|^)\/\/.*$/gm, "$1");
 
-    // Map variable name -> base path (namespace.keyPrefix)
-    const tVarBasePaths = new Map<string, string>();
+    // Map variable name -> base paths (namespace.keyPrefix)
+    const tVarBasePaths = new Map<string, Set<string>>();
 
-    // Find all getFixedT calls and track the variable name with its base path
-    // Pattern: getFixedT(lang, "namespace", "keyPrefix") or getFixedT(lang, "namespace") or getFixedT(lang, null, "keyPrefix")
-    // Supports: const t = foo.bar.getFixedT(...) or const t = i18next.getFixedT(...)
-    const fixedTRegex =
-      /(?:const|let|var)\s+(\w+)\s*=\s*[\w.]+\.getFixedT\s*\(\s*[^,]+,\s*(?:"([^"]+)"|'([^']+)'|null)\s*(?:,\s*(?:"([^"]+)"|'([^']+)'|null))?\s*\)/g;
+    const addBasePath = (varName: string, basePath: string) => {
+      if (!tVarBasePaths.has(varName)) {
+        tVarBasePaths.set(varName, new Set());
+      }
+      // Non-null assertion is safe here because we just set it
+      tVarBasePaths.get(varName)!.add(basePath);
+    };
+
+    // First, match getFixedT with only language parameter: getFixedT(lang)
+    const fixedTSingleArgRegex = /(?:const|let|var)\s+(\w+)\s*=\s*[\w.]+\.getFixedT\s*\(\s*[^,)]+\s*\)/g;
+
+    // Then, match getFixedT with namespace and optional keyPrefix
+    const fixedTMultiArgRegex =
+      /(?:const|let|var)\s+(\w+)\s*=\s*[\w.]+\.getFixedT\s*\(\s*[^,]+,\s*(null|"([^"]+)"|'([^']+)')\s*(?:,\s*(?:"([^"]+)"|'([^']+)'|null))?\s*\)/g;
 
     let match;
-    while ((match = fixedTRegex.exec(content)) !== null) {
+
+    // Check for single-arg getFixedT first (defaults to translations)
+    while ((match = fixedTSingleArgRegex.exec(content)) !== null) {
       const varName = match[1];
-      const namespace = match[2] || match[3] || "";
-      const keyPrefix = match[4] || match[5] || "";
+      addBasePath(varName, "translations");
+      if (isVerbose)
+        console.log(chalk.gray(`   Found getFixedT (single arg): ${varName} -> "translations" in ${fileName}`));
+    }
+
+    // Then check for multi-arg getFixedT
+    while ((match = fixedTMultiArgRegex.exec(content)) !== null) {
+      const varName = match[1];
+      const isNullNamespace = match[2] === "null";
+      const namespace = isNullNamespace ? "translations" : match[3] || match[4] || "";
+      const keyPrefix = match[5] || match[6] || "";
 
       let basePath = "";
       if (namespace) basePath = namespace;
       if (keyPrefix) basePath = basePath ? `${basePath}.${keyPrefix}` : keyPrefix;
 
-      tVarBasePaths.set(varName, basePath);
+      addBasePath(varName, basePath);
       if (isVerbose) console.log(chalk.gray(`   Found getFixedT: ${varName} -> "${basePath}" in ${fileName}`));
     }
 
     // Also find TFunction type annotations for function parameters
-    // Pattern: t: TFunction<"namespace", "keyPrefix"> or t: TFunction<"namespace">
     const tFunctionTypeRegex = /(\w+)\s*:\s*TFunction\s*<\s*["']([^"']+)["'](?:\s*,\s*["']([^"']+)["'])?\s*>/g;
 
     while ((match = tFunctionTypeRegex.exec(content)) !== null) {
@@ -161,53 +180,70 @@ function scanSelectorUsage() {
       if (namespace) basePath = namespace;
       if (keyPrefix) basePath = basePath ? `${basePath}.${keyPrefix}` : keyPrefix;
 
-      // Only add if not already set (getFixedT takes precedence)
-      if (!tVarBasePaths.has(varName)) {
-        tVarBasePaths.set(varName, basePath);
-        if (isVerbose)
-          console.log(chalk.gray(`   Found TFunction type: ${varName} -> "${basePath}" in ${path.basename(f)}`));
-      }
+      addBasePath(varName, basePath);
+      if (isVerbose)
+        console.log(chalk.gray(`   Found TFunction type: ${varName} -> "${basePath}" in ${path.basename(f)}`));
     }
 
-    // Now scan for selector usages: t(($) => $.foo.bar) or t($ => $.foo[dynamic])
-    // We need to find t(...) calls and extract the selector path
-
-    // Pattern for exact selectors: $.foo.bar.baz (no bracket at end)
+    // Pattern for exact selectors: $.foo.bar.baz
     const selectorCallRegex = /(\w+)\s*\(\s*\(?\s*\$\s*\)?\s*=>\s*\$\.([a-zA-Z0-9_\-.]+)(?:\s*[,)])/g;
 
     while ((match = selectorCallRegex.exec(content)) !== null) {
       const varName = match[1];
       const selectorPath = match[2];
-      const basePath = tVarBasePaths.get(varName) || "";
-      const fullPath = basePath ? `${basePath}.${selectorPath}` : selectorPath;
-      exactSelectors.add(fullPath);
+      const basePaths = tVarBasePaths.get(varName);
+
+      if (basePaths) {
+        // [FIX] Use forEach instead of for...of loop to avoid TS iteration errors
+        basePaths.forEach((basePath) => {
+          const fullPath = basePath ? `${basePath}.${selectorPath}` : selectorPath;
+          exactSelectors.add(fullPath);
+        });
+      } else {
+        exactSelectors.add(selectorPath);
+      }
     }
 
-    // Pattern for dynamic selectors: $.foo[dynamic] or $.foo.bar[dynamic]
+    // Pattern for dynamic selectors: $.foo[dynamic]
     const dynamicSelectorRegex = /(\w+)\s*\(\s*\(?\s*\$\s*\)?\s*=>\s*\$\.([a-zA-Z0-9_\-.]+)\s*\[/g;
 
     while ((match = dynamicSelectorRegex.exec(content)) !== null) {
       const varName = match[1];
       const selectorPath = match[2];
-      const basePath = tVarBasePaths.get(varName) || "";
-      const fullPath = basePath ? `${basePath}.${selectorPath}` : selectorPath;
-      prefixSelectors.add(fullPath);
+      const basePaths = tVarBasePaths.get(varName);
+
+      if (basePaths) {
+        // [FIX] Use forEach instead of for...of loop
+        basePaths.forEach((basePath) => {
+          const fullPath = basePath ? `${basePath}.${selectorPath}` : selectorPath;
+          prefixSelectors.add(fullPath);
+        });
+      } else {
+        prefixSelectors.add(selectorPath);
+      }
     }
 
-    // Pattern for root dynamic: $[dynamic] (e.g., t($ => $[key]))
+    // Pattern for root dynamic: $[dynamic]
     const rootDynamicSelectorRegex = /(\w+)\s*\(\s*\(?\s*\$\s*\)?\s*=>\s*\$\s*\[/g;
 
     while ((match = rootDynamicSelectorRegex.exec(content)) !== null) {
       const varName = match[1];
-      const basePath = tVarBasePaths.get(varName) || "";
-      if (isVerbose)
-        console.log(chalk.gray(`   Root dynamic: varName=${varName}, basePath=${basePath} in ${path.basename(f)}`));
-      if (basePath) {
-        // If there's a base path, treat it as a prefix (all keys under it are used)
-        prefixSelectors.add(basePath);
-        if (isVerbose) console.log(chalk.green(`   Added prefix from root dynamic: ${basePath}`));
+      const basePaths = tVarBasePaths.get(varName);
+
+      if (isVerbose) {
+        const pathList = basePaths ? Array.from(basePaths).join(", ") : "none";
+        console.log(chalk.gray(`   Root dynamic: varName=${varName}, basePaths=${pathList} in ${path.basename(f)}`));
+      }
+
+      if (basePaths && basePaths.size > 0) {
+        // [FIX] Use forEach instead of for...of loop
+        basePaths.forEach((basePath) => {
+          if (basePath) {
+            prefixSelectors.add(basePath);
+            if (isVerbose) console.log(chalk.green(`   Added prefix from root dynamic: ${basePath}`));
+          }
+        });
       } else {
-        // True root dynamic - dangerous
         foundRootDynamic = true;
         if (isVerbose) console.log(chalk.yellow(`   ⚠️  Root dynamic access '$[' found in ${path.basename(f)}`));
       }
@@ -221,10 +257,7 @@ function findUnused(
   allKeys: string[],
   usage: { exact: Set<string>; prefixes: Set<string>; foundRootDynamic: boolean },
 ) {
-  // If you use `$[var]`, we technically can't delete ANYTHING safely at the top level.
-  // But usually, people want to clean up sub-keys anyway.
-  // We will proceed but warn about top-level safety if strict.
-
+  // Safe conversion to arrays
   const exact = Array.from(usage.exact);
   const prefixes = Array.from(usage.prefixes);
 
@@ -232,21 +265,17 @@ function findUnused(
     // 1. Config Ignore List
     if (CONFIG.ignoredNamespaces.some((ns) => key.startsWith(ns + "."))) return false;
 
-    // 2. Check Dynamic Prefixes (The Fix for your issue)
-    // If code has `$.commands[`, then `commands.ban` and `commands.kick` are SAFE.
+    // 2. Check Dynamic Prefixes
     for (const prefix of prefixes) {
       if (key === prefix || key.startsWith(prefix + ".")) return false;
     }
 
     // 3. Check Exact Matches
-    // If code has `$.general.welcome`, then `general.welcome` is SAFE.
     for (const sel of exact) {
       if (key === sel) return false;
-      // Also protect children: if code uses `$.general`, preserve `general.welcome`
       if (key.startsWith(sel + ".")) return false;
     }
 
-    // If it passed all checks, it is unused.
     return true;
   });
 }
@@ -304,10 +333,8 @@ async function processLanguage(
       });
       Object.entries(grouped).forEach(([ns, kList]) => {
         console.log(chalk.cyan(`  ${ns} (${kList.length})`));
-        // Uncomment below to see every single key for every language (spammy)
-        // kList.forEach((k) => console.log(chalk.red(`    ${k}`)));
       });
-      return true; // Returns true if issues found
+      return true;
     }
   } else {
     console.log(chalk.green(`✨ Clean.`));
@@ -328,7 +355,7 @@ async function main() {
     process.exit(1);
   }
 
-  // 1. Scan Code ONCE (Usage is the same for all languages)
+  // 1. Scan Code ONCE
   const usage = scanSelectorUsage();
   log("success", `Found ${usage.exact.size} exact selectors and ${usage.prefixes.size} prefix selectors in code.`);
   if (usage.foundRootDynamic) {

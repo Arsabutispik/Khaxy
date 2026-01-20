@@ -33,7 +33,6 @@
     "error": "Error while closing the thread.",
     "noDuration": "A duration has not been provided.",
     "noThread": "This is not a mod mail thread.",
-    "noTime": "A time unit has not been provided.",
     "reject": "Cancel",
     "threadCloseDate": "Thread is scheduled to be closed on **{{date}}**. Would you like to override this?",
     "threadCloseDateAccepted": "Continuing override...",
@@ -108,13 +107,6 @@
       "welcomeLeave": "Welcome/Leave Settings"
     }
   },
-  "help": {
-    "commandNotFound": "Command not found.",
-    "commandUsage": "Command Usage",
-    "examples": "Examples",
-    "footer": "<param> are required parameters, [param] are optional parameters.",
-    "permissions": "Permissions"
-  },
   "infractionPunishments": {
     "banSet": "User will be banned at {{threshold}} infractions.",
     "durationMissing": "You must provide a duration for temporary punishments.",
@@ -154,7 +146,6 @@
     "cantKickMod": "You can't kick a moderator.",
     "cantKickSelf": "You can't kick yourself.",
     "clearFail": "Failed to clear the messages.",
-    "databaseError": "Critical error while updating the database. The developers have been notified. The command has been cancelled.",
     "embed": {
       "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Joined At**: {{timestamp}}",
       "fields": {
@@ -270,13 +261,6 @@
     "noMemberRole": "Member role not found. Please set up a member role in the config.",
     "noRegisterChannel": "Register channel not found. Please set up a register channel in the config.",
     "notValid": "Not a valid choice. Please choose either 'male' or 'female'.",
-    "rolesUpdate": {
-      "embed": {
-        "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Roles Added**: {{added_roles}}",
-        "removed": "Roles Removed",
-        "title": "Roles Updated"
-      }
-    },
     "success": "{{confirm}} **{{user}}** has been registered.",
     "wrongChannel": "This command can only be used in the register channel."
   },
@@ -318,13 +302,6 @@
     "suspended": "This mod mail thread has been suspended. You can no longer reply to the user."
   },
   "unban": {
-    "embed": {
-      "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
-      "fields": {
-        "reason": "Reason"
-      },
-      "title": "User Unbanned"
-    },
     "error": "Error while unbanning the user. {{error}}",
     "noReason": "No reason provided for unbanning.",
     "notBanned": "{{user}} is not banned.",

@@ -75,7 +75,7 @@ export async function dynamicChannel(
   }
 
   const actionRow = new ActionRowBuilder<ChannelSelectMenuBuilder>().setComponents(selectMenu);
-  const t = interaction.client.i18next.getFixedT(data.language, null, `dynamicChannel`);
+  const t = interaction.client.i18next.getFixedT(data.language, null, "dynamicChannel");
   const result = await interaction.editReply({
     content: t(($) => $.initial),
     components: [actionRow],
@@ -126,7 +126,7 @@ export async function dynamicMessage(
     textComponent.setPlaceholder(trimString(currentText, 97));
     textComponent.setValue(currentText);
   }
-  const t = interaction.client.i18next.getFixedT(data.language, null, `dynamicMessage`);
+  const t = interaction.client.i18next.getFixedT(data.language, null, "dynamicMessage");
   const labelBuilder = new LabelBuilder()
     .setLabel(
       t(($) => $.initial, {
@@ -190,7 +190,7 @@ export async function dynamicRole(
   if (currentId) {
     selectMenu.setDefaultRoles(currentId);
   }
-  const t = interaction.client.i18next.getFixedT(data.language, null, `dynamicRole`);
+  const t = interaction.client.i18next.getFixedT(data.language, null, "dynamicRole");
   const actionRow = new ActionRowBuilder<RoleSelectMenuBuilder>().setComponents(selectMenu);
 
   const result = await interaction.editReply({

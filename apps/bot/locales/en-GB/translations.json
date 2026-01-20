@@ -4,10 +4,6 @@
   },
   "checkPunishments": {
     "banExpired": "Ban expired after {{duration}}.",
-    "embed": {
-      "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Roles Removed**: {{removed_roles}}",
-      "title": "User Roles Updated"
-    },
     "muteExpired": "Mute expired after {{duration}}."
   },
   "dynamicChannel": {
@@ -93,112 +89,86 @@
     "roleError": "An error occurred while trying to add/remove a role. Please check the bot's permissions and try again."
   },
   "joinLeaveConfig": {
-    "initial": "Select the setting you want to update.",
     "joinChannelId": {
       "description": "The channel where the welcome message will be sent.",
-      "label": "Set Welcome Channel",
-      "unset": "Welcome channel has been removed."
+      "label": "Set Welcome Channel"
     },
     "joinMessage": {
       "description": "The message that will be sent when a member joins the server.",
-      "label": "Set Welcome Message",
-      "title": "Set Welcome Message",
-      "unset": "Welcome message has been removed."
+      "label": "Set Welcome Message"
     },
     "leaveChannelId": {
       "description": "The channel where the leave message will be sent.",
-      "label": "Set Leave Channel",
-      "unset": "Leave channel has been removed."
+      "label": "Set Leave Channel"
     },
     "leaveMessage": {
       "description": "The message that will be sent when a member leaves the server.",
-      "label": "Set Leave Message",
-      "title": "Set Leave Message",
-      "unset": "Leave message has been removed."
-    },
-    "timeout": "Message timed out. Please run the command again."
+      "label": "Set Leave Message"
+    }
   },
   "logConfig": {
     "channelLogsChannelId": {
       "description": "The channel where channel update logs will be sent.",
-      "label": "Set Channel Logs Channel",
-      "unset": "Channel Logs channel has been removed."
+      "label": "Set Channel Logs Channel"
     },
     "emojiLogsChannelId": {
       "description": "The channel where emoji update logs will be sent.",
-      "label": "Set Emoji Logs Channel",
-      "unset": "Emoji Logs channel has been removed."
+      "label": "Set Emoji Logs Channel"
     },
     "eventLogsChannelId": {
       "description": "The channel where event logs will be sent.",
-      "label": "Set Event Logs Channel",
-      "unset": "Event Logs channel has been removed."
+      "label": "Set Event Logs Channel"
     },
     "guildLogsChannelId": {
       "description": "The channel where guild update logs will be sent.",
-      "label": "Set Guild Logs Channel",
-      "unset": "Guild Logs channel has been removed."
+      "label": "Set Guild Logs Channel"
     },
     "guildMemberLogsChannelId": {
       "description": "The channel where member update logs will be sent.",
-      "label": "Set Member Logs Channel",
-      "unset": "Member Logs channel has been removed."
+      "label": "Set Member Logs Channel"
     },
-    "initial": "Select the setting you want to update.",
     "inviteLogsChannelId": {
       "description": "The channel where invite logs will be sent.",
-      "label": "Set Invite Logs Channel",
-      "unset": "Invite Logs channel has been removed."
+      "label": "Set Invite Logs Channel"
     },
     "messageLogsChannelId": {
       "description": "The channel where; message delete, message update, bulk delete logs will be sent.",
-      "label": "Set Message Logs Channel",
-      "unset": "Message Logs channel has been removed."
+      "label": "Set Message Logs Channel"
     },
     "pollLogsChannelId": {
       "description": "The channel where poll logs will be sent.",
-      "label": "Set Poll Logs Channel",
-      "unset": "Poll Logs channel has been removed."
+      "label": "Set Poll Logs Channel"
     },
     "roleLogsChannelId": {
       "description": "The channel where role update logs will be sent.",
-      "label": "Set Role Logs Channel",
-      "unset": "Role Logs channel has been removed."
+      "label": "Set Role Logs Channel"
     },
     "soundboardLogsChannelId": {
       "description": "The channel where soundboard logs will be sent.",
-      "label": "Set Soundboard Logs Channel",
-      "unset": "Soundboard Logs channel has been removed."
+      "label": "Set Soundboard Logs Channel"
     },
     "stageLogsChannelId": {
       "description": "The channel where stage logs will be sent.",
-      "label": "Set Stage Logs Channel",
-      "unset": "Stage Logs channel has been removed."
+      "label": "Set Stage Logs Channel"
     },
     "stickerLogsChannelId": {
       "description": "The channel where sticker update logs will be sent.",
-      "label": "Set Sticker Logs Channel",
-      "unset": "Sticker Logs channel has been removed."
+      "label": "Set Sticker Logs Channel"
     },
     "threadLogsChannelId": {
       "description": "The channel where thread logs will be sent.",
-      "label": "Set Thread Logs Channel",
-      "unset": "Thread Logs channel has been removed."
+      "label": "Set Thread Logs Channel"
     },
-    "timeout": "Message timed out. Please run the command again.",
     "voiceLogsChannelId": {
       "description": "The channel where voice update logs will be sent.",
-      "label": "Set Voice Logs Channel",
-      "unset": "Voice Logs channel has been removed."
+      "label": "Set Voice Logs Channel"
     },
     "webhookLogsChannelId": {
       "description": "The channel where webhook logs will be sent.",
-      "label": "Set Webhook Logs Channel",
-      "unset": "Webhook Logs channel has been removed."
+      "label": "Set Webhook Logs Channel"
     }
   },
   "miscConfig": {
-    "initial": "Select the setting you want to update.",
     "language": {
       "description": "The language the bot will use.",
       "initial": "Select the language you want to set.",
@@ -207,8 +177,7 @@
     },
     "modMailMessage": {
       "description": "The message that will be sent by the bot when a user sends a mod-mail.",
-      "label": "Set Mod-Mail Message",
-      "title": "Set Mod-Mail Message"
+      "label": "Set Mod-Mail Message"
     },
     "timeout": "Message timed out. Please run the command again."
   },
@@ -219,7 +188,6 @@
       "descriptionSeven": "Sets the default expiry to 7 days.",
       "descriptionThirty": "Sets the default expiry to 30 days.",
       "descriptionZero": "Disables the default expiry.",
-      "initial": "Select the one you want to set.",
       "label": "Set Default Expiry",
       "labelFourteen": "Set Default Expiry 14 Days",
       "labelSeven": "Set Default Expiry 7 Days",
@@ -227,18 +195,15 @@
       "labelZero": "Disable Default Expiry",
       "success": "Default expiry has been set to {{days}} days."
     },
-    "initial": "Select the setting you want to update.",
     "modLogsChannelId": {
       "description": "The channel where the moderation logs will be sent.",
-      "label": "Set Mod Log Channel",
-      "unset": "Mod log channel has been removed."
+      "label": "Set Mod Log Channel"
     },
     "modMailChannel": {
       "alreadySet": "Mod-mail channel is already set to {{channel}}.",
       "description": "The channel where the mod-mail will be sent.",
       "label": "Set Mod-Mail Channel",
-      "set": "Mod-mail channel has been set to {{channel}}.",
-      "unset": "Mod-mail channel has been removed."
+      "set": "Mod-mail channel has been set to {{channel}}."
     },
     "muteGetAllRoles": {
       "description": "Gives all roles to the muted user.",
@@ -248,11 +213,8 @@
     },
     "staffRoleId": {
       "description": "The role required to use moderation commands.",
-      "initial": "Select a role below. If you want to remove the role, press x and click elsewhere.",
-      "label": "Set Staff Role",
-      "unset": "Staff role has been removed."
-    },
-    "timeout": "Message timed out. Please run the command again."
+      "label": "Set Staff Role"
+    }
   },
   "modLog": {
     "ban": "{{emoji}}  **{{user.username}}** has been banned by **{{moderator.username}}**. Reason:```{{reason}}```",
@@ -280,11 +242,9 @@
     "toUser": "[TO USER]"
   },
   "registerConfig": {
-    "initial": "Select the setting you want to update.",
     "registerChannelId": {
       "description": "The channel where the register command will be used.",
-      "label": "Set Register Channel",
-      "unset": "Register channel has been removed."
+      "label": "Set Register Channel"
     },
     "registerClearChannel": {
       "description": "Clears the channel after a user registers.",
@@ -294,58 +254,42 @@
     },
     "registerJoinChannelId": {
       "description": "The channel where the register message will be sent.",
-      "label": "Set Register Join Channel",
-      "unset": "Register join channel has been removed."
+      "label": "Set Register Join Channel"
     },
     "registerJoinMessage": {
       "description": "The message that will be sent when a member joins the server.",
-      "label": "Set Register Message",
-      "title": "Set Register Message",
-      "unset": "Register message has been removed."
-    },
-    "timeout": "Message timed out. Please run the command again."
+      "label": "Set Register Message"
+    }
   },
   "roleConfig": {
     "colourIdOfTheDay": {
       "description": "A role that changes every day.",
-      "label": "Set Colour of the Day Role",
-      "unset": "Colour of the Day role has been removed."
+      "label": "Set Colour of the Day Role"
     },
     "djRoleId": {
       "description": "A role that bypasses the music command restrictions.",
-      "label": "Set DJ Role",
-      "unset": "DJ role has been removed."
+      "label": "Set DJ Role"
     },
     "femaleRoleId": {
       "description": "The role given when a member registers as female",
-      "label": "Set Female Role",
-      "unset": "Female role has been removed."
+      "label": "Set Female Role"
     },
-    "initial": "Select the setting you want to update.",
     "maleRoleId": {
       "description": "The role given when a member registers as male.",
-      "label": "Set Male Role",
-      "unset": "Male role has been removed."
+      "label": "Set Male Role"
     },
     "memberRoleId": {
       "description": "The role given when a member registers.",
-      "label": "Set Member Role",
-      "unset": "Member role has been removed."
+      "label": "Set Member Role"
     },
     "muteRoleId": {
       "description": "The role given when a member is muted.",
-      "label": "Set Mute Role",
-      "unset": "Mute role has been removed."
+      "label": "Set Mute Role"
     },
-    "timeout": "Message timed out. Please run the command again.",
     "unverifiedRoleId": {
       "description": "The role given when a member joins the server if the registration module is enabled.",
-      "label": "Set Unverified Role",
-      "unset": "Unverified role has been removed."
+      "label": "Set Unverified Role"
     }
-  },
-  "unregisteredPeople": {
-    "initial": "Member failed to register within {{days}} days."
   },
   "waitForMessageComponent": {
     "initial": "Please select an option below.",

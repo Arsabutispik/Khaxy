@@ -6,13 +6,6 @@
         "title": "Channel Created"
       }
     },
-    "channelDelete": {
-      "embed": {
-        "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Type**: {{channel_type}}\n> **Deleted At**: {{timestamp}}",
-        "title": "Channel Deleted"
-      },
-      "unknownExecutor": "Unknown Executor"
-    },
     "channelTypes": {
       "0": "Text Channel",
       "1": "DM Channel",
@@ -100,12 +93,6 @@
           "title": "Forum Channel Default Thread Rate Limit Changed"
         }
       },
-      "forumNsfwChange": {
-        "embed": {
-          "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Status**: {{old_nsfw}}\n> **New Status**: {{new_nsfw}}",
-          "title": "Forum Channel NSFW Status Changed"
-        }
-      },
       "forumRateLimitChange": {
         "embed": {
           "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old Rate Limit**: {{old_rate_limit}}\n> **New Rate Limit**: {{new_rate_limit}}",
@@ -141,9 +128,6 @@
         "embed": {
           "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old RTC Region**: {{old_rtc_region}}\n> **New RTC Region**: {{new_rtc_region}}",
           "title": "Voice Channel RTC Region Changed"
-        },
-        "region": {
-          "none": "Auto"
         }
       },
       "topicChange": {
@@ -159,7 +143,6 @@
           "title": "Channel Type Changed"
         }
       },
-      "unknownExecutor": "Unknown Executor",
       "userLimitChange": {
         "embed": {
           "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Old User Limit**: {{old_user_limit}} users\n> **New User Limit**: {{new_user_limit}} users",
@@ -293,7 +276,6 @@
       "featuresChange": {
         "embed": {
           "added": "Added",
-          "description": "> **Old Features**: {{old_features}}\n> **New Features**: {{new_features}}",
           "removed": "Removed",
           "title": "Server Features Changed"
         }
@@ -499,7 +481,6 @@
       },
       "locationChange": {
         "embed": {
-          "description": "> **Name**: {{event.name}}\n> **ID**: {{event.id}}\n> **Old Location**: {{old_location}}\n> **New Location**: {{new_location}}",
           "title": "Guild Scheduled Event Location Changed"
         }
       },
@@ -608,8 +589,7 @@
         "titleKicked": "User Kicked From Server"
       },
       "joinDateUnknown": "Join date unknown",
-      "noReason": "No reason provided.",
-      "unknownExecutor": "Unknown Executor"
+      "noReason": "No reason provided."
     },
     "memberUpdate": {
       "nicknameChange": {
@@ -623,8 +603,7 @@
         "embed": {
           "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
           "title": "User Timeout Removed"
-        },
-        "noReason": "No reason provided for removing timeout."
+        }
       },
       "rolesUpdate": {
         "embed": {
@@ -915,8 +894,7 @@
           "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Old Channel**: {{oldChannel.name}} (<#{{oldChannel.id}}>)\n> **New Channel**: {{newChannel.name}} (<#{{newChannel.id}}>)",
           "title": "User Moved Voice Channel"
         }
-      },
-      "unknownExecutor": "Unknown Executor"
+      }
     }
   }
 }

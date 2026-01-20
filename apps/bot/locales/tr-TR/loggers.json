@@ -6,13 +6,6 @@
         "title": ""
       }
     },
-    "channelDelete": {
-      "embed": {
-        "description": "",
-        "title": ""
-      },
-      "unknownExecutor": ""
-    },
     "channelTypes": {
       "0": "",
       "1": "",
@@ -100,12 +93,6 @@
           "title": ""
         }
       },
-      "forumNsfwChange": {
-        "embed": {
-          "description": "",
-          "title": ""
-        }
-      },
       "forumRateLimitChange": {
         "embed": {
           "description": "",
@@ -141,9 +128,6 @@
         "embed": {
           "description": "",
           "title": ""
-        },
-        "region": {
-          "none": ""
         }
       },
       "topicChange": {
@@ -159,7 +143,6 @@
           "title": ""
         }
       },
-      "unknownExecutor": "",
       "userLimitChange": {
         "embed": {
           "description": "",
@@ -293,7 +276,6 @@
       "featuresChange": {
         "embed": {
           "added": "",
-          "description": "",
           "removed": "",
           "title": ""
         }
@@ -499,7 +481,6 @@
       },
       "locationChange": {
         "embed": {
-          "description": "",
           "title": ""
         }
       },
@@ -608,8 +589,7 @@
         "titleKicked": ""
       },
       "joinDateUnknown": "",
-      "noReason": "",
-      "unknownExecutor": ""
+      "noReason": ""
     },
     "memberUpdate": {
       "nicknameChange": {
@@ -623,8 +603,7 @@
         "embed": {
           "description": "",
           "title": ""
-        },
-        "noReason": ""
+        }
       },
       "rolesUpdate": {
         "embed": {
@@ -915,8 +894,7 @@
           "description": "",
           "title": ""
         }
-      },
-      "unknownExecutor": ""
+      }
     }
   }
 }
