@@ -3,10 +3,13 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "NodeNext",
+    "lib": ["ESNext", "DOM"],
     "moduleResolution": "NodeNext",
     "outDir": "./dist",
     "baseUrl": ".",
     "esModuleInterop": true,
+    "strict": true,
+    "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,

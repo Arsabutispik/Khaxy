@@ -2,9 +2,14 @@ import { AnyThreadChannel, ChannelType, EmbedBuilder, AuditLogEvent } from "disc
 import { GuildWithLogs } from "@repo/database";
 import { formatDuration, returnWebhook, WebhookType } from "@utils";
 import { logger } from "@lib";
+import { logUnhandledChanges } from "../utils.js";
 
-export async function logThreadUpdate(oldThread: AnyThreadChannel, newThread: AnyThreadChannel, guildConfig: GuildWithLogs) {
-  const t = newThread.client.i18next.getFixedT(guildConfig.language, "events", "threadUpdate");
+export async function logThreadUpdate(
+  oldThread: AnyThreadChannel,
+  newThread: AnyThreadChannel,
+  guildConfig: GuildWithLogs,
+) {
+  const t = newThread.client.i18next.getFixedT(guildConfig.language, "loggers", "threadEvents");
   if (!guildConfig.logConfig?.threadLogsChannelId) return;
   const logChannel = newThread.guild.channels.cache.get(guildConfig.logConfig.threadLogsChannelId);
   if (logChannel?.type !== ChannelType.GuildText) return;
@@ -19,17 +24,20 @@ export async function logThreadUpdate(oldThread: AnyThreadChannel, newThread: An
   const logEntry = auditLogs?.entries.first();
   if (logEntry?.target?.id === newThread.id) {
     embed.setFooter({
-      text: logEntry.executor?.username ?? t("unknown_executor"),
+      text: logEntry.executor?.username ?? t(($) => $.unknownExecutor),
       iconURL: logEntry.executor?.displayAvatarURL() ?? undefined,
     });
   }
   if (oldThread.name !== newThread.name) {
     const embedClone = EmbedBuilder.from(embed)
-      .setTitle(t("name_change.embed.title"))
+      .setTitle(t(($) => $.threadUpdate.nameChange.embed.title))
       .setDescription(
-        t("name_change.embed.description", {
+        t(($) => $.threadUpdate.nameChange.embed.description, {
           thread: newThread,
-          parent: newThread.parent,
+          parent: {
+            name: newThread.parent?.name || t(($) => $.noParentName),
+            id: newThread.parentId || t(($) => $.noParentId),
+          },
           old_name: oldThread.name,
           new_name: newThread.name,
         }),
@@ -39,17 +47,23 @@ export async function logThreadUpdate(oldThread: AnyThreadChannel, newThread: An
   if (oldThread.archived !== newThread.archived) {
     const embedClone = EmbedBuilder.from(embed);
     if (newThread.archived) {
-      embedClone.setTitle(t("archive.embed.title")).setDescription(
-        t("archive.embed.description", {
+      embedClone.setTitle(t(($) => $.threadUpdate.archive.embed.title)).setDescription(
+        t(($) => $.threadUpdate.archive.embed.description, {
           thread: newThread,
-          parent: newThread.parent,
+          parent: {
+            name: newThread.parent?.name || t(($) => $.noParentName),
+            id: newThread.parentId || t(($) => $.noParentId),
+          },
         }),
       );
     } else {
-      embedClone.setTitle(t("unarchive.embed.title")).setDescription(
-        t("unarchive.embed.description", {
+      embedClone.setTitle(t(($) => $.threadUpdate.unarchive.embed.title)).setDescription(
+        t(($) => $.threadUpdate.unarchive.embed.description, {
           thread: newThread,
-          parent: newThread.parent,
+          parent: {
+            name: newThread.parent?.name || t(($) => $.noParentName),
+            id: newThread.parentId || t(($) => $.noParentId),
+          },
         }),
       );
     }
@@ -58,17 +72,23 @@ export async function logThreadUpdate(oldThread: AnyThreadChannel, newThread: An
   if (oldThread.locked !== newThread.locked) {
     const embedClone = EmbedBuilder.from(embed);
     if (newThread.locked) {
-      embedClone.setTitle(t("lock.embed.title")).setDescription(
-        t("lock.embed.description", {
+      embedClone.setTitle(t(($) => $.threadUpdate.lock.embed.title)).setDescription(
+        t(($) => $.threadUpdate.lock.embed.description, {
           thread: newThread,
-          parent: newThread.parent,
+          parent: {
+            name: newThread.parent?.name || t(($) => $.noParentName),
+            id: newThread.parentId || t(($) => $.noParentId),
+          },
         }),
       );
     } else {
-      embedClone.setTitle(t("unlock.embed.title")).setDescription(
-        t("unlock.embed.description", {
+      embedClone.setTitle(t(($) => $.threadUpdate.unlock.embed.title)).setDescription(
+        t(($) => $.threadUpdate.unlock.embed.description, {
           thread: newThread,
-          parent: newThread.parent,
+          parent: {
+            name: newThread.parent?.name || t(($) => $.noParentName),
+            id: newThread.parentId || t(($) => $.noParentId),
+          },
         }),
       );
     }
@@ -76,36 +96,58 @@ export async function logThreadUpdate(oldThread: AnyThreadChannel, newThread: An
   }
   if (oldThread.autoArchiveDuration !== newThread.autoArchiveDuration) {
     const embedClone = EmbedBuilder.from(embed)
-      .setTitle(t("auto_archive_duration_change.embed.title"))
+      .setTitle(t(($) => $.threadUpdate.autoArchiveDurationChange.embed.title))
       .setDescription(
-        t("auto_archive_duration_change.embed.description", {
+        t(($) => $.threadUpdate.autoArchiveDurationChange.embed.description, {
           thread: newThread,
-          parent: newThread.parent,
-          old_duration: t(`auto_archive_duration.${oldThread.autoArchiveDuration}`),
-          new_duration: t(`auto_archive_duration.${newThread.autoArchiveDuration}`),
+          parent: {
+            name: newThread.parent?.name || t(($) => $.noParentName),
+            id: newThread.parentId || t(($) => $.noParentId),
+          },
+          old_duration: t(($) => $.threadAutoArchiveDuration[oldThread.autoArchiveDuration ?? "null"]),
+          new_duration: t(($) => $.threadAutoArchiveDuration[newThread.autoArchiveDuration ?? "null"]),
         }),
       );
     embeds.push(embedClone);
   }
   if (oldThread.rateLimitPerUser !== newThread.rateLimitPerUser) {
     const embedClone = EmbedBuilder.from(embed)
-      .setTitle(t("rate_limit_change.embed.title"))
+      .setTitle(t(($) => $.threadUpdate.rateLimitChange.embed.title))
       .setDescription(
-        t("rate_limit_change.embed.description", {
+        t(($) => $.threadUpdate.rateLimitChange.embed.description, {
           thread: newThread,
-          parent: newThread.parent,
+          parent: {
+            name: newThread.parent?.name || t(($) => $.noParentName),
+            id: newThread.parentId || t(($) => $.noParentId),
+          },
           old_rate_limit: formatDuration(oldThread.rateLimitPerUser! * 1000, guildConfig.language),
           new_rate_limit: formatDuration(newThread.rateLimitPerUser! * 1000, guildConfig.language),
         }),
       );
     embeds.push(embedClone);
   }
-  if (embeds.length === 0) return;
+  if (embeds.length === 0) {
+    logUnhandledChanges("threadUpdate", oldThread, newThread, `Thread "${newThread.name}" (${newThread.id})`, [
+      "messages",
+      "members",
+      "guildMembers",
+      "parent",
+      "ownerId",
+      "parentId",
+      "guildId",
+      "lastMessageId",
+      "lastPinTimestamp",
+      "messageCount",
+      "memberCount",
+      "totalMessageSent",
+    ]);
+    return;
+  }
   const webhook = await returnWebhook(newThread.client, logChannel, newThread.guild.id, guildConfig, {
     id: guildConfig.logConfig.threadLogsWebhookId,
     type: WebhookType.THREAD_LOGS,
   });
-  if(webhook) {
+  if (webhook) {
     await webhook.send({ embeds }).catch((error) => {
       logger.log({
         level: "error",

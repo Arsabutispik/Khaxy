@@ -12,7 +12,7 @@ import { logger } from "@lib";
 
 export async function logChannelCreate(channel: NonThreadGuildBasedChannel, guildConfig: GuildWithLogs) {
   if (!guildConfig.logConfig?.channelLogsChannelId) return;
-  const t = channel.client.i18next.getFixedT(guildConfig.language, "events", "channelCreate");
+  const t = channel.client.i18next.getFixedT(guildConfig.language, "loggers", "channelEvents");
   const logChannel = channel.guild.channels.cache.get(guildConfig.logConfig?.channelLogsChannelId);
   if (logChannel?.type !== ChannelType.GuildText) return;
 
@@ -30,18 +30,18 @@ export async function logChannelCreate(channel: NonThreadGuildBasedChannel, guil
 
   const embed = new EmbedBuilder()
     .setColor("Green")
-    .setTitle(t("embed.title"))
+    .setTitle(t(($) => $.channelCreate.embed.title))
     .setDescription(
-      t("embed.description", {
-        channel: channel.toString(), // Explicitly stringify to <#ID>
-        channel_type: t(`channel_types.${channel.type}`),
+      t(($) => $.channelCreate.embed.description, {
+        channel: channel,
+        channel_type: t(($) => $.channelTypes[channel.type]),
         timestamp: time(channel.createdAt, TimestampStyles.LongDateShortTime),
       }),
     )
     .setThumbnail(channel.guild.iconURL() ?? null)
     .setTimestamp()
     .setFooter({
-      text: executor?.tag ?? t("unknown_executor"),
+      text: executor?.tag ?? t(($) => $.unknownExecutor),
       iconURL: executor?.displayAvatarURL() ?? undefined,
     });
 

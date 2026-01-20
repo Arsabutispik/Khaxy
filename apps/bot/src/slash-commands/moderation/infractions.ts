@@ -100,26 +100,29 @@ export default {
       const caseId = interaction.options.getInteger("id", true);
       const infraction = await getInfraction(interaction.guildId, caseId);
       if (!infraction) {
-        return interaction.reply({ content: t("no_infraction", { case: caseId }), flags: MessageFlags.Ephemeral });
+        return interaction.reply({
+          content: t(($) => $.case.noInfraction, { case: caseId }),
+          flags: MessageFlags.Ephemeral,
+        });
       }
       const user = await interaction.client.users.fetch(infraction.userId).catch(() => null);
       if (!user) {
-        return interaction.reply({ content: t("no_user"), flags: MessageFlags.Ephemeral });
+        return interaction.reply({ content: t(($) => $.noUser), flags: MessageFlags.Ephemeral });
       }
       const embed = new EmbedBuilder()
         .setAuthor({
           name: user.tag,
           iconURL: user.displayAvatarURL(),
         })
-        .setTitle(t("infraction_case", { case: infraction.caseId }))
+        .setTitle(t(($) => $.case.embed.title, { case: infraction.caseId }))
         .setColor("Random")
         .setTimestamp()
         .setDescription(
-          t("infraction_details", {
+          t(($) => $.case.embed.description, {
             type: infraction.type,
-            reason: infraction.reason || t("no_reason"),
+            reason: infraction.reason || t(($) => $.noReason),
             moderator: `<@${infraction.moderatorId}>`,
-            date: time(infraction.createdAt, TimestampStyles.LongDateTime),
+            date: time(infraction.createdAt, TimestampStyles.FullDateShortTime),
           }),
         );
       return interaction.reply({ embeds: [embed] });
@@ -131,7 +134,10 @@ export default {
         infractions = infractions.filter((infraction) => infraction.type.toLowerCase() === type.toLowerCase());
       }
       if (infractions.length === 0) {
-        return interaction.reply({ content: t("no_infractions", { user: user.tag }), flags: MessageFlags.Ephemeral });
+        return interaction.reply({
+          content: t(($) => $.user.noInfraction, { user: user.tag }),
+          flags: MessageFlags.Ephemeral,
+        });
       }
       const chunkSize = 10;
       const embeds: Array<EmbedBuilder> = [];
@@ -142,10 +148,10 @@ export default {
             name: user.tag,
             iconURL: user.displayAvatarURL(),
           })
-          .setTitle(t("infractions_for", { user: user.tag }))
+          .setTitle(t(($) => $.user.embed.title, { user: user.tag }))
           .setColor("Random")
           .setFooter({
-            text: t("page_footer", {
+            text: t(($) => $.user.pageFooter, {
               current: Math.floor(i / chunkSize) + 1,
               total: Math.ceil(infractions.length / chunkSize),
             }),
@@ -153,12 +159,12 @@ export default {
           .setTimestamp();
         chunk.forEach((infraction) => {
           embed.addFields({
-            name: t("infraction_case", { case: infraction.caseId }),
-            value: t("infraction_details", {
+            name: t(($) => $.user.embed.fields.title, { case: infraction.caseId }),
+            value: t(($) => $.user.embed.fields.value, {
               type: infraction.type,
-              reason: infraction.reason || t("no_reason"),
+              reason: infraction.reason || t(($) => $.noReason),
               moderator: `<@${infraction.moderatorId}>`,
-              date: time(infraction.createdAt, TimestampStyles.LongDateTime),
+              date: time(infraction.createdAt, TimestampStyles.FullDateShortTime),
             }),
           });
         });

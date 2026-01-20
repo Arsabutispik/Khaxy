@@ -23,7 +23,7 @@ export async function checkPunishments(client: Client) {
       }
 
       const user = await client.users.fetch(punishment.userId).catch(() => null);
-      const staff = await client.users.fetch(punishment.staffId).catch(() => null);
+      const staff = await client.users.fetch(punishment.staffId).catch(() => client.user!);
 
       if (!user) {
         // User doesn't exist anymore, delete the punishment
@@ -31,7 +31,7 @@ export async function checkPunishments(client: Client) {
         continue;
       }
 
-      const t = client.i18next.getFixedT(guildConfig.language);
+      const t = client.i18next.getFixedT(guildConfig.language, null, "checkPunishments");
       const expiresDate = dayjs(punishment.expiresAt);
       const createdAtDate = dayjs(punishment.created_at);
       const duration = dayjs(Date.now() - expiresDate.diff(createdAtDate));
@@ -47,7 +47,9 @@ export async function checkPunishments(client: Client) {
           continue;
         }
 
-        const reason = t("commands:ban.expired");
+        const reason = t(($) => $.banExpired, {
+          duration: createdAtDate.locale(guildConfig.language).fromNow(true),
+        });
         await guild.members.unban(user, reason);
 
         await modLog(
@@ -99,9 +101,10 @@ export async function checkPunishments(client: Client) {
           member,
           action: "rolesUpdate",
           guildConfig,
-          t,
           executor: client.user, // The Bot did it
-          reason: t("commands:mute.expired"), // "Mute expired"
+          reason: t(($) => $.muteExpired, {
+            duration: createdAtDate.locale(guildConfig.language).fromNow(true),
+          }), // "Mute expired"
           addedRoles: rolesToRestore.map((id) => `<@&${id}>`), // Format for embed
           removedRoles: muteRoleId ? [`<@&${muteRoleId}>`] : [],
         });

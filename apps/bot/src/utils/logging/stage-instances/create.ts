@@ -4,22 +4,22 @@ import { returnWebhook, WebhookType } from "@utils";
 import { logger } from "@lib";
 
 export async function logStageInstanceCreate(stageInstance: StageInstance, guildConfig: GuildWithLogs) {
-  if(!stageInstance.guild) return;
-  const t = stageInstance.client.i18next.getFixedT(guildConfig.language, "events", "stageInstanceCreate");
+  if (!stageInstance.guild) return;
+  const t = stageInstance.client.i18next.getFixedT(guildConfig.language, "loggers", "stageInstanceEvents");
   if (!guildConfig.logConfig?.stageLogsChannelId) return;
   const logChannel = stageInstance.guild.channels.cache.get(guildConfig.logConfig.stageLogsChannelId);
   if (logChannel?.type !== ChannelType.GuildText) return;
   const embed = new EmbedBuilder()
     .setColor("Green")
     .setTimestamp()
-    .setTitle(t("embed.title"))
+    .setTitle(t(($) => $.stageInstanceCreate.embed.title))
     .setDescription(
-      t("embed.description", {
+      t(($) => $.stageInstanceCreate.embed.description, {
         stage: stageInstance,
       }),
     );
-  const auditLogs = await stageInstance
-    .guild.fetchAuditLogs({
+  const auditLogs = await stageInstance.guild
+    .fetchAuditLogs({
       limit: 1,
       type: AuditLogEvent.StageInstanceCreate,
     })
@@ -27,7 +27,7 @@ export async function logStageInstanceCreate(stageInstance: StageInstance, guild
   const logEntry = auditLogs?.entries.first();
   if (logEntry?.target.id === stageInstance.id) {
     embed.setFooter({
-      text: logEntry?.executor?.username || t("unknown_executor"),
+      text: logEntry?.executor?.username || t(($) => $.unknownExecutor),
       iconURL: logEntry.executor?.displayAvatarURL(),
     });
   }
@@ -35,7 +35,7 @@ export async function logStageInstanceCreate(stageInstance: StageInstance, guild
     id: guildConfig.logConfig.stageLogsWebhookId,
     type: WebhookType.STAGE_LOGS,
   });
-  if(webhook) {
+  if (webhook) {
     await webhook.send({ embeds: [embed] }).catch((error) => {
       logger.log({
         level: "error",

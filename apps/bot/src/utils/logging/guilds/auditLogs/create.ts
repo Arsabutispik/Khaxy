@@ -5,7 +5,7 @@ import { logger } from "@lib";
 
 export async function logAuditLogEntryCreate(entry: GuildAuditLogsEntry, guild: Guild, guildConfig: GuildWithLogs) {
   if (!guildConfig.logConfig?.webhookLogsChannelId) return;
-  const t = guild.client.i18next.getFixedT(guildConfig.language, "events", "guildAuditLogEntryCreate");
+  const t = guild.client.i18next.getFixedT(guildConfig.language, "loggers", "guildAuditLogEvents");
   const logChannel = guild.channels.cache.get(guildConfig.logConfig.webhookLogsChannelId);
   if (logChannel?.type !== ChannelType.GuildText) return;
   const embeds: Array<EmbedBuilder> = [];
@@ -16,21 +16,30 @@ export async function logAuditLogEntryCreate(entry: GuildAuditLogsEntry, guild: 
     }
     return undefined;
   }
+  function getWebhookFromTarget(guild: Guild, target: unknown): Webhook | undefined {
+    if (target instanceof Webhook) {
+      return target;
+    }
+    return undefined;
+  }
   if (entry.action === AuditLogEvent.WebhookCreate) {
     const targetChannel = getChannelFromTarget(guild, entry.target);
+    if (!targetChannel) return;
+    const webhook = getWebhookFromTarget(guild, entry.target);
+    if (!webhook) return;
     const embed = new EmbedBuilder()
       .setColor("Green")
-      .setTitle(t("webhook_create.embed.title"))
+      .setTitle(t(($) => $.guildAuditLogEntryCreate.webhookCreate.embed.title))
       .setDescription(
-        t("webhook_create.embed.description", {
+        t(($) => $.guildAuditLogEntryCreate.webhookCreate.embed.description, {
           executor: entry.executor,
-          webhook: entry.target,
+          webhook,
           channel: targetChannel,
         }),
       )
       .setTimestamp()
       .setFooter({
-        text: entry.executor?.username ?? t("unknown_executor"),
+        text: entry.executor?.username ?? t(($) => $.unknownExecutor),
         iconURL: entry.executor?.displayAvatarURL() ?? undefined,
       });
     embeds.push(embed);
@@ -39,19 +48,22 @@ export async function logAuditLogEntryCreate(entry: GuildAuditLogsEntry, guild: 
     // Clean up cached webhook if it exists
     guild.client.webhooks.delete((entry.target as Webhook).id);
     const targetChannel = getChannelFromTarget(guild, entry.target);
+    const webhook = getWebhookFromTarget(guild, entry.target);
+    if (!webhook) return;
+    if (!targetChannel) return;
     const embed = new EmbedBuilder()
       .setColor("Red")
-      .setTitle(t("webhook_delete.embed.title"))
+      .setTitle(t(($) => $.guildAuditLogEntryCreate.webhookDelete.embed.title))
       .setDescription(
-        t("webhook_delete.embed.description", {
+        t(($) => $.guildAuditLogEntryCreate.webhookDelete.embed.description, {
           executor: entry.executor,
-          webhook: entry.target,
+          webhook,
           channel: targetChannel,
         }),
       )
       .setTimestamp()
       .setFooter({
-        text: entry.executor?.username ?? t("unknown_executor"),
+        text: entry.executor?.username ?? t(($) => $.unknownExecutor),
         iconURL: entry.executor?.displayAvatarURL() ?? undefined,
       });
     embeds.push(embed);

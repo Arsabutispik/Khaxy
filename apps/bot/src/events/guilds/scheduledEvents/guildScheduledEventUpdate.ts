@@ -12,7 +12,6 @@ export default {
     if (!oldEvent) return;
     const guildConfig = await getOrCreateGuild(newEvent.guild.id);
     if (!guildConfig) return;
-    const t = newEvent.client.i18next.getFixedT(guildConfig.language, "events", "guildScheduledEventUpdate");
-    await logScheduledEventUpdate({ event: oldEvent, newEvent, executor: newEvent.creator, guildConfig, t });
+    await logScheduledEventUpdate({ event: oldEvent, newEvent, executor: newEvent.creator, guildConfig });
   },
 } satisfies EventBase<Events.GuildScheduledEventUpdate>;

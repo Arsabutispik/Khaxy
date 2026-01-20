@@ -42,11 +42,11 @@ export async function checkExpiredThreads(client: Client) {
       // ============================================================
       // 2. PROCESS CLOSE
       // ============================================================
-      const t = client.i18next.getFixedT(guildConfig.language, "mod_mail_log");
+      const t = client.i18next.getFixedT(guildConfig.language, null, "modMailLog");
 
       const user = await client.users.fetch(thread.userId).catch(() => null);
       if (user) {
-        await user.send(t("thread_closed_dm", { guild: guild.name })).catch(() => null);
+        await user.send(t(($) => $.threadClosedDm, { guild: guild.name })).catch(() => null);
       }
 
       // Log it using the CORRECT closer (Mod or Bot)
@@ -56,7 +56,7 @@ export async function checkExpiredThreads(client: Client) {
       // We pass closer.id here to ensure the final record is accurate
       await closeThread(thread.channelId, closer.id);
 
-      await channel.send(t("preparing_close"));
+      await channel.send(t(($) => $.preparingClose));
 
       setTimeout(() => {
         channel.delete().catch(() => null);

@@ -39,8 +39,6 @@ export async function getVoiceAuditExecutor(
 
   if (sameEntryUpdated || newRecentEntry) {
     return {
-      // FIX 2: Cast 'PartialUser | User' to 'User'
-      // We already checked it exists above, so this is safe for display logic.
       executor: logEntry.executor as User,
       entryId: logEntry.id,
       entryCount: currentCount,

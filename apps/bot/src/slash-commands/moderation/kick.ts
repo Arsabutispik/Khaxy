@@ -65,33 +65,33 @@ export default {
     const t = client.i18next.getFixedT(guildConfig.language || "en", "commands", "kick");
 
     const member = interaction.options.getMember("user");
-    const reason = interaction.options.getString("reason") || t("no_reason");
+    const reason = interaction.options.getString("reason") || t(($) => $.noReason);
     const clear = interaction.options.getBoolean("clear") || false;
     if (!member) {
-      await interaction.reply(t("no_member"));
+      await interaction.reply(t(($) => $.noMember));
       return;
     }
     if (member.id === interaction.user.id) {
-      await interaction.reply(t("cant_kick_yourself"));
+      await interaction.reply(t(($) => $.cantKickSelf));
       return;
     }
     if (member.user.bot) {
-      await interaction.reply(t("cant_kick_bot"));
+      await interaction.reply(t(($) => $.cantKickBot));
       return;
     }
     if (member.roles.highest.position >= interaction.member.roles.highest.position) {
-      await interaction.reply(t("cant_kick_higher"));
+      await interaction.reply(t(($) => $.cantKickHigher));
       return;
     }
     if (
       member.permissions.has(PermissionsBitField.Flags.KickMembers) ||
       (guildConfig.staffRoleId && member.roles.cache.has(guildConfig.staffRoleId))
     ) {
-      await interaction.reply(t("cant_kick_mod"));
+      await interaction.reply(t(($) => $.cantKickMod));
       return;
     }
     if (!member.kickable) {
-      await interaction.reply(t("cant_kick"));
+      await interaction.reply(t(($) => $.cantKick));
       return;
     }
     await createInfraction(interaction.guildId, member.id, interaction.user.id, InfractionType.KICK, reason);
@@ -126,21 +126,21 @@ export default {
     }
 
     if (!kickSuccess) {
-      await interaction.reply(clear ? t("clearFail") : t("fail"));
+      await interaction.reply(clear ? t(($) => $.clearFail) : t(($) => $.fail));
       return;
     }
 
     // Now send success messages
     try {
       await member.send(
-        t("message.dm", {
+        t(($) => $.message.dm, {
           confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
           guild: interaction.guild.name,
           reason,
         }),
       );
       await interaction.reply(
-        t("message.success", {
+        t(($) => $.message.success, {
           user: member.user.tag,
           case: guildConfig.caseId,
           confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
@@ -148,7 +148,7 @@ export default {
       );
     } catch {
       await interaction.reply(
-        t("message.fail", {
+        t(($) => $.message.fail, {
           user: member.user.tag,
           case: guildConfig.caseId,
           confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
@@ -175,21 +175,21 @@ export default {
         });
         if (!webhook) return;
         const embed = new EmbedBuilder()
-          .setTitle(t("embed.title"))
+          .setTitle(t(($) => $.embed.title))
           .setColor("Red")
           .setThumbnail(member.displayAvatarURL())
           .setDescription(
-            t("embed.description", {
+            t(($) => $.embed.description, {
               user: member.user,
               timestamp:
                 member && member.joinedAt
                   ? formatted_time(member.joinedAt, TimestampStyles.RelativeTime)
-                  : t("neverJoined"),
+                  : t(($) => $.joinDateUnknown),
             }),
           )
           .addFields([
             {
-              name: t("embed.fields.reason"),
+              name: t(($) => $.embed.fields.reason),
               value: reason,
             },
           ])

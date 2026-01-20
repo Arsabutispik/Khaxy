@@ -5,16 +5,16 @@ import { logger } from "@lib";
 
 export async function logInviteDelete(invite: Invite, guildConfig: GuildWithLogs) {
   if (!invite.guild || invite.guild instanceof InviteGuild) return;
-  const t = invite.client.i18next.getFixedT(guildConfig.language, "events", "inviteDelete");
+  const t = invite.client.i18next.getFixedT(guildConfig.language, "loggers", "inviteEvents");
   if (!guildConfig.logConfig?.inviteLogsChannelId) return;
   const logChannel = invite.guild.channels.cache.get(guildConfig.logConfig.inviteLogsChannelId);
   if (logChannel?.type !== ChannelType.GuildText) return;
 
   const embed = new EmbedBuilder()
     .setColor("Red")
-    .setTitle(t("embed.title"))
+    .setTitle(t(($) => $.inviteDelete.embed.title))
     .setDescription(
-      t("embed.description", {
+      t(($) => $.inviteDelete.embed.description, {
         invite,
       }),
     )
@@ -28,7 +28,7 @@ export async function logInviteDelete(invite: Invite, guildConfig: GuildWithLogs
   const logEntry = auditLogs?.entries.first();
   if (logEntry?.target?.code === invite.code) {
     embed.setFooter({
-      text: logEntry.executor?.username ?? t("unknown_executor"),
+      text: logEntry.executor?.username ?? t(($) => $.unknownExecutor),
       iconURL: logEntry.executor?.displayAvatarURL() ?? undefined,
     });
   }
@@ -36,7 +36,7 @@ export async function logInviteDelete(invite: Invite, guildConfig: GuildWithLogs
     id: guildConfig.logConfig.inviteLogsWebhookId,
     type: WebhookType.INVITE_LOGS,
   });
-  if(webhook) {
+  if (webhook) {
     await webhook.send({ embeds: [embed] }).catch((error) => {
       logger.log({
         level: "error",

@@ -21,32 +21,36 @@ export async function miscConfig(interaction: ChatInputCommandInteraction<"cache
     .setMaxValues(1)
     .setOptions([
       {
-        label: t("language.label"),
+        label: t(($) => $.language.label),
         value: "language",
-        description: t("language.description"),
+        description: t(($) => $.language.description),
         emoji: "🌐",
       },
       {
-        label: t("modMailMessage.label"),
+        label: t(($) => $.modMailMessage.label),
         value: "modMailMessage",
-        description: t("modMailMessage.description"),
+        description: t(($) => $.modMailMessage.description),
         emoji: "📬",
       },
     ]);
   const actionRow = new ActionRowBuilder<StringSelectMenuBuilder>().setComponents(selectMenu);
-  const messageComponent = await waitForMessageComponent(interaction, actionRow, t, "miscConfig");
+  const messageComponent = await waitForMessageComponent(interaction, actionRow, guildData.language, "miscConfig");
   if (!messageComponent) return;
   switch (messageComponent.values[0]) {
     case "language":
       await languageConfig(messageComponent, guildData, t);
       break;
     case "modMailMessage":
-      await dynamicMessage("modMailMessage", messageComponent, guildData, t);
+      await dynamicMessage("modMailMessage", messageComponent, guildData);
       break;
   }
 }
 
-async function languageConfig(interaction: StringSelectMenuInteraction<"cached">, data: GuildWithLogs, t: TFunction) {
+async function languageConfig(
+  interaction: StringSelectMenuInteraction<"cached">,
+  data: GuildWithLogs,
+  t: TFunction<"translations", "miscConfig">,
+) {
   await interaction.deferUpdate();
   const client = interaction.client;
   const selectMenu = new StringSelectMenuBuilder()
@@ -70,9 +74,8 @@ async function languageConfig(interaction: StringSelectMenuInteraction<"cached">
       },
     ]);
   const actionRow = new ActionRowBuilder<StringSelectMenuBuilder>().setComponents(selectMenu);
-
   const result = await interaction.editReply({
-    content: t("channelInitial"),
+    content: t(($) => $.language.initial),
     components: [actionRow],
   });
 
@@ -86,7 +89,7 @@ async function languageConfig(interaction: StringSelectMenuInteraction<"cached">
       time: 1000 * 60 * 5,
     });
   } catch {
-    await result.edit({ content: t("timeout"), components: [] });
+    await result.edit({ content: t(($) => $.timeout), components: [] });
     return;
   }
 
@@ -103,7 +106,7 @@ async function languageConfig(interaction: StringSelectMenuInteraction<"cached">
   // 3. Reply
   const new_t = client.i18next.getFixedT(messageComponent.values[0], null, "miscConfig");
   await messageComponent.editReply({
-    content: new_t("language.set", { language: localeFlags[messageComponent.values[0]] }),
+    content: new_t(($) => $.language.set, { language: localeFlags[messageComponent.values[0]] }),
     components: [],
   });
 }

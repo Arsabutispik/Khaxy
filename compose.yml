@@ -1,6 +1,4 @@
-# Podman Compose file for Khaxy Discord Bot
-# Usage: podman-compose -f compose.yml up -d
-
+# compose.yml - For running the Khaxy Bot
 services:
   postgres:
     image: docker.io/library/postgres:17-alpine

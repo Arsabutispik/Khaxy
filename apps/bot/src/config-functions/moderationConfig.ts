@@ -19,46 +19,51 @@ export async function moderationConfig(interaction: ChatInputCommandInteraction<
     .setMaxValues(1)
     .setOptions([
       {
-        label: t("modLogsChannelId.label"),
+        label: t(($) => $.modLogsChannelId.label),
         value: "modLogsChannelId",
-        description: t("modLogsChannelId.description"),
+        description: t(($) => $.modLogsChannelId.description),
         emoji: "📝",
       },
       {
-        label: t("staffRoleId.label"),
+        label: t(($) => $.staffRoleId.label),
         value: "staffRoleId",
-        description: t("staffRoleId.description"),
+        description: t(($) => $.staffRoleId.description),
         emoji: "🛡️",
       },
       {
-        label: t("modMailChannel.label"),
+        label: t(($) => $.modMailChannel.label),
         value: "modMailChannel",
-        description: t("modMailChannel.description"),
+        description: t(($) => $.modMailChannel.description),
         emoji: "📬",
       },
       {
-        label: t("muteGetAllRoles.label"),
+        label: t(($) => $.muteGetAllRoles.label),
         value: "muteGetAllRoles",
-        description: t("muteGetAllRoles.description"),
+        description: t(($) => $.muteGetAllRoles.description),
         emoji: "🔇",
       },
       {
-        label: t("defaultExpiry.label"),
+        label: t(($) => $.defaultExpiry.label),
         value: "defaultExpiry",
-        description: t("defaultExpiry.description"),
+        description: t(($) => $.defaultExpiry.description),
         emoji: "⏰",
       },
     ]);
   const actionRow = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(selectMenu);
-  const messageComponent = await waitForMessageComponent(interaction, actionRow, t, "moderationConfig");
+  const messageComponent = await waitForMessageComponent(
+    interaction,
+    actionRow,
+    guildData.language,
+    "moderationConfig",
+  );
   if (!messageComponent) return;
   switch (messageComponent.values[0]) {
     case "modLogsChannelId":
-      await dynamicChannel("modLogsChannelId", messageComponent, guildData, t);
+      await dynamicChannel("modLogsChannelId", messageComponent, guildData);
       break;
     case "staffRoleId":
       await messageComponent.deferUpdate();
-      await dynamicRole("staffRoleId", messageComponent, guildData, t);
+      await dynamicRole("staffRoleId", messageComponent, guildData);
       break;
     case "modMailChannel":
       await modMailChannel(messageComponent, guildData, t);
@@ -71,11 +76,17 @@ export async function moderationConfig(interaction: ChatInputCommandInteraction<
       break;
   }
 }
-async function modMailChannel(interaction: StringSelectMenuInteraction<"cached">, data: GuildWithLogs, t: TFunction) {
+async function modMailChannel(
+  interaction: StringSelectMenuInteraction<"cached">,
+  data: GuildWithLogs,
+  t: TFunction<"translations", "moderationConfig">,
+) {
   if (data.modMailChannelId && interaction.guild.channels.cache.has(data.modMailChannelId)) {
     await interaction.deferUpdate();
     await interaction.editReply({
-      content: t("modMailChannel.alreadySet"),
+      content: t(($) => $.modMailChannel.alreadySet, {
+        channel: `<#${data.modMailChannelId}>`,
+      }),
       components: [],
     });
     return;
@@ -112,20 +123,24 @@ async function modMailChannel(interaction: StringSelectMenuInteraction<"cached">
     });
     await interaction.deferUpdate();
     await interaction.editReply({
-      content: t("modMailChannel.set", { channel: child.toString() }),
+      content: t(($) => $.modMailChannel.set, { channel: child.toString() }),
       components: [],
     });
   }
 }
 
-async function muteGetAllRoles(interaction: StringSelectMenuInteraction<"cached">, data: GuildWithLogs, t: TFunction) {
+async function muteGetAllRoles(
+  interaction: StringSelectMenuInteraction<"cached">,
+  data: GuildWithLogs,
+  t: TFunction<"translations", "moderationConfig">,
+) {
   if (data.muteGetAllRoles) {
     await updateGuildConfig(interaction.guildId, {
       muteGetAllRoles: false,
     });
     await interaction.deferUpdate();
     await interaction.editReply({
-      content: t("mute_get_all_roles.false"),
+      content: t(($) => $.muteGetAllRoles.false),
       components: [],
     });
   } else {
@@ -134,56 +149,60 @@ async function muteGetAllRoles(interaction: StringSelectMenuInteraction<"cached"
     });
     await interaction.deferUpdate();
     await interaction.editReply({
-      content: t("muteGetAllRoles.true"),
+      content: t(($) => $.muteGetAllRoles.true),
       components: [],
     });
   }
 }
 
-async function defaultExpiry(interaction: StringSelectMenuInteraction<"cached">, data: GuildWithLogs, t: TFunction) {
+async function defaultExpiry(
+  interaction: StringSelectMenuInteraction<"cached">,
+  data: GuildWithLogs,
+  t: TFunction<"translations", "moderationConfig">,
+) {
   const stringSelect = new StringSelectMenuBuilder()
     .setCustomId("defaultExpiry")
     .setMinValues(1)
     .setMaxValues(1)
     .setOptions([
       {
-        label: t("defaultExpiry.labelZero"),
+        label: t(($) => $.defaultExpiry.labelZero),
         value: "0",
-        description: t("defaultExpiry.descriptionZero"),
+        description: t(($) => $.defaultExpiry.descriptionZero),
         emoji: "❌",
         default: data.defaultExpiry === 0,
       },
       {
-        label: t("defaultExpiry.labelSeven"),
+        label: t(($) => $.defaultExpiry.labelSeven),
         value: "7",
-        description: t("defaultExpiry.descriptionSeven"),
+        description: t(($) => $.defaultExpiry.descriptionSeven),
         emoji: "7️⃣",
         default: data.defaultExpiry === 7,
       },
       {
-        label: t("defaultExpiry.labelFourteen"),
+        label: t(($) => $.defaultExpiry.labelFourteen),
         value: "14",
-        description: t("defaultExpiry.descriptionFourteen"),
+        description: t(($) => $.defaultExpiry.descriptionFourteen),
         emoji: "📅",
         default: data.defaultExpiry === 14,
       },
       {
-        label: t("defaultExpiry.labelThirty"),
+        label: t(($) => $.defaultExpiry.labelThirty),
         value: "30",
-        description: t("defaultExpiry.descriptionThirty"),
+        description: t(($) => $.defaultExpiry.descriptionThirty),
         emoji: "📅",
         default: data.defaultExpiry === 30,
       },
     ]);
   const actionRow = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(stringSelect);
-  const messageComponent = await waitForMessageComponent(interaction, actionRow, t, "defaultExpiry");
+  const messageComponent = await waitForMessageComponent(interaction, actionRow, data.language, "defaultExpiry");
   if (!messageComponent) return;
   await updateGuildConfig(interaction.guildId, {
     defaultExpiry: parseInt(messageComponent.values[0]),
   });
   await messageComponent.deferUpdate();
   await messageComponent.editReply({
-    content: t("defaultExpiry.success", { days: messageComponent.values[0] }),
+    content: t(($) => $.defaultExpiry.success, { days: messageComponent.values[0] }),
     components: [],
   });
 }

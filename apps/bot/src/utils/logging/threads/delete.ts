@@ -4,18 +4,21 @@ import { returnWebhook, WebhookType } from "@utils";
 import { logger } from "@lib";
 
 export async function logThreadDelete(thread: AnyThreadChannel, guildConfig: GuildWithLogs) {
-  const t = thread.client.i18next.getFixedT(guildConfig.language, "events", "threadDelete");
+  const t = thread.client.i18next.getFixedT(guildConfig.language, "loggers", "threadEvents");
   if (!guildConfig.logConfig?.threadLogsChannelId) return;
   const logChannel = thread.guild.channels.cache.get(guildConfig.logConfig.threadLogsChannelId);
   if (logChannel?.type !== ChannelType.GuildText) return;
   const embed = new EmbedBuilder()
     .setColor("Red")
-    .setTitle(t("embed.title"))
+    .setTitle(t(($) => $.threadDelete.embed.title))
     .setDescription(
-      t("embed.description", {
+      t(($) => $.threadDelete.embed.description, {
         thread,
-        parent: thread.parent,
-        auto_archive_duration: t(`thread_auto_archive_duration.${thread.autoArchiveDuration}`),
+        parent: {
+          name: thread.parent?.name || t(($) => $.noParentName),
+          id: thread.parentId || t(($) => $.noParentId),
+        },
+        auto_archive_duration: t(($) => $.threadAutoArchiveDuration[thread.autoArchiveDuration ?? "null"]),
         timestamp: time(thread.createdAt || new Date(), TimestampStyles.RelativeTime),
       }),
     )
@@ -29,7 +32,7 @@ export async function logThreadDelete(thread: AnyThreadChannel, guildConfig: Gui
   const logEntry = auditLogs?.entries.first();
   if (logEntry?.target?.id === thread.id) {
     embed.setFooter({
-      text: logEntry.executor?.username ?? t("unknown_executor"),
+      text: logEntry.executor?.username ?? t(($) => $.unknownExecutor),
       iconURL: logEntry.executor?.displayAvatarURL() ?? undefined,
     });
   }
@@ -37,7 +40,7 @@ export async function logThreadDelete(thread: AnyThreadChannel, guildConfig: Gui
     id: guildConfig.logConfig.threadLogsWebhookId,
     type: WebhookType.THREAD_LOGS,
   });
-  if(webhook) {
+  if (webhook) {
     await webhook.send({ embeds: [embed] }).catch((error) => {
       logger.log({
         level: "error",

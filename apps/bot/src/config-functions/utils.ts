@@ -18,16 +18,18 @@ import {
 import { logger } from "@lib";
 import { GuildWithLogs } from "@repo/database";
 import { trimString, getCurrentValue, updateConfig } from "@utils";
-import { TFunction } from "i18next";
 import { DbConfigKey } from "@constants";
+
+// --- Wait For Message Component ---
 export async function waitForMessageComponent(
   interaction: ChatInputCommandInteraction<"cached"> | StringSelectMenuInteraction<"cached">,
   actionRow: ActionRowBuilder<StringSelectMenuBuilder>,
-  t: TFunction,
+  language: string,
   customId: string,
 ) {
+  const t = interaction.client.i18next.getFixedT(language, null, "waitForMessageComponent");
   const interactionCallbackResponse = await interaction.reply({
-    content: t("initial"),
+    content: t(($) => $.initial),
     components: [actionRow],
     flags: MessageFlagsBitField.Flags.Ephemeral,
   });
@@ -41,7 +43,7 @@ export async function waitForMessageComponent(
       componentType: ComponentType.StringSelect,
     })
     .catch(async () => {
-      await interaction.editReply({ content: t("timeout"), components: [] });
+      await interaction.editReply({ content: t(($) => $.timeout), components: [] });
 
       logger.log({
         level: "warn",
@@ -54,10 +56,9 @@ export async function waitForMessageComponent(
 
 // --- Dynamic Channel ---
 export async function dynamicChannel(
-  dbKey: DbConfigKey, // Pass the DB Column Name (camelCase)
+  dbKey: Extract<DbConfigKey, `${string}ChannelId`>,
   interaction: StringSelectMenuInteraction<"cached">,
   data: GuildWithLogs,
-  t: TFunction,
 ) {
   await interaction.deferUpdate();
 
@@ -74,9 +75,9 @@ export async function dynamicChannel(
   }
 
   const actionRow = new ActionRowBuilder<ChannelSelectMenuBuilder>().setComponents(selectMenu);
-
+  const t = interaction.client.i18next.getFixedT(data.language, null, "dynamicChannel");
   const result = await interaction.editReply({
-    content: t("channelInitial"),
+    content: t(($) => $.initial),
     components: [actionRow],
   });
 
@@ -90,7 +91,7 @@ export async function dynamicChannel(
       time: 1000 * 60 * 5,
     });
   } catch {
-    await result.edit({ content: t("timeout"), components: [] });
+    await result.edit({ content: t(($) => $.timeout), components: [] });
     return;
   }
 
@@ -103,8 +104,9 @@ export async function dynamicChannel(
   // 3. Reply
   const responseKey = newValue ? "set" : "unset";
   await messageComponent.editReply({
-    // Ensure translation keys match DB keys: "messageLogsChannelId.set"
-    content: t(`${dbKey}.${responseKey}`, {
+    content: t(($) => $.messages[responseKey], {
+      label: t(($) => $.labels[dbKey]),
+
       channel: newValue ? `<#${newValue}>` : "Unknown",
     }),
     components: [],
@@ -113,10 +115,9 @@ export async function dynamicChannel(
 
 // --- Dynamic Message ---
 export async function dynamicMessage(
-  dbKey: DbConfigKey,
+  dbKey: Extract<DbConfigKey, `${string}Message`>,
   interaction: StringSelectMenuInteraction<"cached">,
   data: GuildWithLogs,
-  t: TFunction,
 ) {
   const textComponent = new TextInputBuilder().setCustomId(dbKey).setMaxLength(1500).setStyle(TextInputStyle.Paragraph);
 
@@ -125,11 +126,21 @@ export async function dynamicMessage(
     textComponent.setPlaceholder(trimString(currentText, 97));
     textComponent.setValue(currentText);
   }
-
-  const labelBuilder = new LabelBuilder().setLabel(t(`${dbKey}.label`)).setTextInputComponent(textComponent);
+  const t = interaction.client.i18next.getFixedT(data.language, null, "dynamicMessage");
+  const labelBuilder = new LabelBuilder()
+    .setLabel(
+      t(($) => $.initial, {
+        label: t(($) => $.labels[dbKey]),
+      }),
+    )
+    .setTextInputComponent(textComponent);
   const modal = new ModalBuilder()
     .setCustomId(dbKey)
-    .setTitle(t(`${dbKey}.title`))
+    .setTitle(
+      t(($) => $.title, {
+        label: t(($) => $.labels[dbKey]),
+      }),
+    )
     .addLabelComponents(labelBuilder);
 
   await interaction.showModal(modal);
@@ -140,7 +151,7 @@ export async function dynamicMessage(
   try {
     messageComponent = await interaction.awaitModalSubmit({ filter, time: 1000 * 60 * 5 });
   } catch {
-    await interaction.editReply({ content: t("timeout"), components: [] });
+    await interaction.editReply({ content: t(($) => $.timeout), components: [] });
     return;
   }
 
@@ -158,15 +169,19 @@ export async function dynamicMessage(
   }
 
   await updateConfig(messageComponent.guildId, dbKey, finalValue);
-
-  await messageComponent.editReply({ content: t(`${dbKey}.set`), components: [] });
+  const responseKey = finalValue ? "set" : "unset";
+  await messageComponent.editReply({
+    content: t(($) => $.messages[responseKey], {
+      label: t(($) => $.labels[dbKey]),
+    }),
+    components: [],
+  });
 }
 
 export async function dynamicRole(
-  dbKey: DbConfigKey,
+  dbKey: Extract<DbConfigKey, `${string}RoleId`> | "colourIdOfTheDay",
   interaction: StringSelectMenuInteraction<"cached">,
   data: GuildWithLogs,
-  t: TFunction,
 ) {
   const selectMenu = new RoleSelectMenuBuilder().setCustomId(dbKey).setMaxValues(1).setMinValues(0);
 
@@ -175,11 +190,11 @@ export async function dynamicRole(
   if (currentId) {
     selectMenu.setDefaultRoles(currentId);
   }
-
+  const t = interaction.client.i18next.getFixedT(data.language, null, "dynamicRole");
   const actionRow = new ActionRowBuilder<RoleSelectMenuBuilder>().setComponents(selectMenu);
 
   const result = await interaction.editReply({
-    content: t("roleInitial"),
+    content: t(($) => $.initial),
     components: [actionRow],
   });
 
@@ -193,7 +208,7 @@ export async function dynamicRole(
       time: 1000 * 60 * 5,
     });
   } catch {
-    await result.edit({ content: t("timeout"), components: [] }).catch(() => null);
+    await result.edit({ content: t(($) => $.timeout), components: [] }).catch(() => null);
     return;
   }
 
@@ -203,7 +218,12 @@ export async function dynamicRole(
   if (!newValue) {
     // Unset
     await updateConfig(messageComponent.guildId, dbKey, null);
-    await messageComponent.editReply({ content: t(`${dbKey}.unset`), components: [] });
+    await messageComponent.editReply({
+      content: t(($) => $.messages.unset, {
+        label: t(($) => $.labels[dbKey]),
+      }),
+      components: [],
+    });
   } else {
     // Hierarchy Check
     // If we're setting DJ/Staff roles, we might not care about hierarchy, but for managed roles we do.
@@ -212,7 +232,7 @@ export async function dynamicRole(
     const myRole = messageComponent.guild.members.me?.roles.highest;
 
     if (!isSpecialRole && targetRole && myRole && myRole.position < targetRole.position) {
-      await messageComponent.editReply({ content: t("roleTooHigh"), components: [] });
+      await messageComponent.editReply({ content: t(($) => $.errors.roleTooHigh), components: [] });
       return;
     }
 
@@ -220,8 +240,9 @@ export async function dynamicRole(
     await updateConfig(messageComponent.guildId, dbKey, newValue);
 
     await messageComponent.editReply({
-      content: t(`${dbKey}.set`, {
+      content: t(($) => $.messages.set, {
         role: targetRole?.toString() ?? "Unknown Role",
+        label: t(($) => $.labels[dbKey]),
       }),
       components: [],
     });

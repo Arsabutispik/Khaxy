@@ -9,7 +9,7 @@ function mapOverwrites(overwrites: PermissionOverwriteManager) {
 }
 
 // Diff role permissions
-function diffRole(oldRole: Role, newRole: Role, t: TFunction): string | null {
+function diffRole(oldRole: Role, newRole: Role, t: TFunction<"permissions">): string | null {
   const oldPerms = new PermissionsBitField(oldRole.permissions.bitfield);
   const newPerms = new PermissionsBitField(newRole.permissions.bitfield);
 
@@ -17,7 +17,7 @@ function diffRole(oldRole: Role, newRole: Role, t: TFunction): string | null {
   const removed: string[] = [];
 
   for (const [permName, permValue] of Object.entries(PermissionsBitField.Flags)) {
-    const translatedName = t(`permissions.${permName}`) || permName;
+    const translatedName = t(($) => $.permissions[permName as keyof typeof $.permissions]) || permName;
 
     const had = oldPerms.has(permValue);
     const hasNow = newPerms.has(permValue);
@@ -29,15 +29,19 @@ function diffRole(oldRole: Role, newRole: Role, t: TFunction): string | null {
   if (!added.length && !removed.length) return null;
 
   let diffText = `**${newRole.name}**\n\`\`\`diff\n`;
-  if (added.length) diffText += `+ ${t("allowed")}: ${added.join(", ")}\n`;
-  if (removed.length) diffText += `- ${t("removed")}: ${removed.join(", ")}\n`;
+  if (added.length) diffText += `+ ${t(($) => $.allowed)}: ${added.join(", ")}\n`;
+  if (removed.length) diffText += `- ${t(($) => $.denied)}: ${removed.join(", ")}\n`;
   diffText += `\`\`\`\n`;
 
   return diffText;
 }
 
 // Diff channel permission overwrites
-function diffChannelOverwrites(oldChannel: GuildChannel, newChannel: GuildChannel, t: TFunction): string | null {
+function diffChannelOverwrites(
+  oldChannel: GuildChannel,
+  newChannel: GuildChannel,
+  t: TFunction<"permissions">,
+): string | null {
   const oldMap = mapOverwrites(oldChannel.permissionOverwrites);
   const newMap = mapOverwrites(newChannel.permissionOverwrites);
 
@@ -53,13 +57,13 @@ function diffChannelOverwrites(oldChannel: GuildChannel, newChannel: GuildChanne
 
     // Case 1: overwrite was removed
     if (old && !now) {
-      diffText += `**${mention}**\n\`\`\`diff\n- ${t("overwrite_removed")}\n\`\`\`\n`;
+      diffText += `**${mention}**\n\`\`\`diff\n- ${t(($) => $.overwriteRemoved)}\n\`\`\`\n`;
       continue;
     }
 
     // Case 2: overwrite was added
     if (!old && now) {
-      diffText += `**${mention}**\n\`\`\`diff\n+ ${t("overwrite_added")}\n\`\`\`\n`;
+      diffText += `**${mention}**\n\`\`\`diff\n+ ${t(($) => $.overwriteAdded)}\n\`\`\`\n`;
       continue;
     }
 
@@ -77,7 +81,7 @@ function diffChannelOverwrites(oldChannel: GuildChannel, newChannel: GuildChanne
       const newDeny = new PermissionsBitField(now.deny);
 
       for (const [permName, permValue] of Object.entries(PermissionsBitField.Flags)) {
-        const translatedName = t(`permissions.${permName}`) || permName;
+        const translatedName = t(($) => $.permissions[permName as keyof typeof $.permissions]) || permName;
 
         const wasAllowed = oldAllow.has(permValue);
         const isAllowed = newAllow.has(permValue);
@@ -91,9 +95,9 @@ function diffChannelOverwrites(oldChannel: GuildChannel, newChannel: GuildChanne
 
       if (addedAllowed.length || addedDenied.length || unset.length) {
         diffText += `**${mention}**\n\`\`\`diff\n`;
-        if (addedAllowed.length) diffText += `+ ${t("allowed")}: ${addedAllowed.join(", ")}\n`;
-        if (addedDenied.length) diffText += `- ${t("denied")}: ${addedDenied.join(", ")}\n`;
-        if (unset.length) diffText += `/ ${t("unset")}: ${unset.join(", ")}\n`;
+        if (addedAllowed.length) diffText += `+ ${t(($) => $.allowed)}: ${addedAllowed.join(", ")}\n`;
+        if (addedDenied.length) diffText += `- ${t(($) => $.denied)}: ${addedDenied.join(", ")}\n`;
+        if (unset.length) diffText += `/ ${t(($) => $.unset)}: ${unset.join(", ")}\n`;
         diffText += `\`\`\`\n`;
       }
     }

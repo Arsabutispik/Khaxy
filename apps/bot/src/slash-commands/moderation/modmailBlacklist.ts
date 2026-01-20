@@ -141,44 +141,44 @@ export default {
         ),
     ),
   async execute(interaction, guildConfig) {
-    const t = interaction.client.i18next.getFixedT(guildConfig.language, "commands", "modmail-blacklist");
+    const t = interaction.client.i18next.getFixedT(guildConfig.language, "commands", "modmailBlacklist");
     const subcommand = interaction.options.getSubcommand(true);
     if (subcommand === "add") {
       const user = interaction.options.getUser("user", true);
-      const reason = interaction.options.getString("reason") || t("no_reason");
+      const reason = interaction.options.getString("reason") || t(($) => $.noReason);
       const duration = interaction.options.getNumber("duration");
       const time = interaction.options.getString("time");
       if (user.id === interaction.user.id) {
         await interaction.reply({
-          content: t("cannotBlacklistSelf"),
+          content: t(($) => $.cannotBlacklistSelf),
           flags: MessageFlagsBitField.Flags.Ephemeral,
         });
         return;
       }
       if (user.bot) {
         await interaction.reply({
-          content: t("cannotBlacklistBot"),
+          content: t(($) => $.cannotBlacklistBot),
           flags: MessageFlagsBitField.Flags.Ephemeral,
         });
         return;
       }
       if (duration && !time) {
         await interaction.reply({
-          content: t("durationWithoutTime"),
+          content: t(($) => $.durationWithoutTime),
           flags: MessageFlagsBitField.Flags.Ephemeral,
         });
         return;
       }
       if (!duration && time) {
         await interaction.reply({
-          content: t("timeWithoutDuration"),
+          content: t(($) => $.timeWithoutDuration),
           flags: MessageFlagsBitField.Flags.Ephemeral,
         });
         return;
       }
       if (!duration || !time) {
         await interaction.reply({
-          content: t("permanentBlacklistWarning"),
+          content: t(($) => $.permanentBlacklistWarning),
           flags: MessageFlagsBitField.Flags.Ephemeral,
         });
         return;
@@ -194,7 +194,7 @@ export default {
             .toDate(),
         );
         await interaction.reply({
-          content: t("blacklistSuccess", {
+          content: t(($) => $.blacklistSuccess, {
             confirm: interaction.client.allEmojis.get(interaction.client.config.emojis.confirm.id)?.format,
             user: user.toString(),
             reason,
@@ -214,7 +214,7 @@ export default {
           error,
         });
         await interaction.reply({
-          content: t("blacklistError"),
+          content: t(($) => $.blacklistError),
           flags: MessageFlagsBitField.Flags.Ephemeral,
         });
       }
@@ -224,13 +224,13 @@ export default {
         const result = await unblacklistUser(interaction.guildId, user.id);
         if (result.count === 0) {
           await interaction.reply({
-            content: t("blacklistRemove.notFound", { user: user.toString() }),
+            content: t(($) => $.blacklistRemove.notFound, { user: user.toString() }),
             flags: MessageFlagsBitField.Flags.Ephemeral,
           });
           return;
         }
         await interaction.reply({
-          content: t("blacklistRemove.success", {
+          content: t(($) => $.blacklistRemove.success, {
             confirm: interaction.client.allEmojis.get(interaction.client.config.emojis.confirm.id)?.format,
             user: user.toString(),
           }),
@@ -243,7 +243,7 @@ export default {
           error,
         });
         await interaction.reply({
-          content: t("blacklistRemove.error"),
+          content: t(($) => $.blacklistRemove.error),
           flags: MessageFlagsBitField.Flags.Ephemeral,
         });
       }
@@ -252,35 +252,35 @@ export default {
       const blacklist = await getBlacklistedUser(interaction.guildId, user.id);
       if (!blacklist) {
         await interaction.reply({
-          content: t("blacklistGet.notFound", { user: user.toString() }),
+          content: t(($) => $.blacklistGet.notFound, { user: user.toString() }),
           flags: MessageFlagsBitField.Flags.Ephemeral,
         });
         return;
       }
       const embed = new EmbedBuilder()
-        .setTitle(t("blacklistGet.embed.title", { user: user.username }))
+        .setTitle(t(($) => $.blacklistGet.embed.title, { user: user.username }))
         .setAuthor({ name: interaction.guild.name, iconURL: interaction.guild.iconURL() || undefined })
         .setColor("Random")
         .addFields([
           {
-            name: t("blacklistGet.embed.fields.reason"),
+            name: t(($) => $.blacklistGet.embed.fields.reason),
             value: blacklist.reason,
             inline: true,
           },
           {
-            name: t("blacklistGet.embed.fields.createdAt"),
+            name: t(($) => $.blacklistGet.embed.fields.createdAt),
             value: dayjs(blacklist.createdAt).format("YYYY-MM-DD HH:mm:ss"),
             inline: true,
           },
           {
-            name: t("blacklistGet.embed.fields.expiresAt"),
+            name: t(($) => $.blacklistGet.embed.fields.expiresAt),
             value: blacklist.expiresAt
               ? dayjs(blacklist.expiresAt).format("YYYY-MM-DD HH:mm:ss")
               : interaction.client.allEmojis.get(interaction.client.config.emojis.infinity.id)!.format,
             inline: true,
           },
           {
-            name: t("blacklistGet.embed.fields.moderator"),
+            name: t(($) => $.blacklistGet.embed.fields.moderator),
             value: `<@${blacklist.moderatorId}>`,
             inline: true,
           },

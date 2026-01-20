@@ -1,0 +1,6 @@
+{
+  "watch": ["src"],
+  "ext": "ts,json",
+  "ignore": ["src/types/resources.d.ts"],
+  "exec": "pnpm i18n:gen && tsc && tsc-alias && dotenv -e ../../.env -- node --enable-source-maps ."
+}

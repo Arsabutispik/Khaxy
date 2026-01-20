@@ -46,30 +46,36 @@ export default {
     const t = client.i18next.getFixedT(guildConfig.language, "commands", "unmute");
     const member = interaction.options.getMember("user");
     if (!member) {
-      await interaction.reply({ content: t("no_member"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t(($) => $.noMember), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
     if (!guildConfig.muteRoleId || !interaction.guild.roles.cache.has(guildConfig.muteRoleId)) {
-      await interaction.reply({ content: t("no_mute_role"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t(($) => $.noMuteRole), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
-    const reason = interaction.options.getString("reason") || t("no_reason");
+    const reason = interaction.options.getString("reason") || t(($) => $.noReason);
     const punishment = await getPunishment(interaction.guildId, member.id, PunishmentAction.MUTE);
 
     if (!punishment && member.roles.cache.has(guildConfig.muteRoleId)) {
-      await interaction.reply({ content: t("muted_no_punishment"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({
+        content: t(($) => $.mutedNoPunishment),
+        flags: MessageFlagsBitField.Flags.Ephemeral,
+      });
       await member.roles.remove(guildConfig.muteRoleId);
       return;
     }
     if (!punishment) {
-      await interaction.reply({ content: t("not_muted"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t(($) => $.notMuted), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
     if (guildConfig.muteGetAllRoles) {
       try {
         await member.roles.set(punishment.previousRoles);
       } catch (error) {
-        await interaction.reply({ content: t("previous_roles_error"), flags: MessageFlagsBitField.Flags.Ephemeral });
+        await interaction.reply({
+          content: t(($) => $.previousRoleError),
+          flags: MessageFlagsBitField.Flags.Ephemeral,
+        });
         logger.error({
           message: "An error occurred while setting the previous roles of a user",
           error,
@@ -82,7 +88,7 @@ export default {
       try {
         await member.roles.remove(guildConfig.muteRoleId);
       } catch (error) {
-        await interaction.reply({ content: t("roleError"), flags: MessageFlagsBitField.Flags.Ephemeral });
+        await interaction.reply({ content: t(($) => $.roleError), flags: MessageFlagsBitField.Flags.Ephemeral });
         logger.error({
           message: "An error occurred while removing the mute role from a user",
           error,
@@ -94,7 +100,7 @@ export default {
     try {
       await deletePunishment(interaction.guildId, member.id, PunishmentAction.MUTE);
     } catch (error) {
-      await interaction.reply({ content: t("databaseError"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t(($) => $.databaseError), flags: MessageFlagsBitField.Flags.Ephemeral });
       logger.error({
         message: "An error occurred while unmuting a user",
         error,
@@ -103,16 +109,22 @@ export default {
       return;
     }
     try {
-      await member.send(t("dm", { guild: interaction.guild.name }));
+      await member.send(t(($) => $.dm, { guild: interaction.guild.name }));
       await interaction.reply(
-        t("success", {
+        t(($) => $.success, {
           user: member.user.tag,
           confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
           case: guildConfig.caseId,
         }),
       );
     } catch {
-      await interaction.reply(t("dmError", { user: member.user.tag }));
+      await interaction.reply(
+        t(($) => $.dmError, {
+          user: member.user.tag,
+          confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
+          case: guildConfig.caseId,
+        }),
+      );
     }
     const result = await modLog(
       {

@@ -14,7 +14,6 @@ export default {
     const guildConfig = await getOrCreateGuild(event.guild.id);
     if (!guildConfig) return;
 
-    const t = event.client.i18next.getFixedT(guildConfig.language, "events", "guildScheduledEventUserAdd");
-    await logScheduledEventUserAdd(event, user, guildConfig, t);
+    await logScheduledEventUserAdd(event, user, guildConfig);
   },
 } satisfies EventBase<Events.GuildScheduledEventUserAdd>;

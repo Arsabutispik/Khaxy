@@ -46,29 +46,29 @@ export default {
     const t = client.i18next.getFixedT(guildConfig.language, "commands", "warn");
     const member = interaction.options.getMember("user");
     if (!member) {
-      await interaction.reply({ content: t("noMember"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t(($) => $.noMember), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
     if (member.id === interaction.user.id) {
-      await interaction.reply({ content: t("selfWarn"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t(($) => $.selfWarn), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
     if (member.user.bot) {
-      await interaction.reply({ content: t("botWarn"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t(($) => $.botWarn), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
     if (
       member.permissions.has(PermissionsBitField.Flags.ManageGuild) ||
       (guildConfig.staffRoleId && member.roles.cache.has(guildConfig.staffRoleId))
     ) {
-      await interaction.reply({ content: t("staffWarn"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t(($) => $.staffWarn), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
     const reason = interaction.options.getString("reason", true);
     try {
       await createInfraction(interaction.guildId, member.id, interaction.user.id, InfractionType.WARN, reason);
     } catch (error) {
-      await interaction.reply(t("databaseError"));
+      await interaction.reply(t(($) => $.databaseError));
       logger.error({
         message: "An error occurred while warning a user",
         error,
@@ -77,9 +77,9 @@ export default {
       return;
     }
     try {
-      await member.send(t("dm", { guild: interaction.guild.name, reason }));
+      await member.send(t(($) => $.dm, { guild: interaction.guild.name, reason }));
       await interaction.reply(
-        t("success", {
+        t(($) => $.success, {
           user: member.user.tag,
           case: guildConfig.caseId,
           confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
@@ -87,7 +87,7 @@ export default {
       );
     } catch {
       await interaction.reply(
-        t("dmError", {
+        t(($) => $.dmError, {
           user: member.user.tag,
           case: guildConfig.caseId,
           confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,

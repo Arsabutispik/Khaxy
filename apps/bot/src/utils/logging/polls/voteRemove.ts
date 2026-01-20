@@ -10,15 +10,15 @@ export async function logVoteRemove(
 ) {
   if (!pollAnswer.poll.message.guild) return;
 
-  const t = pollAnswer.client.i18next.getFixedT(guildConfig.language, "events", "messagePollVoteRemove");
+  const t = pollAnswer.client.i18next.getFixedT(guildConfig.language, "loggers", "messageEvents");
   if (!guildConfig.logConfig?.pollLogsChannelId) return;
   const logChannel = pollAnswer.poll.message.guild.channels.cache.get(guildConfig.logConfig.pollLogsChannelId);
   if (logChannel?.type !== ChannelType.GuildText) return;
   const embed = new EmbedBuilder()
     .setColor("Red")
-    .setTitle(t("embed.title"))
+    .setTitle(t(($) => $.messagePollVoteRemove.embed.title))
     .setDescription(
-      t("embed.description", {
+      t(($) => $.messagePollVoteRemove.embed.description, {
         message: pollAnswer.poll.message,
         answerer: userId,
         question: pollAnswer.poll.question.text,

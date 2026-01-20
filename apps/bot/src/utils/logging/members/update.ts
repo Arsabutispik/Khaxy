@@ -1,6 +1,7 @@
 import { AuditLogEvent, ChannelType, EmbedBuilder, Guild, PartialUser, User } from "discord.js";
 import { LogActionOptions, LogMemberUpdateOptions, sendLogEmbed, modLog, returnWebhook, WebhookType } from "@utils";
 import * as Embeds from "./memberEmbeds.js";
+import { logUnhandledChanges } from "../utils.js";
 
 // --- Helper: Fetch Audit Log ---
 async function getExecutorInfo(
@@ -32,7 +33,6 @@ export async function logMemberAction({
   member,
   action,
   guildConfig,
-  t,
   executor,
   reason,
   addedRoles = [],
@@ -56,17 +56,17 @@ export async function logMemberAction({
 
   const info = { executor: executor ?? null, reason };
   let embed: EmbedBuilder | null = null;
-
+  const t = logChannel.client.i18next.getFixedT(guildConfig.language, "loggers", "memberEvents");
   switch (action) {
     case "timeout":
       embed = Embeds.buildTimeoutEmbed(member, timeoutUntil!, info, t);
       await modLog(
         {
           action: "TIMEOUT",
-          moderator: executor ?? null,
+          moderator: executor || logChannel.client.user,
           guild: member.guild,
           user: member.user,
-          reason: reason || t("timeout.no_reason"),
+          reason: reason || t(($) => $.memberUpdate.timeout.noReason),
         },
         member.client,
       );
@@ -88,7 +88,7 @@ export async function logMemberAction({
 }
 
 // --- MAIN 2: Handle Automatic Event Updates ---
-export async function logMemberUpdate({ oldMember, newMember, guildConfig, t }: LogMemberUpdateOptions) {
+export async function logMemberUpdate({ oldMember, newMember, guildConfig }: LogMemberUpdateOptions) {
   const channelId = guildConfig.logConfig?.guildMemberLogsChannelId;
   if (!channelId) return;
 
@@ -97,7 +97,7 @@ export async function logMemberUpdate({ oldMember, newMember, guildConfig, t }: 
 
   const fetchedOldMember = oldMember.partial ? await oldMember.fetch() : oldMember;
   const embeds: EmbedBuilder[] = [];
-
+  const t = logChannel.client.i18next.getFixedT(guildConfig.language, "loggers", "memberEvents");
   // A. TIMEOUT ADDED
   if (newMember.isCommunicationDisabled() && !fetchedOldMember.isCommunicationDisabled()) {
     const info = await getExecutorInfo(newMember.guild, AuditLogEvent.MemberUpdate, newMember.user.id);
@@ -106,10 +106,10 @@ export async function logMemberUpdate({ oldMember, newMember, guildConfig, t }: 
       await modLog(
         {
           action: "TIMEOUT",
-          moderator: info.executor,
+          moderator: info.executor || newMember.client.user,
           guild: newMember.guild,
           user: newMember.user,
-          reason: info.reason || t("timeout.no_reason"),
+          reason: info.reason || t(($) => $.memberUpdate.timeout.noReason),
         },
         newMember.client,
       );
@@ -158,7 +158,21 @@ export async function logMemberUpdate({ oldMember, newMember, guildConfig, t }: 
       );
     }
   }
-
+  if (embeds.length === 0) {
+    logUnhandledChanges("MemberUpdate", oldMember, newMember, `@${newMember.user.tag} in ${newMember.guild.name}`, [
+      // Managers specific to Member
+      "user",
+      "voice",
+      "presence",
+      "flags",
+      "permissions",
+      "joinedAt",
+      "joinedTimestamp",
+      "premiumSince",
+      "premiumSinceTimestamp",
+    ]);
+    return;
+  }
   // SEND BATCH
   if (embeds.length > 0) {
     const webhook = await returnWebhook(newMember.client, logChannel, newMember.guild.id, guildConfig, {

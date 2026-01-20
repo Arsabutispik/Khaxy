@@ -1,0 +1,66 @@
+{
+  "channelDelete": {
+    "channelTypes": {
+      "0": "Text Channel",
+      "1": "DM Channel",
+      "2": "Voice Channel",
+      "3": "Group DM Channel",
+      "4": "Category Channel",
+      "5": "News Channel",
+      "10": "News Thread Channel",
+      "11": "Public Thread Channel",
+      "12": "Private Thread Channel",
+      "13": "Stage Channel",
+      "14": "Directory Channel",
+      "15": "Forum Channel",
+      "16": "Media Channel"
+    },
+    "embed": {
+      "description": "> **Channel**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Type**: {{channel_type}}\n> **Deleted At**: {{timestamp}}",
+      "title": "Channel Deleted"
+    },
+    "unknownExecutor": "Unknown Executor"
+  },
+  "guildBanAdd": {
+    "noReason": "No reason provided."
+  },
+  "guildBanRemove": {
+    "noReason": "No reason provided."
+  },
+  "guildMemberAdd": {
+    "embed": {
+      "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Account Age**: {{timestamp}}\n> **Member Count**: {{member_count}}",
+      "title": "User Joined Server"
+    }
+  },
+  "guildMemberRemove": {
+    "noReason": "No reason provided.",
+    "userLeft": "**User has left {{guild}}**"
+  },
+  "interactionCreate": {
+    "botMissingPermissions": "I don't have the required `{{permissions}}` permissions to execute this command.",
+    "memberMissingPermissions": "You don't have the required `{{permissions}}` permissions to use this command."
+  },
+  "messageCreate": {
+    "modMail": {
+      "blacklisted": "You are blacklisted from using mod mail in {{guild}}. Your blacklist reason is: **{{reason}}**. Your blacklist expires on: **{{expires}}**.",
+      "cancel": "No",
+      "cancelledTitle": "Mod Mail Thread Cancelled",
+      "confirm": "Yes",
+      "confirmDescription": "Click the button below to confirm the mod mail thread for {{guild}}, or click the cancel button to cancel the thread.",
+      "confirmTitle": "Confirm Mod Mail Thread Button",
+      "errorInserting": "An error occurred while attempting to insert the message into the database.",
+      "initial": "`Account Age:` **{{account_age}}**, `ID:` **{{user.id}}**\n`Username:` **{{user.username}}** (<@{{user.id}}>), `Join Date:` **{{join_date}}**\n**»»----------------------------¤----------------------------««**",
+      "never": "Never",
+      "notMember": "You are not a member of the server.",
+      "parentChannelMissing": "Parent channel is missing. Moderators need to set the parent channel for the mod mail to work.",
+      "reopened": "{{user}} replied to modmail thread, thread won't be closed. ({{closer}})",
+      "timeout": "You took too long to respond. The mod mail thread has been cancelled.",
+      "topic": "Mod Mail conversation with {{user}}"
+    }
+  },
+  "messageUpdate": {
+    "messageEdit": "***User edited their message.***\n```diff\n- {{oldContent}}\n+ {{newContent}}\n```",
+    "noContent": "No Content"
+  }
+}

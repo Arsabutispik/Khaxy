@@ -5,6 +5,7 @@ import { logger } from "@lib";
 import { isDeepStrictEqual } from "node:util";
 import { getChannelExecutor, normalizeOverwrites } from "./utils.js";
 import * as Embeds from "./updateEmbeds.js";
+import { logUnhandledChanges } from "../utils.js";
 
 export async function logChannelUpdates(
   oldChannel: NonThreadGuildBasedChannel,
@@ -17,7 +18,7 @@ export async function logChannelUpdates(
   if (logChannel?.type !== ChannelType.GuildText) return;
 
   const executor = await getChannelExecutor(newChannel.guild, newChannel.id);
-  const t = newChannel.client.i18next.getFixedT(guildConfig.language, "events", "channelUpdate");
+  const t = newChannel.client.i18next.getFixedT(guildConfig.language, "loggers", "channelEvents");
 
   const embeds: EmbedBuilder[] = [];
 
@@ -74,8 +75,8 @@ export async function logChannelUpdates(
   }
 
   // Permission Overwrites Change
-  const oldPerms = normalizeOverwrites(oldChannel as any);
-  const newPerms = normalizeOverwrites(newChannel as any);
+  const oldPerms = normalizeOverwrites(oldChannel);
+  const newPerms = normalizeOverwrites(newChannel);
   if (!isDeepStrictEqual(oldPerms, newPerms)) {
     embeds.push(Embeds.buildPermissionsChangeEmbed(oldChannel, newChannel, executor, guildConfig.language, t));
   }
@@ -144,7 +145,17 @@ export async function logChannelUpdates(
   // ========================================================================
   // SEND LOGS
   // ========================================================================
-  if (embeds.length === 0) return;
+  if (embeds.length === 0) {
+    logUnhandledChanges("ChannelUpdate", oldChannel, newChannel, `#${newChannel.name || newChannel.id}`, [
+      "messages",
+      "permissionOverwrites",
+      "threads",
+      "members",
+      "lastMessageId",
+      "topic", // topic often changes empty string to null
+    ]);
+    return;
+  }
 
   const webhook = await returnWebhook(newChannel.client, logChannel, newChannel.guild.id, guildConfig, {
     id: guildConfig.logConfig?.channelLogsWebhookId,

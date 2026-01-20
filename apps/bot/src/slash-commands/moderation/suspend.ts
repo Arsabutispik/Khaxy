@@ -27,13 +27,13 @@ export default {
     const modMailThread = await getThreadByChannelId(interaction.channelId);
     if (!modMailThread) {
       return interaction.reply({
-        content: t("no_thread"),
+        content: t(($) => $.noThread),
         flags: MessageFlags.Ephemeral,
       });
     }
     if (modMailThread.status === ModMailStatus.SUSPENDED) {
       return interaction.reply({
-        content: t("already_suspended"),
+        content: t(($) => $.alreadySuspended),
         flags: MessageFlags.Ephemeral,
       });
     }
@@ -43,13 +43,13 @@ export default {
         data: { status: ModMailStatus.SUSPENDED },
       });
       const response = await interaction.reply({
-        content: t("suspended"),
+        content: t(($) => $.suspended),
         flags: MessageFlags.Ephemeral,
         withResponse: true,
       });
       await addMessageToThread(
         interaction.channelId,
-        t("suspended"),
+        t(($) => $.suspended),
         interaction.user.id,
         ModMailAuthorType.STAFF,
         ModMailSentToType.THREAD,
@@ -62,7 +62,7 @@ export default {
         message: "Failed to suspend mod mail thread",
       });
       return interaction.reply({
-        content: t("error"),
+        content: t(($) => $.error),
         flags: MessageFlags.Ephemeral,
       });
     }

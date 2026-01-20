@@ -29,18 +29,18 @@ export async function logsChannelDelete(channel: NonThreadGuildBasedChannel, gui
 
   const embed = new EmbedBuilder()
     .setColor("Red")
-    .setTitle(t("embed.title"))
+    .setTitle(t(($) => $.embed.title))
     .setDescription(
-      t("embed.description", {
+      t(($) => $.embed.description, {
         channel: channel,
-        channel_type: t(`channel_types.${channel.type}`),
+        channel_type: t(($) => $.channelTypes[channel.type]),
         timestamp: time(channel.createdAt, TimestampStyles.LongDateShortTime),
       }),
     )
     .setThumbnail(channel.guild.iconURL() ?? null)
     .setTimestamp()
     .setFooter({
-      text: executor?.tag ?? t("unknown_executor"),
+      text: executor?.tag ?? t(($) => $.unknownExecutor),
       iconURL: executor?.displayAvatarURL() ?? undefined,
     });
 

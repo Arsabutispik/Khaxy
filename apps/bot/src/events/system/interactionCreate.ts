@@ -35,7 +35,7 @@ export default {
       // Retrieve the language from the guild configuration
       const language = guildData.language || "en";
       // Retrieve the translation function
-      const t = interaction.client.i18next.getFixedT(language);
+      const t = interaction.client.i18next.getFixedT(language, "events", "interactionCreate");
       // Check if the member has the required permissions to execute the command
       if (
         command.memberPermissions &&
@@ -48,7 +48,7 @@ export default {
           language,
         );
         await interaction.reply({
-          content: t("events:interactionCreate.memberMissingPermissions", { permissions: missingPermissions }),
+          content: t(($) => $.memberMissingPermissions, { permissions: missingPermissions }),
           flags: MessageFlagsBitField.Flags.Ephemeral,
         });
         return;
@@ -65,7 +65,7 @@ export default {
           language,
         );
         await interaction.reply({
-          content: t("events:interactionCreate.botMissingPermissions", { permissions: missingPermissions }),
+          content: t(($) => $.botMissingPermissions, { permissions: missingPermissions }),
           flags: MessageFlagsBitField.Flags.Ephemeral,
         });
         return;

@@ -1,0 +1,66 @@
+{
+  "channelDelete": {
+    "channelTypes": {
+      "0": "Metin Kanalı",
+      "1": "DM Kanalı",
+      "2": "Ses Kanalı",
+      "3": "Grup DM Kanalı",
+      "4": "Kategori Kanalı",
+      "5": "Haber Kanalı",
+      "10": "Haber İleti Kanalı",
+      "11": "Genel İleti Kanalı",
+      "12": "Özel İleti Kanalı",
+      "13": "Sahne Kanalı",
+      "14": "Dizin Kanalı",
+      "15": "Forum Kanalı",
+      "16": "Medya Kanalı"
+    },
+    "embed": {
+      "description": "> **Kanal**: {{channel.name}} (<#{{channel.id}}>)\n> **ID**: {{channel.id}}\n> **Kanal Türü**: {{channel_type}}\n> **Silinme Tarihi**: {{timestamp}}",
+      "title": "Kanal Silindi"
+    },
+    "unknownExecutor": "Bilinmeyen Yetkili"
+  },
+  "guildBanAdd": {
+    "noReason": "Sebep belirtilmedi."
+  },
+  "guildBanRemove": {
+    "noReason": ""
+  },
+  "guildMemberAdd": {
+    "embed": {
+      "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Hesap Yaşı**: {{timestamp}}\n> **Kullanıcı Sayısı**: {{member_count}}",
+      "title": "Kullanıcı Sunucuya Katıldı"
+    }
+  },
+  "guildMemberRemove": {
+    "noReason": "Sebep belirtilmedi.",
+    "userLeft": "**Kullanıcı {{guild}} sunucusundan ayrıldı**"
+  },
+  "interactionCreate": {
+    "botMissingPermissions": "",
+    "memberMissingPermissions": "Bu komutu kullanabilmek için gerekli `{{permissions}}` izinlerine sahip değilsiniz."
+  },
+  "messageCreate": {
+    "modMail": {
+      "blacklisted": "{{guild}} sunucusunda mod mail kullanmanız yasaklandı. Yasaklanma sebebiniz: **{{reason}}**. Yasaklanma süresinin kalkışı: **{{expires}}**.",
+      "cancel": "Hayır",
+      "cancelledTitle": "Mod Mail Konuşması İptal Edildi",
+      "confirm": "Evet",
+      "confirmDescription": "{{guild}} için mod mail konuşmasını onaylamak için aşağıdaki düğmeye tıklayın veya konuşmayı iptal etmek için iptal düğmesine tıklayın.",
+      "confirmTitle": "Mod Mail Onaylama Düğmesi",
+      "errorInserting": "Mesajı veritabanına eklemeye çalışırken bir hata oluştu.",
+      "initial": "`Hesap Yaşı:` **{{account_age}}**, `ID:` **{{user.id}}**\n`Kullanıcı Adı:` **{{user.username}}** (<@{{user.id}}>), `Katılma Tarihi:` **{{join_date}}**\n**»»----------------------------¤----------------------------««**",
+      "never": "Asla",
+      "notMember": "Sunucunun bir üyesi değilsiniz.",
+      "parentChannelMissing": "Üst kanal eksik. Modlar mod mail'in çalışması için üst kanalı ayarlamalıdır.",
+      "reopened": "{{user}} modmaile cevap verdi, konuşma kapanmayacak. ({{closer}})",
+      "timeout": "Cevap vermeniz için çok uzun süre bekledim. Mod mail konuşması iptal edildi.",
+      "topic": "{{user}} ile Mod Mail konuşması"
+    }
+  },
+  "messageUpdate": {
+    "messageEdit": "***Kullanıcı mesajını düzenledi.***\n```diff\n- {{oldContent}}\n+ {{newContent}}\n```",
+    "noContent": ""
+  }
+}

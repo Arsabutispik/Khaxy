@@ -4,17 +4,17 @@ import { returnWebhook, WebhookType } from "@utils";
 import { logger } from "@lib";
 
 export async function logSoundBoardSoundDelete(soundboardSound: GuildSoundboardSound, guildConfig: GuildWithLogs) {
-  const t = soundboardSound.client.i18next.getFixedT(guildConfig.language, "events", "guildSoundboardSoundDelete");
+  const t = soundboardSound.client.i18next.getFixedT(guildConfig.language, "loggers", "guildSoundboardEvents");
   if (!guildConfig.logConfig?.soundboardLogsChannelId) return;
   const logChannel = soundboardSound.guild.channels.cache.get(guildConfig.logConfig.soundboardLogsChannelId);
   if (logChannel?.type !== ChannelType.GuildText) return;
   const embed = new EmbedBuilder()
     .setColor("Red")
     .setTimestamp()
-    .setTitle(t("embed.title"))
+    .setTitle(t(($) => $.guildSoundboardSoundDelete.embed.title))
     .setDescription(
-      t("embed.description", {
-        soundboard: soundboardSound,
+      t(($) => $.guildSoundboardSoundDelete.embed.description, {
+        sound: soundboardSound,
         volume: Math.round((soundboardSound.volume || 0) * 100),
         timestamp: time(new Date(), TimestampStyles.FullDateShortTime),
       }),
@@ -33,7 +33,7 @@ export async function logSoundBoardSoundDelete(soundboardSound: GuildSoundboardS
 
   if (targetId === soundboardSound.soundId) {
     embed.setFooter({
-      text: logEntry?.executor?.username ?? t("unknown_executor"),
+      text: logEntry?.executor?.username ?? t(($) => $.unknownExecutor),
       iconURL: logEntry?.executor?.displayAvatarURL() ?? undefined,
     });
   }

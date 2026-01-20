@@ -10,6 +10,7 @@ export default {
     if (!newStageInstance.guild) return;
     const guildConfig = await getOrCreateGuild(newStageInstance.guild.id);
     if (!guildConfig) return;
+    if (!oldStageInstance) return;
     await logStageInstanceUpdate(oldStageInstance, newStageInstance, guildConfig);
   },
 } satisfies EventBase<Events.StageInstanceUpdate>;

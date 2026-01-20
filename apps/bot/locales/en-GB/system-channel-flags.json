@@ -1,0 +1,8 @@
+{
+  "SuppressGuildReminderNotifications": "Suppress Server Tips",
+  "SuppressJoinNotificationReplies": "Suppress Join Replies",
+  "SuppressJoinNotifications": "Suppress Join Messages",
+  "SuppressPremiumSubscriptions": "Suppress Server Boosts",
+  "SuppressRoleSubscriptionPurchaseNotificationReplies": "Suppress Role Sub Replies",
+  "SuppressRoleSubscriptionPurchaseNotifications": "Suppress Role Sub Purchase"
+}

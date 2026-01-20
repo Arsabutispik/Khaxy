@@ -29,9 +29,9 @@ export async function handleModMailMessageUpdate(
   const t = oldMessage.client.i18next.getFixedT(guildConfig.language, "events", "messageUpdate");
 
   // Format the notification text
-  const editNotification = t("message_edit", {
-    oldContent: oldMessage.content || t("errors.unknown_content"),
-    newContent: newMessage.content || t("errors.unknown_content"),
+  const editNotification = t(($) => $.messageEdit, {
+    oldContent: oldMessage.content || t(($) => $.noContent),
+    newContent: newMessage.content || t(($) => $.noContent),
   });
 
   await channel.send(editNotification);
@@ -50,7 +50,7 @@ export async function handleModMailMessageUpdate(
     if (editEmoji) {
       await newMessage.react(editEmoji.format);
     }
-  } catch (err) {
+  } catch {
     // Ignore reaction errors (e.g. if user blocked bot)
   }
 

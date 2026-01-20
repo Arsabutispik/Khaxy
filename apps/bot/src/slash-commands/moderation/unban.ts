@@ -1,14 +1,7 @@
 import type { SlashCommandBase } from "@types";
-import {
-  ChannelType,
-  EmbedBuilder,
-  InteractionContextType,
-  MessageFlagsBitField,
-  PermissionsBitField,
-  SlashCommandBuilder,
-} from "discord.js";
+import { InteractionContextType, MessageFlagsBitField, PermissionsBitField, SlashCommandBuilder } from "discord.js";
 import { logger } from "@lib";
-import { modLog, returnWebhook, WebhookType } from "@utils";
+import { logBanRemove, modLog } from "@utils";
 
 export default {
   memberPermissions: [PermissionsBitField.Flags.BanMembers],
@@ -52,84 +45,41 @@ export default {
     const t = client.i18next.getFixedT(guildConfig.language, "commands", "unban");
     const user = interaction.options.getUser("user", true);
     if (!user) {
-      await interaction.reply({ content: t("no_user"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t(($) => $.noUser), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
     const banned = await interaction.guild.bans.fetch(user.id).catch(() => null);
     if (!banned) {
       await interaction.reply({
-        content: t("not_banned", { user: user.tag }),
+        content: t(($) => $.notBanned, { user: user.tag }),
         flags: MessageFlagsBitField.Flags.Ephemeral,
       });
       return;
     }
-    const reason = interaction.options.getString("reason") || t("no_reason");
+    const reason = interaction.options.getString("reason") || t(($) => $.noReason);
     try {
       await interaction.guild.members.unban(user, reason);
       await interaction.reply({
-        content: t("success", {
+        content: t(($) => $.success, {
           user: user.tag,
           confirm: client.allEmojis.get(client.config.emojis.confirm.id)?.format,
           case: guildConfig.caseId,
         }),
         flags: MessageFlagsBitField.Flags.Ephemeral,
       });
-    } catch (error: any) {
+    } catch (error) {
       await interaction.reply({
-        content: t("error", { error: error.message }),
+        content: t(($) => $.error, { error: error }),
         flags: MessageFlagsBitField.Flags.Ephemeral,
       });
       logger.error({
-        message: `An error occurred while unbanning a user. Error: ${error.message}`,
+        message: `An error occurred while unbanning a user. Error: ${error}`,
         error,
         guild: interaction.guild.id,
         user: interaction.user.id,
       });
     }
-    if (guildConfig.logConfig?.guildLogsChannelId) {
-      const channel = await interaction.guild.channels
-        .fetch(guildConfig.logConfig.guildLogsChannelId)
-        .catch(() => null);
-      if (channel?.type === ChannelType.GuildText) {
-        const webhook = await returnWebhook(interaction.client, channel, interaction.guild.id, guildConfig, {
-          id: guildConfig.logConfig.guildLogsWebhookId,
-          type: WebhookType.GUILD_LOGS,
-        });
-        if (!webhook) return;
-        const embed = new EmbedBuilder()
-          .setTitle(t("embed.title"))
-          .setColor("Green")
-          .setThumbnail(user.displayAvatarURL())
-          .setDescription(t("embed.description", { user: user }))
-          .setFooter({
-            text: interaction.user.tag || t("unknown_executor"),
-            iconURL: interaction.user.displayAvatarURL() || undefined,
-          })
-          .setTimestamp()
-          .addFields([
-            {
-              name: t("embed.fields.reason"),
-              value: reason || t("no_reason"),
-            },
-          ]);
-        await webhook
-          .send({
-            embeds: [embed],
-            allowedMentions: { parse: [] }, // Prevent mentions in the log
-          })
-          .catch((error) => {
-            logger.log({
-              level: "error",
-              message: `Failed to send guild ban remove log`,
-              error,
-              meta: {
-                guildId: interaction.guild.id,
-                userId: user.id,
-              },
-            });
-          });
-      }
-    }
+    await logBanRemove({ guild: interaction.guild, user, reason, executor: interaction.user, guildConfig });
     const result = await modLog(
       {
         guild: interaction.guild,

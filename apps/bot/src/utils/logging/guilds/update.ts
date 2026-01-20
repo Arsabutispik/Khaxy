@@ -1,9 +1,10 @@
-import { ChannelType, Guild } from "discord.js";
+import { ChannelType, EmbedBuilder, Guild, GuildFeature } from "discord.js";
 import { GuildWithLogs } from "@repo/database";
 import { getGuildExecutor, returnWebhook, WebhookType } from "@utils";
 import { isDeepStrictEqual } from "node:util";
 import * as Embeds from "./updateEmbeds.js";
 import { logger } from "@lib";
+import { logUnhandledChanges } from "../utils.js";
 
 export async function logGuildUpdate(oldGuild: Guild, newGuild: Guild, guildConfig: GuildWithLogs) {
   // 1. Config Check
@@ -13,8 +14,8 @@ export async function logGuildUpdate(oldGuild: Guild, newGuild: Guild, guildConf
 
   // 2. Fetch Executor & Translation
   const executor = await getGuildExecutor(newGuild);
-  const t = newGuild.client.i18next.getFixedT(guildConfig.language, "events", "guildUpdate");
-  const embeds: any[] = [];
+  const t = newGuild.client.i18next.getFixedT(guildConfig.language, "loggers", "guildEvents");
+  const embeds: EmbedBuilder[] = [];
 
   // 3. Comparisons
   if (oldGuild.afkChannel?.id !== newGuild.afkChannel?.id) {
@@ -41,9 +42,9 @@ export async function logGuildUpdate(oldGuild: Guild, newGuild: Guild, guildConf
     embeds.push(Embeds.buildExplicitContentFilterEmbed(oldGuild, newGuild, executor, t));
   }
 
-  if (!isDeepStrictEqual(oldGuild.features, newGuild.features)) {
-    const removed = oldGuild.features.filter((f) => !newGuild.features.includes(f));
-    const added = newGuild.features.filter((f) => !oldGuild.features.includes(f));
+  if (!isDeepStrictEqual(oldGuild.features.sort(), newGuild.features.sort())) {
+    const removed = oldGuild.features.filter((f) => !newGuild.features.includes(f)) as GuildFeature[];
+    const added = newGuild.features.filter((f) => !oldGuild.features.includes(f)) as GuildFeature[];
     if (added.length || removed.length) {
       embeds.push(Embeds.buildFeaturesEmbed(added, removed, newGuild, executor, guildConfig.language, t));
     }
@@ -127,8 +128,43 @@ export async function logGuildUpdate(oldGuild: Guild, newGuild: Guild, guildConf
     embeds.push(Embeds.buildWidgetChannelEmbed(oldGuild, newGuild, executor, t));
   }
 
-  // 4. Send
-  if (embeds.length === 0) return;
+  if (oldGuild.systemChannelFlags !== newGuild.systemChannelFlags) {
+    embeds.push(
+      Embeds.buildSystemChannelFlagsEmbed(oldGuild.systemChannelFlags, newGuild, executor, guildConfig.language, t),
+    );
+  }
+
+  if (oldGuild.nsfwLevel !== newGuild.nsfwLevel) {
+    embeds.push(Embeds.buildNsfwLevelEmbed(oldGuild.nsfwLevel, newGuild, executor, t));
+  }
+
+  if (oldGuild.widgetEnabled !== newGuild.widgetEnabled) {
+    embeds.push(Embeds.buildWidgetEnabledEmbed(oldGuild.widgetEnabled, newGuild, executor, t));
+  }
+  if (embeds.length === 0) {
+    logUnhandledChanges("GuildUpdate", oldGuild, newGuild, `"${newGuild.name}" (${newGuild.id})`, [
+      // Managers specific to Guild
+      "channels",
+      "roles",
+      "members",
+      "emojis",
+      "stickers",
+      "presences",
+      "voiceStates",
+      "stageInstances",
+      "invites",
+      "scheduledEvents",
+      "autoModerationRules",
+      "commands",
+      "bans",
+      "shard",
+      "shardId",
+      "joinedAt",
+      "joinedTimestamp",
+      "features", // features is usually array ref change, can be noisy
+    ]);
+    return;
+  }
 
   const webhook = await returnWebhook(newGuild.client, logsChannel, newGuild.id, guildConfig, {
     id: guildConfig.logConfig.guildLogsWebhookId,

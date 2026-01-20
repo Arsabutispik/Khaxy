@@ -10,7 +10,6 @@ export default {
     if (!event.guild) return;
     const guildConfig = await getOrCreateGuild(event.guild.id);
     if (!guildConfig) return;
-    const t = event.client.i18next.getFixedT(guildConfig.language, "events", "guildScheduledEventCreate");
     const auditLogs = await event.guild
       .fetchAuditLogs({
         limit: 1,
@@ -19,6 +18,6 @@ export default {
       .catch(() => null);
     const logEntry = auditLogs?.entries.first();
     const executor = logEntry && logEntry.target?.id === event.id ? logEntry.executor : null;
-    await logScheduledEventCreate({ event, executor, guildConfig, t });
+    await logScheduledEventCreate({ event, executor, guildConfig });
   },
 } satisfies EventBase<Events.GuildScheduledEventCreate>;

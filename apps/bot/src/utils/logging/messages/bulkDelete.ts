@@ -19,15 +19,17 @@ export async function logMessageBulkDelete(
   if (!guildConfig.logConfig?.messageLogsChannelId) return;
   const logChannel = guild.channels.cache.get(guildConfig.logConfig.messageLogsChannelId);
   if (!logChannel || logChannel.type !== ChannelType.GuildText) return;
-  const t = guild.client.i18next.getFixedT(guildConfig.language, "events", "messageBulkDelete");
+  const t = guild.client.i18next.getFixedT(guildConfig.language, "loggers", "messageEvents");
   const webhook = await returnWebhook(guild.client, logChannel, guild.id, guildConfig, {
     id: guildConfig.logConfig.messageLogsWebhookId,
     type: WebhookType.MESSAGE_LOGS,
   });
+  const message = messages.first();
+  if (!message) return;
   const embed = new EmbedBuilder()
-    .setTitle(t("embed.title", { count: messages.size }))
+    .setTitle(t(($) => $.messageBulkDelete.embed.title, { count: messages.size }))
     .setColor("Red")
-    .setDescription(t("embed.description", { message: messages.first() }))
+    .setDescription(t(($) => $.messageBulkDelete.embed.description, { message }))
     .setTimestamp();
   const buffer = Buffer.from(
     messages
@@ -41,12 +43,12 @@ export async function logMessageBulkDelete(
           },
           content: message.content?.trim() || "No content",
         };
-        return `[${new Date()}] ${t("message", { message: formattedMessage })}`;
+        return `[${new Date().toLocaleDateString(guildConfig.language)}] ${t(($) => $.messageBulkDelete.message, { message: formattedMessage })}`;
       })
       .join("\n"),
     "utf8",
   );
-  const attachment = new AttachmentBuilder(buffer, { name: t("file_name") });
+  const attachment = new AttachmentBuilder(buffer, { name: t(($) => $.messageBulkDelete.fileName) });
   if (webhook) {
     await webhook
       .send({

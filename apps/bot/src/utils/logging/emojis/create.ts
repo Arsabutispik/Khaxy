@@ -4,7 +4,7 @@ import { returnWebhook, sleep, WebhookType } from "@utils";
 import { logger } from "@lib";
 
 export async function logEmojiCreate(emoji: GuildEmoji, guildConfig: GuildWithLogs) {
-  const t = emoji.client.i18next.getFixedT(guildConfig.language, "events", "emojiCreate");
+  const t = emoji.client.i18next.getFixedT(guildConfig.language, "loggers", "emojiEvents");
   if (!guildConfig.logConfig?.emojiLogsChannelId) return;
   const logChannel = emoji.guild.channels.cache.get(guildConfig.logConfig.emojiLogsChannelId);
   if (logChannel?.type !== ChannelType.GuildText) return;
@@ -21,9 +21,9 @@ export async function logEmojiCreate(emoji: GuildEmoji, guildConfig: GuildWithLo
   const executor = logEntry && logEntry.target?.id === emoji.id ? logEntry.executor : null;
   const embed = new EmbedBuilder()
     .setColor("Green")
-    .setTitle(t("embed.title"))
+    .setTitle(t(($) => $.emojiCreate.embed.title))
     .setDescription(
-      t("embed.description", {
+      t(($) => $.emojiCreate.embed.description, {
         emoji: emoji,
         emoji_animated: emoji.animated
           ? emoji.client.allEmojis.get(emoji.client.config.emojis.confirm.id)?.format
@@ -34,7 +34,7 @@ export async function logEmojiCreate(emoji: GuildEmoji, guildConfig: GuildWithLo
     .setThumbnail(emoji.animated ? emoji.imageURL({ extension: "gif" }) : emoji.imageURL())
     .setTimestamp()
     .setFooter({
-      text: executor?.tag ?? t("unknown_executor"),
+      text: executor?.tag ?? t(($) => $.unknownExecutor),
       iconURL: executor?.displayAvatarURL() ?? undefined,
     });
   const webhook = await returnWebhook(emoji.client, logChannel, emoji.guild.id, guildConfig, {

@@ -5,15 +5,15 @@ import { logger } from "@lib";
 
 export async function logInviteCreate(invite: Invite, guildConfig: GuildWithLogs) {
   if (!invite.guild || invite.guild instanceof InviteGuild) return;
-  const t = invite.client.i18next.getFixedT(guildConfig.language, "events", "inviteCreate");
+  const t = invite.client.i18next.getFixedT(guildConfig.language, "loggers", "inviteEvents");
   if (!guildConfig.logConfig?.inviteLogsChannelId) return;
   const logChannel = invite.guild.channels.cache.get(guildConfig.logConfig.inviteLogsChannelId);
   if (logChannel?.type !== ChannelType.GuildText) return;
   const embed = new EmbedBuilder()
     .setColor("Green")
-    .setTitle(t("embed.title"))
+    .setTitle(t(($) => $.inviteCreate.embed.title))
     .setDescription(
-      t("embed.description", {
+      t(($) => $.inviteCreate.embed.description, {
         invite,
         timestamp:
           invite.maxAge && invite.maxAge > 0
@@ -36,7 +36,7 @@ export async function logInviteCreate(invite: Invite, guildConfig: GuildWithLogs
     id: guildConfig.logConfig.inviteLogsWebhookId,
     type: WebhookType.INVITE_LOGS,
   });
-  if(webhook) {
+  if (webhook) {
     await webhook.send({ embeds: [embed] }).catch((error) => {
       logger.log({
         level: "error",

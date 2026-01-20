@@ -2,13 +2,22 @@ import { Sticker, ChannelType, AuditLogEvent, EmbedBuilder } from "discord.js";
 import { GuildWithLogs } from "@repo/database";
 import { returnWebhook, WebhookType } from "@utils";
 import { logger } from "@lib";
+import { logUnhandledChanges } from "../utils.js";
 
 export async function logStickerUpdate(oldSticker: Sticker, newSticker: Sticker, guildConfig: GuildWithLogs) {
   if (!newSticker.guild || !oldSticker.guild) return;
-  const t = newSticker.client.i18next.getFixedT(guildConfig.language, "events", "stickerDelete");
+  const t = newSticker.client.i18next.getFixedT(guildConfig.language, "loggers", "stickerEvents");
   if (!guildConfig.logConfig?.stickerLogsChannelId) return;
   const logChannel = newSticker.guild.channels.cache.get(guildConfig.logConfig.stickerLogsChannelId);
   if (logChannel?.type !== ChannelType.GuildText) return;
+  const webhook = await returnWebhook(newSticker.client, logChannel, newSticker.guild.id, guildConfig, {
+    id: guildConfig.logConfig.stickerLogsWebhookId,
+    type: WebhookType.STICKER_LOGS,
+  });
+  if (!webhook) {
+    logger.warn(`No webhook found for sticker updates in guild ${newSticker.guild.id}`);
+    return;
+  }
   const auditLogs = await newSticker.guild
     .fetchAuditLogs({
       limit: 1,
@@ -23,19 +32,15 @@ export async function logStickerUpdate(oldSticker: Sticker, newSticker: Sticker,
     .setThumbnail(`https://media.discordapp.net/stickers/${newSticker.id}.webp?size=240&amp;quality=lossless`);
   if (logEntry?.target.id === newSticker.id) {
     embed.setFooter({
-      text: logEntry.executor?.username ?? t("unknown_executor"),
+      text: logEntry.executor?.username ?? t(($) => $.unknownExecutor),
       iconURL: logEntry.executor?.displayAvatarURL() ?? undefined,
     });
   }
-  const webhook = await returnWebhook(newSticker.client, logChannel, newSticker.guild.id, guildConfig, {
-    id: guildConfig.logConfig.stickerLogsWebhookId,
-    type: WebhookType.STICKER_LOGS,
-  });
   if (oldSticker.name !== newSticker.name) {
     const embedClone = EmbedBuilder.from(embed)
-      .setTitle(t("name_change.embed.title"))
+      .setTitle(t(($) => $.stickerUpdate.nameChange.embed.title))
       .setDescription(
-        t("name_change.embed.description", {
+        t(($) => $.stickerUpdate.nameChange.embed.description, {
           sticker: newSticker,
           old_name: oldSticker.name,
           new_name: newSticker.name,
@@ -45,9 +50,9 @@ export async function logStickerUpdate(oldSticker: Sticker, newSticker: Sticker,
   }
   if (oldSticker.description !== newSticker.description) {
     const embedClone = EmbedBuilder.from(embed)
-      .setTitle(t("description_change.embed.title"))
+      .setTitle(t(($) => $.stickerUpdate.descriptionChange.embed.title))
       .setDescription(
-        t("description_change.embed.description", {
+        t(($) => $.stickerUpdate.descriptionChange.embed.description, {
           sticker: newSticker,
           old_description: oldSticker.description,
           new_description: newSticker.description,
@@ -57,9 +62,9 @@ export async function logStickerUpdate(oldSticker: Sticker, newSticker: Sticker,
   }
   if (oldSticker.tags !== newSticker.tags) {
     const embedClone = EmbedBuilder.from(embed)
-      .setTitle(t("tags_change.embed.title"))
+      .setTitle(t(($) => $.stickerUpdate.tagsChange.embed.title))
       .setDescription(
-        t("tags_change.embed.description", {
+        t(($) => $.stickerUpdate.tagsChange.embed.description, {
           sticker: newSticker,
           old_tags: oldSticker.tags,
           new_tags: newSticker.tags,
@@ -67,14 +72,23 @@ export async function logStickerUpdate(oldSticker: Sticker, newSticker: Sticker,
       );
     embeds.push(embedClone);
   }
-  if (embeds.length > 0 && webhook) {
-    webhook.send({ embeds }).catch((error) => {
-      logger.log({
-        level: "error",
-        error,
-        message: `Failed to send stickerUpdate embed(s) in ${newSticker.guild?.name} (${newSticker.guild?.id})`,
-        logChannel: logChannel?.id,
-      });
-    });
+  if (embeds.length === 0) {
+    logUnhandledChanges("stickerUpdate", oldSticker, newSticker, `Sticker "${newSticker.name}" (${newSticker.id})`, [
+      "user",
+      "guildId",
+      "userId",
+      "format",
+      "type",
+      "packId",
+    ]);
+    return;
   }
+  webhook.send({ embeds }).catch((error) => {
+    logger.log({
+      level: "error",
+      error,
+      message: `Failed to send stickerUpdate embed(s) in ${newSticker.guild?.name} (${newSticker.guild?.id})`,
+      logChannel: logChannel?.id,
+    });
+  });
 }

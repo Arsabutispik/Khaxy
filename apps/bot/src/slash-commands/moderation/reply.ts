@@ -64,33 +64,33 @@ export default {
     const t = client.i18next.getFixedT(guildConfig.language, "commands", "reply");
     const modMailThread = await getThreadByChannelId(interaction.channelId);
     if (!modMailThread) {
-      return interaction.reply({ content: t("noThread"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      return interaction.reply({ content: t(($) => $.noThread), flags: MessageFlagsBitField.Flags.Ephemeral });
     }
     if (modMailThread.status === ModMailStatus.SUSPENDED) {
-      return interaction.reply({ content: t("suspended"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      return interaction.reply({ content: t(($) => $.suspended), flags: MessageFlagsBitField.Flags.Ephemeral });
     }
     const message = interaction.options.getString("message", true);
     const anonymous = interaction.options.getBoolean("anonymous");
     const member = await interaction.guild!.members.fetch(modMailThread.userId).catch(() => null);
     if (!member) {
-      return interaction.reply({ content: t("memberNotFound"), flags: MessageFlagsBitField.Flags.Ephemeral });
+      return interaction.reply({ content: t(($) => $.memberNotFound), flags: MessageFlagsBitField.Flags.Ephemeral });
     }
     await interaction.deferReply({ flags: MessageFlagsBitField.Flags.Ephemeral });
     const messages = await getThreadMessages(interaction.channelId);
     if (!messages) {
-      return interaction.editReply({ content: t("noMessages") });
+      return interaction.editReply({ content: t(($) => $.noMessages) });
     }
     let dmMessageId: string;
     try {
       const dmMessage = await member.send({
-        content: `\`${messages.filter((row) => row.authorType === ModMailAuthorType.STAFF && row.sentTo !== ModMailSentToType.COMMAND).length + 1}\` **${anonymous ? `${t("anonymous")}` : `(${interaction.member.roles.highest.name})** **[${interaction.member.user.tag}]`}**: ${message}`,
+        content: `\`${messages.filter((row) => row.authorType === ModMailAuthorType.STAFF && row.sentTo !== ModMailSentToType.COMMAND).length + 1}\` **${anonymous ? `${t(($) => $.anonymous)}` : `(${interaction.member.roles.highest.name})** **[${interaction.member.user.tag}]`}**: ${message}`,
         files: interaction.options.getAttachment("attachment")
           ? [interaction.options.getAttachment("attachment")!]
           : [],
       });
       dmMessageId = dmMessage.id;
     } catch {
-      return interaction.editReply({ content: t("dm_failed") });
+      return interaction.editReply({ content: t(($) => $.dmFailed) });
     }
     try {
       await addMessageToThread(
@@ -108,11 +108,13 @@ export default {
         message: "Error while inserting a new mod mail message.",
         error: e,
       });
-      return interaction.editReply({ content: t("error") });
+      return interaction.editReply({ content: t(($) => $.error) });
     }
-    await interaction.editReply({ content: t("success") });
+    await interaction.editReply({ content: t(($) => $.success) });
     const role =
-      interaction.member.roles.highest.name === "@everyone" ? t("noRole") : interaction.member.roles.highest.name;
+      interaction.member.roles.highest.name === "@everyone"
+        ? t(($) => $.noRole)
+        : interaction.member.roles.highest.name;
     await interaction.channel!.send({
       content: `\`${messages.filter((row) => row.authorType === ModMailAuthorType.STAFF && row.sentTo !== ModMailSentToType.COMMAND).length + 1}\` **(${role})** **[${interaction.member.user.tag}]**: ${message}`,
       files: interaction.options.getAttachment("attachment") ? [interaction.options.getAttachment("attachment")!] : [],

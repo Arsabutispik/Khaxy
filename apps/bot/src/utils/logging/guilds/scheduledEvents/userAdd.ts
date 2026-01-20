@@ -1,6 +1,5 @@
 import { ChannelType, EmbedBuilder, GuildScheduledEvent, PartialGuildScheduledEvent, User } from "discord.js";
 import { GuildWithLogs } from "@repo/database";
-import { TFunction } from "i18next";
 import { returnWebhook, WebhookType } from "@utils";
 import { logger } from "@lib";
 
@@ -8,17 +7,17 @@ export async function logScheduledEventUserAdd(
   event: GuildScheduledEvent | PartialGuildScheduledEvent,
   user: User,
   guildConfig: GuildWithLogs,
-  t: TFunction,
 ) {
   if (!event.guild) return;
   if (!guildConfig.logConfig?.eventLogsChannelId) return;
   const logChannel = event.guild.channels.cache.get(guildConfig.logConfig?.eventLogsChannelId);
   if (logChannel?.type !== ChannelType.GuildText) return;
+  const t = event.client.i18next.getFixedT(guildConfig.language, "loggers", "guildScheduledEvents");
   const embed = new EmbedBuilder()
     .setColor("Green")
-    .setTitle(t("embed.title"))
+    .setTitle(t(($) => $.guildScheduledEventUserAdd.embed.title))
     .setDescription(
-      t("embed.description", {
+      t(($) => $.guildScheduledEventUserAdd.embed.description, {
         event,
         user,
       }),

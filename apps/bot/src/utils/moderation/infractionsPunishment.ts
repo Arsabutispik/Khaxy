@@ -8,7 +8,7 @@ dayjs.extend(dayjsduration);
 export async function infractionsPunishment(guild: Guild, member: GuildMember, moderator: User) {
   const guildConfig = await getOrCreateGuild(guild.id);
   if (!guildConfig) return "Guild not registered in database";
-  const t = guild.client.i18next.getFixedT(guildConfig.language, null, "infractions_punishment");
+  const t = guild.client.i18next.getFixedT(guildConfig.language, null, "infractionsPunishment");
   const infractions = await getUserInfractions(guild.id, member.id);
   const activeInfractions = infractions.filter((infraction) =>
     infraction.expiresAt ? infraction.expiresAt.getTime() > new Date().getTime() : true,
@@ -21,12 +21,12 @@ export async function infractionsPunishment(guild: Guild, member: GuildMember, m
   switch (punishment.action) {
     case PunishmentAction.MUTE: {
       try {
-        if (!guildConfig.muteRoleId) return t("no_mute_role");
+        if (!guildConfig.muteRoleId) return t(($) => $.noMuteRole);
         const muteRole = guild.roles.cache.get(guildConfig.muteRoleId);
-        if (!muteRole) return t("no_mute_role");
-        if (member.roles.cache.has(muteRole.id)) return t("already_muted");
+        if (!muteRole) return t(($) => $.noMuteRole);
+        if (member.roles.cache.has(muteRole.id)) return t(($) => $.alreadyMuted);
         if (!guild.members.me?.permissions.has(PermissionsBitField.Flags.ManageRoles)) {
-          return t("no_permission");
+          return t(($) => $.noPermission);
         }
         const filteredRoles = member.roles.cache
           .filter((role) => role.id !== guild.id)
@@ -50,7 +50,7 @@ export async function infractionsPunishment(guild: Guild, member: GuildMember, m
               guild: `${guild.name} (${guild.id})`,
               user: `${moderator.username} (${moderator.id})`,
             });
-            return t("database_error");
+            return t(($) => $.databaseError);
           }
           try {
             await member.roles.set([muteRole.id]);
@@ -61,7 +61,7 @@ export async function infractionsPunishment(guild: Guild, member: GuildMember, m
               guild: `${guild.name} (${guild.id})`,
               user: `${moderator.username} (${moderator.id})`,
             });
-            return t("role_error");
+            return t(($) => $.roleError);
           }
         } else {
           try {
@@ -79,7 +79,7 @@ export async function infractionsPunishment(guild: Guild, member: GuildMember, m
               guild: `${guild.name} (${guild.id})`,
               user: `${moderator.username} (${moderator.id})`,
             });
-            return t("database_error");
+            return t(($) => $.databaseError);
           }
           try {
             await member.roles.add(muteRole);
@@ -90,7 +90,7 @@ export async function infractionsPunishment(guild: Guild, member: GuildMember, m
               guild: `${guild.name} (${guild.id})`,
               user: `${moderator.username} (${moderator.id})`,
             });
-            return t("role_error");
+            return t(($) => $.roleError);
           }
         }
         const dayjsDuration = dayjs.duration(punishment.duration! * 1000);
@@ -99,9 +99,9 @@ export async function infractionsPunishment(guild: Guild, member: GuildMember, m
           .fromNow(true);
         await member
           .send(
-            t("messages.mute", {
+            t(($) => $.messages.mute, {
               guild: guild.name,
-              reason: t("reason", { level: activeInfractions }),
+              reason: t(($) => $.reason, { level: activeInfractions }),
               duration: longDuration,
             }),
           )
@@ -112,7 +112,7 @@ export async function infractionsPunishment(guild: Guild, member: GuildMember, m
             action: "MUTE",
             user: member.user,
             moderator,
-            reason: t("reason", { level: activeInfractions }),
+            reason: t(($) => $.reason, { level: activeInfractions }),
             duration: dayjs(Date.now() + dayjsDuration.asMilliseconds()),
           },
           guild.client,
@@ -126,23 +126,25 @@ export async function infractionsPunishment(guild: Guild, member: GuildMember, m
           error,
           guild: guild.id,
         });
-        return t("mute_error");
+        return t(($) => $.muteError);
       }
       break;
     }
     case PunishmentAction.KICK: {
       await member
-        .send(t("messages.kick", { guild: guild.name, reason: t("reason", { level: activeInfractions }) }))
+        .send(
+          t(($) => $.messages.kick, { guild: guild.name, reason: t(($) => $.reason, { level: activeInfractions }) }),
+        )
         .catch(() => null);
       try {
-        await member.kick(t("reason", { level: activeInfractions }));
+        await member.kick(t(($) => $.reason, { level: activeInfractions }));
         const kickResult = await modLog(
           {
             guild: guild,
             action: "KICK",
             user: member.user,
             moderator,
-            reason: t("reason", { level: activeInfractions }),
+            reason: t(($) => $.reason, { level: activeInfractions }),
           },
           guild.client,
         );
@@ -160,17 +162,17 @@ export async function infractionsPunishment(guild: Guild, member: GuildMember, m
     }
     case PunishmentAction.BAN: {
       await member
-        .send(t("messages.ban", { guild: guild.name, reason: t("reason", { level: activeInfractions }) }))
+        .send(t(($) => $.messages.ban, { guild: guild.name, reason: t(($) => $.reason, { level: activeInfractions }) }))
         .catch(() => null);
       try {
-        await member.ban({ reason: t("reason", { level: activeInfractions }) });
+        await member.ban({ reason: t(($) => $.reason, { level: activeInfractions }) });
         const banResult = await modLog(
           {
             guild: guild,
             action: "BAN",
             user: member.user,
             moderator,
-            reason: t("reason", { level: activeInfractions }),
+            reason: t(($) => $.reason, { level: activeInfractions }),
           },
           guild.client,
         );
@@ -207,20 +209,20 @@ export async function infractionsPunishment(guild: Guild, member: GuildMember, m
           guild: `${guild.name} (${guild.id})`,
           user: `${moderator.username} (${moderator.id})`,
         });
-        return t("database_error");
+        return t(($) => $.databaseError);
       }
       await member
         .send(
-          t("messages.temp_ban", {
+          t(($) => $.messages.tempBan, {
             guild: guild.name,
-            reason: t("reason", { level: activeInfractions }),
+            reason: t(($) => $.reason, { level: activeInfractions }),
             duration: longDuration,
           }),
         )
         .catch(() => null);
       try {
         await guild.members.ban(member.user, {
-          reason: t("reason", { level: activeInfractions }),
+          reason: t(($) => $.reason, { level: activeInfractions }),
           deleteMessageSeconds: 604800,
         });
       } catch (error) {
@@ -237,7 +239,7 @@ export async function infractionsPunishment(guild: Guild, member: GuildMember, m
           user: member.user,
           action: "TIMED_BAN",
           moderator,
-          reason: t("reason", { level: activeInfractions }),
+          reason: t(($) => $.reason, { level: activeInfractions }),
           duration: dayjs(Date.now() + dayjsDuration.asMilliseconds()),
           caseID: guildConfig.caseId,
         },

@@ -4,7 +4,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "dev:bot": "pnpm -F khaxyrewrite run dev:watch",
+    "dev:bot": "pnpm -F khaxyrewrite run dev",
     "dev:web": "pnpm -F khaxy-dashboard run dev",
     "dev:all": "concurrently \"pnpm dev:bot\" \"pnpm dev:web\"",
     "lint": "turbo run lint",

@@ -9,14 +9,7 @@ import {
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime.js";
 import { logger } from "@lib";
-import {
-  createThread,
-  addMessageToThread,
-  getOpenThread,
-  ModMailStatus,
-  ModMailAuthorType,
-  ModMailSentToType,
-} from "@repo/database";
+import { createThread, addMessageToThread, getOpenThread, ModMailAuthorType, ModMailSentToType } from "@repo/database";
 export default {
   memberPermissions: [PermissionsBitField.Flags.ManageMessages],
   clientPermissions: [PermissionsBitField.Flags.ManageChannels],
@@ -62,7 +55,7 @@ export default {
     const member = interaction.guild.members.cache.get(user.id);
     if (!member) {
       return interaction.editReply({
-        content: t("user_not_in_guild"),
+        content: t(($) => $.userNotInGuild),
       });
     }
     const modmailChannel = guildConfig.modMailChannelId
@@ -70,23 +63,23 @@ export default {
       : undefined;
     if (!modmailChannel) {
       return interaction.editReply({
-        content: t("no_modmail_channel"),
+        content: t(($) => $.noModMailChannel),
       });
     }
     if (!modmailChannel.isTextBased()) {
       return interaction.editReply({
-        content: t("modmail_channel_not_text"),
+        content: t(($) => $.modMailChannelNotText),
       });
     }
     if (modmailChannel.parent?.id !== guildConfig.modMailParentChannelId) {
       return interaction.editReply({
-        content: t("modmail_channel_not_in_parent"),
+        content: t(($) => $.modMailChannelNotInParent),
       });
     }
     const modMailThread = await getOpenThread(interaction.guildId, user.id);
     if (modMailThread) {
       return interaction.editReply({
-        content: t("thread_already_exists"),
+        content: t(($) => $.threadExists),
       });
     }
     const permissionOverwrites = [{ id: interaction.guild.id, deny: [PermissionsBitField.Flags.ViewChannel] }];
@@ -103,12 +96,12 @@ export default {
         name: Math.random().toString(36).slice(2),
         parent: guildConfig.modMailParentChannelId,
         type: ChannelType.GuildText,
-        topic: t("topic", { user: user.tag }),
+        topic: t(($) => $.topic, { user: user.tag }),
         permissionOverwrites: permissionOverwrites,
       })
       .catch(() => {
         interaction.editReply({
-          content: t("channel_create_failed"),
+          content: t(($) => $.channelCreateFailed),
         });
         return null;
       });
@@ -116,10 +109,10 @@ export default {
     const message = interaction.options.getString("message", true);
     let dm;
     try {
-      dm = await user.send(t("message", { message, guild: interaction.guild.name, user: interaction.user.tag }));
+      dm = await user.send(t(($) => $.message, { message, guild: interaction.guild.name, user: interaction.user.tag }));
     } catch {
       await interaction.editReply({
-        content: t("dm_failed"),
+        content: t(($) => $.dmFailed),
       });
       await channel.delete();
       return;
@@ -127,7 +120,7 @@ export default {
     dayjs.extend(relativeTime);
     const botMessage = await channel
       .send(
-        t("initial", {
+        t(($) => $.initial, {
           user,
           account_age: dayjs(user.createdAt).fromNow(),
           join_date: dayjs(member.joinedAt).fromNow(),
@@ -135,15 +128,15 @@ export default {
       )
       .catch(() => {
         interaction.editReply({
-          content: t("message_send_failed"),
+          content: t(($) => $.messageSendFailed),
         });
-        user.send(t("message_send_failed"));
+        user.send(t(($) => $.messageSendFailed));
         channel.delete();
         return null;
       });
     if (!botMessage) return;
     await channel.send(
-      `${t("created_by", { user: interaction.user.tag })} \`1\` **[${interaction.user.tag}]:** ${message}`,
+      `${t(($) => $.createdBy, { user: interaction.user.tag })} \`1\` **[${interaction.user.tag}]:** ${message}`,
     );
     try {
       await createThread(interaction.guildId, user.id, channel.id, message);
@@ -164,11 +157,11 @@ export default {
         botMessage.id,
       );
       await interaction.editReply({
-        content: t("thread_created", { channel: channel.toString() }),
+        content: t(($) => $.threadCreated, { channel: channel.toString() }),
       });
       await addMessageToThread(
         channel.id,
-        t("thread_created", { channel: channel.toString() }),
+        t(($) => $.threadCreated, { channel: channel.toString() }),
         interaction.user.id,
         ModMailAuthorType.SYSTEM,
         ModMailSentToType.THREAD,
@@ -181,9 +174,9 @@ export default {
         message: `Failed to insert mod mail thread into database for user ${user.id} in guild ${interaction.guildId}`,
       });
       await interaction.editReply({
-        content: t("db_error"),
+        content: t(($) => $.databaseError),
       });
-      await user.send(t("db_error"));
+      await user.send(t(($) => $.databaseError));
       await channel.delete();
     }
   },

@@ -1,14 +1,8 @@
-import {
-  ChannelType,
-  EmbedBuilder,
-  GuildScheduledEventEntityType,
-  time,
-  TimestampStyles,
-} from "discord.js";
+import { ChannelType, EmbedBuilder, GuildScheduledEventEntityType, time, TimestampStyles } from "discord.js";
 import { returnWebhook, WebhookType, GuildScheduledEvents } from "@utils";
 import { logger } from "@lib";
 
-export async function logScheduledEventDelete({ event, executor, guildConfig, t }: GuildScheduledEvents) {
+export async function logScheduledEventDelete({ event, executor, guildConfig }: GuildScheduledEvents) {
   if (!event.guild) return;
   if (!guildConfig.logConfig?.eventLogsChannelId) return;
   const logChannel = event.guild.channels.cache.get(guildConfig.logConfig.eventLogsChannelId);
@@ -21,13 +15,22 @@ export async function logScheduledEventDelete({ event, executor, guildConfig, t 
       iconURL: executor.displayAvatarURL(),
     });
   }
+  const t = event.client.i18next.getFixedT(guildConfig.language, "loggers", "guildScheduledEvents");
   if (event.entityType === GuildScheduledEventEntityType.External) {
     embed
       .setColor("Red")
-      .setTitle(t("external_channel.embed.title"))
+      .setTitle(t(($) => $.guildScheduledEventDelete.externalChannel.embed.title))
       .setDescription(
-        t("external_channel.embed.description", {
-          event: event,
+        t(($) => $.guildScheduledEventDelete.externalChannel.embed.description, {
+          event: {
+            name: event.name,
+            id: event.id,
+            description: event.description ?? t(($) => $.noDescription),
+            entityType: event.entityType,
+            entityMetadata: {
+              location: event.entityMetadata?.location ?? t(($) => $.noLocation),
+            },
+          },
           scheduled_start_time: event.scheduledStartAt
             ? time(event.scheduledStartAt, TimestampStyles.FullDateShortTime)
             : "N/A",
@@ -39,10 +42,19 @@ export async function logScheduledEventDelete({ event, executor, guildConfig, t 
   } else {
     embed
       .setColor("Red")
-      .setTitle(t("voice_channel.embed.title"))
+      .setTitle(t(($) => $.guildScheduledEventDelete.voiceChannel.embed.title))
       .setDescription(
-        t("voice_channel.embed.description", {
-          event: event,
+        t(($) => $.guildScheduledEventDelete.voiceChannel.embed.description, {
+          event: {
+            name: event.name,
+            id: event.id,
+            description: event.description ?? t(($) => $.noDescription),
+            entityType: event.entityType,
+            channel: {
+              name: event.channel?.name ?? t(($) => $.unknownChannel),
+              id: event.channelId,
+            },
+          },
           scheduled_start_time: event.scheduledStartAt
             ? time(event.scheduledStartAt, TimestampStyles.FullDateShortTime)
             : "N/A",
