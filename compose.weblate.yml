@@ -1,4 +1,3 @@
-# compose.weblate.yml - For Translation Infrastructure
 services:
   weblate-db:
     image: docker.io/library/postgres:17-alpine
@@ -12,8 +11,7 @@ services:
       - weblate_db_data:/var/lib/postgresql/data
     networks:
       weblate-network:
-        aliases:
-          - weblate-postgres
+        ipv4_address: 10.10.10.6
 
   weblate-cache:
     image: docker.io/library/redis:7-alpine
@@ -24,8 +22,7 @@ services:
       - weblate_redis_data:/data
     networks:
       weblate-network:
-        aliases:
-          - weblate-redis
+        ipv4_address: 10.10.10.5
 
   weblate:
     image: docker.io/weblate/weblate:latest
@@ -34,36 +31,28 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - POSTGRES_HOST=weblate-postgres
+      # USE THE IPS DIRECTLY
+      - POSTGRES_HOST=10.10.10.6
       - POSTGRES_PORT=5432
       - POSTGRES_DB=weblate
       - POSTGRES_USER=weblate
       - POSTGRES_PASSWORD=${WEBLATE_DB_PASSWORD:-weblate_secure_pass}
-      - REDIS_HOST=weblate-redis
+
+      - REDIS_HOST=10.10.10.5
       - REDIS_PORT=6379
 
-      # --- ADMIN SETUP ---
+      # --- ADMIN & AUTH SETUP (Keep your existing settings) ---
       - WEBLATE_ADMIN_NAME=${WEBLATE_ADMIN_NAME:-Admin}
       - WEBLATE_ADMIN_EMAIL=${WEBLATE_ADMIN_EMAIL:-admin@khaxy.com}
       - WEBLATE_ADMIN_PASSWORD=${WEBLATE_ADMIN_PASSWORD:-admin}
-
-      # --- PUBLIC ACCESS SETTINGS ---
       - WEBLATE_REGISTRATION_OPEN=1
-      # Only allow login via these methods
       - WEBLATE_REGISTRATION_ALLOW_BACKENDS=github,discord
-
-      # --- GITHUB AUTH ---
       - SOCIAL_AUTH_GITHUB_KEY=${GITHUB_CLIENT_ID}
       - SOCIAL_AUTH_GITHUB_SECRET=${GITHUB_CLIENT_SECRET}
-
-      # --- DISCORD AUTH ---
       - SOCIAL_AUTH_DISCORD_KEY=${DISCORD_CLIENT_ID}
       - SOCIAL_AUTH_DISCORD_SECRET=${DISCORD_CLIENT_SECRET}
-
-      # --- HOSTING SETTINGS ---
-      - WEBLATE_SITE_DOMAIN=${WEBLATE_SITE_DOMAIN} # e.g., translate.khaxy.com
+      - WEBLATE_SITE_DOMAIN=${WEBLATE_SITE_DOMAIN}
       - WEBLATE_ALLOWED_HOSTS=${WEBLATE_SITE_DOMAIN},localhost,127.0.0.1
-      # IMPORTANT: If behind HTTPS proxy (Nginx/Caddy), set this to 1
       - WEBLATE_ENABLE_HTTPS=1
 
     volumes:
@@ -72,7 +61,8 @@ services:
       - weblate-db
       - weblate-cache
     networks:
-      - weblate-network
+      weblate-network:
+        ipv4_address: 10.10.10.7
 
 volumes:
   weblate_db_data:
@@ -82,3 +72,6 @@ volumes:
 networks:
   weblate-network:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 10.10.10.0/24
