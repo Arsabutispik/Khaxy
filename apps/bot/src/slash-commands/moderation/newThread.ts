@@ -9,14 +9,7 @@ import {
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime.js";
 import { logger } from "@lib";
-import {
-  createThread,
-  addMessageToThread,
-  getOpenThread,
-  ModMailStatus,
-  ModMailAuthorType,
-  ModMailSentToType,
-} from "@repo/database";
+import { createThread, addMessageToThread, getOpenThread, ModMailAuthorType, ModMailSentToType } from "@repo/database";
 export default {
   memberPermissions: [PermissionsBitField.Flags.ManageMessages],
   clientPermissions: [PermissionsBitField.Flags.ManageChannels],

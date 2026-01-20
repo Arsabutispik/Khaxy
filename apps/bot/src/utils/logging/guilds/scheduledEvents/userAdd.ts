@@ -1,6 +1,5 @@
 import { ChannelType, EmbedBuilder, GuildScheduledEvent, PartialGuildScheduledEvent, User } from "discord.js";
 import { GuildWithLogs } from "@repo/database";
-import { TFunction } from "i18next";
 import { returnWebhook, WebhookType } from "@utils";
 import { logger } from "@lib";
 
