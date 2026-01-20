@@ -5,14 +5,9 @@
     "cantBanMod": "Moderatörü yasaklayamazsın.",
     "cantBanSelf": "Kendini yasaklayamazsın.",
     "databaseError": "Veritabanı güncellenirken kritik hata oluştu. Geliştiricilere bildirildi. Komut iptal edildi.",
-    "embed": {
-      "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Katılma Tarihi**: {{timestamp}}",
-      "fields": {
-        "reason": "Sebep"
-      },
-      "title": "Kullanıcı Yasaklandı"
+    "errors": {
+      "banFailed": ""
     },
-    "expired": "Yasaklanma süresi doldu.",
     "message": {
       "dm": {
         "duration": "**{{guild}}** sunucusundan **{{duration}}** süreyle yasaklandınız. Sebep:```{{reason}}```",
@@ -29,7 +24,6 @@
         "permanentNoMember": "{{confirm}} **{{user}}**, kalıcı olarak yasaklandı (Vaka #{{case}})"
       }
     },
-    "neverJoined": "Kullanıcı bu sunucuya hiç katılmamış.",
     "noReason": "Yasaklama sebebi belirtilmedi."
   },
   "close": {
@@ -47,31 +41,18 @@
     "threadClosedDm": "{{guild}} sunucusundaki mod mail konuşmanız kapatıldı.",
     "timeout": "Zaman aşımı. Konuşma **{{date}}** sonra kapatılacak."
   },
-  "close-cancel": {
-    "cancelled": "Mod mail kanalı kapatma işlemi iptal edildi.",
-    "error": "Mod mail kanalı kapatma işlemi iptal edilirken hata oluştu. Bot geliştiricilerine bildirildi.",
-    "notClosing": "Bu mod mail kanalı kapatılma için işaretlenmemiş.",
-    "noThread": "Bu bir mod mail kanalı değil."
+  "closeCancel": {
+    "cancelled": "",
+    "error": "",
+    "notClosing": "",
+    "noThread": ""
   },
   "config": {
     "embed": {
       "log": {
         "fields": {
-          "channelLogsChannel": "Kanal Günlük Kanalı",
-          "emojiLogsChannel": "Emoji Günlük Kanalı",
-          "eventLogsChannelId": "Etkinlik Günlük Kanalı",
           "guildLogsChannel": "Sunucu Günlük Kanalı",
-          "guildMemberLogsChannel": "Üye Günlük Kanalı",
-          "inviteLogsChannel": "Davet Günlük Kanalı",
-          "messageLogsChannel": "Mesaj Günlük Kanalı",
-          "pollLogsChannel": "Anket Günlük Kanalı",
-          "roleLogsChannel": "Rol Günlük Kanalı",
-          "soundboardLogsChannelId": "Sesli Paneli Günlük Kanalı",
-          "stageLogsChannelId": "Sahne Günlük Kanalı",
-          "stickerLogsChannel": "Çıkartmalar Günlük Kanalı",
-          "threadLogsChannelId": "Konuşma Günlük Kanalı",
-          "voiceLogsChannel": "Ses Günlük Kanalı",
-          "webhookLogsChannelId": "Webhook Günlük Kanalı"
+          "messageLogsChannel": "Mesaj Günlük Kanalı"
         },
         "title": "Günlük Ayarları"
       },
@@ -84,9 +65,7 @@
       },
       "moderation": {
         "fields": {
-          "defaultExpiry": "Varsayılan Süre",
           "modLogChannel": "Moderasyon Log Kanalı",
-          "modMailChannel": "Mod Mail Kanalı",
           "muteGetAllRoles": "Susturulduğunda Tüm Roller Alınsın",
           "registerDayLimit": "Kayıt Gün Limiti",
           "staffRole": "Yetkili Rolü"
@@ -104,13 +83,7 @@
       },
       "role": {
         "fields": {
-          "colorOfTheDay": "Günün Rengi",
-          "djRole": "DJ Rolü",
-          "femaleRole": "Kadın Rolü",
-          "maleRole": "Erkek Rolü",
-          "memberRole": "Üye Rolü",
-          "muteRole": "Susturulmuş Rolü",
-          "unverifiedRole": "Doğrulanmamış Rolü"
+          "colorOfTheDay": "Günün Rengi"
         },
         "title": "Rol Ayarları"
       },
@@ -133,41 +106,55 @@
       "register": "Kayıt Ayarları",
       "role": "Rol Ayarları",
       "welcomeLeave": "Gelen/Giden Ayarları"
-    },
-    "timesUp": "Süre doldu! Artık ayarlara bakamazsınız."
+    }
   },
   "help": {
-    "commandHelpNotFound": "Bu komut için yardım bulunamadı.",
     "commandNotFound": "Komut bulunamadı.",
     "commandUsage": "Komut Kullanımı",
     "examples": "Örnekler",
     "footer": "<param> - Zorunlu parametre, [param] - İsteğe bağlı parametre",
     "permissions": "Gerekli İzinler"
   },
-  "infraction-punishments": {
-    "banSet": "{{threshold}} ceza için yasaklama ayarlandı.",
-    "durationMissing": "Geçici cezalar için bir süre belirtmelisiniz.",
-    "kickSet": "{{threshold}} ceza için atma ayarlandı.",
-    "muteSet": "{{threshold}} ceza için {{duration}} boyunca susturma ayarlandı.",
-    "noMuteRole": "Susturma rolü bulunamadı. Ayarlar kısmından susturma rolünü güncelleyin.",
-    "removed": "{{threshold}} ceza için otomatik ceza kaldırıldı.",
-    "tempbanSet": "{{threshold}} ceza için {{duration}} boyunca yasaklama ayarlandı."
+  "infractionPunishments": {
+    "banSet": "",
+    "durationMissing": "",
+    "kickSet": "",
+    "muteSet": "",
+    "noConfig": "",
+    "noMuteRole": "",
+    "removed": "",
+    "tempbanSet": ""
   },
   "infractions": {
-    "infractionCase": "Vaka #{{case}}",
-    "infractionDetails": "> **Tip:** {{type}}\n> **Sebep:** {{reason}}\n> **Yetkili:** {{moderator}}\n > **Tarih:** {{date}}",
-    "infractionsFor": "**{{user}}** için cezalar",
-    "noInfractions": "**{{user}}** için ceza bulunamadı.",
+    "case": {
+      "embed": {
+        "description": "",
+        "title": ""
+      },
+      "noInfraction": ""
+    },
+    "noReason": "",
     "noUser": "Kullanıcı bulunamadı.",
-    "pageFooter": "Sayfa {{current}}/{{total}}"
+    "user": {
+      "embed": {
+        "fields": {
+          "title": "",
+          "value": ""
+        },
+        "title": ""
+      },
+      "noInfraction": "",
+      "pageFooter": ""
+    }
   },
   "kick": {
     "cantKick": "Bu kullanıcı atılamaz.",
     "cantKickBot": "Botu atamazsın.",
     "cantKickHigher": "Senden daha yüksek bir role sahip kullanıcıyı atamazsın.",
     "cantKickMod": "Moderatörü atamazsın.",
-    "cantKickYourself": "Kendini atamazsın.",
+    "cantKickSelf": "",
     "clearFail": "Mesajlar temizlenirken hata oluştu.",
+    "databaseError": "",
     "embed": {
       "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Katılma Tarihi**: {{timestamp}}",
       "fields": {
@@ -176,50 +163,52 @@
       "title": "Kullanıcı Atıldı"
     },
     "fail": "Kullanıcı atılırken hata oluştu.",
+    "joinDateUnknown": "",
     "message": {
-      "dm": "Sunucudan atıldınız. Sebep:```{{reason}}```",
+      "dm": "{{guild}} sunucusundan atıldınız. Sebep:```{{reason}}```",
       "fail": "{{confirm}} **{{user}}**, atıldı (Vaka #{{case}}) Kullanıcıya DM ile bildirilmedi.",
       "success": "{{confirm}} **{{user}}**, atıldı (Vaka #{{case}}) Kullanıcıya DM ile bildirildi."
     },
     "noMember": "Kullanıcı bulunamadı. Kullanıcı hala sunucuda mı?",
     "noReason": "Atılma sebebi belirtilmedi."
   },
-  "modmail-blacklist": {
-    "blacklistError": "Kullanıcı kara listeye alınırken hata oluştu. Bot geliştiricilerine bildirildi.",
+  "modmailBlacklist": {
+    "blacklistError": "",
     "blacklistGet": {
       "embed": {
         "fields": {
-          "createdAt": "Oluşturulduğu Tarih",
-          "duration": "Süre",
-          "expiresAt": "Sona Eriyor",
-          "moderator": "Sorumlu Moderatör",
-          "reason": "Sebep"
+          "createdAt": "",
+          "expiresAt": "",
+          "moderator": "",
+          "reason": ""
         },
-        "title": "{{user}} İçin Kara Liste Girdisi"
+        "title": ""
       },
-      "notFound": "{{user}} için kara liste girdisi bulunamadı. Bu demek oluyor ki kullanıcı kara listede değil."
+      "notFound": ""
     },
     "blacklistRemove": {
-      "error": "Kullanıcının kara listesi kaldırılırken hata oluştu. Bot geliştiricilerine bildirildi.",
-      "notFound": "{{user}} için kara liste girdisi bulunamadı. Bu demek oluyor ki kullanıcı kara listede değil.",
-      "success": "{{confirm}} {{user}} kullanıcısının kara listesi kaldırıldı."
+      "error": "",
+      "notFound": "",
+      "success": ""
     },
-    "blacklistSuccess": "{{confirm}} **{{user}}** kullanıcısı kara listeye **{{duration}}** boyunca alındı. Sebep: ```{{reason}}```",
-    "cannotBlacklistBot": "Botu kara listeye alamazsın.",
-    "cannotBlacklistSelf": "Kendini kara listeye alamazsın.",
-    "durationWithoutTime": "Süre için bir zaman birimi belirtmelisin.",
-    "noReason": "Kara listeye alma sebebi belirtilmedi.",
-    "timeWithoutDuration": "Zaman birimi için bir süre belirtmelisin."
+    "blacklistSuccess": "",
+    "cannotBlacklistBot": "",
+    "cannotBlacklistSelf": "",
+    "durationWithoutTime": "",
+    "noReason": "",
+    "permanentBlacklistWarning": "",
+    "timeWithoutDuration": ""
   },
-  "modmail-logs": {
-    "noMessagesFound": "#{{logId}} ID'li mod mail konuşması için mesaj bulunamadı.",
-    "noThreadFound": "#{{logId}} ID'li mod mail konuşması bulunamadı.",
-    "threadNotClosed": "#{{logId}} ID'li mod mail konuşması kapatılmamış.",
-    "userNotFound": "Kullanıcı ID'si {{userId}} ile eşleşen bir kullanıcı bulunamadı."
+  "modmailLogs": {
+    "logSent": "",
+    "noMessagesFound": "",
+    "noThreadFound": "",
+    "threadNotClosed": "",
+    "userNotFound": ""
   },
   "mute": {
     "alreadyMuted": "Kullanıcı zaten susturulmuş. Eğer susturma rolü yoksa ekleyiniz.",
-    "alreadyMutedNoPunishments": "Kullanıcı zaten susturulmuş ancak ceza bulunamadı. Rol kaldırılıyor.",
+    "alreadyMutedNoPunishment": "",
     "cantMuteBot": "Botu susturamazsın.",
     "cantMuteHigher": "Senden daha yüksek bir role sahip kullanıcıyı susturamazsın.",
     "cantMuteMod": "Moderatörü susturamazsın.",
@@ -244,16 +233,16 @@
   "newthread": {
     "channelCreateFailed": "Kanal oluşturulamadı.",
     "createdBy": "`{{user}} tarafından oluşturuldu`",
-    "dbError": "Veritabanı güncellenirken hata oluştu. Mod mail kanalı iptal edildi.",
-    "dmFail": "Kullanıcıya DM gönderilemedi.",
+    "databaseError": "",
+    "dmFailed": "",
     "initial": "`Hesap Yaşı:` **{{account_age}}**, `ID:` **{{user.id}}**\n`Kullanıcı Adı:` **{{user.username}}** (<@{{user.id}}>), `Katılma Tarihi:` **{{join_date}}**\n**»»----------------------------¤----------------------------««**",
     "message": "`{{guild}}` ile bir konuşma başlatıldı. **[{{user}}]:** {{message}}",
     "messageSendFailed": "Mesaj gönderilirken hata oluştu. Mod mail kanalı iptal edildi.",
-    "modmailChannelNotInParent": "Mod mail kanalı doğru kategoriye ait değil. Lütfen ayarları kontrol edin.",
-    "modmailChannelNotText": "Mod mail kanalı bir metin kanalı değil. Kanal ayarlarını kontrol edin.",
-    "noModmailChannel": "Mod mail kanalı bulunamadı. /ayarlar komutunu kullanarak ayarlayın.",
-    "threadAlreadyExists": "Bu kullanıcı için zaten bir mod mail kanalı var. Mod maili kapatın veya askıya alın.",
+    "modMailChannelNotInParent": "",
+    "modMailChannelNotText": "",
+    "noModMailChannel": "",
     "threadCreated": "Konuşma oluşturuldu.",
+    "threadExists": "",
     "topic": "{{user}} ile Mod Mail konuşması",
     "userNotInGuild": "Kullanıcı sunucuda bulunamadı."
   },
@@ -289,12 +278,14 @@
       }
     },
     "success": "{{confirm}} **{{user}}**, başarıyla kayıt edildi",
-    "wrongChannel": "Sadece <#{{channel}}> kanalında kayıt olabilirsiniz."
+    "wrongChannel": "Sadece ayarlanmış kanalda kayıt olabilirsiniz."
   },
   "reply": {
     "anonymous": "Anonim",
+    "dmFailed": "",
     "error": "Veritabanı güncellenirken hata oluştu.",
     "memberNotFound": "Kullanıcı bulunamadı. Kullanıcı hala sunucuda mı?",
+    "noMessages": "",
     "noRole": "Rol Yok",
     "noThread": "Bu bir mod mail kanalı değil.",
     "success": "Mesaj kullanıcıya gönderildi.",
@@ -336,20 +327,20 @@
     },
     "error": "Kullanıcının yasağı kaldırılırken hata oluştu. {{error}}",
     "noReason": "Yasağın kaldırılma sebebi belirtilmedi.",
-    "notBanned": "Kullanıcı zaten yasaklanmamış.",
+    "notBanned": "{{user}} zaten yasaklanmamış.",
     "noUser": "Kullanıcı bulunamadı.",
     "success": "{{confirm}} **{{user}}** kullanıcısının yasağı kaldırıldı (Vaka #{{case}})."
   },
   "unmute": {
     "databaseError": "Veritabanı güncellenirken kritik hata oluştu. Geliştiricilere bildirildi. Komut iptal edildi.",
     "dm": "**{{guild}}** sunucusunda susturmanız kaldırıldı.",
-    "dmError": "Kullanıcıya DM gönderilirken hata oluştu. Kullanıcıya DM gönderilemedi.",
-    "mutedNoPunishments": "Kullanıcı zaten susturulmuş ancak ceza bulunamadı. Rol kaldırılıyor. Kaybedilen roller geri verilemedi.",
+    "dmError": "{{confirm}} **{{user}}** kullanıcısının susturması kaldırıldı (Vaka #{{case}}). Kullanıcıya DM gönderilemedi.",
+    "mutedNoPunishment": "",
     "noMember": "Kullanıcı bulunamadı. Kullanıcı hala sunucuda mı?",
     "noMuteRole": "Susturma rolü bulunamadı. Ayarlar kısmından susturma rolünü güncelleyin.",
     "noReason": "Susturmanın kaldırılma sebebi belirtilmedi.",
     "notMuted": "Kullanıcı zaten susturulmamış. Eğer susturma rolü varsa kaldırınız.",
-    "previousRolesError": "Önceki roller eklenirken hata oluştu. Eklenemeyen roller:```{{roles}}```",
+    "previousRoleError": "",
     "roleError": "Roller eklenirken/kaldırılırken hata oluştu. Rollerin eklenme/kaldırılma izinlerini kontrol edin. Komut iptal edildi.",
     "success": "{{confirm}} **{{user}}** kullanıcısının susturması kaldırıldı (Vaka #{{case}})."
   },

@@ -112,7 +112,7 @@ export default {
     const t = interaction.client.i18next.getFixedT(guildConfig.language, "commands", "purge");
     if (interaction.channel?.type !== ChannelType.GuildText) {
       return interaction.reply({
-        content: t(($) => $.not_text_channel),
+        content: t(($) => $.notTextChannel),
         flags: MessageFlags.Ephemeral,
       });
     }

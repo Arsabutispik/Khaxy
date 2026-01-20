@@ -86,11 +86,11 @@
       "mute": "You have been muted in **{{guild}}** for **{{duration}}**. Reason: ```{{reason}}```",
       "tempBan": "You have been temporarily banned from **{{guild}}** for **{{duration}}**. Reason:```{{reason}}```"
     },
+    "muteError": "An error occurred while trying to mute the user. Please check the bot's permissions and try again.",
     "noMuteRole": "The mute role is not set. Please set the mute role in the moderation config to use this feature.",
     "noPermission": "I do not have the required permissions to perform this action. Please ensure I have the appropriate permissions and try again.",
     "reason": "Automatic punishment escalation (strike {{level}})",
-    "roleError": "An error occurred while trying to add/remove a role. Please check the bot's permissions and try again.",
-    "muteError": "An error occurred while trying to mute the user. Please check the bot's permissions and try again."
+    "roleError": "An error occurred while trying to add/remove a role. Please check the bot's permissions and try again."
   },
   "joinLeaveConfig": {
     "initial": "Select the setting you want to update.",
@@ -269,9 +269,15 @@
     "warning": "⚠️ **{{user.username}}** has been warned by **{{moderator.username}}**. Reason:```{{reason}}```"
   },
   "modMailLog": {
+    "bot": "[BOT]",
+    "closeMessage": "Thread #{{thread_id}} with {{user.tag}} ({{user.id}}) has been closed by {{closer.tag}} ({{closer.id}}). **{{messages.user}}** messages from user, **{{messages.staff}}** messages from staff, **{{messages.internal}}** internal messages.",
+    "command": "[COMMAND]",
+    "fromUser": "[FROM USER]",
     "initial": "# Mod-mail thread #{{thread_id}} with {{user.tag}} {{user.id}} started at {{time}}. All times are in GMT.",
     "preparingClose": "Thread is being closed...",
-    "threadClosedDm": "Your thread in {{guild}} has been closed."
+    "threadClosedDm": "Your thread in {{guild}} has been closed.",
+    "toThread": "[TO THREAD]",
+    "toUser": "[TO USER]"
   },
   "registerConfig": {
     "initial": "Select the setting you want to update.",

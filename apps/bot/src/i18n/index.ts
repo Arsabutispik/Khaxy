@@ -12,6 +12,7 @@ export async function initI18n() {
       initAsync: false,
       fallbackLng: "en-GB",
       lng: "en-GB",
+      returnEmptyString: false,
       preload: ["en-GB", "tr-TR"],
       ns: [
         "translations",

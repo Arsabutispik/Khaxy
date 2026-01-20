@@ -91,7 +91,7 @@ export default {
     const t = client.i18next.getFixedT(guildConfig.language, "commands", "mute");
     const member = interaction.options.getMember("user");
     if (!member) {
-      await interaction.reply({ content: t(($) => $.noUser), flags: MessageFlagsBitField.Flags.Ephemeral });
+      await interaction.reply({ content: t(($) => $.noMember), flags: MessageFlagsBitField.Flags.Ephemeral });
       return;
     }
     if (member.user.bot) {
@@ -159,7 +159,7 @@ export default {
           filteredRoles,
         );
       } catch (error) {
-        await interaction.reply({ content: t(($) => $.database_error), flags: MessageFlagsBitField.Flags.Ephemeral });
+        await interaction.reply({ content: t(($) => $.databaseError), flags: MessageFlagsBitField.Flags.Ephemeral });
         logger.error({
           message: `Error while putting punishments to database for user ${member.user.tag} from guild ${interaction.guild.name}`,
           error,
@@ -171,7 +171,7 @@ export default {
       try {
         await member.roles.set([muteRole.id]);
       } catch (error) {
-        await interaction.reply({ content: t(($) => $.role_error), flags: MessageFlagsBitField.Flags.Ephemeral });
+        await interaction.reply({ content: t(($) => $.roleError), flags: MessageFlagsBitField.Flags.Ephemeral });
         logger.error({
           message: `Error while setting roles for user ${member.user.tag} from guild ${interaction.guild.name}`,
           error,
@@ -190,7 +190,7 @@ export default {
           new Date(Date.now() + duration.asMilliseconds()),
         );
       } catch (error) {
-        await interaction.reply({ content: t(($) => $.database_error), flags: MessageFlagsBitField.Flags.Ephemeral });
+        await interaction.reply({ content: t(($) => $.databaseError), flags: MessageFlagsBitField.Flags.Ephemeral });
         logger.error({
           message: `Error while putting punishments to database for user ${member.user.tag} from guild ${interaction.guild.name}`,
           error,
@@ -202,7 +202,7 @@ export default {
       try {
         await member.roles.add(muteRole);
       } catch (error) {
-        await interaction.reply({ content: t(($) => $.role_error), flags: MessageFlagsBitField.Flags.Ephemeral });
+        await interaction.reply({ content: t(($) => $.roleError), flags: MessageFlagsBitField.Flags.Ephemeral });
         logger.error({
           message: `Error while setting roles for user ${member.user.tag} from guild ${interaction.guild.name}`,
           error,
@@ -254,7 +254,10 @@ export default {
       ? member.guild.channels.cache.get(guildConfig.logConfig.guildMemberLogsChannelId)
       : undefined;
     if (logChannel?.type !== ChannelType.GuildText) return;
-    const embed = new EmbedBuilder().setTitle(t(($) => $.embed.title)).setColor("Yellow").setTimestamp();
+    const embed = new EmbedBuilder()
+      .setTitle(t(($) => $.embed.title))
+      .setColor("Yellow")
+      .setTimestamp();
     let description = t(($) => $.embed.description, {
       user: member.user,
       added_roles: muteRole.toString(),

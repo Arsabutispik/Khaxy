@@ -116,20 +116,46 @@ interface Resources {
       "footer": "<param> are required parameters, [param] are optional parameters.",
       "permissions": "Permissions"
     },
-    "infraction-punishments": {
+    "infractionPunishments": {
       "banSet": "User will be banned at {{threshold}} infractions.",
       "durationMissing": "You must provide a duration for temporary punishments.",
       "kickSet": "User will be kicked at {{threshold}} infractions.",
       "muteSet": "{{duration}} of mute will be given at {{threshold}} infractions.",
+      "noConfig": "No infraction punishments configured for {{threshold}} infractions.",
       "noMuteRole": "Mute role not found. Please set a mute role in the config.",
       "removed": "Punishment for {{type}} at {{threshold}} infractions has been removed.",
       "tempbanSet": "{{duration}} ban will be given at {{threshold}} infractions."
     },
     "infractions": {
-      "noUser": "User not found."
+      "case": {
+        "embed": {
+          "description": "> **Infraction Type:** {{type}}\n> **Moderator:** {{moderator}}\n> **Reason:** {{reason}}\n> **Date:** {{date}}",
+          "title": "Infraction Case #{{case}}"
+        },
+        "noInfraction": "No infraction found with case ID #{{case}}."
+      },
+      "noReason": "No reason provided",
+      "noUser": "User not found.",
+      "user": {
+        "embed": {
+          "fields": {
+            "title": "Case #{{case}}",
+            "value": "> **Infraction Type:** {{type}}\n> **Moderator:** {{moderator}}\n> **Reason:** {{reason}}\n> **Date:** {{date}}"
+          },
+          "title": "Infractions for {{user}}"
+        },
+        "noInfraction": "**{{user}}** has no infractions.",
+        "pageFooter": "Page {{current}} of {{total}}"
+      }
     },
     "kick": {
+      "cantKick": "Can't kick this member.",
+      "cantKickBot": "You can't kick a bot.",
+      "cantKickHigher": "You can't kick a user with a higher role than you.",
+      "cantKickMod": "You can't kick a moderator.",
+      "cantKickSelf": "You can't kick yourself.",
       "clearFail": "Failed to clear the messages.",
+      "databaseError": "Critical error while updating the database. The developers have been notified. The command has been cancelled.",
       "embed": {
         "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Joined At**: {{timestamp}}",
         "fields": {
@@ -138,6 +164,7 @@ interface Resources {
         "title": "User Kicked"
       },
       "fail": "Failed to kick the member.",
+      "joinDateUnknown": "Unknown",
       "message": {
         "dm": "You have been kicked from **{{guild}}**. Reason:```{{reason}}```",
         "fail": "{{confirm}} **{{user}}** has been kicked (Case #{{case}}). The user could not be notified via DM.",
@@ -146,7 +173,7 @@ interface Resources {
       "noMember": "Member not found in the server.",
       "noReason": "No reason provided for kicking."
     },
-    "modmail-blacklist": {
+    "modmailBlacklist": {
       "blacklistError": "An error occurred while blacklisting the user. Developers have been notified.",
       "blacklistGet": {
         "embed": {
@@ -170,9 +197,11 @@ interface Resources {
       "cannotBlacklistSelf": "You cannot blacklist yourself.",
       "durationWithoutTime": "You must provide a time unit for the duration.",
       "noReason": "No reason provided for blacklisting.",
+      "permanentBlacklistWarning": "Permanent blacklisting isn't allowed. Please provide a duration.",
       "timeWithoutDuration": "You must provide a duration for the time unit."
     },
-    "modmail-logs": {
+    "modmailLogs": {
+      "logSent": "Mod mail logs for user {{user}}.",
       "noMessagesFound": "No messages found for thread ID #{{logId}}.",
       "noThreadFound": "No thread found for ID #{{logId}}.",
       "threadNotClosed": "Thread #{{logId}} is not closed.",
@@ -180,6 +209,7 @@ interface Resources {
     },
     "mute": {
       "alreadyMuted": "User is already muted.",
+      "alreadyMutedNoPunishment": "A punishment was not found, but the user is already muted. If they appear to be, please unmute them manually.",
       "cantMuteBot": "You can't mute a bot.",
       "cantMuteHigher": "You can't mute a user with a higher role than you.",
       "cantMuteMod": "You can't mute a moderator.",
@@ -202,9 +232,20 @@ interface Resources {
       "roleError": "Error while removing or adding roles. I may not have permission to do so. Please check the role permissions. The command has been cancelled."
     },
     "newthread": {
+      "channelCreateFailed": "Failed to create mod mail thread. Please ensure I have the correct permissions.",
+      "createdBy": "Thread created by {{user}}",
+      "databaseError": "Critical error while updating the database. The developers have been notified. The command has been cancelled.",
+      "dmFailed": "Failed to send DM to the user. They may have DMs disabled or blocked me.",
       "initial": "`Account Age:` **{{account_age}}**, `ID:` **{{user.id}}**\n`Username:` **{{user.username}}** (<@{{user.id}}>), `Join Date:` **{{join_date}}**\n**»»----------------------------¤----------------------------««**",
       "message": "A thread with the `{{guild}}` has been created. **[{{user}}]:** {{message}}",
-      "topic": "Mod Mail conversation with {{user}}"
+      "messageSendFailed": "Failed to send message in the mod mail thread. Thread is dropped.",
+      "modMailChannelNotInParent": "The mod mail channel is not in a category. Please set up a valid mod mail channel in the config.",
+      "modMailChannelNotText": "The mod mail channel is not a text channel. Please set up a valid mod mail channel in the config.",
+      "noModMailChannel": "Mod mail channel not found. Please set up a mod mail channel in the config.",
+      "threadCreated": "Mod mail thread created successfully.",
+      "threadExists": "User already has an open mod mail thread.",
+      "topic": "Mod Mail conversation with {{user}}",
+      "userNotInGuild": "User not found in the guild."
     },
     "purge": {
       "any": {
@@ -215,14 +256,21 @@ interface Resources {
         "error": "An error occurred while deleting the bot messages. Please try again later.",
         "success": "{{confirm}} Successfully deleted **{{count}}** messages from bots."
       },
+      "notTextChannel": "This command can only be used in text channels.",
       "user": {
         "error": "An error occurred while deleting the messages from the user. Please try again later.",
         "success": "{{confirm}} Successfully deleted **{{count}}** messages from **{{user}}**."
       }
     },
     "register": {
+      "alreadyRegistered": "This user is already registered.",
       "error": "Error while registering the user. {{error}}",
+      "noFemaleRole": "Female role not found. Please set up a female role in the config.",
+      "noMaleRole": "Male role not found. Please set up a male role in the config.",
       "noMember": "Member not found. Is the member still in the server?",
+      "noMemberRole": "Member role not found. Please set up a member role in the config.",
+      "noRegisterChannel": "Register channel not found. Please set up a register channel in the config.",
+      "notValid": "Not a valid choice. Please choose either 'male' or 'female'.",
       "rolesUpdate": {
         "embed": {
           "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Roles Added**: {{added_roles}}",
@@ -230,18 +278,27 @@ interface Resources {
           "title": "Roles Updated"
         }
       },
-      "success": "{{confirm}} **{{user}}** has been registered."
+      "success": "{{confirm}} **{{user}}** has been registered.",
+      "wrongChannel": "This command can only be used in the register channel."
     },
     "reply": {
       "anonymous": "Anonymous",
+      "dmFailed": "Failed to send DM to the user. They may have DMs disabled or blocked me.",
       "error": "An error occurred while accessing the database.",
       "memberNotFound": "Member not found. Is the member still in the server?",
+      "noMessages": "No messages found in the thread to use as a quote.",
       "noRole": "No Role",
       "noThread": "This is not a mod mail thread.",
       "success": "Message has been sent to the user.",
       "suspended": "This mod mail thread has been suspended. Unsuspend the thread to reply."
     },
     "roles": {
+      "roleAddError": "Error while adding the role. I may not have permission to do so.",
+      "roleAdded": "{{user}} has been given the role **{{role}}**.",
+      "roleAlreadyAssigned": "{{user}} already has the role **{{role}}**.",
+      "roleNotAssigned": "{{user}} does not have the role **{{role}}**.",
+      "roleRemoveError": "Error while removing the role. I may not have permission to do so.",
+      "roleRemoved": "**{{role}}** has been removed from {{user}}.",
       "userNotFound": "Member not found. Is the member still in the server?"
     },
     "support": {
@@ -256,6 +313,7 @@ interface Resources {
       "guildNotFound": "Dev Guild not found cannot create invite."
     },
     "suspend": {
+      "alreadySuspended": "This mod mail thread is already suspended.",
       "error": "An error occurred while suspending the thread. Developers have been notified.",
       "noThread": "This is not a mod mail thread.",
       "suspended": "This mod mail thread has been suspended. You can no longer reply to the user."
@@ -271,16 +329,19 @@ interface Resources {
       "error": "Error while unbanning the user. {{error}}",
       "noReason": "No reason provided for unbanning.",
       "noUser": "User not found.",
+      "notBanned": "{{user}} is not banned.",
       "success": "{{confirm}} **{{user}}** has been unbanned (Case #{{case}})."
     },
     "unmute": {
       "databaseError": "Critical error while updating the database. The developers have been notified. The command has been cancelled.",
       "dm": "You have been unmuted in **{{guild}}**.",
       "dmError": "{{confirm}} **{{user}}** has been unmuted (Case #{{case}}). The user could not be notified via DM.",
+      "mutedNoPunishment": "A punishment was not found, but the user is muted. If they appear to be, please unmute them manually.",
       "noMember": "Member not found. Is the member still in the server?",
       "noMuteRole": "Mute role not found. Please update the mute role in the settings.",
       "noReason": "No reason provided for unmuting.",
       "notMuted": "User is not muted. If they appear to be, please remove the role manually. Lost roles cannot be restored automatically.",
+      "previousRoleError": "Error while restoring previous roles. I may not have permission to add the roles. The command has been cancelled.",
       "roleError": "Error while removing the role. The role may have been deleted or I may not have permission to remove it.",
       "success": "{{confirm}} **{{user}}** has been unmuted (Case #{{case}}). The user has been notified via DM."
     },
@@ -572,7 +633,7 @@ interface Resources {
       "unknownExecutor": "Unknown Executor"
     },
     "guildBanRemove": {
-
+      "noReason": "No reason provided."
     },
     "guildMemberAdd": {
       "embed": {
@@ -915,6 +976,7 @@ interface Resources {
       }
     },
     "interactionCreate": {
+      "botMissingPermissions": "I don't have the required `{{permissions}}` permissions to execute this command.",
       "memberMissingPermissions": "You don't have the required `{{permissions}}` permissions to use this command."
     },
     "inviteCreate": {
@@ -2601,9 +2663,15 @@ interface Resources {
       "warning": "⚠️ **{{user.username}}** has been warned by **{{moderator.username}}**. Reason:```{{reason}}```"
     },
     "modMailLog": {
+      "bot": "[BOT]",
+      "closeMessage": "Thread #{{thread_id}} with {{user.tag}} ({{user.id}}) has been closed by {{closer.tag}} ({{closer.id}}). **{{messages.user}}** messages from user, **{{messages.staff}}** messages from staff, **{{messages.internal}}** internal messages.",
+      "command": "[COMMAND]",
+      "fromUser": "[FROM USER]",
       "initial": "# Mod-mail thread #{{thread_id}} with {{user.tag}} {{user.id}} started at {{time}}. All times are in GMT.",
       "preparingClose": "Thread is being closed...",
-      "threadClosedDm": "Your thread in {{guild}} has been closed."
+      "threadClosedDm": "Your thread in {{guild}} has been closed.",
+      "toThread": "[TO THREAD]",
+      "toUser": "[TO USER]"
     },
     "moderationConfig": {
       "defaultExpiry": {

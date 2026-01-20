@@ -23,19 +23,18 @@ export default {
       {
         guild: ban.guild,
         user: ban.user,
-        moderator: logEntry?.executor ?? null,
+        moderator: logEntry?.executor || ban.client.user,
         action: "UNBAN",
-        reason: ban.reason || t(($) => $.no_reason),
+        reason: ban.reason || t(($) => $.noReason),
       },
       ban.client,
     );
     await logBanRemove({
       guild: ban.guild,
       user: ban.user,
-      reason: ban.reason || t(($) => $.no_reason),
+      reason: ban.reason || t(($) => $.noReason),
       executor: logEntry?.executor ?? null,
       guildConfig,
-      t,
     });
   },
 } satisfies EventBase<Events.GuildBanRemove>;

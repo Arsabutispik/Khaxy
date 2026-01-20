@@ -65,33 +65,33 @@ export default {
     const t = client.i18next.getFixedT(guildConfig.language || "en", "commands", "kick");
 
     const member = interaction.options.getMember("user");
-    const reason = interaction.options.getString("reason") || t(($) => $.no_reason);
+    const reason = interaction.options.getString("reason") || t(($) => $.noReason);
     const clear = interaction.options.getBoolean("clear") || false;
     if (!member) {
-      await interaction.reply(t(($) => $.no_member));
+      await interaction.reply(t(($) => $.noMember));
       return;
     }
     if (member.id === interaction.user.id) {
-      await interaction.reply(t(($) => $.cant_kick_yourself));
+      await interaction.reply(t(($) => $.cantKickSelf));
       return;
     }
     if (member.user.bot) {
-      await interaction.reply(t(($) => $.cant_kick_bot));
+      await interaction.reply(t(($) => $.cantKickBot));
       return;
     }
     if (member.roles.highest.position >= interaction.member.roles.highest.position) {
-      await interaction.reply(t(($) => $.cant_kick_higher));
+      await interaction.reply(t(($) => $.cantKickHigher));
       return;
     }
     if (
       member.permissions.has(PermissionsBitField.Flags.KickMembers) ||
       (guildConfig.staffRoleId && member.roles.cache.has(guildConfig.staffRoleId))
     ) {
-      await interaction.reply(t(($) => $.cant_kick_mod));
+      await interaction.reply(t(($) => $.cantKickMod));
       return;
     }
     if (!member.kickable) {
-      await interaction.reply(t(($) => $.cant_kick));
+      await interaction.reply(t(($) => $.cantKick));
       return;
     }
     await createInfraction(interaction.guildId, member.id, interaction.user.id, InfractionType.KICK, reason);
@@ -184,7 +184,7 @@ export default {
               timestamp:
                 member && member.joinedAt
                   ? formatted_time(member.joinedAt, TimestampStyles.RelativeTime)
-                  : t("neverJoined"),
+                  : t(($) => $.joinDateUnknown),
             }),
           )
           .addFields([

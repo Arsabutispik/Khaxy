@@ -141,11 +141,11 @@ export default {
         ),
     ),
   async execute(interaction, guildConfig) {
-    const t = interaction.client.i18next.getFixedT(guildConfig.language, "commands", "modmail-blacklist");
+    const t = interaction.client.i18next.getFixedT(guildConfig.language, "commands", "modmailBlacklist");
     const subcommand = interaction.options.getSubcommand(true);
     if (subcommand === "add") {
       const user = interaction.options.getUser("user", true);
-      const reason = interaction.options.getString("reason") || t(($) => $.no_reason);
+      const reason = interaction.options.getString("reason") || t(($) => $.noReason);
       const duration = interaction.options.getNumber("duration");
       const time = interaction.options.getString("time");
       if (user.id === interaction.user.id) {

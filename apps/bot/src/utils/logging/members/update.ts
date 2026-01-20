@@ -63,7 +63,7 @@ export async function logMemberAction({
       await modLog(
         {
           action: "TIMEOUT",
-          moderator: executor ?? null,
+          moderator: executor || logChannel.client.user,
           guild: member.guild,
           user: member.user,
           reason: reason || t(($) => $.memberUpdate.timeout.noReason),
@@ -106,7 +106,7 @@ export async function logMemberUpdate({ oldMember, newMember, guildConfig }: Log
       await modLog(
         {
           action: "TIMEOUT",
-          moderator: info.executor,
+          moderator: info.executor || newMember.client.user,
           guild: newMember.guild,
           user: newMember.user,
           reason: info.reason || t(($) => $.memberUpdate.timeout.noReason),

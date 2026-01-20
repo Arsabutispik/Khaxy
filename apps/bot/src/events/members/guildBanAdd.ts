@@ -26,8 +26,8 @@ export default {
         guild: ban.guild,
         action: "BAN",
         user: ban.user,
-        reason: ban.reason || logEntry?.reason || t(($) => $.no_reason),
-        moderator: logEntry?.executor ?? null,
+        reason: ban.reason || logEntry?.reason || t(($) => $.noReason),
+        moderator: logEntry?.executor || ban.client.user,
       },
       ban.client,
     );
@@ -36,15 +36,14 @@ export default {
       ban.user.id,
       logEntry?.executor?.id || ban.client.user.id,
       InfractionType.BAN,
-      ban.reason || logEntry?.reason || t(($) => $.no_reason),
+      ban.reason || logEntry?.reason || t(($) => $.noReason),
     );
     await logBanAdd({
       guild: ban.guild,
       user: ban.user,
-      reason: ban.reason || logEntry?.reason || t(($) => $.no_reason),
+      reason: ban.reason || logEntry?.reason || t(($) => $.noReason),
       executor: logEntry?.executor ?? null,
       guildConfig,
-      t,
     });
   },
 } satisfies EventBase<Events.GuildBanAdd>;

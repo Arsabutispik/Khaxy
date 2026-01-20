@@ -22,12 +22,13 @@
     "i18n:validate": "tsx scripts/ValidateI18nKeys.ts",
     "i18n:validate:ci": "tsx scripts/ValidateI18nKeys.ts --ci",
     "i18n:validate:verbose": "tsx scripts/ValidateI18nKeys.ts --verbose",
+    "i18n:validate:fix": "tsx scripts/ValidateI18nKeys.ts --fix",
     "i18n:gen": "i18next-resources-for-ts interface -i ./locales/en-GB -o ./src/types/resources.d.ts",
     "i18n:watch": "pnpm i18n:gen --watch",
     "i18n:scan": "tsx scripts/ScanUnusedTranslations.ts",
     "i18n:sort": "tsx scripts/SortTranslations.ts",
     "i18n:check": "pnpm run i18n:validate:ci && pnpm run i18n:scan -- --ci && pnpm run i18n:sort -- --check --ci",
-    "i18n:fix": "pnpm run i18n:scan -- --fix && pnpm run i18n:sort && pnpm run i18n:gen"
+    "i18n:fix": "pnpm run i18n:scan -- --fix && pnpm run i18n:sort && pnpm run i18n:validate:fix && pnpm run i18n:gen"
   },
   "dependencies": {
     "@fastify/cors": "^11.1.0",

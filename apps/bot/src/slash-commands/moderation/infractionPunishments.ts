@@ -1,7 +1,7 @@
 import type { SlashCommandBase } from "@types";
 import { MessageFlags, PermissionsBitField, SlashCommandBuilder } from "discord.js";
 import dayjs from "dayjs";
-import duration from "dayjs/plugin/duration.js";
+import duration, { DurationUnitType } from "dayjs/plugin/duration.js";
 import relativeTime from "dayjs/plugin/relativeTime.js";
 import { getGuildPunishmentRules, setPunishmentRule, deletePunishmentRule, PunishmentAction } from "@repo/database";
 
@@ -72,7 +72,7 @@ export default {
       let longDurationLabel: string | undefined;
 
       if (durationNum && durationUnit) {
-        const d = dayjs.duration(durationNum, durationUnit as any);
+        const d = dayjs.duration(durationNum, durationUnit as DurationUnitType);
         durationInSeconds = d.asSeconds();
         longDurationLabel = dayjs()
           .add(d)

@@ -8,6 +8,7 @@ import {
   StringSelectMenuBuilder,
   StringSelectMenuInteraction,
   ChannelType,
+  Guild,
 } from "discord.js";
 import { getThreadsByUser, ModMailStatus, getOrCreateGuild, getBlacklistedUser } from "@repo/database";
 import { relayToThread, setupNewThread } from "./threadUtils.js";
@@ -65,9 +66,9 @@ export async function handleUserDM(message: Message) {
   }
 }
 
-async function handleSingleGuildFlow(message: Message, guild: any) {
+async function handleSingleGuildFlow(message: Message, guild: Guild) {
   const config = await getOrCreateGuild(guild.id);
-  const t = message.client.i18next.getFixedT(config.language, "events", "messageCreate.mod_mail");
+  const t = message.client.i18next.getFixedT(config.language, "events", "messageCreate.modMail");
 
   // Blacklist check
   const blacklist = await getBlacklistedUser(guild.id, message.author.id);
@@ -76,14 +77,14 @@ async function handleSingleGuildFlow(message: Message, guild: any) {
       t(($) => $.blacklisted, {
         guild: guild.name,
         reason: blacklist.reason,
-        expires: blacklist.expiresAt ? dayjs(blacklist.expiresAt).fromNow() : t("never"),
+        expires: blacklist.expiresAt ? dayjs(blacklist.expiresAt).fromNow() : t(($) => $.never),
       }),
     );
   }
 
   // Member check
   const member = await guild.members.fetch(message.author.id).catch(() => null);
-  if (!member) return message.reply(t(($) => $.not_member));
+  if (!member) return message.reply(t(($) => $.notMember));
 
   // Confirmation Prompt
   const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
@@ -92,8 +93,8 @@ async function handleSingleGuildFlow(message: Message, guild: any) {
   );
 
   const confirmEmbed = new EmbedBuilder()
-    .setTitle(t(($) => $.confirm_title))
-    .setDescription(t(($) => $.confirm_description, { guild: guild.name }))
+    .setTitle(t(($) => $.confirmTitle))
+    .setDescription(t(($) => $.confirmDescription, { guild: guild.name }))
     .setColor("Blurple");
 
   const prompt = await message.reply({ embeds: [confirmEmbed], components: [row] });
@@ -108,7 +109,7 @@ async function handleSingleGuildFlow(message: Message, guild: any) {
     await confirmation.deferUpdate();
     if (confirmation.customId === "modmail_cancel") {
       return prompt.edit({
-        embeds: [new EmbedBuilder().setTitle(t(($) => $.cancelled_title)).setColor("Red")],
+        embeds: [new EmbedBuilder().setTitle(t(($) => $.cancelledTitle)).setColor("Red")],
         components: [],
       });
     }

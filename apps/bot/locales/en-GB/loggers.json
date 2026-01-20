@@ -828,7 +828,8 @@
     "unknownExecutor": "Unknown Executor"
   },
   "threadEvents": {
-    "unknownExecutor": "Unknown Executor",
+    "noParentId": "No Parent Channel ID",
+    "noParentName": "No Parent Channel",
     "threadAutoArchiveDuration": {
       "60": "1 Hour",
       "1440": "1 Day",
@@ -836,8 +837,6 @@
       "10080": "1 Week",
       "null": "Default"
     },
-    "noParentName": "No Parent Channel",
-    "noParentId": "No Parent Channel ID",
     "threadCreate": {
       "embed": {
         "description": "> **Thread**: {{thread.name}} (<#{{thread.id}}>)\n> **ID**: {{thread.id}}\n> **Parent Channel**: {{parent.name}} (<#{{parent.id}}>)\n> **Auto Archive Duration**: {{auto_archive_duration}}\n> **Created At**: {{timestamp}}",
@@ -893,7 +892,8 @@
           "title": "Thread Unlocked"
         }
       }
-    }
+    },
+    "unknownExecutor": "Unknown Executor"
   },
   "voiceStateEvents": {
     "voiceStateUpdate": {

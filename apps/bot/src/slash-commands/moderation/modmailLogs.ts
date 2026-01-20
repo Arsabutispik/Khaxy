@@ -30,7 +30,7 @@ export default {
     ),
   async execute(interaction, guildConfig) {
     await interaction.deferReply();
-    const t = interaction.client.i18next.getFixedT(guildConfig.language, "commands", "modmail-logs");
+    const t = interaction.client.i18next.getFixedT(guildConfig.language, "commands", "modmailLogs");
     const logId = interaction.options.getInteger("log-id", true);
     const threads = await getModMailThreads(interaction.guildId);
     const thread = threads?.find((thread) => Number(thread.id) === logId);
@@ -50,7 +50,7 @@ export default {
     }
     const channel = interaction.guild?.channels.cache.get(thread.channelId);
     if (channel?.type !== ChannelType.GuildText) return;
-    await modMailLog(interaction.client, channel, user, interaction.user);
-    return interaction.editReply({ content: t(($) => $.logSent, { userTag: user.tag }) });
+    const attachment = await modMailLog(interaction.client, channel, user, interaction.user, true);
+    await interaction.editReply({ content: t(($) => $.logSent, { user: user.tag }), files: [attachment!] });
   },
 } as SlashCommandBase;

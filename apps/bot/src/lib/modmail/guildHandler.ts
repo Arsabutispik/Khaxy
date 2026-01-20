@@ -4,7 +4,7 @@ import { logger } from "@lib";
 
 export async function handleStaffReply(message: Message) {
   const config = await getOrCreateGuild(message.guildId!);
-  const t = message.client.i18next.getFixedT(config.language, "events", "messageCreate.mod_mail");
+  const t = message.client.i18next.getFixedT(config.language, "events", "messageCreate.modMail");
 
   const content = message.attachments.size
     ? `${message.content}\n${message.attachments.map((a) => a.url).join("\n")}`
@@ -21,6 +21,6 @@ export async function handleStaffReply(message: Message) {
     );
   } catch (e) {
     logger.error({ message: "Error saving staff reply", error: e });
-    await message.reply(t(($) => $.error_inserting));
+    await message.reply(t(($) => $.errorInserting));
   }
 }

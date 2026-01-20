@@ -268,13 +268,7 @@
     "unknownExecutor": "Bilinmeyen Yetkili"
   },
   "guildBanRemove": {
-    "embed": {
-      "description": "> **Kullanıcı**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}",
-      "fields": {
-        "reason": "Sebep"
-      },
-      "title": "Kullanıcının Sunucu Yasağı Kaldırıldı"
-    }
+    "noReason": ""
   },
   "guildMemberAdd": {
     "embed": {
@@ -418,13 +412,13 @@
   },
   "guildSoundboardSoundCreate": {
     "embed": {
-      "description": "> **Ses Panosu**: {{soundboard.name}}\n> **ID**: {{soundboard.id}}\n> **Emoji**: {{soundboard.emoji}}\n> **Ses**: %{{volume}}\n> **Oluşturulma Tarihi**: {{timestamp}}",
+      "description": "> **Ses Panosu**: {{sound.name}}\n> **ID**: {{sound.id}}\n> **Emoji**: {{sound.emoji}}\n> **Ses**: %{{volume}}\n> **Oluşturulma Tarihi**: {{timestamp}}",
       "title": "Ses Panosu Oluşturuldu"
     }
   },
   "guildSoundboardSoundDelete": {
     "embed": {
-      "description": "> **Ses Panosu**: {{soundboard.name}}\n> **ID**: {{soundboard.id}}\n> **Emoji**: {{soundboard.emoji}}\n> **Ses**: %{{volume}}\n> **Silinme Tarihi**: {{timestamp}}",
+      "description": "> **Ses Panosu**: {{sound.name}}\n> **ID**: {{sound.id}}\n> **Emoji**: {{sound.emoji}}\n> **Ses**: %{{volume}}\n> **Silinme Tarihi**: {{timestamp}}",
       "title": "Ses Panosu Silindi"
     },
     "unknownExecutor": "Bilinmeyen Yetkili"
@@ -432,13 +426,13 @@
   "guildSoundboardSoundUpdate": {
     "emojiChange": {
       "embed": {
-        "description": "> **Ses Panosu**: {{soundboard.name}}\n> **ID**: {{soundboard.id}}\n> **Eski Emoji**: {{old_emoji}}\n> **Yeni Emoji**: {{new_emoji}}",
+        "description": "> **Ses Panosu**: {{sound.name}}\n> **ID**: {{sound.id}}\n> **Eski Emoji**: {{old_emoji}}\n> **Yeni Emoji**: {{new_emoji}}",
         "title": "Ses Panosu Emojisi Değiştirildi"
       }
     },
     "nameChange": {
       "embed": {
-        "description": "> **ID**: {{soundboard.id}}\n> **Eski İsim**: {{old_name}}\n> **Yeni İsim**: {{new_name}}",
+        "description": "> **ID**: {{sound.id}}\n> **Eski İsim**: {{old_name}}\n> **Yeni İsim**: {{new_name}}",
         "title": "Ses Panosu İsmi Değiştirildi"
       }
     },
@@ -447,7 +441,7 @@
     "unknownExecutor": "Bilinmeyen Yetkili",
     "volumeChange": {
       "embed": {
-        "description": "> **Ses Panosu**: {{soundboard.name}}\n> **ID**: {{soundboard.id}}\n> **Eski Ses**: %{{old_volume}}\n> **Yeni Ses**: %{{new_volume}}",
+        "description": "> **Ses Panosu**: {{sound.name}}\n> **ID**: {{sound.id}}\n> **Eski Ses**: %{{old_volume}}\n> **Yeni Ses**: %{{new_volume}}",
         "title": "Ses Panosu Sesi Değiştirildi"
       }
     }
@@ -617,6 +611,7 @@
     }
   },
   "interactionCreate": {
+    "botMissingPermissions": "",
     "memberMissingPermissions": "Bu komutu kullanabilmek için gerekli `{{permissions}}` izinlerine sahip değilsiniz."
   },
   "inviteCreate": {
@@ -708,6 +703,7 @@
       "title": "Mesaj Düzenlendi"
     },
     "messageEdit": "***Kullanıcı mesajını düzenledi.***\n```diff\n- {{oldContent}}\n+ {{newContent}}\n```",
+    "noContent": "",
     "pollEnd": {
       "embed": {
         "description": "> **Sona Erme**: {{timestamp}}\n> **Çoklu Seçme**: {{multi_select}}\n> **Mesaj**: {{message.url}}",

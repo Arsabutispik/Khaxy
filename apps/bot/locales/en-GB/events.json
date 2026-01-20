@@ -267,7 +267,9 @@
     "noReason": "No reason provided.",
     "unknownExecutor": "Unknown Executor"
   },
-  "guildBanRemove": {},
+  "guildBanRemove": {
+    "noReason": "No reason provided."
+  },
   "guildMemberAdd": {
     "embed": {
       "description": "> **User**: {{user.tag}} (<@{{user.id}}>)\n> **ID**: {{user.id}}\n> **Account Age**: {{timestamp}}\n> **Member Count**: {{member_count}}",
@@ -609,6 +611,7 @@
     }
   },
   "interactionCreate": {
+    "botMissingPermissions": "I don't have the required `{{permissions}}` permissions to execute this command.",
     "memberMissingPermissions": "You don't have the required `{{permissions}}` permissions to use this command."
   },
   "inviteCreate": {
@@ -691,7 +694,6 @@
     }
   },
   "messageUpdate": {
-    "noContent": "No Content",
     "embed": {
       "description": "> **Channel**: {{message.channel.name}} (<#{{message.channel.id}}>)\n> **Author**: {{message.author.tag}} (<@{{message.author.id}}>)\n> **Message ID**: [{{message.id}}](https://discord.com/channels/{{message.guild.id}}/{{message.channel.id}}/{{message.id}})",
       "fields": {
@@ -701,6 +703,7 @@
       "title": "Message Edited"
     },
     "messageEdit": "***User edited their message.***\n```diff\n- {{oldContent}}\n+ {{newContent}}\n```",
+    "noContent": "No Content",
     "pollEnd": {
       "embed": {
         "description": "> **Expired At**: {{timestamp}}\n> **Multi Select**: {{multi_select}}\n> **Message**: {{message.url}}",

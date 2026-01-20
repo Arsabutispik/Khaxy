@@ -1,0 +1,922 @@
+{
+  "channelEvents": {
+    "channelCreate": {
+      "embed": {
+        "description": "",
+        "title": ""
+      }
+    },
+    "channelDelete": {
+      "embed": {
+        "description": "",
+        "title": ""
+      },
+      "unknownExecutor": ""
+    },
+    "channelTypes": {
+      "0": "",
+      "1": "",
+      "2": "",
+      "3": "",
+      "4": "",
+      "5": "",
+      "10": "",
+      "11": "",
+      "12": "",
+      "13": "",
+      "14": "",
+      "15": "",
+      "16": ""
+    },
+    "channelUpdate": {
+      "bitrateChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "defaultArchiveDurationChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        },
+        "time": {
+          "60": "",
+          "1440": "",
+          "4320": "",
+          "10080": ""
+        }
+      },
+      "forumAvailableTagsChange": {
+        "added": {
+          "embed": {
+            "description": "",
+            "title": ""
+          }
+        },
+        "removed": {
+          "embed": {
+            "description": "",
+            "title": ""
+          }
+        },
+        "updated": {
+          "embed": {
+            "description": "",
+            "title": ""
+          }
+        }
+      },
+      "forumDefaultForumLayoutChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        },
+        "layouts": {
+          "0": "",
+          "1": "",
+          "2": ""
+        }
+      },
+      "forumDefaultReactionEmojiChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "forumDefaultSortOrderChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        },
+        "modes": {
+          "0": "",
+          "1": ""
+        }
+      },
+      "forumDefaultThreadRateLimitChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "forumNsfwChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "forumRateLimitChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "nameChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "nsfwChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "permissionsChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        },
+        "noChanges": ""
+      },
+      "rateLimitChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "rtcRegionChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        },
+        "region": {
+          "none": ""
+        }
+      },
+      "topicChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        },
+        "noTopic": ""
+      },
+      "typeChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "unknownExecutor": "",
+      "userLimitChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "videoQualityModeChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        },
+        "modes": {
+          "1": "",
+          "2": ""
+        }
+      }
+    },
+    "unknownExecutor": ""
+  },
+  "emojiEvents": {
+    "emojiCreate": {
+      "embed": {
+        "description": "",
+        "title": ""
+      }
+    },
+    "emojiDelete": {
+      "embed": {
+        "description": "",
+        "title": ""
+      }
+    },
+    "emojiUpdate": {
+      "nameChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      }
+    },
+    "unknownExecutor": ""
+  },
+  "guildAuditLogEvents": {
+    "guildAuditLogEntryCreate": {
+      "webhookCreate": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "webhookDelete": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      }
+    },
+    "unknownExecutor": ""
+  },
+  "guildBanEvents": {
+    "banAdd": {
+      "embed": {
+        "description": "",
+        "fields": {
+          "reason": ""
+        },
+        "title": ""
+      }
+    },
+    "banRemove": {
+      "embed": {
+        "description": "",
+        "fields": {
+          "reason": ""
+        },
+        "title": ""
+      }
+    },
+    "noReason": "",
+    "unknownExecutor": ""
+  },
+  "guildEvents": {
+    "explicitContentFilterLevels": {
+      "0": "",
+      "1": "",
+      "2": ""
+    },
+    "guildUpdate": {
+      "afkChannelChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "afkTimeoutChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "bannerChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "defaultMessageNotificationsChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "descriptionChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "discoverySplashChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "explicitContentFilterChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "featuresChange": {
+        "embed": {
+          "added": "",
+          "description": "",
+          "removed": "",
+          "title": ""
+        }
+      },
+      "iconChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "mfaLevelChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "nameChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "nsfwLevelChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "ownerChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "partneredChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "preferredLocaleChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "premiumProgressBarChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "premiumSubscriptionCountChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "premiumTierChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "publicUpdatesChannelChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "rulesChannelChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "safetyAlertsChannelChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "splashChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "systemChannelChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "systemChannelFlagsChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "vanityUrlCodeChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "verificationLevelChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "verifiedChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "widgetChannelChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "widgetEnabledChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      }
+    },
+    "mfaLevels": {
+      "0": "",
+      "1": ""
+    },
+    "none": "",
+    "notificationLevels": {
+      "0": "",
+      "1": ""
+    },
+    "nsfwLevels": {
+      "0": "",
+      "1": "",
+      "2": "",
+      "3": ""
+    },
+    "unknownExecutor": "",
+    "verificationLevels": {
+      "0": "",
+      "1": "",
+      "2": "",
+      "3": "",
+      "4": ""
+    }
+  },
+  "guildScheduledEvents": {
+    "guildScheduledEventCreate": {
+      "externalChannel": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "voiceChannel": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      }
+    },
+    "guildScheduledEventDelete": {
+      "externalChannel": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "voiceChannel": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      }
+    },
+    "guildScheduledEventUpdate": {
+      "descriptionChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "endTimeChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "imageChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "locationChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "nameChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "startTimeChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "statusChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        },
+        "status": {
+          "1": "",
+          "2": "",
+          "3": "",
+          "4": ""
+        }
+      }
+    },
+    "guildScheduledEventUserAdd": {
+      "embed": {
+        "description": "",
+        "title": ""
+      }
+    },
+    "guildScheduledEventUserRemove": {
+      "embed": {
+        "description": "",
+        "title": ""
+      }
+    },
+    "noDescription": "",
+    "noLocation": "",
+    "unknownChannel": "",
+    "unknownExecutor": ""
+  },
+  "guildSoundboardEvents": {
+    "guildSoundboardSoundCreate": {
+      "embed": {
+        "description": "",
+        "title": ""
+      }
+    },
+    "guildSoundboardSoundDelete": {
+      "embed": {
+        "description": "",
+        "title": ""
+      }
+    },
+    "guildSoundboardSoundUpdate": {
+      "emojiChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "nameChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "noEmoji": "",
+      "noPreviousValue": "",
+      "volumeChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      }
+    },
+    "unknownExecutor": ""
+  },
+  "inviteEvents": {
+    "inviteCreate": {
+      "embed": {
+        "description": "",
+        "title": ""
+      }
+    },
+    "inviteDelete": {
+      "embed": {
+        "description": "",
+        "title": ""
+      }
+    },
+    "unknownExecutor": ""
+  },
+  "memberEvents": {
+    "memberRemove": {
+      "embed": {
+        "description": "",
+        "fields": {
+          "reason": ""
+        },
+        "title": "",
+        "titleKicked": ""
+      },
+      "joinDateUnknown": "",
+      "noReason": "",
+      "unknownExecutor": ""
+    },
+    "memberUpdate": {
+      "nicknameChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        },
+        "noNickname": ""
+      },
+      "removeTimeout": {
+        "embed": {
+          "description": "",
+          "title": ""
+        },
+        "noReason": ""
+      },
+      "rolesUpdate": {
+        "embed": {
+          "added": "",
+          "description": "",
+          "removed": "",
+          "title": ""
+        }
+      },
+      "timeout": {
+        "embed": {
+          "description": "",
+          "fields": {
+            "reason": ""
+          },
+          "title": ""
+        },
+        "noReason": ""
+      }
+    },
+    "unknownExecutor": ""
+  },
+  "messageEvents": {
+    "messageBulkDelete": {
+      "embed": {
+        "description": "",
+        "title": ""
+      },
+      "fileName": "",
+      "message": ""
+    },
+    "messageCreate": {
+      "pollCreate": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      }
+    },
+    "messageDelete": {
+      "embed": {
+        "description": "",
+        "fields": {
+          "attachments": "",
+          "content": ""
+        },
+        "title": ""
+      },
+      "pollDelete": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "skippedFiles": ""
+    },
+    "messagePollVoteAdd": {
+      "embed": {
+        "description": "",
+        "title": ""
+      }
+    },
+    "messagePollVoteRemove": {
+      "embed": {
+        "description": "",
+        "title": ""
+      }
+    },
+    "messageUpdate": {
+      "embed": {
+        "description": "",
+        "fields": {
+          "newContent": "",
+          "oldContent": ""
+        },
+        "title": ""
+      },
+      "errors": {
+        "noContent": ""
+      },
+      "pollEnd": {
+        "embed": {
+          "description": "",
+          "title": ""
+        },
+        "unknownQuestion": "",
+        "unknownTime": "",
+        "unknownUser": ""
+      }
+    }
+  },
+  "roleEvents": {
+    "roleCreate": {
+      "embed": {
+        "description": "",
+        "title": ""
+      }
+    },
+    "roleDelete": {
+      "embed": {
+        "description": "",
+        "title": ""
+      }
+    },
+    "roleUpdate": {
+      "colorChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "hoistChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "iconChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "mentionableChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "nameChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "permissionsChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      }
+    },
+    "unknownExecutor": ""
+  },
+  "stageInstanceEvents": {
+    "stageInstanceCreate": {
+      "embed": {
+        "description": "",
+        "title": ""
+      }
+    },
+    "stageInstanceDelete": {
+      "embed": {
+        "description": "",
+        "title": ""
+      }
+    },
+    "stageInstanceUpdate": {
+      "topicChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      }
+    },
+    "unknownExecutor": ""
+  },
+  "stickerEvents": {
+    "stickerCreate": {
+      "embed": {
+        "description": "",
+        "title": ""
+      }
+    },
+    "stickerDelete": {
+      "embed": {
+        "description": "",
+        "title": ""
+      }
+    },
+    "stickerUpdate": {
+      "descriptionChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "nameChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "tagsChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      }
+    },
+    "unknownExecutor": ""
+  },
+  "threadEvents": {
+    "noParentId": "",
+    "noParentName": "",
+    "threadAutoArchiveDuration": {
+      "60": "",
+      "1440": "",
+      "4320": "",
+      "10080": "",
+      "null": ""
+    },
+    "threadCreate": {
+      "embed": {
+        "description": "",
+        "title": ""
+      }
+    },
+    "threadDelete": {
+      "embed": {
+        "description": "",
+        "title": ""
+      }
+    },
+    "threadUpdate": {
+      "archive": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "autoArchiveDurationChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "lock": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "nameChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "rateLimitChange": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "unarchive": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "unlock": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      }
+    },
+    "unknownExecutor": ""
+  },
+  "voiceStateEvents": {
+    "voiceStateUpdate": {
+      "join": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "leave": {
+        "embed": {
+          "description": "",
+          "title": "",
+          "titleKicked": ""
+        }
+      },
+      "move": {
+        "embed": {
+          "description": "",
+          "title": ""
+        }
+      },
+      "unknownExecutor": ""
+    }
+  }
+}

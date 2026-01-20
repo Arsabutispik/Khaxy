@@ -1,4 +1,4 @@
-import { Message, ChannelType, PermissionsBitField, EmbedBuilder } from "discord.js";
+import { Message, ChannelType, PermissionsBitField, EmbedBuilder, Guild, TextChannel } from "discord.js";
 import {
   getOrCreateGuild,
   createThread,
@@ -6,21 +6,24 @@ import {
   cancelScheduledClose,
   ModMailAuthorType,
   ModMailSentToType,
+  ModMailThread,
 } from "@repo/database";
 import { logger } from "@lib";
 import dayjs from "dayjs";
 
-export async function setupNewThread(message: Message, guild: any, promptToEdit: Message) {
+export async function setupNewThread(message: Message, guild: Guild, promptToEdit: Message) {
   const config = await getOrCreateGuild(guild.id);
-  const t = message.client.i18next.getFixedT(config.language, "events", "messageCreate.mod_mail");
+  const t = message.client.i18next.getFixedT(config.language, "events", "messageCreate.modMail");
   const member = await guild.members.fetch(message.author.id);
 
   const parent = guild.channels.cache.get(config.modMailParentChannelId!);
-  if (!parent) return message.reply(t(($) => $.parent_channel_missing));
+  if (!parent) return message.reply(t(($) => $.parentChannelMissing));
 
-  const overwrites = [{ id: guild.id, deny: [PermissionsBitField.Flags.ViewChannel] }];
+  const overwrites: { id: string; deny?: bigint[]; allow?: bigint[] }[] = [
+    { id: guild.id, deny: [PermissionsBitField.Flags.ViewChannel] },
+  ];
   if (config.staffRoleId && guild.roles.cache.has(config.staffRoleId)) {
-    overwrites.push({ id: config.staffRoleId, allow: [PermissionsBitField.Flags.ViewChannel] } as any);
+    overwrites.push({ id: config.staffRoleId, allow: [PermissionsBitField.Flags.ViewChannel] });
   }
 
   const channel = await guild.channels.create({
@@ -67,35 +70,35 @@ export async function setupNewThread(message: Message, guild: any, promptToEdit:
 
     await promptToEdit.edit({
       content: config.modMailMessage,
-      embeds: [new EmbedBuilder().setTitle(t(($) => $.confirmed_title)).setColor("Green")],
+      embeds: [new EmbedBuilder().setTitle(t(($) => $.confirmTitle)).setColor("Green")],
       components: [],
     });
 
     await channel.send(`**[${message.author.tag}]**: ${content}`);
   } catch (e) {
     logger.error({ message: "Error initializing thread", error: e });
-    await message.reply(t(($) => $.error_inserting));
+    await message.reply(t(($) => $.errorInserting));
   }
 }
 
-export async function relayToThread(message: Message, thread: any) {
+export async function relayToThread(message: Message, thread: ModMailThread) {
   const config = await getOrCreateGuild(thread.guildId);
   const guild = message.client.guilds.cache.get(thread.guildId);
   const channel = guild?.channels.cache.get(thread.channelId);
 
   if (!channel || !channel.isTextBased()) return message.reply("Channel unavailable.");
 
-  const t = message.client.i18next.getFixedT(config.language, "events", "messageCreate.mod_mail");
+  const t = message.client.i18next.getFixedT(config.language, "events", "messageCreate.modMail");
 
   if (thread.scheduledCloseAt) {
-    await (channel as any).send(
+    await (channel as TextChannel).send(
       t(($) => $.reopened, { user: message.author.tag, closer: thread.closerId ? `<@${thread.closerId}>` : "unknown" }),
     );
     await cancelScheduledClose(channel.id);
   }
 
   const content = `${message.content}\n${message.attachments?.map((a) => a.url).join("\n")}`;
-  await (channel as any).send(`**[${message.author.tag}]**: ${content}`);
+  await (channel as TextChannel).send(`**[${message.author.tag}]**: ${content}`);
   await addMessageToThread(
     channel.id,
     content,

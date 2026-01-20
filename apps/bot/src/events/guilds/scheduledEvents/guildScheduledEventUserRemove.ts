@@ -11,7 +11,6 @@ export default {
     if (!event.guild) return;
     const guildConfig = await getOrCreateGuild(event.guild.id);
     if (!guildConfig) return;
-    const t = event.client.i18next.getFixedT(guildConfig.language, "events", "guildScheduledEventUserRemove");
-    await logScheduledEventUserRemove(event, user, guildConfig, t);
+    await logScheduledEventUserRemove(event, user, guildConfig);
   },
 } satisfies EventBase<Events.GuildScheduledEventUserRemove>;

@@ -10,7 +10,6 @@ export default {
     const guildConfig = await getOrCreateGuild(oldMember.guild.id);
     if (!guildConfig) return;
 
-    const t = newMember.client.i18next.getFixedT(guildConfig.language, "events", "guildMemberUpdate");
-    await logMemberUpdate({ oldMember, newMember, guildConfig, t });
+    await logMemberUpdate({ oldMember, newMember, guildConfig });
   },
 } satisfies EventBase<Events.GuildMemberUpdate>;

@@ -27,13 +27,13 @@ export default {
     const modMailThread = await getThreadByChannelId(interaction.channelId);
     if (!modMailThread) {
       return interaction.reply({
-        content: t(($) => $.no_thread),
+        content: t(($) => $.noThread),
         flags: MessageFlags.Ephemeral,
       });
     }
     if (modMailThread.status === ModMailStatus.SUSPENDED) {
       return interaction.reply({
-        content: t(($) => $.already_suspended),
+        content: t(($) => $.alreadySuspended),
         flags: MessageFlags.Ephemeral,
       });
     }

@@ -31,11 +31,17 @@ export async function modMailMessage(message: Message) {
  * Log the thread transcript.
  * Exported for use in your 'close' command or listener.
  */
-export async function modMailLog(client: Client, channel: TextChannel, user: User | null, closer: User) {
+export async function modMailLog(
+  client: Client,
+  channel: TextChannel,
+  user: User | null,
+  closer: User,
+  returnFile?: boolean,
+) {
   const guildConfig = await getOrCreateGuild(channel.guildId);
   if (!guildConfig.modMailChannelId || !user) return;
 
-  const t = client.i18next.getFixedT(guildConfig.language, null, "mod_mail_log");
+  const t = client.i18next.getFixedT(guildConfig.language, "translations", "modMailLog");
   const logChannel = channel.guild.channels.cache.get(guildConfig.modMailChannelId);
 
   if (!logChannel || logChannel.type !== ChannelType.GuildText) return;
@@ -53,9 +59,9 @@ export async function modMailLog(client: Client, channel: TextChannel, user: Use
   ];
 
   const attachment = await modMailTextFile(transcriptLines, modMailMessages, client, t, user);
-
+  if (returnFile) return attachment;
   await logChannel.send({
-    content: t(($) => $.close_message, {
+    content: t(($) => $.closeMessage, {
       thread_id: threads?.length || 1,
       user,
       closer,

@@ -13,7 +13,7 @@ const localesDir = path.join(process.cwd(), "locales");
 const isVerbose = process.argv.includes("--verbose") || process.argv.includes("-v");
 // GitHub Actions format with --ci flag
 const isCI = process.argv.includes("--ci") || process.env.CI === "true";
-
+const shouldFix = process.argv.includes("--fix");
 // ============================================================================
 // Logging Utilities
 // ============================================================================
@@ -133,6 +133,20 @@ function getNestedValue(obj: TranslationObject, key: string): string | Translati
 }
 
 /**
+ * Write object to JSON file with consistent formatting
+ */
+function writeJson(filePath: string, data: TranslationObject): void {
+  try {
+    // 2-space indentation and a trailing newline
+    const content = JSON.stringify(data, null, 2) + "\n";
+    fs.writeFileSync(filePath, content, "utf-8");
+    log({ level: "success", message: `Updated file: ${filePath}` });
+  } catch (e) {
+    log({ level: "error", message: `Failed to write file: ${filePath}` });
+  }
+}
+
+/**
  * Extract interpolation keys from a translation string
  * Matches patterns like {{key}} or {{key.nested}}
  */
@@ -172,6 +186,45 @@ function safeReadJson(filePath: string): TranslationObject | null {
 }
 
 /**
+ * Recursively syncs target object to match base object structure.
+ * - Adds missing keys (using base value).
+ * - Removes extra keys.
+ * - Sorts keys to MATCH the project's sorting logic (Case-Insensitive).
+ */
+function syncObjects(base: TranslationObject, target: TranslationObject): TranslationObject {
+  const newTarget: TranslationObject = {};
+
+  // CRITICAL: Match the sorting logic from SortTranslations.ts
+  const baseKeys = Object.keys(base).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+
+  for (const key of baseKeys) {
+    const baseValue = base[key];
+    const targetValue = target[key];
+
+    if (typeof baseValue === "object" && baseValue !== null) {
+      // Nested Object
+      if (typeof targetValue === "object" && targetValue !== null && !Array.isArray(targetValue)) {
+        newTarget[key] = syncObjects(baseValue as TranslationObject, targetValue as TranslationObject);
+      } else {
+        // Target is missing this object or is a string, recreate structure
+        newTarget[key] = syncObjects(baseValue as TranslationObject, {});
+      }
+    } else {
+      // String Value
+      if (targetValue === undefined) {
+        newTarget[key] = ""; // Fill missing with empty string
+      } else if (typeof targetValue === "string") {
+        newTarget[key] = targetValue; // Keep existing (even if it's empty, we assume it's intentional or pending)
+      } else {
+        newTarget[key] = ""; // Type mismatch -> Reset to empty
+      }
+    }
+  }
+
+  return newTarget;
+}
+
+/**
  * Validate keys and values between base language and target language
  */
 function validateTranslations(
@@ -183,7 +236,7 @@ function validateTranslations(
   log({ level: "debug", message: `Validating ${lang}/${file}` });
 
   const baseObj = safeReadJson(baseLangFilePath);
-  const langObj = safeReadJson(langFilePath);
+  let langObj = safeReadJson(langFilePath);
 
   if (!baseObj) {
     log({ level: "error", message: `Base language file unreadable: ${baseLangFilePath}`, file: baseLangFilePath });
@@ -191,7 +244,9 @@ function validateTranslations(
   }
 
   // Handle empty or unreadable translation file
-  if (!langObj || Object.keys(langObj).length === 0) {
+  if (!langObj && shouldFix) {
+    langObj = {};
+  } else if (!langObj || Object.keys(langObj).length === 0) {
     log({
       level: "warn",
       message: `Empty translation file: ${langFilePath}`,
@@ -207,7 +262,18 @@ function validateTranslations(
       interpolationMismatches: [],
     };
   }
+  if (shouldFix) {
+    const syncedObj = syncObjects(baseObj, langObj);
 
+    // Check if changes are actually needed before writing?
+    // For simplicity, we write if strictly syncing.
+    // In a real app, you might want to compare stringified versions first.
+    writeJson(langFilePath, syncedObj);
+
+    // After fixing, we reload the object to validate it passes
+    // (It should pass missing/extra checks, but might still have interpolation issues)
+    langObj = syncedObj;
+  }
   const baseKeys = getKeys(baseObj);
   const langKeys = getKeys(langObj);
 
@@ -224,6 +290,8 @@ function validateTranslations(
     const langValue = getNestedValue(langObj, key);
 
     if (typeof baseValue === "string" && typeof langValue === "string") {
+      // Skip empty translations
+      if (langValue === "") return;
       // Check multi-line differences
       const baseLines = baseValue.split("\n").map((l) => l.trim());
       const langLines = langValue.split("\n").map((l) => l.trim());

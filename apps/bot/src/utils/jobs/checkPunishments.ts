@@ -23,7 +23,7 @@ export async function checkPunishments(client: Client) {
       }
 
       const user = await client.users.fetch(punishment.userId).catch(() => null);
-      const staff = await client.users.fetch(punishment.staffId).catch(() => null);
+      const staff = await client.users.fetch(punishment.staffId).catch(() => client.user!);
 
       if (!user) {
         // User doesn't exist anymore, delete the punishment

@@ -90,7 +90,7 @@ export default {
       });
       dmMessageId = dmMessage.id;
     } catch {
-      return interaction.editReply({ content: t(($) => $.dm_failed) });
+      return interaction.editReply({ content: t(($) => $.dmFailed) });
     }
     try {
       await addMessageToThread(
@@ -112,7 +112,9 @@ export default {
     }
     await interaction.editReply({ content: t(($) => $.success) });
     const role =
-      interaction.member.roles.highest.name === "@everyone" ? t(($) => $.noRole) : interaction.member.roles.highest.name;
+      interaction.member.roles.highest.name === "@everyone"
+        ? t(($) => $.noRole)
+        : interaction.member.roles.highest.name;
     await interaction.channel!.send({
       content: `\`${messages.filter((row) => row.authorType === ModMailAuthorType.STAFF && row.sentTo !== ModMailSentToType.COMMAND).length + 1}\` **(${role})** **[${interaction.member.user.tag}]**: ${message}`,
       files: interaction.options.getAttachment("attachment") ? [interaction.options.getAttachment("attachment")!] : [],
