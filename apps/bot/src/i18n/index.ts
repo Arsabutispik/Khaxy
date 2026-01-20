@@ -19,7 +19,6 @@ export async function initI18n() {
         "events",
         "permissions",
         "commands",
-        "help",
         "guild-features",
         "locales",
         "loggers",
