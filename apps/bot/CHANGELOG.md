@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.2
+
+### Patch Changes
+
+- [#96](https://github.com/Arsabutispik/Khaxy/pull/96) [`2ce6ac1`](https://github.com/Arsabutispik/Khaxy/commit/2ce6ac1b2b4b1961709d5636945698d2ff70b6d5) Thanks [@Arsabutispik](https://github.com/Arsabutispik)! - Use pathToFile function on events loader so it doesn't crash on windows
+
 ## 2.1.1
 
 ### Patch Changes
