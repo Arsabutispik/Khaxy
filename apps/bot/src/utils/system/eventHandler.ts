@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { fileURLToPath } from "url";
+import { fileURLToPath, pathToFileURL } from "url";
 import { logger } from "@lib";
 import { Client } from "discord.js";
 
@@ -45,9 +45,10 @@ export async function loadEvents(client: Client) {
 
   for (const filePath of eventFiles) {
     try {
+      const fileURL = pathToFileURL(filePath).href;
       // 2. Import the event file
       // In NodeNext, dynamic imports are often cleaner than require()
-      const eventModule = await import(filePath);
+      const eventModule = await import(fileURL);
 
       // Handle "export default" or named exports
       const event = eventModule.default || eventModule;
