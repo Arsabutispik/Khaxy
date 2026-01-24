@@ -123,6 +123,47 @@ export default {
           });
         }
       }
+    } else if (interaction.isMessageComponent()) {
+      const command = interaction.client.componentCommands.get(interaction.customId);
+      const [, ...args] = interaction.customId.split(":").slice(1);
+      if (!command) {
+        logger.log({
+          level: "warn",
+          message: `Component Command ${interaction.customId} not found in the client's component commands collection.`,
+          discord: false,
+        });
+        await interaction.reply({
+          content: "This component command does not exist or is not available in this server.",
+          flags: MessageFlagsBitField.Flags.Ephemeral,
+        });
+        return;
+      }
+      if (!interaction.inCachedGuild()) return;
+      const guildData = await getOrCreateGuild(interaction.guildId);
+      try {
+        await command.execute(interaction, args, guildData);
+      } catch (error) {
+        logger.log({
+          level: "error",
+          message: "Error executing component command",
+          error: error,
+          command: interaction.customId,
+          guildId: interaction.guildId,
+          userId: interaction.user.id,
+        });
+        // Handle errors during command execution
+        if (interaction.replied || interaction.deferred) {
+          await interaction.followUp({
+            content: "There was an unexpected error while executing this component command!",
+            flags: MessageFlags.Ephemeral,
+          });
+        } else {
+          await interaction.reply({
+            content: "There was an unexpected error while executing this component command!",
+            flags: MessageFlags.Ephemeral,
+          });
+        }
+      }
     }
   },
 } satisfies EventBase<Events.InteractionCreate>;

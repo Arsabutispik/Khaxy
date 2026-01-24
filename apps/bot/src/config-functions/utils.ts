@@ -3,9 +3,12 @@ import {
   ChannelSelectMenuBuilder,
   ChannelType,
   ChatInputCommandInteraction,
+  Client,
   ComponentType,
+  ContainerBuilder,
   LabelBuilder,
   MessageComponentInteraction,
+  MessageFlags,
   MessageFlagsBitField,
   ModalBuilder,
   ModalSubmitInteraction,
@@ -17,9 +20,55 @@ import {
 } from "discord.js";
 import { logger } from "@lib";
 import { GuildWithLogs } from "@repo/database";
-import { trimString, getCurrentValue, updateConfig } from "@utils";
+import { getCurrentValue, trimString, updateConfig } from "@utils";
 import { DbConfigKey } from "@constants";
+import { TFunction } from "i18next";
 
+export abstract class BaseConfigPanel {
+  protected guildData: GuildWithLogs;
+  private readonly client: Client;
+
+  protected getTranslationFunction(client: Client) {
+    return client.i18next.getFixedT(this.guildData.language, "translations", "configPanels");
+  }
+  constructor(guildData: GuildWithLogs, client: Client) {
+    this.guildData = guildData;
+    this.client = client;
+    this.t = this.getTranslationFunction(client);
+  }
+
+  protected t: TFunction<"translations", "configPanels">;
+  abstract render(): Promise<ContainerBuilder>;
+
+  async show(interaction: ChatInputCommandInteraction<"cached"> | MessageComponentInteraction<"cached">) {
+    const rendered = await this.render();
+
+    if (interaction.deferred || interaction.replied) {
+      await interaction.editReply({
+        components: [rendered],
+        flags: MessageFlags.IsComponentsV2,
+      });
+    } else {
+      await interaction.reply({
+        components: [rendered],
+        flags: [MessageFlags.Ephemeral, MessageFlags.IsComponentsV2],
+      });
+    }
+  }
+
+  async updateAndRefresh(updates: Partial<GuildWithLogs>) {
+    // Update guildData in memory
+    Object.assign(this.guildData, updates);
+
+    // Update translation function if language changed
+    if ("language" in updates) {
+      this.t = this.getTranslationFunction(this.client);
+    }
+
+    // Re-render the panel
+    return await this.render();
+  }
+}
 // --- Wait For Message Component ---
 export async function waitForMessageComponent(
   interaction: ChatInputCommandInteraction<"cached"> | StringSelectMenuInteraction<"cached">,

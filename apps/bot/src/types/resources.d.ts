@@ -447,9 +447,6 @@ interface Resources {
     "VIP_REGIONS": "VIP Regions",
     "WELCOME_SCREEN_ENABLED": "Welcome Screen"
   },
-  "help": {
-
-  },
   "locales": {
     "bg": "Bulgarian",
     "cs": "Czech",
@@ -1461,6 +1458,16 @@ interface Resources {
       "banExpired": "Ban expired after {{duration}}.",
       "muteExpired": "Mute expired after {{duration}}."
     },
+    "configPanels": {
+      "miscConfig": {
+        "language": {
+          "description": "# Guild Language\nThe language the bot will use in this server."
+        },
+        "modMailMessage": {
+          "description": "The message that will be sent by the bot when a user sends a mod-mail."
+        }
+      }
+    },
     "dynamicChannel": {
       "initial": "Select a channel below...",
       "labels": {
@@ -1625,16 +1632,11 @@ interface Resources {
     },
     "miscConfig": {
       "language": {
-        "description": "The language the bot will use.",
-        "initial": "Select the language you want to set.",
-        "label": "Set Language",
-        "set": "Language has been set to {{language}}."
+        "description": "The language the bot will use."
       },
       "modMailMessage": {
-        "description": "The message that will be sent by the bot when a user sends a mod-mail.",
-        "label": "Set Mod-Mail Message"
-      },
-      "timeout": "Message timed out. Please run the command again."
+        "description": "The message that will be sent by the bot when a user sends a mod-mail."
+      }
     },
     "modLog": {
       "ban": "{{emoji}}  **{{user.username}}** has been banned by **{{moderator.username}}**. Reason:```{{reason}}```",

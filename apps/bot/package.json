@@ -16,7 +16,7 @@
     "build": "pnpm -F @repo/database run build && tsc && tsc-alias",
     "start": "node --enable-source-maps .",
     "predev": "pnpm i18n:gen && pnpm -F @repo/database run build",
-    "dev": "nodemon --watch src --ext ts,json,yml,yaml --exec \"pnpm i18n:gen && tsc && tsc-alias && dotenv -e ../../.env -- node --enable-source-maps .\"",
+    "dev": "nodemon --watch src --ext ts,json,yml,yaml --exec \"tsc && tsc-alias && dotenv -e ../../.env -- node --enable-source-maps .\"",
     "lint": "eslint ",
     "type-check": "tsc --noEmit",
     "i18n:validate": "tsx scripts/ValidateI18nKeys.ts",
