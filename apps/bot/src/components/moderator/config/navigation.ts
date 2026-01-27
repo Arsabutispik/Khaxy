@@ -1,5 +1,4 @@
 import { ComponentBase } from "@types";
-import { updateGuildConfig } from "@repo/database";
 import { MiscConfigPanel, RoleConfigPanel } from "../../../config-functions/index.js";
 
 export default {
