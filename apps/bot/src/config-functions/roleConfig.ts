@@ -1,9 +1,35 @@
-import { ActionRowBuilder, ChatInputCommandInteraction, StringSelectMenuBuilder } from "discord.js";
-import { dynamicRole, waitForMessageComponent } from "./utils.js";
+import {
+  ActionRowBuilder,
+  ChatInputCommandInteraction,
+  ContainerBuilder,
+  RoleSelectMenuBuilder,
+  StringSelectMenuBuilder,
+  TextDisplayBuilder,
+} from "discord.js";
+import { BaseConfigPanel, dynamicRole, waitForMessageComponent } from "./utils.js";
 import { RoleType } from "@types";
 import { GuildWithLogs } from "@repo/database";
 
-export async function roleConfig(interaction: ChatInputCommandInteraction<"cached">, guildData: GuildWithLogs) {
+export class RoleConfigPanel extends BaseConfigPanel {
+  override async render() {
+    return new ContainerBuilder()
+      .addTextDisplayComponents(
+        new TextDisplayBuilder().setContent(`## ${this.t(($) => $.roleConfig.memberRoleId.description)}`),
+      )
+      .addActionRowComponents(
+        new ActionRowBuilder<RoleSelectMenuBuilder>().addComponents(
+          new RoleSelectMenuBuilder()
+            .setCustomId("config:role:memberRoleId")
+            .setPlaceholder(this.t(($) => $.roleConfig.memberRoleId.placeholder))
+            .setMinValues(0)
+            .setMaxValues(1)
+            .addDefaultRoles(this.guildData.memberRoleId ? [this.guildData.memberRoleId] : []),
+        ),
+      );
+  }
+}
+
+async function roleConfig(interaction: ChatInputCommandInteraction<"cached">, guildData: GuildWithLogs) {
   const client = interaction.client;
   const t = client.i18next.getFixedT(guildData.language, null, "roleConfig");
   const selectMenu = new StringSelectMenuBuilder()

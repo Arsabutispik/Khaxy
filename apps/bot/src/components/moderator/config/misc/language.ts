@@ -14,12 +14,9 @@ export default {
     await updateGuildConfig(interaction.guildId, { language: newLanguage });
 
     const panel = new MiscConfigPanel(guildData, interaction.client);
-    const rendered = await panel.updateAndRefresh({
-      language: newLanguage,
-    });
 
-    await interaction.editReply({
-      components: [rendered],
+    await panel.updateAndRefresh(interaction, "misc", {
+      language: newLanguage,
     });
   },
 } as ComponentBase;

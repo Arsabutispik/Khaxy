@@ -1461,10 +1461,22 @@ interface Resources {
     "configPanels": {
       "miscConfig": {
         "language": {
-          "description": "# Guild Language\nThe language the bot will use in this server."
+          "description": "Guild Language\nThe language the bot will use in this server."
         },
         "modMailMessage": {
           "description": "The message that will be sent by the bot when a user sends a mod-mail."
+        }
+      },
+      "navigation": {
+        "misc": "Miscellaneous Configuration",
+        "placeholder": "Select a configuration panel...",
+        "prompt": "Use the buttons below to navigate through the configuration panels.",
+        "role": "Role Configuration"
+      },
+      "roleConfig": {
+        "memberRoleId": {
+          "description": "Member Role\nThe role given when a member registers.",
+          "placeholder": "No member role set."
         }
       }
     },

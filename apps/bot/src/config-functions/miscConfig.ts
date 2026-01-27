@@ -11,7 +11,9 @@ import { localeFlags } from "@constants";
 export class MiscConfigPanel extends BaseConfigPanel {
   override async render() {
     return new ContainerBuilder()
-      .addTextDisplayComponents(new TextDisplayBuilder().setContent(this.t(($) => $.miscConfig.language.description)))
+      .addTextDisplayComponents(
+        new TextDisplayBuilder().setContent(`## ${this.t(($) => $.miscConfig.language.description)}`),
+      )
       .addActionRowComponents(
         new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
           new StringSelectMenuBuilder().setCustomId("config:misc:language").addOptions(

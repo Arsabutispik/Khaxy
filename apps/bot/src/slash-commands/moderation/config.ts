@@ -28,7 +28,7 @@ export default {
     const setting = interaction.options.getString("setting") || "misc";
     switch (setting) {
       case "misc":
-        await new MiscConfigPanel(guildConfig, interaction.client).show(interaction);
+        await new MiscConfigPanel(guildConfig, interaction.client).show(interaction, setting);
         break;
     }
   },

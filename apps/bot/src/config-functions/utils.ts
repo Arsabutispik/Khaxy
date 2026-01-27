@@ -15,6 +15,8 @@ import {
   RoleSelectMenuBuilder,
   StringSelectMenuBuilder,
   StringSelectMenuInteraction,
+  StringSelectMenuOptionBuilder,
+  TextDisplayBuilder,
   TextInputBuilder,
   TextInputStyle,
 } from "discord.js";
@@ -39,24 +41,55 @@ export abstract class BaseConfigPanel {
 
   protected t: TFunction<"translations", "configPanels">;
   abstract render(): Promise<ContainerBuilder>;
-
-  async show(interaction: ChatInputCommandInteraction<"cached"> | MessageComponentInteraction<"cached">) {
+  protected getNavigator(defaultValue: string) {
+    return new ContainerBuilder()
+      .addTextDisplayComponents(new TextDisplayBuilder().setContent(this.t(($) => $.navigation.prompt)))
+      .addActionRowComponents(
+        new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+          new StringSelectMenuBuilder()
+            .setCustomId("config:navigation")
+            .setPlaceholder(this.t(($) => $.navigation.placeholder))
+            .setMinValues(1)
+            .setMaxValues(1)
+            .addOptions(
+              new StringSelectMenuOptionBuilder()
+                .setLabel(this.t(($) => $.navigation.misc))
+                .setValue("misc")
+                .setEmoji("⚙️")
+                .setDefault(defaultValue === "misc"),
+              new StringSelectMenuOptionBuilder()
+                .setLabel(this.t(($) => $.navigation.role))
+                .setValue("role")
+                .setEmoji("🎭")
+                .setDefault(defaultValue === "role"),
+            ),
+        ),
+      );
+  }
+  async show(
+    interaction: ChatInputCommandInteraction<"cached"> | MessageComponentInteraction<"cached">,
+    defaultValue: string,
+  ) {
     const rendered = await this.render();
-
+    const navigator = this.getNavigator(defaultValue);
     if (interaction.deferred || interaction.replied) {
       await interaction.editReply({
-        components: [rendered],
+        components: [navigator, rendered],
         flags: MessageFlags.IsComponentsV2,
       });
     } else {
       await interaction.reply({
-        components: [rendered],
+        components: [navigator, rendered],
         flags: [MessageFlags.Ephemeral, MessageFlags.IsComponentsV2],
       });
     }
   }
 
-  async updateAndRefresh(updates: Partial<GuildWithLogs>) {
+  async updateAndRefresh(
+    interaction: ChatInputCommandInteraction<"cached"> | MessageComponentInteraction<"cached">,
+    defaultValue: string,
+    updates: Partial<GuildWithLogs>,
+  ) {
     // Update guildData in memory
     Object.assign(this.guildData, updates);
 
@@ -66,7 +99,7 @@ export abstract class BaseConfigPanel {
     }
 
     // Re-render the panel
-    return await this.render();
+    return await this.show(interaction, defaultValue);
   }
 }
 // --- Wait For Message Component ---

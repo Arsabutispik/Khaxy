@@ -1,0 +1,27 @@
+import { ComponentBase } from "@types";
+import { updateGuildConfig } from "@repo/database";
+import { MiscConfigPanel, RoleConfigPanel } from "../../../config-functions/index.js";
+
+export default {
+  customId: "config:navigation",
+  async execute(interaction, _args, guildData) {
+    if (!interaction.isStringSelectMenu() || !interaction.inCachedGuild()) return;
+
+    await interaction.deferUpdate();
+
+    const navigation = interaction.values[0];
+
+    let panel;
+    switch (navigation) {
+      case "misc":
+        panel = new MiscConfigPanel(guildData, interaction.client);
+        break;
+      case "role":
+        panel = new RoleConfigPanel(guildData, interaction.client);
+        break;
+      default:
+        panel = new MiscConfigPanel(guildData, interaction.client);
+    }
+    await panel.show(interaction, navigation);
+  },
+} as ComponentBase;
