@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.3
+
+### Patch Changes
+
+- [#98](https://github.com/Arsabutispik/Khaxy/pull/98) [`4e8cb41`](https://github.com/Arsabutispik/Khaxy/commit/4e8cb41ee8c3284341da236ac3f32e32b0527ebc) Thanks [@Arsabutispik](https://github.com/Arsabutispik)! - Use role mention format in the changed roles log for member roles
+
 ## 2.1.2
 
 ### Patch Changes
