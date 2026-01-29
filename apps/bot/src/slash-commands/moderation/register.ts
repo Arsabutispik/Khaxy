@@ -110,7 +110,7 @@ export default {
         try {
           rolesToAdd.push(guildConfig.maleRoleId);
           await member.roles.set(rolesToAdd);
-          addedRoles.push(guildConfig.maleRoleId, guildConfig.memberRoleId);
+          addedRoles.push(`<@&${guildConfig.maleRoleId}>`, `<@&${guildConfig.memberRoleId}>`);
           await interaction.reply({
             content: t(($) => $.success, {
               user: member.toString(),
@@ -139,7 +139,7 @@ export default {
         try {
           rolesToAdd.push(guildConfig.femaleRoleId);
           await member.roles.set(rolesToAdd);
-          addedRoles.push(guildConfig.femaleRoleId, guildConfig.memberRoleId);
+          addedRoles.push(`<@&${guildConfig.femaleRoleId}>`, `<@&${guildConfig.memberRoleId}>`);
           await interaction.reply({
             content: t(($) => $.success, {
               user: member.toString(),
@@ -163,7 +163,7 @@ export default {
       case "other":
         try {
           await member.roles.set(rolesToAdd);
-          addedRoles.push(guildConfig.memberRoleId);
+          addedRoles.push(`<@&${guildConfig.memberRoleId}>`);
           await interaction.reply({
             content: t(($) => $.success, {
               user: member.toString(),
