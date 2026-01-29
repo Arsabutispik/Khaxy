@@ -7,7 +7,7 @@ import {
   StringSelectMenuInteraction,
 } from "discord.js";
 import { GuildWithLogs, updateGuildConfig } from "@repo/database";
-import { waitForMessageComponent, dynamicChannel, dynamicRole } from "./utils.js";
+import { waitForMessageComponent, dynamicChannel } from "./utils.js";
 import { TFunction } from "i18next";
 
 export async function moderationConfig(interaction: ChatInputCommandInteraction<"cached">, guildData: GuildWithLogs) {
@@ -63,7 +63,7 @@ export async function moderationConfig(interaction: ChatInputCommandInteraction<
       break;
     case "staffRoleId":
       await messageComponent.deferUpdate();
-      await dynamicRole("staffRoleId", messageComponent, guildData);
+      //await dynamicRole("staffRoleId", messageComponent, guildData);
       break;
     case "modMailChannel":
       await modMailChannel(messageComponent, guildData, t);

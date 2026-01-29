@@ -1493,9 +1493,29 @@ interface Resources {
         "role": "Role Configuration"
       },
       "roleConfig": {
+        "colourIdOfTheDay": {
+          "description": "Colour of the Day Role\nA role that changes colour every day.",
+          "placeholder": "No colour of the day role set."
+        },
+        "femaleRoleId": {
+          "description": "Female Role\nThe role given when a member registers as female",
+          "placeholder": "No female role set."
+        },
+        "maleRoleId": {
+          "description": "Male Role\nThe role given when a member registers as male",
+          "placeholder": "No male role set."
+        },
         "memberRoleId": {
-          "description": "Member Role\nThe role given when a member registers.",
+          "description": "Member Role\nThe role given when a member registers. If the registration module is disabled it is given when a member joins the server.",
           "placeholder": "No member role set."
+        },
+        "muteRoleId": {
+          "description": "Mute Role\nThe role given when a member is muted.",
+          "placeholder": "No mute role set."
+        },
+        "unverifiedRoleId": {
+          "description": "Unverified Role\nThe role given when a member joins the server if the registration module is enabled.",
+          "placeholder": "No unverified role set."
         }
       }
     },

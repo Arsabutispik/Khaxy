@@ -12,7 +12,7 @@ import {
   MessageFlagsBitField,
   ModalBuilder,
   ModalSubmitInteraction,
-  RoleSelectMenuBuilder,
+  RoleSelectMenuInteraction,
   StringSelectMenuBuilder,
   StringSelectMenuInteraction,
   StringSelectMenuOptionBuilder,
@@ -21,10 +21,11 @@ import {
   TextInputStyle,
 } from "discord.js";
 import { logger } from "@lib";
-import { GuildWithLogs } from "@repo/database";
+import { GuildWithLogs, updateGuildConfig } from "@repo/database";
 import { getCurrentValue, trimString, updateConfig } from "@utils";
 import { DbConfigKey } from "@constants";
 import { TFunction } from "i18next";
+import { RoleConfigPanel } from "./roleConfig.js";
 
 export abstract class BaseConfigPanel {
   protected guildData: GuildWithLogs;
@@ -268,71 +269,18 @@ export async function dynamicMessage(
 
 export async function dynamicRole(
   dbKey: Extract<DbConfigKey, `${string}RoleId`> | "colourIdOfTheDay",
-  interaction: StringSelectMenuInteraction<"cached">,
-  data: GuildWithLogs,
+  interaction: RoleSelectMenuInteraction<"cached">,
+  guildData: GuildWithLogs,
+  PanelClass: new (guildData: GuildWithLogs, client: Client) => BaseConfigPanel,
 ) {
-  const selectMenu = new RoleSelectMenuBuilder().setCustomId(dbKey).setMaxValues(1).setMinValues(0);
+  await interaction.deferUpdate();
+  const newRoleId = interaction.values[0] || null;
 
-  // 1. Get Default Value
-  const currentId = getCurrentValue(data, dbKey);
-  if (currentId) {
-    selectMenu.setDefaultRoles(currentId);
-  }
-  const t = interaction.client.i18next.getFixedT(data.language, null, "dynamicRole");
-  const actionRow = new ActionRowBuilder<RoleSelectMenuBuilder>().setComponents(selectMenu);
+  await updateGuildConfig(interaction.guildId, { [dbKey]: newRoleId });
 
-  const result = await interaction.editReply({
-    content: t(($) => $.initial),
-    components: [actionRow],
+  const panel = new PanelClass(guildData, interaction.client);
+
+  await panel.updateAndRefresh(interaction, "role", {
+    [dbKey]: newRoleId,
   });
-
-  const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id && i.customId === dbKey;
-
-  let messageComponent;
-  try {
-    messageComponent = await result.awaitMessageComponent({
-      filter,
-      componentType: ComponentType.RoleSelect,
-      time: 1000 * 60 * 5,
-    });
-  } catch {
-    await result.edit({ content: t(($) => $.timeout), components: [] }).catch(() => null);
-    return;
-  }
-
-  await messageComponent.deferUpdate();
-  const newValue = messageComponent.values[0] || null;
-
-  if (!newValue) {
-    // Unset
-    await updateConfig(messageComponent.guildId, dbKey, null);
-    await messageComponent.editReply({
-      content: t(($) => $.messages.unset, {
-        label: t(($) => $.labels[dbKey]),
-      }),
-      components: [],
-    });
-  } else {
-    // Hierarchy Check
-    // If we're setting DJ/Staff roles, we might not care about hierarchy, but for managed roles we do.
-    const isSpecialRole = ["djRoleId", "staffRoleId"].includes(dbKey);
-    const targetRole = messageComponent.guild.roles.cache.get(newValue);
-    const myRole = messageComponent.guild.members.me?.roles.highest;
-
-    if (!isSpecialRole && targetRole && myRole && myRole.position < targetRole.position) {
-      await messageComponent.editReply({ content: t(($) => $.errors.roleTooHigh), components: [] });
-      return;
-    }
-
-    // Set
-    await updateConfig(messageComponent.guildId, dbKey, newValue);
-
-    await messageComponent.editReply({
-      content: t(($) => $.messages.set, {
-        role: targetRole?.toString() ?? "Unknown Role",
-        label: t(($) => $.labels[dbKey]),
-      }),
-      components: [],
-    });
-  }
 }
