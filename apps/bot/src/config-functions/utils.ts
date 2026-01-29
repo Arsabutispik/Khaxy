@@ -25,7 +25,6 @@ import { GuildWithLogs, updateGuildConfig } from "@repo/database";
 import { getCurrentValue, trimString, updateConfig } from "@utils";
 import { DbConfigKey } from "@constants";
 import { TFunction } from "i18next";
-import { RoleConfigPanel } from "./roleConfig.js";
 
 export abstract class BaseConfigPanel {
   protected guildData: GuildWithLogs;

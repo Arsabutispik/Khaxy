@@ -1,18 +1,12 @@
 import {
   ActionRowBuilder,
-  ChatInputCommandInteraction,
-  Client,
   ContainerBuilder,
   RoleSelectMenuBuilder,
-  RoleSelectMenuInteraction,
   SeparatorBuilder,
   SeparatorSpacingSize,
-  StringSelectMenuBuilder,
   TextDisplayBuilder,
 } from "discord.js";
-import { BaseConfigPanel, waitForMessageComponent } from "./utils.js";
-import { GuildWithLogs, updateGuildConfig } from "@repo/database";
-import { DbConfigKey } from "@constants";
+import { BaseConfigPanel } from "./utils.js";
 
 export class RoleConfigPanel extends BaseConfigPanel {
   override async render() {
