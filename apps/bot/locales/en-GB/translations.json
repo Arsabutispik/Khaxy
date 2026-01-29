@@ -174,7 +174,9 @@
         "description": "Guild Language\nThe language the bot will use in this server."
       },
       "modMailMessage": {
-        "description": "The message that will be sent by the bot when a user sends a mod-mail."
+        "description": "Mod-Mail Message\nThe message that will be sent by the bot when a user sends a mod-mail.\n-# {{limit}}/2000 characters used.",
+        "buttonLabel": "Edit Mod-Mail Message",
+        "resetButtonLabel": "Reset Mod-Mail Message"
       }
     },
     "navigation": {

@@ -1,6 +1,10 @@
 import {
   ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
   ContainerBuilder,
+  SeparatorBuilder,
+  SeparatorSpacingSize,
   StringSelectMenuBuilder,
   StringSelectMenuOptionBuilder,
   TextDisplayBuilder,
@@ -28,6 +32,26 @@ export class MiscConfigPanel extends BaseConfigPanel {
               .setEmoji("🇹🇷")
               .setDefault(this.guildData.language === "tr-TR"),
           ),
+        ),
+      )
+      .addSeparatorComponents(new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Small).setDivider(true))
+      .addTextDisplayComponents(
+        new TextDisplayBuilder().setContent(
+          `## ${this.t(($) => $.miscConfig.modMailMessage.description, {
+            limit: this.guildData.modMailMessage.length,
+          })}`,
+        ),
+      )
+      .addActionRowComponents(
+        new ActionRowBuilder<ButtonBuilder>().addComponents(
+          new ButtonBuilder()
+            .setCustomId("config:misc:modMailMessage:set")
+            .setLabel(this.t(($) => $.miscConfig.modMailMessage.buttonLabel))
+            .setStyle(ButtonStyle.Primary),
+          new ButtonBuilder()
+            .setCustomId("config:misc:modMailMessage:reset")
+            .setLabel(this.t(($) => $.miscConfig.modMailMessage.resetButtonLabel))
+            .setStyle(ButtonStyle.Danger),
         ),
       );
   }

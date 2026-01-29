@@ -67,7 +67,10 @@ export abstract class BaseConfigPanel {
       );
   }
   async show(
-    interaction: ChatInputCommandInteraction<"cached"> | MessageComponentInteraction<"cached">,
+    interaction:
+      | ChatInputCommandInteraction<"cached">
+      | MessageComponentInteraction<"cached">
+      | ModalSubmitInteraction<"cached">,
     defaultValue: string,
   ) {
     const rendered = await this.render();
@@ -86,7 +89,10 @@ export abstract class BaseConfigPanel {
   }
 
   async updateAndRefresh(
-    interaction: ChatInputCommandInteraction<"cached"> | MessageComponentInteraction<"cached">,
+    interaction:
+      | ChatInputCommandInteraction<"cached">
+      | MessageComponentInteraction<"cached">
+      | ModalSubmitInteraction<"cached">,
     defaultValue: string,
     updates: Partial<GuildWithLogs>,
   ) {

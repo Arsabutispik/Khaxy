@@ -1,0 +1,17 @@
+{
+  "config": {
+    "modMailMessage": {
+      "modal": {
+        "title": "Edit Mod Mail Message",
+        "description": "Set up the message that will be sent to users when they open a mod mail ticket.",
+        "label": {
+          "messageContent": "Message Content",
+          "placeholders": "Placeholders"
+        },
+        "placeholder": {
+          "messageContent": "Enter the message content here..."
+        }
+      }
+    }
+  }
+}

@@ -340,6 +340,23 @@ interface Resources {
       "success": "{{confirm}} **{{user}}** has been warned (Case #{{case}}). The user has been notified via DM."
     }
   },
+  "components": {
+    "config": {
+      "modMailMessage": {
+        "modal": {
+          "description": "Set up the message that will be sent to users when they open a mod mail ticket.",
+          "label": {
+            "messageContent": "Message Content",
+            "placeholders": "Placeholders"
+          },
+          "placeholder": {
+            "messageContent": "Enter the message content here..."
+          },
+          "title": "Edit Mod Mail Message"
+        }
+      }
+    }
+  },
   "events": {
     "channelDelete": {
       "channelTypes": {
@@ -1464,7 +1481,9 @@ interface Resources {
           "description": "Guild Language\nThe language the bot will use in this server."
         },
         "modMailMessage": {
-          "description": "The message that will be sent by the bot when a user sends a mod-mail."
+          "buttonLabel": "Edit Mod-Mail Message",
+          "description": "Mod-Mail Message\nThe message that will be sent by the bot when a user sends a mod-mail.\n-# {{limit}}/2000 characters used.",
+          "resetButtonLabel": "Reset Mod-Mail Message"
         }
       },
       "navigation": {

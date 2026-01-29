@@ -123,7 +123,7 @@ export default {
           });
         }
       }
-    } else if (interaction.isMessageComponent()) {
+    } else if (interaction.isMessageComponent() || interaction.isModalSubmit()) {
       const command = interaction.client.componentCommands.get(interaction.customId);
       const [, ...args] = interaction.customId.split(":").slice(1);
       if (!command) {
