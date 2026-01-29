@@ -1,28 +1,22 @@
 import {
   ActionRowBuilder,
-  ChannelSelectMenuBuilder,
-  ChannelType,
+  ChannelSelectMenuInteraction,
   ChatInputCommandInteraction,
   Client,
   ComponentType,
   ContainerBuilder,
-  LabelBuilder,
   MessageComponentInteraction,
   MessageFlags,
   MessageFlagsBitField,
-  ModalBuilder,
   ModalSubmitInteraction,
   RoleSelectMenuInteraction,
   StringSelectMenuBuilder,
   StringSelectMenuInteraction,
   StringSelectMenuOptionBuilder,
   TextDisplayBuilder,
-  TextInputBuilder,
-  TextInputStyle,
 } from "discord.js";
 import { logger } from "@lib";
 import { GuildWithLogs, updateGuildConfig } from "@repo/database";
-import { getCurrentValue, trimString, updateConfig } from "@utils";
 import { DbConfigKey } from "@constants";
 import { TFunction } from "i18next";
 
@@ -62,6 +56,11 @@ export abstract class BaseConfigPanel {
                 .setValue("role")
                 .setEmoji("🎭")
                 .setDefault(defaultValue === "role"),
+              new StringSelectMenuOptionBuilder()
+                .setLabel(this.t(($) => $.navigation.welcomeLeave))
+                .setValue("welcomeLeave")
+                .setEmoji("👋")
+                .setDefault(defaultValue === "welcomeLeave"),
             ),
         ),
       );
@@ -145,125 +144,41 @@ export async function waitForMessageComponent(
 // --- Dynamic Channel ---
 export async function dynamicChannel(
   dbKey: Extract<DbConfigKey, `${string}ChannelId`>,
-  interaction: StringSelectMenuInteraction<"cached">,
-  data: GuildWithLogs,
+  interaction: ChannelSelectMenuInteraction<"cached">,
+  guildData: GuildWithLogs,
+  PanelClass: new (guildData: GuildWithLogs, client: Client) => BaseConfigPanel,
+  defaultValue: string,
 ) {
   await interaction.deferUpdate();
 
-  const selectMenu = new ChannelSelectMenuBuilder()
-    .setCustomId(dbKey)
-    .setMaxValues(1)
-    .setMinValues(0)
-    .setChannelTypes(ChannelType.GuildText);
+  const newChannel = interaction.values[0];
 
-  // 1. Get Default Value Safely
-  const currentId = getCurrentValue(data, dbKey);
-  if (currentId) {
-    selectMenu.setDefaultChannels(currentId);
-  }
+  await updateGuildConfig(interaction.guildId, { [dbKey]: newChannel });
 
-  const actionRow = new ActionRowBuilder<ChannelSelectMenuBuilder>().setComponents(selectMenu);
-  const t = interaction.client.i18next.getFixedT(data.language, null, "dynamicChannel");
-  const result = await interaction.editReply({
-    content: t(($) => $.initial),
-    components: [actionRow],
-  });
+  const panel = new PanelClass(guildData, interaction.client);
 
-  const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id && i.customId === dbKey;
-
-  let messageComponent;
-  try {
-    messageComponent = await result.awaitMessageComponent({
-      filter,
-      componentType: ComponentType.ChannelSelect,
-      time: 1000 * 60 * 5,
-    });
-  } catch {
-    await result.edit({ content: t(($) => $.timeout), components: [] });
-    return;
-  }
-
-  await messageComponent.deferUpdate();
-  const newValue = messageComponent.values[0] || null;
-
-  // 2. Update Database Safely
-  await updateConfig(messageComponent.guildId, dbKey, newValue);
-
-  // 3. Reply
-  const responseKey = newValue ? "set" : "unset";
-  await messageComponent.editReply({
-    content: t(($) => $.messages[responseKey], {
-      label: t(($) => $.labels[dbKey]),
-
-      channel: newValue ? `<#${newValue}>` : "Unknown",
-    }),
-    components: [],
+  await panel.updateAndRefresh(interaction, defaultValue, {
+    [dbKey]: newChannel,
   });
 }
 
 // --- Dynamic Message ---
 export async function dynamicMessage(
   dbKey: Extract<DbConfigKey, `${string}Message`>,
-  interaction: StringSelectMenuInteraction<"cached">,
-  data: GuildWithLogs,
+  interaction: ModalSubmitInteraction<"cached">,
+  guildData: GuildWithLogs,
+  PanelClass: new (guildData: GuildWithLogs, client: Client) => BaseConfigPanel,
+  defaultValue: string,
 ) {
-  const textComponent = new TextInputBuilder().setCustomId(dbKey).setMaxLength(1500).setStyle(TextInputStyle.Paragraph);
+  await interaction.deferUpdate();
 
-  const currentText = getCurrentValue(data, dbKey);
-  if (currentText) {
-    textComponent.setPlaceholder(trimString(currentText, 97));
-    textComponent.setValue(currentText);
-  }
-  const t = interaction.client.i18next.getFixedT(data.language, null, "dynamicMessage");
-  const labelBuilder = new LabelBuilder()
-    .setLabel(
-      t(($) => $.initial, {
-        label: t(($) => $.labels[dbKey]),
-      }),
-    )
-    .setTextInputComponent(textComponent);
-  const modal = new ModalBuilder()
-    .setCustomId(dbKey)
-    .setTitle(
-      t(($) => $.title, {
-        label: t(($) => $.labels[dbKey]),
-      }),
-    )
-    .addLabelComponents(labelBuilder);
+  const messageValue = interaction.fields.getTextInputValue("message");
+  const newValue = messageValue.trim();
 
-  await interaction.showModal(modal);
+  await updateGuildConfig(interaction.guildId, { [dbKey]: newValue });
 
-  const filter = (i: ModalSubmitInteraction) => i.user.id === interaction.user.id && i.customId === dbKey;
-
-  let messageComponent;
-  try {
-    messageComponent = await interaction.awaitModalSubmit({ filter, time: 1000 * 60 * 5 });
-  } catch {
-    await interaction.editReply({ content: t(($) => $.timeout), components: [] });
-    return;
-  }
-
-  await messageComponent.deferUpdate();
-
-  const input = messageComponent.fields.getTextInputValue(dbKey);
-  let finalValue: string | null = input;
-
-  if (input === "") {
-    if (dbKey === "modMailMessage") {
-      finalValue = "Thank you for your message! Our mod team will reply to you here as soon as possible.";
-    } else {
-      finalValue = null;
-    }
-  }
-
-  await updateConfig(messageComponent.guildId, dbKey, finalValue);
-  const responseKey = finalValue ? "set" : "unset";
-  await messageComponent.editReply({
-    content: t(($) => $.messages[responseKey], {
-      label: t(($) => $.labels[dbKey]),
-    }),
-    components: [],
-  });
+  const panel = new PanelClass(guildData, interaction.client);
+  await panel.updateAndRefresh(interaction, defaultValue, { [dbKey]: newValue });
 }
 
 export async function dynamicRole(
@@ -271,6 +186,7 @@ export async function dynamicRole(
   interaction: RoleSelectMenuInteraction<"cached">,
   guildData: GuildWithLogs,
   PanelClass: new (guildData: GuildWithLogs, client: Client) => BaseConfigPanel,
+  defaultValue: string,
 ) {
   await interaction.deferUpdate();
   const newRoleId = interaction.values[0] || null;
@@ -279,7 +195,7 @@ export async function dynamicRole(
 
   const panel = new PanelClass(guildData, interaction.client);
 
-  await panel.updateAndRefresh(interaction, "role", {
+  await panel.updateAndRefresh(interaction, defaultValue, {
     [dbKey]: newRoleId,
   });
 }

@@ -183,7 +183,8 @@
       "prompt": "Use the buttons below to navigate through the configuration panels.",
       "placeholder": "Select a configuration panel...",
       "misc": "Miscellaneous Configuration",
-      "role": "Role Configuration"
+      "role": "Role Configuration",
+      "welcomeLeave": "Welcome & Leave Configuration"
     },
     "roleConfig": {
       "memberRoleId": {
@@ -209,6 +210,27 @@
       "muteRoleId": {
         "description": "Mute Role\nThe role given when a member is muted.",
         "placeholder": "No mute role set."
+      }
+    },
+    "welcomeLeaveConfig": {
+      "joinChannelId": {
+        "description": "Welcome Channel\nThe channel where the welcome message will be sent.\n-# {{limit}}/2000 characters used.",
+        "placeholder": "No welcome channel set.",
+        "testButtonLabel": "Test Welcome Message"
+      },
+      "leaveChannelId": {
+        "description": "Leave Channel\nThe channel where the leave message will be sent.",
+        "placeholder": "No leave channel set."
+      },
+      "joinMessage": {
+        "description": "Welcome Message\nThe message that will be sent when a member joins the server.\n-# {{limit}}/2000 characters used.",
+        "buttonLabel": "Edit Welcome Message",
+        "resetButtonLabel": "Reset Welcome Message"
+      },
+      "leaveMessage": {
+        "description": "Leave Message\nThe message that will be sent when a member leaves the server.\n-# {{limit}}/2000 characters used.",
+        "buttonLabel": "Edit Leave Message",
+        "resetButtonLabel": "Reset Leave Message"
       }
     }
   },

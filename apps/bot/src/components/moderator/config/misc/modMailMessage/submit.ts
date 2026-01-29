@@ -1,20 +1,11 @@
 import { ComponentBase } from "@types";
-import { MiscConfigPanel } from "../../../../../config-functions/index.js";
-import { updateGuildConfig } from "@repo/database";
+import { dynamicMessage, RoleConfigPanel } from "@config";
 
 export default {
   customId: "config:misc:modMailMessage:submit",
   async execute(interaction, args, guildData) {
     if (!interaction.isModalSubmit()) return;
 
-    await interaction.deferUpdate();
-
-    const messageValue = interaction.fields.getTextInputValue("message");
-    const newValue = messageValue.trim();
-
-    await updateGuildConfig(interaction.guildId, { modMailMessage: newValue });
-
-    const panel = new MiscConfigPanel(guildData, interaction.client);
-    await panel.updateAndRefresh(interaction, "misc", { modMailMessage: newValue });
+    await dynamicMessage("modMailMessage", interaction, guildData, RoleConfigPanel, "misc");
   },
 } as ComponentBase;

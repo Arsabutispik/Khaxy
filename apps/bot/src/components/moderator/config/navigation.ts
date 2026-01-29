@@ -1,5 +1,5 @@
 import { ComponentBase } from "@types";
-import { MiscConfigPanel, RoleConfigPanel } from "@config";
+import { MiscConfigPanel, RoleConfigPanel, WelcomeLeaveConfigPanel } from "@config";
 
 export default {
   customId: "config:navigation",
@@ -17,6 +17,9 @@ export default {
         break;
       case "role":
         panel = new RoleConfigPanel(guildData, interaction.client);
+        break;
+      case "welcomeLeave":
+        panel = new WelcomeLeaveConfigPanel(guildData, interaction.client);
         break;
       default:
         panel = new MiscConfigPanel(guildData, interaction.client);

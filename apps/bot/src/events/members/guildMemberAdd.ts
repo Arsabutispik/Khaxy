@@ -5,6 +5,7 @@ import { logger } from "@lib";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime.js";
 import { getPunishmentsByUser, getOrCreateGuild } from "@repo/database";
+import { sendWelcomeMessage } from "@features";
 
 export default {
   name: Events.GuildMemberAdd,
@@ -28,25 +29,7 @@ export default {
       });
     }
     dayjs.extend(relativeTime);
-    const replacements = {
-      user: member.toString(),
-      server: member.guild.name,
-      memberCount: member.guild.memberCount.toString(),
-      name: member.user.username,
-      joinPosition: (member.guild.memberCount - 1).toString(),
-      createdAt: dayjs(member.user.createdAt).format("DD/MM/YYYY"),
-      createdAgo: dayjs(member.user.createdAt).fromNow(),
-    };
-    // If a welcome message and channel are configured, send the welcome message to the channel
-    if (guildConfig.joinMessage && guildConfig.joinChannelId) {
-      const welcomeChannel = member.guild.channels.cache.get(guildConfig.joinChannelId);
-      if (
-        welcomeChannel?.type === ChannelType.GuildText &&
-        welcomeChannel.permissionsFor(member.guild.members.me!)?.has(PermissionsBitField.Flags.SendMessages)
-      ) {
-        await welcomeChannel.send(replacePlaceholders(guildConfig.joinMessage, replacements));
-      }
-    }
+    await sendWelcomeMessage(member, guildConfig);
     // If the guild does not use the register system and a member role is configured, assign the member role to the member
     if (!guildConfig.registerJoinMessage && guildConfig.memberRoleId) {
       await member.roles.add(guildConfig.memberRoleId).catch((error) => {
@@ -69,6 +52,15 @@ export default {
         registerWelcomeChannel?.type === ChannelType.GuildText &&
         registerWelcomeChannel.permissionsFor(member.guild.members.me!)?.has(PermissionsBitField.Flags.SendMessages)
       ) {
+        const replacements = {
+          user: member.toString(),
+          server: member.guild.name,
+          memberCount: member.guild.memberCount.toString(),
+          name: member.user.username,
+          joinPosition: member.guild.memberCount.toString(),
+          createdAt: dayjs(member.user.createdAt).format("DD/MM/YYYY"),
+          createdAgo: dayjs(member.user.createdAt).fromNow(),
+        };
         await registerWelcomeChannel.send(replacePlaceholders(guildConfig.registerJoinMessage, replacements));
         // If the guild set up an unverified role, assign it to the member
         if (guildConfig.unverifiedRoleId) {

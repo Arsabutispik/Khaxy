@@ -1,6 +1,58 @@
-import { ActionRowBuilder, ChatInputCommandInteraction, StringSelectMenuBuilder } from "discord.js";
-import { dynamicChannel, dynamicMessage, waitForMessageComponent } from "./utils.js";
+import {
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  ChannelSelectMenuBuilder,
+  ChannelType,
+  ChatInputCommandInteraction,
+  ContainerBuilder,
+  SectionBuilder,
+  StringSelectMenuBuilder,
+  TextDisplayBuilder,
+} from "discord.js";
+import { BaseConfigPanel, waitForMessageComponent } from "./utils.js";
 import { GuildWithLogs } from "@repo/database";
+
+export class WelcomeLeaveConfigPanel extends BaseConfigPanel {
+  override async render() {
+    return new ContainerBuilder()
+      .addSectionComponents(
+        new SectionBuilder()
+          .setButtonAccessory(
+            new ButtonBuilder()
+              .setCustomId("config:welcomeLeave:joinChannelId:test")
+              .setStyle(ButtonStyle.Success)
+              .setLabel(this.t(($) => $.welcomeLeaveConfig.joinChannelId.testButtonLabel)),
+          )
+          .addTextDisplayComponents(
+            new TextDisplayBuilder().setContent(
+              `## ${this.t(($) => $.welcomeLeaveConfig.joinChannelId.description, {
+                limit: this.guildData.joinMessage ? this.guildData.joinMessage.length : 0,
+              })}`,
+            ),
+          ),
+      )
+      .addActionRowComponents(
+        new ActionRowBuilder<ChannelSelectMenuBuilder>().addComponents(
+          new ChannelSelectMenuBuilder()
+            .setCustomId("config:welcomeLeave:joinChannelId:set")
+            .setPlaceholder(this.t(($) => $.welcomeLeaveConfig.joinChannelId.placeholder))
+            .setMinValues(0)
+            .setMaxValues(1)
+            .setChannelTypes(ChannelType.GuildText)
+            .addDefaultChannels(this.guildData.joinChannelId ? [this.guildData.joinChannelId] : []),
+        ),
+      )
+      .addActionRowComponents(
+        new ActionRowBuilder<ButtonBuilder>().addComponents(
+          new ButtonBuilder()
+            .setCustomId("config:welcomeLeave:joinChannelId:edit")
+            .setStyle(ButtonStyle.Primary)
+            .setLabel(this.t(($) => $.welcomeLeaveConfig.joinMessage.buttonLabel)),
+        ),
+      );
+  }
+}
 
 export async function welcomeLeaveConfig(interaction: ChatInputCommandInteraction<"cached">, guildData: GuildWithLogs) {
   const client = interaction.client;
@@ -40,16 +92,16 @@ export async function welcomeLeaveConfig(interaction: ChatInputCommandInteractio
   if (!messageComponent) return;
   switch (messageComponent.values[0]) {
     case "joinChannelId":
-      await dynamicChannel("joinChannelId", messageComponent, guildData);
+      //await dynamicChannel("joinChannelId", messageComponent, guildData);
       break;
     case "joinMessage":
-      await dynamicMessage("joinMessage", messageComponent, guildData);
+      //await dynamicMessage("joinMessage", messageComponent, guildData);
       break;
     case "leaveChannelId":
-      await dynamicChannel("leaveChannelId", messageComponent, guildData);
+      //await dynamicChannel("leaveChannelId", messageComponent, guildData);
       break;
     case "leaveMessage":
-      await dynamicMessage("leaveMessage", messageComponent, guildData);
+      //await dynamicMessage("leaveMessage", messageComponent, guildData);
       break;
   }
 }

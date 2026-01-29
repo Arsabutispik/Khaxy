@@ -342,6 +342,20 @@ interface Resources {
   },
   "components": {
     "config": {
+      "joinChannelId": {
+        "modal": {
+          "description": "Configure the message sent to the Join Channel when a new user joins the server.",
+          "label": {
+            "joinMessage": "Join Message",
+            "placeholders": "Placeholders"
+          },
+          "title": "Set Join Message"
+        },
+        "test": {
+          "fail": "{{reject}} Could not send message.\n- Check if the channel is set.\n- Check if the bot has **Send Messages** permission in that channel.",
+          "pass": "{{check}} Test message sent to <#{{channelId}}>!"
+        }
+      },
       "modMailMessage": {
         "modal": {
           "description": "Set up the message that will be sent to users when they open a mod mail ticket.",
@@ -1490,7 +1504,8 @@ interface Resources {
         "misc": "Miscellaneous Configuration",
         "placeholder": "Select a configuration panel...",
         "prompt": "Use the buttons below to navigate through the configuration panels.",
-        "role": "Role Configuration"
+        "role": "Role Configuration",
+        "welcomeLeave": "Welcome & Leave Configuration"
       },
       "roleConfig": {
         "colourIdOfTheDay": {
@@ -1516,6 +1531,27 @@ interface Resources {
         "unverifiedRoleId": {
           "description": "Unverified Role\nThe role given when a member joins the server if the registration module is enabled.",
           "placeholder": "No unverified role set."
+        }
+      },
+      "welcomeLeaveConfig": {
+        "joinChannelId": {
+          "description": "Welcome Channel\nThe channel where the welcome message will be sent.\n-# {{limit}}/2000 characters used.",
+          "placeholder": "No welcome channel set.",
+          "testButtonLabel": "Test Welcome Message"
+        },
+        "joinMessage": {
+          "buttonLabel": "Edit Welcome Message",
+          "description": "Welcome Message\nThe message that will be sent when a member joins the server.\n-# {{limit}}/2000 characters used.",
+          "resetButtonLabel": "Reset Welcome Message"
+        },
+        "leaveChannelId": {
+          "description": "Leave Channel\nThe channel where the leave message will be sent.",
+          "placeholder": "No leave channel set."
+        },
+        "leaveMessage": {
+          "buttonLabel": "Edit Leave Message",
+          "description": "Leave Message\nThe message that will be sent when a member leaves the server.\n-# {{limit}}/2000 characters used.",
+          "resetButtonLabel": "Reset Leave Message"
         }
       }
     },

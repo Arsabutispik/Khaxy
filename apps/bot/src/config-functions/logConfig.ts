@@ -109,77 +109,77 @@ export async function logConfig(interaction: ChatInputCommandInteraction<"cached
     case "messageLogsChannelId":
       client.webhooks.delete(guildData.logConfig?.messageLogsWebhookId ?? "");
       await updateGuildLogs(interaction.guildId, { messageLogsWebhookId: null });
-      await dynamicChannel("messageLogsChannelId", messageComponent, guildData);
+      //await dynamicChannel("messageLogsChannelId", messageComponent, guildData);
       break;
     case "guildMemberLogsChannelId":
       client.webhooks.delete(guildData.logConfig?.guildMemberLogsWebhookId ?? "");
       await updateGuildLogs(interaction.guildId, { guildMemberLogsWebhookId: null });
-      await dynamicChannel("guildMemberLogsChannelId", messageComponent, guildData);
+      //await dynamicChannel("guildMemberLogsChannelId", messageComponent, guildData);
       break;
     case "guildLogsChannelId":
       client.webhooks.delete(guildData.logConfig?.guildLogsWebhookId ?? "");
       await updateGuildLogs(interaction.guildId, { guildLogsWebhookId: null });
-      await dynamicChannel("guildLogsChannelId", messageComponent, guildData);
+      //await dynamicChannel("guildLogsChannelId", messageComponent, guildData);
       break;
     case "voiceLogsChannelId":
       client.webhooks.delete(guildData.logConfig?.voiceLogsWebhookId ?? "");
       await updateGuildLogs(interaction.guildId, { voiceLogsWebhookId: null });
-      await dynamicChannel("voiceLogsChannelId", messageComponent, guildData);
+      //await dynamicChannel("voiceLogsChannelId", messageComponent, guildData);
       break;
     case "channelLogsChannelId":
       client.webhooks.delete(guildData.logConfig?.channelLogsWebhookId ?? "");
       await updateGuildLogs(interaction.guildId, { channelLogsWebhookId: null });
-      await dynamicChannel("channelLogsChannelId", messageComponent, guildData);
+      //await dynamicChannel("channelLogsChannelId", messageComponent, guildData);
       break;
     case "emojiLogsChannelId":
       client.webhooks.delete(guildData.logConfig?.emojiLogsWebhookId ?? "");
       await updateGuildLogs(interaction.guildId, { emojiLogsWebhookId: null });
-      await dynamicChannel("emojiLogsChannelId", messageComponent, guildData);
+      //await dynamicChannel("emojiLogsChannelId", messageComponent, guildData);
       break;
     case "roleLogsChannelId":
       client.webhooks.delete(guildData.logConfig?.roleLogsWebhookId ?? "");
       await updateGuildLogs(interaction.guildId, { roleLogsWebhookId: null });
-      await dynamicChannel("roleLogsChannelId", messageComponent, guildData);
+      //await dynamicChannel("roleLogsChannelId", messageComponent, guildData);
       break;
     case "stickerLogsChannelId":
       client.webhooks.delete(guildData.logConfig?.stickerLogsWebhookId ?? "");
       await updateGuildLogs(interaction.guildId, { stickerLogsWebhookId: null });
-      await dynamicChannel("stickerLogsChannelId", messageComponent, guildData);
+      //await dynamicChannel("stickerLogsChannelId", messageComponent, guildData);
       break;
     case "eventLogsChannelId":
       client.webhooks.delete(guildData.logConfig?.eventLogsWebhookId ?? "");
       await updateGuildLogs(interaction.guildId, { eventLogsWebhookId: null });
-      await dynamicChannel("eventLogsChannelId", messageComponent, guildData);
+      //await dynamicChannel("eventLogsChannelId", messageComponent, guildData);
       break;
     case "inviteLogsChannelId":
       client.webhooks.delete(guildData.logConfig?.inviteLogsWebhookId ?? "");
       await updateGuildLogs(interaction.guildId, { inviteLogsWebhookId: null });
-      await dynamicChannel("inviteLogsChannelId", messageComponent, guildData);
+      //await dynamicChannel("inviteLogsChannelId", messageComponent, guildData);
       break;
     case "pollLogsChannelId":
       client.webhooks.delete(guildData.logConfig?.pollLogsWebhookId ?? "");
       await updateGuildLogs(interaction.guildId, { pollLogsWebhookId: null });
-      await dynamicChannel("pollLogsChannelId", messageComponent, guildData);
+      //await dynamicChannel("pollLogsChannelId", messageComponent, guildData);
       break;
     case "stageLogsChannelId":
       client.webhooks.delete(guildData.logConfig?.stageLogsWebhookId ?? "");
       await updateGuildLogs(interaction.guildId, { stageLogsWebhookId: null });
-      await dynamicChannel("stageLogsChannelId", messageComponent, guildData);
+      //await dynamicChannel("stageLogsChannelId", messageComponent, guildData);
       break;
     case "soundboardLogsChannelId":
       client.webhooks.delete(guildData.logConfig?.soundboardLogsWebhookId ?? "");
       await updateGuildLogs(interaction.guildId, { soundboardLogsWebhookId: null });
-      await dynamicChannel("soundboardLogsChannelId", messageComponent, guildData);
+      //await dynamicChannel("soundboardLogsChannelId", messageComponent, guildData);
       break;
     case "threadLogsChannelId":
       client.webhooks.delete(guildData.logConfig?.threadLogsWebhookId ?? "");
       await updateGuildLogs(interaction.guildId, { threadLogsWebhookId: null });
-      await dynamicChannel("threadLogsChannelId", messageComponent, guildData);
+      //await dynamicChannel("threadLogsChannelId", messageComponent, guildData);
       break;
     case "webhookLogsChannelId":
       client.webhooks.delete(guildData.logConfig?.webhookLogsWebhookId ?? "");
       await updateGuildLogs(interaction.guildId, { webhookLogsWebhookId: null });
-      await dynamicChannel("webhookLogsChannelId", messageComponent, guildData);
+      //await dynamicChannel("webhookLogsChannelId", messageComponent, guildData);
       break;
   }
 }

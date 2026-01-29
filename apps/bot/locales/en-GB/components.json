@@ -12,6 +12,20 @@
           "messageContent": "Enter the message content here..."
         }
       }
+    },
+    "joinChannelId": {
+      "modal": {
+        "title": "Set Join Message",
+        "description": "Configure the message sent to the Join Channel when a new user joins the server.",
+        "label": {
+          "joinMessage": "Join Message",
+          "placeholders": "Placeholders"
+        }
+      },
+      "test": {
+        "pass": "{{check}} Test message sent to <#{{channelId}}>!",
+        "fail": "{{reject}} Could not send message.\n- Check if the channel is set.\n- Check if the bot has **Send Messages** permission in that channel."
+      }
     }
   }
 }

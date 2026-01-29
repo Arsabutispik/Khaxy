@@ -6,6 +6,6 @@ export default {
   async execute(interaction, _args, guildData) {
     if (!interaction.isRoleSelectMenu()) return;
 
-    await dynamicRole("femaleRoleId", interaction, guildData, RoleConfigPanel);
+    await dynamicRole("femaleRoleId", interaction, guildData, RoleConfigPanel, "role");
   },
 } as ComponentBase;

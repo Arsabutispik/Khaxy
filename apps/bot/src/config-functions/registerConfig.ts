@@ -46,13 +46,13 @@ export async function registerConfig(interaction: ChatInputCommandInteraction<"c
   if (!messageComponent) return;
   switch (messageComponent.values[0]) {
     case "registerJoinChannelId":
-      await dynamicChannel("registerJoinChannelId", messageComponent, guildData);
+      //await dynamicChannel("registerJoinChannelId", messageComponent, guildData);
       break;
     case "registerChannelId":
-      await dynamicChannel("registerChannelId", messageComponent, guildData);
+      //await dynamicChannel("registerChannelId", messageComponent, guildData);
       break;
     case "registerJoinMessage":
-      await dynamicMessage("registerJoinMessage", messageComponent, guildData);
+      //await dynamicMessage("registerJoinMessage", messageComponent, guildData);
       break;
     case "registerClearChannel":
       await registerClearChannel(messageComponent, guildData, t);

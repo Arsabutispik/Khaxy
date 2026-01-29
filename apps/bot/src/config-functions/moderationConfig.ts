@@ -59,7 +59,7 @@ export async function moderationConfig(interaction: ChatInputCommandInteraction<
   if (!messageComponent) return;
   switch (messageComponent.values[0]) {
     case "modLogsChannelId":
-      await dynamicChannel("modLogsChannelId", messageComponent, guildData);
+      //await dynamicChannel("modLogsChannelId", messageComponent, guildData);
       break;
     case "staffRoleId":
       await messageComponent.deferUpdate();

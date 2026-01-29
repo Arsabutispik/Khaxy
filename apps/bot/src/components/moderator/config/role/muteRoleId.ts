@@ -6,6 +6,6 @@ export default {
   async execute(interaction, _args, guildData) {
     if (!interaction.isRoleSelectMenu()) return;
 
-    await dynamicRole("muteRoleId", interaction, guildData, RoleConfigPanel);
+    await dynamicRole("muteRoleId", interaction, guildData, RoleConfigPanel, "role");
   },
 } as ComponentBase;
