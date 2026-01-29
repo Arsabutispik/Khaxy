@@ -1,5 +1,5 @@
 import { ComponentBase } from "@types";
-import { MiscConfigPanel, RoleConfigPanel } from "../../../config-functions/index.js";
+import { MiscConfigPanel, RoleConfigPanel } from "@config";
 
 export default {
   customId: "config:navigation",
