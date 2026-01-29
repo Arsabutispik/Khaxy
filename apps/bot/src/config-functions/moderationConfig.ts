@@ -7,7 +7,7 @@ import {
   StringSelectMenuInteraction,
 } from "discord.js";
 import { GuildWithLogs, updateGuildConfig } from "@repo/database";
-import { waitForMessageComponent, dynamicChannel } from "./utils.js";
+import { waitForMessageComponent } from "./utils.js";
 import { TFunction } from "i18next";
 
 export async function moderationConfig(interaction: ChatInputCommandInteraction<"cached">, guildData: GuildWithLogs) {

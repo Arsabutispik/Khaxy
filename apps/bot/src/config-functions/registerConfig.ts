@@ -4,8 +4,8 @@ import {
   StringSelectMenuBuilder,
   StringSelectMenuInteraction,
 } from "discord.js";
-import { updateGuildConfig, GuildWithLogs } from "@repo/database";
-import { dynamicChannel, dynamicMessage, waitForMessageComponent } from "./utils.js";
+import { GuildWithLogs, updateGuildConfig } from "@repo/database";
+import { waitForMessageComponent } from "./utils.js";
 import { TFunction } from "i18next";
 
 export async function registerConfig(interaction: ChatInputCommandInteraction<"cached">, guildData: GuildWithLogs) {

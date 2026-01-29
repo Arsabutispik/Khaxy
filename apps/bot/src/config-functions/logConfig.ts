@@ -1,6 +1,6 @@
 import { ActionRowBuilder, ChatInputCommandInteraction, StringSelectMenuBuilder } from "discord.js";
 import { GuildWithLogs, updateGuildLogs } from "@repo/database";
-import { waitForMessageComponent, dynamicChannel } from "./utils.js";
+import { waitForMessageComponent } from "./utils.js";
 
 export async function logConfig(interaction: ChatInputCommandInteraction<"cached">, guildData: GuildWithLogs) {
   const client = interaction.client;
