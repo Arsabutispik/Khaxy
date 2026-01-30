@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.4
+
+### Patch Changes
+
+- [#101](https://github.com/Arsabutispik/Khaxy/pull/101) [`c9704c2`](https://github.com/Arsabutispik/Khaxy/commit/c9704c2be6f28386ffa9579105fc0274894ad25d) Thanks [@Arsabutispik](https://github.com/Arsabutispik)! - Add SIGTERM for graceful shutdown, for Docker. Remove deploy step from GH actions as it might not be 100% safe
+
 ## 2.1.3
 
 ### Patch Changes
