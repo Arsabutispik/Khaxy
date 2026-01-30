@@ -95,3 +95,9 @@ process.on("uncaughtException", (err) => {
     message: "Uncaught Exception",
   });
 });
+// Graceful shutdown
+process.on("SIGTERM", () => {
+  console.log("SIGTERM received. Closing bot...");
+  void client.destroy(); // Disconnect from Discord immediately
+  process.exit(0); // Tell Docker we are done
+});
