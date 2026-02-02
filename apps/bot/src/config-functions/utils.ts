@@ -44,7 +44,8 @@ export abstract class BaseConfigPanel {
           new ButtonBuilder()
             .setCustomId(`config:reset:${defaultValue}`)
             .setLabel(this.t(($) => $.navigation.reset))
-            .setStyle(ButtonStyle.Primary),
+            .setStyle(ButtonStyle.Secondary)
+            .setEmoji("🔄"),
         ),
       )
       .addTextDisplayComponents(new TextDisplayBuilder().setContent(this.t(($) => $.navigation.prompt)))
