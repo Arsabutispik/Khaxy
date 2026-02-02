@@ -124,7 +124,13 @@ export default {
         }
       }
     } else if (interaction.isMessageComponent() || interaction.isModalSubmit()) {
-      const command = interaction.client.componentCommands.get(interaction.customId);
+      let command = interaction.client.componentCommands.get(interaction.customId);
+
+      // Fallback: try prefix matching
+      if (!command) {
+        const prefix = interaction.customId.split(":").slice(0, 2).join(":");
+        command = interaction.client.componentCommands.get(prefix);
+      }
       const [, ...args] = interaction.customId.split(":").slice(1);
       if (!command) {
         logger.log({

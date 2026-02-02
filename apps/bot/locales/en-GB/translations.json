@@ -184,7 +184,8 @@
       "placeholder": "Select a configuration panel...",
       "misc": "Miscellaneous Configuration",
       "role": "Role Configuration",
-      "welcomeLeave": "Welcome & Leave Configuration"
+      "welcomeLeave": "Welcome & Leave Configuration",
+      "reset": "Reset"
     },
     "roleConfig": {
       "memberRoleId": {

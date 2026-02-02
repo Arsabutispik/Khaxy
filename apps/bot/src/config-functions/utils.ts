@@ -1,5 +1,7 @@
 import {
   ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
   ChannelSelectMenuInteraction,
   ChatInputCommandInteraction,
   Client,
@@ -37,6 +39,14 @@ export abstract class BaseConfigPanel {
   abstract render(): Promise<ContainerBuilder>;
   protected getNavigator(defaultValue: string) {
     return new ContainerBuilder()
+      .addActionRowComponents(
+        new ActionRowBuilder<ButtonBuilder>().addComponents(
+          new ButtonBuilder()
+            .setCustomId(`config:reset:${defaultValue}`)
+            .setLabel(this.t(($) => $.navigation.reset))
+            .setStyle(ButtonStyle.Primary),
+        ),
+      )
       .addTextDisplayComponents(new TextDisplayBuilder().setContent(this.t(($) => $.navigation.prompt)))
       .addActionRowComponents(
         new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(

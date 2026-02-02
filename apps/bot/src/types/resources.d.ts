@@ -1518,6 +1518,7 @@ interface Resources {
         "misc": "Miscellaneous Configuration",
         "placeholder": "Select a configuration panel...",
         "prompt": "Use the buttons below to navigate through the configuration panels.",
+        "reset": "Reset",
         "role": "Role Configuration",
         "welcomeLeave": "Welcome & Leave Configuration"
       },
