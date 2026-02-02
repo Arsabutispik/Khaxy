@@ -1,10 +1,11 @@
 import type { EventBase } from "@types";
 import { AuditLogEvent, ChannelType, Events, PermissionsBitField } from "discord.js";
-import { modLog, replacePlaceholders, sleep, logMemberLeave } from "@utils";
+import { logMemberLeave, modLog, sleep } from "@utils";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime.js";
 import { closeThread, getOrCreateGuild, getThreadsByUser } from "@repo/database";
 import { sendLeaveMessage } from "@features";
+
 export default {
   name: Events.GuildMemberRemove,
   once: false,
