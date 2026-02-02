@@ -47,67 +47,6 @@ interface Resources {
       "noThread": "This is not a mod mail thread.",
       "notClosing": "This mod mail thread is not marked for close."
     },
-    "config": {
-      "embed": {
-        "log": {
-          "fields": {
-            "guildLogsChannel": "Guild Logs Channel",
-            "messageLogsChannel": "Message Logs Channel"
-          },
-          "title": "Log Settings"
-        },
-        "misc": {
-          "fields": {
-            "language": "Language",
-            "modMailMessage": "Mod Mail Message"
-          },
-          "title": "Miscellaneous Settings"
-        },
-        "moderation": {
-          "fields": {
-            "modLogChannel": "Moderation Log Channel",
-            "muteGetAllRoles": "Mute Get All Roles",
-            "registerDayLimit": "Register Day Limit",
-            "staffRole": "Staff Role"
-          },
-          "title": "Moderation Settings"
-        },
-        "register": {
-          "fields": {
-            "registerChannel": "Register Channel",
-            "registerChannelClear": "Clear Register Channel",
-            "registerJoinChannel": "Register Join Channel",
-            "registerJoinMessage": "Register Join Message"
-          },
-          "title": "Register Settings"
-        },
-        "role": {
-          "fields": {
-            "colorOfTheDay": "Colour of the Day"
-          },
-          "title": "Role Settings"
-        },
-        "welcomeLeave": {
-          "fields": {
-            "leaveChannel": "Leave Channel",
-            "leaveMessage": "Leave Message",
-            "welcomeChannel": "Welcome Channel",
-            "welcomeMessage": "Welcome Message"
-          },
-          "title": "Welcome/Leave Settings"
-        }
-      },
-      "noSetting": "Use the menu below to navigate the settings. Each title can be clicked to view the documentation.",
-      "none": "N/A",
-      "selectMenu": {
-        "log": "Log Settings",
-        "misc": "Miscellaneous Settings",
-        "moderation": "Moderation Settings",
-        "register": "Register Settings",
-        "role": "Role Settings",
-        "welcomeLeave": "Welcome/Leave Settings"
-      }
-    },
     "infractionPunishments": {
       "banSet": "User will be banned at {{threshold}} infractions.",
       "durationMissing": "You must provide a duration for temporary punishments.",
@@ -344,10 +283,8 @@ interface Resources {
     "config": {
       "joinChannelId": {
         "modal": {
-          "description": "Configure the message sent to the Join Channel when a new user joins the server.",
           "label": {
-            "joinMessage": "Join Message",
-            "placeholders": "Placeholders"
+            "joinMessage": "Join Message"
           },
           "title": "Set Join Message"
         },
@@ -358,10 +295,8 @@ interface Resources {
       },
       "leaveChannelId": {
         "modal": {
-          "description": "Configure the message sent to the Leave Channel when a user leaves the server.",
           "label": {
-            "leaveMessage": "Leave Message",
-            "placeholders": "Placeholders"
+            "leaveMessage": "Leave Message"
           },
           "title": "Set Leave Message"
         },
@@ -372,13 +307,8 @@ interface Resources {
       },
       "modMailMessage": {
         "modal": {
-          "description": "Set up the message that will be sent to users when they open a mod mail ticket.",
           "label": {
-            "messageContent": "Message Content",
-            "placeholders": "Placeholders"
-          },
-          "placeholder": {
-            "messageContent": "Enter the message content here..."
+            "messageContent": "Message Content"
           },
           "title": "Edit Mod Mail Message"
         }
@@ -1504,16 +1434,6 @@ interface Resources {
       "muteExpired": "Mute expired after {{duration}}."
     },
     "configPanels": {
-      "miscConfig": {
-        "language": {
-          "description": "Guild Language\nThe language the bot will use in this server."
-        },
-        "modMailMessage": {
-          "buttonLabel": "Edit Mod-Mail Message",
-          "description": "Mod-Mail Message\nThe message that will be sent by the bot when a user sends a mod-mail.\n-# {{limit}}/2000 characters used.",
-          "resetButtonLabel": "Reset Mod-Mail Message"
-        }
-      },
       "navigation": {
         "misc": "Miscellaneous Configuration",
         "placeholder": "Select a configuration panel...",
@@ -1521,122 +1441,7 @@ interface Resources {
         "reset": "Reset",
         "role": "Role Configuration",
         "welcomeLeave": "Welcome & Leave Configuration"
-      },
-      "roleConfig": {
-        "colourIdOfTheDay": {
-          "description": "Colour of the Day Role\nA role that changes colour every day.",
-          "placeholder": "No colour of the day role set."
-        },
-        "femaleRoleId": {
-          "description": "Female Role\nThe role given when a member registers as female",
-          "placeholder": "No female role set."
-        },
-        "maleRoleId": {
-          "description": "Male Role\nThe role given when a member registers as male",
-          "placeholder": "No male role set."
-        },
-        "memberRoleId": {
-          "description": "Member Role\nThe role given when a member registers. If the registration module is disabled it is given when a member joins the server.",
-          "placeholder": "No member role set."
-        },
-        "muteRoleId": {
-          "description": "Mute Role\nThe role given when a member is muted.",
-          "placeholder": "No mute role set."
-        },
-        "unverifiedRoleId": {
-          "description": "Unverified Role\nThe role given when a member joins the server if the registration module is enabled.",
-          "placeholder": "No unverified role set."
-        }
-      },
-      "welcomeLeaveConfig": {
-        "joinChannelId": {
-          "description": "Welcome Channel\nThe channel where the welcome message will be sent.\n-# {{limit}}/2000 characters used.",
-          "placeholder": "No welcome channel set.",
-          "testButtonLabel": "Test Welcome Message"
-        },
-        "joinMessage": {
-          "buttonLabel": "Edit Welcome Message",
-          "description": "Welcome Message\nThe message that will be sent when a member joins the server.\n-# {{limit}}/2000 characters used.",
-          "resetButtonLabel": "Reset Welcome Message"
-        },
-        "leaveChannelId": {
-          "description": "Leave Channel\nThe channel where the leave message will be sent.\n-# {{limit}}/2000 characters used.",
-          "placeholder": "No leave channel set.",
-          "testButtonLabel": "Test Leave Message"
-        },
-        "leaveMessage": {
-          "buttonLabel": "Edit Leave Message",
-          "description": "Leave Message\nThe message that will be sent when a member leaves the server.\n-# {{limit}}/2000 characters used.",
-          "resetButtonLabel": "Reset Leave Message"
-        }
       }
-    },
-    "dynamicChannel": {
-      "initial": "Select a channel below...",
-      "labels": {
-        "channelLogsChannelId": "Channel Logs",
-        "emojiLogsChannelId": "Emoji Logs",
-        "eventLogsChannelId": "Event Logs",
-        "guildLogsChannelId": "Guild Logs",
-        "guildMemberLogsChannelId": "Member Logs",
-        "inviteLogsChannelId": "Invite Logs",
-        "joinChannelId": "Welcome Channel",
-        "leaveChannelId": "Leave Channel",
-        "messageLogsChannelId": "Message Logs",
-        "modLogsChannelId": "Moderation Logs",
-        "modMailChannelId": "Mod-Mail Channel",
-        "pollLogsChannelId": "Poll Logs",
-        "registerChannelId": "Register Channel",
-        "registerJoinChannelId": "Register Join Channel",
-        "roleLogsChannelId": "Role Logs",
-        "soundboardLogsChannelId": "Soundboard Logs",
-        "stageLogsChannelId": "Stage Logs",
-        "stickerLogsChannelId": "Sticker Logs",
-        "threadLogsChannelId": "Thread Logs",
-        "voiceLogsChannelId": "Voice Logs",
-        "webhookLogsChannelId": "Webhook Logs"
-      },
-      "messages": {
-        "set": "Successfully set **{{label}}** to {{channel}}.",
-        "unset": "Successfully disabled **{{label}}**."
-      },
-      "timeout": "Menu timed out."
-    },
-    "dynamicMessage": {
-      "initial": "Set a {{label}} message below with a modal",
-      "labels": {
-        "joinMessage": "Welcome",
-        "leaveMessage": "Leave",
-        "modMailMessage": "Mod-Mail",
-        "registerJoinMessage": "Register"
-      },
-      "messages": {
-        "set": "Successfully set **{{label}}** message.",
-        "unset": "Successfully removed **{{label}}** message."
-      },
-      "timeout": "Message timed out.",
-      "title": "Set {{label}} Message"
-    },
-    "dynamicRole": {
-      "errors": {
-        "roleTooHigh": "The role you selected is too high. Please select a role that is lower than the bot's role."
-      },
-      "initial": "Select a role below...",
-      "labels": {
-        "colourIdOfTheDay": "Colour of the Day Role",
-        "djRoleId": "DJ Role",
-        "femaleRoleId": "Female Role",
-        "maleRoleId": "Male Role",
-        "memberRoleId": "Member Role",
-        "muteRoleId": "Mute Role",
-        "staffRoleId": "Staff Role",
-        "unverifiedRoleId": "Unverified Role"
-      },
-      "messages": {
-        "set": "Successfully set **{{label}}** to {{role}}.",
-        "unset": "Successfully disabled **{{label}}**."
-      },
-      "timeout": "Menu timed out."
     },
     "infractionsPunishment": {
       "alreadyMuted": "The user is already muted.",
@@ -1652,24 +1457,6 @@ interface Resources {
       "noPermission": "I do not have the required permissions to perform this action. Please ensure I have the appropriate permissions and try again.",
       "reason": "Automatic punishment escalation (strike {{level}})",
       "roleError": "An error occurred while trying to add/remove a role. Please check the bot's permissions and try again."
-    },
-    "joinLeaveConfig": {
-      "joinChannelId": {
-        "description": "The channel where the welcome message will be sent.",
-        "label": "Set Welcome Channel"
-      },
-      "joinMessage": {
-        "description": "The message that will be sent when a member joins the server.",
-        "label": "Set Welcome Message"
-      },
-      "leaveChannelId": {
-        "description": "The channel where the leave message will be sent.",
-        "label": "Set Leave Channel"
-      },
-      "leaveMessage": {
-        "description": "The message that will be sent when a member leaves the server.",
-        "label": "Set Leave Message"
-      }
     },
     "logConfig": {
       "channelLogsChannelId": {
@@ -1731,14 +1518,6 @@ interface Resources {
       "webhookLogsChannelId": {
         "description": "The channel where webhook logs will be sent.",
         "label": "Set Webhook Logs Channel"
-      }
-    },
-    "miscConfig": {
-      "language": {
-        "description": "The language the bot will use."
-      },
-      "modMailMessage": {
-        "description": "The message that will be sent by the bot when a user sends a mod-mail."
       }
     },
     "modLog": {
@@ -1819,36 +1598,6 @@ interface Resources {
       "registerJoinMessage": {
         "description": "The message that will be sent when a member joins the server.",
         "label": "Set Register Message"
-      }
-    },
-    "roleConfig": {
-      "colourIdOfTheDay": {
-        "description": "A role that changes every day.",
-        "label": "Set Colour of the Day Role"
-      },
-      "djRoleId": {
-        "description": "A role that bypasses the music command restrictions.",
-        "label": "Set DJ Role"
-      },
-      "femaleRoleId": {
-        "description": "The role given when a member registers as female",
-        "label": "Set Female Role"
-      },
-      "maleRoleId": {
-        "description": "The role given when a member registers as male.",
-        "label": "Set Male Role"
-      },
-      "memberRoleId": {
-        "description": "The role given when a member registers.",
-        "label": "Set Member Role"
-      },
-      "muteRoleId": {
-        "description": "The role given when a member is muted.",
-        "label": "Set Mute Role"
-      },
-      "unverifiedRoleId": {
-        "description": "The role given when a member joins the server if the registration module is enabled.",
-        "label": "Set Unverified Role"
       }
     },
     "waitForMessageComponent": {

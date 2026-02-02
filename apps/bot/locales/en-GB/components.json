@@ -1,44 +1,35 @@
 {
   "config": {
-    "modMailMessage": {
-      "modal": {
-        "title": "Edit Mod Mail Message",
-        "description": "Set up the message that will be sent to users when they open a mod mail ticket.",
-        "label": {
-          "messageContent": "Message Content",
-          "placeholders": "Placeholders"
-        },
-        "placeholder": {
-          "messageContent": "Enter the message content here..."
-        }
-      }
-    },
     "joinChannelId": {
       "modal": {
-        "title": "Set Join Message",
-        "description": "Configure the message sent to the Join Channel when a new user joins the server.",
         "label": {
-          "joinMessage": "Join Message",
-          "placeholders": "Placeholders"
-        }
+          "joinMessage": "Join Message"
+        },
+        "title": "Set Join Message"
       },
       "test": {
-        "pass": "{{check}} Test message sent to <#{{channelId}}>!",
-        "fail": "{{reject}} Could not send message.\n- Check if the channel is set.\n- Check if the bot has **Send Messages** permission in that channel."
+        "fail": "{{reject}} Could not send message.\n- Check if the channel is set.\n- Check if the bot has **Send Messages** permission in that channel.",
+        "pass": "{{check}} Test message sent to <#{{channelId}}>!"
       }
     },
     "leaveChannelId": {
       "modal": {
-        "title": "Set Leave Message",
-        "description": "Configure the message sent to the Leave Channel when a user leaves the server.",
         "label": {
-          "leaveMessage": "Leave Message",
-          "placeholders": "Placeholders"
-        }
+          "leaveMessage": "Leave Message"
+        },
+        "title": "Set Leave Message"
       },
       "test": {
-        "pass": "{{check}} Test message sent to <#{{channelId}}>!",
-        "fail": "{{reject}} Could not send message.\n- Check if the channel is set.\n- Check if the bot has **Send Messages** permission in that channel."
+        "fail": "{{reject}} Could not send message.\n- Check if the channel is set.\n- Check if the bot has **Send Messages** permission in that channel.",
+        "pass": "{{check}} Test message sent to <#{{channelId}}>!"
+      }
+    },
+    "modMailMessage": {
+      "modal": {
+        "label": {
+          "messageContent": "Message Content"
+        },
+        "title": "Edit Mod Mail Message"
       }
     }
   }

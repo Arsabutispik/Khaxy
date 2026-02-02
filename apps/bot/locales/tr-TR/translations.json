@@ -6,72 +6,15 @@
     "banExpired": "",
     "muteExpired": ""
   },
-  "dynamicChannel": {
-    "initial": "",
-    "labels": {
-      "channelLogsChannelId": "",
-      "emojiLogsChannelId": "",
-      "eventLogsChannelId": "",
-      "guildLogsChannelId": "",
-      "guildMemberLogsChannelId": "",
-      "inviteLogsChannelId": "",
-      "joinChannelId": "",
-      "leaveChannelId": "",
-      "messageLogsChannelId": "",
-      "modLogsChannelId": "",
-      "modMailChannelId": "",
-      "pollLogsChannelId": "",
-      "registerChannelId": "",
-      "registerJoinChannelId": "",
-      "roleLogsChannelId": "",
-      "soundboardLogsChannelId": "",
-      "stageLogsChannelId": "",
-      "stickerLogsChannelId": "",
-      "threadLogsChannelId": "",
-      "voiceLogsChannelId": "",
-      "webhookLogsChannelId": ""
-    },
-    "messages": {
-      "set": "",
-      "unset": ""
-    },
-    "timeout": ""
-  },
-  "dynamicMessage": {
-    "initial": "",
-    "labels": {
-      "joinMessage": "",
-      "leaveMessage": "",
-      "modMailMessage": "",
-      "registerJoinMessage": ""
-    },
-    "messages": {
-      "set": "",
-      "unset": ""
-    },
-    "timeout": "",
-    "title": ""
-  },
-  "dynamicRole": {
-    "errors": {
-      "roleTooHigh": ""
-    },
-    "initial": "",
-    "labels": {
-      "colourIdOfTheDay": "",
-      "djRoleId": "",
-      "femaleRoleId": "",
-      "maleRoleId": "",
-      "memberRoleId": "",
-      "muteRoleId": "",
-      "staffRoleId": "",
-      "unverifiedRoleId": ""
-    },
-    "messages": {
-      "set": "",
-      "unset": ""
-    },
-    "timeout": ""
+  "configPanels": {
+    "navigation": {
+      "misc": "",
+      "placeholder": "",
+      "prompt": "",
+      "reset": "",
+      "role": "",
+      "welcomeLeave": ""
+    }
   },
   "infractionsPunishment": {
     "alreadyMuted": "Kullanıcı zaten susturulmuş, lütfen önce susturmayı kaldırın ve tekrar deneyin.",
@@ -87,24 +30,6 @@
     "noPermission": "Kullanıcıyı susturmak için yeterli iznim yok, lütfen yetkili rolünü kontrol edin ve tekrar deneyin.",
     "reason": "Otomatik ceza artırımı (uyarı {{level}})",
     "roleError": "Susturma rolünü kullanıcıya veremedim, lütfen yetkili rolünü ve botun yetkilerini kontrol edin ve tekrar deneyin."
-  },
-  "joinLeaveConfig": {
-    "joinChannelId": {
-      "description": "Üye katıldığında gönderilen mesajın gönderildiği kanal",
-      "label": "Katılma Kanalını Ayarla"
-    },
-    "joinMessage": {
-      "description": "Üye katıldığında gönderilen mesaj",
-      "label": "Katılma Mesajını Ayarla"
-    },
-    "leaveChannelId": {
-      "description": "Üye ayrıldığında gönderilen mesajın gönderildiği kanal",
-      "label": "Ayrılma Kanalını Ayarla"
-    },
-    "leaveMessage": {
-      "description": "Üye ayrıldığında gönderilen mesaj",
-      "label": "Ayrılma Mesajını Ayarla"
-    }
   },
   "logConfig": {
     "channelLogsChannelId": {
@@ -167,29 +92,6 @@
       "description": "Webhooklar üzerinde yapılan değişiklerin kaydedildiği kanal",
       "label": "Webhook Günlükleri Kanalını Ayarla"
     }
-  },
-  "configPanels": {
-    "miscConfig": {
-      "language": {
-        "description": "# Sunucu Dili\nBu sunucuda kullanılacak dili ayarlar."
-      },
-      "modMailMessage": {
-        "description": "# Mod Mail Mesajı\nMod mail açıldığında botun göndereceği mesajı ayarlar."
-      }
-    }
-  },
-  "miscConfig": {
-    "language": {
-      "description": "Botun dilini ayarlar",
-      "initial": "Ayarlamak istediğiniz dili seçin",
-      "label": "Dil Ayarla",
-      "set": "Dil ayarı {{language}} olarak ayarlandı."
-    },
-    "modMailMessage": {
-      "description": "Mod mail alındığında botun gönderdiği mesaj",
-      "label": "Mod Mail Mesajını Ayarla"
-    },
-    "timeout": "Mesaj zaman aşımına uğradı. Lütfen komutu tekrar çalıştırın."
   },
   "moderationConfig": {
     "defaultExpiry": {
@@ -269,36 +171,6 @@
     "registerJoinMessage": {
       "description": "Üye katıldığında gönderilen mesaj",
       "label": "Kayıt Giriş Mesajını Ayarla"
-    }
-  },
-  "roleConfig": {
-    "colourIdOfTheDay": {
-      "description": "Her gün değişen bir rol.",
-      "label": "Günün Rengi Rolünü Ayarla"
-    },
-    "djRoleId": {
-      "description": "Müzik komutu kısıtlamalarını atlayan bir rol",
-      "label": "DJ Rolünü Ayarla"
-    },
-    "femaleRoleId": {
-      "description": "Üye kadın olarak kayıt olduğunda verilen rol",
-      "label": "Kadın Rolünü Ayarla"
-    },
-    "maleRoleId": {
-      "description": "Üye erkek olarak kayıt olduğunda verilen rol",
-      "label": "Erkek Rolünü Ayarla"
-    },
-    "memberRoleId": {
-      "description": "Üye kayıt olduğunda verilen rol",
-      "label": "Üye Rolünü Ayarla"
-    },
-    "muteRoleId": {
-      "description": "Üye susturulduğunda verilen rol",
-      "label": "Susturma Rolünü Ayarla"
-    },
-    "unverifiedRoleId": {
-      "description": "Üye sunucuya katıldığında kayıt modülü açıksa verilen rol",
-      "label": "Doğrulanmamış Rolünü Ayarla"
     }
   },
   "waitForMessageComponent": {
