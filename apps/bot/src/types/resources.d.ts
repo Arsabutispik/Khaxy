@@ -356,6 +356,20 @@ interface Resources {
           "pass": "{{check}} Test message sent to <#{{channelId}}>!"
         }
       },
+      "leaveChannelId": {
+        "modal": {
+          "description": "Configure the message sent to the Leave Channel when a user leaves the server.",
+          "label": {
+            "leaveMessage": "Leave Message",
+            "placeholders": "Placeholders"
+          },
+          "title": "Set Leave Message"
+        },
+        "test": {
+          "fail": "{{reject}} Could not send message.\n- Check if the channel is set.\n- Check if the bot has **Send Messages** permission in that channel.",
+          "pass": "{{check}} Test message sent to <#{{channelId}}>!"
+        }
+      },
       "modMailMessage": {
         "modal": {
           "description": "Set up the message that will be sent to users when they open a mod mail ticket.",
@@ -1545,8 +1559,9 @@ interface Resources {
           "resetButtonLabel": "Reset Welcome Message"
         },
         "leaveChannelId": {
-          "description": "Leave Channel\nThe channel where the leave message will be sent.",
-          "placeholder": "No leave channel set."
+          "description": "Leave Channel\nThe channel where the leave message will be sent.\n-# {{limit}}/2000 characters used.",
+          "placeholder": "No leave channel set.",
+          "testButtonLabel": "Test Leave Message"
         },
         "leaveMessage": {
           "buttonLabel": "Edit Leave Message",

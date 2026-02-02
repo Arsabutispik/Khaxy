@@ -26,6 +26,20 @@
         "pass": "{{check}} Test message sent to <#{{channelId}}>!",
         "fail": "{{reject}} Could not send message.\n- Check if the channel is set.\n- Check if the bot has **Send Messages** permission in that channel."
       }
+    },
+    "leaveChannelId": {
+      "modal": {
+        "title": "Set Leave Message",
+        "description": "Configure the message sent to the Leave Channel when a user leaves the server.",
+        "label": {
+          "leaveMessage": "Leave Message",
+          "placeholders": "Placeholders"
+        }
+      },
+      "test": {
+        "pass": "{{check}} Test message sent to <#{{channelId}}>!",
+        "fail": "{{reject}} Could not send message.\n- Check if the channel is set.\n- Check if the bot has **Send Messages** permission in that channel."
+      }
     }
   }
 }

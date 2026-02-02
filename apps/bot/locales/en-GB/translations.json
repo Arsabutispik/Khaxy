@@ -219,8 +219,9 @@
         "testButtonLabel": "Test Welcome Message"
       },
       "leaveChannelId": {
-        "description": "Leave Channel\nThe channel where the leave message will be sent.",
-        "placeholder": "No leave channel set."
+        "description": "Leave Channel\nThe channel where the leave message will be sent.\n-# {{limit}}/2000 characters used.",
+        "placeholder": "No leave channel set.",
+        "testButtonLabel": "Test Leave Message"
       },
       "joinMessage": {
         "description": "Welcome Message\nThe message that will be sent when a member joins the server.\n-# {{limit}}/2000 characters used.",
