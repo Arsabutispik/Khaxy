@@ -124,14 +124,24 @@ export default {
         }
       }
     } else if (interaction.isMessageComponent() || interaction.isModalSubmit()) {
-      let command = interaction.client.componentCommands.get(interaction.customId);
+      const parts = interaction.customId.split(":");
+      let command;
+      let args: string[] = [];
 
-      // Fallback: try prefix matching
-      if (!command) {
-        const prefix = interaction.customId.split(":").slice(0, 2).join(":");
-        command = interaction.client.componentCommands.get(prefix);
+      // Iterate backwards from the full ID down to the first segment
+      for (let i = parts.length; i > 0; i--) {
+        const possibleKey = parts.slice(0, i).join(":");
+
+        // Check if a command is registered with this specific key structure
+        const found = interaction.client.componentCommands.get(possibleKey);
+
+        if (found) {
+          command = found;
+          // Everything remaining after the key is considered an argument
+          args = parts.slice(i);
+          break;
+        }
       }
-      const [, ...args] = interaction.customId.split(":").slice(1);
       if (!command) {
         logger.log({
           level: "warn",

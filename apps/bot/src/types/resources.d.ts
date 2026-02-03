@@ -313,6 +313,9 @@ interface Resources {
           "title": "Edit Mod Mail Message"
         }
       }
+    },
+    "dynamicRole": {
+      "notEditable": "{{role}} is not editable by the bot. Please adjust the role's position in the server settings to be below the bot's highest role."
     }
   },
   "events": {
@@ -1447,7 +1450,6 @@ interface Resources {
       "navigation": {
         "misc": "Miscellaneous Configuration",
         "placeholder": "Select a configuration panel...",
-        "prompt": "Use the buttons below to navigate through the configuration panels.",
         "reset": "Reset",
         "role": "Role Configuration",
         "welcomeLeave": "Welcome & Leave Configuration"

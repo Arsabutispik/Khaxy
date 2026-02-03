@@ -13,6 +13,9 @@ import {
 import { BaseConfigPanel } from "./utils.js";
 
 export class WelcomeLeaveConfigPanel extends BaseConfigPanel {
+  override getTotalPages(): number {
+    return 1;
+  }
   override async render() {
     return new ContainerBuilder()
       .addSectionComponents(

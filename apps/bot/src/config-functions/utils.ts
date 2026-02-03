@@ -15,26 +15,30 @@ import {
   StringSelectMenuBuilder,
   StringSelectMenuInteraction,
   StringSelectMenuOptionBuilder,
-  TextDisplayBuilder,
 } from "discord.js";
 import { logger } from "@lib";
 import { GuildWithLogs, updateGuildConfig } from "@repo/database";
 import { DbConfigKey } from "@constants";
 import { TFunction } from "i18next";
+import { addPaginationButtons } from "@utils";
 
 export abstract class BaseConfigPanel {
   protected guildData: GuildWithLogs;
   private readonly client: Client;
-  constructor(guildData: GuildWithLogs, client: Client) {
+  protected currentPage: number = 1;
+
+  constructor(guildData: GuildWithLogs, client: Client, page: number = 1) {
     this.guildData = guildData;
     this.client = client;
+    this.currentPage = page;
     this.t = client.i18next.getFixedT(this.guildData.language, "translations", "configPanels");
   }
 
   protected t: TFunction<"translations", "configPanels">;
   abstract render(): Promise<ContainerBuilder>;
+  abstract getTotalPages(): number;
   protected getNavigator(defaultValue: string) {
-    return new ContainerBuilder()
+    const container = new ContainerBuilder()
       .addActionRowComponents(
         new ActionRowBuilder<ButtonBuilder>().addComponents(
           new ButtonBuilder()
@@ -44,7 +48,6 @@ export abstract class BaseConfigPanel {
             .setEmoji("🔄"),
         ),
       )
-      .addTextDisplayComponents(new TextDisplayBuilder().setContent(this.t(($) => $.navigation.prompt)))
       .addActionRowComponents(
         new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
           new StringSelectMenuBuilder()
@@ -71,6 +74,15 @@ export abstract class BaseConfigPanel {
             ),
         ),
       );
+    const totalPages = this.getTotalPages();
+    if (totalPages > 1) {
+      return addPaginationButtons(container, {
+        currentPage: this.currentPage,
+        totalPages,
+        customIdPrefix: `config:${defaultValue}:page`,
+      });
+    }
+    return container;
   }
   async show(
     interaction:
@@ -196,8 +208,17 @@ export async function dynamicRole(
   defaultValue: string,
 ) {
   await interaction.deferUpdate();
-  const newRoleId = interaction.values[0] || null;
-
+  let newRoleId = interaction.values[0] || null;
+  const role = interaction.guild.roles.cache.get(newRoleId || "");
+  if (role && !role.editable) {
+    // Role not editable by bot
+    const t = interaction.client.i18next.getFixedT(guildData.language, "components", "dynamicRole");
+    await interaction.followUp({
+      content: t(($) => $.notEditable, { role: role.name }),
+      flags: MessageFlags.Ephemeral,
+    });
+    newRoleId = null;
+  }
   await updateGuildConfig(interaction.guildId, { [dbKey]: newRoleId });
 
   const panel = new PanelClass(guildData, interaction.client);

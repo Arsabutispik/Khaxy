@@ -32,5 +32,8 @@
         "title": ""
       }
     }
+  },
+  "dynamicRole": {
+    "notEditable": ""
   }
 }

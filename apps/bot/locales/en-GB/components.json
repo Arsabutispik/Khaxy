@@ -32,5 +32,8 @@
         "title": "Edit Mod Mail Message"
       }
     }
+  },
+  "dynamicRole": {
+    "notEditable": "{{role}} is not editable by the bot. Please adjust the role's position in the server settings to be below the bot's highest role."
   }
 }

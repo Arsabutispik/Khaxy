@@ -13,6 +13,9 @@ import { BaseConfigPanel } from "./utils.js";
 import { localeFlags } from "@constants";
 
 export class MiscConfigPanel extends BaseConfigPanel {
+  getTotalPages(): number {
+    return 1;
+  }
   override async render() {
     return new ContainerBuilder()
       .addTextDisplayComponents(
