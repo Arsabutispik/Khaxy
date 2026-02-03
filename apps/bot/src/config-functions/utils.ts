@@ -25,14 +25,10 @@ import { TFunction } from "i18next";
 export abstract class BaseConfigPanel {
   protected guildData: GuildWithLogs;
   private readonly client: Client;
-
-  protected getTranslationFunction(client: Client) {
-    return client.i18next.getFixedT(this.guildData.language, "translations", "configPanels");
-  }
   constructor(guildData: GuildWithLogs, client: Client) {
     this.guildData = guildData;
     this.client = client;
-    this.t = this.getTranslationFunction(client);
+    this.t = client.i18next.getFixedT(this.guildData.language, "translations", "configPanels");
   }
 
   protected t: TFunction<"translations", "configPanels">;
@@ -111,7 +107,7 @@ export abstract class BaseConfigPanel {
 
     // Update translation function if language changed
     if ("language" in updates) {
-      this.t = this.getTranslationFunction(this.client);
+      this.t = this.client.i18next.getFixedT(this.guildData.language, "translations", "configPanels");
     }
 
     // Re-render the panel

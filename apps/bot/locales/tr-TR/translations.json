@@ -7,6 +7,16 @@
     "muteExpired": ""
   },
   "configPanels": {
+    "miscConfig": {
+      "language": {
+        "description": ""
+      },
+      "modMailMessage": {
+        "buttonLabel": "",
+        "description": "",
+        "resetButtonLabel": ""
+      }
+    },
     "navigation": {
       "misc": "",
       "placeholder": "",
@@ -14,6 +24,50 @@
       "reset": "",
       "role": "",
       "welcomeLeave": ""
+    },
+    "roleConfig": {
+      "colourIdOfTheDay": {
+        "description": "",
+        "placeholder": ""
+      },
+      "femaleRoleId": {
+        "description": "",
+        "placeholder": ""
+      },
+      "maleRoleId": {
+        "description": "",
+        "placeholder": ""
+      },
+      "memberRoleId": {
+        "description": "",
+        "placeholder": ""
+      },
+      "muteRoleId": {
+        "description": "",
+        "placeholder": ""
+      },
+      "unverifiedRoleId": {
+        "description": "",
+        "placeholder": ""
+      }
+    },
+    "welcomeLeaveConfig": {
+      "joinChannelId": {
+        "description": "",
+        "placeholder": "",
+        "testButtonLabel": ""
+      },
+      "joinMessage": {
+        "buttonLabel": ""
+      },
+      "leaveChannelId": {
+        "description": "",
+        "placeholder": "",
+        "testButtonLabel": ""
+      },
+      "leaveMessage": {
+        "buttonLabel": ""
+      }
     }
   },
   "infractionsPunishment": {

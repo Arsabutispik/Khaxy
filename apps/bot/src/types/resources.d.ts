@@ -1434,6 +1434,16 @@ interface Resources {
       "muteExpired": "Mute expired after {{duration}}."
     },
     "configPanels": {
+      "miscConfig": {
+        "language": {
+          "description": "Guild Language\nThe language the bot will use in this server."
+        },
+        "modMailMessage": {
+          "buttonLabel": "Edit Mod-Mail Message",
+          "description": "Mod-Mail Message\nThe message that will be sent by the bot when a user sends a mod-mail.\n-# {{limit}}/2000 characters used.",
+          "resetButtonLabel": "Reset Mod-Mail Message"
+        }
+      },
       "navigation": {
         "misc": "Miscellaneous Configuration",
         "placeholder": "Select a configuration panel...",
@@ -1441,6 +1451,50 @@ interface Resources {
         "reset": "Reset",
         "role": "Role Configuration",
         "welcomeLeave": "Welcome & Leave Configuration"
+      },
+      "roleConfig": {
+        "colourIdOfTheDay": {
+          "description": "Colour of the Day Role\nA role that changes colour every day.",
+          "placeholder": "No colour of the day role set."
+        },
+        "femaleRoleId": {
+          "description": "Female Role\nThe role given when a member registers as female",
+          "placeholder": "No female role set."
+        },
+        "maleRoleId": {
+          "description": "Male Role\nThe role given when a member registers as male",
+          "placeholder": "No male role set."
+        },
+        "memberRoleId": {
+          "description": "Member Role\nThe role given when a member registers. If the registration module is disabled it is given when a member joins the server.",
+          "placeholder": "No member role set."
+        },
+        "muteRoleId": {
+          "description": "Mute Role\nThe role given when a member is muted.",
+          "placeholder": "No mute role set."
+        },
+        "unverifiedRoleId": {
+          "description": "Unverified Role\nThe role given when a member joins the server if the registration module is enabled.",
+          "placeholder": "No unverified role set."
+        }
+      },
+      "welcomeLeaveConfig": {
+        "joinChannelId": {
+          "description": "Welcome Channel\nThe channel where the welcome message will be sent.\n-# {{limit}}/2000 characters used.",
+          "placeholder": "No welcome channel set.",
+          "testButtonLabel": "Test Welcome Message"
+        },
+        "joinMessage": {
+          "buttonLabel": "Edit Welcome Message"
+        },
+        "leaveChannelId": {
+          "description": "Leave Channel\nThe channel where the leave message will be sent.\n-# {{limit}}/2000 characters used.",
+          "placeholder": "No leave channel set.",
+          "testButtonLabel": "Test Leave Message"
+        },
+        "leaveMessage": {
+          "buttonLabel": "Edit Leave Message"
+        }
       }
     },
     "infractionsPunishment": {

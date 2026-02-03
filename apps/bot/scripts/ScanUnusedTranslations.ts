@@ -13,6 +13,12 @@ const CONFIG = {
   srcExtensions: [".ts", ".tsx", ".js", ".jsx"],
   // Namespaces to ignore (will not report unused keys in these files)
   ignoredNamespaces: ["locales", "system-channel-flags", "guild-features"],
+  parentBasePaths: {
+    BaseConfigPanel: "translations.configPanels",
+    // Add more parent classes here as you create them:
+    // "BaseModerationPanel": "translations.moderation",
+    // "BaseLogPanel": "translations.logConfig",
+  } as Record<string, string>,
 };
 
 // ============================================================================
@@ -143,6 +149,11 @@ function scanSelectorUsage() {
     const fixedTMultiArgRegex =
       /(?:const|let|var)\s+(\w+)\s*=\s*[\w.]+\.getFixedT\s*\(\s*[^,]+,\s*(null|"([^"]+)"|'([^']+)')\s*(?:,\s*(?:"([^"]+)"|'([^']+)'|null))?\s*\)/g;
 
+    const fixedTPropertyAssignmentRegex =
+      /this\.(\w+)\s*=\s*[\w.]+\.getFixedT\s*\(\s*[^,]+,\s*(null|"([^"]+)"|'([^']+)')\s*(?:,\s*(?:"([^"]+)"|'([^']+)'|null))?\s*\)/g;
+
+    // Track classes that extend parents with known translation functions
+    const classExtendsRegex = /class\s+(\w+)\s+extends\s+(\w+)/g;
     let match;
 
     // Check for single-arg getFixedT first (defaults to translations)
@@ -166,6 +177,35 @@ function scanSelectorUsage() {
 
       addBasePath(varName, basePath);
       if (isVerbose) console.log(chalk.gray(`   Found getFixedT: ${varName} -> "${basePath}" in ${fileName}`));
+    }
+    while ((match = classExtendsRegex.exec(content)) !== null) {
+      const className = match[1];
+      const parentClass = match[2];
+
+      if (parentClass in CONFIG.parentBasePaths) {
+        addBasePath("t", CONFIG.parentBasePaths[parentClass]);
+        if (isVerbose) {
+          console.log(
+            chalk.gray(
+              `   Class ${className} extends ${parentClass} -> this.t uses "${CONFIG.parentBasePaths[parentClass]}" in ${fileName}`,
+            ),
+          );
+        }
+      }
+    }
+    while ((match = fixedTPropertyAssignmentRegex.exec(content)) !== null) {
+      const varName = match[1];
+      const isNullNamespace = match[2] === "null";
+      const namespace = isNullNamespace ? "translations" : match[3] || match[4] || "";
+      const keyPrefix = match[5] || match[6] || "";
+
+      let basePath = "";
+      if (namespace) basePath = namespace;
+      if (keyPrefix) basePath = basePath ? `${basePath}.${keyPrefix}` : keyPrefix;
+
+      addBasePath(varName, basePath);
+      if (isVerbose)
+        console.log(chalk.gray(`   Found getFixedT (property): this.${varName} -> "${basePath}" in ${fileName}`));
     }
 
     // Also find TFunction type annotations for function parameters
@@ -332,7 +372,11 @@ async function processLanguage(
         grouped[ns].push(k);
       });
       Object.entries(grouped).forEach(([ns, kList]) => {
-        console.log(chalk.cyan(`  ${ns} (${kList.length})`));
+        console.log(chalk.cyan(`  ${ns} (${kList.length}):`));
+        // ADD THIS: Show the actual keys
+        kList.forEach((key) => {
+          console.log(chalk.gray(`    - ${key}`));
+        });
       });
       return true;
     }
