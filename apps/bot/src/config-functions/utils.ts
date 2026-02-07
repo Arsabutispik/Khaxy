@@ -71,6 +71,11 @@ export abstract class BaseConfigPanel {
                 .setValue("welcomeLeave")
                 .setEmoji("👋")
                 .setDefault(defaultValue === "welcomeLeave"),
+              new StringSelectMenuOptionBuilder()
+                .setLabel(this.t(($) => $.navigation.register))
+                .setValue("register")
+                .setEmoji("📝")
+                .setDefault(defaultValue === "register"),
             ),
         ),
       );

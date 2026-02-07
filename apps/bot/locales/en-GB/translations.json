@@ -22,7 +22,8 @@
       "placeholder": "Select a configuration panel...",
       "reset": "Reset",
       "role": "Role Configuration",
-      "welcomeLeave": "Welcome & Leave Configuration"
+      "welcomeLeave": "Welcome & Leave Configuration",
+      "register": "Register Configuration"
     },
     "roleConfig": {
       "colourIdOfTheDay": {
@@ -66,6 +67,13 @@
       },
       "leaveMessage": {
         "buttonLabel": "Edit Leave Message"
+      }
+    },
+    "registerConfig": {
+      "registerJoinChannelId": {
+        "description": "Register Join Channel\nThe channel where the register message will be sent.\n-# {{limit}}/2000 characters used.",
+        "placeholder": "No register join channel set.",
+        "testButtonLabel": "Test Register Join Message"
       }
     }
   },

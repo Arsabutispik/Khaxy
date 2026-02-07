@@ -1,6 +1,6 @@
 import type { SlashCommandBase } from "@types";
 import { InteractionContextType, PermissionsBitField, SlashCommandBuilder } from "discord.js";
-import { MiscConfigPanel } from "../../config-functions/index.js";
+import { MiscConfigPanel, RegisterConfigPanel, RoleConfigPanel, WelcomeLeaveConfigPanel } from "@config";
 
 export default {
   memberPermissions: [PermissionsBitField.Flags.Administrator],
@@ -29,6 +29,15 @@ export default {
     switch (setting) {
       case "misc":
         await new MiscConfigPanel(guildConfig, interaction.client).show(interaction, setting);
+        break;
+      case "role":
+        await new RoleConfigPanel(guildConfig, interaction.client).show(interaction, setting);
+        break;
+      case "welcomeLeave":
+        await new WelcomeLeaveConfigPanel(guildConfig, interaction.client).show(interaction, setting);
+        break;
+      case "register":
+        await new RegisterConfigPanel(guildConfig, interaction.client).show(interaction, setting);
         break;
     }
   },

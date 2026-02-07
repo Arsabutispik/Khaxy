@@ -1,12 +1,41 @@
 import {
   ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
   ChatInputCommandInteraction,
+  ContainerBuilder,
+  SectionBuilder,
   StringSelectMenuBuilder,
   StringSelectMenuInteraction,
+  TextDisplayBuilder,
 } from "discord.js";
 import { GuildWithLogs, updateGuildConfig } from "@repo/database";
-import { waitForMessageComponent } from "./utils.js";
+import { BaseConfigPanel, waitForMessageComponent } from "./utils.js";
 import { TFunction } from "i18next";
+
+export class RegisterConfigPanel extends BaseConfigPanel {
+  override getTotalPages(): number {
+    return 1;
+  }
+  override async render() {
+    return new ContainerBuilder().addSectionComponents(
+      new SectionBuilder()
+        .setButtonAccessory(
+          new ButtonBuilder()
+            .setCustomId("config:registerConfig:registerJoinChannelId:test")
+            .setStyle(ButtonStyle.Success)
+            .setLabel(this.t(($) => $.registerConfig.registerJoinChannelId.testButtonLabel)),
+        )
+        .addTextDisplayComponents(
+          new TextDisplayBuilder().setContent(
+            this.t(($) => $.registerConfig.registerJoinChannelId.description, {
+              limit: this.guildData.registerJoinMessage ? this.guildData.registerJoinMessage.length : 0,
+            }),
+          ),
+        ),
+    );
+  }
+}
 
 export async function registerConfig(interaction: ChatInputCommandInteraction<"cached">, guildData: GuildWithLogs) {
   const client = interaction.client;

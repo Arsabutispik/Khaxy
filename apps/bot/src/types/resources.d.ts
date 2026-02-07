@@ -1450,9 +1450,17 @@ interface Resources {
       "navigation": {
         "misc": "Miscellaneous Configuration",
         "placeholder": "Select a configuration panel...",
+        "register": "Register Configuration",
         "reset": "Reset",
         "role": "Role Configuration",
         "welcomeLeave": "Welcome & Leave Configuration"
+      },
+      "registerConfig": {
+        "registerJoinChannelId": {
+          "description": "Register Join Channel\nThe channel where the register message will be sent.\n-# {{limit}}/2000 characters used.",
+          "placeholder": "No register join channel set.",
+          "testButtonLabel": "Test Register Join Message"
+        }
       },
       "roleConfig": {
         "colourIdOfTheDay": {
