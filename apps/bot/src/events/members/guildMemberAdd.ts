@@ -1,10 +1,10 @@
 import type { EventBase } from "@types";
-import { ChannelType, EmbedBuilder, Events, PermissionsBitField, time, TimestampStyles } from "discord.js";
-import { replacePlaceholders, returnWebhook, WebhookType } from "@utils";
+import { ChannelType, EmbedBuilder, Events, time, TimestampStyles } from "discord.js";
+import { returnWebhook, WebhookType } from "@utils";
 import { logger } from "@lib";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime.js";
-import { getPunishmentsByUser, getOrCreateGuild } from "@repo/database";
+import { getOrCreateGuild, getPunishmentsByUser } from "@repo/database";
 import { sendRegisterMessage, sendWelcomeMessage } from "@features";
 
 export default {
