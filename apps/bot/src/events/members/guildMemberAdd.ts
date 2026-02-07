@@ -5,7 +5,7 @@ import { logger } from "@lib";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime.js";
 import { getPunishmentsByUser, getOrCreateGuild } from "@repo/database";
-import { sendWelcomeMessage } from "@features";
+import { sendRegisterMessage, sendWelcomeMessage } from "@features";
 
 export default {
   name: Events.GuildMemberAdd,
@@ -46,38 +46,7 @@ export default {
     }
 
     // If a register welcome message and channel are configured, send the register welcome message to the channel
-    if (guildConfig.registerJoinChannelId && guildConfig.registerJoinMessage) {
-      const registerWelcomeChannel = member.guild.channels.cache.get(guildConfig.registerJoinChannelId);
-      if (
-        registerWelcomeChannel?.type === ChannelType.GuildText &&
-        registerWelcomeChannel.permissionsFor(member.guild.members.me!)?.has(PermissionsBitField.Flags.SendMessages)
-      ) {
-        const replacements = {
-          user: member.toString(),
-          server: member.guild.name,
-          memberCount: member.guild.memberCount.toString(),
-          name: member.user.username,
-          joinPosition: member.guild.memberCount.toString(),
-          createdAt: dayjs(member.user.createdAt).format("DD/MM/YYYY"),
-          createdAgo: dayjs(member.user.createdAt).fromNow(),
-        };
-        await registerWelcomeChannel.send(replacePlaceholders(guildConfig.registerJoinMessage, replacements));
-        // If the guild set up an unverified role, assign it to the member
-        if (guildConfig.unverifiedRoleId) {
-          await member.roles.add(guildConfig.unverifiedRoleId).catch((error) => {
-            logger.log({
-              level: "error",
-              error,
-              message: "Error assigning unverified role",
-              meta: {
-                guildID: member.guild.id,
-                userID: member.id,
-              },
-            });
-          });
-        }
-      }
-    }
+    await sendRegisterMessage(member, guildConfig);
     if (guildConfig.logConfig?.guildLogsChannelId) {
       const channel = member.guild.channels.cache.get(guildConfig.logConfig.guildLogsChannelId);
       if (channel?.type !== ChannelType.GuildText) return;

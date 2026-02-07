@@ -1,5 +1,5 @@
 import { ComponentBase } from "@types";
-import { MiscConfigPanel } from "@config";
+import { MiscConfigPanel, RegisterConfigPanel } from "@config";
 import { RoleConfigPanel } from "@config";
 import { WelcomeLeaveConfigPanel } from "@config";
 import { getOrCreateGuild } from "@repo/database";
@@ -31,6 +31,9 @@ export default {
         break;
       case "welcomeLeave":
         panel = new WelcomeLeaveConfigPanel(freshGuildData, interaction.client);
+        break;
+      case "register":
+        panel = new RegisterConfigPanel(freshGuildData, interaction.client);
         break;
       default:
         await interaction.followUp("Unknown panel type.");

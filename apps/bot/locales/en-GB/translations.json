@@ -74,6 +74,9 @@
         "description": "Register Join Channel\nThe channel where the register message will be sent.\n-# {{limit}}/2000 characters used.",
         "placeholder": "No register join channel set.",
         "testButtonLabel": "Test Register Join Message"
+      },
+      "registerMessage": {
+        "buttonLabel": "Edit Register Join Message"
       }
     }
   },

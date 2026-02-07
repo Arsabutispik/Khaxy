@@ -31,6 +31,18 @@
         },
         "title": "Edit Mod Mail Message"
       }
+    },
+    "registerJoinChannelId": {
+      "modal": {
+        "label": {
+          "messageContent": "Message Content"
+        },
+        "title": "Edit Registration Message"
+      },
+      "test": {
+        "fail": "{{reject}} Could not send message.\n- Check if the channel is set.\n- Check if the bot has **Send Messages** permission in that channel.",
+        "pass": "{{check}} Test message sent to <#{{channelId}}>!"
+      }
     }
   },
   "dynamicRole": {

@@ -312,6 +312,18 @@ interface Resources {
           },
           "title": "Edit Mod Mail Message"
         }
+      },
+      "registerJoinChannelId": {
+        "modal": {
+          "label": {
+            "messageContent": "Message Content"
+          },
+          "title": "Edit Registration Message"
+        },
+        "test": {
+          "fail": "{{reject}} Could not send message.\n- Check if the channel is set.\n- Check if the bot has **Send Messages** permission in that channel.",
+          "pass": "{{check}} Test message sent to <#{{channelId}}>!"
+        }
       }
     },
     "dynamicRole": {
@@ -1460,6 +1472,9 @@ interface Resources {
           "description": "Register Join Channel\nThe channel where the register message will be sent.\n-# {{limit}}/2000 characters used.",
           "placeholder": "No register join channel set.",
           "testButtonLabel": "Test Register Join Message"
+        },
+        "registerMessage": {
+          "buttonLabel": "Edit Register Join Message"
         }
       },
       "roleConfig": {
