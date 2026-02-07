@@ -1449,6 +1449,68 @@ interface Resources {
       "muteExpired": "Mute expired after {{duration}}."
     },
     "configPanels": {
+      "logConfig": {
+        "channelLogsChannelId": {
+          "description": "Channel Logs Channel\nThe channel where channel update logs will be sent.",
+          "placeholder": "No channel logs channel set."
+        },
+        "emojiLogsChannelId": {
+          "description": "Emoji Logs Channel\nThe channel where emoji update logs will be sent.",
+          "placeholder": "No emoji logs channel set."
+        },
+        "eventLogsChannelId": {
+          "description": "Event Logs Channel\nThe channel where event logs will be sent.",
+          "placeholder": "No event logs channel set."
+        },
+        "guildLogsChannelId": {
+          "description": "Guild Logs Channel\nThe channel where guild update logs will be sent.",
+          "placeholder": "No guild logs channel set."
+        },
+        "guildMemberLogsChannelId": {
+          "description": "Member Logs Channel\nThe channel where member update logs will be sent.",
+          "placeholder": "No member logs channel set."
+        },
+        "inviteLogsChannelId": {
+          "description": "Invite Logs Channel\nThe channel where invite logs will be sent.",
+          "placeholder": "No invite logs channel set."
+        },
+        "messageLogsChannelId": {
+          "description": "Message Logs Channel\nThe channel where message delete, message update, bulk delete logs will be sent.",
+          "placeholder": "No message logs channel set."
+        },
+        "pollLogsChannelId": {
+          "description": "Poll Logs Channel\nThe channel where poll logs will be sent.",
+          "placeholder": "No poll logs channel set."
+        },
+        "roleLogsChannelId": {
+          "description": "Role Logs Channel\nThe channel where role update logs will be sent.",
+          "placeholder": "No role logs channel set."
+        },
+        "soundboardLogsChannelId": {
+          "description": "Soundboard Logs Channel\nThe channel where soundboard logs will be sent.",
+          "placeholder": "No soundboard logs channel set."
+        },
+        "stageLogsChannelId": {
+          "description": "Stage Logs Channel\nThe channel where stage logs will be sent.",
+          "placeholder": "No stage logs channel set."
+        },
+        "stickerLogsChannelId": {
+          "description": "Sticker Logs Channel\nThe channel where sticker update logs will be sent.",
+          "placeholder": "No sticker logs channel set."
+        },
+        "threadLogsChannelId": {
+          "description": "Thread Logs Channel\nThe channel where thread logs will be sent.",
+          "placeholder": "No thread logs channel set."
+        },
+        "voiceLogsChannelId": {
+          "description": "Voice Logs Channel\nThe channel where voice update logs will be sent.",
+          "placeholder": "No voice logs channel set."
+        },
+        "webhookLogsChannelId": {
+          "description": "Webhook Logs Channel\nThe channel where webhook logs will be sent.",
+          "placeholder": "No webhook logs channel set."
+        }
+      },
       "miscConfig": {
         "language": {
           "description": "Guild Language\nThe language the bot will use in this server."
@@ -1460,6 +1522,7 @@ interface Resources {
         }
       },
       "navigation": {
+        "log": "Logging Configuration",
         "misc": "Miscellaneous Configuration",
         "placeholder": "Select a configuration panel...",
         "register": "Register Configuration",

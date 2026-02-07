@@ -17,7 +17,7 @@ import {
   StringSelectMenuOptionBuilder,
 } from "discord.js";
 import { logger } from "@lib";
-import { GuildWithLogs, updateGuildConfig } from "@repo/database";
+import { GuildWithLogs, updateGuildConfig, updateGuildLogs } from "@repo/database";
 import { DbConfigKey } from "@constants";
 import { TFunction } from "i18next";
 import { addPaginationButtons } from "@utils";
@@ -76,6 +76,11 @@ export abstract class BaseConfigPanel {
                 .setValue("register")
                 .setEmoji("📝")
                 .setDefault(defaultValue === "register"),
+              new StringSelectMenuOptionBuilder()
+                .setLabel(this.t(($) => $.navigation.log))
+                .setValue("log")
+                .setEmoji("📜")
+                .setDefault(defaultValue === "log"),
             ),
         ),
       );
@@ -178,6 +183,27 @@ export async function dynamicChannel(
   const newChannel = interaction.values[0];
 
   await updateGuildConfig(interaction.guildId, { [dbKey]: newChannel });
+
+  const panel = new PanelClass(guildData, interaction.client);
+
+  await panel.updateAndRefresh(interaction, defaultValue, {
+    [dbKey]: newChannel,
+  });
+}
+
+// --- Dynamic Log Channel ---
+export async function dynamicLogChannel(
+  dbKey: Extract<DbConfigKey, `${string}ChannelId`>,
+  interaction: ChannelSelectMenuInteraction<"cached">,
+  guildData: GuildWithLogs,
+  PanelClass: new (guildData: GuildWithLogs, client: Client) => BaseConfigPanel,
+  defaultValue: string,
+) {
+  await interaction.deferUpdate();
+
+  const newChannel = interaction.values[0];
+
+  await updateGuildLogs(interaction.guildId, { [dbKey]: newChannel });
 
   const panel = new PanelClass(guildData, interaction.client);
 
