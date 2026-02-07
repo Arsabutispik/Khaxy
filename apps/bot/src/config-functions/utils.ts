@@ -1,25 +1,141 @@
 import {
   ActionRowBuilder,
-  ChannelSelectMenuBuilder,
-  ChannelType,
+  ButtonBuilder,
+  ButtonStyle,
+  ChannelSelectMenuInteraction,
   ChatInputCommandInteraction,
+  Client,
   ComponentType,
-  LabelBuilder,
+  ContainerBuilder,
   MessageComponentInteraction,
+  MessageFlags,
   MessageFlagsBitField,
-  ModalBuilder,
   ModalSubmitInteraction,
-  RoleSelectMenuBuilder,
+  RoleSelectMenuInteraction,
   StringSelectMenuBuilder,
   StringSelectMenuInteraction,
-  TextInputBuilder,
-  TextInputStyle,
+  StringSelectMenuOptionBuilder,
 } from "discord.js";
 import { logger } from "@lib";
-import { GuildWithLogs } from "@repo/database";
-import { trimString, getCurrentValue, updateConfig } from "@utils";
+import { GuildWithLogs, updateGuildConfig, updateGuildLogs } from "@repo/database";
 import { DbConfigKey } from "@constants";
+import { TFunction } from "i18next";
+import { addPaginationButtons } from "@utils";
 
+export abstract class BaseConfigPanel {
+  protected guildData: GuildWithLogs;
+  private readonly client: Client;
+  protected currentPage: number = 1;
+
+  constructor(guildData: GuildWithLogs, client: Client, page: number = 1) {
+    this.guildData = guildData;
+    this.client = client;
+    this.currentPage = page;
+    this.t = client.i18next.getFixedT(this.guildData.language, "translations", "configPanels");
+  }
+
+  protected t: TFunction<"translations", "configPanels">;
+  abstract render(): Promise<ContainerBuilder>;
+  abstract getTotalPages(): number;
+  protected getNavigator(defaultValue: string) {
+    const container = new ContainerBuilder()
+      .addActionRowComponents(
+        new ActionRowBuilder<ButtonBuilder>().addComponents(
+          new ButtonBuilder()
+            .setCustomId(`config:reset:${defaultValue}`)
+            .setLabel(this.t(($) => $.navigation.reset))
+            .setStyle(ButtonStyle.Secondary)
+            .setEmoji("🔄"),
+        ),
+      )
+      .addActionRowComponents(
+        new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+          new StringSelectMenuBuilder()
+            .setCustomId("config:navigation")
+            .setPlaceholder(this.t(($) => $.navigation.placeholder))
+            .setMinValues(1)
+            .setMaxValues(1)
+            .addOptions(
+              new StringSelectMenuOptionBuilder()
+                .setLabel(this.t(($) => $.navigation.misc))
+                .setValue("misc")
+                .setEmoji("⚙️")
+                .setDefault(defaultValue === "misc"),
+              new StringSelectMenuOptionBuilder()
+                .setLabel(this.t(($) => $.navigation.role))
+                .setValue("role")
+                .setEmoji("🎭")
+                .setDefault(defaultValue === "role"),
+              new StringSelectMenuOptionBuilder()
+                .setLabel(this.t(($) => $.navigation.welcomeLeave))
+                .setValue("welcomeLeave")
+                .setEmoji("👋")
+                .setDefault(defaultValue === "welcomeLeave"),
+              new StringSelectMenuOptionBuilder()
+                .setLabel(this.t(($) => $.navigation.register))
+                .setValue("register")
+                .setEmoji("📝")
+                .setDefault(defaultValue === "register"),
+              new StringSelectMenuOptionBuilder()
+                .setLabel(this.t(($) => $.navigation.log))
+                .setValue("log")
+                .setEmoji("📜")
+                .setDefault(defaultValue === "log"),
+            ),
+        ),
+      );
+    const totalPages = this.getTotalPages();
+    if (totalPages > 1) {
+      return addPaginationButtons(container, {
+        currentPage: this.currentPage,
+        totalPages,
+        customIdPrefix: `config:${defaultValue}:page`,
+      });
+    }
+    return container;
+  }
+  async show(
+    interaction:
+      | ChatInputCommandInteraction<"cached">
+      | MessageComponentInteraction<"cached">
+      | ModalSubmitInteraction<"cached">,
+    defaultValue: string,
+  ) {
+    const rendered = await this.render();
+    const navigator = this.getNavigator(defaultValue);
+    if (interaction.deferred || interaction.replied) {
+      await interaction.editReply({
+        components: [navigator, rendered],
+        flags: MessageFlags.IsComponentsV2,
+      });
+    } else {
+      await interaction.reply({
+        components: [navigator, rendered],
+        flags: [MessageFlags.Ephemeral, MessageFlags.IsComponentsV2],
+      });
+    }
+  }
+
+  async updateAndRefresh(
+    interaction:
+      | ChatInputCommandInteraction<"cached">
+      | MessageComponentInteraction<"cached">
+      | ModalSubmitInteraction<"cached">,
+    defaultValue: string,
+    updates: Partial<GuildWithLogs>,
+  ) {
+    // Update guildData in memory
+    Object.assign(this.guildData, updates);
+
+    // Update translation function if language changed
+    if ("language" in updates) {
+      this.t = this.client.i18next.getFixedT(this.guildData.language, "translations", "configPanels");
+    }
+
+    // Re-render the panel
+    return await this.show(interaction, defaultValue);
+  }
+}
 // --- Wait For Message Component ---
 export async function waitForMessageComponent(
   interaction: ChatInputCommandInteraction<"cached"> | StringSelectMenuInteraction<"cached">,
@@ -57,194 +173,88 @@ export async function waitForMessageComponent(
 // --- Dynamic Channel ---
 export async function dynamicChannel(
   dbKey: Extract<DbConfigKey, `${string}ChannelId`>,
-  interaction: StringSelectMenuInteraction<"cached">,
-  data: GuildWithLogs,
+  interaction: ChannelSelectMenuInteraction<"cached">,
+  guildData: GuildWithLogs,
+  PanelClass: new (guildData: GuildWithLogs, client: Client) => BaseConfigPanel,
+  defaultValue: string,
 ) {
   await interaction.deferUpdate();
 
-  const selectMenu = new ChannelSelectMenuBuilder()
-    .setCustomId(dbKey)
-    .setMaxValues(1)
-    .setMinValues(0)
-    .setChannelTypes(ChannelType.GuildText);
+  const newChannel = interaction.values[0];
 
-  // 1. Get Default Value Safely
-  const currentId = getCurrentValue(data, dbKey);
-  if (currentId) {
-    selectMenu.setDefaultChannels(currentId);
-  }
+  await updateGuildConfig(interaction.guildId, { [dbKey]: newChannel });
 
-  const actionRow = new ActionRowBuilder<ChannelSelectMenuBuilder>().setComponents(selectMenu);
-  const t = interaction.client.i18next.getFixedT(data.language, null, "dynamicChannel");
-  const result = await interaction.editReply({
-    content: t(($) => $.initial),
-    components: [actionRow],
+  const panel = new PanelClass(guildData, interaction.client);
+
+  await panel.updateAndRefresh(interaction, defaultValue, {
+    [dbKey]: newChannel,
   });
+}
 
-  const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id && i.customId === dbKey;
+// --- Dynamic Log Channel ---
+export async function dynamicLogChannel(
+  dbKey: Extract<DbConfigKey, `${string}ChannelId`>,
+  interaction: ChannelSelectMenuInteraction<"cached">,
+  guildData: GuildWithLogs,
+  PanelClass: new (guildData: GuildWithLogs, client: Client) => BaseConfigPanel,
+  defaultValue: string,
+) {
+  await interaction.deferUpdate();
 
-  let messageComponent;
-  try {
-    messageComponent = await result.awaitMessageComponent({
-      filter,
-      componentType: ComponentType.ChannelSelect,
-      time: 1000 * 60 * 5,
-    });
-  } catch {
-    await result.edit({ content: t(($) => $.timeout), components: [] });
-    return;
-  }
+  const newChannel = interaction.values[0];
 
-  await messageComponent.deferUpdate();
-  const newValue = messageComponent.values[0] || null;
+  await updateGuildLogs(interaction.guildId, { [dbKey]: newChannel });
 
-  // 2. Update Database Safely
-  await updateConfig(messageComponent.guildId, dbKey, newValue);
+  const panel = new PanelClass(guildData, interaction.client);
 
-  // 3. Reply
-  const responseKey = newValue ? "set" : "unset";
-  await messageComponent.editReply({
-    content: t(($) => $.messages[responseKey], {
-      label: t(($) => $.labels[dbKey]),
-
-      channel: newValue ? `<#${newValue}>` : "Unknown",
-    }),
-    components: [],
+  await panel.updateAndRefresh(interaction, defaultValue, {
+    [dbKey]: newChannel,
   });
 }
 
 // --- Dynamic Message ---
 export async function dynamicMessage(
   dbKey: Extract<DbConfigKey, `${string}Message`>,
-  interaction: StringSelectMenuInteraction<"cached">,
-  data: GuildWithLogs,
+  interaction: ModalSubmitInteraction<"cached">,
+  guildData: GuildWithLogs,
+  PanelClass: new (guildData: GuildWithLogs, client: Client) => BaseConfigPanel,
+  defaultValue: string,
 ) {
-  const textComponent = new TextInputBuilder().setCustomId(dbKey).setMaxLength(1500).setStyle(TextInputStyle.Paragraph);
+  await interaction.deferUpdate();
 
-  const currentText = getCurrentValue(data, dbKey);
-  if (currentText) {
-    textComponent.setPlaceholder(trimString(currentText, 97));
-    textComponent.setValue(currentText);
-  }
-  const t = interaction.client.i18next.getFixedT(data.language, null, "dynamicMessage");
-  const labelBuilder = new LabelBuilder()
-    .setLabel(
-      t(($) => $.initial, {
-        label: t(($) => $.labels[dbKey]),
-      }),
-    )
-    .setTextInputComponent(textComponent);
-  const modal = new ModalBuilder()
-    .setCustomId(dbKey)
-    .setTitle(
-      t(($) => $.title, {
-        label: t(($) => $.labels[dbKey]),
-      }),
-    )
-    .addLabelComponents(labelBuilder);
+  const messageValue = interaction.fields.getTextInputValue("message");
+  const newValue = messageValue.trim();
 
-  await interaction.showModal(modal);
+  await updateGuildConfig(interaction.guildId, { [dbKey]: newValue });
 
-  const filter = (i: ModalSubmitInteraction) => i.user.id === interaction.user.id && i.customId === dbKey;
-
-  let messageComponent;
-  try {
-    messageComponent = await interaction.awaitModalSubmit({ filter, time: 1000 * 60 * 5 });
-  } catch {
-    await interaction.editReply({ content: t(($) => $.timeout), components: [] });
-    return;
-  }
-
-  await messageComponent.deferUpdate();
-
-  const input = messageComponent.fields.getTextInputValue(dbKey);
-  let finalValue: string | null = input;
-
-  if (input === "") {
-    if (dbKey === "modMailMessage") {
-      finalValue = "Thank you for your message! Our mod team will reply to you here as soon as possible.";
-    } else {
-      finalValue = null;
-    }
-  }
-
-  await updateConfig(messageComponent.guildId, dbKey, finalValue);
-  const responseKey = finalValue ? "set" : "unset";
-  await messageComponent.editReply({
-    content: t(($) => $.messages[responseKey], {
-      label: t(($) => $.labels[dbKey]),
-    }),
-    components: [],
-  });
+  const panel = new PanelClass(guildData, interaction.client);
+  await panel.updateAndRefresh(interaction, defaultValue, { [dbKey]: newValue });
 }
 
 export async function dynamicRole(
   dbKey: Extract<DbConfigKey, `${string}RoleId`> | "colourIdOfTheDay",
-  interaction: StringSelectMenuInteraction<"cached">,
-  data: GuildWithLogs,
+  interaction: RoleSelectMenuInteraction<"cached">,
+  guildData: GuildWithLogs,
+  PanelClass: new (guildData: GuildWithLogs, client: Client) => BaseConfigPanel,
+  defaultValue: string,
 ) {
-  const selectMenu = new RoleSelectMenuBuilder().setCustomId(dbKey).setMaxValues(1).setMinValues(0);
-
-  // 1. Get Default Value
-  const currentId = getCurrentValue(data, dbKey);
-  if (currentId) {
-    selectMenu.setDefaultRoles(currentId);
+  await interaction.deferUpdate();
+  let newRoleId = interaction.values[0] || null;
+  const role = interaction.guild.roles.cache.get(newRoleId || "");
+  if (role && !role.editable) {
+    // Role not editable by bot
+    const t = interaction.client.i18next.getFixedT(guildData.language, "components", "dynamicRole");
+    await interaction.followUp({
+      content: t(($) => $.notEditable, { role: role.name }),
+      flags: MessageFlags.Ephemeral,
+    });
+    newRoleId = null;
   }
-  const t = interaction.client.i18next.getFixedT(data.language, null, "dynamicRole");
-  const actionRow = new ActionRowBuilder<RoleSelectMenuBuilder>().setComponents(selectMenu);
+  await updateGuildConfig(interaction.guildId, { [dbKey]: newRoleId });
 
-  const result = await interaction.editReply({
-    content: t(($) => $.initial),
-    components: [actionRow],
+  const panel = new PanelClass(guildData, interaction.client);
+
+  await panel.updateAndRefresh(interaction, defaultValue, {
+    [dbKey]: newRoleId,
   });
-
-  const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id && i.customId === dbKey;
-
-  let messageComponent;
-  try {
-    messageComponent = await result.awaitMessageComponent({
-      filter,
-      componentType: ComponentType.RoleSelect,
-      time: 1000 * 60 * 5,
-    });
-  } catch {
-    await result.edit({ content: t(($) => $.timeout), components: [] }).catch(() => null);
-    return;
-  }
-
-  await messageComponent.deferUpdate();
-  const newValue = messageComponent.values[0] || null;
-
-  if (!newValue) {
-    // Unset
-    await updateConfig(messageComponent.guildId, dbKey, null);
-    await messageComponent.editReply({
-      content: t(($) => $.messages.unset, {
-        label: t(($) => $.labels[dbKey]),
-      }),
-      components: [],
-    });
-  } else {
-    // Hierarchy Check
-    // If we're setting DJ/Staff roles, we might not care about hierarchy, but for managed roles we do.
-    const isSpecialRole = ["djRoleId", "staffRoleId"].includes(dbKey);
-    const targetRole = messageComponent.guild.roles.cache.get(newValue);
-    const myRole = messageComponent.guild.members.me?.roles.highest;
-
-    if (!isSpecialRole && targetRole && myRole && myRole.position < targetRole.position) {
-      await messageComponent.editReply({ content: t(($) => $.errors.roleTooHigh), components: [] });
-      return;
-    }
-
-    // Set
-    await updateConfig(messageComponent.guildId, dbKey, newValue);
-
-    await messageComponent.editReply({
-      content: t(($) => $.messages.set, {
-        role: targetRole?.toString() ?? "Unknown Role",
-        label: t(($) => $.labels[dbKey]),
-      }),
-      components: [],
-    });
-  }
 }

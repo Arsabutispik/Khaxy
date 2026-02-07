@@ -5,6 +5,7 @@ import {
   ButtonStyle,
   ChatInputCommandInteraction,
   ComponentType,
+  ContainerBuilder,
   EmbedBuilder,
 } from "discord.js";
 
@@ -99,4 +100,47 @@ export async function paginate(
   collector.on("end", async () => {
     await currPage.edit({ components: [] });
   });
+}
+
+export interface PaginationOptions {
+  currentPage: number;
+  totalPages: number;
+  customIdPrefix: string;
+}
+
+export function addPaginationButtons(container: ContainerBuilder, options: PaginationOptions): ContainerBuilder {
+  const { currentPage, totalPages, customIdPrefix } = options;
+
+  if (totalPages <= 1) return container;
+
+  const buttons: ButtonBuilder[] = [];
+
+  // Previous button
+  buttons.push(
+    new ButtonBuilder()
+      .setCustomId(`${customIdPrefix}:prev:${currentPage}`)
+      .setLabel("◀️ Previous")
+      .setStyle(ButtonStyle.Secondary)
+      .setDisabled(currentPage === 1),
+  );
+
+  // Page indicator
+  buttons.push(
+    new ButtonBuilder()
+      .setCustomId(`${customIdPrefix}:page:${currentPage}`)
+      .setLabel(`Page ${currentPage}/${totalPages}`)
+      .setStyle(ButtonStyle.Secondary)
+      .setDisabled(true),
+  );
+
+  // Next button
+  buttons.push(
+    new ButtonBuilder()
+      .setCustomId(`${customIdPrefix}:next:${currentPage}`)
+      .setLabel("Next ▶️")
+      .setStyle(ButtonStyle.Secondary)
+      .setDisabled(currentPage === totalPages),
+  );
+
+  return container.addActionRowComponents(new ActionRowBuilder<ButtonBuilder>().addComponents(...buttons));
 }

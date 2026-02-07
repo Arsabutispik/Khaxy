@@ -10,6 +10,7 @@ import {
   checkPunishments,
   colorUpdate,
   RegisterSlashCommands,
+  RegisterComponentCommands,
 } from "@utils";
 
 dotenv.config();
@@ -41,11 +42,13 @@ const client = new Client({
 await initI18n();
 client.i18next = i18next;
 client.slashCommands = new Collection();
+client.componentCommands = new Collection();
 client.allEmojis = new Collection();
 client.webhooks = new Collection();
 client.config = (await import("@lib")).Config;
 
 await RegisterSlashCommands(client);
+await RegisterComponentCommands(client);
 await loadEvents(client);
 
 await client.login(process.env.DISCORD_BOT_TOKEN).catch((error) => {

@@ -1,0 +1,51 @@
+{
+  "config": {
+    "joinChannelId": {
+      "modal": {
+        "label": {
+          "joinMessage": "Join Message"
+        },
+        "title": "Set Join Message"
+      },
+      "test": {
+        "fail": "{{reject}} Could not send message.\n- Check if the channel is set.\n- Check if the bot has **Send Messages** permission in that channel.",
+        "pass": "{{check}} Test message sent to <#{{channelId}}>!"
+      }
+    },
+    "leaveChannelId": {
+      "modal": {
+        "label": {
+          "leaveMessage": "Leave Message"
+        },
+        "title": "Set Leave Message"
+      },
+      "test": {
+        "fail": "{{reject}} Could not send message.\n- Check if the channel is set.\n- Check if the bot has **Send Messages** permission in that channel.",
+        "pass": "{{check}} Test message sent to <#{{channelId}}>!"
+      }
+    },
+    "modMailMessage": {
+      "modal": {
+        "label": {
+          "messageContent": "Message Content"
+        },
+        "title": "Edit Mod Mail Message"
+      }
+    },
+    "registerJoinChannelId": {
+      "modal": {
+        "label": {
+          "messageContent": "Message Content"
+        },
+        "title": "Edit Registration Message"
+      },
+      "test": {
+        "fail": "{{reject}} Could not send message.\n- Check if the channel is set.\n- Check if the bot has **Send Messages** permission in that channel.",
+        "pass": "{{check}} Test message sent to <#{{channelId}}>!"
+      }
+    }
+  },
+  "dynamicRole": {
+    "notEditable": "{{role}} is not editable by the bot. Please adjust the role's position in the server settings to be below the bot's highest role."
+  }
+}

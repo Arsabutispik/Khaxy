@@ -23,6 +23,7 @@ export async function initI18n() {
         "locales",
         "loggers",
         "system-channel-flags",
+        "components",
       ],
       defaultNS: "translations",
       backend: {

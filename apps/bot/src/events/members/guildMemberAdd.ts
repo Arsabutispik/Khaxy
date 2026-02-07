@@ -1,10 +1,11 @@
 import type { EventBase } from "@types";
-import { ChannelType, EmbedBuilder, Events, PermissionsBitField, time, TimestampStyles } from "discord.js";
-import { replacePlaceholders, returnWebhook, WebhookType } from "@utils";
+import { ChannelType, EmbedBuilder, Events, time, TimestampStyles } from "discord.js";
+import { returnWebhook, WebhookType } from "@utils";
 import { logger } from "@lib";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime.js";
-import { getPunishmentsByUser, getOrCreateGuild } from "@repo/database";
+import { getOrCreateGuild, getPunishmentsByUser } from "@repo/database";
+import { sendRegisterMessage, sendWelcomeMessage } from "@features";
 
 export default {
   name: Events.GuildMemberAdd,
@@ -28,25 +29,7 @@ export default {
       });
     }
     dayjs.extend(relativeTime);
-    const replacements = {
-      user: member.toString(),
-      server: member.guild.name,
-      memberCount: member.guild.memberCount.toString(),
-      name: member.user.username,
-      joinPosition: (member.guild.memberCount - 1).toString(),
-      createdAt: dayjs(member.user.createdAt).format("DD/MM/YYYY"),
-      createdAgo: dayjs(member.user.createdAt).fromNow(),
-    };
-    // If a welcome message and channel are configured, send the welcome message to the channel
-    if (guildConfig.joinMessage && guildConfig.joinChannelId) {
-      const welcomeChannel = member.guild.channels.cache.get(guildConfig.joinChannelId);
-      if (
-        welcomeChannel?.type === ChannelType.GuildText &&
-        welcomeChannel.permissionsFor(member.guild.members.me!)?.has(PermissionsBitField.Flags.SendMessages)
-      ) {
-        await welcomeChannel.send(replacePlaceholders(guildConfig.joinMessage, replacements));
-      }
-    }
+    await sendWelcomeMessage(member, guildConfig);
     // If the guild does not use the register system and a member role is configured, assign the member role to the member
     if (!guildConfig.registerJoinMessage && guildConfig.memberRoleId) {
       await member.roles.add(guildConfig.memberRoleId).catch((error) => {
@@ -63,29 +46,7 @@ export default {
     }
 
     // If a register welcome message and channel are configured, send the register welcome message to the channel
-    if (guildConfig.registerJoinChannelId && guildConfig.registerJoinMessage) {
-      const registerWelcomeChannel = member.guild.channels.cache.get(guildConfig.registerJoinChannelId);
-      if (
-        registerWelcomeChannel?.type === ChannelType.GuildText &&
-        registerWelcomeChannel.permissionsFor(member.guild.members.me!)?.has(PermissionsBitField.Flags.SendMessages)
-      ) {
-        await registerWelcomeChannel.send(replacePlaceholders(guildConfig.registerJoinMessage, replacements));
-        // If the guild set up an unverified role, assign it to the member
-        if (guildConfig.unverifiedRoleId) {
-          await member.roles.add(guildConfig.unverifiedRoleId).catch((error) => {
-            logger.log({
-              level: "error",
-              error,
-              message: "Error assigning unverified role",
-              meta: {
-                guildID: member.guild.id,
-                userID: member.id,
-              },
-            });
-          });
-        }
-      }
-    }
+    await sendRegisterMessage(member, guildConfig);
     if (guildConfig.logConfig?.guildLogsChannelId) {
       const channel = member.guild.channels.cache.get(guildConfig.logConfig.guildLogsChannelId);
       if (channel?.type !== ChannelType.GuildText) return;

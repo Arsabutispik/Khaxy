@@ -1,12 +1,14 @@
 import {
-  ChatInputCommandInteraction,
-  Collection,
-  SlashCommandBuilder,
-  SlashCommandSubcommandsOnlyBuilder,
-  SlashCommandOptionsOnlyBuilder,
-  ClientEvents,
   Awaitable,
+  ChatInputCommandInteraction,
+  ClientEvents,
+  Collection,
   Guild,
+  MessageComponentInteraction,
+  ModalSubmitInteraction,
+  SlashCommandBuilder,
+  SlashCommandOptionsOnlyBuilder,
+  SlashCommandSubcommandsOnlyBuilder,
   Snowflake,
   Webhook,
 } from "discord.js";
@@ -17,6 +19,7 @@ import { GuildWithLogs, InfractionType } from "@repo/database";
 declare module "discord.js" {
   interface Client {
     slashCommands: Collection<string, SlashCommandBase>;
+    componentCommands: Collection<string, ComponentBase>;
     i18next: i18n;
     allEmojis: Collection<string, { name: string; format: string; id?: string }>;
     config: typeof Config;
@@ -29,7 +32,14 @@ export interface SlashCommandBase {
   data?: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder | SlashCommandOptionsOnlyBuilder;
   execute(interaction: ChatInputCommandInteraction<"cached">, guildData: GuildWithLogs): unknown;
 }
-
+export interface ComponentBase {
+  customId: string;
+  execute(
+    interaction: MessageComponentInteraction<"cached"> | ModalSubmitInteraction<"cached">,
+    args: string[],
+    guildData: GuildWithLogs,
+  ): unknown;
+}
 export interface EventBase<T extends keyof ClientEvents = keyof ClientEvents> {
   name: T;
   once?: boolean;

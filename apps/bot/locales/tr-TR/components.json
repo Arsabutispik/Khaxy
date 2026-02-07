@@ -1,0 +1,39 @@
+{
+  "config": {
+    "joinChannelId": {
+      "modal": {
+        "label": {
+          "joinMessage": ""
+        },
+        "title": ""
+      },
+      "test": {
+        "fail": "",
+        "pass": ""
+      }
+    },
+    "leaveChannelId": {
+      "modal": {
+        "label": {
+          "leaveMessage": ""
+        },
+        "title": ""
+      },
+      "test": {
+        "fail": "",
+        "pass": ""
+      }
+    },
+    "modMailMessage": {
+      "modal": {
+        "label": {
+          "messageContent": ""
+        },
+        "title": ""
+      }
+    }
+  },
+  "dynamicRole": {
+    "notEditable": ""
+  }
+}

@@ -1,62 +1,108 @@
-import { ActionRowBuilder, ChatInputCommandInteraction, StringSelectMenuBuilder } from "discord.js";
-import { dynamicRole, waitForMessageComponent } from "./utils.js";
-import { RoleType } from "@types";
-import { GuildWithLogs } from "@repo/database";
+import {
+  ActionRowBuilder,
+  ContainerBuilder,
+  RoleSelectMenuBuilder,
+  SeparatorBuilder,
+  SeparatorSpacingSize,
+  TextDisplayBuilder,
+} from "discord.js";
+import { BaseConfigPanel } from "./utils.js";
 
-export async function roleConfig(interaction: ChatInputCommandInteraction<"cached">, guildData: GuildWithLogs) {
-  const client = interaction.client;
-  const t = client.i18next.getFixedT(guildData.language, null, "roleConfig");
-  const selectMenu = new StringSelectMenuBuilder()
-    .setCustomId("roleConfig")
-    .setMinValues(1)
-    .setMaxValues(1)
-    .setOptions([
-      {
-        label: t(($) => $.memberRoleId.label),
-        value: "memberRoleId",
-        description: t(($) => $.memberRoleId.description),
-        emoji: "👤",
-      },
-      {
-        label: t(($) => $.unverifiedRoleId.label),
-        value: "unverifiedRoleId",
-        description: t(($) => $.unverifiedRoleId.description),
-        emoji: "❓",
-      },
-      {
-        label: t(($) => $.maleRoleId.label),
-        value: "maleRoleId",
-        description: t(($) => $.maleRoleId.description),
-        emoji: "👨",
-      },
-      {
-        label: t(($) => $.femaleRoleId.label),
-        value: "femaleRoleId",
-        description: t(($) => $.femaleRoleId.description),
-        emoji: "👩",
-      },
-      {
-        label: t(($) => $.colourIdOfTheDay.label),
-        value: "colourIdOfTheDay",
-        description: t(($) => $.colourIdOfTheDay.description),
-        emoji: "🌈",
-      },
-      {
-        label: t(($) => $.muteRoleId.label),
-        value: "muteRoleId",
-        description: t(($) => $.muteRoleId.description),
-        emoji: "🔇",
-      },
-      {
-        label: t(($) => $.djRoleId.label),
-        value: "djRoleId",
-        description: t(($) => $.djRoleId.description),
-        emoji: "🎧",
-      },
-    ]);
-  const actionRow = new ActionRowBuilder<StringSelectMenuBuilder>().setComponents(selectMenu);
-  const messageComponent = await waitForMessageComponent(interaction, actionRow, guildData.language, "roleConfig");
-  if (!messageComponent) return;
-  await messageComponent.deferUpdate();
-  await dynamicRole(messageComponent.values[0] as RoleType, messageComponent, guildData);
+export class RoleConfigPanel extends BaseConfigPanel {
+  getTotalPages(): number {
+    return 2;
+  }
+  override async render() {
+    const container = new ContainerBuilder();
+
+    if (this.currentPage === 1) {
+      container
+        .addTextDisplayComponents(
+          new TextDisplayBuilder().setContent(`## ${this.t(($) => $.roleConfig.memberRoleId.description)}`),
+        )
+        .addActionRowComponents(
+          new ActionRowBuilder<RoleSelectMenuBuilder>().addComponents(
+            new RoleSelectMenuBuilder()
+              .setCustomId("config:role:memberRoleId")
+              .setPlaceholder(this.t(($) => $.roleConfig.memberRoleId.placeholder))
+              .setMinValues(0)
+              .setMaxValues(1)
+              .addDefaultRoles(this.guildData.memberRoleId ? [this.guildData.memberRoleId] : []),
+          ),
+        )
+        .addSeparatorComponents(new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Small).setDivider(true))
+        .addTextDisplayComponents(
+          new TextDisplayBuilder().setContent(`## ${this.t(($) => $.roleConfig.unverifiedRoleId.description)}`),
+        )
+        .addActionRowComponents(
+          new ActionRowBuilder<RoleSelectMenuBuilder>().addComponents(
+            new RoleSelectMenuBuilder()
+              .setCustomId("config:role:unverifiedRoleId")
+              .setPlaceholder(this.t(($) => $.roleConfig.unverifiedRoleId.placeholder))
+              .setMinValues(0)
+              .setMaxValues(1)
+              .addDefaultRoles(this.guildData.unverifiedRoleId ? [this.guildData.unverifiedRoleId] : []),
+          ),
+        )
+        .addSeparatorComponents(new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Small).setDivider(true))
+        .addTextDisplayComponents(
+          new TextDisplayBuilder().setContent(`## ${this.t(($) => $.roleConfig.maleRoleId.description)}`),
+        )
+        .addActionRowComponents(
+          new ActionRowBuilder<RoleSelectMenuBuilder>().addComponents(
+            new RoleSelectMenuBuilder()
+              .setCustomId("config:role:maleRoleId")
+              .setPlaceholder(this.t(($) => $.roleConfig.maleRoleId.placeholder))
+              .setMinValues(0)
+              .setMaxValues(1)
+              .addDefaultRoles(this.guildData.maleRoleId ? [this.guildData.maleRoleId] : []),
+          ),
+        );
+    }
+    if (this.currentPage === 2) {
+      container
+        .addTextDisplayComponents(
+          new TextDisplayBuilder().setContent(`## ${this.t(($) => $.roleConfig.femaleRoleId.description)}`),
+        )
+        .addActionRowComponents(
+          new ActionRowBuilder<RoleSelectMenuBuilder>().addComponents(
+            new RoleSelectMenuBuilder()
+              .setCustomId("config:role:femaleRoleId")
+              .setPlaceholder(this.t(($) => $.roleConfig.femaleRoleId.placeholder))
+              .setMinValues(0)
+              .setMaxValues(1)
+              .addDefaultRoles(this.guildData.femaleRoleId ? [this.guildData.femaleRoleId] : []),
+          ),
+        )
+        .addSeparatorComponents(new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Small).setDivider(true))
+        .addTextDisplayComponents(
+          new TextDisplayBuilder().setContent(`## ${this.t(($) => $.roleConfig.colourIdOfTheDay.description)}`),
+        )
+        .addActionRowComponents(
+          new ActionRowBuilder<RoleSelectMenuBuilder>().addComponents(
+            new RoleSelectMenuBuilder()
+              .setCustomId("config:role:colourIdOfTheDay")
+              .setPlaceholder(this.t(($) => $.roleConfig.colourIdOfTheDay.placeholder))
+              .setMinValues(0)
+              .setMaxValues(1)
+              .addDefaultRoles(this.guildData.colourIdOfTheDay ? [this.guildData.colourIdOfTheDay] : []),
+          ),
+        )
+        .addSeparatorComponents(new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Small).setDivider(true))
+        .addTextDisplayComponents(
+          new TextDisplayBuilder().setContent(`## ${this.t(($) => $.roleConfig.muteRoleId.description)}`),
+        )
+        .addActionRowComponents(
+          new ActionRowBuilder<RoleSelectMenuBuilder>().addComponents(
+            new RoleSelectMenuBuilder()
+              .setCustomId("config:role:muteRoleId")
+              .setPlaceholder(this.t(($) => $.roleConfig.muteRoleId.placeholder))
+              .setMinValues(0)
+              .setMaxValues(1)
+              .addDefaultRoles(this.guildData.muteRoleId ? [this.guildData.muteRoleId] : []),
+          ),
+        );
+    }
+    return container;
+  }
 }

@@ -1,112 +1,61 @@
 import {
   ActionRowBuilder,
-  ChatInputCommandInteraction,
+  ButtonBuilder,
+  ButtonStyle,
+  ContainerBuilder,
+  SeparatorBuilder,
+  SeparatorSpacingSize,
   StringSelectMenuBuilder,
-  StringSelectMenuInteraction,
-  MessageComponentInteraction,
-  ComponentType,
+  StringSelectMenuOptionBuilder,
+  TextDisplayBuilder,
 } from "discord.js";
-import { GuildWithLogs, updateGuildConfig } from "@repo/database";
-import { dynamicMessage, waitForMessageComponent } from "./utils.js";
+import { BaseConfigPanel } from "./utils.js";
 import { localeFlags } from "@constants";
-import { TFunction } from "i18next";
 
-export async function miscConfig(interaction: ChatInputCommandInteraction<"cached">, guildData: GuildWithLogs) {
-  const client = interaction.client;
-
-  const t = client.i18next.getFixedT(guildData.language, null, "miscConfig");
-  const selectMenu = new StringSelectMenuBuilder()
-    .setCustomId("miscConfig")
-    .setMinValues(1)
-    .setMaxValues(1)
-    .setOptions([
-      {
-        label: t(($) => $.language.label),
-        value: "language",
-        description: t(($) => $.language.description),
-        emoji: "🌐",
-      },
-      {
-        label: t(($) => $.modMailMessage.label),
-        value: "modMailMessage",
-        description: t(($) => $.modMailMessage.description),
-        emoji: "📬",
-      },
-    ]);
-  const actionRow = new ActionRowBuilder<StringSelectMenuBuilder>().setComponents(selectMenu);
-  const messageComponent = await waitForMessageComponent(interaction, actionRow, guildData.language, "miscConfig");
-  if (!messageComponent) return;
-  switch (messageComponent.values[0]) {
-    case "language":
-      await languageConfig(messageComponent, guildData, t);
-      break;
-    case "modMailMessage":
-      await dynamicMessage("modMailMessage", messageComponent, guildData);
-      break;
+export class MiscConfigPanel extends BaseConfigPanel {
+  getTotalPages(): number {
+    return 1;
   }
-}
-
-async function languageConfig(
-  interaction: StringSelectMenuInteraction<"cached">,
-  data: GuildWithLogs,
-  t: TFunction<"translations", "miscConfig">,
-) {
-  await interaction.deferUpdate();
-  const client = interaction.client;
-  const selectMenu = new StringSelectMenuBuilder()
-    .setCustomId("language")
-    .setMinValues(1)
-    .setMaxValues(1)
-    .setOptions([
-      {
-        label: localeFlags["en-GB"],
-        value: "en-GB",
-        description: "English",
-        emoji: "🇬🇧",
-        default: data.language === "en-GB",
-      },
-      {
-        label: localeFlags["tr-TR"],
-        value: "tr-TR",
-        description: "Türkçe",
-        emoji: "🇹🇷",
-        default: data.language === "tr-TR",
-      },
-    ]);
-  const actionRow = new ActionRowBuilder<StringSelectMenuBuilder>().setComponents(selectMenu);
-  const result = await interaction.editReply({
-    content: t(($) => $.language.initial),
-    components: [actionRow],
-  });
-
-  const filter = (i: MessageComponentInteraction) => i.user.id === interaction.user.id && i.customId === "language";
-
-  let messageComponent;
-  try {
-    messageComponent = await result.awaitMessageComponent({
-      filter,
-      componentType: ComponentType.StringSelect,
-      time: 1000 * 60 * 5,
-    });
-  } catch {
-    await result.edit({ content: t(($) => $.timeout), components: [] });
-    return;
+  override async render() {
+    return new ContainerBuilder()
+      .addTextDisplayComponents(
+        new TextDisplayBuilder().setContent(`## ${this.t(($) => $.miscConfig.language.description)}`),
+      )
+      .addActionRowComponents(
+        new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+          new StringSelectMenuBuilder().setCustomId("config:misc:language").addOptions(
+            new StringSelectMenuOptionBuilder()
+              .setLabel(localeFlags["en-GB"])
+              .setValue("en-GB")
+              .setEmoji("🇬🇧")
+              .setDefault(this.guildData.language === "en-GB"),
+            new StringSelectMenuOptionBuilder()
+              .setLabel(localeFlags["tr-TR"])
+              .setValue("tr-TR")
+              .setEmoji("🇹🇷")
+              .setDefault(this.guildData.language === "tr-TR"),
+          ),
+        ),
+      )
+      .addSeparatorComponents(new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Small).setDivider(true))
+      .addTextDisplayComponents(
+        new TextDisplayBuilder().setContent(
+          `## ${this.t(($) => $.miscConfig.modMailMessage.description, {
+            limit: this.guildData.modMailMessage.length,
+          })}`,
+        ),
+      )
+      .addActionRowComponents(
+        new ActionRowBuilder<ButtonBuilder>().addComponents(
+          new ButtonBuilder()
+            .setCustomId("config:misc:modMailMessage:set")
+            .setLabel(this.t(($) => $.miscConfig.modMailMessage.buttonLabel))
+            .setStyle(ButtonStyle.Primary),
+          new ButtonBuilder()
+            .setCustomId("config:misc:modMailMessage:reset")
+            .setLabel(this.t(($) => $.miscConfig.modMailMessage.resetButtonLabel))
+            .setStyle(ButtonStyle.Danger),
+        ),
+      );
   }
-
-  await messageComponent.deferUpdate();
-  const newValue = messageComponent.values[0] || null;
-
-  if (!newValue) return;
-
-  // 2. Update Database Safely
-  await updateGuildConfig(messageComponent.guildId, {
-    language: newValue,
-  });
-
-  // 3. Reply
-  const new_t = client.i18next.getFixedT(messageComponent.values[0], null, "miscConfig");
-  await messageComponent.editReply({
-    content: new_t(($) => $.language.set, { language: localeFlags[messageComponent.values[0]] }),
-    components: [],
-  });
 }
